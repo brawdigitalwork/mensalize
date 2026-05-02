@@ -392,3 +392,86 @@ button:hover {
   width: 100%;
 }
 
+/* ===============================
+   AJUSTES PARA CELULAR
+================================ */
+
+@media (max-width: 600px) {
+  .topo {
+    padding: 18px;
+  }
+
+  .topo h1 {
+    font-size: 26px;
+  }
+
+  .topo p {
+    font-size: 13px;
+  }
+
+  .container {
+    padding: 18px;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .card h2 {
+    font-size: 13px;
+  }
+
+  .card p {
+    font-size: 24px;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  input,
+  button {
+    font-size: 14px;
+    padding: 11px;
+  }
+
+  .aluno-card {
+    padding: 15px;
+  }
+
+  .botoes-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .botoes-card button {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-topo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cliente {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #btnSair,
+  #btnAdmin {
+    width: 100%;
+  }
+}

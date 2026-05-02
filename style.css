@@ -436,10 +436,12 @@ button:hover {
   }
 
   input,
-  button {
-    font-size: 14px;
-    padding: 11px;
-  }
+  button,
+  select,
+  textarea {
+  font-size: 16px;
+  padding: 12px;
+}
 
   .aluno-card {
     padding: 15px;
@@ -474,4 +476,15 @@ button:hover {
   #btnAdmin {
     width: 100%;
   }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  }
+
+  input,
+  button,
+  select,
+  textarea {
+  font-size: 16px;
 }

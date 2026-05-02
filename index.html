@@ -25,20 +25,28 @@
 
   <section id="app" class="escondido">
     <header class="topo">
-      <div>
-        <h1 id="nomeApp">Mensalize</h1>
-        <p id="slogan">Controle, automatize e cresça</p>
+
+      <div class="marca">
+        <img src="logo.png" alt="Logo Mensalize" class="logo">
+
+        <div>
+          <h1 id="nomeApp">Mensalize</h1>
+          <p id="slogan">Controle, automatize e cresça</p>
+        </div>
       </div>
 
-      <div class="cliente">
-        <span id="emailUsuario">Usuário</span>
+      <div class="usuario-box">
+        <div class="usuario-avatar">👤</div>
 
-        <button id="btnAdmin" class="btn-editar escondido">
-           ⚙ Admin
-        </button>
+        <div class="usuario-info">
+          <span class="usuario-label">Logado como</span>
+          <strong id="emailUsuario">Usuário</strong>
+        </div>
 
-        <button id="btnSair">Sair</button>
+        <button id="btnAdmin" class="btn-admin escondido">⚙ Admin</button>
+        <button id="btnSair" class="btn-sair">Sair</button>
       </div>
+
     </header>
 
     <main class="container">
@@ -90,44 +98,41 @@
   </section>
 
   <section id="telaAdmin" class="escondido">
-  <div class="admin-container">
+    <div class="admin-container">
 
-    <div class="admin-topo">
-      <h2>⚙ Painel Admin</h2>
-      <button id="btnVoltar" class="btn-voltar">⬅ Voltar</button>
-    </div>
-
-    <div class="admin-grid">
-
-      <!-- DASHBOARD -->
-      <div class="admin-card">
-        <h3>📊 Dashboard</h3>
-        <p>Total clientes: <span id="totalClientes">0</span></p>
-        <p>Total alunos: <span id="totalAlunosAdmin">0</span></p>
-        <p>No limite: <span id="clientesLimite">0</span></p>
+      <div class="admin-topo">
+        <h2>⚙ Painel Admin</h2>
+        <button id="btnVoltar" class="btn-voltar">⬅ Voltar</button>
       </div>
 
-      <!-- CRIAR CLIENTE -->
+      <div class="admin-grid">
+
+        <div class="admin-card">
+          <h3>📊 Dashboard</h3>
+          <p>Total clientes: <span id="totalClientes">0</span></p>
+          <p>Total alunos: <span id="totalAlunosAdmin">0</span></p>
+          <p>No limite: <span id="clientesLimite">0</span></p>
+        </div>
+
+        <div class="admin-card">
+          <h3>➕ Criar cliente</h3>
+
+          <input type="email" id="novoEmail" placeholder="Email">
+          <input type="password" id="novaSenha" placeholder="Senha">
+
+          <button id="btnCriarUsuario">Criar usuário</button>
+          <p id="msgAdmin"></p>
+        </div>
+
+      </div>
+
       <div class="admin-card">
-        <h3>➕ Criar cliente</h3>
-
-        <input type="email" id="novoEmail" placeholder="Email">
-        <input type="password" id="novaSenha" placeholder="Senha">
-
-        <button id="btnCriarUsuario">Criar usuário</button>
-        <p id="msgAdmin"></p>
+        <h3>👥 Clientes</h3>
+        <div id="listaClientes"></div>
       </div>
 
     </div>
-
-    <!-- LISTA -->
-    <div class="admin-card">
-      <h3>👥 Clientes</h3>
-      <div id="listaClientes"></div>
-    </div>
-
-  </div>
-</section>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>

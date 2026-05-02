@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensalize</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <section id="telaLogin" class="tela-login">
+    <div class="login-card">
+      <h1 id="loginNomeApp">Mensalize</h1>
+      <p id="loginSlogan">Controle, automatize e cresça</p>
+
+      <input type="email" id="emailLogin" placeholder="E-mail">
+      <input type="password" id="senhaLogin" placeholder="Senha">
+
+      <button id="btnEntrar">Entrar</button>
+      <button id="btnCriarConta" class="btn-secundario">Criar conta</button>
+
+      <p id="mensagemLogin"></p>
+    </div>
+  </section>
+
+  <section id="app" class="escondido">
+    <header class="topo">
+      <div>
+        <h1 id="nomeApp">Mensalize</h1>
+        <p id="slogan">Controle, automatize e cresça</p>
+      </div>
+
+      <div class="cliente">
+        <span id="emailUsuario">Usuário</span>
+
+        <button id="btnAdmin" class="btn-editar escondido">
+           ⚙ Admin
+        </button>
+
+        <button id="btnSair">Sair</button>
+      </div>
+    </header>
+
+    <main class="container">
+
+      <section class="cards">
+        <div class="card">
+          <h2>Total de alunos</h2>
+          <p id="totalAlunos">0</p>
+        </div>
+
+        <div class="card pago">
+          <h2>Pagos</h2>
+          <p id="totalPagos">0</p>
+        </div>
+
+        <div class="card pendente">
+          <h2>Pendentes</h2>
+          <p id="totalPendentes">0</p>
+        </div>
+
+        <div class="card alerta">
+          <h2>Atrasados</h2>
+          <p id="totalAtrasados">0</p>
+        </div>
+      </section>
+
+      <section class="area-formulario">
+        <h2 id="tituloFormulario">Cadastrar aluno</h2>
+
+        <form id="formAluno">
+          <input type="text" id="nomeAluno" placeholder="Nome do aluno" required>
+          <input type="text" id="telefoneAluno" placeholder="WhatsApp do aluno" required>
+          <input type="number" id="valorMensalidade" placeholder="Valor da mensalidade" required>
+          <input type="date" id="dataVencimento" required>
+
+          <button type="submit" id="btnFormulario">Cadastrar aluno</button>
+          <button type="button" id="btnCancelarEdicao" class="btn-cancelar escondido">
+            Cancelar edição
+          </button>
+        </form>
+      </section>
+
+      <section class="lista">
+        <h2>Alunos cadastrados</h2>
+        <div id="listaAlunos"></div>
+      </section>
+
+    </main>
+  </section>
+
+  <section id="telaAdmin" class="escondido">
+  <div class="admin-container">
+
+    <div class="admin-topo">
+      <h2>⚙ Painel Admin</h2>
+      <button id="btnVoltar" class="btn-voltar">⬅ Voltar</button>
+    </div>
+
+    <div class="admin-grid">
+
+      <!-- DASHBOARD -->
+      <div class="admin-card">
+        <h3>📊 Dashboard</h3>
+        <p>Total clientes: <span id="totalClientes">0</span></p>
+        <p>Total alunos: <span id="totalAlunosAdmin">0</span></p>
+        <p>No limite: <span id="clientesLimite">0</span></p>
+      </div>
+
+      <!-- CRIAR CLIENTE -->
+      <div class="admin-card">
+        <h3>➕ Criar cliente</h3>
+
+        <input type="email" id="novoEmail" placeholder="Email">
+        <input type="password" id="novaSenha" placeholder="Senha">
+
+        <button id="btnCriarUsuario">Criar usuário</button>
+        <p id="msgAdmin"></p>
+      </div>
+
+    </div>
+
+    <!-- LISTA -->
+    <div class="admin-card">
+      <h3>👥 Clientes</h3>
+      <div id="listaClientes"></div>
+    </div>
+
+  </div>
+</section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

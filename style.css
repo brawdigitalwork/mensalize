@@ -5,7 +5,7 @@
 }
 
 body {
-  background: #0b0b0f;
+  background: radial-gradient(circle at top, #11111a, #0b0b0f);
   color: white;
   font-family: Arial, sans-serif;
 }
@@ -153,16 +153,22 @@ button:hover {
 }
 
 .aluno-card {
-  background: #0f0f18;
+  background: linear-gradient(145deg, #0f0f18, #151522);
   padding: 18px;
-  border-radius: 12px;
+  border-radius: 14px;
   margin-bottom: 15px;
   border: 1px solid #292942;
+  transition: 0.3s;
+}
+
+.aluno-card:hover {
+  transform: translateY(-3px);
+  border-color: #7c3aed;
 }
 
 .aluno-card h3 {
-  margin-bottom: 8px;
-  color: white;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .aluno-card p {
@@ -170,19 +176,28 @@ button:hover {
   margin-bottom: 6px;
 }
 
-.status-pago {
-  color: #22c55e;
+.status-pago,
+.status-pendente,
+.status-atrasado {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
   font-weight: bold;
+}
+
+.status-pago {
+  background: #14532d;
+  color: #22c55e;
 }
 
 .status-pendente {
+  background: #78350f;
   color: #facc15;
-  font-weight: bold;
 }
 
 .status-atrasado {
+  background: #7f1d1d;
   color: #ef4444;
-  font-weight: bold;
 }
 
 .botoes-card {
@@ -448,4 +463,675 @@ button:hover {
 input {
   width: 100%;
   min-width: 0;
+}
+
+.topo-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#btnMostrarForm {
+  background: #7c3aed;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  top: 0;
+  left: 0;
+  background: #7c3aed;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #7c3aed;
+}
+
+button {
+  box-shadow: 0 0 0 transparent;
+}
+
+button:hover {
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+}
+
+h2 {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* ================= LOGIN PREMIUM ================= */
+
+.tela-login {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(124, 58, 237, 0.25), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(37, 211, 102, 0.12), transparent 30%),
+    #0b0b0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(21, 21, 34, 0.92);
+  border: 1px solid #2f2f46;
+  border-radius: 22px;
+  padding: 34px;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+.login-card h1 {
+  color: #a78bfa;
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.login-card p {
+  color: #b8b8c7;
+  margin-bottom: 22px;
+}
+
+.login-card input {
+  width: 100%;
+  background: #0f0f18;
+  color: white;
+  border: 1px solid #292942;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.login-card input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+}
+
+.login-card button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+#btnEntrar {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+}
+
+.btn-secundario {
+  background: transparent;
+  border: 1px solid #35354f;
+  color: #d4d4d8;
+}
+
+#mensagemLogin {
+  min-height: 20px;
+  margin-top: 16px;
+  color: #facc15;
+}
+
+.login-logo {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  margin-bottom: 14px;
+}
+
+.login-ajuda {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #a1a1aa;
+}
+
+.btn-contato {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #25d366;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-contato:hover {
+  text-decoration: underline;
+}
+
+.btn-contato:hover {
+  background: #1ebe5d;
+}
+
+.filtros {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.filtros button {
+  background: #1f1f2e;
+  border: 1px solid #2d2d44;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.filtros button:hover {
+  background: #7c3aed;
+}
+
+.filtro-ativo {
+  background: #7c3aed !important;
+  border-color: #a78bfa !important;
+  color: white !important;
+}
+
+.receita p {
+  color: #22c55e;
+}
+
+.btn-historico {
+  background: #8b5cf6;
+}
+
+.btn-historico:hover {
+  background: #7c3aed;
+}
+
+.campo-busca {
+  width: 100%;
+  margin-bottom: 15px;
+  background: #0f0f18;
+  color: white;
+  border: 1px solid #292942;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 16px;
+}
+
+.campo-busca:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+}
+
+/* ================= MODAL HISTÓRICO ================= */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 520px;
+  background: #151522;
+  border: 1px solid #292942;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.55);
+}
+
+.modal-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modal-topo h2 {
+  color: #a78bfa;
+}
+
+.btn-fechar {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 50%;
+  background: #ef4444;
+  font-size: 22px;
+}
+
+.modal-info {
+  background: #0f0f18;
+  border: 1px solid #25253a;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.modal-info p {
+  margin-bottom: 8px;
+  color: #d4d4d8;
+}
+
+.modal-card h3 {
+  margin-bottom: 12px;
+  color: white;
+}
+
+.pagamento-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f0f18;
+  border: 1px solid #25253a;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.pagamento-item span {
+  color: #a1a1aa;
+}
+
+.pagamento-item strong {
+  color: #22c55e;
+}
+
+@media (max-width: 600px) {
+  .modal-card {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background: #151522;
+  border: 1px solid #25253a;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  z-index: 2000;
+  max-width: 320px;
+  font-size: 14px;
+}
+
+.toast-sucesso {
+  border-color: #22c55e;
+}
+
+.toast-erro {
+  border-color: #ef4444;
+}
+
+@media (max-width: 600px) {
+  .toast {
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    max-width: none;
+  }
+}
+
+/* ================= ALUNO CARD PREMIUM ================= */
+
+.aluno-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 14px;
+}
+
+.aluno-topo h3 {
+  margin-bottom: 4px;
+}
+
+.aluno-sub {
+  font-size: 13px;
+  color: #a1a1aa !important;
+}
+
+.aluno-dados {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.aluno-dados div {
+  background: #151522;
+  border: 1px solid #25253a;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.aluno-dados span {
+  display: block;
+  font-size: 12px;
+  color: #a1a1aa;
+  margin-bottom: 5px;
+}
+
+.aluno-dados strong {
+  color: white;
+  font-size: 15px;
+}
+
+@media (max-width: 600px) {
+  .aluno-topo {
+    flex-direction: column;
+  }
+
+  .aluno-dados {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modal-pequeno {
+  max-width: 420px;
+}
+
+.modal-pequeno p {
+  color: #d4d4d8;
+  margin: 12px 0 20px;
+  line-height: 1.5;
+}
+
+.modal-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-acoes button {
+  min-width: 110px;
+}
+
+@media (max-width: 600px) {
+  .modal-acoes {
+    flex-direction: column;
+  }
+
+  .modal-acoes button {
+    width: 100%;
+  }
+}
+
+#modalAluno form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+#modalAluno input {
+  background: #0f0f18;
+  color: white;
+  border: 1px solid #292942;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+#modalAluno input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+}
+
+.receber p {
+  color: #38bdf8;
+}
+.previsao p {
+  color: #a78bfa;
+}
+
+.lista-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.lista-topo h2 {
+  margin-bottom: 4px;
+}
+
+#subtituloLista {
+  color: #a1a1aa;
+  font-size: 14px;
+}
+
+.contador-lista {
+  background: #0f0f18;
+  border: 1px solid #292942;
+  color: #a78bfa;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .lista-topo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ===============================
+   CARD ALUNO PREMIUM
+================================ */
+
+.aluno-card {
+  position: relative;
+  background:
+    linear-gradient(145deg, rgba(21, 21, 34, 0.96), rgba(13, 13, 22, 0.98));
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  border-radius: 22px;
+  padding: 22px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+  transition: 0.25s ease;
+}
+
+.aluno-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.18), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.08), transparent 24%);
+  pointer-events: none;
+}
+
+.aluno-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124, 58, 237, 0.65);
+  box-shadow: 0 24px 60px rgba(124, 58, 237, 0.18);
+}
+
+.aluno-premium-topo,
+.aluno-premium-grid,
+.acoes-premium {
+  position: relative;
+  z-index: 1;
+}
+
+.aluno-premium-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.aluno-premium-topo h3 {
+  margin: 0;
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  text-transform: capitalize;
+}
+
+.aluno-premium-topo p {
+  margin-top: 6px;
+  color: #a1a1aa;
+  font-size: 14px;
+}
+
+/* STATUS PREMIUM */
+
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.status-pago {
+  background: rgba(34, 197, 94, 0.13);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.status-pendente {
+  background: rgba(250, 204, 21, 0.13);
+  color: #facc15;
+  border: 1px solid rgba(250, 204, 21, 0.35);
+}
+
+.status-atrasado {
+  background: rgba(239, 68, 68, 0.13);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.38);
+}
+
+/* INFOS */
+
+.aluno-premium-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.info-premium {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 16px;
+  padding: 15px;
+}
+
+.info-premium span {
+  display: block;
+  color: #a1a1aa;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.info-premium strong {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+/* AÇÕES */
+
+.acoes-premium {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.acoes-premium button {
+  border: 0;
+  border-radius: 13px;
+  padding: 11px 15px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.acoes-premium button:hover {
+  transform: translateY(-2px);
+}
+
+.acao-principal {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.acao-secundaria {
+  background: rgba(255, 255, 255, 0.07);
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+}
+
+.acao-secundaria:hover {
+  background: rgba(124, 58, 237, 0.22);
+  color: white;
+}
+
+.acao-secundaria.whatsapp {
+  background: rgba(37, 211, 102, 0.14);
+  color: #4ade80;
+  border: 1px solid rgba(37, 211, 102, 0.24) !important;
+}
+
+.acao-perigo {
+  background: rgba(239, 68, 68, 0.14);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 700px) {
+  .aluno-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .aluno-premium-topo {
+    flex-direction: column;
+  }
+
+  .aluno-premium-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .acoes-premium {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .acoes-premium button {
+    width: 100%;
+  }
 }

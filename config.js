@@ -6,7 +6,7 @@
 const CONFIG = {
   nomeApp: "Mensalize",
   nomeEmpresa: "Mensalize",
-  slogan: "Controle, automatize e cresça",
+  slogan: "Sistema de gestão de mensalidades",
 
   supabaseUrl: "https://wdeyorkcrenibtkbgsjw.supabase.co",
 

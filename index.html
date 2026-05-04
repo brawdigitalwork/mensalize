@@ -10,14 +10,27 @@
 
   <section id="telaLogin" class="tela-login">
     <div class="login-card">
+      <img src="logo.png" class="login-logo" alt="Logo Mensalize">
+      
       <h1 id="loginNomeApp">Mensalize</h1>
-      <p id="loginSlogan">Controle, automatize e cresça</p>
+      <p id="loginSlogan">
+      Sistema de gestão de mensalidades
+      </p>
 
       <input type="email" id="emailLogin" placeholder="E-mail">
       <input type="password" id="senhaLogin" placeholder="Senha">
 
       <button id="btnEntrar">Entrar</button>
-      <button id="btnCriarConta" class="btn-secundario">Criar conta</button>
+      <p class="login-ajuda">
+      Não tem acesso? Solicite sua conta ao administrador.
+      </p>
+      <a 
+        href="https://wa.me/5531983334284?text=Olá, quero solicitar acesso ao sistema Mensalize"
+        target="_blank"
+        class="btn-contato"
+      >
+        Falar com o administrador
+</a>
 
       <p id="mensagemLogin"></p>
     </div>
@@ -71,26 +84,55 @@
           <h2>Atrasados</h2>
           <p id="totalAtrasados">0</p>
         </div>
+
+        <div class="card receita">
+          <h2>Recebido no mês</h2>
+          <p id="totalRecebido">R$ 0,00</p>
+        </div>
+
+        <div class="card receber">
+          <h2>A receber</h2>
+          <p id="totalAReceber">R$ 0,00</p>
+        </div>
+
+        <div class="card previsao">
+          <h2>Previsão do mês</h2>
+          <p id="totalPrevisao">R$ 0,00</p>
+        </div>
+
       </section>
 
       <section class="area-formulario">
-        <h2 id="tituloFormulario">Cadastrar aluno</h2>
-
-        <form id="formAluno">
-          <input type="text" id="nomeAluno" placeholder="Nome do aluno" required>
-          <input type="text" id="telefoneAluno" placeholder="WhatsApp do aluno" required>
-          <input type="number" id="valorMensalidade" placeholder="Valor da mensalidade" required>
-          <input type="date" id="dataVencimento" required>
-
-          <button type="submit" id="btnFormulario">Cadastrar aluno</button>
-          <button type="button" id="btnCancelarEdicao" class="btn-cancelar escondido">
-            Cancelar edição
-          </button>
-        </form>
+        <div class="topo-form">
+    <h2>Alunos</h2>
+    <button type="button" id="btnMostrarForm">+ Novo aluno</button>
+        </div>
       </section>
 
       <section class="lista">
-        <h2>Alunos cadastrados</h2>
+        <div class="lista-topo">
+          <div>
+            <h2>Alunos cadastrados</h2>
+            <p id="subtituloLista">Gerencie os alunos, vencimentos e pagamentos.</p>
+          </div>
+
+          <span id="contadorLista" class="contador-lista">0 alunos</span>
+        </div>
+
+        <input 
+          type="text" 
+          id="campoBusca" 
+          placeholder="Buscar aluno por nome ou WhatsApp..."
+          class="campo-busca"
+        >
+
+        <div class="filtros">
+          <button id="filtroTodos" onclick="setFiltro('todos')">Todos</button>
+          <button id="filtroPendente" onclick="setFiltro('pendente')">Pendentes</button>
+          <button id="filtroAtrasado" onclick="setFiltro('atrasado')">Atrasados</button>
+          <button id="filtroHoje" onclick="setFiltro('hoje')">Hoje</button>
+        </div>
+
         <div id="listaAlunos"></div>
       </section>
 
@@ -134,6 +176,81 @@
     </div>
   </section>
 
+  <div id="modalConfirmarRemocao" class="modal escondido">
+    <div class="modal-card modal-pequeno">
+      <h2>Remover aluno</h2>
+      <p id="textoConfirmarRemocao">
+      Tem certeza que deseja remover este aluno?
+      </p>
+
+      <div class="modal-acoes">
+        <button type="button" id="btnCancelarRemocao" class="btn-cancelar">
+         Cancelar
+        </button>
+
+        <button type="button" id="btnConfirmarRemocao" class="btn-remover">
+        Remover
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalHistorico" class="modal escondido">
+    <div class="modal-card">
+      <div class="modal-topo">
+        <h2 id="modalNomeAluno">Histórico do aluno</h2>
+        <button type="button" id="btnFecharModal" class="btn-fechar">×</button>
+      </div>
+
+      <div id="modalInfoAluno" class="modal-info"></div>
+
+      <h3>Pagamentos registrados</h3>
+      <div id="modalListaPagamentos" class="modal-pagamentos"></div>
+    </div>
+  </div>
+
+  <div id="modalAluno" class="modal escondido">
+  <div class="modal-card">
+    <div class="modal-topo">
+      <h2 id="tituloFormulario">Cadastrar aluno</h2>
+      <button type="button" id="btnFecharModalAluno" class="btn-fechar">×</button>
+    </div>
+
+    <form id="formAluno">
+      <input type="text" id="nomeAluno" placeholder="Nome do aluno" required>
+      <input type="text" id="telefoneAluno" placeholder="WhatsApp do aluno" required>
+      <input type="number" id="valorMensalidade" placeholder="Valor da mensalidade" required>
+      <input type="date" id="dataVencimento" required>
+
+      <button type="submit" id="btnFormulario">Cadastrar aluno</button>
+      <button type="button" id="btnCancelarEdicao" class="btn-cancelar escondido">
+        Cancelar edição
+      </button>
+    </form>
+  </div>
+</div>
+
+  <div id="modalRemoverCliente" class="modal escondido">
+    <div class="modal-card modal-pequeno">
+      <h2>Remover cliente</h2>
+
+      <p id="textoRemoverCliente">
+      Tem certeza que deseja remover este cliente?
+      </p>
+
+      <div class="modal-acoes">
+        <button type="button" id="btnCancelarRemoverCliente" class="btn-cancelar">
+          Cancelar
+        </button>
+
+        <button type="button" id="btnConfirmarRemoverCliente" class="btn-remover">
+          Remover cliente
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="toast" class="toast escondido"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="script.js"></script>

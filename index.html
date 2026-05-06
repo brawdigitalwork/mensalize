@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mensalize</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#7c3aed">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Mensalize">
 </head>
 <body>
 
@@ -57,10 +62,21 @@
         </div>
 
         <button id="btnAdmin" class="btn-admin escondido">⚙ Admin</button>
+        <button id="btnTema" class="btn-tema" title="Alternar tema">🌙</button>
         <button id="btnSair" class="btn-sair">Sair</button>
       </div>
 
     </header>
+
+    <!-- Banner de notificação de vencimentos -->
+    <div id="bannerVencimentos" class="banner-vencimentos escondido">
+      <span id="textoBanner"></span>
+      <div class="banner-acoes">
+        <button id="btnBannerAtrasados" class="btn-banner">Ver atrasados</button>
+        <button id="btnBannerHoje" class="btn-banner">Ver hoje</button>
+        <button id="btnFecharBanner" class="btn-fechar-banner">×</button>
+      </div>
+    </div>
 
     <main class="container">
 
@@ -104,9 +120,22 @@
 
       <section class="area-formulario">
         <div class="topo-form">
-    <h2>Alunos</h2>
-    <button type="button" id="btnMostrarForm">+ Novo aluno</button>
+          <h2>Alunos</h2>
+          <div class="topo-form-acoes">
+            <button type="button" id="btnCobrarAtrasados" class="btn-cobrar">📢 Cobrar atrasados</button>
+            <button type="button" id="btnExportar" class="btn-exportar">📥 Exportar</button>
+            <button type="button" id="btnMostrarForm">+ Novo aluno</button>
+          </div>
         </div>
+      </section>
+
+      <!-- Gráfico de recebimentos -->
+      <section class="area-grafico escondido" id="areaGrafico">
+        <div class="grafico-topo">
+          <h2>📈 Recebimentos dos últimos 6 meses</h2>
+          <button id="btnFecharGrafico" class="btn-fechar-grafico">×</button>
+        </div>
+        <div class="grafico-barras" id="graficoBars"></div>
       </section>
 
       <section class="lista">
@@ -131,9 +160,16 @@
           <button id="filtroPendente" onclick="setFiltro('pendente')">Pendentes</button>
           <button id="filtroAtrasado" onclick="setFiltro('atrasado')">Atrasados</button>
           <button id="filtroHoje" onclick="setFiltro('hoje')">Hoje</button>
+          <button id="filtroPago" onclick="setFiltro('pago')">✅ Pago este mês</button>
         </div>
 
-        <div id="listaAlunos"></div>
+        <div id="listaAlunos">
+          <div id="skeletonLista" class="skeleton-wrapper">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
       </section>
 
     </main>
@@ -204,8 +240,46 @@
 
       <div id="modalInfoAluno" class="modal-info"></div>
 
-      <h3>Pagamentos registrados</h3>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3>Pagamentos registrados</h3>
+      </div>
       <div id="modalListaPagamentos" class="modal-pagamentos"></div>
+    </div>
+  </div>
+
+  <!-- Modal cobrar atrasados -->
+  <div id="modalCobrar" class="modal escondido">
+    <div class="modal-card">
+      <div class="modal-topo">
+        <h2>📢 Cobrar atrasados</h2>
+        <button type="button" id="btnFecharModalCobrar" class="btn-fechar">×</button>
+      </div>
+      <p style="color:#a1a1aa; margin-bottom:16px; font-size:14px;">Clique em cada aluno para abrir o WhatsApp com mensagem pronta.</p>
+      <div id="listaCobrar"></div>
+    </div>
+  </div>
+
+  <!-- Modal edição rápida -->
+  <div id="modalEdicaoRapida" class="modal escondido">
+    <div class="modal-card modal-pequeno">
+      <div class="modal-topo">
+        <h2>⚡ Editar valor/data</h2>
+        <button type="button" id="btnFecharEdicaoRapida" class="btn-fechar">×</button>
+      </div>
+
+      <input type="hidden" id="edicaoRapidaAlunoId">
+      <p class="edicao-rapida-nome" id="edicaoRapidaNome">Aluno</p>
+
+      <label class="label-campo">Mensalidade</label>
+      <input type="text" id="edicaoRapidaValor" placeholder="R$ 0,00" inputmode="numeric">
+
+      <label class="label-campo">Vencimento</label>
+      <input type="date" id="edicaoRapidaVencimento">
+
+      <div class="modal-acoes">
+        <button type="button" id="btnCancelarEdicaoRapida" class="btn-cancelar">Cancelar</button>
+        <button type="button" id="btnSalvarEdicaoRapida" class="acao-principal">Salvar</button>
+      </div>
     </div>
   </div>
 
@@ -219,7 +293,7 @@
     <form id="formAluno">
       <input type="text" id="nomeAluno" placeholder="Nome do aluno" required>
       <input type="text" id="telefoneAluno" placeholder="WhatsApp do aluno" required>
-      <input type="number" id="valorMensalidade" placeholder="Valor da mensalidade" required>
+      <input type="text" id="valorMensalidade" placeholder="R$ 0,00" required inputmode="numeric">
       <input type="date" id="dataVencimento" required>
 
       <button type="submit" id="btnFormulario">Cadastrar aluno</button>
@@ -250,9 +324,26 @@
     </div>
   </div>
   
+  <!-- Modal confirmação de pagamento -->
+  <div id="modalConfirmarPagamento" class="modal escondido">
+    <div class="modal-card modal-pequeno">
+      <h2>💰 Confirmar pagamento</h2>
+      <p id="textoConfirmarPagamento">Confirmar o pagamento deste aluno?</p>
+      <div class="modal-acoes">
+        <button type="button" id="btnCancelarPagamento" class="btn-cancelar">Cancelar</button>
+        <button type="button" id="btnConfirmarPagamento" class="acao-principal">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast escondido"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
 </body>
 </html>

@@ -1,279 +1,338 @@
 /* ================================================================
-   RESET GLOBAL
-   Remove margens, paddings e garante que padding/border
-   sejam incluídos no tamanho total dos elementos (box-sizing).
+   DESIGN SYSTEM — CSS VARIABLES
 ================================================================ */
-* {
+:root {
+  /* Paleta principal */
+  --cor-roxo:        #7c3aed;
+  --cor-roxo-hover:  #6d28d9;
+  --cor-roxo-claro:  #a78bfa;
+  --cor-roxo-bg:     rgba(124, 58, 237, 0.12);
+  --cor-roxo-borda:  rgba(124, 58, 237, 0.25);
+
+  /* Superfícies */
+  --bg-base:         #09090f;
+  --bg-nivel-1:      #111118;
+  --bg-nivel-2:      #161622;
+  --bg-nivel-3:      #1c1c2a;
+  --bg-input:        #0d0d15;
+
+  /* Bordas */
+  --borda:           rgba(255, 255, 255, 0.07);
+  --borda-hover:     rgba(124, 58, 237, 0.45);
+
+  /* Texto */
+  --texto-primario:  #f4f4f6;
+  --texto-secundario:#8b8b9e;
+  --texto-terciario: #5a5a6e;
+
+  /* Status */
+  --verde:           #22c55e;
+  --verde-bg:        rgba(34, 197, 94, 0.12);
+  --verde-borda:     rgba(34, 197, 94, 0.3);
+  --amarelo:         #f59e0b;
+  --amarelo-bg:      rgba(245, 158, 11, 0.12);
+  --amarelo-borda:   rgba(245, 158, 11, 0.3);
+  --vermelho:        #ef4444;
+  --vermelho-bg:     rgba(239, 68, 68, 0.12);
+  --vermelho-borda:  rgba(239, 68, 68, 0.3);
+  --azul:            #38bdf8;
+  --azul-bg:         rgba(56, 189, 248, 0.12);
+  --azul-borda:      rgba(56, 189, 248, 0.3);
+
+  /* Espaçamento e forma */
+  --raio-sm:    8px;
+  --raio-md:    12px;
+  --raio-lg:    16px;
+  --raio-xl:    20px;
+  --raio-pill:  999px;
+
+  /* Tipografia */
+  --fonte:      'Inter', 'SF Pro Display', system-ui, sans-serif;
+  --sombra-sm:  0 2px 8px rgba(0, 0, 0, 0.3);
+  --sombra-md:  0 8px 24px rgba(0, 0, 0, 0.4);
+  --sombra-lg:  0 20px 50px rgba(0, 0, 0, 0.5);
+  --sombra-roxo:0 0 20px rgba(124, 58, 237, 0.2);
+
+  /* Transição padrão */
+  --trans:      0.2s ease;
+}
+
+/* ================================================================
+   RESET GLOBAL
+================================================================ */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 /* ================================================================
-   BODY (fundo e fonte padrão)
-   Fundo escuro com gradiente radial vindo do topo.
-   Texto branco e fonte Arial como padrão global.
+   BODY
 ================================================================ */
 body {
-  background: radial-gradient(circle at top, #11111a, #0b0b0f);
-  color: white;
-  font-family: Arial, sans-serif;
+  background: var(--bg-base);
+  color: var(--texto-primario);
+  font-family: var(--fonte);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
 
 /* ================================================================
    BARRA SUPERIOR (.topo)
-   Cabeçalho principal da aplicação com logo + usuário.
-   Flex para alinhar logo à esquerda e info do usuário à direita.
-   flex-wrap permite quebrar em telas menores.
 ================================================================ */
 .topo {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 8%;
-  background: #11111a;
-  border-bottom: 1px solid #24243a;
+  padding: 0 6%;
+  height: 64px;
+  background: var(--bg-nivel-1);
+  border-bottom: 1px solid var(--borda);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 12px;
 }
 
-/* Título/nome do app no cabeçalho — cor roxa */
 .topo h1 {
-  color: #7c3aed;
-  font-size: 34px;
+  color: var(--cor-roxo-claro);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
 }
 
-/* Slogan/subtítulo no cabeçalho — cinza claro */
 .topo p {
-  color: #b8b8c7;
-  margin-top: 5px;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  margin-top: 1px;
 }
 
 /* ================================================================
-   CAIXA DO USUÁRIO (.usuario-box)
-   Contém avatar, nome/email do usuário logado e botões.
-   Fundo levemente destacado com borda sutil.
+   CAIXA DO USUÁRIO
 ================================================================ */
 .usuario-box {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #151522;
-  border: 1px solid #25253a;
-  padding: 10px 16px;
-  border-radius: 16px;
+  gap: 10px;
+  background: var(--bg-nivel-2);
+  border: 1px solid var(--borda);
+  padding: 8px 14px;
+  border-radius: var(--raio-lg);
 }
 
-/* Bolinha/avatar do usuário — círculo roxo com ícone de pessoa */
 .usuario-avatar {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: #7c3aed;
+  background: linear-gradient(135deg, var(--cor-roxo), #9333ea);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-/* Coluna com "Logado como" e o e-mail */
 .usuario-info {
   display: flex;
   flex-direction: column;
 }
 
-/* Texto "Logado como" — cinza pequeno */
 .usuario-label {
-  font-size: 12px;
-  color: #a1a1aa;
+  font-size: 11px;
+  color: var(--texto-terciario);
 }
 
-/* E-mail do usuário em destaque */
 .usuario-info strong {
-  font-size: 14px;
-  color: white;
+  font-size: 13px;
+  color: var(--texto-primario);
+  font-weight: 600;
 }
 
 /* ================================================================
-   CONTAINER PRINCIPAL (.container)
-   Área de conteúdo com padding lateral de 8% para espaçamento.
+   CONTAINER PRINCIPAL
 ================================================================ */
 .container {
-  padding: 30px 8%;
+  padding: 28px 6%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* ================================================================
-   GRADE DE CARDS (.cards)
-   4 colunas de cards de resumo (Total, Pagos, Pendentes, etc.).
+   GRADE DE CARDS
 ================================================================ */
 .cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 14px;
 }
 
 /* ================================================================
-   CARD DE RESUMO (.card)
-   Caixinha com número grande de cada métrica.
-   Tem barra roxa no topo via ::before.
+   CARD DE RESUMO
 ================================================================ */
 .card {
-  background: #151522;
-  padding: 25px;
-  border-radius: 15px;
-  border: 1px solid #25253a;
+  background: var(--bg-nivel-1);
+  padding: 22px;
+  border-radius: var(--raio-lg);
+  border: 1px solid var(--borda);
   position: relative;
   overflow: hidden;
-  transition: 0.3s; /* transição suave para o hover */
+  transition: border-color var(--trans), transform var(--trans);
 }
 
-/* Barra roxa decorativa no topo do card */
 .card::before {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 3px;
-  top: 0;
-  left: 0;
-  background: #7c3aed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--cor-roxo);
+  opacity: 0.7;
 }
 
-/* Eleva o card ao passar o mouse */
 .card:hover {
-  transform: translateY(-5px);
-  border-color: #7c3aed;
+  border-color: var(--borda-hover);
+  transform: translateY(-3px);
 }
 
-/* Label do card (ex: "Total de alunos") — cinza pequeno */
 .card h2 {
-  font-size: 16px;
-  color: #b8b8c7;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
   margin-bottom: 10px;
 }
 
-/* Número grande do card — quebra palavra se necessário */
 .card p {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
   word-break: break-word;
 }
 
-/* Cores específicas para cada tipo de card */
-.pago p       { color: #22c55e; } /* verde — pagos */
-.pendente p   { color: #facc15; } /* amarelo — pendentes */
-.alerta p     { color: #ef4444; } /* vermelho — atrasados */
-.receita p    { color: #22c55e; } /* verde — recebido no mês */
-.receber p    { color: #38bdf8; } /* azul claro — a receber */
-.previsao p   { color: #a78bfa; } /* roxo claro — previsão */
+/* Cores dos cards */
+.pago p     { color: var(--verde); }
+.pendente p { color: var(--amarelo); }
+.alerta p   { color: var(--vermelho); }
+.receita p  { color: var(--verde); }
+.receber p  { color: var(--azul); }
+.previsao p { color: var(--cor-roxo-claro); }
 
 /* ================================================================
    ÁREA DO FORMULÁRIO E LISTA
-   Seções abaixo dos cards — mesma aparência de card.
 ================================================================ */
 .area-formulario,
 .lista {
-  margin-top: 35px;
-  background: #151522;
-  padding: 25px;
-  border-radius: 15px;
-  border: 1px solid #25253a;
+  margin-top: 24px;
+  background: var(--bg-nivel-1);
+  padding: 24px;
+  border-radius: var(--raio-xl);
+  border: 1px solid var(--borda);
 }
 
 .area-formulario h2,
 .lista h2 {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 /* ================================================================
-   FORMULÁRIO DE CADASTRO (<form>)
-   Grid de 4 colunas para os campos lado a lado.
+   FORMULÁRIO
 ================================================================ */
 form {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
 /* ================================================================
-   CAMPOS DE INPUT (globais)
-   Fundo e estilo base de todos os campos de texto.
+   INPUTS
 ================================================================ */
 input {
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
+  padding: 11px 14px;
+  background: var(--bg-input);
+  color: var(--texto-primario);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
   outline: none;
   width: 100%;
-  min-width: 0; /* evita overflow em grids */
+  min-width: 0;
+  font-family: var(--fonte);
+  font-size: 14px;
+  transition: border-color var(--trans), box-shadow var(--trans);
+}
+
+input:focus {
+  border-color: var(--cor-roxo);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+input::placeholder {
+  color: var(--texto-terciario);
 }
 
 /* ================================================================
-   BOTÕES (globais)
-   Estilo padrão roxo para todos os botões.
+   BOTÕES
 ================================================================ */
 button {
-  padding: 10px;
-  background: #7c3aed;
-  color: white;
+  padding: 10px 16px;
+  background: var(--cor-roxo);
+  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--raio-md);
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s;
-  box-shadow: 0 0 0 transparent;
+  font-family: var(--fonte);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background var(--trans), transform var(--trans), box-shadow var(--trans);
 }
 
-/* Hover: roxo mais escuro + leve aumento + brilho */
 button:hover {
-  background: #6d28d9;
-  transform: scale(1.03);
-  box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+  background: var(--cor-roxo-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--sombra-roxo);
 }
 
-/* Todos os h2 com peso leve e espaçamento nas letras */
 h2 {
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: var(--texto-primario);
 }
 
 /* ================================================================
-   CARD DO ALUNO (.aluno-card)
-   Card premium com gradiente, brilho de fundo e sombra.
-   O ::before cria os reflexos coloridos decorativos.
+   CARD DO ALUNO
 ================================================================ */
 .aluno-card {
   position: relative;
-  background:
-    linear-gradient(145deg, rgba(21, 21, 34, 0.96), rgba(13, 13, 22, 0.98));
-  border: 1px solid rgba(124, 58, 237, 0.18);
-  border-radius: 22px;
-  padding: 22px;
-  margin-bottom: 18px;
+  background: var(--bg-nivel-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 20px;
+  margin-bottom: 14px;
   overflow: hidden;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
-  transition: 0.25s ease;
+  transition: border-color var(--trans), transform var(--trans), box-shadow var(--trans);
 }
 
-/* Reflexos decorativos (roxo no canto superior direito, verde no inferior esquerdo) */
 .aluno-card::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at top right, rgba(124, 58, 237, 0.18), transparent 28%),
-    radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.08), transparent 24%);
-  pointer-events: none; /* não interfere nos cliques */
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.1), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.05), transparent 30%);
+  pointer-events: none;
 }
 
-/* Hover: sobe o card e aumenta o brilho da borda */
 .aluno-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(124, 58, 237, 0.65);
-  box-shadow: 0 24px 60px rgba(124, 58, 237, 0.18);
+  border-color: var(--borda-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-md);
 }
 
-/* Garante que o conteúdo do card fique acima do ::before */
 .aluno-premium-topo,
 .aluno-premium-grid,
 .acoes-premium {
@@ -281,191 +340,156 @@ h2 {
   z-index: 1;
 }
 
-/* Linha superior do card: nome + badge de status */
 .aluno-premium-topo {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 18px;
-  margin-bottom: 18px;
+  gap: 14px;
+  margin-bottom: 16px;
 }
 
-/* Nome do aluno — grande, branco e em negrito */
 .aluno-premium-topo h3 {
-  margin: 0;
-  font-size: 22px;
-  color: #ffffff;
-  font-weight: 800;
-  letter-spacing: 0.2px;
+  font-size: 17px;
+  color: var(--texto-primario);
+  font-weight: 700;
+  letter-spacing: -0.2px;
   text-transform: capitalize;
 }
 
-/* Telefone/WhatsApp abaixo do nome */
 .aluno-premium-topo p {
-  margin-top: 6px;
-  color: #a1a1aa;
-  font-size: 14px;
+  margin-top: 4px;
+  color: var(--texto-secundario);
+  font-size: 13px;
 }
 
 /* ================================================================
-   BADGES DE STATUS (pastilhas coloridas)
-   Indicam situação do pagamento: pago, pendente, atrasado, hoje.
+   BADGES DE STATUS
 ================================================================ */
 .badge-status {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 13px;
-  border-radius: 999px; /* pílula arredondada */
-  font-size: 12px;
-  font-weight: 800;
+  padding: 5px 11px;
+  border-radius: var(--raio-pill);
+  font-size: 11px;
+  font-weight: 700;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Status: pago este mês — verde */
-.status-pago {
-  background: rgba(34, 197, 94, 0.13);
-  color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, 0.35);
-}
-
-/* Status: vence hoje — azul claro */
-.status-hoje {
-  background: rgba(56, 189, 248, 0.13);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.35);
-}
-
-/* Status: pendente/vence em breve — amarelo */
-.status-pendente {
-  background: rgba(250, 204, 21, 0.13);
-  color: #facc15;
-  border: 1px solid rgba(250, 204, 21, 0.35);
-}
-
-/* Status: atrasado — vermelho */
-.status-atrasado {
-  background: rgba(239, 68, 68, 0.13);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.38);
-}
+.status-pago     { background: var(--verde-bg);    color: #4ade80; border: 1px solid var(--verde-borda); }
+.status-hoje     { background: var(--azul-bg);     color: var(--azul); border: 1px solid var(--azul-borda); }
+.status-pendente { background: var(--amarelo-bg);  color: var(--amarelo); border: 1px solid var(--amarelo-borda); }
+.status-atrasado { background: var(--vermelho-bg); color: #f87171; border: 1px solid var(--vermelho-borda); }
 
 /* ================================================================
-   GRID DE INFORMAÇÕES DO ALUNO (.aluno-premium-grid)
-   2 caixinhas lado a lado: mensalidade e vencimento.
+   GRID DE INFOS DO ALUNO
 ================================================================ */
 .aluno-premium-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 18px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
-/* Cada caixinha de info (mensalidade / vencimento) */
 .info-premium {
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 16px;
-  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  padding: 14px;
 }
 
-/* Label da info (ex: "💰 Mensalidade") — cinza pequeno */
 .info-premium span {
   display: block;
-  color: #a1a1aa;
-  font-size: 12px;
-  margin-bottom: 7px;
+  color: var(--texto-terciario);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 6px;
 }
 
-/* Valor da info (ex: "R$ 150,00") — branco grande */
 .info-premium strong {
-  color: #ffffff;
-  font-size: 18px;
+  color: var(--texto-primario);
+  font-size: 17px;
+  font-weight: 700;
 }
 
 /* ================================================================
-   BOTÕES DE AÇÃO DO CARD (.acoes-premium)
-   Linha de botões: Registrar pagamento, WhatsApp, Histórico, etc.
+   BOTÕES DE AÇÃO DO CARD
 ================================================================ */
 .acoes-premium {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .acoes-premium button {
-  border: 0;
-  border-radius: 13px;
-  padding: 11px 15px;
-  font-size: 13px;
-  font-weight: 800;
+  border: none;
+  border-radius: var(--raio-md);
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: transform var(--trans), opacity var(--trans);
 }
 
 .acoes-premium button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  opacity: 0.9;
 }
 
-/* Botão principal verde: "Registrar pagamento" */
 .acao-principal {
   background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: white;
+  color: #fff;
 }
 
-/* Botão secundário cinza translúcido: histórico, editar, etc. */
 .acao-secundaria {
-  background: rgba(255, 255, 255, 0.07);
-  color: #e5e7eb;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--texto-primario);
+  border: 1px solid var(--borda) !important;
 }
 
 .acao-secundaria:hover {
-  background: rgba(124, 58, 237, 0.22);
-  color: white;
+  background: var(--cor-roxo-bg);
 }
 
-/* Variação verde para botão do WhatsApp */
 .acao-secundaria.whatsapp {
-  background: rgba(37, 211, 102, 0.14);
+  background: rgba(37, 211, 102, 0.1);
   color: #4ade80;
-  border: 1px solid rgba(37, 211, 102, 0.24) !important;
+  border: 1px solid rgba(37, 211, 102, 0.2) !important;
 }
 
-/* Botão vermelho translúcido: "Remover" */
 .acao-perigo {
-  background: rgba(239, 68, 68, 0.14);
+  background: var(--vermelho-bg);
   color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  border: 1px solid var(--vermelho-borda) !important;
 }
 
 /* ================================================================
-   CARD DO ALUNO PAGO (.aluno-pago)
-   Opacidade reduzida e borda verde para alunos que já pagaram.
+   CARD DO ALUNO PAGO
 ================================================================ */
 .aluno-pago {
-  opacity: 0.72;
-  border-color: rgba(34, 197, 94, 0.2) !important;
+  opacity: 0.65;
+  border-color: rgba(34, 197, 94, 0.18) !important;
 }
 
-/* Reflexo verde nos cantos para alunos pagos */
 .aluno-pago::before {
   background:
-    radial-gradient(circle at top right, rgba(34, 197, 94, 0.12), transparent 28%),
-    radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.06), transparent 24%) !important;
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.1), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.05), transparent 25%) !important;
 }
 
 .aluno-pago:hover {
   opacity: 1;
-  border-color: rgba(34, 197, 94, 0.5) !important;
+  border-color: rgba(34, 197, 94, 0.45) !important;
 }
 
 /* ================================================================
-   BOTÕES DE AÇÃO ANTIGAS (compatibilidade)
-   Usadas em versões antigas do card. Mantidas para não quebrar.
+   BOTÕES LEGADOS (compatibilidade)
 ================================================================ */
 .botoes-card {
-  margin-top: 12px;
+  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -473,466 +497,388 @@ h2 {
 
 .btn-pago         { background: #22c55e; }
 .btn-pago:hover   { background: #16a34a; }
-
-.btn-whatsapp       { background: #25d366; }
+.btn-whatsapp     { background: #25d366; }
 .btn-whatsapp:hover { background: #1ebe5d; }
-
 .btn-editar       { background: #3b82f6; }
 .btn-editar:hover { background: #2563eb; }
-
-.btn-remover       { background: #ef4444; }
-.btn-remover:hover { background: #dc2626; }
-
-.btn-cancelar       { background: #6b7280; }
-.btn-cancelar:hover { background: #4b5563; }
-
-.btn-historico       { background: #8b5cf6; }
-.btn-historico:hover { background: #7c3aed; }
+.btn-remover      { background: var(--vermelho); }
+.btn-remover:hover{ background: #dc2626; }
+.btn-cancelar     { background: #4b5563; }
+.btn-cancelar:hover { background: #374151; }
+.btn-historico    { background: #8b5cf6; }
+.btn-historico:hover { background: var(--cor-roxo); }
 
 /* ================================================================
-   CLASSE UTILITÁRIA: ESCONDIDO
-   Oculta qualquer elemento. !important garante prioridade máxima.
+   UTILITÁRIOS
 ================================================================ */
-.escondido {
-  display: none !important;
-}
+.escondido { display: none !important; }
 
 /* ================================================================
-   TELA DE LOGIN (.tela-login)
-   Tela centralizada com gradiente de fundo (roxo + verde sutil).
+   TELA DE LOGIN
 ================================================================ */
 .tela-login {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(124, 58, 237, 0.25), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(37, 211, 102, 0.12), transparent 30%),
-    #0b0b0f;
+    radial-gradient(ellipse at top left, rgba(124, 58, 237, 0.2), transparent 45%),
+    radial-gradient(ellipse at bottom right, rgba(34, 197, 94, 0.08), transparent 40%),
+    var(--bg-base);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
 }
 
-/* Card de login centralizado com sombra e bordas arredondadas */
 .login-card {
   width: 100%;
-  max-width: 420px;
-  background: rgba(21, 21, 34, 0.92);
-  border: 1px solid #2f2f46;
-  border-radius: 22px;
-  padding: 34px;
+  max-width: 400px;
+  background: var(--bg-nivel-1);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 36px 32px;
   text-align: center;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--sombra-lg);
 }
 
-/* Título do login — roxo claro */
 .login-card h1 {
-  color: #a78bfa;
-  font-size: 38px;
-  margin-bottom: 8px;
+  color: var(--cor-roxo-claro);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
 }
 
-/* Subtexto do login */
 .login-card p {
-  color: #b8b8c7;
-  margin-bottom: 22px;
+  color: var(--texto-secundario);
+  margin-bottom: 24px;
+  font-size: 14px;
 }
 
-/* Campos do login — fundo escuro, borda sutil */
 .login-card input {
-  width: 100%;
-  background: #0f0f18;
-  color: white;
-  border: 1px solid #292942;
-  border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 12px;
-  font-size: 16px;
+  margin-bottom: 10px;
 }
 
-/* Destaca o campo ao focar com borda roxa e brilho */
-.login-card input:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
-}
-
-/* Botões do login — largura total */
 .login-card button {
   width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 15px;
+  padding: 13px;
+  border-radius: var(--raio-md);
+  font-size: 14px;
 }
 
-/* Botão "Entrar" com gradiente roxo */
 #btnEntrar {
-  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  background: linear-gradient(135deg, var(--cor-roxo), #9333ea);
 }
 
-/* Botão secundário transparente com borda */
+#btnEntrar:hover {
+  background: linear-gradient(135deg, var(--cor-roxo-hover), var(--cor-roxo));
+}
+
 .btn-secundario {
   background: transparent;
-  border: 1px solid #35354f;
-  color: #d4d4d8;
+  border: 1px solid var(--borda);
+  color: var(--texto-secundario);
 }
 
-/* Área de mensagem de erro/sucesso do login — amarelo */
+.btn-secundario:hover {
+  background: var(--bg-nivel-2);
+  color: var(--texto-primario);
+  transform: none;
+  box-shadow: none;
+}
+
 #mensagemLogin {
   min-height: 20px;
-  margin-top: 16px;
-  color: #facc15;
+  margin-top: 14px;
+  color: var(--amarelo);
+  font-size: 13px;
 }
 
-/* Logo da tela de login */
 .login-logo {
-  width: 62px;
-  height: 62px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
   margin-bottom: 14px;
+  border-radius: 12px;
 }
 
-/* Texto de ajuda abaixo do login ("Não tem acesso?") */
 .login-ajuda {
-  margin-top: 14px;
-  font-size: 13px;
-  color: #a1a1aa;
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--texto-terciario);
 }
 
-/* Link para falar com o administrador via WhatsApp */
 .btn-contato {
   display: inline-block;
-  margin-top: 12px;
+  margin-top: 8px;
   font-size: 13px;
-  color: #25d366; /* cor do WhatsApp */
+  color: #25d366;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.btn-contato:hover {
-  text-decoration: underline;
-}
+.btn-contato:hover { text-decoration: underline; }
 
 /* ================================================================
-   BOTÕES DE FILTRO (.filtros)
-   Linha de botões: Todos, Pendentes, Atrasados, Hoje, Pago.
+   FILTROS
 ================================================================ */
 .filtros {
   display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-  flex-wrap: wrap; /* quebra linha em telas pequenas */
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .filtros button {
-  background: #1f1f2e;
-  border: 1px solid #2d2d44;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 13px;
+  background: var(--bg-nivel-3);
+  border: 1px solid var(--borda);
+  padding: 7px 13px;
+  border-radius: var(--raio-md);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--texto-secundario);
+  transition: all var(--trans);
 }
 
 .filtros button:hover {
-  background: #7c3aed;
+  background: var(--cor-roxo-bg);
+  border-color: var(--borda-hover);
+  color: var(--texto-primario);
+  transform: none;
+  box-shadow: none;
 }
 
-/* Filtro ativo — roxo com borda destacada */
 .filtro-ativo {
-  background: #7c3aed !important;
-  border-color: #a78bfa !important;
-  color: white !important;
+  background: var(--cor-roxo) !important;
+  border-color: var(--cor-roxo) !important;
+  color: #fff !important;
 }
 
 /* ================================================================
-   CAMPO DE BUSCA (.campo-busca)
-   Input de pesquisa por nome ou WhatsApp.
+   CAMPO DE BUSCA
 ================================================================ */
 .campo-busca {
   width: 100%;
-  margin-bottom: 15px;
-  background: #0f0f18;
-  color: white;
-  border: 1px solid #292942;
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 16px;
-}
-
-.campo-busca:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+  margin-bottom: 14px;
 }
 
 /* ================================================================
-   TOPO DO FORMULÁRIO (.topo-form)
-   Linha com título "Alunos" + botões de ação (Cobrar, Exportar, Novo).
+   TOPO DO FORMULÁRIO E DA LISTA
 ================================================================ */
-.topo-form {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-/* Botão "+ Novo aluno" */
-#btnMostrarForm {
-  background: #7c3aed;
-  padding: 10px 15px;
-  border-radius: 10px;
-}
-
-/* ================================================================
-   TOPO DA LISTA (.lista-topo)
-   Linha com título "Alunos cadastrados" + contador de alunos.
-================================================================ */
+.topo-form,
 .lista-topo {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 16px;
   gap: 12px;
-  margin-bottom: 18px;
 }
 
-.lista-topo h2 {
-  margin-bottom: 4px;
-}
+.lista-topo h2 { margin-bottom: 2px; }
 
-/* Subtítulo abaixo do h2 da lista */
 #subtituloLista {
-  color: #a1a1aa;
-  font-size: 14px;
+  color: var(--texto-terciario);
+  font-size: 12px;
 }
 
-/* Pílula de contador (ex: "15 alunos") */
-.contador-lista {
-  background: #0f0f18;
-  border: 1px solid #292942;
-  color: #a78bfa;
-  padding: 8px 12px;
-  border-radius: 999px;
+#btnMostrarForm {
+  padding: 9px 14px;
+  border-radius: var(--raio-md);
   font-size: 13px;
-  font-weight: bold;
+}
+
+.contador-lista {
+  background: var(--bg-input);
+  border: 1px solid var(--borda);
+  color: var(--cor-roxo-claro);
+  padding: 6px 12px;
+  border-radius: var(--raio-pill);
+  font-size: 12px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 /* ================================================================
-   MODAL (sobreposição)
-   Fundo escuro semitransparente sobre toda a tela.
-   O conteúdo fica centralizado via flex.
+   MODAL
 ================================================================ */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.72);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  z-index: 999; /* fica acima de tudo */
+  z-index: 999;
+  backdrop-filter: blur(4px);
 }
 
-/* Caixa interna do modal */
 .modal-card {
   width: 100%;
-  max-width: 520px;
-  background: #151522;
-  border: 1px solid #292942;
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.55);
+  max-width: 500px;
+  background: var(--bg-nivel-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 24px;
+  box-shadow: var(--sombra-lg);
 }
 
-/* Linha do topo do modal: título + botão fechar */
 .modal-topo {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
-/* Título do modal em roxo claro */
-.modal-topo h2 {
-  color: #a78bfa;
-}
+.modal-topo h2 { color: var(--cor-roxo-claro); }
 
-/* Botão "×" para fechar o modal — círculo vermelho */
 .btn-fechar {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   padding: 0;
   border-radius: 50%;
-  background: #ef4444;
-  font-size: 22px;
+  background: var(--vermelho-bg);
+  border: 1px solid var(--vermelho-borda) !important;
+  color: #f87171;
+  font-size: 18px;
+  line-height: 1;
 }
 
-/* Caixa de informações do aluno dentro do modal */
+.btn-fechar:hover {
+  background: var(--vermelho);
+  color: #fff;
+  transform: none;
+  box-shadow: none;
+}
+
 .modal-info {
-  background: #0f0f18;
-  border: 1px solid #25253a;
-  border-radius: 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
   padding: 14px;
   margin-bottom: 16px;
 }
 
 .modal-info p {
-  margin-bottom: 8px;
-  color: #d4d4d8;
+  margin-bottom: 6px;
+  color: var(--texto-secundario);
+  font-size: 13px;
 }
 
 .modal-card h3 {
   margin-bottom: 12px;
-  color: white;
+  color: var(--texto-primario);
+  font-size: 15px;
+  font-weight: 600;
 }
 
-/* Item individual de pagamento no histórico */
 .pagamento-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #0f0f18;
-  border: 1px solid #25253a;
-  padding: 12px;
-  border-radius: 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--borda);
+  padding: 10px 14px;
+  border-radius: var(--raio-md);
   margin-bottom: 8px;
 }
 
-/* Data do pagamento — cinza */
-.pagamento-item span {
-  color: #a1a1aa;
-}
+.pagamento-item span { color: var(--texto-secundario); font-size: 13px; }
+.pagamento-item strong { color: var(--verde); font-size: 14px; }
 
-/* Valor do pagamento — verde */
-.pagamento-item strong {
-  color: #22c55e;
-}
-
-/* Modal menor para confirmações (remover, pagar) */
-.modal-pequeno {
-  max-width: 420px;
-}
-
+.modal-pequeno { max-width: 400px; }
 .modal-pequeno p {
-  color: #d4d4d8;
-  margin: 12px 0 20px;
-  line-height: 1.5;
+  color: var(--texto-secundario);
+  margin: 10px 0 18px;
+  line-height: 1.6;
+  font-size: 14px;
 }
 
-/* Linha de botões no rodapé do modal */
 .modal-acoes {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
+}
+
+.modal-acoes button { min-width: 100px; }
+
+#modalAluno form {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 10px;
 }
 
-.modal-acoes button {
-  min-width: 110px;
-}
-
-/* Campos dentro do modal de cadastro/edição de aluno */
-#modalAluno form {
-  display: grid;
-  grid-template-columns: 1fr; /* uma coluna */
-  gap: 12px;
-}
-
-#modalAluno input {
-  background: #0f0f18;
-  color: white;
-  border: 1px solid #292942;
-  border-radius: 12px;
-  padding: 14px;
-}
-
-#modalAluno input:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
-}
-
 /* ================================================================
-   TOAST (notificação flutuante)
-   Aparece no canto inferior direito com mensagem de sucesso/erro.
+   TOAST
 ================================================================ */
 .toast {
   position: fixed;
   right: 20px;
   bottom: 20px;
-  background: #151522;
-  border: 1px solid #25253a;
-  color: white;
+  background: var(--bg-nivel-2);
+  border: 1px solid var(--borda);
+  color: var(--texto-primario);
   padding: 14px 18px;
-  border-radius: 14px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-  z-index: 2000; /* acima dos modais */
-  max-width: 320px;
-  font-size: 14px;
+  border-radius: var(--raio-lg);
+  box-shadow: var(--sombra-lg);
+  z-index: 2000;
+  max-width: 300px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
-/* Borda verde para toasts de sucesso */
-.toast-sucesso {
-  border-color: #22c55e;
-}
-
-/* Borda vermelha para toasts de erro */
-.toast-erro {
-  border-color: #ef4444;
-}
+.toast-sucesso { border-color: rgba(34, 197, 94, 0.5); }
+.toast-erro    { border-color: rgba(239, 68, 68, 0.5); }
 
 /* ================================================================
-   BANNER DE VENCIMENTOS (.banner-vencimentos)
-   Faixa de alerta que aparece no topo da área principal
-   quando há alunos atrasados ou vencendo hoje.
+   BANNER DE VENCIMENTOS
 ================================================================ */
 .banner-vencimentos {
-  background: linear-gradient(135deg, #7c3aed22, #ef444422);
-  border: 1px solid #7c3aed44;
-  border-radius: 14px;
-  margin: 16px 8% 0;
-  padding: 14px 18px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(239, 68, 68, 0.08));
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  border-radius: var(--raio-lg);
+  margin: 16px 6% 0;
+  padding: 12px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
-/* Grupo de botões dentro do banner */
 .banner-acoes {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-/* Botões do banner (Ver atrasados / Ver hoje) */
 .btn-banner {
-  background: rgba(124, 58, 237, 0.2);
-  border: 1px solid rgba(124, 58, 237, 0.4);
-  color: #a78bfa;
-  padding: 7px 12px;
-  border-radius: 10px;
-  font-size: 13px;
+  background: var(--cor-roxo-bg);
+  border: 1px solid var(--cor-roxo-borda);
+  color: var(--cor-roxo-claro);
+  padding: 6px 12px;
+  border-radius: var(--raio-sm);
+  font-size: 12px;
   font-weight: 700;
 }
 
 .btn-banner:hover {
-  background: rgba(124, 58, 237, 0.4);
+  background: rgba(124, 58, 237, 0.25);
+  transform: none;
+  box-shadow: none;
 }
 
-/* Botão "×" do banner */
 .btn-fechar-banner {
   background: transparent;
   border: none;
-  color: #a1a1aa;
-  font-size: 20px;
+  color: var(--texto-terciario);
+  font-size: 18px;
   padding: 2px 6px;
   cursor: pointer;
 }
 
 /* ================================================================
-   BOTÕES DA BARRA DE AÇÕES (Cobrar, Exportar, etc.)
+   BARRA DE AÇÕES (TOPO DO FORM)
 ================================================================ */
 .topo-form-acoes {
   display: flex;
@@ -941,43 +887,35 @@ h2 {
   align-items: center;
 }
 
-/* Botão "Cobrar atrasados" — laranja/aviso */
 .btn-cobrar {
   background: linear-gradient(135deg, #f59e0b, #d97706);
-  padding: 10px 15px;
-  border-radius: 10px;
+  padding: 9px 14px;
+  border-radius: var(--raio-md);
   font-size: 13px;
 }
 
-.btn-cobrar:hover {
-  background: linear-gradient(135deg, #d97706, #b45309);
-}
+.btn-cobrar:hover { background: linear-gradient(135deg, #d97706, #b45309); }
 
-/* Botão "Exportar" — azul */
 .btn-exportar {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
-  padding: 10px 15px;
-  border-radius: 10px;
+  padding: 9px 14px;
+  border-radius: var(--raio-md);
   font-size: 13px;
 }
 
-.btn-exportar:hover {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-}
+.btn-exportar:hover { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
 
 /* ================================================================
-   GRÁFICO DE RECEBIMENTOS (.area-grafico)
-   Área com barras de receita dos últimos 6 meses.
+   GRÁFICO DE RECEBIMENTOS
 ================================================================ */
 .area-grafico {
-  margin-top: 24px;
-  background: #151522;
-  border: 1px solid #25253a;
-  border-radius: 18px;
+  margin-top: 20px;
+  background: var(--bg-nivel-1);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
   padding: 22px;
 }
 
-/* Linha do topo do gráfico: título + botão fechar */
 .grafico-topo {
   display: flex;
   justify-content: space-between;
@@ -985,51 +923,45 @@ h2 {
   margin-bottom: 20px;
 }
 
-.grafico-topo h2 {
-  color: #a78bfa;
-}
+.grafico-topo h2 { color: var(--cor-roxo-claro); }
 
 .btn-fechar-grafico {
-  background: #374151;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border-radius: 50%;
-  font-size: 18px;
+  background: var(--bg-nivel-3);
+  font-size: 16px;
 }
 
-/* Container das barras — flex horizontal com altura fixa */
 .grafico-barras {
   display: flex;
   align-items: flex-end;
-  gap: 16px;
+  gap: 14px;
   height: 180px;
-  padding-bottom: 30px;
+  padding-bottom: 28px;
   position: relative;
   overflow-x: auto;
 }
 
-/* Coluna de cada mês do gráfico */
 .grafico-col {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex: 1;
-  min-width: 48px;
+  min-width: 44px;
   height: 100%;
   justify-content: flex-end;
   position: relative;
 }
 
-/* Valor em R$ acima de cada barra */
 .grafico-valor {
-  font-size: 11px;
-  color: #a1a1aa;
+  font-size: 10px;
+  color: var(--texto-terciario);
   margin-bottom: 5px;
   white-space: nowrap;
 }
 
-/* Wrapper da barra (controla altura) */
 .grafico-barra-wrap {
   width: 100%;
   display: flex;
@@ -1037,105 +969,99 @@ h2 {
   height: 130px;
 }
 
-/* A barra em si — roxa com bordas arredondadas no topo */
 .grafico-barra {
   width: 100%;
-  background: linear-gradient(180deg, #9333ea, #7c3aed);
-  border-radius: 8px 8px 0 0;
-  transition: height 0.3s ease;
+  background: linear-gradient(180deg, #9333ea, var(--cor-roxo));
+  border-radius: 6px 6px 0 0;
+  transition: height 0.35s ease;
 }
 
-/* Barra do mês atual — destaque em verde */
 .grafico-barra-atual {
   background: linear-gradient(180deg, #4ade80, #22c55e);
 }
 
-/* Label do mês abaixo da barra */
 .grafico-label {
-  font-size: 12px;
-  color: #a1a1aa;
+  font-size: 11px;
+  color: var(--texto-terciario);
   margin-top: 6px;
   text-transform: capitalize;
 }
 
 /* ================================================================
-   SKELETON LOADER (.skeleton-card)
-   Animação de "carregando" enquanto os alunos são buscados.
+   SKELETON LOADER
 ================================================================ */
 .skeleton-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .skeleton-card {
-  background: linear-gradient(90deg, #151522 25%, #1e1e30 50%, #151522 75%);
+  background: linear-gradient(90deg, var(--bg-nivel-1) 25%, var(--bg-nivel-2) 50%, var(--bg-nivel-1) 75%);
   background-size: 200% 100%;
-  animation: skeleton-shimmer 1.4s infinite; /* efeito de brilho se movendo */
-  border-radius: 22px;
-  height: 160px;
-  border: 1px solid #25253a;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: var(--raio-xl);
+  height: 150px;
+  border: 1px solid var(--borda);
 }
 
-/* Animação do shimmer: brilho desloca da direita para esquerda */
 @keyframes skeleton-shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 
 /* ================================================================
-   PAGINAÇÃO (.paginacao)
-   Botões "Anterior" / "Próximo" e info de página.
+   PAGINAÇÃO
 ================================================================ */
 .paginacao {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid #25253a;
+  gap: 14px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--borda);
 }
 
 .paginacao button {
-  background: #1f1f2e;
-  border: 1px solid #2d2d44;
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-size: 13px;
+  background: var(--bg-nivel-3);
+  border: 1px solid var(--borda);
+  padding: 9px 18px;
+  border-radius: var(--raio-md);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto-secundario);
 }
 
-/* Botão desabilitado — opacidade reduzida, sem hover */
 .paginacao button:disabled {
-  opacity: 0.35;
+  opacity: 0.3;
   cursor: not-allowed;
   transform: none !important;
 }
 
 .paginacao button:not(:disabled):hover {
-  background: #7c3aed;
+  background: var(--cor-roxo-bg);
+  border-color: var(--borda-hover);
+  color: var(--texto-primario);
+  transform: none;
+  box-shadow: none;
 }
 
-/* Texto "Página X de Y" */
 .paginacao-info {
-  color: #a1a1aa;
-  font-size: 13px;
+  color: var(--texto-terciario);
+  font-size: 12px;
   white-space: nowrap;
 }
 
 /* ================================================================
-   PAINEL ADMIN (.admin-*)
-   Tela de administração para gerenciar clientes e criar usuários.
+   PAINEL ADMIN
 ================================================================ */
-
-/* Container centralizado da tela admin */
 .admin-container {
   max-width: 1000px;
   margin: auto;
-  padding: 20px;
+  padding: 24px 20px;
 }
 
-/* Linha do topo: título "Admin" + botão Voltar */
 .admin-topo {
   display: flex;
   justify-content: space-between;
@@ -1143,165 +1069,152 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* 2 colunas: Dashboard + Criar cliente */
 .admin-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 18px;
 }
 
-/* Cartão genérico do admin */
 .admin-card {
-  background: #151522;
-  border: 1px solid #25253a;
-  border-radius: 16px;
+  background: var(--bg-nivel-1);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
   padding: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
-/* Título do card admin — roxo claro */
 .admin-card h3 {
-  margin-bottom: 15px;
-  color: #a78bfa;
+  margin-bottom: 14px;
+  color: var(--cor-roxo-claro);
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.admin-card p {
-  margin: 5px 0;
-}
+.admin-card p { margin: 4px 0; color: var(--texto-secundario); font-size: 13px; }
 
 .admin-card input {
   width: 100%;
   margin-bottom: 10px;
 }
 
-/* Botão "Voltar" — cinza escuro */
 .btn-voltar {
-  background: #374151;
+  background: var(--bg-nivel-3);
+  color: var(--texto-secundario);
 }
 
 .btn-voltar:hover {
   background: #4b5563;
+  transform: none;
+  box-shadow: none;
 }
 
 /* ================================================================
-   CARD DE CLIENTE (ADMIN) — versão v2 expansível
-   Cada cliente tem header clicável que expande a lista de alunos.
+   CARD DE CLIENTE V2 (ADMIN)
 ================================================================ */
 .cliente-card-v2 {
-  background: #0f0f18;
-  border: 1px solid #25253a;
-  border-radius: 16px;
+  background: var(--bg-nivel-1);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
   padding: 0;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color var(--trans);
 }
 
-.cliente-card-v2:hover {
-  border-color: #7c3aed;
-}
+.cliente-card-v2:hover { border-color: var(--borda-hover); }
 
-/* Header do cliente — clicável para expandir */
 .cliente-header-v2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 18px;
+  padding: 14px 18px;
   cursor: pointer;
   user-select: none;
   gap: 12px;
+  transition: background var(--trans);
 }
 
-.cliente-header-v2:hover {
-  background: rgba(124, 58, 237, 0.06);
-}
+.cliente-header-v2:hover { background: var(--cor-roxo-bg); }
 
-/* Lado esquerdo: avatar + email + contagem */
 .cliente-header-esq {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   min-width: 0;
 }
 
-/* Avatar circular com inicial do email do cliente */
 .cliente-avatar {
-  width: 42px;
-  height: 42px;
-  min-width: 42px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  background: linear-gradient(135deg, var(--cor-roxo), #9333ea);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
-  color: white;
+  color: #fff;
 }
 
-/* Email do cliente — trunca se muito longo */
 .cliente-email {
   display: block;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 14px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 260px;
+  max-width: 240px;
 }
 
-/* Linha com badge "CLIENTE" + contagem de alunos */
 .cliente-meta {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 4px;
+  margin-top: 3px;
   flex-wrap: wrap;
 }
 
-/* Texto "X / Y alunos" */
 .cliente-contagem {
   font-size: 12px;
-  color: #a1a1aa;
+  color: var(--texto-terciario);
 }
 
-/* Lado direito: botão remover + seta */
 .cliente-header-dir {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 
-/* Botão de remover cliente — vermelho translúcido */
 .btn-remover-cliente {
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  background: var(--vermelho-bg);
+  border: 1px solid var(--vermelho-borda) !important;
   color: #f87171;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: var(--raio-sm);
+  font-size: 13px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all var(--trans);
 }
 
 .btn-remover-cliente:hover {
-  background: rgba(239, 68, 68, 0.35);
-  transform: scale(1.05);
+  background: rgba(239, 68, 68, 0.3);
+  transform: none;
+  box-shadow: none;
 }
 
-/* Seta expansível ▼ / ▲ */
 .cliente-seta {
-  font-size: 14px;
-  color: #a1a1aa;
-  transition: transform 0.2s;
-  min-width: 16px;
+  font-size: 12px;
+  color: var(--texto-terciario);
+  transition: transform var(--trans);
+  min-width: 14px;
   text-align: center;
 }
 
 /* ================================================================
    BARRA DE PROGRESSO DO CLIENTE
-   Mostra visualmente o uso do limite de alunos.
 ================================================================ */
 .cliente-barra-wrapper {
   display: flex;
@@ -1310,32 +1223,28 @@ h2 {
   padding: 0 18px 12px;
 }
 
-/* Trilha cinza da barra */
 .cliente-barra-fundo {
   flex: 1;
-  height: 6px;
-  background: #1e1e2e;
-  border-radius: 999px;
+  height: 4px;
+  background: var(--bg-nivel-3);
+  border-radius: var(--raio-pill);
   overflow: hidden;
 }
 
-/* Preenchimento colorido (verde/amarelo/vermelho conforme uso) */
 .cliente-barra-fill {
   height: 100%;
-  border-radius: 999px;
+  border-radius: var(--raio-pill);
   transition: width 0.4s ease;
 }
 
-/* Texto "XX% do limite" */
 .cliente-barra-label {
   font-size: 11px;
-  color: #a1a1aa;
+  color: var(--texto-terciario);
   white-space: nowrap;
 }
 
 /* ================================================================
-   LINHA DE EDIÇÃO DE LIMITE DO CLIENTE
-   Input numérico + botão "Salvar" para alterar limite de alunos.
+   LIMITE DO CLIENTE
 ================================================================ */
 .cliente-limite-row {
   display: flex;
@@ -1345,239 +1254,187 @@ h2 {
 }
 
 .cliente-limite-row label {
-  font-size: 13px;
-  color: #a1a1aa;
+  font-size: 12px;
+  color: var(--texto-terciario);
   white-space: nowrap;
 }
 
 .cliente-limite-row input {
-  width: 80px;
-  background: #151522;
-  color: white;
-  border: 1px solid #292942;
-  border-radius: 8px;
+  width: 72px;
   padding: 6px 10px;
   font-size: 13px;
 }
 
-/* Botão "Salvar" do limite */
 .btn-salvar-limite {
-  background: linear-gradient(135deg, #7c3aed, #9333ea);
-  color: white;
+  background: linear-gradient(135deg, var(--cor-roxo), #9333ea);
+  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--raio-sm);
   padding: 6px 14px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all var(--trans);
   white-space: nowrap;
+  font-family: var(--fonte);
 }
 
 .btn-salvar-limite:hover {
-  background: linear-gradient(135deg, #6d28d9, #7c3aed);
+  background: linear-gradient(135deg, var(--cor-roxo-hover), var(--cor-roxo));
   transform: translateY(-1px);
 }
 
 /* ================================================================
-   LISTA DE ALUNOS DENTRO DO CARD DO CLIENTE (ADMIN)
-   Aparece ao expandir o card de um cliente.
+   LISTA DE ALUNOS NO CARD DO CLIENTE
 ================================================================ */
 .cliente-alunos-lista {
-  border-top: 1px solid #1e1e2e;
+  border-top: 1px solid var(--borda);
   padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
-/* Mensagem quando cliente não tem alunos */
 .cliente-sem-alunos {
-  color: #a1a1aa;
+  color: var(--texto-terciario);
   font-size: 13px;
   text-align: center;
-  padding: 10px 0;
+  padding: 8px 0;
 }
 
-/* Linha de cada aluno dentro do painel admin */
 .admin-aluno-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid #1e1e2e;
-  border-radius: 12px;
-  padding: 12px 14px;
-  transition: background 0.15s;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  padding: 10px 14px;
+  transition: background var(--trans);
 }
 
-.admin-aluno-row:hover {
-  background: rgba(124, 58, 237, 0.07);
-}
+.admin-aluno-row:hover { background: var(--cor-roxo-bg); }
 
 .admin-aluno-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   min-width: 0;
 }
 
-/* Nome do aluno — negrito, truncado */
 .admin-aluno-nome {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  color: #fff;
+  color: var(--texto-primario);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Detalhe: telefone, valor, data */
 .admin-aluno-detalhe {
-  font-size: 12px;
-  color: #a1a1aa;
+  font-size: 11px;
+  color: var(--texto-terciario);
 }
 
-/* Badge de status do aluno no admin */
 .admin-badge-status {
   font-size: 11px;
   font-weight: 700;
   padding: 4px 10px;
-  border-radius: 999px;
+  border-radius: var(--raio-pill);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
-/* Cores dos badges admin */
-.admin-status-atrasado {
-  background: rgba(239, 68, 68, 0.13);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
+.admin-status-atrasado { background: var(--vermelho-bg); color: #f87171; border: 1px solid var(--vermelho-borda); }
+.admin-status-hoje     { background: var(--azul-bg);     color: var(--azul); border: 1px solid var(--azul-borda); }
+.admin-status-pendente { background: var(--amarelo-bg);  color: var(--amarelo); border: 1px solid var(--amarelo-borda); }
 
-.admin-status-hoje {
-  background: rgba(56, 189, 248, 0.13);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-}
-
-.admin-status-pendente {
-  background: rgba(250, 204, 21, 0.13);
-  color: #facc15;
-  border: 1px solid rgba(250, 204, 21, 0.3);
-}
-
-/* Badges do painel de clientes */
-.badge-admin {
-  background: #7c3aed;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-}
-
-.badge-cliente {
-  background: #374151;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-}
+.badge-admin  { background: var(--cor-roxo); padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+.badge-cliente{ background: var(--bg-nivel-3); padding: 3px 9px; border-radius: 6px; font-size: 11px; color: var(--texto-secundario); }
 
 /* ================================================================
-   EDIÇÃO RÁPIDA (.edicao-rapida-*)
-   Modal pequeno para editar valor e data de vencimento.
+   EDIÇÃO RÁPIDA
 ================================================================ */
-
-/* Label dos campos do formulário */
 .label-campo {
   display: block;
   margin: 12px 0 6px;
-  color: #a1a1aa;
-  font-size: 13px;
-  font-weight: bold;
+  color: var(--texto-terciario);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
-/* Exibe o nome do aluno sendo editado */
 .edicao-rapida-nome {
-  background: #0f0f18;
-  border: 1px solid #292942;
-  border-radius: 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
   padding: 12px;
-  color: #fff;
+  color: var(--texto-primario);
   margin-bottom: 10px;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 15px;
 }
 
-/* Inputs de texto e data dentro do modal de edição rápida */
 #modalEdicaoRapida input[type="text"],
 #modalEdicaoRapida input[type="date"] {
-  background: #0f0f18;
-  color: white;
-  border: 1px solid #292942;
-  border-radius: 12px;
-  padding: 14px;
   margin-bottom: 10px;
 }
 
-/* Botão lixeira para deletar pagamento do histórico */
 .btn-deletar-pagamento {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   padding: 0;
-  border-radius: 10px;
-  background: #7f1d1d; /* vermelho escuro */
+  border-radius: var(--raio-sm);
+  background: var(--vermelho-bg);
+  border: 1px solid var(--vermelho-borda) !important;
+  color: #f87171;
 }
 
 .btn-deletar-pagamento:hover {
-  background: #ef4444;
+  background: var(--vermelho);
+  color: #fff;
+  transform: none;
 }
 
 /* ================================================================
-   MODAL DE COBRANÇA EM MASSA (.cobrar-item)
-   Lista de alunos atrasados com botão "Cobrar" via WhatsApp.
+   MODAL DE COBRANÇA EM MASSA
 ================================================================ */
 .cobrar-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: #0f0f18;
-  border: 1px solid #292942;
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  padding: 12px 14px;
+  margin-bottom: 8px;
 }
 
-/* Coluna com nome e detalhe do atraso */
 .cobrar-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
-.cobrar-nome {
-  font-weight: bold;
-  color: white;
-}
+.cobrar-nome   { font-weight: 700; color: var(--texto-primario); font-size: 14px; }
+.cobrar-detalhe{ font-size: 12px; color: var(--texto-terciario); }
 
-.cobrar-detalhe {
-  font-size: 13px;
-  color: #a1a1aa;
-}
-
-/* Botão "Cobrar" verde do WhatsApp */
 .btn-cobrar-item {
   background: #25d366;
-  color: white;
+  color: #fff;
   text-decoration: none;
-  padding: 9px 12px;
-  border-radius: 10px;
-  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: var(--raio-sm);
+  font-weight: 700;
+  font-size: 13px;
   white-space: nowrap;
 }
 
 /* ================================================================
-   LOGO NO CABEÇALHO (.logo / .marca)
+   LOGO E MARCA
 ================================================================ */
 .marca {
   display: flex;
@@ -1586,89 +1443,87 @@ h2 {
 }
 
 .logo {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
   border-radius: 10px;
 }
 
 /* ================================================================
-   BOTÕES ESPECIAIS DO CABEÇALHO
+   BOTÕES DO CABEÇALHO
 ================================================================ */
-
-/* Botão vermelho "Sair" */
 #btnSair {
-  padding: 8px 12px;
-  background: #ef4444;
+  padding: 7px 12px;
+  background: var(--vermelho-bg);
+  border: 1px solid var(--vermelho-borda) !important;
+  color: #f87171;
+  font-size: 13px;
 }
 
 #btnSair:hover {
-  background: #dc2626;
+  background: var(--vermelho);
+  color: #fff;
+  transform: none;
 }
 
-/* Botão tema (🌙 / ☀️) — transparente */
 .btn-tema {
   background: transparent;
-  border: 1px solid #35354f;
-  color: #d4d4d8;
-  padding: 8px 10px;
-  border-radius: 8px;
+  border: 1px solid var(--borda);
+  color: var(--texto-secundario);
+  padding: 7px 10px;
+  border-radius: var(--raio-sm);
+  font-size: 14px;
 }
 
-/* Botão admin — cinza */
 .btn-admin {
-  background: #374151;
-  padding: 8px 12px;
-  border-radius: 8px;
+  background: var(--bg-nivel-3);
+  color: var(--texto-secundario);
+  padding: 7px 12px;
+  border-radius: var(--raio-sm);
+  font-size: 13px;
+  border: 1px solid var(--borda) !important;
 }
 
 /* ================================================================
-   ALUNO CARD ANTIGO (versão anterior — mantido por compatibilidade)
+   ALUNO CARD LEGADO (compatibilidade)
 ================================================================ */
 .aluno-topo {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 15px;
-  margin-bottom: 14px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 
-.aluno-topo h3 {
-  margin-bottom: 4px;
-}
-
-.aluno-sub {
-  font-size: 13px;
-  color: #a1a1aa !important;
-}
+.aluno-topo h3 { margin-bottom: 3px; }
+.aluno-sub { font-size: 12px; color: var(--texto-terciario) !important; }
 
 .aluno-dados {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin: 14px 0;
+  gap: 10px;
+  margin: 12px 0;
 }
 
 .aluno-dados div {
-  background: #151522;
-  border: 1px solid #25253a;
-  border-radius: 12px;
+  background: var(--bg-nivel-1);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
   padding: 12px;
 }
 
 .aluno-dados span {
   display: block;
-  font-size: 12px;
-  color: #a1a1aa;
-  margin-bottom: 5px;
+  font-size: 11px;
+  color: var(--texto-terciario);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.aluno-dados strong {
-  color: white;
-  font-size: 15px;
-}
+.aluno-dados strong { color: var(--texto-primario); font-size: 14px; }
 
-/* Cliente antigo (admin) */
+/* Cliente legado (admin) */
 .cliente {
   display: flex;
   align-items: center;
@@ -1676,17 +1531,17 @@ h2 {
 }
 
 .cliente-card {
-  background: #0f0f18;
-  border: 1px solid #25253a;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 12px;
-  transition: 0.2s;
+  background: var(--bg-nivel-1);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  padding: 14px;
+  margin-bottom: 10px;
+  transition: all var(--trans);
 }
 
 .cliente-card:hover {
-  transform: scale(1.01);
-  border-color: #7c3aed;
+  border-color: var(--borda-hover);
+  transform: translateY(-1px);
 }
 
 .cliente-header {
@@ -1696,335 +1551,152 @@ h2 {
   margin-bottom: 10px;
 }
 
-.cliente-header strong {
-  color: #fff;
-}
+.cliente-header strong { color: var(--texto-primario); font-size: 14px; }
 
 .cliente-info label {
   display: block;
-  font-size: 13px;
-  margin-bottom: 5px;
-  color: #a1a1aa;
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: var(--texto-terciario);
 }
 
-.cliente-info input {
-  width: 100%;
-}
+.cliente-info input { width: 100%; }
 
 /* ================================================================
-   MODO CLARO (data-tema="claro")
-   Sobrescreve cores do tema escuro quando o usuário ativa o tema claro.
-   Todos os seletores são prefixados com [data-tema="claro"].
+   TEMA CLARO (data-tema="claro")
 ================================================================ */
+[data-tema="claro"] {
+  --bg-base:      #f1f1f5;
+  --bg-nivel-1:   #ffffff;
+  --bg-nivel-2:   #f8f8fc;
+  --bg-nivel-3:   #ededf3;
+  --bg-input:     #f0f0f6;
+  --borda:        rgba(0, 0, 0, 0.08);
+  --borda-hover:  rgba(124, 58, 237, 0.4);
+  --texto-primario:  #111118;
+  --texto-secundario:#5a5a72;
+  --texto-terciario: #9a9aae;
+}
 
-/* Fundo cinza claro no body */
 [data-tema="claro"] body {
-  background: #f4f4f5;
-  color: #111827;
+  background: var(--bg-base);
+  color: var(--texto-primario);
 }
 
-/* Cabeçalho branco */
 [data-tema="claro"] .topo {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--bg-nivel-1);
+  border-bottom: 1px solid var(--borda);
 }
 
-/* Título e nome do app em roxo (igual ao escuro) */
-[data-tema="claro"] .topo h1,
-[data-tema="claro"] #nomeApp {
-  color: #7c3aed;
-}
-
-/* Textos secundários em cinza médio */
-[data-tema="claro"] .topo p,
-[data-tema="claro"] #slogan,
-[data-tema="claro"] .usuario-label,
-[data-tema="claro"] #subtituloLista {
-  color: #6b7280;
-}
-
-/* Cards, modais e painéis em branco com borda cinza */
-[data-tema="claro"] .usuario-box,
-[data-tema="claro"] .card,
-[data-tema="claro"] .area-formulario,
-[data-tema="claro"] .lista,
-[data-tema="claro"] .modal-card,
-[data-tema="claro"] .modal-info,
-[data-tema="claro"] .pagamento-item,
-[data-tema="claro"] .info-premium {
-  background: #ffffff;
-  border-color: #e5e7eb;
-  color: #111827;
-}
-
-/* Labels dos cards e infos em cinza */
-[data-tema="claro"] .card h2,
-[data-tema="claro"] .aluno-premium-topo p,
-[data-tema="claro"] .info-premium span,
-[data-tema="claro"] .modal-info p,
-[data-tema="claro"] .pagamento-item span {
-  color: #6b7280 !important;
-}
-
-/* Textos principais em cinza escuro/preto */
-[data-tema="claro"] .card p,
-[data-tema="claro"] .usuario-info strong,
-[data-tema="claro"] .aluno-premium-topo h3,
-[data-tema="claro"] .info-premium strong,
-[data-tema="claro"] .modal-card h3 {
-  color: #111827;
-}
-
-/* Card do aluno com sombra leve e fundo branco */
 [data-tema="claro"] .aluno-card {
-  background: #ffffff;
-  border-color: #e5e7eb;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 [data-tema="claro"] .aluno-card::before {
   background:
-    radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 28%),
-    radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.06), transparent 24%);
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.08), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.04), transparent 25%);
 }
 
-/* Inputs com fundo branco e borda cinza */
-[data-tema="claro"] input,
-[data-tema="claro"] .campo-busca,
-[data-tema="claro"] #modalAluno input {
-  background: #ffffff;
-  color: #111827;
-  border: 1px solid #d1d5db;
-}
-
-[data-tema="claro"] input::placeholder {
-  color: #9ca3af;
-}
-
-/* Filtros e botões secundários com fundo cinza claro */
-[data-tema="claro"] .filtros button,
-[data-tema="claro"] .acao-secundaria {
-  background: #f3f4f6;
-  color: #111827;
-  border: 1px solid #d1d5db;
-}
-
-/* Contador de alunos com fundo cinza */
-[data-tema="claro"] .contador-lista {
-  background: #f3f4f6;
-  border-color: #d1d5db;
-  color: #7c3aed;
-}
-
-/* Fundo do modal semitransparente branco no tema claro */
 [data-tema="claro"] .modal {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(0, 0, 0, 0.4);
 }
+
+[data-tema="claro"] input::placeholder { color: #b0b0c0; }
 
 /* ================================================================
-   RESPONSIVIDADE — BREAKPOINTS
+   RESPONSIVIDADE
 ================================================================ */
-
-/* Tablets grandes: 4 colunas → 3 */
 @media (max-width: 1100px) {
-  .cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .cards { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* Tablets: 3 → 2 colunas, formulário em 1 coluna */
 @media (max-width: 900px) {
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .cards { grid-template-columns: repeat(2, 1fr); }
 
-  form {
-    grid-template-columns: 1fr;
-  }
+  form { grid-template-columns: 1fr; }
 
-  /* Cabeçalho empilha verticalmente */
   .topo {
+    height: auto;
     flex-direction: column;
     align-items: flex-start;
-    padding: 16px 5%;
+    padding: 14px 5%;
   }
 
-  /* Caixa do usuário ocupa largura total */
   .usuario-box {
     width: 100%;
     justify-content: space-between;
     flex-wrap: wrap;
   }
 
-  .container {
-    padding: 20px 5%;
-  }
+  .container { padding: 20px 5%; }
+  .banner-vencimentos { margin: 14px 5% 0; }
 }
 
-/* Cards do aluno em mobile: empilha topo e ações em grade */
 @media (max-width: 700px) {
-  .aluno-card {
-    padding: 16px;
-    border-radius: 18px;
-  }
+  .aluno-card { padding: 16px; border-radius: var(--raio-lg); }
 
-  /* Topo do card empilha verticalmente */
-  .aluno-premium-topo {
-    flex-direction: column;
-    gap: 10px;
-  }
+  .aluno-premium-topo { flex-direction: column; gap: 8px; }
+  .aluno-premium-topo .badge-status { align-self: flex-start; }
+  .aluno-premium-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
 
-  .aluno-premium-topo .badge-status {
-    align-self: flex-start;
-  }
-
-  /* Grid de infos continua 2 colunas mas com menos gap */
-  .aluno-premium-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  /* Ações em grade 2 colunas */
   .acoes-premium {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 7px;
   }
 
-  /* Botão principal ocupa largura total */
-  .acoes-premium .acao-principal {
-    grid-column: 1 / -1;
-  }
+  .acoes-premium .acao-principal { grid-column: 1 / -1; }
 
-  .acoes-premium button {
-    width: 100%;
-    font-size: 12px;
-    padding: 10px 8px;
-  }
+  .acoes-premium button { width: 100%; font-size: 12px; padding: 9px 8px; }
 }
 
-/* Cards de resumo em 2 colunas em telas pequenas */
 @media (max-width: 480px) {
-  .cards {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  .cards { grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  .card {
-    padding: 16px;
-  }
+  .card { padding: 14px; }
+  .card h2 { font-size: 11px; }
+  .card p  { font-size: 22px; }
 
-  .card h2 {
-    font-size: 13px;
-  }
+  .topo h1 { font-size: 18px; }
 
-  .card p {
-    font-size: 20px;
-  }
-
-  .topo h1 {
-    font-size: 24px;
-  }
-
-  /* E-mail truncado no header mobile */
   .usuario-info strong {
     font-size: 12px;
-    max-width: 130px;
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
   }
 
-  /* Avatar oculto em telas muito pequenas */
-  .usuario-avatar {
-    display: none;
-  }
+  .usuario-avatar { display: none; }
 
   .area-formulario,
-  .lista {
-    padding: 16px;
-    border-radius: 12px;
-  }
+  .lista { padding: 14px; border-radius: var(--raio-lg); }
 
-  /* Admin em 1 coluna */
-  .admin-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Topo do form pode quebrar linha */
-  .topo-form {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+  .admin-grid { grid-template-columns: 1fr; }
+  .topo-form { flex-wrap: wrap; gap: 8px; }
 }
 
-/* Modal scroll em telas pequenas */
 @media (max-width: 600px) {
-  .modal-card {
-    max-height: 90vh;
-    overflow-y: auto;
-  }
+  .modal-card { max-height: 90vh; overflow-y: auto; }
 
-  /* Toast ocupa toda a largura */
-  .toast {
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
-    max-width: none;
-  }
+  .toast { left: 14px; right: 14px; bottom: 14px; max-width: none; }
 
-  /* Ações do modal empilham verticalmente */
-  .modal-acoes {
-    flex-direction: column;
-  }
+  .modal-acoes { flex-direction: column; }
+  .modal-acoes button { width: 100%; }
 
-  .modal-acoes button {
-    width: 100%;
-  }
+  .lista-topo { flex-direction: column; align-items: flex-start; }
 
-  /* Lista do topo empilha */
-  .lista-topo {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  .aluno-topo  { flex-direction: column; }
+  .aluno-dados { grid-template-columns: 1fr; }
 
-  /* Card do aluno antigo: topo e dados empilham */
-  .aluno-topo {
-    flex-direction: column;
-  }
+  .cobrar-item { flex-direction: column; align-items: stretch; }
+  .btn-cobrar-item { text-align: center; }
 
-  .aluno-dados {
-    grid-template-columns: 1fr;
-  }
+  .cliente-email { max-width: 150px; }
 
-  /* Cobrar item: empilha verticalmente, botão ocupa toda largura */
-  .cobrar-item {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn-cobrar-item {
-    text-align: center;
-  }
-
-  /* Email do cliente truncado menor */
-  .cliente-email {
-    max-width: 160px;
-  }
-
-  /* Linha do aluno admin empilha */
-  .admin-aluno-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .admin-badge-status {
-    align-self: flex-start;
-  }
-
-  /* Limite do cliente pode quebrar */
-  .cliente-limite-row {
-    flex-wrap: wrap;
-  }
+  .admin-aluno-row { flex-direction: column; align-items: flex-start; }
+  .admin-badge-status { align-self: flex-start; }
+  .cliente-limite-row { flex-wrap: wrap; }
 }

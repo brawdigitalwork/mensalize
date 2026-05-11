@@ -47,6 +47,7 @@ let limiteAlunos = 30;
 let usuarioEhAdmin = false;
 let filtroAtual = "todos";
 let textoBusca = "";
+let nomeEmpresa = "Mensalize";
 
 // ===============================
 // 04. ELEMENTOS DO DOM — LOGIN / ADMIN
@@ -268,7 +269,7 @@ async function carregarPerfil() {
 
   const { data, error } = await supabaseClient
     .from("profiles")
-    .select("is_admin, limite_alunos")
+    .select("is_admin, limite_alunos, nome_empresa")
     .eq("id", usuarioAtual.id)
     .single();
 
@@ -279,6 +280,8 @@ async function carregarPerfil() {
 
   usuarioEhAdmin = data.is_admin === true;
   limiteAlunos = data.limite_alunos || 30;
+  
+  nomeEmpresa = data.nome_empresa || "Mensalize";
 
   if (usuarioEhAdmin) {
     btnAdmin.classList.remove("escondido");
@@ -1004,25 +1007,27 @@ function enviarWhatsApp(id) {
   const aluno = alunos.find(a => String(a.id) === String(id));
 
   if (!aluno) {
-   mostrarToast("Aluno não encontrado.", "erro");
+    mostrarToast("Aluno não encontrado.", "erro");
     return;
   }
 
-  const dias = calcularDias(aluno.vencimento);
   const data = formatarData(aluno.vencimento);
+  const valorFmt = Number(aluno.valor).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
 
-  let msg = "";
+  const msg = `*${nomeEmpresa.toUpperCase()}*
 
-  const valorFmt = Number(aluno.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-  if (dias < 0) {
-    msg = `Olá ${aluno.nome}, sua mensalidade venceu em ${data}. Valor: ${valorFmt}.`;
-  } else if (dias === 0) {
-    msg = `Olá ${aluno.nome}, sua mensalidade vence HOJE. Valor: ${valorFmt}.`;
-  } else if (dias <= 3) {
-    msg = `Olá ${aluno.nome}, sua mensalidade vence em ${dias} dia(s), no dia ${data}. Valor: ${valorFmt}.`;
-  } else {
-    msg = `Olá ${aluno.nome}, sua mensalidade vence no dia ${data}. Valor: ${valorFmt}.`;
-  }
+Olá, *${aluno.nome}*. Tudo bem?
+
+Identificamos que sua mensalidade com vencimento em *${data}* encontra-se em aberto.
+
+*Valor:* ${valorFmt}
+
+Caso o pagamento já tenha sido realizado, por favor desconsidere esta mensagem e nos envie o comprovante para confirmação no sistema.
+
+Agradecemos pela atenção e permanecemos à disposição.`;
 
   const tel = aluno.telefone.replace(/\D/g, "");
 
@@ -1031,11 +1036,10 @@ function enviarWhatsApp(id) {
     return;
   }
 
-  if (aluno.link_pagamento) {
-  msg += `\n\nLink para pagamento:\n${aluno.link_pagamento}`;
-  }
-
-  window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`, "_blank");
+  window.open(
+    `https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`,
+    "_blank"
+  );
 }
 
 // ===============================

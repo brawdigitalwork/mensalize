@@ -1,119 +1,162 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Página do aluno - Mensalize</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Portal do Aluno - Mensalize</title>
+  <meta name="description" content="Portal do aluno Mensalize para acompanhar mensalidade, vencimento, pagamentos e comprovantes." />
+  <meta name="theme-color" content="#7c3aed" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta property="og:title" content="Portal do Aluno - Mensalize" />
+  <meta property="og:description" content="Acompanhe sua mensalidade, vencimento e pagamentos pelo Mensalize." />
+  <link rel="stylesheet" href="aluno.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #09090f;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 420px;
-      background: #111118;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-    }
-
-    h1 {
-      color: #a78bfa;
-      margin-bottom: 8px;
-    }
-
-    .info {
-      background: #161622;
-      padding: 14px;
-      border-radius: 12px;
-      margin: 12px 0;
-    }
-
-    .info span {
-      display: block;
-      color: #8b8b9e;
-      font-size: 13px;
-    }
-
-    .info strong {
-      font-size: 18px;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: bold;
-      margin-top: 10px;
-      font-size: 13px;
-    }
-
-    .pago {
-      background: rgba(34,197,94,0.15);
-      color: #4ade80;
-    }
-
-    .pendente {
-      background: rgba(245,158,11,0.15);
-      color: #fbbf24;
-    }
-
-    .atrasado {
-      background: rgba(239,68,68,0.15);
-      color: #f87171;
-    }
-
-    .btn {
-      display: block;
-      text-align: center;
-      background: #7c3aed;
-      color: white;
-      text-decoration: none;
-      padding: 14px;
-      border-radius: 12px;
-      margin-top: 18px;
-      font-weight: bold;
-    }
-
-    .btn:hover {
-      background: #6d28d9;
-    }
-
-    .erro {
-      color: #f87171;
-      text-align: center;
-    }
-  </style>
 </head>
-
 <body>
+  <header class="portal-header">
+    <div class="portal-header-inner">
+      <div class="brand">
+        <img src="logo.png" alt="Logo Mensalize" class="brand-logo" />
+        <div>
+          <strong id="nomeAcademia">Mensalize</strong>
+          <span>Área do aluno</span>
+        </div>
+      </div>
+    </div>
+  </header>
 
-  <div class="card" id="conteudo">
-    <p>Carregando dados do aluno...</p>
-  </div>
+  <main class="portal-shell">
+    <section id="estadoInicial" class="skeleton-area">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card skeleton-card-small"></div>
+      <div class="skeleton-card skeleton-card-small"></div>
+    </section>
+
+    <section id="portalConteudo" class="portal-content escondido">
+      <article class="student-card card-animate delay-0">
+        <div class="student-avatar" id="avatarAluno">A</div>
+        <div class="student-info">
+          <span class="eyebrow">Aluno</span>
+          <h1 id="nomeAluno">Carregando...</h1>
+          <div class="student-meta">
+            <span id="badgePlano" class="pill escondido"></span>
+            <span id="alunoDesde" class="muted"></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="finance-card card-animate delay-1">
+        <div class="finance-top">
+          <div>
+            <span class="eyebrow">Mensalidade</span>
+            <strong id="valorMensalidade" class="price">R$ 0,00</strong>
+          </div>
+          <span id="badgeStatus" class="status-badge">Status</span>
+        </div>
+        <p id="textoVencimento" class="due-text">Vence em --/--/----</p>
+        <p id="mensagemStatus" class="status-message"></p>
+        <div id="areaPagamento"></div>
+      </article>
+
+      <article class="history-card card-animate delay-2" id="cardHistorico">
+        <div class="section-title-row">
+          <h2>Últimos pagamentos</h2>
+          <span id="contadorPagamentos" class="mini-badge">0 registros</span>
+        </div>
+        <div id="listaPagamentos" class="payments-list">
+          <div class="mini-loading">Carregando histórico...</div>
+        </div>
+      </article>
+
+      <article class="receipt-card card-animate delay-3">
+        <div class="section-title-row">
+          <h2>📎 Enviar comprovante</h2>
+          <span class="mini-badge muted-badge">Fase 2</span>
+        </div>
+        <p class="receipt-desc">Envie uma imagem do comprovante para facilitar a conferência do professor.</p>
+        <label class="file-label" for="inputComprovante">Escolher imagem</label>
+        <input id="inputComprovante" class="file-input" type="file" accept="image/*" />
+        <div id="previewComprovante" class="preview-box escondido">
+          <img id="previewImagem" alt="Prévia do comprovante" />
+        </div>
+        <button id="btnEnviarComprovante" class="secondary-action" type="button" disabled>
+          Enviar comprovante
+        </button>
+        <p id="msgComprovante" class="soft-message">Funcionalidade em breve.</p>
+      </article>
+
+      <button id="btnCompartilhar" class="share-button" type="button">🔗 Compartilhar página</button>
+    </section>
+
+    <section id="estadoErro" class="error-card escondido">
+      <div class="error-icon">⚠️</div>
+      <h1>Não conseguimos abrir esta página</h1>
+      <p id="mensagemErro">O link pode estar incorreto ou indisponível no momento.</p>
+      <a href="javascript:location.reload()" class="retry-link">Tentar novamente</a>
+    </section>
+  </main>
+
+  <footer class="portal-footer">
+    <p>© Mensalize · Sistema de gestão de mensalidades</p>
+    <a id="linkProfessor" href="https://wa.me/5531983334284" target="_blank" rel="noopener">
+      Problemas? Fale com seu professor
+    </a>
+  </footer>
 
   <script>
-    const supabaseClient = supabase.createClient(
-      CONFIG.supabaseUrl,
-      CONFIG.supabaseAnonKey
-    );
+    // ============================================================
+    // PORTAL DO ALUNO — MENSALIZE
+    // Página pública acessada por aluno.html?codigo=CODIGO_PUBLICO
+    // ============================================================
 
-    const conteudo = document.getElementById("conteudo");
+    const supabaseClient = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey);
+
+    const estadoInicial = document.getElementById("estadoInicial");
+    const portalConteudo = document.getElementById("portalConteudo");
+    const estadoErro = document.getElementById("estadoErro");
+    const mensagemErro = document.getElementById("mensagemErro");
+
+    const nomeAcademia = document.getElementById("nomeAcademia");
+    const avatarAluno = document.getElementById("avatarAluno");
+    const nomeAluno = document.getElementById("nomeAluno");
+    const badgePlano = document.getElementById("badgePlano");
+    const alunoDesde = document.getElementById("alunoDesde");
+
+    const valorMensalidade = document.getElementById("valorMensalidade");
+    const badgeStatus = document.getElementById("badgeStatus");
+    const textoVencimento = document.getElementById("textoVencimento");
+    const mensagemStatus = document.getElementById("mensagemStatus");
+    const areaPagamento = document.getElementById("areaPagamento");
+
+    const contadorPagamentos = document.getElementById("contadorPagamentos");
+    const listaPagamentos = document.getElementById("listaPagamentos");
+
+    const inputComprovante = document.getElementById("inputComprovante");
+    const previewComprovante = document.getElementById("previewComprovante");
+    const previewImagem = document.getElementById("previewImagem");
+    const btnEnviarComprovante = document.getElementById("btnEnviarComprovante");
+    const msgComprovante = document.getElementById("msgComprovante");
+    const btnCompartilhar = document.getElementById("btnCompartilhar");
+
+    let alunoAtual = null;
+    let codigoPublico = null;
+    let arquivoComprovante = null;
+
+    nomeAcademia.textContent = CONFIG.nomeEmpresa || CONFIG.nomeApp || "Mensalize";
+
+    function mostrarErro(mensagem) {
+      estadoInicial.classList.add("escondido");
+      portalConteudo.classList.add("escondido");
+      estadoErro.classList.remove("escondido");
+      mensagemErro.textContent = mensagem;
+    }
+
+    function mostrarPortal() {
+      estadoInicial.classList.add("escondido");
+      estadoErro.classList.add("escondido");
+      portalConteudo.classList.remove("escondido");
+    }
 
     function formatarMoeda(valor) {
       return Number(valor || 0).toLocaleString("pt-BR", {
@@ -122,116 +165,265 @@
       });
     }
 
-    function formatarData(data) {
-      const partes = data.split("-");
-      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    function normalizarLink(link) {
+      const texto = String(link || "").trim();
+      if (!texto) return "";
+      if (texto.startsWith("http://") || texto.startsWith("https://")) return texto;
+      return "https://" + texto;
+    }
+
+    function dataIsoParaDate(dataString) {
+      if (!dataString) return null;
+      const somenteData = String(dataString).split("T")[0];
+      const partes = somenteData.split("-");
+      if (partes.length !== 3) return null;
+      return new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+    }
+
+    function formatarData(dataString) {
+      const data = dataIsoParaDate(dataString);
+      if (!data || Number.isNaN(data.getTime())) return "--/--/----";
+      return data.toLocaleDateString("pt-BR");
+    }
+
+    function formatarMesAno(dataString) {
+      const data = dataIsoParaDate(dataString);
+      if (!data || Number.isNaN(data.getTime())) return "";
+      return data.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
     }
 
     function calcularDias(vencimento) {
       const hoje = new Date();
-      const dataHoje = new Date(
-        hoje.getFullYear(),
-        hoje.getMonth(),
-        hoje.getDate()
-      );
-
-      const partes = vencimento.split("-");
-      const dataVencimento = new Date(
-        Number(partes[0]),
-        Number(partes[1]) - 1,
-        Number(partes[2])
-      );
-
-      const diff = dataVencimento - dataHoje;
+      const hojeSemHora = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+      const dataVencimento = dataIsoParaDate(vencimento);
+      if (!dataVencimento) return 0;
+      const diff = dataVencimento - hojeSemHora;
       return Math.ceil(diff / (1000 * 60 * 60 * 24));
     }
 
-    function gerarStatus(vencimento) {
-      const dias = calcularDias(vencimento);
+    function gerarStatus(aluno) {
+      const dias = calcularDias(aluno.vencimento);
+
+      if (aluno.status === "pago" || aluno.status_pagamento === "pago") {
+        return {
+          texto: "🟢 Pago",
+          classe: "status-pago",
+          mensagem: "✅ Tudo certo! Sua mensalidade está em dia."
+        };
+      }
 
       if (dias < 0) {
         return {
-          texto: `Atrasado há ${Math.abs(dias)} dia(s)`,
-          classe: "atrasado"
+          texto: `🔴 Atrasado há ${Math.abs(dias)} dia(s)`,
+          classe: "status-atrasado",
+          mensagem: "⚠️ Regularize sua situação para continuar aproveitando as aulas."
         };
       }
 
       if (dias === 0) {
         return {
-          texto: "Vence hoje",
-          classe: "pendente"
+          texto: "🟡 Vence hoje",
+          classe: "status-pendente",
+          mensagem: "⏰ Sua mensalidade vence hoje. Evite atrasos!"
         };
       }
 
       return {
-        texto: `Vence em ${dias} dia(s)`,
-        classe: "pendente"
+        texto: `🟡 Vence em ${dias} dia(s)`,
+        classe: "status-pendente",
+        mensagem: "⏰ Sua mensalidade vence em breve. Evite juros!"
       };
+    }
+
+    function primeiraLetra(nome) {
+      return String(nome || "A").trim().charAt(0).toUpperCase() || "A";
+    }
+
+    function renderizarAluno(aluno) {
+      const status = gerarStatus(aluno);
+      const linkPagamento = normalizarLink(aluno.link_pagamento);
+      alunoAtual = aluno;
+
+      avatarAluno.textContent = primeiraLetra(aluno.nome);
+      nomeAluno.textContent = aluno.nome || "Aluno";
+      valorMensalidade.textContent = formatarMoeda(aluno.valor);
+      textoVencimento.textContent = `Vence em ${formatarData(aluno.vencimento)}`;
+
+      badgeStatus.textContent = status.texto;
+      badgeStatus.className = `status-badge ${status.classe}`;
+      mensagemStatus.textContent = status.mensagem;
+
+      if (aluno.plano) {
+        badgePlano.textContent = aluno.plano;
+        badgePlano.classList.remove("escondido");
+      } else {
+        badgePlano.classList.add("escondido");
+      }
+
+      const criadoEm = aluno.criado_em || aluno.created_at;
+      if (criadoEm) {
+        const mesAno = formatarMesAno(criadoEm);
+        alunoDesde.textContent = mesAno ? `Aluno desde ${mesAno}` : "";
+      } else {
+        alunoDesde.textContent = "";
+      }
+
+      if (linkPagamento) {
+        areaPagamento.innerHTML = `
+          <a href="${linkPagamento}" target="_blank" rel="noopener" class="pay-button">
+            Pagar agora <span>→</span>
+          </a>
+        `;
+      } else {
+        areaPagamento.innerHTML = `<p class="soft-message">Link de pagamento ainda não disponível.</p>`;
+      }
+
+      mostrarPortal();
     }
 
     async function carregarAluno() {
       const params = new URLSearchParams(window.location.search);
-      const codigo = params.get("codigo");
+      codigoPublico = params.get("codigo");
 
-      if (!codigo) {
-        conteudo.innerHTML = `<p class="erro">Link inválido. Código do aluno não encontrado.</p>`;
+      if (!codigoPublico) {
+        mostrarErro("Código do aluno não encontrado no link.");
         return;
       }
 
-      const { data, error } = await supabaseClient
-        .rpc("buscar_aluno_publico", {
-        codigo: codigo
+      try {
+        const { data, error } = await supabaseClient.rpc("buscar_aluno_publico", {
+          codigo: codigoPublico
         });
 
-      const aluno = data && data.length > 0 ? data[0] : null;
+        if (error) {
+          mostrarErro("Não foi possível carregar os dados do aluno.");
+          return;
+        }
 
-      if (error || !aluno) {
-        conteudo.innerHTML = `<p class="erro">Aluno não encontrado.</p>`;
+        const aluno = Array.isArray(data) ? data[0] : data;
+
+        if (!aluno) {
+          mostrarErro("Aluno não encontrado. Verifique se o link está correto.");
+          return;
+        }
+
+        renderizarAluno(aluno);
+        carregarPagamentos(aluno);
+      } catch (erro) {
+        mostrarErro("Ocorreu um erro inesperado ao carregar a página.");
+      }
+    }
+
+    async function carregarPagamentos(aluno) {
+      if (!aluno.id) {
+        listaPagamentos.innerHTML = `<p class="empty-message">Histórico indisponível no momento.</p>`;
+        contadorPagamentos.textContent = "0 registros";
         return;
       }
 
-      const status = gerarStatus(aluno.vencimento);
+      try {
+        const { data, error } = await supabaseClient
+          .from("pagamentos")
+          .select("data_pagamento, valor")
+          .eq("aluno_id", aluno.id)
+          .order("data_pagamento", { ascending: false })
+          .limit(6);
 
-      conteudo.innerHTML = `
-        <h1>Mensalize</h1>
-        <p>Área do aluno</p>
-
-        <div class="info">
-          <span>Aluno</span>
-          <strong>${aluno.nome}</strong>
-        </div>
-
-        <div class="info">
-          <span>Mensalidade</span>
-          <strong>${formatarMoeda(aluno.valor)}</strong>
-        </div>
-
-        <div class="info">
-          <span>Vencimento</span>
-          <strong>${formatarData(aluno.vencimento)}</strong>
-        </div>
-
-        <span class="status ${status.classe}">
-          ${status.texto}
-        </span>
-
-        ${
-          aluno.link_pagamento
-            ? `<a href="${aluno.link_pagamento.startsWith('http')
-                    ? aluno.link_pagamento
-                    : 'https://' + aluno.link_pagamento}" 
-                    target="_blank" 
-                    class="btn"
-                  >
-                    Pagar agora
-                  </a>`
-            : `<p style="color:#8b8b9e; margin-top:18px;">Link de pagamento ainda não cadastrado.</p>`
+        if (error) {
+          listaPagamentos.innerHTML = `<p class="empty-message">Histórico indisponível no momento.</p>`;
+          contadorPagamentos.textContent = "0 registros";
+          return;
         }
-      `;
+
+        const pagamentos = data || [];
+        contadorPagamentos.textContent = `${pagamentos.length} registro${pagamentos.length === 1 ? "" : "s"}`;
+
+        if (pagamentos.length === 0) {
+          listaPagamentos.innerHTML = `<p class="empty-message">Nenhum pagamento registrado ainda.</p>`;
+          return;
+        }
+
+        listaPagamentos.innerHTML = pagamentos.map(pagamento => `
+          <div class="payment-item">
+            <div>
+              <span class="payment-icon">✅</span>
+              <span>${formatarData(pagamento.data_pagamento)}</span>
+            </div>
+            <strong>${formatarMoeda(pagamento.valor)}</strong>
+          </div>
+        `).join("");
+      } catch (erro) {
+        listaPagamentos.innerHTML = `<p class="empty-message">Histórico indisponível no momento.</p>`;
+      }
     }
+
+    inputComprovante.addEventListener("change", function() {
+      const arquivo = this.files && this.files[0];
+      arquivoComprovante = arquivo || null;
+      btnEnviarComprovante.disabled = !arquivoComprovante;
+
+      if (!arquivoComprovante) {
+        previewComprovante.classList.add("escondido");
+        previewImagem.removeAttribute("src");
+        return;
+      }
+
+      const urlPreview = URL.createObjectURL(arquivoComprovante);
+      previewImagem.src = urlPreview;
+      previewComprovante.classList.remove("escondido");
+      msgComprovante.textContent = "Imagem selecionada. Envie para anexar ao seu pagamento.";
+      msgComprovante.classList.remove("is-error");
+    });
+
+    btnEnviarComprovante.addEventListener("click", async function() {
+      if (!arquivoComprovante || !codigoPublico) return;
+
+      btnEnviarComprovante.disabled = true;
+      msgComprovante.textContent = "Enviando comprovante...";
+
+      try {
+        const extensao = arquivoComprovante.name.split(".").pop() || "jpg";
+        const caminho = `${codigoPublico}/${Date.now()}.${extensao}`;
+
+        const { error } = await supabaseClient.storage
+          .from("comprovantes")
+          .upload(caminho, arquivoComprovante, {
+            cacheControl: "3600",
+            upsert: false
+          });
+
+        if (error) {
+          msgComprovante.textContent = "Funcionalidade em breve.";
+          msgComprovante.classList.add("is-error");
+          btnEnviarComprovante.disabled = false;
+          return;
+        }
+
+        msgComprovante.textContent = "✅ Comprovante enviado com sucesso.";
+        msgComprovante.classList.remove("is-error");
+      } catch (erro) {
+        msgComprovante.textContent = "Funcionalidade em breve.";
+        msgComprovante.classList.add("is-error");
+        btnEnviarComprovante.disabled = false;
+      }
+    });
+
+    btnCompartilhar.addEventListener("click", async function() {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        btnCompartilhar.textContent = "✅ Link copiado";
+        setTimeout(() => {
+          btnCompartilhar.textContent = "🔗 Compartilhar página";
+        }, 1800);
+      } catch (erro) {
+        btnCompartilhar.textContent = "Copie o link na barra do navegador";
+        setTimeout(() => {
+          btnCompartilhar.textContent = "🔗 Compartilhar página";
+        }, 2200);
+      }
+    });
 
     carregarAluno();
   </script>
-
 </body>
 </html>

@@ -69,7 +69,7 @@
         </div>
       </article>
 
-      <article class="receipt-card card-animate delay-3">
+      <article class="receipt-card card-animate delay-3 escondido">
         <div class="section-title-row">
           <h2>📎 Enviar comprovante</h2>
           <span class="mini-badge muted-badge">Fase 2</span>
@@ -204,7 +204,7 @@
     function gerarStatus(aluno) {
       const dias = calcularDias(aluno.vencimento);
 
-      if (aluno.status === "pago" || aluno.status_pagamento === "pago") {
+     if (aluno.pago_mes === true) {
         return {
           texto: "🟢 Pago",
           classe: "status-pago",
@@ -243,6 +243,17 @@
       const status = gerarStatus(aluno);
       const linkPagamento = normalizarLink(aluno.link_pagamento);
       alunoAtual = aluno;
+
+    const linkProfessor = document.getElementById("linkProfessor");
+
+    if (aluno.whatsapp_professor) {
+      const telefoneProfessor = aluno.whatsapp_professor.replace(/\D/g, "");
+
+      if (telefoneProfessor.length >= 10) {
+        linkProfessor.href =
+          `https://wa.me/55${telefoneProfessor}?text=${encodeURIComponent("Olá, preciso de ajuda com minha mensalidade.")}`;
+      }
+    }
 
       avatarAluno.textContent = primeiraLetra(aluno.nome);
       nomeAluno.textContent = aluno.nome || "Aluno";

@@ -320,6 +320,18 @@ btnEntrar.addEventListener("click", async function() {
   await carregarAlunos();
 });
 
+emailLogin.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    btnEntrar.click();
+  }
+});
+
+senhaLogin.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    btnEntrar.click();
+  }
+});
+
 // ===============================
 // 11. AUTENTICAÇÃO — SAIR
 // ===============================

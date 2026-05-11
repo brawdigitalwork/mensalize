@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Página do aluno - Mensalize</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #09090f;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #111118;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      color: #a78bfa;
+      margin-bottom: 8px;
+    }
+
+    .info {
+      background: #161622;
+      padding: 14px;
+      border-radius: 12px;
+      margin: 12px 0;
+    }
+
+    .info span {
+      display: block;
+      color: #8b8b9e;
+      font-size: 13px;
+    }
+
+    .info strong {
+      font-size: 18px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .pago {
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+    }
+
+    .pendente {
+      background: rgba(245,158,11,0.15);
+      color: #fbbf24;
+    }
+
+    .atrasado {
+      background: rgba(239,68,68,0.15);
+      color: #f87171;
+    }
+
+    .btn {
+      display: block;
+      text-align: center;
+      background: #7c3aed;
+      color: white;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 18px;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #6d28d9;
+    }
+
+    .erro {
+      color: #f87171;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card" id="conteudo">
+    <p>Carregando dados do aluno...</p>
+  </div>
+
+  <script>
+    const supabaseClient = supabase.createClient(
+      CONFIG.supabaseUrl,
+      CONFIG.supabaseAnonKey
+    );
+
+    const conteudo = document.getElementById("conteudo");
+
+    function formatarMoeda(valor) {
+      return Number(valor || 0).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+
+    function formatarData(data) {
+      const partes = data.split("-");
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    function calcularDias(vencimento) {
+      const hoje = new Date();
+      const dataHoje = new Date(
+        hoje.getFullYear(),
+        hoje.getMonth(),
+        hoje.getDate()
+      );
+
+      const partes = vencimento.split("-");
+      const dataVencimento = new Date(
+        Number(partes[0]),
+        Number(partes[1]) - 1,
+        Number(partes[2])
+      );
+
+      const diff = dataVencimento - dataHoje;
+      return Math.ceil(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function gerarStatus(vencimento) {
+      const dias = calcularDias(vencimento);
+
+      if (dias < 0) {
+        return {
+          texto: `Atrasado há ${Math.abs(dias)} dia(s)`,
+          classe: "atrasado"
+        };
+      }
+
+      if (dias === 0) {
+        return {
+          texto: "Vence hoje",
+          classe: "pendente"
+        };
+      }
+
+      return {
+        texto: `Vence em ${dias} dia(s)`,
+        classe: "pendente"
+      };
+    }
+
+    async function carregarAluno() {
+      const params = new URLSearchParams(window.location.search);
+      const codigo = params.get("codigo");
+
+      if (!codigo) {
+        conteudo.innerHTML = `<p class="erro">Link inválido. Código do aluno não encontrado.</p>`;
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .rpc("buscar_aluno_publico", {
+        codigo: codigo
+        });
+
+      const aluno = data && data.length > 0 ? data[0] : null;
+
+      if (error || !aluno) {
+        conteudo.innerHTML = `<p class="erro">Aluno não encontrado.</p>`;
+        return;
+      }
+
+      const status = gerarStatus(aluno.vencimento);
+
+      conteudo.innerHTML = `
+        <h1>Mensalize</h1>
+        <p>Área do aluno</p>
+
+        <div class="info">
+          <span>Aluno</span>
+          <strong>${aluno.nome}</strong>
+        </div>
+
+        <div class="info">
+          <span>Mensalidade</span>
+          <strong>${formatarMoeda(aluno.valor)}</strong>
+        </div>
+
+        <div class="info">
+          <span>Vencimento</span>
+          <strong>${formatarData(aluno.vencimento)}</strong>
+        </div>
+
+        <span class="status ${status.classe}">
+          ${status.texto}
+        </span>
+
+        ${
+          aluno.link_pagamento
+            ? `<a href="${aluno.link_pagamento}" target="_blank" class="btn">Pagar agora</a>`
+            : `<p style="color:#8b8b9e; margin-top:18px;">Link de pagamento ainda não cadastrado.</p>`
+        }
+      `;
+    }
+
+    carregarAluno();
+  </script>
+
+</body>
+</html>

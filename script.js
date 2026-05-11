@@ -1,5 +1,25 @@
+/**
+ * MENSALIZE — SCRIPT PRINCIPAL
+ * ------------------------------------------------------------
+ * Este arquivo controla:
+ * 1. Conexão com Supabase
+ * 2. Login, sessão e perfil do usuário
+ * 3. CRUD de alunos
+ * 4. Registro e histórico de pagamentos
+ * 5. Dashboard financeiro
+ * 6. Painel admin
+ * 7. Cobranças via WhatsApp
+ * 8. Exportação de relatório
+ * 9. Tema claro/escuro
+ * 10. PWA/UX helpers
+ *
+ * Observação:
+ * O sistema já usa RLS no Supabase. Mesmo assim, o frontend também
+ * organiza as ações para melhorar UX e evitar operações indevidas.
+ */
+
 // ===============================
-// CONECTANDO AO SUPABASE
+// 01. CONEXÃO COM O SUPABASE
 // ===============================
 
 const supabaseClient = supabase.createClient(
@@ -8,7 +28,7 @@ const supabaseClient = supabase.createClient(
 );
 
 // ===============================
-// CONFIGURAÇÕES VISUAIS
+// 02. CONFIGURAÇÕES VISUAIS DO SISTEMA
 // ===============================
 
 document.getElementById("loginNomeApp").textContent = CONFIG.nomeApp;
@@ -17,7 +37,7 @@ document.getElementById("nomeApp").textContent = CONFIG.nomeApp;
 document.getElementById("slogan").textContent = CONFIG.slogan;
 
 // ===============================
-// VARIÁVEIS PRINCIPAIS
+// 03. ESTADO GLOBAL DA APLICAÇÃO
 // ===============================
 
 let alunos = [];
@@ -29,7 +49,7 @@ let filtroAtual = "todos";
 let textoBusca = "";
 
 // ===============================
-// ELEMENTOS DO LOGIN
+// 04. ELEMENTOS DO DOM — LOGIN / ADMIN
 // ===============================
 
 const telaLogin = document.getElementById("telaLogin");
@@ -60,7 +80,7 @@ const clientesLimite = document.getElementById("clientesLimite");
 
 
 // ===============================
-// ELEMENTOS DO SISTEMA
+// 05. ELEMENTOS DO DOM — SISTEMA PRINCIPAL
 // ===============================
 
 let clientesCache = [];
@@ -135,6 +155,14 @@ const edicaoRapidaNome = document.getElementById("edicaoRapidaNome");
 const edicaoRapidaValor = document.getElementById("edicaoRapidaValor");
 const edicaoRapidaVencimento = document.getElementById("edicaoRapidaVencimento");
 
+// ===============================
+// 06. UTILITÁRIOS — VALORES / MOEDA
+// ===============================
+
+/**
+ * Converte valores digitados em formato brasileiro para número.
+ * Exemplos: "R$ 100,00" -> 100 | "1.000,50" -> 1000.5
+ */
 function valorParaNumero(valor) {
   if (typeof valor === "number") return valor;
 
@@ -170,6 +198,9 @@ function valorParaNumero(valor) {
   return Number.isFinite(numero) ? numero : 0;
 }
 
+/**
+ * Formata qualquer valor numérico para moeda brasileira.
+ */
 function formatarMoeda(valor) {
   return Number(valorParaNumero(valor)).toLocaleString("pt-BR", {
     style: "currency",
@@ -178,11 +209,12 @@ function formatarMoeda(valor) {
 }
 
 // ===============================
-// INICIAR SISTEMA
+// 07. INICIALIZAÇÃO DO SISTEMA
 // ===============================
 
 iniciarSistema();
 
+/** Verifica se já existe sessão ativa e abre login ou app. */
 async function iniciarSistema() {
   setFiltro("todos");
   const { data } = await supabaseClient.auth.getSession();
@@ -197,9 +229,10 @@ async function iniciarSistema() {
 }
 
 // ===============================
-// MOSTRAR LOGIN / APP
+// 08. CONTROLE DE TELAS — LOGIN / APP
 // ===============================
 
+/** Mostra a tela de login e limpa dados sensíveis dos campos. */
 function mostrarLogin() {
   telaLogin.classList.remove("escondido");
   app.classList.add("escondido");
@@ -212,6 +245,7 @@ function mostrarLogin() {
   mensagemLogin.textContent = "";
 }
 
+/** Mostra o app principal e carrega permissões do usuário. */
 async function mostrarApp() {
   telaLogin.classList.add("escondido");
   telaAdmin.classList.add("escondido");
@@ -223,9 +257,10 @@ async function mostrarApp() {
 }
 
 // ===============================
-// CARREGAR PERFIL DO USUÁRIO
+// 09. PERFIL DO USUÁRIO / ADMIN
 // ===============================
 
+/** Carrega perfil do usuário logado para saber limite e permissão de admin. */
 async function carregarPerfil() {
   btnAdmin.classList.add("escondido");
   usuarioEhAdmin = false;
@@ -257,7 +292,7 @@ async function carregarPerfil() {
 
 
 // ===============================
-// ENTRAR
+// 10. AUTENTICAÇÃO — ENTRAR
 // ===============================
 
 btnEntrar.addEventListener("click", async function() {
@@ -286,7 +321,7 @@ btnEntrar.addEventListener("click", async function() {
 });
 
 // ===============================
-// SAIR
+// 11. AUTENTICAÇÃO — SAIR
 // ===============================
 
 btnSair.addEventListener("click", async function() {
@@ -304,9 +339,10 @@ btnSair.addEventListener("click", async function() {
 });
 
 // ===============================
-// CARREGAR ALUNOS DO SUPABASE
+// 12. ALUNOS — CARREGAR DO SUPABASE
 // ===============================
 
+/** Busca alunos do usuário atual; admin enxerga todos por causa da RLS/policies. */
 async function carregarAlunos() {
   // Mostra skeleton enquanto carrega
   const skeletonLista = document.getElementById("skeletonLista");
@@ -352,7 +388,7 @@ async function carregarAlunos() {
 }
 
 // ===============================
-// CADASTRAR / ATUALIZAR ALUNO
+// 13. ALUNOS — CADASTRAR / ATUALIZAR
 // ===============================
 
 formAluno.addEventListener("submit", async function(event) {
@@ -363,8 +399,11 @@ formAluno.addEventListener("submit", async function(event) {
   const valor = valorParaNumero(document.getElementById("valorMensalidade").value);
   const vencimento = document.getElementById("dataVencimento").value;
 
+  // Novo campo: link de pagamento
+  const linkPagamento = document.getElementById("linkPagamento").value.trim();
+
   if (!usuarioAtual) {
-   mostrarToast("Você precisa estar logado.", "erro");
+    mostrarToast("Você precisa estar logado.", "erro");
     return;
   }
 
@@ -375,7 +414,8 @@ formAluno.addEventListener("submit", async function(event) {
         nome: nome,
         telefone: telefone,
         valor: valor,
-        vencimento: vencimento
+        vencimento: vencimento,
+        link_pagamento: linkPagamento
       })
       .eq("id", alunoEditandoId);
 
@@ -388,7 +428,7 @@ formAluno.addEventListener("submit", async function(event) {
     mostrarToast("Aluno atualizado com sucesso!");
   } else {
     if (!usuarioEhAdmin && alunos.length >= limiteAlunos) {
-     mostrarToast(`Limite de ${limiteAlunos} alunos atingido.`, "erro");
+      mostrarToast(`Limite de ${limiteAlunos} alunos atingido.`, "erro");
       return;
     }
 
@@ -400,6 +440,7 @@ formAluno.addEventListener("submit", async function(event) {
         telefone: telefone,
         valor: valor,
         vencimento: vencimento,
+        link_pagamento: linkPagamento,
         status_pagamento: "pendente"
       });
 
@@ -417,7 +458,7 @@ formAluno.addEventListener("submit", async function(event) {
 });
 
 // ===============================
-// CANCELAR EDIÇÃO
+// 14. ALUNOS — CANCELAR EDIÇÃO
 // ===============================
 
 btnCancelarEdicao.addEventListener("click", function() {
@@ -425,6 +466,7 @@ btnCancelarEdicao.addEventListener("click", function() {
   formAluno.reset();
 });
 
+/** Reseta o formulário para modo cadastro. */
 function sairModoEdicao() {
   alunoEditandoId = null;
   tituloFormulario.textContent = "Cadastrar aluno";
@@ -433,9 +475,10 @@ function sairModoEdicao() {
 }
 
 // ===============================
-// FUNÇÕES DE DATA
+// 15. UTILITÁRIOS — DATAS
 // ===============================
 
+/** Retorna "atrasado" ou "pendente" com base no vencimento. */
 function verificarStatus(vencimento) {
   const hoje = new Date();
 
@@ -459,6 +502,7 @@ function verificarStatus(vencimento) {
   return "pendente";
 }
 
+/** Calcula quantos dias faltam ou há quantos dias venceu. */
 function calcularDias(vencimento) {
   const hoje = new Date();
 
@@ -479,11 +523,13 @@ function calcularDias(vencimento) {
   return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
+/** Converte data ISO yyyy-mm-dd para dd/mm/yyyy. */
 function formatarData(data) {
   const partes = data.split("-");
   return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
+/** Adiciona um mês respeitando finais de mês como 29, 30 e 31. */
 function adicionarUmMes(dataString) {
   const partes = dataString.split("-");
   const ano = Number(partes[0]);
@@ -505,6 +551,7 @@ function adicionarUmMes(dataString) {
   return `${novoAno}-${novoMes}-${novoDia}`;
 }
 
+/** Converte data ISO yyyy-mm-dd para objeto Date sem depender de timezone UTC. */
 function dataStringParaDate(dataString) {
   const partes = dataString.split("-");
   return new Date(
@@ -514,11 +561,13 @@ function dataStringParaDate(dataString) {
   );
 }
 
+/** Retorna a data de hoje zerando hora, minuto e segundo. */
 function dataHojeSemHora() {
   const hoje = new Date();
   return new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
 }
 
+/** Calcula quantas mensalidades devem ser registradas quando há atraso acumulado. */
 function calcularMensalidadesParaRegistrar(vencimentoAtual) {
   const hoje = dataHojeSemHora();
   const mensalidades = [];
@@ -539,9 +588,10 @@ function calcularMensalidadesParaRegistrar(vencimentoAtual) {
 
 
 // ===============================
-// MOSTRAR ALUNOS
+// 16. ALUNOS — FILTRAR, ORDENAR, PAGINAR E RENDERIZAR
 // ===============================
 
+/** Aplica busca, filtros, ordenação, paginação e renderiza os cards dos alunos. */
 function mostrarAlunos() {
   listaAlunos.innerHTML = "";
 
@@ -565,12 +615,12 @@ function mostrarAlunos() {
       return false;
     }
 
-    const jaPageu = alunosPagosMes.has(String(aluno.id));
+    const jaPagou = alunosPagosMes.has(String(aluno.id));
     const status = verificarStatus(aluno.vencimento);
     const dias = calcularDias(aluno.vencimento);
 
-    if (filtroAtual === "pago") return jaPageu;
-    if (jaPageu) return filtroAtual === "todos"; // pagos só aparecem em "Todos"
+    if (filtroAtual === "pago") return jaPagou;
+    if (jaPagou) return filtroAtual === "todos"; // pagos só aparecem em "Todos"
 
     if (filtroAtual === "pendente" && (status !== "pendente" || dias === 0)) return false;
     if (filtroAtual === "atrasado" && status !== "atrasado") return false;
@@ -619,14 +669,14 @@ function mostrarAlunos() {
 
   // ── 4. Renderiza cards ────────────────────────────────────────
   listaPagina.forEach(function(aluno) {
-    const jaPageu = alunosPagosMes.has(String(aluno.id));
+    const jaPagou = alunosPagosMes.has(String(aluno.id));
     const status = verificarStatus(aluno.vencimento);
     const dias = calcularDias(aluno.vencimento);
 
     let textoStatus = "";
     let classeStatus = "";
 
-    if (jaPageu) {
+    if (jaPagou) {
       textoStatus = "✅ Pago este mês";
       classeStatus = "status-pago";
     } else if (status === "atrasado") {
@@ -645,7 +695,7 @@ function mostrarAlunos() {
 
     const card = document.createElement("div");
     card.classList.add("aluno-card");
-    if (jaPageu) card.classList.add("aluno-pago");
+    if (jaPagou) card.classList.add("aluno-pago");
 
     card.innerHTML = `
   <div class="aluno-premium-topo">
@@ -662,7 +712,7 @@ function mostrarAlunos() {
       <strong>${formatarMoeda(aluno.valor)}</strong>
     </div>
     <div class="info-premium">
-      <span>📅 ${jaPageu ? "Próx. vencimento" : "Vencimento"}</span>
+      <span>📅 ${jaPagou ? "Próx. vencimento" : "Vencimento"}</span>
       <strong>${formatarData(aluno.vencimento)}</strong>
     </div>
   </div>
@@ -672,6 +722,11 @@ function mostrarAlunos() {
     ✅ Registrar pagamento
     </button>
     <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">💬 WhatsApp</button>
+
+    <button class="acao-secundaria" onclick="abrirPaginaAluno('${aluno.codigo_publico}')">
+      📄 Página do aluno
+    </button>
+
     <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">🕘 Histórico</button>
     <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">✏ Editar</button>
     <button class="acao-secundaria" onclick="abrirEdicaoRapida('${aluno.id}')">⚡ Valor/Data</button>
@@ -708,9 +763,10 @@ function mostrarAlunos() {
 }
 
 // ===============================
-// ATUALIZAR PAINEL
+// 17. DASHBOARD FINANCEIRO
 // ===============================
 
+/** Atualiza cards do dashboard: pagos, pendentes, atrasados, recebido e previsão. */
 async function atualizarPainel() {
   const hoje = new Date();
   const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1)
@@ -738,10 +794,10 @@ async function atualizarPainel() {
   let previsaoTotal = 0;
 
   alunos.forEach(function(aluno) {
-    const jaPageu = alunosQueJaPagaramIds.has(String(aluno.id));
+    const jaPagou = alunosQueJaPagaramIds.has(String(aluno.id));
     previsaoTotal += Number(aluno.valor);
 
-    if (!jaPageu) {
+    if (!jaPagou) {
       const status = verificarStatus(aluno.vencimento);
       valorAReceber += Number(aluno.valor);
 
@@ -789,9 +845,10 @@ async function atualizarPainel() {
 }
 
 // ===============================
-// MARCAR COMO PAGO (com confirmação)
+// 18. PAGAMENTOS — CONFIRMAR E REGISTRAR
 // ===============================
 
+/** Abre modal de confirmação antes de registrar pagamento. */
 function marcarComoPago(id) {
   const aluno = alunos.find(a => String(a.id) === String(id));
   if (!aluno) {
@@ -881,9 +938,10 @@ btnConfirmarPagamento.addEventListener("click", async function() {
 });
 
 // ===============================
-// REMOVER ALUNO
+// 19. ALUNOS — REMOVER
 // ===============================
 
+/** Abre modal de confirmação para remover aluno. */
 function removerAluno(id) {
   const aluno = alunos.find(a => String(a.id) === String(id));
 
@@ -898,9 +956,10 @@ function removerAluno(id) {
 }
 
 // ===============================
-// EDITAR ALUNO
+// 20. ALUNOS — EDITAR
 // ===============================
 
+/** Preenche o formulário principal com dados do aluno para edição completa. */
 function editarAluno(id) {
   const aluno = alunos.find(a => String(a.id) === String(id));
 
@@ -925,9 +984,10 @@ function editarAluno(id) {
 }
 
 // ===============================
-// WHATSAPP
+// 21. WHATSAPP — COBRANÇA INDIVIDUAL
 // ===============================
 
+/** Monta mensagem de cobrança individual e abre WhatsApp. */
 function enviarWhatsApp(id) {
   const aluno = alunos.find(a => String(a.id) === String(id));
 
@@ -959,11 +1019,15 @@ function enviarWhatsApp(id) {
     return;
   }
 
+  if (aluno.link_pagamento) {
+  msg += `\n\nLink para pagamento:\n${aluno.link_pagamento}`;
+  }
+
   window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
 // ===============================
-// PAINEL ADMIN
+// 22. ADMIN — CLIENTES, LIMITES E DASHBOARD
 // ===============================
 
 btnAdmin.addEventListener("click", async function() {
@@ -1027,6 +1091,7 @@ btnCriarUsuario.addEventListener("click", async function() {
   }
 });
 
+/** Admin: carrega clientes e lista alunos de cada cliente. */
 async function carregarClientes() {
   listaClientes.innerHTML = `<div class="skeleton-wrapper"><div class="skeleton-card"></div><div class="skeleton-card"></div></div>`;
 
@@ -1108,6 +1173,7 @@ async function carregarClientes() {
   });
 }
 
+/** Admin: gera HTML resumido dos alunos dentro do card do cliente. */
 function renderizarAlunosDoCliente(alunosDoCliente) {
   if (alunosDoCliente.length === 0) {
     return `<p class="cliente-sem-alunos">Nenhum aluno cadastrado ainda.</p>`;
@@ -1149,6 +1215,7 @@ function renderizarAlunosDoCliente(alunosDoCliente) {
   }).join("");
 }
 
+/** Admin: expande/recolhe lista de alunos de um cliente. */
 function toggleClienteAlunos(clienteId) {
   const lista = document.getElementById(`alunos-cliente-${clienteId}`);
   const seta = document.getElementById(`seta-${clienteId}`);
@@ -1159,6 +1226,7 @@ function toggleClienteAlunos(clienteId) {
   if (seta) seta.textContent = aberto ? "▼" : "▲";
 }
 
+/** Admin: altera limite de alunos do cliente. */
 async function alterarLimite(id) {
   const input = document.getElementById(`limite-input-${id}`);
   if (!input) return;
@@ -1183,6 +1251,7 @@ async function alterarLimite(id) {
   await carregarClientes();
 }
 
+/** Admin: atualiza números gerais do painel administrativo. */
 async function carregarDashboard() {
   const { data: clientes, error: erroClientes } = await supabaseClient
     .from("profiles")
@@ -1213,6 +1282,7 @@ async function carregarDashboard() {
   clientesLimite.textContent = noLimite;
 }
 
+/** Admin: abre confirmação para remover cliente. */
 function removerCliente(userId) {
   const perfil = clientesCache.find(c => c.id === userId);
 
@@ -1225,6 +1295,7 @@ function removerCliente(userId) {
   modalRemoverCliente.classList.remove("escondido");
 }
 
+/** Define filtro atual da lista e atualiza botão ativo. */
 function setFiltro(filtro) {
   filtroAtual = filtro;
   paginaAtual = 1;
@@ -1265,6 +1336,7 @@ modalHistorico.addEventListener("click", function(event) {
   }
 });
 
+/** Exibe feedback temporário para o usuário. */
 function mostrarToast(mensagem, tipo = "sucesso") {
   toast.textContent = mensagem;
 
@@ -1279,6 +1351,7 @@ function mostrarToast(mensagem, tipo = "sucesso") {
   }, 3500);
 }
 
+/** Confirma remoção definitiva de aluno. */
 async function confirmarRemocaoAluno() {
   if (!alunoParaRemoverId) return;
 
@@ -1314,6 +1387,7 @@ modalConfirmarRemocao.addEventListener("click", function(event) {
   }
 });
 
+/** Confirma remoção de cliente via Edge Function protegida. */
 async function confirmarRemocaoCliente() {
   if (!clienteParaRemoverId) return;
 
@@ -1369,7 +1443,7 @@ modalRemoverCliente.addEventListener("click", function(event) {
 });
 
 // ===============================
-// ABRIR / FECHAR MODAL DE ALUNO
+// 24. MODAL — CADASTRO / EDIÇÃO DE ALUNO
 // ===============================
 
 if (btnMostrarForm && modalAluno) {
@@ -1392,9 +1466,10 @@ if (btnFecharModalAluno && modalAluno) {
   };
 }
 // ===============================
-// 1. NOTIFICAÇÃO DE VENCIMENTOS
+// 25. NOTIFICAÇÃO DE VENCIMENTOS
 // ===============================
 
+/** Mostra alerta quando houver alunos atrasados ou vencendo hoje. */
 function mostrarBannerVencimentos() {
   const hoje = new Date();
   const dataHoje = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
@@ -1432,7 +1507,7 @@ btnBannerAtrasados.addEventListener("click", () => { setFiltro("atrasado"); bann
 btnBannerHoje.addEventListener("click", () => { setFiltro("hoje"); bannerVencimentos.classList.add("escondido"); });
 
 // ===============================
-// 2. COBRAR TODOS ATRASADOS
+// 26. COBRANÇA EM MASSA — ALUNOS ATRASADOS
 // ===============================
 
 btnCobrarAtrasados.addEventListener("click", function() {
@@ -1480,15 +1555,17 @@ btnFecharModalCobrar.addEventListener("click", () => modalCobrar.classList.add("
 modalCobrar.addEventListener("click", e => { if (e.target === modalCobrar) modalCobrar.classList.add("escondido"); });
 
 // ===============================
-// 3. MÁSCARA MONETÁRIA
+// 27. UTILITÁRIOS — MÁSCARA MONETÁRIA
 // ===============================
 
 const inputValor = document.getElementById("valorMensalidade");
 
+/** Permite apenas caracteres compatíveis com valor monetário. */
 function limparCampoMoedaDuranteDigitacao(input) {
   input.value = input.value.replace(/[^\d,.]/g, "");
 }
 
+/** Formata campo de valor ao sair do input. */
 function formatarCampoMoeda(input) {
   const numero = valorParaNumero(input.value);
 
@@ -1510,9 +1587,10 @@ inputValor.addEventListener("blur", function() {
 
 
 // ===============================
-// 4. EXPORTAR RELATÓRIO EXCEL/PDF
+// 28. RELATÓRIO — EXPORTAR EXCEL / PDF
 // ===============================
 
+/** Monta HTML completo do relatório mensal para exportação. */
 function montarRelatorioMensalHTML() {
   const hoje = new Date();
   const mesAno = hoje.toLocaleString("pt-BR", { month: "long", year: "numeric" });
@@ -1619,9 +1697,10 @@ btnExportar.addEventListener("click", function() {
 });
 
 // ===============================
-// 5. DELETAR PAGAMENTO NO HISTÓRICO
+// 29. HISTÓRICO — DELETAR PAGAMENTO
 // ===============================
 
+/** Remove um pagamento específico do histórico. */
 async function deletarPagamento(pagamentoId, alunoId) {
   const { error } = await supabaseClient
     .from("pagamentos")
@@ -1639,6 +1718,7 @@ async function deletarPagamento(pagamentoId, alunoId) {
 }
 
 // Histórico com botão de deletar pagamento
+/** Abre modal com dados do aluno e histórico de pagamentos. */
 async function abrirHistorico(alunoId) {
   const aluno = alunos.find(a => String(a.id) === String(alunoId));
 
@@ -1687,9 +1767,10 @@ async function abrirHistorico(alunoId) {
 }
 
 // ===============================
-// 5.1 EDITAR VALOR E DATA SEM ABRIR FORMULÁRIO COMPLETO
+// 30. EDIÇÃO RÁPIDA — VALOR E VENCIMENTO
 // ===============================
 
+/** Abre modal rápido para alterar apenas valor e vencimento. */
 function abrirEdicaoRapida(alunoId) {
   const aluno = alunos.find(a => String(a.id) === String(alunoId));
   if (!aluno) {
@@ -1704,6 +1785,7 @@ function abrirEdicaoRapida(alunoId) {
   modalEdicaoRapida.classList.remove("escondido");
 }
 
+/** Fecha modal de edição rápida e limpa o ID selecionado. */
 function fecharEdicaoRapida() {
   modalEdicaoRapida.classList.add("escondido");
   edicaoRapidaAlunoId.value = "";
@@ -1751,9 +1833,10 @@ btnSalvarEdicaoRapida.addEventListener("click", async function() {
 });
 
 // ===============================
-// 6. GRÁFICO DE RECEBIMENTOS
+// 31. GRÁFICO — RECEBIMENTOS DOS ÚLTIMOS 6 MESES
 // ===============================
 
+/** Busca recebimentos dos últimos 6 meses e renderiza gráfico simples em barras. */
 async function carregarGrafico() {
   const areaGrafico = document.getElementById("areaGrafico");
   const graficoBars = document.getElementById("graficoBars");
@@ -1814,9 +1897,10 @@ document.querySelector(".card.receita").addEventListener("click", carregarGrafic
 document.querySelector(".card.receita").title = "Clique para ver gráfico";
 
 // ===============================
-// 7. MODO CLARO / ESCURO
+// 32. TEMA — CLARO / ESCURO
 // ===============================
 
+/** Aplica tema visual e salva preferência no localStorage. */
 function aplicarTema(tema) {
   document.documentElement.setAttribute("data-tema", tema);
   btnTema.textContent = tema === "claro" ? "🌙" : "☀️";
@@ -1832,3 +1916,15 @@ btnTema.addEventListener("click", () => {
 const temaSalvo = localStorage.getItem("mensalize-tema") || "escuro";
 aplicarTema(temaSalvo);
 
+//ABRIR PAGINA DO ALUNO
+
+function abrirPaginaAluno(codigo) {
+  if (!codigo) {
+    mostrarToast("Código público do aluno não encontrado.", "erro");
+    return;
+  }
+
+  const link = `${window.location.origin}/aluno.html?codigo=${codigo}`;
+
+  window.open(link, "_blank");
+}

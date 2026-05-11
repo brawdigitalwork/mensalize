@@ -295,6 +295,17 @@
       <input type="text" id="telefoneAluno" placeholder="WhatsApp do aluno" required>
       <input type="text" id="valorMensalidade" placeholder="R$ 0,00" required inputmode="numeric">
       <input type="date" id="dataVencimento" required>
+      <div class="input-group">
+        <label for="linkPagamento">
+          Link de pagamento
+        </label>
+
+        <input
+          type="url"
+          id="linkPagamento"
+          placeholder="https://..."
+          />
+        </div>
 
       <button type="submit" id="btnFormulario">Cadastrar aluno</button>
       <button type="button" id="btnCancelarEdicao" class="btn-cancelar escondido">

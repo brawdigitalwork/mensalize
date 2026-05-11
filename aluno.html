@@ -217,7 +217,14 @@
 
         ${
           aluno.link_pagamento
-            ? `<a href="${aluno.link_pagamento}" target="_blank" class="btn">Pagar agora</a>`
+            ? `<a href="${aluno.link_pagamento.startsWith('http')
+                    ? aluno.link_pagamento
+                    : 'https://' + aluno.link_pagamento}" 
+                    target="_blank" 
+                    class="btn"
+                  >
+                    Pagar agora
+                  </a>`
             : `<p style="color:#8b8b9e; margin-top:18px;">Link de pagamento ainda não cadastrado.</p>`
         }
       `;

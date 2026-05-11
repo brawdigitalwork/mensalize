@@ -209,6 +209,19 @@ function formatarMoeda(valor) {
   });
 }
 
+/**
+ * Aplica filtro de usuário nas consultas principais.
+ * Isso evita que um cliente veja/some dados de outros clientes caso alguma policy/RLS esteja ampla demais.
+ * Admin continua vendo tudo.
+ */
+function aplicarFiltroUsuario(query) {
+  if (!usuarioEhAdmin && usuarioAtual && usuarioAtual.id) {
+    return query.eq("user_id", usuarioAtual.id);
+  }
+
+  return query;
+}
+
 // ===============================
 // 07. INICIALIZAÇÃO DO SISTEMA
 // ===============================
@@ -363,9 +376,13 @@ async function carregarAlunos() {
   const skeletonLista = document.getElementById("skeletonLista");
   if (skeletonLista) skeletonLista.classList.remove("escondido");
 
-  const { data, error } = await supabaseClient
+  let queryAlunos = supabaseClient
     .from("alunos")
-    .select("*")
+    .select("*");
+
+  queryAlunos = aplicarFiltroUsuario(queryAlunos);
+
+  const { data, error } = await queryAlunos
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -383,9 +400,13 @@ async function carregarAlunos() {
   const ultimoDiaMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0)
     .toISOString().split("T")[0];
 
-  const { data: pagamentosMes } = await supabaseClient
+  let queryPagamentosMes = supabaseClient
     .from("pagamentos")
-    .select("aluno_id")
+    .select("aluno_id");
+
+  queryPagamentosMes = aplicarFiltroUsuario(queryPagamentosMes);
+
+  const { data: pagamentosMes } = await queryPagamentosMes
     .gte("data_pagamento", primeiroDiaMes)
     .lte("data_pagamento", ultimoDiaMes);
 
@@ -590,9 +611,19 @@ function calcularMensalidadesParaRegistrar(vencimentoAtual) {
 
   // Registra pelo menos uma mensalidade.
   // Se estiver atrasado há meses, registra todas até chegar no próximo vencimento futuro.
+  let seguranca = 0;
+
   do {
-    mensalidades.push(vencimento);
-    vencimento = adicionarUmMes(vencimento);
+  mensalidades.push(vencimento);
+  vencimento = adicionarUmMes(vencimento);
+
+  seguranca++;
+
+  if (seguranca > 24) {
+    console.error("Loop infinito evitado no cálculo de mensalidades");
+    break;
+  }
+
   } while (dataStringParaDate(vencimento) <= hoje);
 
   return {
@@ -792,15 +823,21 @@ async function atualizarPainel() {
     .toISOString()
     .split("T")[0];
 
-  const { data: pagamentos, error } = await supabaseClient
+  let queryPagamentos = supabaseClient
     .from("pagamentos")
-    .select("*")
+    .select("*");
+
+  queryPagamentos = aplicarFiltroUsuario(queryPagamentos);
+
+  const { data: pagamentos, error } = await queryPagamentos
     .gte("data_pagamento", primeiroDiaMes)
     .lte("data_pagamento", ultimoDiaMes);
 
-  // IDs de alunos que já pagaram este mês
+  const pagamentosValidos = pagamentos || [];
+
+  // Conta alunos únicos pagos no mês, não a quantidade de linhas na tabela pagamentos.
   const alunosQueJaPagaramIds = new Set(
-    (pagamentos || []).map(p => String(p.aluno_id))
+    pagamentosValidos.map(p => String(p.aluno_id))
   );
 
   let pendentes = 0;
@@ -810,11 +847,13 @@ async function atualizarPainel() {
 
   alunos.forEach(function(aluno) {
     const jaPagou = alunosQueJaPagaramIds.has(String(aluno.id));
-    previsaoTotal += Number(aluno.valor);
+    const valorAluno = valorParaNumero(aluno.valor);
+
+    previsaoTotal += valorAluno;
 
     if (!jaPagou) {
       const status = verificarStatus(aluno.vencimento);
-      valorAReceber += Number(aluno.valor);
+      valorAReceber += valorAluno;
 
       if (status === "atrasado") {
         atrasados++;
@@ -828,35 +867,22 @@ async function atualizarPainel() {
     console.log("Erro ao carregar pagamentos:", error.message);
     totalPagos.textContent = 0;
     totalRecebido.textContent = "R$ 0,00";
-    totalPrevisao.textContent = previsaoTotal.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL"
-    });
+    totalPrevisao.textContent = formatarMoeda(previsaoTotal);
   } else {
-    totalPagos.textContent = pagamentos.length;
+    totalPagos.textContent = alunosQueJaPagaramIds.size;
 
-    const recebido = pagamentos.reduce((total, pagamento) => {
-      return total + Number(pagamento.valor);
+    const recebido = pagamentosValidos.reduce((total, pagamento) => {
+      return total + valorParaNumero(pagamento.valor);
     }, 0);
 
-    totalRecebido.textContent = recebido.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL"
-    });
-
-    totalPrevisao.textContent = previsaoTotal.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL"
-    });
+    totalRecebido.textContent = formatarMoeda(recebido);
+    totalPrevisao.textContent = formatarMoeda(previsaoTotal);
   }
 
   totalAlunos.textContent = alunos.length;
   totalPendentes.textContent = pendentes;
   totalAtrasados.textContent = atrasados;
-  totalAReceber.textContent = valorAReceber.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  });
+  totalAReceber.textContent = formatarMoeda(valorAReceber);
 }
 
 // ===============================
@@ -868,6 +894,11 @@ function marcarComoPago(id) {
   const aluno = alunos.find(a => String(a.id) === String(id));
   if (!aluno) {
     mostrarToast("Aluno não encontrado.", "erro");
+    return;
+  }
+
+  if (alunosPagosMes.has(String(aluno.id))) {
+    mostrarToast("Este aluno já tem pagamento registrado neste mês.", "erro");
     return;
   }
 
@@ -914,6 +945,36 @@ btnConfirmarPagamento.addEventListener("click", async function() {
   }
 
   btnConfirmarPagamento.disabled = true;
+
+  const hoje = new Date();
+  const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1)
+    .toISOString()
+    .split("T")[0];
+  const ultimoDiaMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0)
+    .toISOString()
+    .split("T")[0];
+
+  const { data: pagamentoJaExiste, error: erroVerificarPagamento } = await supabaseClient
+    .from("pagamentos")
+    .select("id")
+    .eq("aluno_id", aluno.id)
+    .eq("user_id", aluno.user_id)
+    .gte("data_pagamento", primeiroDiaMes)
+    .lte("data_pagamento", ultimoDiaMes)
+    .limit(1);
+
+  if (erroVerificarPagamento) {
+    btnConfirmarPagamento.disabled = false;
+    mostrarToast("Erro ao verificar pagamento existente.", "erro");
+    return;
+  }
+
+  if (pagamentoJaExiste && pagamentoJaExiste.length > 0) {
+    btnConfirmarPagamento.disabled = false;
+    mostrarToast("Este aluno já tem pagamento registrado neste mês.", "erro");
+    await carregarAlunos();
+    return;
+  }
 
   const valorPagamento = valorParaNumero(aluno.valor);
   const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
@@ -1012,7 +1073,7 @@ function enviarWhatsApp(id) {
   }
 
   const data = formatarData(aluno.vencimento);
-  const valorFmt = Number(aluno.valor).toLocaleString("pt-BR", {
+  const valorFmt = valorParaNumero(aluno.valor).toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL"
   });
@@ -1217,7 +1278,7 @@ function renderizarAlunosDoCliente(alunosDoCliente) {
     const st = statusAluno(aluno.vencimento);
     const p = aluno.vencimento.split("-");
     const dataFmt = `${p[2]}/${p[1]}/${p[0]}`;
-    const valor = Number(aluno.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    const valor = valorParaNumero(aluno.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
     return `
       <div class="admin-aluno-row">
@@ -1546,7 +1607,7 @@ btnCobrarAtrasados.addEventListener("click", function() {
 
   atrasados.forEach(aluno => {
     const dias = Math.abs(calcularDias(aluno.vencimento));
-    const valor = Number(aluno.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    const valor = valorParaNumero(aluno.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     const msg = encodeURIComponent(`Olá ${aluno.nome}, sua mensalidade de ${valor} está atrasada há ${dias} dia${dias > 1 ? "s" : ""}. Por favor, entre em contato para regularizar. Obrigado!`);
     const telefone = aluno.telefone.replace(/\D/g, "");
     const telefoneValido = telefone.length >= 10;
@@ -1760,9 +1821,14 @@ async function abrirHistorico(alunoId) {
   modalListaPagamentos.innerHTML = "<p>Carregando histórico...</p>";
   modalHistorico.classList.remove("escondido");
 
-  const { data, error } = await supabaseClient
-    .from("pagamentos").select("*")
-    .eq("aluno_id", alunoId)
+  let queryHistorico = supabaseClient
+    .from("pagamentos")
+    .select("*")
+    .eq("aluno_id", alunoId);
+
+  queryHistorico = aplicarFiltroUsuario(queryHistorico);
+
+  const { data, error } = await queryHistorico
     .order("data_pagamento", { ascending: false });
 
   if (error) { modalListaPagamentos.innerHTML = "<p>Erro ao carregar histórico.</p>"; return; }
@@ -1772,7 +1838,7 @@ async function abrirHistorico(alunoId) {
   data.forEach(pagamento => {
     const div = document.createElement("div");
     div.classList.add("pagamento-item");
-    const valor = Number(pagamento.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    const valor = valorParaNumero(pagamento.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     div.innerHTML = `
       <span>${formatarData(pagamento.data_pagamento)}</span>
       <strong>${valor}</strong>
@@ -1873,15 +1939,20 @@ async function carregarGrafico() {
     });
   }
 
-  const { data: pagamentos } = await supabaseClient
-    .from("pagamentos").select("valor, data_pagamento")
+  let queryGrafico = supabaseClient
+    .from("pagamentos")
+    .select("valor, data_pagamento");
+
+  queryGrafico = aplicarFiltroUsuario(queryGrafico);
+
+  const { data: pagamentos } = await queryGrafico
     .gte("data_pagamento", meses[0].inicio)
     .lte("data_pagamento", meses[5].fim);
 
   const totais = meses.map(m => {
     const total = (pagamentos || [])
       .filter(p => p.data_pagamento >= m.inicio && p.data_pagamento <= m.fim)
-      .reduce((sum, p) => sum + Number(p.valor), 0);
+      .reduce((sum, p) => sum + valorParaNumero(p.valor), 0);
     return { ...m, total };
   });
 

@@ -1154,3 +1154,657 @@ h2 { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; color: var(--tex
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+
+/* ================================================================
+   LAYOUT PROFISSIONAL — SIDEBAR + DASHBOARD LIMPA
+================================================================ */
+.app-layout {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(124,58,237,0.16), transparent 28%),
+    var(--bg-base);
+}
+
+.sidebar-app {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  padding: 18px;
+  background: rgba(17,17,24,0.96);
+  border-right: 1px solid var(--borda);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 120;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: var(--raio-lg);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--borda);
+}
+
+.sidebar-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 0 22px rgba(124,58,237,0.28);
+}
+
+.sidebar-brand strong {
+  display: block;
+  color: var(--cor-roxo-claro);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.4px;
+}
+
+.sidebar-brand span {
+  display: block;
+  color: var(--texto-terciario);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  background: transparent;
+  color: var(--texto-secundario);
+  border: 1px solid transparent;
+  border-radius: var(--raio-md);
+  box-shadow: none;
+}
+
+.menu-item:hover,
+.menu-item.ativo {
+  background: var(--cor-roxo-bg);
+  color: var(--texto-primario);
+  border-color: var(--cor-roxo-borda);
+  box-shadow: none;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: grid;
+  gap: 8px;
+}
+
+.sidebar-footer button {
+  width: 100%;
+  justify-content: center;
+}
+
+.conteudo-app {
+  min-width: 0;
+}
+
+.topo-dashboard {
+  height: auto;
+  min-height: 76px;
+  padding: 16px 4%;
+  background: rgba(9,9,15,0.72);
+}
+
+.topo-dashboard h1 {
+  color: var(--texto-primario);
+  font-size: 24px;
+  margin: 2px 0;
+}
+
+.page-eyebrow {
+  display: inline-flex;
+  color: var(--cor-roxo-claro);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  margin-bottom: 4px;
+}
+
+.container-dashboard {
+  max-width: 1280px;
+  padding: 22px 4% 34px;
+}
+
+.view-app { display: none; }
+.view-app.ativa {
+  display: block;
+  animation: fadeInUp 0.22s ease both;
+}
+
+.dashboard-hero,
+.painel-card,
+.lista-profissional,
+.financeiro-page {
+  background: linear-gradient(135deg, rgba(17,17,24,0.98), rgba(22,22,34,0.92));
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 22px;
+  box-shadow: var(--sombra-sm);
+}
+
+.dashboard-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dashboard-hero::after {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  top: -90px;
+  background: radial-gradient(circle, rgba(124,58,237,0.22), transparent 62%);
+  pointer-events: none;
+}
+
+.dashboard-hero > * { position: relative; z-index: 1; }
+.dashboard-hero h2 { font-size: 24px; margin-bottom: 6px; }
+.dashboard-hero p { color: var(--texto-secundario); max-width: 620px; }
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.cards-dashboard {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.cards-dashboard .receita,
+.cards-dashboard .receber,
+.cards-dashboard .previsao {
+  grid-column: span 1;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: 18px;
+}
+
+.painel-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.painel-topo h2 { margin-bottom: 4px; }
+.painel-topo p { color: var(--texto-secundario); font-size: 13px; }
+
+.btn-texto {
+  min-height: 36px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid var(--borda);
+  color: var(--cor-roxo-claro);
+  box-shadow: none;
+}
+
+.btn-texto:hover {
+  background: var(--cor-roxo-bg);
+  box-shadow: none;
+}
+
+.ultimos-pagamentos {
+  display: grid;
+  gap: 10px;
+}
+
+.pagamento-recente-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 13px 14px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+}
+
+.pagamento-recente-item strong {
+  display: block;
+  color: var(--texto-primario);
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.pagamento-recente-item span {
+  color: var(--texto-terciario);
+  font-size: 12px;
+}
+
+.pagamento-recente-valor {
+  color: var(--verde) !important;
+  font-size: 14px !important;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.empty-state-mini {
+  color: var(--texto-secundario);
+  padding: 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio-md);
+  text-align: center;
+}
+
+.acoes-rapidas-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.acao-rapida {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--borda);
+  color: var(--texto-primario);
+  text-align: left;
+  box-shadow: none;
+}
+
+.acao-rapida:hover {
+  background: var(--cor-roxo-bg);
+  border-color: var(--cor-roxo-borda);
+  box-shadow: none;
+}
+
+.lista-profissional {
+  margin-top: 0;
+}
+
+.financeiro-resumo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.financeiro-box {
+  padding: 16px;
+  border-radius: var(--raio-lg);
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--borda);
+}
+
+.financeiro-box span {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.financeiro-box strong {
+  font-size: 22px;
+  color: var(--texto-primario);
+}
+
+.financeiro-box.receita strong { color: var(--verde); }
+.financeiro-box.receber strong { color: var(--azul); }
+.financeiro-box.previsao strong { color: var(--cor-roxo-claro); }
+
+#viewFinanceiro .area-grafico {
+  margin-top: 18px;
+}
+
+@media (max-width: 1024px) {
+  .app-layout { grid-template-columns: 1fr; }
+
+  .sidebar-app {
+    position: sticky;
+    top: 0;
+    height: auto;
+    padding: 10px 4%;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+  }
+
+  .sidebar-brand { min-width: 190px; }
+  .sidebar-menu { flex-direction: row; min-width: max-content; }
+  .menu-item { white-space: nowrap; }
+  .sidebar-footer { margin-top: 0; display: flex; min-width: max-content; }
+
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .cards-dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .topo-dashboard {
+    align-items: stretch;
+  }
+
+  .dashboard-hero,
+  .painel-topo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions {
+    justify-content: stretch;
+  }
+
+  .hero-actions button,
+  .painel-topo button {
+    width: 100%;
+  }
+
+  .financeiro-resumo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ================================================================
+   PERFIL DO PROFESSOR
+================================================================ */
+.metricas-ocultas {
+  display: none !important;
+}
+
+.perfil-page {
+  max-width: 760px;
+}
+
+.perfil-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  width: 100%;
+}
+
+.campo-perfil {
+  display: grid;
+  gap: 7px;
+}
+
+.campo-perfil span {
+  color: var(--texto-secundario);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.perfil-ajuda {
+  color: var(--texto-secundario);
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  padding: 12px 14px;
+  font-size: 13px;
+}
+
+.perfil-ajuda strong {
+  color: var(--texto-primario);
+}
+
+.btn-salvar-perfil {
+  width: fit-content;
+  min-width: 180px;
+}
+
+.msg-perfil {
+  color: var(--verde);
+  font-size: 13px;
+  min-height: 20px;
+}
+
+.cards-dashboard .card span {
+  display: block;
+  margin-top: 8px;
+  color: var(--texto-terciario);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+[data-tema="claro"] .perfil-ajuda {
+  background: rgba(0,0,0,0.035);
+}
+
+@media (max-width: 700px) {
+  .btn-salvar-perfil {
+    width: 100%;
+  }
+}
+
+
+/* ================================================================
+   CORREÇÃO — MENU LATERAL OCULTO / OFFCANVAS
+================================================================ */
+.app-layout {
+  grid-template-columns: 1fr !important;
+}
+
+.topo-esquerda {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.btn-menu {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  padding: 0;
+  border-radius: var(--raio-md);
+  background: var(--bg-nivel-2);
+  border: 1px solid var(--borda);
+  color: var(--texto-primario);
+  font-size: 22px;
+  box-shadow: none;
+}
+
+.btn-menu:hover {
+  background: var(--cor-roxo-bg);
+  border-color: var(--cor-roxo-borda);
+  box-shadow: none;
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 115;
+  transition: opacity var(--trans), visibility var(--trans);
+}
+
+.sidebar-app {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: min(310px, 86vw) !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  padding: 18px !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  transform: translateX(-110%);
+  transition: transform 0.24s ease;
+  box-shadow: 24px 0 70px rgba(0, 0, 0, 0.45);
+}
+
+.sidebar-brand { min-width: 0 !important; }
+.sidebar-menu { flex-direction: column !important; min-width: 0 !important; }
+.menu-item { white-space: normal !important; }
+.sidebar-footer { margin-top: auto !important; display: grid !important; min-width: 0 !important; }
+
+body.menu-aberto {
+  overflow: hidden;
+}
+
+body.menu-aberto .sidebar-app {
+  transform: translateX(0);
+}
+
+body.menu-aberto .menu-overlay {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+@media (max-width: 700px) {
+  .topo-dashboard {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .topo-esquerda {
+    align-items: flex-start;
+  }
+
+  .topo-esquerda h1 {
+    font-size: 21px;
+  }
+
+  .topo-esquerda p {
+    font-size: 12px;
+  }
+}
+
+/* ================================================================
+   CORREÇÃO FINAL — MODO CLARO NO LAYOUT NOVO
+   Mantém os blocos novos claros quando o tema dia está ativo.
+================================================================ */
+[data-tema="claro"] body,
+[data-tema="claro"] .app-layout {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(124,58,237,0.10), transparent 28%),
+    var(--bg-base) !important;
+}
+
+[data-tema="claro"] .sidebar-app {
+  background: rgba(255,255,255,0.96) !important;
+  border-right-color: var(--borda) !important;
+  box-shadow: 24px 0 70px rgba(17, 24, 39, 0.14);
+}
+
+[data-tema="claro"] .sidebar-brand {
+  background: rgba(124,58,237,0.06) !important;
+  border-color: rgba(124,58,237,0.14) !important;
+}
+
+[data-tema="claro"] .topo-dashboard {
+  background: rgba(255,255,255,0.88) !important;
+  border-bottom-color: var(--borda) !important;
+}
+
+[data-tema="claro"] .dashboard-hero,
+[data-tema="claro"] .painel-card,
+[data-tema="claro"] .lista-profissional,
+[data-tema="claro"] .financeiro-page,
+[data-tema="claro"] .area-grafico {
+  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,248,252,0.94)) !important;
+  border-color: var(--borda) !important;
+  color: var(--texto-primario) !important;
+  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.06) !important;
+}
+
+[data-tema="claro"] .dashboard-hero::after {
+  background: radial-gradient(circle, rgba(124,58,237,0.12), transparent 62%) !important;
+}
+
+[data-tema="claro"] .pagamento-recente-item,
+[data-tema="claro"] .empty-state-mini,
+[data-tema="claro"] .acao-rapida,
+[data-tema="claro"] .financeiro-box,
+[data-tema="claro"] .perfil-ajuda,
+[data-tema="claro"] .info-premium,
+[data-tema="claro"] .aluno-dados div {
+  background: rgba(17,24,39,0.035) !important;
+  border-color: var(--borda) !important;
+}
+
+[data-tema="claro"] .acao-rapida:hover,
+[data-tema="claro"] .btn-menu:hover,
+[data-tema="claro"] .btn-texto:hover,
+[data-tema="claro"] .menu-item:hover,
+[data-tema="claro"] .menu-item.ativo {
+  background: rgba(124,58,237,0.10) !important;
+  border-color: rgba(124,58,237,0.25) !important;
+  color: var(--texto-primario) !important;
+}
+
+[data-tema="claro"] .btn-menu,
+[data-tema="claro"] .btn-tema,
+[data-tema="claro"] .btn-admin,
+[data-tema="claro"] .btn-secundario,
+[data-tema="claro"] .btn-texto {
+  background: rgba(255,255,255,0.82) !important;
+  border-color: var(--borda) !important;
+  color: var(--texto-primario) !important;
+}
+
+[data-tema="claro"] .menu-overlay {
+  background: rgba(17, 24, 39, 0.42) !important;
+}
+
+[data-tema="claro"] .cards-dashboard .card,
+[data-tema="claro"] .card {
+  background: #ffffff !important;
+  border-color: var(--borda) !important;
+  box-shadow: 0 8px 22px rgba(17, 24, 39, 0.05);
+}
+
+[data-tema="claro"] .aluno-card,
+[data-tema="claro"] .modal-card,
+[data-tema="claro"] .admin-card,
+[data-tema="claro"] .cliente-card {
+  background: #ffffff !important;
+  border-color: var(--borda) !important;
+}
+
+[data-tema="claro"] .filtros button {
+  background: rgba(17,24,39,0.04) !important;
+  border-color: var(--borda) !important;
+  color: var(--texto-secundario) !important;
+}
+
+[data-tema="claro"] .filtros button:hover,
+[data-tema="claro"] .filtro-ativo {
+  background: var(--cor-roxo) !important;
+  border-color: var(--cor-roxo) !important;
+  color: #ffffff !important;
+}
+
+[data-tema="claro"] input {
+  background: #ffffff !important;
+  border-color: var(--borda) !important;
+  color: var(--texto-primario) !important;
+}

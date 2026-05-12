@@ -157,6 +157,34 @@ const edicaoRapidaValor = document.getElementById("edicaoRapidaValor");
 const edicaoRapidaVencimento = document.getElementById("edicaoRapidaVencimento");
 
 // ===============================
+// 05.1 ELEMENTOS DO DOM — DASHBOARD PROFISSIONAL
+// ===============================
+const tituloPagina = document.getElementById("tituloPagina");
+const descricaoPagina = document.getElementById("descricaoPagina");
+const viewDashboard = document.getElementById("viewDashboard");
+const viewAlunos = document.getElementById("viewAlunos");
+const viewFinanceiro = document.getElementById("viewFinanceiro");
+const viewPerfil = document.getElementById("viewPerfil");
+const btnNavDashboard = document.getElementById("btnNavDashboard");
+const btnNavAlunos = document.getElementById("btnNavAlunos");
+const btnNavFinanceiro = document.getElementById("btnNavFinanceiro");
+const btnNavPerfil = document.getElementById("btnNavPerfil");
+const btnAbrirMenu = document.getElementById("btnAbrirMenu");
+const menuOverlay = document.getElementById("menuOverlay");
+const btnNavCadastrar = document.getElementById("btnNavCadastrar");
+const btnAbrirCadastroRapido = document.getElementById("btnAbrirCadastroRapido");
+const ultimosPagamentos = document.getElementById("ultimosPagamentos");
+const financeiroRecebidoMirror = document.getElementById("financeiroRecebidoMirror");
+const financeiroAReceberMirror = document.getElementById("financeiroAReceberMirror");
+const financeiroPrevisaoMirror = document.getElementById("financeiroPrevisaoMirror");
+const nomeClienteDashboard = document.getElementById("nomeClienteDashboard");
+const formPerfil = document.getElementById("formPerfil");
+const perfilNomeEmpresa = document.getElementById("perfilNomeEmpresa");
+const perfilWhatsApp = document.getElementById("perfilWhatsApp");
+const msgPerfil = document.getElementById("msgPerfil");
+
+
+// ===============================
 // 06. UTILITÁRIOS — VALORES / MOEDA
 // ===============================
 
@@ -282,7 +310,7 @@ async function carregarPerfil() {
 
   const { data, error } = await supabaseClient
     .from("profiles")
-    .select("is_admin, limite_alunos, nome_empresa")
+    .select("is_admin, limite_alunos, nome_empresa, whatsapp_professor")
     .eq("id", usuarioAtual.id)
     .single();
 
@@ -295,6 +323,18 @@ async function carregarPerfil() {
   limiteAlunos = data.limite_alunos || 30;
   
   nomeEmpresa = data.nome_empresa || "Mensalize";
+
+  if (nomeClienteDashboard) {
+    nomeClienteDashboard.textContent = nomeEmpresa;
+  }
+
+  if (perfilNomeEmpresa) {
+    perfilNomeEmpresa.value = nomeEmpresa;
+  }
+
+  if (perfilWhatsApp) {
+    perfilWhatsApp.value = data.whatsapp_professor || "";
+  }
 
   if (usuarioEhAdmin) {
     btnAdmin.classList.remove("escondido");
@@ -417,6 +457,7 @@ async function carregarAlunos() {
   paginaAtual = 1;
   mostrarAlunos();
   await atualizarPainel();
+  await carregarUltimosPagamentos();
 
   if (typeof mostrarBannerVencimentos === "function") {
     mostrarBannerVencimentos();
@@ -883,6 +924,71 @@ async function atualizarPainel() {
   totalPendentes.textContent = pendentes;
   totalAtrasados.textContent = atrasados;
   totalAReceber.textContent = formatarMoeda(valorAReceber);
+  atualizarEspelhosFinanceiros();
+}
+
+
+/** Carrega os 3 pagamentos mais recentes para a dashboard inicial. */
+async function carregarUltimosPagamentos() {
+  if (!ultimosPagamentos) return;
+
+  ultimosPagamentos.innerHTML = `<div class="empty-state-mini">Carregando últimos pagamentos...</div>`;
+
+  let queryUltimos = supabaseClient
+    .from("pagamentos")
+    .select("*")
+    .order("data_pagamento", { ascending: false })
+    .limit(3);
+
+  queryUltimos = aplicarFiltroUsuario(queryUltimos);
+
+  const { data, error } = await queryUltimos;
+
+  if (error) {
+    console.log("Erro ao carregar últimos pagamentos:", error.message);
+    ultimosPagamentos.innerHTML = `<div class="empty-state-mini">Não foi possível carregar os últimos pagamentos.</div>`;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    ultimosPagamentos.innerHTML = `<div class="empty-state-mini">Nenhum pagamento registrado ainda.</div>`;
+    return;
+  }
+
+  ultimosPagamentos.innerHTML = "";
+
+  data.forEach(pagamento => {
+    const aluno = alunos.find(a => String(a.id) === String(pagamento.aluno_id));
+    const nomeAluno = aluno ? aluno.nome : "Aluno removido ou não encontrado";
+    const dataPagamento = pagamento.data_pagamento ? formatarData(String(pagamento.data_pagamento).split("T")[0]) : "Data não informada";
+
+    const item = document.createElement("div");
+    item.className = "pagamento-recente-item";
+    item.innerHTML = `
+      <div>
+        <strong>${nomeAluno}</strong>
+        <span>Pago em ${dataPagamento}</span>
+      </div>
+      <span class="pagamento-recente-valor">${formatarMoeda(pagamento.valor)}</span>
+    `;
+
+    ultimosPagamentos.appendChild(item);
+  });
+}
+
+/** Espelha os números principais na aba Financeiro. */
+function atualizarEspelhosFinanceiros() {
+  if (financeiroRecebidoMirror && totalRecebido) {
+    financeiroRecebidoMirror.textContent = totalRecebido.textContent;
+  }
+
+  if (financeiroAReceberMirror && totalAReceber) {
+    financeiroAReceberMirror.textContent = totalAReceber.textContent;
+  }
+
+  if (financeiroPrevisaoMirror && totalPrevisao) {
+    financeiroPrevisaoMirror.textContent = totalPrevisao.textContent;
+  }
 }
 
 // ===============================
@@ -2015,3 +2121,159 @@ function abrirPaginaAluno(codigo) {
 
   window.open(link, "_blank");
 }
+
+// ===============================
+// 31. NAVEGAÇÃO PRINCIPAL — SIDEBAR
+// ===============================
+function abrirViewPrincipal(view) {
+  const views = {
+    dashboard: viewDashboard,
+    alunos: viewAlunos,
+    financeiro: viewFinanceiro,
+    perfil: viewPerfil
+  };
+
+  Object.values(views).forEach(secao => {
+    if (secao) secao.classList.remove("ativa");
+  });
+
+  if (views[view]) views[view].classList.add("ativa");
+
+  document.querySelectorAll(".menu-item[data-view]").forEach(botao => {
+    botao.classList.toggle("ativo", botao.dataset.view === view);
+  });
+
+  const textos = {
+    dashboard: ["Início", "Tudo que você precisa acompanhar hoje em um só lugar."],
+    alunos: ["Alunos", "Consulte, filtre e gerencie todos os alunos cadastrados."],
+    financeiro: ["Financeiro", "Acompanhe recebimentos, previsão mensal e relatórios."],
+    perfil: ["Perfil", "Atualize os dados da empresa e o WhatsApp de contato."]
+  };
+
+  if (tituloPagina && textos[view]) tituloPagina.textContent = textos[view][0];
+  if (descricaoPagina && textos[view]) descricaoPagina.textContent = textos[view][1];
+
+  if (view === "financeiro" && typeof carregarGrafico === "function") {
+    carregarGrafico();
+  }
+
+  fecharMenuLateral();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+
+function abrirMenuLateral() {
+  document.body.classList.add("menu-aberto");
+}
+
+function fecharMenuLateral() {
+  document.body.classList.remove("menu-aberto");
+}
+
+function inicializarNavegacaoPrincipal() {
+  if (btnAbrirMenu) {
+    btnAbrirMenu.addEventListener("click", function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      abrirMenuLateral();
+    });
+  }
+
+  if (menuOverlay) {
+    menuOverlay.addEventListener("click", fecharMenuLateral);
+  }
+
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+      fecharMenuLateral();
+    }
+  });
+
+  if (btnNavDashboard) btnNavDashboard.addEventListener("click", () => abrirViewPrincipal("dashboard"));
+  if (btnNavAlunos) btnNavAlunos.addEventListener("click", () => abrirViewPrincipal("alunos"));
+  if (btnNavFinanceiro) btnNavFinanceiro.addEventListener("click", () => abrirViewPrincipal("financeiro"));
+  if (btnNavPerfil) btnNavPerfil.addEventListener("click", () => abrirViewPrincipal("perfil"));
+
+  if (btnNavCadastrar) {
+    btnNavCadastrar.addEventListener("click", () => {
+      fecharMenuLateral();
+      if (btnMostrarForm) btnMostrarForm.click();
+    });
+  }
+
+  if (btnAbrirCadastroRapido) {
+    btnAbrirCadastroRapido.addEventListener("click", () => {
+      if (btnMostrarForm) btnMostrarForm.click();
+    });
+  }
+
+  document.querySelectorAll("[data-view-target]").forEach(botao => {
+    botao.addEventListener("click", () => abrirViewPrincipal(botao.dataset.viewTarget));
+  });
+}
+
+
+function limparNumeroWhatsApp(numero) {
+  return String(numero || "").replace(/\D/g, "");
+}
+
+async function salvarPerfilProfessor(event) {
+  event.preventDefault();
+
+  if (!usuarioAtual) {
+    mostrarToast("Você precisa estar logado.", "erro");
+    return;
+  }
+
+  const nome = perfilNomeEmpresa ? perfilNomeEmpresa.value.trim() : "";
+  const whatsapp = perfilWhatsApp ? limparNumeroWhatsApp(perfilWhatsApp.value) : "";
+
+  if (!nome) {
+    if (msgPerfil) msgPerfil.textContent = "Informe o nome da empresa ou academia.";
+    mostrarToast("Informe o nome da empresa ou academia.", "erro");
+    return;
+  }
+
+  if (whatsapp && whatsapp.length < 10) {
+    if (msgPerfil) msgPerfil.textContent = "Informe um WhatsApp válido com DDD.";
+    mostrarToast("Informe um WhatsApp válido com DDD.", "erro");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("profiles")
+    .update({
+      nome_empresa: nome,
+      whatsapp_professor: whatsapp || null
+    })
+    .eq("id", usuarioAtual.id);
+
+  if (error) {
+    if (msgPerfil) msgPerfil.textContent = "Erro ao salvar perfil.";
+    mostrarToast("Erro ao salvar perfil.", "erro");
+    return;
+  }
+
+  nomeEmpresa = nome;
+
+  if (nomeClienteDashboard) {
+    nomeClienteDashboard.textContent = nome;
+  }
+
+  if (perfilWhatsApp) {
+    perfilWhatsApp.value = whatsapp;
+  }
+
+  if (msgPerfil) {
+    msgPerfil.textContent = "Perfil salvo com sucesso.";
+  }
+
+  mostrarToast("Perfil salvo com sucesso!");
+}
+
+if (formPerfil) {
+  formPerfil.addEventListener("submit", salvarPerfilProfessor);
+}
+
+
+inicializarNavegacaoPrincipal();

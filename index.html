@@ -41,138 +41,250 @@
     </div>
   </section>
 
-  <section id="app" class="escondido">
-    <header class="topo">
+  <section id="app" class="escondido app-layout">
+    <div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
 
-      <div class="marca">
-        <img src="logo.png" alt="Logo Mensalize" class="logo">
-
+    <aside class="sidebar-app" id="sidebarApp">
+      <div class="sidebar-brand">
+        <img src="logo.png" alt="Logo Mensalize" class="sidebar-logo">
         <div>
-          <h1 id="nomeApp">Mensalize</h1>
-          <p id="slogan">Controle, automatize e cresça</p>
+          <strong id="nomeApp">Mensalize</strong>
+          <span id="slogan">Controle, automatize e cresça</span>
         </div>
       </div>
 
-      <div class="usuario-box">
-        <div class="usuario-avatar">👤</div>
+      <nav class="sidebar-menu" aria-label="Menu principal">
+        <button type="button" id="btnNavDashboard" class="menu-item ativo" data-view="dashboard">🏠 Início</button>
+        <button type="button" id="btnNavAlunos" class="menu-item" data-view="alunos">👥 Alunos</button>
+        <button type="button" id="btnNavCadastrar" class="menu-item">➕ Novo aluno</button>
+        <button type="button" id="btnNavFinanceiro" class="menu-item" data-view="financeiro">💰 Financeiro</button>
+        <button type="button" id="btnNavPerfil" class="menu-item" data-view="perfil">👤 Perfil</button>
+      </nav>
 
-        <div class="usuario-info">
-          <span class="usuario-label">Logado como</span>
-          <strong id="emailUsuario">Usuário</strong>
-        </div>
-
+      <div class="sidebar-footer">
         <button id="btnAdmin" class="btn-admin escondido">⚙ Admin</button>
-        <button id="btnTema" class="btn-tema" title="Alternar tema">🌙</button>
+        <button id="btnTema" class="btn-tema" title="Alternar tema">🌙 Tema</button>
         <button id="btnSair" class="btn-sair">Sair</button>
       </div>
+    </aside>
 
-    </header>
-
-    <!-- Banner de notificação de vencimentos -->
-    <div id="bannerVencimentos" class="banner-vencimentos escondido">
-      <span id="textoBanner"></span>
-      <div class="banner-acoes">
-        <button id="btnBannerAtrasados" class="btn-banner">Ver atrasados</button>
-        <button id="btnBannerHoje" class="btn-banner">Ver hoje</button>
-        <button id="btnFecharBanner" class="btn-fechar-banner">×</button>
-      </div>
-    </div>
-
-    <main class="container">
-
-      <section class="cards">
-        <div class="card">
-          <h2>Total de alunos</h2>
-          <p id="totalAlunos">0</p>
-        </div>
-
-        <div class="card pago">
-          <h2>Pagos</h2>
-          <p id="totalPagos">0</p>
-        </div>
-
-        <div class="card pendente">
-          <h2>Pendentes</h2>
-          <p id="totalPendentes">0</p>
-        </div>
-
-        <div class="card alerta">
-          <h2>Atrasados</h2>
-          <p id="totalAtrasados">0</p>
-        </div>
-
-        <div class="card receita">
-          <h2>Recebido no mês</h2>
-          <p id="totalRecebido">R$ 0,00</p>
-        </div>
-
-        <div class="card receber">
-          <h2>A receber</h2>
-          <p id="totalAReceber">R$ 0,00</p>
-        </div>
-
-        <div class="card previsao">
-          <h2>Previsão do mês</h2>
-          <p id="totalPrevisao">R$ 0,00</p>
-        </div>
-
-      </section>
-
-      <section class="area-formulario">
-        <div class="topo-form">
-          <h2>Alunos</h2>
-          <div class="topo-form-acoes">
-            <button type="button" id="btnCobrarAtrasados" class="btn-cobrar">📢 Cobrar atrasados</button>
-            <button type="button" id="btnExportar" class="btn-exportar">📥 Exportar</button>
-            <button type="button" id="btnMostrarForm">+ Novo aluno</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Gráfico de recebimentos -->
-      <section class="area-grafico escondido" id="areaGrafico">
-        <div class="grafico-topo">
-          <h2>📈 Recebimentos dos últimos 6 meses</h2>
-          <button id="btnFecharGrafico" class="btn-fechar-grafico">×</button>
-        </div>
-        <div class="grafico-barras" id="graficoBars"></div>
-      </section>
-
-      <section class="lista">
-        <div class="lista-topo">
+    <div class="conteudo-app">
+      <header class="topo topo-dashboard">
+        <div class="topo-esquerda">
+          <button type="button" id="btnAbrirMenu" class="btn-menu" aria-label="Abrir menu">☰</button>
           <div>
-            <h2>Alunos cadastrados</h2>
-            <p id="subtituloLista">Gerencie os alunos, vencimentos e pagamentos.</p>
-          </div>
-
-          <span id="contadorLista" class="contador-lista">0 alunos</span>
-        </div>
-
-        <input 
-          type="text" 
-          id="campoBusca" 
-          placeholder="Buscar aluno por nome ou WhatsApp..."
-          class="campo-busca"
-        >
-
-        <div class="filtros">
-          <button id="filtroTodos" onclick="setFiltro('todos')">Todos</button>
-          <button id="filtroPendente" onclick="setFiltro('pendente')">Pendentes</button>
-          <button id="filtroAtrasado" onclick="setFiltro('atrasado')">Atrasados</button>
-          <button id="filtroHoje" onclick="setFiltro('hoje')">Hoje</button>
-          <button id="filtroPago" onclick="setFiltro('pago')">✅ Pago este mês</button>
-        </div>
-
-        <div id="listaAlunos">
-          <div id="skeletonLista" class="skeleton-wrapper">
-            <div class="skeleton-card"></div>
-            <div class="skeleton-card"></div>
-            <div class="skeleton-card"></div>
+            <span class="page-eyebrow">Resumo de hoje</span>
+            <h1 id="tituloPagina">Início</h1>
+            <p id="descricaoPagina">Tudo que você precisa acompanhar hoje em um só lugar.</p>
           </div>
         </div>
-      </section>
 
-    </main>
+        <div class="usuario-box">
+          <div class="usuario-avatar">👤</div>
+
+          <div class="usuario-info">
+            <span class="usuario-label">Logado como</span>
+            <strong id="emailUsuario">Usuário</strong>
+          </div>
+        </div>
+      </header>
+
+      <!-- Banner de notificação de vencimentos -->
+      <div id="bannerVencimentos" class="banner-vencimentos escondido">
+        <span id="textoBanner"></span>
+        <div class="banner-acoes">
+          <button id="btnBannerAtrasados" class="btn-banner">Ver atrasados</button>
+          <button id="btnBannerHoje" class="btn-banner">Ver hoje</button>
+          <button id="btnFecharBanner" class="btn-fechar-banner">×</button>
+        </div>
+      </div>
+
+      <main class="container container-dashboard">
+
+        <section id="viewDashboard" class="view-app ativa">
+          <section class="dashboard-hero">
+            <div>
+              <span class="page-eyebrow">Resumo de hoje</span>
+              <h2 id="nomeClienteDashboard">Mensalize</h2>
+              <p>Tudo que você precisa acompanhar hoje em um só lugar.</p>
+            </div>
+
+            <div class="hero-actions">
+              <button type="button" id="btnMostrarForm">+ Novo aluno</button>
+              <button type="button" id="btnCobrarAtrasados" class="btn-cobrar">📢 Cobrar atrasados</button>
+            </div>
+          </section>
+
+          <section class="cards cards-dashboard">
+            <div class="card receita">
+              <h2>Recebido no mês</h2>
+              <p id="totalRecebido">R$ 0,00</p>
+              <span>Valor que já entrou neste mês.</span>
+            </div>
+
+            <div class="card receber">
+              <h2>A receber</h2>
+              <p id="totalAReceber">R$ 0,00</p>
+              <span>Mensalidades ainda em aberto.</span>
+            </div>
+
+            <div class="card alerta">
+              <h2>Atrasados</h2>
+              <p id="totalAtrasados">0</p>
+              <span>Alunos com vencimento passado.</span>
+            </div>
+
+            <div class="card">
+              <h2>Total de alunos</h2>
+              <p id="totalAlunos">0</p>
+              <span>Alunos cadastrados no sistema.</span>
+            </div>
+
+            <div class="metricas-ocultas" aria-hidden="true">
+              <span id="totalPagos">0</span>
+              <span id="totalPendentes">0</span>
+              <span id="totalPrevisao">R$ 0,00</span>
+            </div>
+          </section>
+
+          <section class="dashboard-grid">
+            <article class="painel-card painel-destaque">
+              <div class="painel-topo">
+                <div>
+                  <span class="page-eyebrow">Pagamentos</span>
+                  <h2>Pagamentos recentes</h2>
+                </div>
+                <button type="button" class="btn-texto" data-view-target="financeiro">Ver financeiro</button>
+              </div>
+              <div id="ultimosPagamentos" class="ultimos-pagamentos">
+                <div class="empty-state-mini">Carregando pagamentos recentes...</div>
+              </div>
+            </article>
+
+            <article class="painel-card">
+              <div class="painel-topo">
+                <div>
+                  <span class="page-eyebrow">Gestão</span>
+                  <h2>Ações rápidas</h2>
+                </div>
+              </div>
+              <div class="acoes-rapidas-grid">
+                <button type="button" data-view-target="alunos" class="acao-rapida">👥 Ver alunos</button>
+                <button type="button" id="btnAbrirCadastroRapido" class="acao-rapida">➕ Novo aluno</button>
+                <button type="button" data-view-target="financeiro" class="acao-rapida">💰 Financeiro</button>
+              </div>
+            </article>
+          </section>
+        </section>
+
+        <section id="viewAlunos" class="view-app">
+          <section class="lista lista-profissional">
+            <div class="lista-topo">
+              <div>
+                <h2>Alunos cadastrados</h2>
+                <p id="subtituloLista">Gerencie os alunos, vencimentos e pagamentos.</p>
+              </div>
+
+              <span id="contadorLista" class="contador-lista">0 alunos</span>
+            </div>
+
+            <input 
+              type="text" 
+              id="campoBusca" 
+              placeholder="Buscar aluno por nome ou WhatsApp..."
+              class="campo-busca"
+            >
+
+            <div class="filtros">
+              <button id="filtroTodos" onclick="setFiltro('todos')">Todos</button>
+              <button id="filtroPendente" onclick="setFiltro('pendente')">Pendentes</button>
+              <button id="filtroAtrasado" onclick="setFiltro('atrasado')">Atrasados</button>
+              <button id="filtroHoje" onclick="setFiltro('hoje')">Hoje</button>
+              <button id="filtroPago" onclick="setFiltro('pago')">✅ Pago este mês</button>
+            </div>
+
+            <div id="listaAlunos">
+              <div id="skeletonLista" class="skeleton-wrapper">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section id="viewFinanceiro" class="view-app">
+          <section class="painel-card financeiro-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Financeiro</span>
+                <h2>Resumo financeiro</h2>
+                <p>Use essa área para acompanhar recebimentos, previsão e exportar relatórios.</p>
+              </div>
+              <button type="button" id="btnExportar" class="btn-exportar">📥 Exportar relatório</button>
+            </div>
+
+            <div class="financeiro-resumo-grid">
+              <div class="financeiro-box receita">
+                <span>Recebido</span>
+                <strong id="financeiroRecebidoMirror">R$ 0,00</strong>
+              </div>
+              <div class="financeiro-box receber">
+                <span>A receber</span>
+                <strong id="financeiroAReceberMirror">R$ 0,00</strong>
+              </div>
+              <div class="financeiro-box previsao">
+                <span>Previsão</span>
+                <strong id="financeiroPrevisaoMirror">R$ 0,00</strong>
+              </div>
+            </div>
+          </section>
+
+          <!-- Gráfico de recebimentos -->
+          <section class="area-grafico" id="areaGrafico">
+            <div class="grafico-topo">
+              <h2>📈 Recebimentos dos últimos 6 meses</h2>
+              <button id="btnFecharGrafico" class="btn-fechar-grafico">×</button>
+            </div>
+            <div class="grafico-barras" id="graficoBars"></div>
+          </section>
+        </section>
+
+
+        <section id="viewPerfil" class="view-app">
+          <section class="painel-card perfil-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Perfil</span>
+                <h2>Dados do professor</h2>
+                <p>Essas informações aparecem na página do aluno e no contato pelo WhatsApp.</p>
+              </div>
+            </div>
+
+            <form id="formPerfil" class="perfil-form">
+              <label class="campo-perfil">
+                <span>Nome da empresa / academia</span>
+                <input type="text" id="perfilNomeEmpresa" placeholder="Ex: Academia Nuti Jiu-Jitsu">
+              </label>
+
+              <label class="campo-perfil">
+                <span>WhatsApp do professor</span>
+                <input type="tel" id="perfilWhatsApp" placeholder="Ex: 31999999999">
+              </label>
+
+              <div class="perfil-ajuda">
+                Use somente números com DDD. Exemplo: <strong>31999999999</strong>.  
+                A página do aluno usará esse número no botão <strong>Falar com professor</strong>.
+              </div>
+
+              <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
+              <p id="msgPerfil" class="msg-perfil"></p>
+            </form>
+          </section>
+        </section>
+
+      </main>
+    </div>
   </section>
 
   <section id="telaAdmin" class="escondido">

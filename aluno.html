@@ -47,21 +47,35 @@
       </article>
 
       <article class="finance-card card-animate delay-1">
-        <div class="finance-top">
-          <div>
-            <span class="eyebrow">Mensalidade</span>
-            <strong id="valorMensalidade" class="price">R$ 0,00</strong>
+        <div class="status-hero" id="statusHero">
+          <div class="status-hero-text">
+            <span class="eyebrow">Situação da mensalidade</span>
+            <h2 id="statusTitulo">Carregando status...</h2>
+            <p id="mensagemStatus" class="status-message">Aguarde enquanto buscamos seus dados.</p>
           </div>
           <span id="badgeStatus" class="status-badge">Status</span>
         </div>
-        <p id="textoVencimento" class="due-text">Vence em --/--/----</p>
-        <p id="mensagemStatus" class="status-message"></p>
-        <div id="areaPagamento"></div>
+
+        <div class="finance-summary-grid">
+          <div class="summary-box summary-price">
+            <span>Valor mensal</span>
+            <strong id="valorMensalidade" class="price">R$ 0,00</strong>
+          </div>
+          <div class="summary-box">
+            <span>Próximo vencimento</span>
+            <strong id="textoVencimento">--/--/----</strong>
+          </div>
+        </div>
+
+        <div id="areaPagamento" class="payment-actions"></div>
       </article>
 
       <article class="history-card card-animate delay-2" id="cardHistorico">
         <div class="section-title-row">
-          <h2>Últimos pagamentos</h2>
+          <div>
+            <span class="eyebrow">Histórico</span>
+            <h2>Pagamentos recentes</h2>
+          </div>
           <span id="contadorPagamentos" class="mini-badge">0 registros</span>
         </div>
         <div id="listaPagamentos" class="payments-list">
@@ -86,7 +100,7 @@
         <p id="msgComprovante" class="soft-message">Funcionalidade em breve.</p>
       </article>
 
-      <button id="btnCompartilhar" class="share-button" type="button">🔗 Compartilhar página</button>
+      <button id="btnCompartilhar" class="share-button" type="button">🔗 Copiar ou compartilhar link</button>
     </section>
 
     <section id="estadoErro" class="error-card escondido">
@@ -99,7 +113,7 @@
 
   <footer class="portal-footer">
     <p>© Mensalize · Sistema de gestão de mensalidades</p>
-    <a id="linkProfessor" href="https://wa.me/5531983334284" target="_blank" rel="noopener">
+    <a id="linkProfessor" href="#" target="_blank" rel="noopener" class="escondido">
       Problemas? Fale com seu professor
     </a>
   </footer>
@@ -125,6 +139,7 @@
 
     const valorMensalidade = document.getElementById("valorMensalidade");
     const badgeStatus = document.getElementById("badgeStatus");
+    const statusTitulo = document.getElementById("statusTitulo");
     const textoVencimento = document.getElementById("textoVencimento");
     const mensagemStatus = document.getElementById("mensagemStatus");
     const areaPagamento = document.getElementById("areaPagamento");
@@ -204,35 +219,52 @@
     function gerarStatus(aluno) {
       const dias = calcularDias(aluno.vencimento);
 
-     if (aluno.pago_mes === true) {
+      if (aluno.pago_mes === true) {
         return {
-          texto: "🟢 Pago",
+          texto: "Pago",
           classe: "status-pago",
-          mensagem: "✅ Tudo certo! Sua mensalidade está em dia."
+          titulo: "Sua mensalidade está em dia",
+          mensagem: "Tudo certo! Seu pagamento deste mês já foi registrado."
         };
       }
 
       if (dias < 0) {
+        const atraso = Math.abs(dias);
         return {
-          texto: `🔴 Atrasado há ${Math.abs(dias)} dia(s)`,
+          texto: "Atrasado",
           classe: "status-atrasado",
-          mensagem: "⚠️ Regularize sua situação para continuar aproveitando as aulas."
+          titulo: `Mensalidade atrasada há ${atraso} dia${atraso === 1 ? "" : "s"}`,
+          mensagem: "Regularize sua mensalidade para manter tudo em dia com o professor."
         };
       }
 
       if (dias === 0) {
         return {
-          texto: "🟡 Vence hoje",
-          classe: "status-pendente",
-          mensagem: "⏰ Sua mensalidade vence hoje. Evite atrasos!"
+          texto: "Vence hoje",
+          classe: "status-hoje",
+          titulo: "Sua mensalidade vence hoje",
+          mensagem: "Evite atrasos: realize o pagamento ainda hoje ou fale com o professor."
         };
       }
 
       return {
-        texto: `🟡 Vence em ${dias} dia(s)`,
+        texto: "Em aberto",
         classe: "status-pendente",
-        mensagem: "⏰ Sua mensalidade vence em breve. Evite juros!"
+        titulo: `Faltam ${dias} dia${dias === 1 ? "" : "s"} para o vencimento`,
+        mensagem: "Acompanhe sua data de vencimento e pague com tranquilidade."
       };
+    }
+
+    function gerarLinkWhatsAppProfessor(aluno) {
+      const telefoneInformado = String(aluno.whatsapp_professor || "").replace(/\D/g, "");
+
+      if (telefoneInformado.length < 10) {
+        return "";
+      }
+
+      const telefoneComPais = telefoneInformado.startsWith("55") ? telefoneInformado : `55${telefoneInformado}`;
+      const mensagem = `Olá, sou ${aluno.nome || "aluno"}. Quero falar sobre minha mensalidade.`;
+      return `https://wa.me/${telefoneComPais}?text=${encodeURIComponent(mensagem)}`;
     }
 
     function primeiraLetra(nome) {
@@ -244,24 +276,27 @@
       const linkPagamento = normalizarLink(aluno.link_pagamento);
       alunoAtual = aluno;
 
-    const linkProfessor = document.getElementById("linkProfessor");
+      const linkProfessor = document.getElementById("linkProfessor");
+      const linkWhatsAppProfessor = gerarLinkWhatsAppProfessor(aluno);
 
-    if (aluno.whatsapp_professor) {
-      const telefoneProfessor = aluno.whatsapp_professor.replace(/\D/g, "");
-
-      if (telefoneProfessor.length >= 10) {
-        linkProfessor.href =
-          `https://wa.me/55${telefoneProfessor}?text=${encodeURIComponent("Olá, preciso de ajuda com minha mensalidade.")}`;
+      if (linkProfessor) {
+        if (linkWhatsAppProfessor) {
+          linkProfessor.href = linkWhatsAppProfessor;
+          linkProfessor.classList.remove("escondido");
+        } else {
+          linkProfessor.href = "#";
+          linkProfessor.classList.add("escondido");
+        }
       }
-    }
 
       avatarAluno.textContent = primeiraLetra(aluno.nome);
       nomeAluno.textContent = aluno.nome || "Aluno";
       valorMensalidade.textContent = formatarMoeda(aluno.valor);
-      textoVencimento.textContent = `Vence em ${formatarData(aluno.vencimento)}`;
+      textoVencimento.textContent = formatarData(aluno.vencimento);
 
       badgeStatus.textContent = status.texto;
       badgeStatus.className = `status-badge ${status.classe}`;
+      statusTitulo.textContent = status.titulo;
       mensagemStatus.textContent = status.mensagem;
 
       if (aluno.plano) {
@@ -279,14 +314,28 @@
         alunoDesde.textContent = "";
       }
 
+      const botaoProfessor = linkWhatsAppProfessor
+        ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="whatsapp-button">Falar com professor</a>`
+        : `<p class="soft-message center-message">WhatsApp do professor ainda não foi cadastrado.</p>`;
+
       if (linkPagamento) {
         areaPagamento.innerHTML = `
           <a href="${linkPagamento}" target="_blank" rel="noopener" class="pay-button">
-            Pagar agora <span>→</span>
+            Pagar mensalidade <span>→</span>
           </a>
+          ${botaoProfessor}
         `;
       } else {
-        areaPagamento.innerHTML = `<p class="soft-message">Link de pagamento ainda não disponível.</p>`;
+        areaPagamento.innerHTML = linkWhatsAppProfessor
+          ? `
+            <a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">
+              Falar com professor <span>→</span>
+            </a>
+            <p class="soft-message center-message">O link de pagamento ainda não foi cadastrado.</p>
+          `
+          : `
+            <p class="soft-message center-message">O link de pagamento e o WhatsApp do professor ainda não foram cadastrados.</p>
+          `;
       }
 
       mostrarPortal();
@@ -356,11 +405,14 @@
 
         listaPagamentos.innerHTML = pagamentos.map(pagamento => `
           <div class="payment-item">
-            <div>
-              <span class="payment-icon">✅</span>
-              <span>${formatarData(pagamento.data_pagamento)}</span>
+            <div class="payment-left">
+              <span class="payment-icon">✓</span>
+              <div>
+                <strong>Pagamento recebido</strong>
+                <span>Pago em ${formatarData(pagamento.data_pagamento)}</span>
+              </div>
             </div>
-            <strong>${formatarMoeda(pagamento.valor)}</strong>
+            <strong class="payment-value">${formatarMoeda(pagamento.valor)}</strong>
           </div>
         `).join("");
       } catch (erro) {
@@ -420,16 +472,30 @@
     });
 
     btnCompartilhar.addEventListener("click", async function() {
+      const titulo = alunoAtual?.nome ? `Mensalidade de ${alunoAtual.nome}` : "Portal do aluno";
+      const texto = "Acompanhe sua mensalidade pelo portal do aluno.";
+
       try {
+        if (navigator.share) {
+          await navigator.share({ title: titulo, text: texto, url: window.location.href });
+          return;
+        }
+
         await navigator.clipboard.writeText(window.location.href);
         btnCompartilhar.textContent = "✅ Link copiado";
         setTimeout(() => {
-          btnCompartilhar.textContent = "🔗 Compartilhar página";
+          btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link";
         }, 1800);
       } catch (erro) {
-        btnCompartilhar.textContent = "Copie o link na barra do navegador";
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          btnCompartilhar.textContent = "✅ Link copiado";
+        } catch (erroClipboard) {
+          btnCompartilhar.textContent = "Copie o link na barra do navegador";
+        }
+
         setTimeout(() => {
-          btnCompartilhar.textContent = "🔗 Compartilhar página";
+          btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link";
         }, 2200);
       }
     });

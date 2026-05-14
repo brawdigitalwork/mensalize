@@ -58,6 +58,9 @@
         <button type="button" id="btnNavAlunos" class="menu-item" data-view="alunos">👥 Alunos</button>
         <button type="button" id="btnNavCadastrar" class="menu-item">➕ Novo aluno</button>
         <button type="button" id="btnNavFinanceiro" class="menu-item" data-view="financeiro">💰 Financeiro</button>
+        <button type="button" id="btnNavEvolucao" class="menu-item modulo-evolucao" data-view="evolucao">🥋 Evolução</button>
+        <button type="button" id="btnNavPresencas" class="menu-item modulo-presenca" data-view="presencas">✅ Presenças</button>
+        <button type="button" id="btnNavAvisos" class="menu-item modulo-avisos" data-view="avisos">📣 Avisos</button>
         <button type="button" id="btnNavPerfil" class="menu-item" data-view="perfil">👤 Perfil</button>
       </nav>
 
@@ -148,6 +151,27 @@
           </section>
 
           <section class="dashboard-grid">
+            <article class="painel-card painel-evolucao modulo-evolucao">
+              <div class="painel-topo">
+                <div>
+                  <span class="page-eyebrow">Evolução</span>
+                  <h2>Graduações próximas</h2>
+                  <p id="dashboardEvolucaoTexto">Acompanhe alunos aptos e próximos da avaliação.</p>
+                </div>
+                <button type="button" class="btn-texto" data-view-target="evolucao">Ver evolução</button>
+              </div>
+              <div class="evolucao-mini-grid">
+                <div class="evolucao-mini-card">
+                  <span>Aptos</span>
+                  <strong id="dashboardAptosGraduacao">0</strong>
+                </div>
+                <div class="evolucao-mini-card">
+                  <span>Próximos</span>
+                  <strong id="dashboardProximosGraduacao">0</strong>
+                </div>
+              </div>
+            </article>
+
             <article class="painel-card painel-destaque">
               <div class="painel-topo">
                 <div>
@@ -172,6 +196,7 @@
                 <button type="button" data-view-target="alunos" class="acao-rapida">👥 Ver alunos</button>
                 <button type="button" id="btnAbrirCadastroRapido" class="acao-rapida">➕ Novo aluno</button>
                 <button type="button" data-view-target="financeiro" class="acao-rapida">💰 Financeiro</button>
+                <button type="button" data-view-target="presencas" class="acao-rapida modulo-presenca">✅ Presenças do dia</button>
               </div>
             </article>
           </section>
@@ -251,6 +276,129 @@
         </section>
 
 
+        <section id="viewEvolucao" class="view-app">
+          <section class="painel-card evolucao-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Evolução</span>
+                <h2>Graduação dos alunos</h2>
+                <p>Veja alunos aptos, próximos da avaliação e registre novas graduações.</p>
+              </div>
+            </div>
+
+            <div class="financeiro-resumo-grid evolucao-resumo-grid">
+              <div class="financeiro-box receita">
+                <span>Aptos para avaliação</span>
+                <strong id="totalAptosGraduacao">0</strong>
+              </div>
+              <div class="financeiro-box receber">
+                <span>Próximos da avaliação</span>
+                <strong id="totalProximosGraduacao">0</strong>
+              </div>
+              <div class="financeiro-box previsao">
+                <span>Em evolução</span>
+                <strong id="totalEmEvolucao">0</strong>
+              </div>
+            </div>
+
+            <div class="filtros filtros-evolucao">
+              <button type="button" class="filtro-evolucao ativo" data-evolucao-filtro="todos">Todos</button>
+              <button type="button" class="filtro-evolucao" data-evolucao-filtro="apto">Aptos</button>
+              <button type="button" class="filtro-evolucao" data-evolucao-filtro="proximo">Próximos</button>
+              <button type="button" class="filtro-evolucao" data-evolucao-filtro="evolucao">Em evolução</button>
+            </div>
+
+            <div id="listaEvolucao" class="lista-evolucao">
+              <div class="empty-state-mini">Carregando evolução dos alunos...</div>
+            </div>
+          </section>
+        </section>
+
+
+        <section id="viewPresencas" class="view-app">
+          <section class="painel-card presencas-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Presenças</span>
+                <h2>Presenças do dia</h2>
+                <p>Escolha a data e a turma para fazer a chamada dos alunos.</p>
+              </div>
+            </div>
+
+            <div class="presenca-controles">
+              <label class="campo-perfil">
+                <span>Data da aula</span>
+                <input type="date" id="presencaData">
+              </label>
+              <label class="campo-perfil">
+                <span>Turma</span>
+                <select id="presencaTurma">
+                  <option value="todas">Todas as turmas</option>
+                </select>
+              </label>
+              <button type="button" id="btnAtualizarChamada" class="acao-secundaria">Atualizar chamada</button>
+            </div>
+
+            <div class="financeiro-resumo-grid presenca-resumo-grid">
+              <div class="financeiro-box receita">
+                <span>Presentes</span>
+                <strong id="presencaTotalPresentes">0</strong>
+              </div>
+              <div class="financeiro-box alerta">
+                <span>Faltas</span>
+                <strong id="presencaTotalFaltas">0</strong>
+              </div>
+              <div class="financeiro-box previsao">
+                <span>Alunos na chamada</span>
+                <strong id="presencaTotalAlunos">0</strong>
+              </div>
+            </div>
+
+            <div class="presenca-acoes">
+              <button type="button" id="btnMarcarTodosPresentes" class="acao-secundaria">Marcar todos presentes</button>
+              <button type="button" id="btnLimparChamada" class="acao-secundaria">Limpar chamada</button>
+              <button type="button" id="btnSalvarChamada" class="acao-principal">Salvar chamada</button>
+            </div>
+
+            <div id="listaPresencas" class="lista-presencas">
+              <div class="empty-state-mini">Carregando chamada...</div>
+            </div>
+          </section>
+        </section>
+
+        <section id="viewAvisos" class="view-app">
+          <section class="painel-card avisos-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Avisos</span>
+                <h2>Avisos para alunos e turmas</h2>
+                <p>Crie avisos rápidos e copie a mensagem para enviar no WhatsApp.</p>
+              </div>
+            </div>
+
+            <form id="formAviso" class="perfil-form">
+              <label class="campo-perfil">
+                <span>Título do aviso</span>
+                <input type="text" id="avisoTitulo" placeholder="Ex: Graduação sábado às 10h">
+              </label>
+              <label class="campo-perfil">
+                <span>Turma / destino</span>
+                <input type="text" id="avisoTurma" placeholder="Ex: Todos, Infantil, Adulto noite">
+              </label>
+              <label class="campo-perfil campo-cheio">
+                <span>Mensagem</span>
+                <textarea id="avisoMensagem" rows="4" placeholder="Digite o aviso para os alunos..."></textarea>
+              </label>
+              <button type="submit" class="btn-salvar-perfil">Salvar aviso</button>
+              <p id="msgAviso" class="msg-perfil"></p>
+            </form>
+
+            <div id="listaAvisos" class="lista-evolucao avisos-lista">
+              <div class="empty-state-mini">Nenhum aviso cadastrado ainda.</div>
+            </div>
+          </section>
+        </section>
+
         <section id="viewPerfil" class="view-app">
           <section class="painel-card perfil-page">
             <div class="painel-topo">
@@ -273,8 +421,15 @@
               </label>
 
               <div class="perfil-ajuda">
-                Use somente números com DDD. Exemplo: <strong>31999999999</strong>.  
+                Use somente números com DDD. Exemplo: <strong>31999999999</strong>.
                 A página do aluno usará esse número no botão <strong>Falar com professor</strong>.
+              </div>
+
+              <div class="perfil-recursos">
+                <span class="perfil-recursos-titulo">Recursos do sistema</span>
+                <label><input type="checkbox" id="perfilModuloEvolucao" checked> Ativar módulo de evolução/graduação</label>
+                <label><input type="checkbox" id="perfilModuloPresenca"> Ativar presença e aula experimental</label>
+                <label><input type="checkbox" id="perfilModuloAvisos"> Ativar avisos por turma</label>
               </div>
 
               <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
@@ -371,29 +526,6 @@
     </div>
   </div>
 
-  <!-- Modal edição rápida -->
-  <div id="modalEdicaoRapida" class="modal escondido">
-    <div class="modal-card modal-pequeno">
-      <div class="modal-topo">
-        <h2>⚡ Editar valor/data</h2>
-        <button type="button" id="btnFecharEdicaoRapida" class="btn-fechar">×</button>
-      </div>
-
-      <input type="hidden" id="edicaoRapidaAlunoId">
-      <p class="edicao-rapida-nome" id="edicaoRapidaNome">Aluno</p>
-
-      <label class="label-campo">Mensalidade</label>
-      <input type="text" id="edicaoRapidaValor" placeholder="R$ 0,00" inputmode="numeric">
-
-      <label class="label-campo">Vencimento</label>
-      <input type="date" id="edicaoRapidaVencimento">
-
-      <div class="modal-acoes">
-        <button type="button" id="btnCancelarEdicaoRapida" class="btn-cancelar">Cancelar</button>
-        <button type="button" id="btnSalvarEdicaoRapida" class="acao-principal">Salvar</button>
-      </div>
-    </div>
-  </div>
 
   <div id="modalAluno" class="modal escondido">
   <div class="modal-card">
@@ -418,6 +550,53 @@
           placeholder="https://..."
           />
         </div>
+
+      <div class="form-section modulo-evolucao">
+        <h3>🥋 Evolução do aluno</h3>
+        <select id="faixaAluno">
+          <option value="">Faixa atual</option>
+          <option value="Branca">Branca</option>
+          <option value="Cinza">Cinza</option>
+          <option value="Amarela">Amarela</option>
+          <option value="Laranja">Laranja</option>
+          <option value="Verde">Verde</option>
+          <option value="Azul">Azul</option>
+          <option value="Roxa">Roxa</option>
+          <option value="Marrom">Marrom</option>
+          <option value="Preta">Preta</option>
+        </select>
+        <select id="grauAluno">
+          <option value="">Grau</option>
+          <option value="0">0 grau</option>
+          <option value="1">1º grau</option>
+          <option value="2">2º grau</option>
+          <option value="3">3º grau</option>
+          <option value="4">4º grau</option>
+        </select>
+        <input type="text" id="turmaAluno" placeholder="Turma / horário. Ex: Adulto noite">
+        <select id="statusAluno">
+          <option value="ativo">Ativo</option>
+          <option value="experimental">Experimental</option>
+          <option value="pausado">Pausado</option>
+          <option value="inativo">Inativo</option>
+        </select>
+        <label class="input-group">
+          <span>Data da última graduação</span>
+          <input type="date" id="dataUltimaGraduacao">
+        </label>
+        <input type="number" id="tempoMinimoAvaliacao" min="0" step="1" placeholder="Tempo mínimo para avaliação (meses)">
+        <textarea id="observacoesInternas" rows="3" placeholder="Observações internas do professor"></textarea>
+      </div>
+
+      <div class="form-section modulo-presenca">
+        <h3>👥 Aula experimental / responsável</h3>
+        <label class="input-group">
+          <span>Data da aula experimental</span>
+          <input type="date" id="dataExperimental">
+        </label>
+        <input type="text" id="responsavelNome" placeholder="Nome do responsável financeiro">
+        <input type="text" id="responsavelWhatsApp" placeholder="WhatsApp do responsável">
+      </div>
 
       <button type="submit" id="btnFormulario">Cadastrar aluno</button>
       <button type="button" id="btnCancelarEdicao" class="btn-cancelar escondido">
@@ -455,6 +634,44 @@
       <div class="modal-acoes">
         <button type="button" id="btnCancelarPagamento" class="btn-cancelar">Cancelar</button>
         <button type="button" id="btnConfirmarPagamento" class="acao-principal">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalGraduacao" class="modal escondido">
+    <div class="modal-card modal-pequeno">
+      <div class="modal-topo">
+        <h2>🥋 Registrar graduação</h2>
+        <button type="button" id="btnFecharModalGraduacao" class="btn-fechar">×</button>
+      </div>
+      <input type="hidden" id="graduacaoAlunoId">
+      <p id="graduacaoAlunoNome" class="edicao-rapida-nome">Aluno</p>
+      <label class="label-campo">Nova faixa</label>
+      <select id="novaFaixaGraduacao">
+        <option value="Branca">Branca</option>
+        <option value="Cinza">Cinza</option>
+        <option value="Amarela">Amarela</option>
+        <option value="Laranja">Laranja</option>
+        <option value="Verde">Verde</option>
+        <option value="Azul">Azul</option>
+        <option value="Roxa">Roxa</option>
+        <option value="Marrom">Marrom</option>
+        <option value="Preta">Preta</option>
+      </select>
+      <label class="label-campo">Novo grau</label>
+      <select id="novoGrauGraduacao">
+        <option value="0">0 grau</option>
+        <option value="1">1º grau</option>
+        <option value="2">2º grau</option>
+        <option value="3">3º grau</option>
+        <option value="4">4º grau</option>
+      </select>
+      <label class="label-campo">Data da graduação</label>
+      <input type="date" id="dataGraduacaoRegistro">
+      <textarea id="observacaoGraduacao" rows="3" placeholder="Observação da graduação"></textarea>
+      <div class="modal-acoes">
+        <button type="button" id="btnCancelarGraduacao" class="btn-cancelar">Cancelar</button>
+        <button type="button" id="btnSalvarGraduacao" class="acao-principal">Salvar graduação</button>
       </div>
     </div>
   </div>

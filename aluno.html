@@ -70,7 +70,18 @@
         <div id="areaPagamento" class="payment-actions"></div>
       </article>
 
-      <article class="history-card card-animate delay-2" id="cardHistorico">
+      <article class="evolution-card card-animate delay-2 escondido" id="cardEvolucaoAluno">
+        <div class="section-title-row">
+          <div>
+            <span class="eyebrow">Evolução</span>
+            <h2>Sua evolução</h2>
+          </div>
+          <span id="badgeEvolucao" class="mini-badge">Avaliação</span>
+        </div>
+        <div id="conteudoEvolucaoAluno" class="student-evolution-grid"></div>
+      </article>
+
+      <article class="history-card card-animate delay-3" id="cardHistorico">
         <div class="section-title-row">
           <div>
             <span class="eyebrow">Histórico</span>
@@ -153,6 +164,9 @@
     const btnEnviarComprovante = document.getElementById("btnEnviarComprovante");
     const msgComprovante = document.getElementById("msgComprovante");
     const btnCompartilhar = document.getElementById("btnCompartilhar");
+    const cardEvolucaoAluno = document.getElementById("cardEvolucaoAluno");
+    const conteudoEvolucaoAluno = document.getElementById("conteudoEvolucaoAluno");
+    const badgeEvolucao = document.getElementById("badgeEvolucao");
 
     let alunoAtual = null;
     let codigoPublico = null;
@@ -271,6 +285,60 @@
       return String(nome || "A").trim().charAt(0).toUpperCase() || "A";
     }
 
+    function adicionarMesesData(dataString, meses) {
+      if (!dataString || !meses) return "";
+      const partes = String(dataString).split("-");
+      if (partes.length !== 3) return "";
+      const data = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+      const dia = data.getDate();
+      data.setMonth(data.getMonth() + Number(meses));
+      if (data.getDate() !== dia) data.setDate(0);
+      return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
+    }
+
+    function statusEvolucaoAluno(aluno) {
+      if (!aluno.data_ultima_graduacao || !aluno.tempo_minimo_avaliacao_meses) {
+        return { texto: "Sem previsão", classe: "muted-badge", data: "" };
+      }
+      const previsao = adicionarMesesData(aluno.data_ultima_graduacao, aluno.tempo_minimo_avaliacao_meses);
+      const hoje = new Date();
+      const dataHoje = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+      const p = previsao.split("-");
+      const dataPrevista = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+      const dias = Math.ceil((dataPrevista - dataHoje) / (1000 * 60 * 60 * 24));
+      if (dias <= 0) return { texto: "Apto para avaliação", classe: "status-ok", data: previsao };
+      if (dias <= 30) return { texto: `Faltam ${dias} dias`, classe: "status-warn", data: previsao };
+      return { texto: `Faltam ${dias} dias`, classe: "muted-badge", data: previsao };
+    }
+
+    function renderizarEvolucaoAluno(aluno) {
+      if (!cardEvolucaoAluno || !conteudoEvolucaoAluno) return;
+      const temDados = aluno.faixa || aluno.grau || aluno.turma || aluno.data_ultima_graduacao || aluno.tempo_minimo_avaliacao_meses;
+      if (!temDados) {
+        cardEvolucaoAluno.classList.add("escondido");
+        return;
+      }
+      const status = statusEvolucaoAluno(aluno);
+      if (badgeEvolucao) {
+        badgeEvolucao.textContent = status.texto;
+        badgeEvolucao.className = `mini-badge ${status.classe}`;
+      }
+      const linhas = [
+        ["Faixa atual", aluno.faixa ? `Faixa ${aluno.faixa}` : "Não informada"],
+        ["Grau", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? `${aluno.grau}º grau` : "Não informado"],
+        ["Turma", aluno.turma || "Não informada"],
+        ["Última graduação", aluno.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"],
+        ["Previsão para avaliação", status.data ? formatarData(status.data) : "Não calculada"]
+      ];
+      conteudoEvolucaoAluno.innerHTML = linhas.map(([label, valor]) => `
+        <div class="evolution-info">
+          <span>${label}</span>
+          <strong>${valor}</strong>
+        </div>
+      `).join("");
+      cardEvolucaoAluno.classList.remove("escondido");
+    }
+
     function renderizarAluno(aluno) {
       const status = gerarStatus(aluno);
       const linkPagamento = normalizarLink(aluno.link_pagamento);
@@ -338,6 +406,7 @@
           `;
       }
 
+      renderizarEvolucaoAluno(aluno);
       mostrarPortal();
     }
 

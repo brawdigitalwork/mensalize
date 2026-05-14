@@ -1808,3 +1808,348 @@ body.menu-aberto .menu-overlay {
   border-color: var(--borda) !important;
   color: var(--texto-primario) !important;
 }
+
+/* ================================================================
+   MÓDULO EVOLUÇÃO / GRADUAÇÃO — FASES 1, 2 E 3
+================================================================ */
+select,
+textarea {
+  padding: 12px 14px;
+  background: var(--bg-input);
+  color: var(--texto-primario);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  outline: none;
+  width: 100%;
+  min-width: 0;
+  font-family: var(--fonte);
+  font-size: 16px;
+  min-height: 48px;
+  transition: border-color var(--trans), box-shadow var(--trans);
+}
+
+textarea { resize: vertical; min-height: 86px; }
+select:focus,
+textarea:focus {
+  border-color: var(--cor-roxo);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+}
+
+.form-section {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+  margin: 4px 0;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+}
+
+.form-section h3 {
+  grid-column: 1 / -1;
+  font-size: 14px;
+  color: var(--cor-roxo-claro);
+  margin-bottom: 2px;
+}
+
+.form-section textarea,
+.form-section .input-group {
+  grid-column: span 1;
+}
+
+.input-group span,
+.label-campo {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.aluno-evolucao-resumo {
+  margin-top: 5px !important;
+  color: var(--cor-roxo-claro) !important;
+  font-size: 12px !important;
+}
+
+.evolucao-mini-grid,
+.evolucao-resumo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.evolucao-mini-card,
+.evolucao-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  padding: 14px;
+}
+
+.evolucao-mini-card span,
+.evolucao-item span,
+.evolucao-item small {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.evolucao-mini-card strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--texto-primario);
+  font-size: 26px;
+}
+
+.lista-evolucao {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.evolucao-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.evolucao-item strong {
+  color: var(--texto-primario);
+  font-size: 15px;
+}
+
+.evolucao-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.evolucao-apto { border-color: var(--verde-borda); background: var(--verde-bg); }
+.evolucao-proximo { border-color: var(--amarelo-borda); background: var(--amarelo-bg); }
+.evolucao-evolucao { border-color: var(--cor-roxo-borda); background: var(--cor-roxo-bg); }
+
+.perfil-recursos {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+}
+
+.perfil-recursos-titulo {
+  color: var(--cor-roxo-claro);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.perfil-recursos label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--texto-secundario);
+  font-size: 14px;
+}
+
+.perfil-recursos input[type="checkbox"] {
+  width: auto;
+  min-height: auto;
+  accent-color: var(--cor-roxo);
+}
+
+.campo-cheio { grid-column: 1 / -1; }
+
+[data-tema="claro"] select,
+[data-tema="claro"] textarea {
+  background: #ffffff;
+  color: #111827;
+  border-color: rgba(17,24,39,0.12);
+}
+
+[data-tema="claro"] .form-section,
+[data-tema="claro"] .evolucao-mini-card,
+[data-tema="claro"] .evolucao-item,
+[data-tema="claro"] .perfil-recursos {
+  background: #ffffff;
+  border-color: rgba(17,24,39,0.10);
+}
+
+@media (max-width: 700px) {
+  .form-section,
+  .evolucao-item {
+    grid-template-columns: 1fr;
+  }
+  .evolucao-acoes {
+    justify-content: stretch;
+  }
+  .evolucao-acoes button {
+    width: 100%;
+  }
+}
+
+/* ================================================================
+   PRESENÇAS — CHAMADA POR TURMA
+================================================================ */
+.presencas-page {
+  overflow: hidden;
+}
+
+.presenca-controles {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(220px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.presenca-controles select,
+.presenca-controles input {
+  min-height: 48px;
+}
+
+.presenca-resumo-grid {
+  margin-bottom: 14px;
+}
+
+.presenca-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.lista-presencas {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.presenca-turma-card {
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 14px;
+}
+
+.presenca-turma-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.presenca-turma-topo strong {
+  color: var(--texto-primario);
+  font-size: 15px;
+}
+
+.presenca-turma-topo span {
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+.presenca-alunos {
+  display: grid;
+  gap: 8px;
+}
+
+.presenca-aluno-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-md);
+  cursor: pointer;
+  transition: border-color var(--trans), background var(--trans), transform var(--trans);
+}
+
+.presenca-aluno-item:hover {
+  border-color: var(--borda-hover);
+  transform: translateY(-1px);
+}
+
+.presenca-aluno-item input {
+  width: 18px;
+  min-height: 18px;
+  accent-color: var(--verde);
+}
+
+.presenca-aluno-item strong {
+  display: block;
+  color: var(--texto-primario);
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.presenca-aluno-item span {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.presenca-aluno-item em {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 9px;
+  border-radius: var(--raio-pill);
+  white-space: nowrap;
+}
+
+.presenca-aluno-item.presente {
+  border-color: var(--verde-borda);
+  background: var(--verde-bg);
+}
+
+.presenca-aluno-item.presente em {
+  color: var(--verde);
+  background: rgba(34,197,94,0.12);
+  border: 1px solid var(--verde-borda);
+}
+
+.presenca-aluno-item.faltou em {
+  color: var(--texto-secundario);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--borda);
+}
+
+[data-tema="claro"] .presenca-turma-card,
+[data-tema="claro"] .presenca-aluno-item {
+  background: #ffffff;
+  border-color: rgba(17,24,39,0.10);
+}
+
+[data-tema="claro"] .presenca-aluno-item.presente {
+  background: rgba(34,197,94,0.10);
+  border-color: rgba(34,197,94,0.25);
+}
+
+@media (max-width: 800px) {
+  .presenca-controles {
+    grid-template-columns: 1fr;
+  }
+  .presenca-acoes {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .presenca-aluno-item {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .presenca-aluno-item em {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}

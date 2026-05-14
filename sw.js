@@ -1,5 +1,5 @@
 // sw.js — Service Worker Mensalize
-const CACHE_NAME = 'mensalize-v5';
+const CACHE_NAME = 'mensalize-v6';
 
 const ASSETS = [
   '/',

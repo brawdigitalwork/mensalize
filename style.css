@@ -3525,3 +3525,237 @@ video {
     font-size: 26px !important;
   }
 }
+
+/* =========================================================
+   AJUSTE FINAL - FOTO DO ANIVERSARIANTE MENOR E PREMIUM
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .card-aniversariante,
+  .aniversariante-card,
+  .birthday-card,
+  .aniversariantes-container article,
+  .aniversariantes-lista article,
+  .lista-aniversariantes article {
+    border-radius: 24px !important;
+    overflow: hidden !important;
+  }
+
+  .card-aniversariante img,
+  .aniversariante-card img,
+  .birthday-card img,
+  .aniversariantes-container img,
+  .aniversariantes-lista img,
+  .lista-aniversariantes img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 260px !important;
+    max-height: 260px !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    border-radius: 18px !important;
+  }
+}
+
+/* =========================================================
+   AJUSTE FINAL - ANIVERSARIANTES NO COMPUTADOR
+   ========================================================= */
+
+/* =========================================================
+   AJUSTE FINAL - ANIVERSARIANTES NO COMPUTADOR COMPACTO
+   ========================================================= */
+
+@media (min-width: 769px) {
+  .aniversariantes-container,
+  .aniversariantes-lista,
+  .lista-aniversariantes {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 280px)) !important;
+    gap: 16px !important;
+    align-items: start !important;
+    justify-content: start !important;
+  }
+
+  .card-aniversariante,
+  .aniversariante-card,
+  .birthday-card,
+  .aniversariantes-container article,
+  .aniversariantes-lista article,
+  .lista-aniversariantes article {
+    width: 100% !important;
+    max-width: 280px !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+  }
+
+  .card-aniversariante img,
+  .aniversariante-card img,
+  .birthday-card img,
+  .aniversariantes-container img,
+  .aniversariantes-lista img,
+  .lista-aniversariantes img {
+    display: block !important;
+    width: 100% !important;
+    height: 120px !important;
+    max-height: 120px !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* =========================================================
+   CORREÇÃO FINAL - ANIVERSARIANTES ALINHADO E COMPACTO
+   ========================================================= */
+
+#aniversariantes,
+#listaAniversariantes,
+#cardsAniversariantes,
+.aniversariantes,
+.aniversariantes-container,
+.aniversariantes-lista,
+.lista-aniversariantes {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 220px)) !important;
+  gap: 18px !important;
+  align-items: stretch !important;
+  justify-content: start !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Cada aniversariante vira um card organizado */
+#aniversariantes > *,
+#listaAniversariantes > *,
+#cardsAniversariantes > *,
+.aniversariantes > *,
+.aniversariantes-container > *,
+.aniversariantes-lista > *,
+.lista-aniversariantes > * {
+  width: 100% !important;
+  max-width: 220px !important;
+  min-height: 210px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: center !important;
+  gap: 10px !important;
+  padding: 16px 14px !important;
+  overflow: hidden !important;
+  border-radius: 22px !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  border: 1px solid rgba(255, 255, 255, 0.075) !important;
+}
+
+/* Foto redonda */
+#aniversariantes img,
+#listaAniversariantes img,
+#cardsAniversariantes img,
+.aniversariantes img,
+.aniversariantes-container img,
+.aniversariantes-lista img,
+.lista-aniversariantes img {
+  width: 82px !important;
+  height: 82px !important;
+  max-width: 82px !important;
+  max-height: 82px !important;
+  min-width: 82px !important;
+  min-height: 82px !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  border-radius: 999px !important;
+  display: block !important;
+  margin: 0 auto !important;
+  flex-shrink: 0 !important;
+}
+
+/* Textos dentro do card */
+#aniversariantes p,
+#aniversariantes strong,
+#aniversariantes span,
+#listaAniversariantes p,
+#listaAniversariantes strong,
+#listaAniversariantes span,
+#cardsAniversariantes p,
+#cardsAniversariantes strong,
+#cardsAniversariantes span,
+.aniversariantes p,
+.aniversariantes strong,
+.aniversariantes span,
+.aniversariantes-container p,
+.aniversariantes-container strong,
+.aniversariantes-container span,
+.aniversariantes-lista p,
+.aniversariantes-lista strong,
+.aniversariantes-lista span,
+.lista-aniversariantes p,
+.lista-aniversariantes strong,
+.lista-aniversariantes span {
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  line-height: 1.25 !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Botão parabenizar */
+#aniversariantes button,
+#listaAniversariantes button,
+#cardsAniversariantes button,
+.aniversariantes button,
+.aniversariantes-container button,
+.aniversariantes-lista button,
+.lista-aniversariantes button {
+  width: 100% !important;
+  max-width: 150px !important;
+  min-height: 42px !important;
+  margin: 4px auto 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 14px !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #aniversariantes,
+  #listaAniversariantes,
+  #cardsAniversariantes,
+  .aniversariantes,
+  .aniversariantes-container,
+  .aniversariantes-lista,
+  .lista-aniversariantes {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  #aniversariantes > *,
+  #listaAniversariantes > *,
+  #cardsAniversariantes > *,
+  .aniversariantes > *,
+  .aniversariantes-container > *,
+  .aniversariantes-lista > *,
+  .lista-aniversariantes > * {
+    max-width: 100% !important;
+    min-height: auto !important;
+    padding: 16px !important;
+  }
+
+  #aniversariantes img,
+  #listaAniversariantes img,
+  #cardsAniversariantes img,
+  .aniversariantes img,
+  .aniversariantes-container img,
+  .aniversariantes-lista img,
+  .lista-aniversariantes img {
+    width: 88px !important;
+    height: 88px !important;
+    max-width: 88px !important;
+    max-height: 88px !important;
+    min-width: 88px !important;
+    min-height: 88px !important;
+  }
+}

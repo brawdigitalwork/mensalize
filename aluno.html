@@ -10,7 +10,9 @@
   <meta property="og:title" content="Área do Aluno - Mensalize" />
   <meta property="og:description" content="Acompanhe sua mensalidade, dados e evolução pelo Mensalize." />
   <link rel="stylesheet" href="aluno.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
   <script src="config.js"></script>
 </head>
 <body>
@@ -129,9 +131,9 @@
               </div>
               <div>
                 <strong>Foto de perfil</strong>
-                <p>Envie uma foto sua para facilitar a identificação na academia.</p>
+                <p>Escolha uma foto e ajuste igual WhatsApp/Instagram: arraste, dê zoom e salve o recorte.</p>
                 <input id="inputFotoAluno" type="file" accept="image/*" />
-                <button id="btnSalvarFotoAluno" type="button" class="secondary-action">Salvar foto</button>
+                <button id="btnSalvarFotoAluno" type="button" class="secondary-action">Escolher foto</button>
                 <p id="msgFotoAluno" class="soft-message"></p>
               </div>
             </div>
@@ -306,6 +308,39 @@
     <a href="javascript:location.reload()" class="retry-link">Tentar novamente</a>
   </section>
 
+
+  <section id="modalEditorFotoAluno" class="photo-editor-modal escondido" aria-hidden="true">
+    <div class="photo-editor-card" role="dialog" aria-modal="true" aria-labelledby="tituloEditorFotoAluno">
+      <div class="photo-editor-top">
+        <div>
+          <span class="eyebrow">Foto de perfil</span>
+          <h2 id="tituloEditorFotoAluno">Ajustar foto</h2>
+          <p>Arraste a imagem, use zoom e salve o recorte quadrado.</p>
+        </div>
+        <button id="btnCancelarEditorFoto" type="button" class="photo-editor-close" aria-label="Fechar">×</button>
+      </div>
+
+      <div class="photo-editor-area">
+        <img id="imagemEditorFotoAluno" alt="Foto selecionada para recorte" />
+      </div>
+
+      <div class="photo-editor-tools">
+        <button id="btnZoomMenosFoto" type="button" class="secondary-action">− Zoom</button>
+        <button id="btnZoomMaisFoto" type="button" class="secondary-action">+ Zoom</button>
+        <button id="btnGirarFoto" type="button" class="secondary-action">Girar</button>
+        <button id="btnResetarFoto" type="button" class="secondary-action">Resetar</button>
+      </div>
+
+      <div class="photo-editor-actions">
+        <button id="btnTrocarFotoEditor" type="button" class="secondary-action">Trocar foto</button>
+        <button id="btnSalvarRecorteFoto" type="button" class="primary-action">Salvar recorte</button>
+      </div>
+
+      <p id="msgEditorFotoAluno" class="soft-message"></p>
+    </div>
+  </section>
+
+
   <script>
     const supabaseClient = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey);
 
@@ -347,6 +382,17 @@
     const btnSalvarFotoAluno = document.getElementById("btnSalvarFotoAluno");
     const msgFotoAluno = document.getElementById("msgFotoAluno");
 
+    const modalEditorFotoAluno = document.getElementById("modalEditorFotoAluno");
+    const imagemEditorFotoAluno = document.getElementById("imagemEditorFotoAluno");
+    const btnCancelarEditorFoto = document.getElementById("btnCancelarEditorFoto");
+    const btnZoomMenosFoto = document.getElementById("btnZoomMenosFoto");
+    const btnZoomMaisFoto = document.getElementById("btnZoomMaisFoto");
+    const btnGirarFoto = document.getElementById("btnGirarFoto");
+    const btnResetarFoto = document.getElementById("btnResetarFoto");
+    const btnTrocarFotoEditor = document.getElementById("btnTrocarFotoEditor");
+    const btnSalvarRecorteFoto = document.getElementById("btnSalvarRecorteFoto");
+    const msgEditorFotoAluno = document.getElementById("msgEditorFotoAluno");
+
     const formPerfilAluno = document.getElementById("formPerfilAluno");
     const perfilAlunoNome = document.getElementById("perfilAlunoNome");
     const perfilAlunoTelefone = document.getElementById("perfilAlunoTelefone");
@@ -383,6 +429,7 @@
     let alunoAtual = null;
     let codigoPublico = null;
     let arquivoFoto = null;
+    let cropperFotoAluno = null;
     let rankingsAluno = { geral: [], turma: [], turmas: [] };
     let rankingAtivoAluno = "turma";
 
@@ -865,53 +912,174 @@
     }
 
     inputFotoAluno?.addEventListener("change", function() {
-      arquivoFoto = this.files && this.files[0] ? this.files[0] : null;
-      msgFotoAluno.textContent = arquivoFoto ? "Foto selecionada. Clique em salvar foto." : "";
-      msgFotoAluno.classList.remove("is-error");
+      const arquivo = this.files && this.files[0] ? this.files[0] : null;
+      if (arquivo) abrirEditorFotoAluno(arquivo);
     });
 
-    btnSalvarFotoAluno?.addEventListener("click", async function() {
-      if (!arquivoFoto || !codigoPublico) {
-        msgFotoAluno.textContent = "Escolha uma foto primeiro.";
-        msgFotoAluno.classList.add("is-error");
-        return;
+    function fecharEditorFotoAluno() {
+      modalEditorFotoAluno?.classList.add("escondido");
+      modalEditorFotoAluno?.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("photo-editor-open");
+
+      if (cropperFotoAluno) {
+        cropperFotoAluno.destroy();
+        cropperFotoAluno = null;
       }
-      if (!arquivoFoto.type.startsWith("image/")) {
+
+      if (imagemEditorFotoAluno) {
+        imagemEditorFotoAluno.removeAttribute("src");
+      }
+
+      if (msgEditorFotoAluno) {
+        msgEditorFotoAluno.textContent = "";
+        msgEditorFotoAluno.classList.remove("is-error");
+      }
+    }
+
+    function abrirEditorFotoAluno(arquivo) {
+      if (!arquivo) return;
+
+      if (!arquivo.type.startsWith("image/")) {
         msgFotoAluno.textContent = "Envie apenas imagem.";
         msgFotoAluno.classList.add("is-error");
         return;
       }
-      if (arquivoFoto.size > 3 * 1024 * 1024) {
-        msgFotoAluno.textContent = "A foto precisa ter no máximo 3MB.";
+
+      if (arquivo.size > 8 * 1024 * 1024) {
+        msgFotoAluno.textContent = "A foto precisa ter no máximo 8MB.";
         msgFotoAluno.classList.add("is-error");
         return;
       }
 
-      btnSalvarFotoAluno.disabled = true;
-      msgFotoAluno.textContent = "Enviando foto...";
+      arquivoFoto = arquivo;
+      msgFotoAluno.textContent = "";
       msgFotoAluno.classList.remove("is-error");
 
+      const leitor = new FileReader();
+
+      leitor.onload = function(event) {
+        imagemEditorFotoAluno.src = event.target.result;
+        modalEditorFotoAluno.classList.remove("escondido");
+        modalEditorFotoAluno.setAttribute("aria-hidden", "false");
+        document.body.classList.add("photo-editor-open");
+
+        if (cropperFotoAluno) {
+          cropperFotoAluno.destroy();
+          cropperFotoAluno = null;
+        }
+
+        imagemEditorFotoAluno.onload = function() {
+          cropperFotoAluno = new Cropper(imagemEditorFotoAluno, {
+            aspectRatio: 1,
+            viewMode: 1,
+            dragMode: "move",
+            autoCropArea: 1,
+            background: false,
+            responsive: true,
+            restore: false,
+            guides: false,
+            center: true,
+            highlight: false,
+            cropBoxMovable: false,
+            cropBoxResizable: false,
+            toggleDragModeOnDblclick: false,
+            minContainerWidth: 280,
+            minContainerHeight: 280
+          });
+        };
+      };
+
+      leitor.readAsDataURL(arquivo);
+    }
+
+    async function salvarRecorteFotoAluno() {
+      if (!cropperFotoAluno || !codigoPublico) {
+        msgEditorFotoAluno.textContent = "Escolha e ajuste uma foto primeiro.";
+        msgEditorFotoAluno.classList.add("is-error");
+        return;
+      }
+
+      btnSalvarRecorteFoto.disabled = true;
+      msgEditorFotoAluno.textContent = "Salvando foto...";
+      msgEditorFotoAluno.classList.remove("is-error");
+
       try {
-        const extensao = (arquivoFoto.name.split(".").pop() || "jpg").toLowerCase();
-        const caminho = `${codigoPublico}/perfil-${Date.now()}.${extensao}`;
+        const canvas = cropperFotoAluno.getCroppedCanvas({
+          width: 640,
+          height: 640,
+          imageSmoothingEnabled: true,
+          imageSmoothingQuality: "high"
+        });
+
+        if (!canvas) throw new Error("Não foi possível gerar o recorte.");
+
+        const blob = await new Promise((resolve, reject) => {
+          canvas.toBlob((resultado) => {
+            if (resultado) resolve(resultado);
+            else reject(new Error("Não foi possível gerar a imagem."));
+          }, "image/jpeg", 0.88);
+        });
+
+        const caminho = `${codigoPublico}/perfil-${Date.now()}.jpg`;
+
         const { error: erroUpload } = await supabaseClient.storage
           .from("fotos-alunos")
-          .upload(caminho, arquivoFoto, { cacheControl: "3600", upsert: true });
+          .upload(caminho, blob, {
+            cacheControl: "3600",
+            contentType: "image/jpeg",
+            upsert: true
+          });
+
         if (erroUpload) throw erroUpload;
-        const { data: publicData } = supabaseClient.storage.from("fotos-alunos").getPublicUrl(caminho);
+
+        const { data: publicData } = supabaseClient.storage
+          .from("fotos-alunos")
+          .getPublicUrl(caminho);
+
         const fotoUrl = publicData.publicUrl;
-        const { data, error } = await supabaseClient.rpc("atualizar_foto_aluno_publico", { codigo: codigoPublico, nova_foto_url: fotoUrl });
+
+        const { data, error } = await supabaseClient.rpc("atualizar_foto_aluno_publico", {
+          codigo: codigoPublico,
+          nova_foto_url: fotoUrl
+        });
+
         if (error || data === false) throw error || new Error("Falha ao salvar foto");
+
         msgFotoAluno.textContent = "✅ Foto atualizada.";
+        msgFotoAluno.classList.remove("is-error");
         arquivoFoto = null;
         inputFotoAluno.value = "";
+        fecharEditorFotoAluno();
         await carregarAluno();
+
       } catch (erro) {
-        msgFotoAluno.textContent = "Não foi possível salvar a foto agora.";
-        msgFotoAluno.classList.add("is-error");
+        console.error("Erro ao salvar recorte:", erro);
+        msgEditorFotoAluno.textContent = "Não foi possível salvar o recorte da foto.";
+        msgEditorFotoAluno.classList.add("is-error");
       } finally {
-        btnSalvarFotoAluno.disabled = false;
+        btnSalvarRecorteFoto.disabled = false;
       }
+    }
+
+    btnSalvarFotoAluno?.addEventListener("click", function() {
+      inputFotoAluno?.click();
+    });
+
+    btnCancelarEditorFoto?.addEventListener("click", fecharEditorFotoAluno);
+
+    btnTrocarFotoEditor?.addEventListener("click", function() {
+      fecharEditorFotoAluno();
+      inputFotoAluno?.click();
+    });
+
+    btnZoomMenosFoto?.addEventListener("click", () => cropperFotoAluno?.zoom(-0.1));
+    btnZoomMaisFoto?.addEventListener("click", () => cropperFotoAluno?.zoom(0.1));
+    btnGirarFoto?.addEventListener("click", () => cropperFotoAluno?.rotate(90));
+    btnResetarFoto?.addEventListener("click", () => cropperFotoAluno?.reset());
+    btnSalvarRecorteFoto?.addEventListener("click", salvarRecorteFotoAluno);
+
+    modalEditorFotoAluno?.addEventListener("click", (event) => {
+      if (event.target === modalEditorFotoAluno) fecharEditorFotoAluno();
     });
 
     formPerfilAluno?.addEventListener("submit", async function(event) {

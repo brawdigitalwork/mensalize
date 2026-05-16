@@ -1429,3 +1429,538 @@ video {
     gap: 6px !important;
   }
 }
+
+/* ================================================================
+   CORREÇÃO FINAL — RANKING EM FORMATO DE PÓDIO
+   Cards menores + 1º lugar mais alto + 2º e 3º em degraus
+   Este bloco fica no FINAL para sobrescrever os blocos antigos.
+================================================================ */
+
+.podium-first {
+  animation: none !important;
+}
+
+.ranking-podium {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(160px, 210px)) !important;
+  justify-content: center !important;
+  align-items: end !important;
+  gap: 16px !important;
+  margin-top: 18px !important;
+  padding-top: 26px !important;
+  padding-bottom: 34px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.podium-card {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 210px !important;
+  min-width: 0 !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.035)) !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  border-radius: 22px !important;
+  padding: 12px 10px !important;
+  overflow: hidden !important;
+  transform: none !important;
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease !important;
+}
+
+.podium-card::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(139,92,246,0.16), transparent 46%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), transparent) !important;
+  pointer-events: none !important;
+}
+
+.podium-card::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 16px !important;
+  right: 16px !important;
+  bottom: 0 !important;
+  height: 4px !important;
+  border-radius: 999px 999px 0 0 !important;
+  background: rgba(196,181,253,0.35) !important;
+}
+
+.podium-card > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* 2º lugar — esquerda */
+.ranking-podium .podium-card:nth-child(1) {
+  min-height: 178px !important;
+  transform: translateY(14px) !important;
+  border-color: rgba(148,163,184,0.30) !important;
+}
+
+.ranking-podium .podium-card:nth-child(1)::after {
+  background: linear-gradient(90deg, rgba(148,163,184,0.25), rgba(226,232,240,0.55), rgba(148,163,184,0.25)) !important;
+}
+
+/* 1º lugar — meio */
+.ranking-podium .podium-card:nth-child(2),
+.ranking-podium .podium-card.podium-first,
+.podium-first {
+  min-height: 220px !important;
+  transform: translateY(-12px) !important;
+  border-color: rgba(245,158,11,0.42) !important;
+  box-shadow: 0 18px 46px rgba(245,158,11,0.10) !important;
+}
+
+.ranking-podium .podium-card:nth-child(2)::after,
+.ranking-podium .podium-card.podium-first::after,
+.podium-first::after {
+  background: linear-gradient(90deg, rgba(245,158,11,0.25), rgba(251,191,36,0.75), rgba(245,158,11,0.25)) !important;
+}
+
+/* 3º lugar — direita */
+.ranking-podium .podium-card:nth-child(3) {
+  min-height: 158px !important;
+  transform: translateY(28px) !important;
+  border-color: rgba(249,115,22,0.30) !important;
+}
+
+.ranking-podium .podium-card:nth-child(3)::after {
+  background: linear-gradient(90deg, rgba(249,115,22,0.22), rgba(251,146,60,0.55), rgba(249,115,22,0.22)) !important;
+}
+
+.ranking-podium .podium-card:nth-child(1):hover {
+  transform: translateY(8px) !important;
+}
+
+.ranking-podium .podium-card:nth-child(2):hover,
+.ranking-podium .podium-card.podium-first:hover,
+.podium-first:hover {
+  transform: translateY(-18px) !important;
+}
+
+.ranking-podium .podium-card:nth-child(3):hover {
+  transform: translateY(22px) !important;
+}
+
+.podium-card:hover {
+  border-color: rgba(196,181,253,0.35) !important;
+  box-shadow: 0 20px 48px rgba(124,58,237,0.16) !important;
+}
+
+.podium-medal {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 30px !important;
+  height: 30px !important;
+  margin: 0 auto 8px !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.065) !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+.ranking-photo,
+.ranking-avatar {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
+  max-width: 46px !important;
+  max-height: 46px !important;
+  border-radius: 999px !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  margin: 0 auto 8px !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.25) !important;
+}
+
+.ranking-photo-big,
+.ranking-avatar-big,
+.podium-first .ranking-photo,
+.podium-first .ranking-avatar,
+.ranking-podium .podium-card:nth-child(2) .ranking-photo,
+.ranking-podium .podium-card:nth-child(2) .ranking-avatar {
+  width: 58px !important;
+  height: 58px !important;
+  min-width: 58px !important;
+  min-height: 58px !important;
+  max-width: 58px !important;
+  max-height: 58px !important;
+}
+
+.podium-card strong {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.podium-card small {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  color: var(--texto-secundario) !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+  margin-top: 4px !important;
+  text-align: center !important;
+}
+
+.podium-card .you-badge,
+.you-badge {
+  margin-top: 8px !important;
+  padding: 4px 9px !important;
+  font-size: 10px !important;
+  border-radius: 999px !important;
+}
+
+@media (max-width: 760px) {
+  .ranking-podium {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    padding-top: 18px !important;
+    padding-bottom: 24px !important;
+  }
+
+  .podium-card {
+    max-width: none !important;
+    border-radius: 18px !important;
+    padding: 10px 6px !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(1) {
+    min-height: 145px !important;
+    transform: translateY(8px) !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(2),
+  .ranking-podium .podium-card.podium-first,
+  .podium-first {
+    min-height: 170px !important;
+    transform: translateY(-6px) !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(3) {
+    min-height: 132px !important;
+    transform: translateY(14px) !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(1):hover {
+    transform: translateY(8px) !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(2):hover,
+  .ranking-podium .podium-card.podium-first:hover,
+  .podium-first:hover {
+    transform: translateY(-6px) !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(3):hover {
+    transform: translateY(14px) !important;
+  }
+
+  .podium-medal {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 16px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .ranking-photo,
+  .ranking-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+  }
+
+  .ranking-photo-big,
+  .ranking-avatar-big,
+  .podium-first .ranking-photo,
+  .podium-first .ranking-avatar,
+  .ranking-podium .podium-card:nth-child(2) .ranking-photo,
+  .ranking-podium .podium-card:nth-child(2) .ranking-avatar {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+  }
+
+  .podium-card strong {
+    font-size: 11px !important;
+  }
+
+  .podium-card small {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .ranking-podium {
+    gap: 5px !important;
+  }
+
+  .podium-card {
+    padding: 9px 4px !important;
+    border-radius: 16px !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(1) {
+    min-height: 138px !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(2),
+  .ranking-podium .podium-card.podium-first,
+  .podium-first {
+    min-height: 160px !important;
+  }
+
+  .ranking-podium .podium-card:nth-child(3) {
+    min-height: 126px !important;
+  }
+
+  .podium-card small {
+    font-size: 9px !important;
+  }
+}
+
+/* ================================================================
+   CORREÇÃO — FOTOS DE PERFIL SEM ESTICAR
+   Mantém proporção original e corta bonito no centro.
+================================================================ */
+
+.student-top-photo,
+.photo-preview,
+.photo-avatar,
+.ranking-photo,
+.ranking-photo-big,
+.ranking-avatar,
+.ranking-avatar-big,
+img.student-top-photo,
+img.photo-preview,
+img.ranking-photo,
+img.ranking-photo-big {
+  object-fit: cover !important;
+  object-position: center top !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+/* Foto do perfil do aluno */
+.photo-preview,
+.photo-avatar {
+  width: 90px !important;
+  height: 90px !important;
+  min-width: 90px !important;
+  min-height: 90px !important;
+  max-width: 90px !important;
+  max-height: 90px !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+}
+
+/* Foto pequena do topo */
+.student-top-photo,
+.student-top-avatar {
+  object-fit: cover !important;
+  object-position: center top !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+/* Ranking/pódio */
+.ranking-photo,
+.ranking-photo-big {
+  object-fit: cover !important;
+  object-position: center top !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+/* ================================================================
+   EDITOR DE FOTO DO ALUNO — RECORTE ESTILO WHATSAPP/INSTAGRAM
+================================================================ */
+
+.photo-editor-open {
+  overflow: hidden !important;
+}
+
+.photo-editor-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  background: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.photo-editor-card {
+  width: min(520px, 100%);
+  max-height: 94dvh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, rgba(18,20,36,0.98), rgba(8,9,18,0.98));
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 28px;
+  padding: 18px;
+  box-shadow: 0 28px 90px rgba(0,0,0,0.55);
+}
+
+.photo-editor-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.photo-editor-top h2 {
+  color: #fff;
+  font-size: 24px;
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+  margin: 4px 0 6px;
+}
+
+.photo-editor-top p {
+  color: var(--texto-secundario);
+  font-size: 13px;
+}
+
+.photo-editor-close {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+  border-radius: 999px;
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.30);
+  color: #fca5a5;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.photo-editor-close:hover {
+  background: rgba(239,68,68,0.22);
+  transform: none;
+  box-shadow: none;
+}
+
+.photo-editor-area {
+  position: relative;
+  width: 100%;
+  height: min(420px, 70vw);
+  min-height: 300px;
+  max-height: 460px;
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at center, rgba(139,92,246,0.18), transparent 50%),
+    rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.photo-editor-area img {
+  display: block;
+  max-width: 100%;
+}
+
+.photo-editor-tools {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.photo-editor-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.photo-editor-tools button,
+.photo-editor-actions button {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 15px !important;
+}
+
+.cropper-view-box,
+.cropper-face {
+  border-radius: 999px;
+}
+
+.cropper-view-box {
+  outline: 2px solid rgba(196,181,253,0.95);
+  outline-color: rgba(196,181,253,0.95);
+  box-shadow: 0 0 0 9999px rgba(0,0,0,0.42);
+}
+
+.cropper-line,
+.cropper-point {
+  display: none !important;
+}
+
+.cropper-modal {
+  background: rgba(0,0,0,0.35);
+}
+
+#inputFotoAluno {
+  display: none;
+}
+
+.photo-preview,
+.student-top-photo,
+.ranking-photo,
+.ranking-photo-big {
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+@media (max-width: 560px) {
+  .photo-editor-modal {
+    align-items: end;
+    padding: 10px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  .photo-editor-card {
+    border-radius: 26px 26px 18px 18px;
+    padding: 16px;
+  }
+
+  .photo-editor-area {
+    height: min(360px, 86vw);
+    min-height: 270px;
+    border-radius: 22px;
+  }
+
+  .photo-editor-tools {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .photo-editor-actions {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1115,3 +1115,317 @@ input:focus, textarea:focus, select:focus { border-color: rgba(196,181,253,0.50)
   color: #8b8aa4;
   font-size: 12px;
 }
+
+/* ================================================================
+   AJUSTE FINAL RESPONSIVO — ÁREA DO ALUNO
+   Corrige overflow horizontal, topo e cards no celular.
+================================================================ */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+.student-app,
+.student-main,
+.student-content,
+.student-view,
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card,
+.ranking-home-card,
+.student-notice-item,
+.payment-item,
+.ranking-row,
+.photo-box,
+.status-hero,
+.summary-box,
+.evolution-info {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.student-content {
+  width: 100%;
+}
+
+.student-view,
+.welcome-card,
+.panel-card,
+.quick-card,
+.ranking-home-card,
+.student-notice-item,
+.payment-item,
+.ranking-row {
+  overflow-wrap: anywhere;
+}
+
+.student-view img,
+.welcome-card img,
+.panel-card img,
+.ranking-home-card img,
+.student-notice-item img,
+.payment-item img,
+.photo-box img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.student-topbar {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  body {
+    font-size: 14px;
+    overscroll-behavior-x: none;
+  }
+
+  .student-app {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .student-main {
+    width: 100% !important;
+  }
+
+  .student-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    min-height: 66px !important;
+    height: auto !important;
+    padding: calc(10px + var(--safe-top)) max(14px, calc(14px + var(--safe-right))) 10px max(14px, calc(14px + var(--safe-left))) !important;
+    border-radius: 0 0 22px 22px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .menu-button {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    flex: 0 0 42px !important;
+    padding: 0 !important;
+    border-radius: 15px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .student-small-profile {
+    min-width: 0 !important;
+    max-width: calc(100vw - 74px) !important;
+    margin-left: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .student-small-profile strong {
+    max-width: 100% !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .student-top-photo,
+  .student-top-avatar {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+  }
+
+  .student-content {
+    padding: 16px max(14px, calc(14px + var(--safe-right))) calc(28px + var(--safe-bottom)) max(14px, calc(14px + var(--safe-left))) !important;
+    max-width: 100% !important;
+  }
+
+  .student-view.ativa {
+    gap: 12px !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .error-card,
+  .ranking-home-card,
+  .summary-box,
+  .evolution-info,
+  .student-notice-item,
+  .payment-item,
+  .ranking-row,
+  .photo-box,
+  .status-hero {
+    border-radius: 22px !important;
+    padding: 16px !important;
+  }
+
+  .welcome-card h1,
+  .status-hero h2,
+  .section-title-row h2 {
+    font-size: clamp(20px, 6vw, 25px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.05em;
+  }
+
+  .quick-grid,
+  .finance-summary-grid,
+  .student-evolution-grid,
+  .student-form {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .section-title-row,
+  .status-hero,
+  .payment-item,
+  .photo-box {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .action-row,
+  .payment-actions,
+  .contact-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .primary-action,
+  .secondary-action,
+  .pay-button,
+  .whatsapp-button,
+  .share-button {
+    width: 100% !important;
+  }
+
+  .ranking-tabs,
+  .mini-tabs {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .ranking-tabs::-webkit-scrollbar,
+  .mini-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ranking-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .ranking-podium {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+
+  .podium-card {
+    border-radius: 18px !important;
+    padding: 12px 6px !important;
+  }
+
+  .podium-card strong {
+    font-size: 12px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .podium-card small {
+    font-size: 11px !important;
+  }
+
+  .ranking-photo,
+  .ranking-avatar {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .ranking-photo-big,
+  .ranking-avatar-big {
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .ranking-row {
+    grid-template-columns: auto auto minmax(0, 1fr) !important;
+  }
+
+  .ranking-row > .mini-badge,
+  .ranking-row > small:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .photo-preview-wrap {
+    margin: 0 auto !important;
+  }
+
+  .photo-preview,
+  .photo-avatar {
+    width: 76px !important;
+    height: 76px !important;
+  }
+
+  .update-banner {
+    left: max(14px, calc(14px + var(--safe-left))) !important;
+    right: max(14px, calc(14px + var(--safe-right))) !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .student-topbar {
+    min-height: 64px !important;
+    border-radius: 0 0 20px 20px !important;
+  }
+
+  .student-content {
+    padding-top: 14px !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .ranking-home-card,
+  .student-notice-item,
+  .payment-item,
+  .ranking-row,
+  .photo-box,
+  .status-hero {
+    border-radius: 20px !important;
+    padding: 14px !important;
+  }
+
+  .ranking-podium {
+    gap: 6px !important;
+  }
+}

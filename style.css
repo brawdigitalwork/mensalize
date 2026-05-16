@@ -3101,111 +3101,348 @@ select option:hover {
   }
 }
 
-/* =========================================================
-   CORREÇÃO MOBILE - TELA INICIAL / TOPO
-   ========================================================= */
+/* ================================================================
+   AJUSTE FINAL RESPONSIVO — PROFESSOR / DASHBOARD
+   Corrige overflow horizontal, topo no mobile e cards grandes.
+================================================================ */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
-@media (max-width: 768px) {
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
 
-  body {
-    padding-top: 0;
-    overflow-x: hidden;
-  }
+img,
+video {
+  height: auto;
+}
 
-  .app-header,
-  .topbar,
-  .header,
-  .main-header {
-    min-height: auto !important;
-    padding: 22px 18px 24px !important;
-    border-radius: 0 0 34px 34px !important;
-  }
+.app-layout,
+.conteudo-app,
+.container,
+.container-dashboard,
+.view-app,
+.dashboard-grid,
+.cards-dashboard,
+.cards,
+.lista,
+.area-formulario,
+.painel-card,
+.dashboard-hero,
+.financeiro-page,
+.financeiro-box,
+.aluno-card,
+.turma-card,
+.turma-item,
+.aviso-card,
+.solicitacao-card,
+.presenca-turma-card {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
 
-  .header-content,
-  .topbar-content,
-  .app-header-content {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 14px !important;
-    position: relative !important;
-  }
+.view-app,
+.lista,
+.area-formulario,
+.painel-card,
+.dashboard-hero,
+.financeiro-page {
+  overflow-wrap: anywhere;
+}
 
-  .menu-btn,
-  .btn-menu,
-  .hamburger,
-  #btnMenu {
-    width: 58px !important;
-    height: 58px !important;
-    min-width: 58px !important;
-    min-height: 58px !important;
-    border-radius: 22px !important;
-    font-size: 30px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-  }
+.topo-dashboard,
+.topo,
+.container-dashboard,
+.container {
+  width: 100%;
+  max-width: 100%;
+}
 
-  .page-title,
-  .titulo-pagina,
-  .header-title,
-  h1 {
-    margin: 0 !important;
-    line-height: 1.05 !important;
-  }
+.topo-esquerda,
+.usuario-box,
+.lista-topo,
+.dashboard-hero,
+.painel-topo,
+.aluno-premium-topo,
+.turma-item-topo,
+.aviso-topo {
+  min-width: 0;
+}
 
-  .badge-resumo,
-  .section-badge,
-  .tag-resumo {
-    margin-bottom: 10px !important;
-  }
+#tituloPagina,
+.topo-esquerda h1,
+.topo h1,
+.aluno-premium-topo h3,
+.turma-item-topo h3,
+.aviso-topo h3 {
+  overflow-wrap: anywhere;
+}
 
-  main,
-  .main,
-  .conteudo,
-  .container,
-  .dashboard-container {
-    padding-top: 22px !important;
-  }
+/* Imagens geradas/listadas pelo sistema nunca podem empurrar a tela */
+.view-app img,
+.lista img,
+.painel-card img,
+.area-formulario img,
+.dashboard-hero img,
+.aniversariantes-container img,
+.aniversariantes-lista img,
+.lista-aniversariantes img,
+.card-aniversariante img,
+.aniversariante-card img,
+.birthday-card img,
+[class*="anivers"] img,
+[class*="birthday"] img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 
-  .card:first-child,
-  .dashboard-card:first-child,
-  .resumo-card:first-child {
-    margin-top: 0 !important;
-  }
-
-  .card,
-  .dashboard-card,
-  .resumo-card {
-    border-radius: 26px !important;
+@media (min-width: 761px) {
+  .container-dashboard,
+  .container {
+    margin-inline: auto;
   }
 }
 
-/* =========================================================
-   CORREÇÃO MOBILE - ANIVERSARIANTES / IMAGENS ESTOURANDO
-   ========================================================= */
-
-@media (max-width: 768px) {
-
-  html,
+@media (max-width: 760px) {
   body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden !important;
+    font-size: 14px;
+    overscroll-behavior-x: none;
   }
 
-  main,
-  .main,
-  .conteudo,
-  .container,
-  .dashboard-container,
-  .page-content,
-  .app-content {
+  .app-layout {
+    display: block !important;
+    width: 100%;
+  }
+
+  .conteudo-app {
+    width: 100%;
+  }
+
+  .topo-dashboard,
+  .topo {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: 70px !important;
+    height: auto !important;
+    padding: calc(12px + var(--safe-top)) max(14px, calc(14px + var(--safe-right))) 12px max(14px, calc(14px + var(--safe-left))) !important;
+    border-radius: 0 0 24px 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  .topo-esquerda {
+    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .btn-menu,
+  #btnMenu {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex: 0 0 44px !important;
+    padding: 0 !important;
+    border-radius: 16px !important;
+    font-size: 22px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .topo-esquerda > div,
+  .topo-texto,
+  .page-title-wrap {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .page-eyebrow {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 6px !important;
+    padding: 6px 9px !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
+    white-space: nowrap;
+  }
+
+  #tituloPagina,
+  .topo-esquerda h1,
+  .topo h1 {
+    margin: 0 !important;
+    font-size: clamp(20px, 6vw, 26px) !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.055em;
+  }
+
+  #descricaoPagina,
+  .topo-esquerda p,
+  .topo p {
+    display: none !important;
+  }
+
+  .usuario-box {
+    display: none !important;
+  }
+
+  .container-dashboard,
+  .container {
+    padding: 16px max(14px, calc(14px + var(--safe-right))) calc(28px + var(--safe-bottom)) max(14px, calc(14px + var(--safe-left))) !important;
+  }
+
+  .dashboard-hero,
+  .painel-card,
+  .area-formulario,
+  .lista,
+  .financeiro-box,
+  .admin-card,
+  .aluno-card,
+  .presenca-controles,
+  .turma-card,
+  .turma-item,
+  .aviso-card,
+  .solicitacao-card {
+    border-radius: 22px !important;
+    padding: 16px !important;
+  }
+
+  .dashboard-hero,
+  .painel-topo,
+  .lista-topo,
+  .topo-form,
+  .grafico-topo,
+  .section-title-row,
+  .aluno-premium-topo,
+  .turma-item-topo,
+  .aviso-topo {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .hero-actions,
+  .topo-form-acoes,
+  .presenca-acoes,
+  .acoes-form-turma,
+  .turma-item-acoes,
+  .banner-acoes,
+  .modal-acoes {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    gap: 8px !important;
+  }
+
+  .hero-actions button,
+  .topo-form-acoes button,
+  .presenca-acoes button,
+  .acoes-form-turma button,
+  .turma-item-acoes button,
+  .banner-acoes button,
+  .modal-acoes button,
+  .btn-salvar-perfil,
+  #btnMostrarForm {
+    width: 100% !important;
+  }
+
+  .cards-dashboard,
+  .cards,
+  .dashboard-grid,
+  .financeiro-resumo-grid,
+  .evolucao-resumo-grid,
+  .presenca-resumo-grid,
+  .solicitacoes-resumo-grid,
+  .perfil-form,
+  .admin-grid,
+  form,
+  .aluno-premium-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card,
+  .cards-dashboard .card {
+    min-height: 0 !important;
+    padding: 18px !important;
+    border-radius: 22px !important;
+  }
+
+  .card p,
+  .financeiro-box strong {
+    font-size: clamp(24px, 8vw, 34px) !important;
+    line-height: 1.05;
+  }
+
+  .filtros,
+  .filtros-evolucao,
+  .ranking-tabs {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .filtros::-webkit-scrollbar,
+  .filtros-evolucao::-webkit-scrollbar,
+  .ranking-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filtros button,
+  .filtro-evolucao,
+  .ranking-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .acoes-premium {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100%;
+    gap: 8px !important;
+  }
+
+  .acoes-premium button {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .modal {
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+
+  .modal-card {
     width: 100% !important;
     max-width: 100% !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
+    max-height: 92dvh !important;
+    border-radius: 24px 24px 0 0 !important;
+    overflow-y: auto !important;
+  }
+
+  .banner-vencimentos,
+  .update-banner,
+  .toast {
+    left: max(14px, calc(14px + var(--safe-left))) !important;
+    right: max(14px, calc(14px + var(--safe-right))) !important;
+    width: auto !important;
+    max-width: none !important;
   }
 
   .aniversariantes-container,
@@ -3213,8 +3450,9 @@ select option:hover {
   .lista-aniversariantes,
   .card-aniversariante,
   .aniversariante-card,
-  .birthday-card {
-    width: 100% !important;
+  .birthday-card,
+  [class*="anivers"],
+  [class*="birthday"] {
     max-width: 100% !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
@@ -3225,16 +3463,65 @@ select option:hover {
   .birthday-card img,
   .aniversariantes-container img,
   .aniversariantes-lista img,
-  .lista-aniversariantes img {
-    display: block !important;
+  .lista-aniversariantes img,
+  [class*="anivers"] img,
+  [class*="birthday"] img {
     width: 100% !important;
     max-width: 100% !important;
-    height: auto !important;
+    max-height: 360px;
     object-fit: cover !important;
+    object-position: center top;
     border-radius: 18px !important;
   }
 
-  img {
-    max-width: 100%;
+  .grafico-barras {
+    overflow-x: auto;
+    min-width: 0;
+  }
+
+  .grafico-col {
+    min-width: 42px;
+  }
+}
+
+@media (max-width: 420px) {
+  .topo-dashboard,
+  .topo {
+    min-height: 66px !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+
+  .btn-menu,
+  #btnMenu {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    flex-basis: 42px !important;
+  }
+
+  .page-eyebrow {
+    font-size: 8.5px !important;
+    padding: 5px 8px !important;
+  }
+
+  .dashboard-hero,
+  .painel-card,
+  .area-formulario,
+  .lista,
+  .financeiro-box,
+  .admin-card,
+  .aluno-card,
+  .turma-card,
+  .turma-item,
+  .aviso-card,
+  .solicitacao-card {
+    border-radius: 20px !important;
+    padding: 14px !important;
+  }
+
+  .card p,
+  .financeiro-box strong {
+    font-size: 26px !important;
   }
 }

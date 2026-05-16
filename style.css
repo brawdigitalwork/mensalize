@@ -3181,3 +3181,60 @@ select option:hover {
     border-radius: 26px !important;
   }
 }
+
+/* =========================================================
+   CORREÇÃO MOBILE - ANIVERSARIANTES / IMAGENS ESTOURANDO
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  main,
+  .main,
+  .conteudo,
+  .container,
+  .dashboard-container,
+  .page-content,
+  .app-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .aniversariantes-container,
+  .aniversariantes-lista,
+  .lista-aniversariantes,
+  .card-aniversariante,
+  .aniversariante-card,
+  .birthday-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .card-aniversariante img,
+  .aniversariante-card img,
+  .birthday-card img,
+  .aniversariantes-container img,
+  .aniversariantes-lista img,
+  .lista-aniversariantes img {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    border-radius: 18px !important;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}

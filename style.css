@@ -3100,3 +3100,84 @@ select option:hover {
     width: 100%;
   }
 }
+
+/* =========================================================
+   CORREÇÃO MOBILE - TELA INICIAL / TOPO
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  body {
+    padding-top: 0;
+    overflow-x: hidden;
+  }
+
+  .app-header,
+  .topbar,
+  .header,
+  .main-header {
+    min-height: auto !important;
+    padding: 22px 18px 24px !important;
+    border-radius: 0 0 34px 34px !important;
+  }
+
+  .header-content,
+  .topbar-content,
+  .app-header-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    position: relative !important;
+  }
+
+  .menu-btn,
+  .btn-menu,
+  .hamburger,
+  #btnMenu {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    border-radius: 22px !important;
+    font-size: 30px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  .page-title,
+  .titulo-pagina,
+  .header-title,
+  h1 {
+    margin: 0 !important;
+    line-height: 1.05 !important;
+  }
+
+  .badge-resumo,
+  .section-badge,
+  .tag-resumo {
+    margin-bottom: 10px !important;
+  }
+
+  main,
+  .main,
+  .conteudo,
+  .container,
+  .dashboard-container {
+    padding-top: 22px !important;
+  }
+
+  .card:first-child,
+  .dashboard-card:first-child,
+  .resumo-card:first-child {
+    margin-top: 0 !important;
+  }
+
+  .card,
+  .dashboard-card,
+  .resumo-card {
+    border-radius: 26px !important;
+  }
+}

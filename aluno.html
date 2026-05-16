@@ -131,7 +131,7 @@
               </div>
               <div>
                 <strong>Foto de perfil</strong>
-                <p>Escolha uma foto e ajuste igual WhatsApp/Instagram: arraste, dê zoom e salve o recorte.</p>
+                <p>Escolha uma foto e ajuste igual WhatsApp/Instagram: arraste, dê zoom e salve o recorte em 640x640.</p>
                 <input id="inputFotoAluno" type="file" accept="image/*" />
                 <button id="btnSalvarFotoAluno" type="button" class="secondary-action">Escolher foto</button>
                 <p id="msgFotoAluno" class="soft-message"></p>
@@ -992,6 +992,60 @@
       leitor.readAsDataURL(arquivo);
     }
 
+    function canvasParaBlob(canvas, qualidade) {
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((resultado) => {
+          if (resultado) resolve(resultado);
+          else reject(new Error("Não foi possível gerar a imagem."));
+        }, "image/jpeg", qualidade);
+      });
+    }
+
+    async function gerarBlobFotoPerfil(canvas) {
+      const LIMITE_FOTO_BYTES = 1024 * 1024; // 1 MB
+      const qualidades = [0.88, 0.82, 0.76, 0.70, 0.64, 0.58, 0.52];
+
+      for (const qualidade of qualidades) {
+        const blob = await canvasParaBlob(canvas, qualidade);
+        if (blob.size <= LIMITE_FOTO_BYTES) {
+          return blob;
+        }
+      }
+
+      throw new Error("A foto recortada ficou maior que 1MB. Tente uma imagem mais leve.");
+    }
+
+    function obterCaminhoFotoStorage(urlFoto) {
+      if (!urlFoto) return "";
+
+      try {
+        const urlLimpa = String(urlFoto).split("?")[0];
+        const marcador = "/storage/v1/object/public/fotos-alunos/";
+        const indice = urlLimpa.indexOf(marcador);
+
+        if (indice === -1) return "";
+
+        return decodeURIComponent(urlLimpa.slice(indice + marcador.length));
+      } catch (erro) {
+        console.warn("Não foi possível identificar o caminho da foto antiga:", erro);
+        return "";
+      }
+    }
+
+    async function removerFotoAntigaAluno(fotoAntigaUrl, caminhoNovo) {
+      const caminhoAntigo = obterCaminhoFotoStorage(fotoAntigaUrl);
+
+      if (!caminhoAntigo || caminhoAntigo === caminhoNovo) return;
+
+      const { error } = await supabaseClient.storage
+        .from("fotos-alunos")
+        .remove([caminhoAntigo]);
+
+      if (error) {
+        console.warn("Não foi possível remover foto antiga:", error.message);
+      }
+    }
+
     async function salvarRecorteFotoAluno() {
       if (!cropperFotoAluno || !codigoPublico) {
         msgEditorFotoAluno.textContent = "Escolha e ajuste uma foto primeiro.";
@@ -1000,8 +1054,12 @@
       }
 
       btnSalvarRecorteFoto.disabled = true;
-      msgEditorFotoAluno.textContent = "Salvando foto...";
+      msgEditorFotoAluno.textContent = "Recortando e otimizando foto...";
       msgEditorFotoAluno.classList.remove("is-error");
+
+      const fotoAntigaUrl = alunoAtual?.foto_url || "";
+      const versaoFoto = Date.now();
+      const caminho = `${codigoPublico}/perfil.jpg`;
 
       try {
         const canvas = cropperFotoAluno.getCroppedCanvas({
@@ -1013,19 +1071,18 @@
 
         if (!canvas) throw new Error("Não foi possível gerar o recorte.");
 
-        const blob = await new Promise((resolve, reject) => {
-          canvas.toBlob((resultado) => {
-            if (resultado) resolve(resultado);
-            else reject(new Error("Não foi possível gerar a imagem."));
-          }, "image/jpeg", 0.88);
-        });
+        const blob = await gerarBlobFotoPerfil(canvas);
 
-        const caminho = `${codigoPublico}/perfil-${Date.now()}.jpg`;
+        if (blob.size > 1024 * 1024) {
+          throw new Error("A foto precisa ter no máximo 1MB.");
+        }
+
+        msgEditorFotoAluno.textContent = "Enviando foto...";
 
         const { error: erroUpload } = await supabaseClient.storage
           .from("fotos-alunos")
           .upload(caminho, blob, {
-            cacheControl: "3600",
+            cacheControl: "0",
             contentType: "image/jpeg",
             upsert: true
           });
@@ -1036,7 +1093,7 @@
           .from("fotos-alunos")
           .getPublicUrl(caminho);
 
-        const fotoUrl = publicData.publicUrl;
+        const fotoUrl = `${publicData.publicUrl}?v=${versaoFoto}`;
 
         const { data, error } = await supabaseClient.rpc("atualizar_foto_aluno_publico", {
           codigo: codigoPublico,
@@ -1045,7 +1102,9 @@
 
         if (error || data === false) throw error || new Error("Falha ao salvar foto");
 
-        msgFotoAluno.textContent = "✅ Foto atualizada.";
+        await removerFotoAntigaAluno(fotoAntigaUrl, caminho);
+
+        msgFotoAluno.textContent = "✅ Foto recortada e atualizada.";
         msgFotoAluno.classList.remove("is-error");
         arquivoFoto = null;
         inputFotoAluno.value = "";
@@ -1054,7 +1113,7 @@
 
       } catch (erro) {
         console.error("Erro ao salvar recorte:", erro);
-        msgEditorFotoAluno.textContent = "Não foi possível salvar o recorte da foto.";
+        msgEditorFotoAluno.textContent = erro.message || "Não foi possível salvar o recorte da foto.";
         msgEditorFotoAluno.classList.add("is-error");
       } finally {
         btnSalvarRecorteFoto.disabled = false;

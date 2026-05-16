@@ -1,18 +1,50 @@
 // 22. ADMIN — CLIENTES, LIMITES E DASHBOARD
 // ===============================
 
-btnAdmin.addEventListener("click", async function() {
-  app.classList.add("escondido");
-  telaAdmin.classList.remove("escondido");
+if (btnAdmin) {
+  btnAdmin.addEventListener("click", async function() {
+    if (!usuarioEhAdmin) {
+      mostrarToast("Acesso admin não liberado para este usuário.", "erro");
+      return;
+    }
 
-  await carregarClientes();
-  await carregarDashboard();
-});
+    try {
+      document.body.classList.remove("menu-aberto");
 
-btnVoltar.addEventListener("click", function() {
-  telaAdmin.classList.add("escondido");
-  app.classList.remove("escondido");
-});
+      telaLogin.classList.add("escondido");
+      app.classList.add("escondido");
+      telaAdmin.classList.remove("escondido");
+
+      if (listaClientes) {
+        listaClientes.innerHTML = `
+          <div class="skeleton-wrapper">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        `;
+      }
+
+      await carregarClientes();
+      await carregarDashboard();
+
+    } catch (erro) {
+      console.error("Erro ao abrir painel admin:", erro);
+      mostrarToast("Erro ao abrir painel admin. Veja o console.", "erro");
+
+      telaLogin.classList.add("escondido");
+      app.classList.add("escondido");
+      telaAdmin.classList.remove("escondido");
+    }
+  });
+}
+
+if (btnVoltar) {
+  btnVoltar.addEventListener("click", function() {
+    telaAdmin.classList.add("escondido");
+    telaLogin.classList.add("escondido");
+    app.classList.remove("escondido");
+  });
+}
 
 btnCriarUsuario.addEventListener("click", async function() {
   const email = novoEmail.value.trim();
@@ -68,7 +100,7 @@ async function carregarClientes() {
 
   // Busca clientes e todos os alunos em paralelo
   const [{ data: clientes, error }, { data: todosAlunosAdmin }] = await Promise.all([
-    supabaseClient.from("profiles").select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_evolucao,modulo_presenca,modulo_avisos,created_at"),
+    supabaseClient.from("profiles").select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_evolucao,modulo_presenca,modulo_avisos"),
     supabaseClient.from("alunos").select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,created_at").order("created_at", { ascending: false })
   ]);
 
@@ -226,13 +258,18 @@ async function alterarLimite(id) {
 async function carregarDashboard() {
   const { data: clientes, error: erroClientes } = await supabaseClient
     .from("profiles")
-    .select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_evolucao,modulo_presenca,modulo_avisos,created_at");
+    .select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_evolucao,modulo_presenca,modulo_avisos");
 
   const { data: todosAlunos, error: erroAlunos } = await supabaseClient
     .from("alunos")
     .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,status_aluno,data_nascimento,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
 
   if (erroClientes || erroAlunos) {
+    console.error("Erro ao carregar dashboard admin:", {
+      erroClientes,
+      erroAlunos
+    });
+
     mostrarToast("Erro ao carregar dashboard.", "erro");
     return;
   }

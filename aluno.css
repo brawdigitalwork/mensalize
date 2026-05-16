@@ -1964,3 +1964,16 @@ img.ranking-photo-big {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ================================================================
+   FOTO OTIMIZADA — AVISO VISUAL
+================================================================ */
+
+.photo-box p {
+  max-width: 520px;
+}
+
+.photo-editor-card .soft-message {
+  min-height: 20px;
+}

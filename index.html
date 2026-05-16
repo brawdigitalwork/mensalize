@@ -60,7 +60,10 @@
         <button type="button" id="btnNavFinanceiro" class="menu-item" data-view="financeiro">💰 Financeiro</button>
         <button type="button" id="btnNavEvolucao" class="menu-item modulo-evolucao" data-view="evolucao">🥋 Evolução</button>
         <button type="button" id="btnNavPresencas" class="menu-item modulo-presenca" data-view="presencas">✅ Presenças</button>
+        <button type="button" id="btnNavTurmas" class="menu-item modulo-presenca" data-view="turmas">📚 Turmas</button>
+        <button type="button" id="btnNavAniversariantes" class="menu-item" data-view="aniversariantes">🎂 Aniversariantes</button>
         <button type="button" id="btnNavAvisos" class="menu-item modulo-avisos" data-view="avisos">📣 Avisos</button>
+        <button type="button" id="btnNavSolicitacoes" class="menu-item" data-view="solicitacoes">📝 Solicitações</button>
         <button type="button" id="btnNavPerfil" class="menu-item" data-view="perfil">👤 Perfil</button>
       </nav>
 
@@ -199,7 +202,29 @@
                 <button type="button" data-view-target="presencas" class="acao-rapida modulo-presenca">✅ Presenças do dia</button>
               </div>
             </article>
-          </section>
+          
+            <article class="painel-card painel-aniversariantes">
+              <div class="painel-topo">
+                <div>
+                  <span class="page-eyebrow">Relacionamento</span>
+                  <h2>Aniversariantes</h2>
+                  <p id="dashboardAniversariantesTexto">Acompanhe aniversários e envie parabéns pelo WhatsApp.</p>
+                </div>
+                <button type="button" class="btn-texto" data-view-target="aniversariantes">Ver lista</button>
+              </div>
+
+              <div class="financeiro-resumo-grid aniversariantes-resumo-grid">
+                <div class="financeiro-box receita">
+                  <span>Hoje</span>
+                  <strong id="dashboardAniversariosHoje">0</strong>
+                </div>
+                <div class="financeiro-box previsao">
+                  <span>Esta semana</span>
+                  <strong id="dashboardAniversariosSemana">0</strong>
+                </div>
+              </div>
+            </article>
+</section>
         </section>
 
         <section id="viewAlunos" class="view-app">
@@ -366,6 +391,166 @@
           </section>
         </section>
 
+        
+        <section id="viewTurmas" class="view-app">
+          <section class="painel-card turmas-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Turmas</span>
+                <h2>Cadastro de turmas</h2>
+                <p>Defina os dias de aula para que frequência, graduação e ranking funcionem corretamente.</p>
+              </div>
+            </div>
+
+            <form id="formTurma" class="perfil-form">
+              <label class="campo-perfil">
+                <span>Nome da turma</span>
+                <input type="text" id="turmaNome" placeholder="Ex: Adulto noite">
+              </label>
+
+              <label class="campo-perfil">
+                <span>Horário</span>
+                <input type="text" id="turmaHorario" placeholder="Ex: 20:00">
+              </label>
+
+              <label class="campo-perfil">
+                <span>Professor responsável</span>
+                <input type="text" id="turmaProfessor" placeholder="Ex: Nuti">
+              </label>
+
+              <div class="campo-perfil campo-cheio">
+                <span>Dias de aula</span>
+
+                <div class="dias-semana-grid dias-semana-chips">
+                  <label class="dia-chip">
+                    <input type="checkbox" name="turmaDias" value="0">
+                    <span>Dom</span>
+                  </label>
+
+                  <label class="dia-chip">
+                    <input type="checkbox" name="turmaDias" value="1">
+                    <span>Seg</span>
+                  </label>
+
+                  <label class="dia-chip">
+                    <input type="checkbox" name="turmaDias" value="2">
+                    <span>Ter</span>
+                  </label>
+
+                  <label class="dia-chip">
+                    <input type="checkbox" name="turmaDias" value="3">
+                    <span>Qua</span>
+                  </label>
+
+                  <label class="dia-chip">
+                    <input type="checkbox" name="turmaDias" value="4">
+                    <span>Qui</span>
+                  </label>
+
+                  <label class="dia-chip">
+                    <input type="checkbox" name="turmaDias" value="5">
+                    <span>Sex</span>
+                  </label>
+
+                  <label class="dia-chip">
+                    <input type="checkbox" name="turmaDias" value="6">
+                    <span>Sáb</span>
+                  </label>
+                </div>
+              </div> 
+
+                  <label class="turma-status-chip">
+                    <input type="checkbox" id="turmaAtiva" checked>
+                    <span>Turma ativa</span>
+                  </label>
+
+              <div class="acoes-form-turma">
+                <button type="submit" id="btnSalvarTurma" class="btn-salvar-perfil">Salvar turma</button>
+                <button type="button" id="btnCancelarEdicaoTurma" class="acao-secundaria escondido">Cancelar edição</button>
+              </div>
+
+              <p id="msgTurma" class="msg-perfil"></p>
+            </form>
+
+            <div id="listaTurmas" class="lista-evolucao turmas-lista">
+              <div class="empty-state-mini">Nenhuma turma cadastrada ainda.</div>
+            </div>
+          </section>
+
+          <section class="painel-card turmas-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Aulas canceladas</span>
+                <h2>Cancelar aula</h2>
+                <p>Aulas canceladas não contam como falta nem entram no cálculo de frequência.</p>
+              </div>
+            </div>
+
+            <form id="formCancelarAula" class="perfil-form">
+              <label class="campo-perfil">
+                <span>Turma</span>
+                <select id="cancelarTurma">
+                  <option value="">Selecione uma turma</option>
+                </select>
+              </label>
+
+              <label class="campo-perfil">
+                <span>Data da aula</span>
+                <input type="date" id="cancelarData">
+              </label>
+
+              <label class="campo-perfil">
+                <span>Motivo</span>
+                <input type="text" id="cancelarMotivo" placeholder="Ex: Feriado">
+              </label>
+
+              <label class="campo-perfil campo-cheio">
+                <span>Observação</span>
+                <textarea id="cancelarObservacao" rows="3" placeholder="Opcional"></textarea>
+              </label>
+
+              <button type="submit" class="btn-salvar-perfil">Cancelar aula</button>
+              <p id="msgCancelarAula" class="msg-perfil"></p>
+            </form>
+
+            <div id="listaAulasCanceladas" class="lista-evolucao aulas-canceladas-lista">
+              <div class="empty-state-mini">Nenhuma aula cancelada registrada.</div>
+            </div>
+          </section>
+        </section>
+
+        
+        <section id="viewAniversariantes" class="view-app">
+          <section class="painel-card aniversariantes-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Relacionamento</span>
+                <h2>Aniversariantes do mês</h2>
+                <p>Veja quem faz aniversário e envie uma mensagem pronta pelo WhatsApp.</p>
+              </div>
+            </div>
+
+            <div class="financeiro-resumo-grid aniversariantes-resumo-grid">
+              <div class="financeiro-box receita">
+                <span>Hoje</span>
+                <strong id="totalAniversariantesHoje">0</strong>
+              </div>
+              <div class="financeiro-box previsao">
+                <span>Esta semana</span>
+                <strong id="totalAniversariantesSemana">0</strong>
+              </div>
+              <div class="financeiro-box">
+                <span>Este mês</span>
+                <strong id="totalAniversariantesMes">0</strong>
+              </div>
+            </div>
+
+            <div id="listaAniversariantes" class="lista-evolucao aniversariantes-lista">
+              <div class="empty-state-mini">Nenhum aniversariante encontrado.</div>
+            </div>
+          </section>
+        </section>
+
         <section id="viewAvisos" class="view-app">
           <section class="painel-card avisos-page">
             <div class="painel-topo">
@@ -395,6 +580,39 @@
 
             <div id="listaAvisos" class="lista-evolucao avisos-lista">
               <div class="empty-state-mini">Nenhum aviso cadastrado ainda.</div>
+            </div>
+          </section>
+        </section>
+
+
+        <section id="viewSolicitacoes" class="view-app">
+          <section class="painel-card solicitacoes-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Solicitações</span>
+                <h2>Alterações enviadas pelos alunos</h2>
+                <p>Confira pedidos de mudança de turma e aprove somente o que fizer sentido.</p>
+              </div>
+              <button type="button" id="btnAtualizarSolicitacoes" class="acao-secundaria">Atualizar</button>
+            </div>
+
+            <div class="financeiro-resumo-grid solicitacoes-resumo-grid">
+              <div class="financeiro-box previsao">
+                <span>Pendentes</span>
+                <strong id="totalSolicitacoesPendentes">0</strong>
+              </div>
+              <div class="financeiro-box receita">
+                <span>Aprovadas</span>
+                <strong id="totalSolicitacoesAprovadas">0</strong>
+              </div>
+              <div class="financeiro-box alerta">
+                <span>Recusadas</span>
+                <strong id="totalSolicitacoesRecusadas">0</strong>
+              </div>
+            </div>
+
+            <div id="listaSolicitacoes" class="lista-solicitacoes">
+              <div class="empty-state-mini">Carregando solicitações...</div>
             </div>
           </section>
         </section>
@@ -430,6 +648,29 @@
                 <label><input type="checkbox" id="perfilModuloEvolucao" checked> Ativar módulo de evolução/graduação</label>
                 <label><input type="checkbox" id="perfilModuloPresenca"> Ativar presença e aula experimental</label>
                 <label><input type="checkbox" id="perfilModuloAvisos"> Ativar avisos por turma</label>
+              </div>
+
+              <div class="perfil-recursos">
+                <span class="perfil-recursos-titulo">Frequência e graduação</span>
+                <label class="campo-perfil">
+                  <span>Presença mínima para avaliação (%)</span>
+                  <input type="number" id="perfilPresencaMinima" min="0" max="100" value="70">
+                </label>
+                <label class="campo-perfil">
+                  <span>Período analisado em meses</span>
+                  <input type="number" id="perfilPeriodoFrequencia" min="1" max="24" value="6">
+                </label>
+              </div>
+
+              <div class="perfil-recursos">
+                <span class="perfil-recursos-titulo">Ranking de presença</span>
+                <label><input type="checkbox" id="perfilRankingGeral" checked> Ativar ranking geral da academia</label>
+                <label><input type="checkbox" id="perfilRankingTurma" checked> Ativar ranking da turma do aluno</label>
+                <label><input type="checkbox" id="perfilRankingTurmas" checked> Ativar ranking entre turmas</label>
+                <label class="campo-perfil">
+                  <span>Mínimo de aulas válidas para entrar no ranking</span>
+                  <input type="number" id="perfilRankingMinimoAulas" min="1" max="31" value="4">
+                </label>
               </div>
 
               <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
@@ -528,76 +769,139 @@
 
 
   <div id="modalAluno" class="modal escondido">
-  <div class="modal-card">
-    <div class="modal-topo">
-      <h2 id="tituloFormulario">Cadastrar aluno</h2>
-      <button type="button" id="btnFecharModalAluno" class="btn-fechar">×</button>
-    </div>
+    <div class="modal-card">
+      <div class="modal-topo">
+        <h2 id="tituloFormulario">Cadastrar aluno</h2>
+        <button type="button" id="btnFecharModalAluno" class="btn-fechar">×</button>
+      </div>
 
-    <form id="formAluno">
-      <input type="text" id="nomeAluno" placeholder="Nome do aluno" required>
-      <input type="text" id="telefoneAluno" placeholder="WhatsApp do aluno" required>
+<form id="formAluno">
+
+  <div class="form-section">
+    <h3>👤 Dados pessoais</h3>
+
+    <label class="input-group">
+      <span>Nome do aluno</span>
+      <input type="text" id="nomeAluno" placeholder="Nome completo" required>
+    </label>
+
+    <label class="input-group">
+      <span>WhatsApp do aluno</span>
+      <input type="text" id="telefoneAluno" placeholder="DDD + número" required>
+    </label>
+
+    <label class="input-group">
+      <span>Data de nascimento</span>
+      <input type="date" id="dataNascimentoAluno">
+    </label>
+  </div>
+
+  <div class="form-section">
+    <h3>💰 Financeiro</h3>
+
+    <label class="input-group">
+      <span>Mensalidade</span>
       <input type="text" id="valorMensalidade" placeholder="R$ 0,00" required inputmode="numeric">
+    </label>
+
+    <label class="input-group">
+      <span>Vencimento da mensalidade</span>
       <input type="date" id="dataVencimento" required>
-      <div class="input-group">
-        <label for="linkPagamento">
-          Link de pagamento
-        </label>
+    </label>
 
-        <input
-          type="text"
-          id="linkPagamento"
-          placeholder="https://..."
-          />
-        </div>
+    <label class="input-group">
+      <span>Link de pagamento</span>
+      <input type="text" id="linkPagamento" placeholder="https://...">
+    </label>
+  </div>
 
-      <div class="form-section modulo-evolucao">
-        <h3>🥋 Evolução do aluno</h3>
-        <select id="faixaAluno">
-          <option value="">Faixa atual</option>
-          <option value="Branca">Branca</option>
-          <option value="Cinza">Cinza</option>
-          <option value="Amarela">Amarela</option>
-          <option value="Laranja">Laranja</option>
-          <option value="Verde">Verde</option>
-          <option value="Azul">Azul</option>
-          <option value="Roxa">Roxa</option>
-          <option value="Marrom">Marrom</option>
-          <option value="Preta">Preta</option>
-        </select>
-        <select id="grauAluno">
-          <option value="">Grau</option>
-          <option value="0">0 grau</option>
-          <option value="1">1º grau</option>
-          <option value="2">2º grau</option>
-          <option value="3">3º grau</option>
-          <option value="4">4º grau</option>
-        </select>
-        <input type="text" id="turmaAluno" placeholder="Turma / horário. Ex: Adulto noite">
-        <select id="statusAluno">
-          <option value="ativo">Ativo</option>
-          <option value="experimental">Experimental</option>
-          <option value="pausado">Pausado</option>
-          <option value="inativo">Inativo</option>
-        </select>
-        <label class="input-group">
-          <span>Data da última graduação</span>
-          <input type="date" id="dataUltimaGraduacao">
-        </label>
-        <input type="number" id="tempoMinimoAvaliacao" min="0" step="1" placeholder="Tempo mínimo para avaliação (meses)">
-        <textarea id="observacoesInternas" rows="3" placeholder="Observações internas do professor"></textarea>
-      </div>
+  <div class="form-section modulo-evolucao">
+    <h3>🥋 Evolução do aluno</h3>
 
-      <div class="form-section modulo-presenca">
-        <h3>👥 Aula experimental / responsável</h3>
-        <label class="input-group">
-          <span>Data da aula experimental</span>
-          <input type="date" id="dataExperimental">
-        </label>
-        <input type="text" id="responsavelNome" placeholder="Nome do responsável financeiro">
-        <input type="text" id="responsavelWhatsApp" placeholder="WhatsApp do responsável">
-      </div>
+    <label class="input-group">
+      <span>Faixa atual</span>
+      <select id="faixaAluno">
+        <option value="">Selecione a faixa</option>
+        <option value="Branca">Branca</option>
+        <option value="Cinza">Cinza</option>
+        <option value="Amarela">Amarela</option>
+        <option value="Laranja">Laranja</option>
+        <option value="Verde">Verde</option>
+        <option value="Azul">Azul</option>
+        <option value="Roxa">Roxa</option>
+        <option value="Marrom">Marrom</option>
+        <option value="Preta">Preta</option>
+      </select>
+    </label>
 
+    <label class="input-group">
+      <span>Grau</span>
+      <select id="grauAluno">
+        <option value="">Selecione o grau</option>
+        <option value="0">0 grau</option>
+        <option value="1">1º grau</option>
+        <option value="2">2º grau</option>
+        <option value="3">3º grau</option>
+        <option value="4">4º grau</option>
+      </select>
+    </label>
+
+    <label class="input-group">
+      <span>Turma / horário</span>
+      <select id="turmaAluno">
+        <option value="">Turma / horário</option>
+      </select>
+    </label>
+
+    <label class="input-group">
+      <span>Status do aluno</span>
+      <select id="statusAluno">
+        <option value="ativo">Ativo</option>
+        <option value="experimental">Experimental</option>
+        <option value="pausado">Pausado</option>
+        <option value="inativo">Inativo</option>
+      </select>
+    </label>
+
+    <label class="input-group">
+      <span>Data de início na academia</span>
+      <input type="date" id="dataInicioAcademia">
+    </label>
+
+    <label class="input-group">
+      <span>Data da última graduação</span>
+      <input type="date" id="dataUltimaGraduacao">
+    </label>
+
+    <label class="input-group">
+      <span>Tempo mínimo para avaliação</span>
+      <input type="number" id="tempoMinimoAvaliacao" min="0" step="1" placeholder="Ex: 6 meses">
+    </label>
+
+    <label class="input-group">
+      <span>Observações internas</span>
+      <textarea id="observacoesInternas" rows="3" placeholder="Observações internas do professor"></textarea>
+    </label>
+  </div>
+
+  <div class="form-section modulo-presenca">
+    <h3>👥 Aula experimental / responsável</h3>
+
+    <label class="input-group">
+      <span>Data da aula experimental</span>
+      <input type="date" id="dataExperimental">
+    </label>
+
+    <label class="input-group">
+      <span>Nome do responsável financeiro</span>
+      <input type="text" id="responsavelNome" placeholder="Opcional">
+    </label>
+
+    <label class="input-group">
+      <span>WhatsApp do responsável</span>
+      <input type="text" id="responsavelWhatsApp" placeholder="Opcional">
+    </label>
+  </div>
       <button type="submit" id="btnFormulario">Cadastrar aluno</button>
       <button type="button" id="btnCancelarEdicao" class="btn-cancelar escondido">
         Cancelar edição
@@ -676,14 +980,45 @@
     </div>
   </div>
 
+
+  <div id="modalEdicaoRapida" class="modal escondido">
+    <div class="modal-card modal-pequeno">
+      <button type="button" id="btnFecharEdicaoRapida" class="fechar-modal">×</button>
+      <h2>Editar valor/data</h2>
+      <p id="edicaoRapidaNome">Aluno</p>
+      <input type="hidden" id="edicaoRapidaAlunoId">
+      <label class="campo-perfil">
+        <span>Valor da mensalidade</span>
+        <input type="text" id="edicaoRapidaValor" placeholder="R$ 0,00">
+      </label>
+      <label class="campo-perfil">
+        <span>Vencimento</span>
+        <input type="date" id="edicaoRapidaVencimento">
+      </label>
+      <div class="modal-acoes">
+        <button type="button" id="btnCancelarEdicaoRapida" class="acao-secundaria">Cancelar</button>
+        <button type="button" id="btnSalvarEdicaoRapida" class="acao-principal">Salvar</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast escondido"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
-  <script src="script.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
-    }
-  </script>
+
+  <!-- Arquivos principais do sistema — manter esta ordem -->
+  <script src="js/00-setup.js"></script>
+  <script src="js/10-auth-perfil.js"></script>
+  <script src="js/20-alunos.js"></script>
+  <script src="js/30-financeiro-pagamentos.js"></script>
+  <script src="js/40-admin.js"></script>
+  <script src="js/50-ui-relatorios-tema.js"></script>
+  <script src="js/60-solicitacoes-navegacao.js"></script>
+  <script src="js/70-evolucao-presencas-avisos.js"></script>
+  <script src="js/75-aniversariantes.js"></script>
+  <script src="js/76-turmas-frequencia.js"></script>
+  <script src="js/80-realtime.js"></script>
+  <script src="js/90-cache-update.js"></script>
+  <script src="js/99-app.js"></script>
 </body>
 </html>

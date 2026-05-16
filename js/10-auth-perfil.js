@@ -1,0 +1,182 @@
+// 07. INICIALIZAÇÃO DO SISTEMA
+// ===============================
+
+// iniciarSistema() agora é chamado em js/99-app.js, após carregar todos os módulos.
+
+/** Verifica se já existe sessão ativa e abre login ou app. */
+async function iniciarSistema() {
+  setFiltro("todos");
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (data.session) {
+    usuarioAtual = data.session.user;
+    sincronizarEstado();
+    await mostrarApp();
+    await carregarAlunos();
+  } else {
+    mostrarLogin();
+  }
+}
+
+// ===============================
+// 08. CONTROLE DE TELAS — LOGIN / APP
+// ===============================
+
+/** Mostra a tela de login e limpa dados sensíveis dos campos. */
+function mostrarLogin() {
+  telaLogin.classList.remove("escondido");
+  app.classList.add("escondido");
+  telaAdmin.classList.add("escondido");
+
+  btnAdmin.classList.add("escondido");
+
+  emailLogin.value = "";
+  senhaLogin.value = "";
+  mensagemLogin.textContent = "";
+}
+
+/** Mostra o app principal e carrega permissões do usuário. */
+async function mostrarApp() {
+  telaLogin.classList.add("escondido");
+  telaAdmin.classList.add("escondido");
+  app.classList.remove("escondido");
+
+  emailUsuario.textContent = usuarioAtual.email;
+
+  await carregarPerfil();
+}
+
+// ===============================
+// 09. PERFIL DO USUÁRIO / ADMIN
+// ===============================
+
+/** Carrega perfil do usuário logado para saber limite e permissão de admin. */
+async function carregarPerfil() {
+  btnAdmin.classList.add("escondido");
+  usuarioEhAdmin = false;
+  limiteAlunos = 30;
+
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("is_admin, limite_alunos, nome_empresa, whatsapp_professor, modulo_evolucao, modulo_presenca, modulo_avisos, presenca_minima_percentual, frequencia_periodo_meses, ranking_geral_ativo, ranking_turma_ativo, ranking_turmas_ativo, ranking_minimo_aulas")
+    .eq("id", usuarioAtual.id)
+    .single();
+
+  if (error) {
+    console.log("Erro ao carregar perfil:", error.message);
+    return;
+  }
+
+  usuarioEhAdmin = data.is_admin === true;
+  limiteAlunos = data.limite_alunos || 30;
+  
+  nomeEmpresa = data.nome_empresa || "Mensalize";
+
+  if (nomeClienteDashboard) {
+    nomeClienteDashboard.textContent = nomeEmpresa;
+  }
+
+  if (perfilNomeEmpresa) {
+    perfilNomeEmpresa.value = nomeEmpresa;
+  }
+
+  if (perfilWhatsApp) {
+    perfilWhatsApp.value = data.whatsapp_professor || "";
+  }
+
+  moduloEvolucaoAtivo = data.modulo_evolucao !== false;
+  moduloPresencaAtivo = data.modulo_presenca === true;
+  moduloAvisosAtivo = data.modulo_avisos === true;
+
+  presencaMinimaPercentual = Number(data.presenca_minima_percentual || 70);
+  frequenciaPeriodoMeses = Number(data.frequencia_periodo_meses || 6);
+  rankingGeralAtivo = data.ranking_geral_ativo !== false;
+  rankingTurmaAtivo = data.ranking_turma_ativo !== false;
+  rankingTurmasAtivo = data.ranking_turmas_ativo !== false;
+  rankingMinimoAulas = Number(data.ranking_minimo_aulas || 4);
+
+  if (perfilModuloEvolucao) perfilModuloEvolucao.checked = moduloEvolucaoAtivo;
+  if (perfilModuloPresenca) perfilModuloPresenca.checked = moduloPresencaAtivo;
+  if (perfilModuloAvisos) perfilModuloAvisos.checked = moduloAvisosAtivo;
+  if (perfilPresencaMinima) perfilPresencaMinima.value = presencaMinimaPercentual;
+  if (perfilPeriodoFrequencia) perfilPeriodoFrequencia.value = frequenciaPeriodoMeses;
+  if (perfilRankingGeral) perfilRankingGeral.checked = rankingGeralAtivo;
+  if (perfilRankingTurma) perfilRankingTurma.checked = rankingTurmaAtivo;
+  if (perfilRankingTurmas) perfilRankingTurmas.checked = rankingTurmasAtivo;
+  if (perfilRankingMinimoAulas) perfilRankingMinimoAulas.value = rankingMinimoAulas;
+  aplicarModulosInterface();
+  sincronizarEstado();
+
+  if (usuarioEhAdmin) {
+    btnAdmin.classList.remove("escondido");
+  }
+}
+
+// ===============================
+// CRIAR CONTA
+// ===============================
+
+
+
+// ===============================
+// 10. AUTENTICAÇÃO — ENTRAR
+// ===============================
+
+btnEntrar.addEventListener("click", async function() {
+  const email = emailLogin.value.trim();
+  const senha = senhaLogin.value.trim();
+
+  if (!email || !senha) {
+    mensagemLogin.textContent = "Preencha e-mail e senha.";
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: senha
+  });
+
+  if (error) {
+    mensagemLogin.textContent = error.message;
+    return;
+  }
+
+  usuarioAtual = data.user;
+  sincronizarEstado();
+
+  await mostrarApp();
+  await carregarAlunos();
+});
+
+emailLogin.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    btnEntrar.click();
+  }
+});
+
+senhaLogin.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    btnEntrar.click();
+  }
+});
+
+// ===============================
+// 11. AUTENTICAÇÃO — SAIR
+// ===============================
+
+btnSair.addEventListener("click", async function() {
+  await supabaseClient.auth.signOut();
+
+  usuarioAtual = null;
+  alunos = [];
+  sincronizarEstado();
+  alunoEditandoId = null;
+  usuarioEhAdmin = false;
+  limiteAlunos = 30;
+
+  formAluno.reset();
+  modalAluno.classList.add("escondido");
+  mostrarLogin();
+});
+
+// ===============================

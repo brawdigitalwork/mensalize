@@ -3,150 +3,332 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Portal do Aluno - Mensalize</title>
-  <meta name="description" content="Portal do aluno Mensalize para acompanhar mensalidade, vencimento, pagamentos e comprovantes." />
+  <title>Área do Aluno - Mensalize</title>
+  <meta name="description" content="Área do aluno Mensalize para acompanhar mensalidade, pagamentos, dados e graduação." />
   <meta name="theme-color" content="#7c3aed" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta property="og:title" content="Portal do Aluno - Mensalize" />
-  <meta property="og:description" content="Acompanhe sua mensalidade, vencimento e pagamentos pelo Mensalize." />
+  <meta property="og:title" content="Área do Aluno - Mensalize" />
+  <meta property="og:description" content="Acompanhe sua mensalidade, dados e evolução pelo Mensalize." />
   <link rel="stylesheet" href="aluno.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
 </head>
 <body>
-  <header class="portal-header">
-    <div class="portal-header-inner">
-      <div class="brand">
-        <img src="logo.png" alt="Logo Mensalize" class="brand-logo" />
+  <section id="estadoInicial" class="loading-screen">
+    <div class="loading-card">
+      <div class="loading-logo"></div>
+      <strong>Carregando área do aluno...</strong>
+      <span>Buscando seus dados com segurança.</span>
+    </div>
+  </section>
+
+  <section id="portalConteudo" class="student-app escondido">
+    <div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
+
+    <aside class="student-sidebar" id="studentSidebar">
+      <div class="student-brand">
+        <img src="logo.png" alt="Logo Mensalize" class="student-brand-logo" />
         <div>
           <strong id="nomeAcademia">Mensalize</strong>
           <span>Área do aluno</span>
         </div>
       </div>
+
+      <nav class="student-menu" aria-label="Menu da área do aluno">
+        <button type="button" class="student-menu-item ativo" data-view="inicio">🏠 Início</button>
+        <button type="button" class="student-menu-item" data-view="dados">👤 Editar dados</button>
+        <button type="button" class="student-menu-item" data-view="financas">💰 Finanças</button>
+        <button type="button" class="student-menu-item" data-view="graduacao">🥋 Graduação</button>
+        <button type="button" id="menuRankingAluno" class="student-menu-item" data-view="ranking">🏆 Ranking</button>
+        <button type="button" class="student-menu-item" data-view="contato">📲 Contato</button>
+      </nav>
+    </aside>
+
+    <div class="student-main">
+      <header class="student-topbar">
+        <button id="btnAbrirMenuAluno" type="button" class="menu-button" aria-label="Abrir menu">☰</button>
+        <div class="student-small-profile">
+          <img id="fotoAlunoTopo" class="student-top-photo escondido" alt="Foto do aluno" />
+          <div id="avatarAlunoTopo" class="student-top-avatar">A</div>
+          <div>
+            <strong id="nomeAlunoTopo">Aluno</strong>
+            <span id="subtituloAlunoTopo">Área do aluno</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="student-content">
+        <section id="viewInicioAluno" class="student-view ativa">
+          <div class="welcome-card">
+            <span class="eyebrow">Início</span>
+            <h1>Resumo rápido</h1>
+            <p>Veja o que realmente importa agora: mensalidade, evolução e contato com o professor.</p>
+          </div>
+
+          <div class="quick-grid">
+            <article class="quick-card">
+              <span>Mensalidade</span>
+              <strong id="inicioStatusMensalidade">Carregando...</strong>
+              <small id="inicioVencimento">--/--/----</small>
+            </article>
+            <article class="quick-card">
+              <span>Graduação</span>
+              <strong id="inicioGraduacao">Não informada</strong>
+              <small id="inicioAvaliacao">Sem previsão</small>
+            </article>
+          </div>
+
+          <div class="action-row">
+            <button type="button" class="primary-action" data-view-target="financas">Ver financeiro</button>
+            <button type="button" class="secondary-action" data-view-target="graduacao">Ver graduação</button>
+          </div>
+
+          <article id="avisosAlunoHomeCard" class="panel-card notices-home-card escondido">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Avisos da academia</span>
+                <h2>Quadro de avisos</h2>
+              </div>
+              <span id="avisosAlunoContador" class="mini-badge">0 avisos</span>
+            </div>
+            <div id="avisosAlunoLista" class="student-notices-list">
+              <p class="empty-message">Carregando avisos...</p>
+            </div>
+          </article>
+
+          <article id="rankingHomeCard" class="panel-card ranking-home-card escondido">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Ranking do mês</span>
+                <h2>Desafio de presença</h2>
+              </div>
+              <button type="button" class="link-button" data-view-target="ranking">Ver completo</button>
+            </div>
+            <div class="ranking-tabs mini-tabs" id="rankingHomeTabs"></div>
+            <div id="rankingHomePodio" class="ranking-podium">
+              <p class="empty-message">Carregando ranking...</p>
+            </div>
+            <p id="rankingHomeResumo" class="ranking-student-note"></p>
+          </article>
+        </section>
+
+        <section id="viewDadosAluno" class="student-view">
+          <article class="panel-card">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Meu perfil</span>
+                <h2>Editar meus dados</h2>
+              </div>
+            </div>
+            <p class="helper-text">Aqui você pode corrigir seus dados pessoais. Dados da academia, valor e vencimento continuam sendo controlados pelo professor.</p>
+
+            <div class="photo-box">
+              <div class="photo-preview-wrap">
+                <img id="fotoAlunoPerfil" class="photo-preview escondido" alt="Foto do aluno" />
+                <div id="avatarAlunoPerfil" class="photo-avatar">A</div>
+              </div>
+              <div>
+                <strong>Foto de perfil</strong>
+                <p>Envie uma foto sua para facilitar a identificação na academia.</p>
+                <input id="inputFotoAluno" type="file" accept="image/*" />
+                <button id="btnSalvarFotoAluno" type="button" class="secondary-action">Salvar foto</button>
+                <p id="msgFotoAluno" class="soft-message"></p>
+              </div>
+            </div>
+
+            <form id="formPerfilAluno" class="student-form">
+              <label>
+                <span>Nome completo</span>
+                <input type="text" id="perfilAlunoNome" placeholder="Seu nome completo" />
+              </label>
+              <label>
+                <span>WhatsApp</span>
+                <input type="text" id="perfilAlunoTelefone" placeholder="Seu WhatsApp com DDD" />
+              </label>
+              <label>
+                <span>Data de nascimento</span>
+                <input type="date" id="perfilAlunoNascimento" />
+              </label>
+              <label>
+                <span>Nome do responsável</span>
+                <input type="text" id="perfilAlunoResponsavel" placeholder="Se tiver responsável financeiro" />
+              </label>
+              <label>
+                <span>WhatsApp do responsável</span>
+                <input type="text" id="perfilAlunoResponsavelWhatsApp" placeholder="WhatsApp do responsável" />
+              </label>
+              <button type="submit" class="primary-action">Salvar meus dados</button>
+              <p id="msgPerfilAluno" class="soft-message"></p>
+            </form>
+          </article>
+        </section>
+
+        <section id="viewFinancasAluno" class="student-view">
+          <article class="panel-card">
+            <div class="status-hero" id="statusHero">
+              <div>
+                <span class="eyebrow">Finanças</span>
+                <h2 id="statusTitulo">Carregando status...</h2>
+                <p id="mensagemStatus" class="status-message">Aguarde enquanto buscamos seus dados.</p>
+              </div>
+              <span id="badgeStatus" class="status-badge">Status</span>
+            </div>
+
+            <div class="finance-summary-grid">
+              <div class="summary-box summary-price">
+                <span>Valor mensal</span>
+                <strong id="valorMensalidade">R$ 0,00</strong>
+              </div>
+              <div class="summary-box">
+                <span>Próximo vencimento</span>
+                <strong id="textoVencimento">--/--/----</strong>
+              </div>
+            </div>
+
+            <div id="areaPagamento" class="payment-actions"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Histórico</span>
+                <h2>Pagamentos recentes</h2>
+              </div>
+              <span id="contadorPagamentos" class="mini-badge">0 registros</span>
+            </div>
+            <div id="listaPagamentos" class="payments-list">
+              <div class="mini-loading">Carregando histórico...</div>
+            </div>
+          </article>
+        </section>
+
+        <section id="viewGraduacaoAluno" class="student-view">
+          <article class="panel-card">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Graduação</span>
+                <h2>Minha evolução</h2>
+              </div>
+              <span id="badgeEvolucao" class="mini-badge">Avaliação</span>
+            </div>
+            <div id="conteudoEvolucaoAluno" class="student-evolution-grid"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Solicitação</span>
+                <h2>Solicitar correção de graduação</h2>
+              </div>
+            </div>
+            <p class="helper-text">Use isso só caso alguma informação esteja errada. O professor precisa aprovar antes de alterar no sistema.</p>
+            <form id="formSolicitarGraduacao" class="student-form">
+              <label>
+                <span>Faixa correta</span>
+                <input type="text" id="solicitarFaixa" placeholder="Ex: Branca, Azul, Roxa" />
+              </label>
+              <label>
+                <span>Grau correto</span>
+                <input type="text" id="solicitarGrau" placeholder="Ex: 0, 1, 2, 3, 4" />
+              </label>
+              <label>
+                <span>Data correta da última graduação</span>
+                <input type="date" id="solicitarDataGraduacao" />
+              </label>
+              <label class="full-line">
+                <span>Observação</span>
+                <textarea id="solicitarGraduacaoObs" rows="3" placeholder="Explique rapidinho o que precisa corrigir"></textarea>
+              </label>
+              <button type="submit" class="secondary-action">Enviar solicitação</button>
+              <p id="msgSolicitarGraduacao" class="soft-message"></p>
+            </form>
+          </article>
+
+          <article class="panel-card">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Turma</span>
+                <h2>Pedir mudança de turma</h2>
+              </div>
+            </div>
+            <p class="helper-text">Quer mudar de horário ou turma? Envie o pedido por aqui para o professor analisar.</p>
+            <form id="formSolicitarTurma" class="student-form">
+              <label>
+                <span>Turma desejada</span>
+                <input type="text" id="solicitarTurma" placeholder="Ex: Adulto noite" />
+              </label>
+              <label class="full-line">
+                <span>Observação</span>
+                <textarea id="solicitarTurmaObs" rows="3" placeholder="Explique rapidinho o motivo, se quiser"></textarea>
+              </label>
+              <button type="submit" class="secondary-action">Enviar solicitação</button>
+              <p id="msgSolicitarTurma" class="soft-message"></p>
+            </form>
+          </article>
+        </section>
+
+
+
+        <section id="viewRankingAluno" class="student-view">
+          <article id="rankingFullCard" class="panel-card">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Ranking</span>
+                <h2>Ranking de presença do mês</h2>
+              </div>
+              <span id="rankingMesAtual" class="mini-badge">Mês atual</span>
+            </div>
+            <p class="helper-text">O ranking considera as presenças do mês, aulas válidas e aulas canceladas. A disputa pode ser geral, por turma ou entre turmas, conforme a configuração da academia.</p>
+            <div class="ranking-tabs" id="rankingFullTabs"></div>
+            <div id="rankingFullList" class="ranking-list">
+              <p class="empty-message">Carregando ranking...</p>
+            </div>
+          </article>
+        </section>
+
+        <section id="viewContatoAluno" class="student-view">
+          <article class="panel-card">
+            <span class="eyebrow">Contato</span>
+            <h2>Falar com professor</h2>
+            <p class="helper-text">Use os botões abaixo para falar com o professor ou compartilhar sua página.</p>
+            <div id="areaContatoProfessor" class="contact-actions"></div>
+            <button id="btnCompartilhar" class="share-button" type="button">🔗 Copiar ou compartilhar link</button>
+          </article>
+        </section>
+      </main>
     </div>
-  </header>
+  </section>
 
-  <main class="portal-shell">
-    <section id="estadoInicial" class="skeleton-area">
-      <div class="skeleton-card"></div>
-      <div class="skeleton-card skeleton-card-small"></div>
-      <div class="skeleton-card skeleton-card-small"></div>
-    </section>
-
-    <section id="portalConteudo" class="portal-content escondido">
-      <article class="student-card card-animate delay-0">
-        <div class="student-avatar" id="avatarAluno">A</div>
-        <div class="student-info">
-          <span class="eyebrow">Aluno</span>
-          <h1 id="nomeAluno">Carregando...</h1>
-          <div class="student-meta">
-            <span id="badgePlano" class="pill escondido"></span>
-            <span id="alunoDesde" class="muted"></span>
-          </div>
-        </div>
-      </article>
-
-      <article class="finance-card card-animate delay-1">
-        <div class="status-hero" id="statusHero">
-          <div class="status-hero-text">
-            <span class="eyebrow">Situação da mensalidade</span>
-            <h2 id="statusTitulo">Carregando status...</h2>
-            <p id="mensagemStatus" class="status-message">Aguarde enquanto buscamos seus dados.</p>
-          </div>
-          <span id="badgeStatus" class="status-badge">Status</span>
-        </div>
-
-        <div class="finance-summary-grid">
-          <div class="summary-box summary-price">
-            <span>Valor mensal</span>
-            <strong id="valorMensalidade" class="price">R$ 0,00</strong>
-          </div>
-          <div class="summary-box">
-            <span>Próximo vencimento</span>
-            <strong id="textoVencimento">--/--/----</strong>
-          </div>
-        </div>
-
-        <div id="areaPagamento" class="payment-actions"></div>
-      </article>
-
-      <article class="evolution-card card-animate delay-2 escondido" id="cardEvolucaoAluno">
-        <div class="section-title-row">
-          <div>
-            <span class="eyebrow">Evolução</span>
-            <h2>Sua evolução</h2>
-          </div>
-          <span id="badgeEvolucao" class="mini-badge">Avaliação</span>
-        </div>
-        <div id="conteudoEvolucaoAluno" class="student-evolution-grid"></div>
-      </article>
-
-      <article class="history-card card-animate delay-3" id="cardHistorico">
-        <div class="section-title-row">
-          <div>
-            <span class="eyebrow">Histórico</span>
-            <h2>Pagamentos recentes</h2>
-          </div>
-          <span id="contadorPagamentos" class="mini-badge">0 registros</span>
-        </div>
-        <div id="listaPagamentos" class="payments-list">
-          <div class="mini-loading">Carregando histórico...</div>
-        </div>
-      </article>
-
-      <article class="receipt-card card-animate delay-3 escondido">
-        <div class="section-title-row">
-          <h2>📎 Enviar comprovante</h2>
-          <span class="mini-badge muted-badge">Fase 2</span>
-        </div>
-        <p class="receipt-desc">Envie uma imagem do comprovante para facilitar a conferência do professor.</p>
-        <label class="file-label" for="inputComprovante">Escolher imagem</label>
-        <input id="inputComprovante" class="file-input" type="file" accept="image/*" />
-        <div id="previewComprovante" class="preview-box escondido">
-          <img id="previewImagem" alt="Prévia do comprovante" />
-        </div>
-        <button id="btnEnviarComprovante" class="secondary-action" type="button" disabled>
-          Enviar comprovante
-        </button>
-        <p id="msgComprovante" class="soft-message">Funcionalidade em breve.</p>
-      </article>
-
-      <button id="btnCompartilhar" class="share-button" type="button">🔗 Copiar ou compartilhar link</button>
-    </section>
-
-    <section id="estadoErro" class="error-card escondido">
-      <div class="error-icon">⚠️</div>
-      <h1>Não conseguimos abrir esta página</h1>
-      <p id="mensagemErro">O link pode estar incorreto ou indisponível no momento.</p>
-      <a href="javascript:location.reload()" class="retry-link">Tentar novamente</a>
-    </section>
-  </main>
-
-  <footer class="portal-footer">
-    <p>© Mensalize · Sistema de gestão de mensalidades</p>
-    <a id="linkProfessor" href="#" target="_blank" rel="noopener" class="escondido">
-      Problemas? Fale com seu professor
-    </a>
-  </footer>
+  <section id="estadoErro" class="error-card escondido">
+    <div class="error-icon">⚠️</div>
+    <h1>Não conseguimos abrir esta página</h1>
+    <p id="mensagemErro">O link pode estar incorreto ou indisponível no momento.</p>
+    <a href="javascript:location.reload()" class="retry-link">Tentar novamente</a>
+  </section>
 
   <script>
-    // ============================================================
-    // PORTAL DO ALUNO — MENSALIZE
-    // Página pública acessada por aluno.html?codigo=CODIGO_PUBLICO
-    // ============================================================
-
     const supabaseClient = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey);
 
     const estadoInicial = document.getElementById("estadoInicial");
     const portalConteudo = document.getElementById("portalConteudo");
     const estadoErro = document.getElementById("estadoErro");
     const mensagemErro = document.getElementById("mensagemErro");
-
     const nomeAcademia = document.getElementById("nomeAcademia");
-    const avatarAluno = document.getElementById("avatarAluno");
-    const nomeAluno = document.getElementById("nomeAluno");
-    const badgePlano = document.getElementById("badgePlano");
-    const alunoDesde = document.getElementById("alunoDesde");
+    const btnAbrirMenuAluno = document.getElementById("btnAbrirMenuAluno");
+    const menuOverlay = document.getElementById("menuOverlay");
+    const studentSidebar = document.getElementById("studentSidebar");
+
+    const nomeAlunoTopo = document.getElementById("nomeAlunoTopo");
+    const subtituloAlunoTopo = document.getElementById("subtituloAlunoTopo");
+    const fotoAlunoTopo = document.getElementById("fotoAlunoTopo");
+    const avatarAlunoTopo = document.getElementById("avatarAlunoTopo");
+    const fotoAlunoPerfil = document.getElementById("fotoAlunoPerfil");
+    const avatarAlunoPerfil = document.getElementById("avatarAlunoPerfil");
+
+    const inicioStatusMensalidade = document.getElementById("inicioStatusMensalidade");
+    const inicioVencimento = document.getElementById("inicioVencimento");
+    const inicioGraduacao = document.getElementById("inicioGraduacao");
+    const inicioAvaliacao = document.getElementById("inicioAvaliacao");
 
     const valorMensalidade = document.getElementById("valorMensalidade");
     const badgeStatus = document.getElementById("badgeStatus");
@@ -154,23 +336,55 @@
     const textoVencimento = document.getElementById("textoVencimento");
     const mensagemStatus = document.getElementById("mensagemStatus");
     const areaPagamento = document.getElementById("areaPagamento");
+    const areaContatoProfessor = document.getElementById("areaContatoProfessor");
 
     const contadorPagamentos = document.getElementById("contadorPagamentos");
     const listaPagamentos = document.getElementById("listaPagamentos");
-
-    const inputComprovante = document.getElementById("inputComprovante");
-    const previewComprovante = document.getElementById("previewComprovante");
-    const previewImagem = document.getElementById("previewImagem");
-    const btnEnviarComprovante = document.getElementById("btnEnviarComprovante");
-    const msgComprovante = document.getElementById("msgComprovante");
-    const btnCompartilhar = document.getElementById("btnCompartilhar");
-    const cardEvolucaoAluno = document.getElementById("cardEvolucaoAluno");
     const conteudoEvolucaoAluno = document.getElementById("conteudoEvolucaoAluno");
     const badgeEvolucao = document.getElementById("badgeEvolucao");
 
+    const inputFotoAluno = document.getElementById("inputFotoAluno");
+    const btnSalvarFotoAluno = document.getElementById("btnSalvarFotoAluno");
+    const msgFotoAluno = document.getElementById("msgFotoAluno");
+
+    const formPerfilAluno = document.getElementById("formPerfilAluno");
+    const perfilAlunoNome = document.getElementById("perfilAlunoNome");
+    const perfilAlunoTelefone = document.getElementById("perfilAlunoTelefone");
+    const perfilAlunoNascimento = document.getElementById("perfilAlunoNascimento");
+    const perfilAlunoResponsavel = document.getElementById("perfilAlunoResponsavel");
+    const perfilAlunoResponsavelWhatsApp = document.getElementById("perfilAlunoResponsavelWhatsApp");
+    const msgPerfilAluno = document.getElementById("msgPerfilAluno");
+
+    const formSolicitarTurma = document.getElementById("formSolicitarTurma");
+    const solicitarTurma = document.getElementById("solicitarTurma");
+    const solicitarTurmaObs = document.getElementById("solicitarTurmaObs");
+    const msgSolicitarTurma = document.getElementById("msgSolicitarTurma");
+
+    const formSolicitarGraduacao = document.getElementById("formSolicitarGraduacao");
+    const solicitarFaixa = document.getElementById("solicitarFaixa");
+    const solicitarGrau = document.getElementById("solicitarGrau");
+    const solicitarDataGraduacao = document.getElementById("solicitarDataGraduacao");
+    const solicitarGraduacaoObs = document.getElementById("solicitarGraduacaoObs");
+    const msgSolicitarGraduacao = document.getElementById("msgSolicitarGraduacao");
+
+    const btnCompartilhar = document.getElementById("btnCompartilhar");
+    const menuRankingAluno = document.getElementById("menuRankingAluno");
+    const rankingHomeCard = document.getElementById("rankingHomeCard");
+    const rankingHomeTabs = document.getElementById("rankingHomeTabs");
+    const rankingHomePodio = document.getElementById("rankingHomePodio");
+    const rankingHomeResumo = document.getElementById("rankingHomeResumo");
+    const rankingFullTabs = document.getElementById("rankingFullTabs");
+    const rankingFullList = document.getElementById("rankingFullList");
+    const rankingMesAtual = document.getElementById("rankingMesAtual");
+    const avisosAlunoHomeCard = document.getElementById("avisosAlunoHomeCard");
+    const avisosAlunoLista = document.getElementById("avisosAlunoLista");
+    const avisosAlunoContador = document.getElementById("avisosAlunoContador");
+
     let alunoAtual = null;
     let codigoPublico = null;
-    let arquivoComprovante = null;
+    let arquivoFoto = null;
+    let rankingsAluno = { geral: [], turma: [], turmas: [] };
+    let rankingAtivoAluno = "turma";
 
     nomeAcademia.textContent = CONFIG.nomeEmpresa || CONFIG.nomeApp || "Mensalize";
 
@@ -187,137 +401,126 @@
       portalConteudo.classList.remove("escondido");
     }
 
-    function formatarMoeda(valor) {
-      return Number(valor || 0).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-      });
+    function abrirMenuAluno() { document.body.classList.add("menu-aberto"); }
+    function fecharMenuAluno() { document.body.classList.remove("menu-aberto"); }
+
+    function abrirViewAluno(view) {
+      document.querySelectorAll(".student-view").forEach(v => v.classList.remove("ativa"));
+      document.querySelectorAll(".student-menu-item").forEach(b => b.classList.toggle("ativo", b.dataset.view === view));
+      const mapa = {
+        inicio: "viewInicioAluno",
+        dados: "viewDadosAluno",
+        financas: "viewFinancasAluno",
+        graduacao: "viewGraduacaoAluno",
+        ranking: "viewRankingAluno",
+        contato: "viewContatoAluno"
+      };
+      const alvo = document.getElementById(mapa[view] || mapa.inicio);
+      if (alvo) alvo.classList.add("ativa");
+      fecharMenuAluno();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    btnAbrirMenuAluno?.addEventListener("click", abrirMenuAluno);
+    menuOverlay?.addEventListener("click", fecharMenuAluno);
+    document.querySelectorAll(".student-menu-item").forEach(btn => btn.addEventListener("click", () => abrirViewAluno(btn.dataset.view)));
+    document.querySelectorAll("[data-view-target]").forEach(btn => btn.addEventListener("click", () => abrirViewAluno(btn.dataset.viewTarget)));
+
+    function formatarMoeda(valor) {
+      return Number(valor || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
     function normalizarLink(link) {
       const texto = String(link || "").trim();
       if (!texto) return "";
       if (texto.startsWith("http://") || texto.startsWith("https://")) return texto;
       return "https://" + texto;
     }
-
     function dataIsoParaDate(dataString) {
       if (!dataString) return null;
-      const somenteData = String(dataString).split("T")[0];
-      const partes = somenteData.split("-");
+      const partes = String(dataString).split("T")[0].split("-");
       if (partes.length !== 3) return null;
       return new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
     }
-
     function formatarData(dataString) {
       const data = dataIsoParaDate(dataString);
       if (!data || Number.isNaN(data.getTime())) return "--/--/----";
       return data.toLocaleDateString("pt-BR");
     }
-
     function formatarMesAno(dataString) {
       const data = dataIsoParaDate(dataString);
       if (!data || Number.isNaN(data.getTime())) return "";
       return data.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
     }
-
     function calcularDias(vencimento) {
       const hoje = new Date();
       const hojeSemHora = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
       const dataVencimento = dataIsoParaDate(vencimento);
       if (!dataVencimento) return 0;
-      const diff = dataVencimento - hojeSemHora;
-      return Math.ceil(diff / (1000 * 60 * 60 * 24));
+      return Math.ceil((dataVencimento - hojeSemHora) / (1000 * 60 * 60 * 24));
+    }
+    function limparNumeroWhatsApp(numero) { return String(numero || "").replace(/\D/g, ""); }
+    function primeiraLetra(nome) { return String(nome || "A").trim().charAt(0).toUpperCase() || "A"; }
+    function escapeHtml(texto) {
+      return String(texto || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+    function avisoTipoTexto(tipo) {
+      const mapa = {
+        comunicado: "📢 Comunicado",
+        importante: "⚠️ Importante",
+        graduacao: "🥋 Graduação",
+        aula: "📅 Aula / horário",
+        financeiro: "💰 Financeiro"
+      };
+      return mapa[tipo] || "📢 Comunicado";
     }
 
     function gerarStatus(aluno) {
       const dias = calcularDias(aluno.vencimento);
-
-      if (aluno.pago_mes === true) {
-        return {
-          texto: "Pago",
-          classe: "status-pago",
-          titulo: "Sua mensalidade está em dia",
-          mensagem: "Tudo certo! Seu pagamento deste mês já foi registrado."
-        };
-      }
-
-      if (dias < 0) {
-        const atraso = Math.abs(dias);
-        return {
-          texto: "Atrasado",
-          classe: "status-atrasado",
-          titulo: `Mensalidade atrasada há ${atraso} dia${atraso === 1 ? "" : "s"}`,
-          mensagem: "Regularize sua mensalidade para manter tudo em dia com o professor."
-        };
-      }
-
-      if (dias === 0) {
-        return {
-          texto: "Vence hoje",
-          classe: "status-hoje",
-          titulo: "Sua mensalidade vence hoje",
-          mensagem: "Evite atrasos: realize o pagamento ainda hoje ou fale com o professor."
-        };
-      }
-
-      return {
-        texto: "Em aberto",
-        classe: "status-pendente",
-        titulo: `Faltam ${dias} dia${dias === 1 ? "" : "s"} para o vencimento`,
-        mensagem: "Acompanhe sua data de vencimento e pague com tranquilidade."
-      };
+      if (aluno.pago_mes === true) return { texto: "Pago", classe: "status-pago", titulo: "Mensalidade em dia", mensagem: "Seu pagamento deste mês já foi registrado." };
+      if (dias < 0) return { texto: "Atrasado", classe: "status-atrasado", titulo: `Atrasada há ${Math.abs(dias)} dia${Math.abs(dias) === 1 ? "" : "s"}`, mensagem: "Regularize sua mensalidade para manter tudo certo com o professor." };
+      if (dias === 0) return { texto: "Vence hoje", classe: "status-hoje", titulo: "Sua mensalidade vence hoje", mensagem: "Evite atrasos: realize o pagamento ou fale com o professor." };
+      return { texto: "Em aberto", classe: "status-pendente", titulo: `Faltam ${dias} dia${dias === 1 ? "" : "s"} para vencer`, mensagem: "Acompanhe seu vencimento e pague com tranquilidade." };
     }
 
     function gerarLinkWhatsAppProfessor(aluno) {
-      const telefoneInformado = String(aluno.whatsapp_professor || "").replace(/\D/g, "");
-
-      if (telefoneInformado.length < 10) {
-        return "";
-      }
-
+      const telefoneInformado = limparNumeroWhatsApp(aluno.whatsapp_professor);
+      if (telefoneInformado.length < 10) return "";
       const telefoneComPais = telefoneInformado.startsWith("55") ? telefoneInformado : `55${telefoneInformado}`;
       const mensagem = `Olá, sou ${aluno.nome || "aluno"}. Quero falar sobre minha mensalidade.`;
       return `https://wa.me/${telefoneComPais}?text=${encodeURIComponent(mensagem)}`;
     }
 
-    function primeiraLetra(nome) {
-      return String(nome || "A").trim().charAt(0).toUpperCase() || "A";
-    }
-
-    function adicionarMesesData(dataString, meses) {
-      if (!dataString || !meses) return "";
-      const partes = String(dataString).split("-");
-      if (partes.length !== 3) return "";
-      const data = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
-      const dia = data.getDate();
-      data.setMonth(data.getMonth() + Number(meses));
-      if (data.getDate() !== dia) data.setDate(0);
-      return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
-    }
-
     function statusEvolucaoAluno(aluno) {
-      if (!aluno.data_ultima_graduacao || !aluno.tempo_minimo_avaliacao_meses) {
+      if (!aluno.data_ultima_graduacao || !aluno.tempo_avaliacao_meses) {
         return { texto: "Sem previsão", classe: "muted-badge", data: "" };
       }
-      const previsao = adicionarMesesData(aluno.data_ultima_graduacao, aluno.tempo_minimo_avaliacao_meses);
-      const hoje = new Date();
-      const dataHoje = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
-      const p = previsao.split("-");
-      const dataPrevista = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
-      const dias = Math.ceil((dataPrevista - dataHoje) / (1000 * 60 * 60 * 24));
+      const previsao = aluno.data_prevista_avaliacao;
+      const dias = aluno.dias_para_avaliacao;
+      if (!previsao || dias === null || dias === undefined) return { texto: "Sem previsão", classe: "muted-badge", data: "" };
       if (dias <= 0) return { texto: "Apto para avaliação", classe: "status-ok", data: previsao };
       if (dias <= 30) return { texto: `Faltam ${dias} dias`, classe: "status-warn", data: previsao };
       return { texto: `Faltam ${dias} dias`, classe: "muted-badge", data: previsao };
     }
 
-    function renderizarEvolucaoAluno(aluno) {
-      if (!cardEvolucaoAluno || !conteudoEvolucaoAluno) return;
-      const temDados = aluno.faixa || aluno.grau || aluno.turma || aluno.data_ultima_graduacao || aluno.tempo_minimo_avaliacao_meses;
-      if (!temDados) {
-        cardEvolucaoAluno.classList.add("escondido");
-        return;
+    function atualizarFotos(aluno) {
+      const foto = aluno.foto_url || "";
+      const inicial = primeiraLetra(aluno.nome);
+      [avatarAlunoTopo, avatarAlunoPerfil].forEach(a => { if (a) a.textContent = inicial; });
+      if (foto) {
+        [fotoAlunoTopo, fotoAlunoPerfil].forEach(img => { if (img) { img.src = foto; img.classList.remove("escondido"); } });
+        [avatarAlunoTopo, avatarAlunoPerfil].forEach(a => a?.classList.add("escondido"));
+      } else {
+        [fotoAlunoTopo, fotoAlunoPerfil].forEach(img => { if (img) { img.removeAttribute("src"); img.classList.add("escondido"); } });
+        [avatarAlunoTopo, avatarAlunoPerfil].forEach(a => a?.classList.remove("escondido"));
       }
+    }
+
+    function renderizarEvolucaoAluno(aluno) {
       const status = statusEvolucaoAluno(aluno);
       if (badgeEvolucao) {
         badgeEvolucao.textContent = status.texto;
@@ -328,6 +531,7 @@
         ["Grau", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? `${aluno.grau}º grau` : "Não informado"],
         ["Turma", aluno.turma || "Não informada"],
         ["Última graduação", aluno.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"],
+        ["Tempo mínimo", aluno.tempo_avaliacao_meses ? `${aluno.tempo_avaliacao_meses} meses` : "Não informado"],
         ["Previsão para avaliação", status.data ? formatarData(status.data) : "Não calculada"]
       ];
       conteudoEvolucaoAluno.innerHTML = linhas.map(([label, valor]) => `
@@ -336,51 +540,78 @@
           <strong>${valor}</strong>
         </div>
       `).join("");
-      cardEvolucaoAluno.classList.remove("escondido");
+      inicioGraduacao.textContent = aluno.faixa ? `Faixa ${aluno.faixa}${aluno.grau ? ` • ${aluno.grau}º grau` : ""}` : "Não informada";
+      inicioAvaliacao.textContent = status.texto;
+    }
+
+    function renderizarAvisosAluno(avisos) {
+      const lista = avisos || [];
+      if (!avisosAlunoHomeCard || !avisosAlunoLista) return;
+
+      avisosAlunoHomeCard.classList.toggle("escondido", lista.length === 0);
+      if (avisosAlunoContador) {
+        avisosAlunoContador.textContent = `${lista.length} aviso${lista.length === 1 ? "" : "s"}`;
+      }
+
+      if (!lista.length) {
+        avisosAlunoLista.innerHTML = `<p class="empty-message">Nenhum aviso publicado no momento.</p>`;
+        return;
+      }
+
+      avisosAlunoLista.innerHTML = lista.slice(0, 3).map(aviso => {
+        const importante = aviso.prioridade === "importante" || aviso.tipo === "importante";
+        return `
+          <div class="student-notice-item ${importante ? 'is-important' : ''}">
+            <span class="notice-kind">${avisoTipoTexto(aviso.tipo)}</span>
+            <strong>${escapeHtml(aviso.titulo)}</strong>
+            <p>${escapeHtml(aviso.mensagem)}</p>
+            <small>${aviso.turma ? 'Turma: ' + escapeHtml(aviso.turma) : 'Todos os alunos'}${aviso.created_at ? ' • ' + formatarData(aviso.created_at) : ''}</small>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function carregarAvisosAluno() {
+      if (!codigoPublico) return;
+      try {
+        const { data, error } = await supabaseClient.rpc("buscar_avisos_publico", { codigo: codigoPublico });
+        if (error) throw error;
+        renderizarAvisosAluno(data || []);
+      } catch (erro) {
+        console.log("Erro ao carregar avisos do aluno:", erro?.message || erro);
+        renderizarAvisosAluno([]);
+      }
     }
 
     function renderizarAluno(aluno) {
+      alunoAtual = aluno;
       const status = gerarStatus(aluno);
       const linkPagamento = normalizarLink(aluno.link_pagamento);
-      alunoAtual = aluno;
-
-      const linkProfessor = document.getElementById("linkProfessor");
       const linkWhatsAppProfessor = gerarLinkWhatsAppProfessor(aluno);
 
-      if (linkProfessor) {
-        if (linkWhatsAppProfessor) {
-          linkProfessor.href = linkWhatsAppProfessor;
-          linkProfessor.classList.remove("escondido");
-        } else {
-          linkProfessor.href = "#";
-          linkProfessor.classList.add("escondido");
-        }
-      }
+      nomeAcademia.textContent = aluno.nome_empresa || CONFIG.nomeEmpresa || "Mensalize";
+      nomeAlunoTopo.textContent = aluno.nome || "Aluno";
+      subtituloAlunoTopo.textContent = aluno.turma ? `Turma ${aluno.turma}` : "Área do aluno";
+      atualizarFotos(aluno);
 
-      avatarAluno.textContent = primeiraLetra(aluno.nome);
-      nomeAluno.textContent = aluno.nome || "Aluno";
+      inicioStatusMensalidade.textContent = status.texto;
+      inicioVencimento.textContent = `Vence em ${formatarData(aluno.vencimento)}`;
       valorMensalidade.textContent = formatarMoeda(aluno.valor);
       textoVencimento.textContent = formatarData(aluno.vencimento);
-
       badgeStatus.textContent = status.texto;
       badgeStatus.className = `status-badge ${status.classe}`;
       statusTitulo.textContent = status.titulo;
       mensagemStatus.textContent = status.mensagem;
 
-      if (aluno.plano) {
-        badgePlano.textContent = aluno.plano;
-        badgePlano.classList.remove("escondido");
-      } else {
-        badgePlano.classList.add("escondido");
-      }
-
-      const criadoEm = aluno.criado_em || aluno.created_at;
-      if (criadoEm) {
-        const mesAno = formatarMesAno(criadoEm);
-        alunoDesde.textContent = mesAno ? `Aluno desde ${mesAno}` : "";
-      } else {
-        alunoDesde.textContent = "";
-      }
+      perfilAlunoNome.value = aluno.nome || "";
+      perfilAlunoTelefone.value = aluno.telefone || "";
+      perfilAlunoNascimento.value = aluno.data_nascimento || "";
+      perfilAlunoResponsavel.value = aluno.responsavel_nome || "";
+      perfilAlunoResponsavelWhatsApp.value = aluno.responsavel_whatsapp || "";
+      solicitarTurma.value = aluno.turma || "";
+      solicitarFaixa.value = aluno.faixa || "";
+      solicitarGrau.value = aluno.grau || "";
+      solicitarDataGraduacao.value = aluno.data_ultima_graduacao || "";
 
       const botaoProfessor = linkWhatsAppProfessor
         ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="whatsapp-button">Falar com professor</a>`
@@ -388,54 +619,213 @@
 
       if (linkPagamento) {
         areaPagamento.innerHTML = `
-          <a href="${linkPagamento}" target="_blank" rel="noopener" class="pay-button">
-            Pagar mensalidade <span>→</span>
-          </a>
+          <a href="${linkPagamento}" target="_blank" rel="noopener" class="pay-button">Pagar mensalidade <span>→</span></a>
           ${botaoProfessor}
         `;
       } else {
         areaPagamento.innerHTML = linkWhatsAppProfessor
-          ? `
-            <a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">
-              Falar com professor <span>→</span>
-            </a>
-            <p class="soft-message center-message">O link de pagamento ainda não foi cadastrado.</p>
-          `
-          : `
-            <p class="soft-message center-message">O link de pagamento e o WhatsApp do professor ainda não foram cadastrados.</p>
-          `;
+          ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">Falar com professor <span>→</span></a><p class="soft-message center-message">O link de pagamento ainda não foi cadastrado.</p>`
+          : `<p class="soft-message center-message">O link de pagamento e o WhatsApp do professor ainda não foram cadastrados.</p>`;
       }
 
+      areaContatoProfessor.innerHTML = linkWhatsAppProfessor
+        ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">Falar com professor <span>→</span></a>`
+        : `<p class="soft-message center-message">WhatsApp do professor ainda não foi cadastrado.</p>`;
+
       renderizarEvolucaoAluno(aluno);
+      carregarAvisosAluno();
+      carregarRankingsAluno(aluno);
       mostrarPortal();
+    }
+
+
+
+    function nomeCurto(nome) {
+      const partes = String(nome || "Aluno").trim().split(/\s+/).filter(Boolean);
+      if (partes.length <= 1) return partes[0] || "Aluno";
+      return `${partes[0]} ${partes[partes.length - 1]}`;
+    }
+
+    function rankingsAtivos(aluno) {
+      const ativos = [];
+      if (aluno.ranking_turma_ativo !== false) ativos.push({ id: "turma", label: "Minha turma" });
+      if (aluno.ranking_geral_ativo !== false) ativos.push({ id: "geral", label: "Geral" });
+      if (aluno.ranking_turmas_ativo !== false) ativos.push({ id: "turmas", label: "Turmas" });
+      return ativos;
+    }
+
+    function criarAvatarRanking(item, grande = false) {
+      const foto = item.foto_url || "";
+      const inicial = primeiraLetra(item.nome || item.nome_turma || "T");
+      if (foto) return `<img src="${foto}" alt="${item.nome || 'Aluno'}" class="ranking-photo ${grande ? 'ranking-photo-big' : ''}">`;
+      return `<div class="ranking-avatar ${grande ? 'ranking-avatar-big' : ''}">${inicial}</div>`;
+    }
+
+    function textoPosicao(posicao) {
+      if (Number(posicao) === 1) return "🥇";
+      if (Number(posicao) === 2) return "🥈";
+      if (Number(posicao) === 3) return "🥉";
+      return `${posicao}º`;
+    }
+
+    function montarTabsRanking(container, ativos, selecionado) {
+      if (!container) return;
+      container.innerHTML = ativos.map(item => `
+        <button type="button" class="ranking-tab ${item.id === selecionado ? 'ativo' : ''}" data-ranking="${item.id}">${item.label}</button>
+      `).join("");
+      container.querySelectorAll(".ranking-tab").forEach(btn => {
+        btn.addEventListener("click", () => {
+          rankingAtivoAluno = btn.dataset.ranking;
+          renderizarRankingAluno(alunoAtual);
+        });
+      });
+    }
+
+    function itemAlunoAtual(lista) {
+      return (lista || []).find(item => item.eh_aluno_atual === true);
+    }
+
+    function renderizarPodioAluno(lista, tipo) {
+      const top = (lista || []).slice(0, 3);
+      if (!top.length) {
+        return `<p class="empty-message">Ainda não há dados suficientes para formar o ranking deste mês.</p>`;
+      }
+
+      const mapa = { 1: null, 2: null, 3: null };
+      top.forEach(item => { mapa[Number(item.posicao)] = item; });
+      const ordem = [2, 1, 3].filter(pos => mapa[pos]);
+      return ordem.map(pos => {
+        const item = mapa[pos];
+        const destaque = Number(item.posicao) === 1 ? "podium-first" : "";
+        const voce = item.eh_aluno_atual ? `<span class="you-badge">Você</span>` : "";
+        return `
+          <div class="podium-card ${destaque} ${item.eh_aluno_atual ? 'is-you' : ''}">
+            <span class="podium-medal">${textoPosicao(item.posicao)}</span>
+            ${criarAvatarRanking(item, Number(item.posicao) === 1)}
+            <strong>${item.eh_aluno_atual ? 'Você' : nomeCurto(item.nome)}</strong>
+            <small>${Number(item.frequencia_percentual || 0).toFixed(1).replace('.', ',')}% • ${item.presencas}/${item.aulas_validas}</small>
+            ${voce}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderizarPodioTurmas(lista) {
+      const top = (lista || []).slice(0, 3);
+      if (!top.length) return `<p class="empty-message">Ainda não há dados suficientes para ranquear as turmas.</p>`;
+      const mapa = { 1: null, 2: null, 3: null };
+      top.forEach(item => { mapa[Number(item.posicao)] = item; });
+      return [2, 1, 3].filter(pos => mapa[pos]).map(pos => {
+        const item = mapa[pos];
+        return `
+          <div class="podium-card ${Number(item.posicao) === 1 ? 'podium-first' : ''} ${item.eh_turma_aluno ? 'is-you' : ''}">
+            <span class="podium-medal">${textoPosicao(item.posicao)}</span>
+            <div class="ranking-avatar ${Number(item.posicao) === 1 ? 'ranking-avatar-big' : ''}">${primeiraLetra(item.nome_turma || 'T')}</div>
+            <strong>${item.nome_turma || 'Turma'}</strong>
+            <small>${Number(item.frequencia_media || 0).toFixed(1).replace('.', ',')}% média</small>
+            ${item.eh_turma_aluno ? `<span class="you-badge">Sua turma</span>` : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function mensagemRankingAtual(tipo, lista) {
+      if (tipo === "turmas") {
+        const minha = (lista || []).find(item => item.eh_turma_aluno === true);
+        if (!minha) return "Sua turma ainda não entrou no ranking deste mês.";
+        return `Sua turma está em ${minha.posicao}º lugar com ${Number(minha.frequencia_media || 0).toFixed(1).replace('.', ',')}% de frequência média.`;
+      }
+      const atual = itemAlunoAtual(lista);
+      if (!atual) return "Você ainda não entrou no ranking deste mês. Continue treinando para aparecer aqui.";
+      if (Number(atual.posicao) <= 3) return `Parabéns! Você está no pódio em ${atual.posicao}º lugar este mês. 🏆`;
+      return `Você está em ${atual.posicao}º lugar este mês. Continue firme para buscar o pódio. 💪`;
+    }
+
+    function renderizarListaRankingAluno(lista) {
+      if (!lista || !lista.length) return `<p class="empty-message">Ainda não há alunos suficientes no ranking deste mês.</p>`;
+      return lista.map(item => `
+        <div class="ranking-row ${item.eh_aluno_atual ? 'is-you' : ''}">
+          <span class="ranking-position">${textoPosicao(item.posicao)}</span>
+          ${criarAvatarRanking(item)}
+          <div class="ranking-row-info">
+            <strong>${item.eh_aluno_atual ? 'Você' : item.nome}</strong>
+            <small>${item.turma || 'Turma não informada'} • ${item.presencas}/${item.aulas_validas} aulas • ${Number(item.frequencia_percentual || 0).toFixed(1).replace('.', ',')}%</small>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderizarListaRankingTurmas(lista) {
+      if (!lista || !lista.length) return `<p class="empty-message">Ainda não há turmas suficientes no ranking deste mês.</p>`;
+      return lista.map(item => `
+        <div class="ranking-row ${item.eh_turma_aluno ? 'is-you' : ''}">
+          <span class="ranking-position">${textoPosicao(item.posicao)}</span>
+          <div class="ranking-avatar">${primeiraLetra(item.nome_turma || 'T')}</div>
+          <div class="ranking-row-info">
+            <strong>${item.nome_turma || 'Turma'}</strong>
+            <small>${Number(item.frequencia_media || 0).toFixed(1).replace('.', ',')}% média • ${item.alunos_participantes || 0} alunos no ranking</small>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderizarRankingAluno(aluno) {
+      const ativos = rankingsAtivos(aluno || {});
+      const temRanking = ativos.length > 0;
+      menuRankingAluno?.classList.toggle("escondido", !temRanking);
+      rankingHomeCard?.classList.toggle("escondido", !temRanking);
+      if (!temRanking) return;
+
+      if (!ativos.some(item => item.id === rankingAtivoAluno)) rankingAtivoAluno = ativos[0].id;
+      montarTabsRanking(rankingHomeTabs, ativos, rankingAtivoAluno);
+      montarTabsRanking(rankingFullTabs, ativos, rankingAtivoAluno);
+
+      const lista = rankingsAluno[rankingAtivoAluno] || [];
+      if (rankingAtivoAluno === "turmas") {
+        rankingHomePodio.innerHTML = renderizarPodioTurmas(lista);
+        rankingFullList.innerHTML = renderizarListaRankingTurmas(lista);
+      } else {
+        rankingHomePodio.innerHTML = renderizarPodioAluno(lista, rankingAtivoAluno);
+        rankingFullList.innerHTML = renderizarListaRankingAluno(lista);
+      }
+      rankingHomeResumo.textContent = mensagemRankingAtual(rankingAtivoAluno, lista);
+      if (rankingMesAtual) rankingMesAtual.textContent = new Date().toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+    }
+
+    async function carregarRankingsAluno(aluno) {
+      const ativos = rankingsAtivos(aluno || {});
+      if (!ativos.length || !codigoPublico) {
+        renderizarRankingAluno(aluno);
+        return;
+      }
+      try {
+        const tarefas = [];
+        if (aluno.ranking_geral_ativo !== false) {
+          tarefas.push(supabaseClient.rpc("buscar_ranking_presenca_publico", { codigo: codigoPublico, tipo_ranking: "geral" }).then(r => { rankingsAluno.geral = r.error ? [] : (r.data || []); }));
+        }
+        if (aluno.ranking_turma_ativo !== false) {
+          tarefas.push(supabaseClient.rpc("buscar_ranking_presenca_publico", { codigo: codigoPublico, tipo_ranking: "turma" }).then(r => { rankingsAluno.turma = r.error ? [] : (r.data || []); }));
+        }
+        if (aluno.ranking_turmas_ativo !== false) {
+          tarefas.push(supabaseClient.rpc("buscar_ranking_turmas_publico", { codigo: codigoPublico }).then(r => { rankingsAluno.turmas = r.error ? [] : (r.data || []); }));
+        }
+        await Promise.all(tarefas);
+      } catch (erro) {
+        rankingsAluno = { geral: [], turma: [], turmas: [] };
+      }
+      renderizarRankingAluno(aluno);
     }
 
     async function carregarAluno() {
       const params = new URLSearchParams(window.location.search);
       codigoPublico = params.get("codigo");
-
-      if (!codigoPublico) {
-        mostrarErro("Código do aluno não encontrado no link.");
-        return;
-      }
+      if (!codigoPublico) return mostrarErro("Código do aluno não encontrado no link.");
 
       try {
-        const { data, error } = await supabaseClient.rpc("buscar_aluno_publico", {
-          codigo: codigoPublico
-        });
-
-        if (error) {
-          mostrarErro("Não foi possível carregar os dados do aluno.");
-          return;
-        }
-
+        const { data, error } = await supabaseClient.rpc("buscar_aluno_publico", { codigo: codigoPublico });
+        if (error) return mostrarErro("Não foi possível carregar os dados do aluno.");
         const aluno = Array.isArray(data) ? data[0] : data;
-
-        if (!aluno) {
-          mostrarErro("Aluno não encontrado. Verifique se o link está correto.");
-          return;
-        }
-
+        if (!aluno) return mostrarErro("Aluno não encontrado. Verifique se o link está correto.");
         renderizarAluno(aluno);
         carregarPagamentos(aluno);
       } catch (erro) {
@@ -449,7 +839,6 @@
         contadorPagamentos.textContent = "0 registros";
         return;
       }
-
       try {
         const { data, error } = await supabaseClient
           .from("pagamentos")
@@ -457,30 +846,16 @@
           .eq("aluno_id", aluno.id)
           .order("data_pagamento", { ascending: false })
           .limit(6);
-
-        if (error) {
-          listaPagamentos.innerHTML = `<p class="empty-message">Histórico indisponível no momento.</p>`;
-          contadorPagamentos.textContent = "0 registros";
-          return;
-        }
-
+        if (error) throw error;
         const pagamentos = data || [];
         contadorPagamentos.textContent = `${pagamentos.length} registro${pagamentos.length === 1 ? "" : "s"}`;
-
-        if (pagamentos.length === 0) {
+        if (!pagamentos.length) {
           listaPagamentos.innerHTML = `<p class="empty-message">Nenhum pagamento registrado ainda.</p>`;
           return;
         }
-
         listaPagamentos.innerHTML = pagamentos.map(pagamento => `
           <div class="payment-item">
-            <div class="payment-left">
-              <span class="payment-icon">✓</span>
-              <div>
-                <strong>Pagamento recebido</strong>
-                <span>Pago em ${formatarData(pagamento.data_pagamento)}</span>
-              </div>
-            </div>
+            <div class="payment-left"><span class="payment-icon">✓</span><div><strong>Pagamento recebido</strong><span>Pago em ${formatarData(pagamento.data_pagamento)}</span></div></div>
             <strong class="payment-value">${formatarMoeda(pagamento.valor)}</strong>
           </div>
         `).join("");
@@ -489,87 +864,157 @@
       }
     }
 
-    inputComprovante.addEventListener("change", function() {
-      const arquivo = this.files && this.files[0];
-      arquivoComprovante = arquivo || null;
-      btnEnviarComprovante.disabled = !arquivoComprovante;
+    inputFotoAluno?.addEventListener("change", function() {
+      arquivoFoto = this.files && this.files[0] ? this.files[0] : null;
+      msgFotoAluno.textContent = arquivoFoto ? "Foto selecionada. Clique em salvar foto." : "";
+      msgFotoAluno.classList.remove("is-error");
+    });
 
-      if (!arquivoComprovante) {
-        previewComprovante.classList.add("escondido");
-        previewImagem.removeAttribute("src");
+    btnSalvarFotoAluno?.addEventListener("click", async function() {
+      if (!arquivoFoto || !codigoPublico) {
+        msgFotoAluno.textContent = "Escolha uma foto primeiro.";
+        msgFotoAluno.classList.add("is-error");
+        return;
+      }
+      if (!arquivoFoto.type.startsWith("image/")) {
+        msgFotoAluno.textContent = "Envie apenas imagem.";
+        msgFotoAluno.classList.add("is-error");
+        return;
+      }
+      if (arquivoFoto.size > 3 * 1024 * 1024) {
+        msgFotoAluno.textContent = "A foto precisa ter no máximo 3MB.";
+        msgFotoAluno.classList.add("is-error");
         return;
       }
 
-      const urlPreview = URL.createObjectURL(arquivoComprovante);
-      previewImagem.src = urlPreview;
-      previewComprovante.classList.remove("escondido");
-      msgComprovante.textContent = "Imagem selecionada. Envie para anexar ao seu pagamento.";
-      msgComprovante.classList.remove("is-error");
-    });
-
-    btnEnviarComprovante.addEventListener("click", async function() {
-      if (!arquivoComprovante || !codigoPublico) return;
-
-      btnEnviarComprovante.disabled = true;
-      msgComprovante.textContent = "Enviando comprovante...";
+      btnSalvarFotoAluno.disabled = true;
+      msgFotoAluno.textContent = "Enviando foto...";
+      msgFotoAluno.classList.remove("is-error");
 
       try {
-        const extensao = arquivoComprovante.name.split(".").pop() || "jpg";
-        const caminho = `${codigoPublico}/${Date.now()}.${extensao}`;
-
-        const { error } = await supabaseClient.storage
-          .from("comprovantes")
-          .upload(caminho, arquivoComprovante, {
-            cacheControl: "3600",
-            upsert: false
-          });
-
-        if (error) {
-          msgComprovante.textContent = "Funcionalidade em breve.";
-          msgComprovante.classList.add("is-error");
-          btnEnviarComprovante.disabled = false;
-          return;
-        }
-
-        msgComprovante.textContent = "✅ Comprovante enviado com sucesso.";
-        msgComprovante.classList.remove("is-error");
+        const extensao = (arquivoFoto.name.split(".").pop() || "jpg").toLowerCase();
+        const caminho = `${codigoPublico}/perfil-${Date.now()}.${extensao}`;
+        const { error: erroUpload } = await supabaseClient.storage
+          .from("fotos-alunos")
+          .upload(caminho, arquivoFoto, { cacheControl: "3600", upsert: true });
+        if (erroUpload) throw erroUpload;
+        const { data: publicData } = supabaseClient.storage.from("fotos-alunos").getPublicUrl(caminho);
+        const fotoUrl = publicData.publicUrl;
+        const { data, error } = await supabaseClient.rpc("atualizar_foto_aluno_publico", { codigo: codigoPublico, nova_foto_url: fotoUrl });
+        if (error || data === false) throw error || new Error("Falha ao salvar foto");
+        msgFotoAluno.textContent = "✅ Foto atualizada.";
+        arquivoFoto = null;
+        inputFotoAluno.value = "";
+        await carregarAluno();
       } catch (erro) {
-        msgComprovante.textContent = "Funcionalidade em breve.";
-        msgComprovante.classList.add("is-error");
-        btnEnviarComprovante.disabled = false;
+        msgFotoAluno.textContent = "Não foi possível salvar a foto agora.";
+        msgFotoAluno.classList.add("is-error");
+      } finally {
+        btnSalvarFotoAluno.disabled = false;
       }
     });
 
-    btnCompartilhar.addEventListener("click", async function() {
-      const titulo = alunoAtual?.nome ? `Mensalidade de ${alunoAtual.nome}` : "Portal do aluno";
-      const texto = "Acompanhe sua mensalidade pelo portal do aluno.";
+    formPerfilAluno?.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      if (!codigoPublico) return;
+      msgPerfilAluno.textContent = "Salvando seus dados...";
+      msgPerfilAluno.classList.remove("is-error");
+      const nome = perfilAlunoNome.value.trim();
+      const telefone = limparNumeroWhatsApp(perfilAlunoTelefone.value);
+      if (!nome || !telefone || telefone.length < 10) {
+        msgPerfilAluno.textContent = "Preencha nome e WhatsApp com DDD.";
+        msgPerfilAluno.classList.add("is-error");
+        return;
+      }
+      const { data, error } = await supabaseClient.rpc("atualizar_dados_aluno_publico", {
+        codigo: codigoPublico,
+        novo_nome: nome,
+        novo_telefone: telefone,
+        nova_data_nascimento: perfilAlunoNascimento.value || null,
+        novo_responsavel_nome: perfilAlunoResponsavel.value.trim() || null,
+        novo_responsavel_whatsapp: limparNumeroWhatsApp(perfilAlunoResponsavelWhatsApp.value) || null
+      });
+      if (error || data === false) {
+        msgPerfilAluno.textContent = "Não foi possível salvar seus dados agora.";
+        msgPerfilAluno.classList.add("is-error");
+        return;
+      }
+      msgPerfilAluno.textContent = "✅ Dados atualizados com sucesso.";
+      await carregarAluno();
+    });
 
+    formSolicitarTurma?.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      if (!codigoPublico) return;
+      const turma = solicitarTurma.value.trim();
+      if (!turma) {
+        msgSolicitarTurma.textContent = "Informe a turma desejada.";
+        msgSolicitarTurma.classList.add("is-error");
+        return;
+      }
+      msgSolicitarTurma.textContent = "Enviando solicitação...";
+      msgSolicitarTurma.classList.remove("is-error");
+      const { data, error } = await supabaseClient.rpc("solicitar_alteracao_aluno_publico", {
+        codigo: codigoPublico,
+        nova_turma: turma,
+        observacao_aluno: solicitarTurmaObs.value.trim() || null
+      });
+      if (error || data === false) {
+        msgSolicitarTurma.textContent = "Não foi possível enviar a solicitação agora.";
+        msgSolicitarTurma.classList.add("is-error");
+        return;
+      }
+      msgSolicitarTurma.textContent = "✅ Solicitação enviada para o professor.";
+      solicitarTurmaObs.value = "";
+    });
+
+    formSolicitarGraduacao?.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      if (!codigoPublico) return;
+      const faixa = solicitarFaixa.value.trim();
+      const grau = solicitarGrau.value.trim();
+      const dataGraduacao = solicitarDataGraduacao.value || null;
+      if (!faixa && !grau && !dataGraduacao) {
+        msgSolicitarGraduacao.textContent = "Informe pelo menos faixa, grau ou data.";
+        msgSolicitarGraduacao.classList.add("is-error");
+        return;
+      }
+      msgSolicitarGraduacao.textContent = "Enviando solicitação...";
+      msgSolicitarGraduacao.classList.remove("is-error");
+      const { data, error } = await supabaseClient.rpc("solicitar_correcao_graduacao_publico", {
+        codigo: codigoPublico,
+        nova_faixa: faixa || null,
+        novo_grau: grau || null,
+        nova_data_ultima_graduacao: dataGraduacao,
+        observacao_aluno: solicitarGraduacaoObs.value.trim() || null
+      });
+      if (error || data === false) {
+        msgSolicitarGraduacao.textContent = "Não foi possível enviar a solicitação agora.";
+        msgSolicitarGraduacao.classList.add("is-error");
+        return;
+      }
+      msgSolicitarGraduacao.textContent = "✅ Solicitação enviada para o professor.";
+      solicitarGraduacaoObs.value = "";
+    });
+
+    btnCompartilhar?.addEventListener("click", async function() {
+      const titulo = alunoAtual?.nome ? `Página de ${alunoAtual.nome}` : "Área do aluno";
+      const texto = "Acompanhe sua mensalidade e dados pelo portal do aluno.";
       try {
         if (navigator.share) {
           await navigator.share({ title: titulo, text: texto, url: window.location.href });
           return;
         }
-
         await navigator.clipboard.writeText(window.location.href);
         btnCompartilhar.textContent = "✅ Link copiado";
-        setTimeout(() => {
-          btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link";
-        }, 1800);
       } catch (erro) {
-        try {
-          await navigator.clipboard.writeText(window.location.href);
-          btnCompartilhar.textContent = "✅ Link copiado";
-        } catch (erroClipboard) {
-          btnCompartilhar.textContent = "Copie o link na barra do navegador";
-        }
-
-        setTimeout(() => {
-          btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link";
-        }, 2200);
+        btnCompartilhar.textContent = "Copie o link na barra do navegador";
       }
+      setTimeout(() => { btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link"; }, 2000);
     });
 
     carregarAluno();
   </script>
+  <script src="js/90-cache-update.js"></script>
 </body>
 </html>

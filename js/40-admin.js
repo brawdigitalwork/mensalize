@@ -177,122 +177,127 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
   );
 
   const total = alunosDoCliente.length;
-  const limite = Number(cliente.limite_alunos || 30);
+  const limite = Math.max(Number(cliente.limite_alunos || 30), 1);
   const porcentagem = Math.min(Math.round((total / limite) * 100), 100);
-  const corBarra = porcentagem >= 100 ? "#ef4444" : porcentagem >= 75 ? "#facc15" : "#22c55e";
   const resumoPlano = obterResumoPlanoAdmin(cliente.plano || "trial");
   const statusBloqueado = cliente.status === "bloqueado" || cliente.pode_usar === false;
+  const statusTexto = statusBloqueado ? "Bloqueado" : "Ativo";
+  const progressoClasse = porcentagem >= 100 ? "danger" : porcentagem >= 80 ? "warn" : "ok";
 
   const div = document.createElement("div");
-  div.classList.add("cliente-card-v2", "cliente-card-admin-pro");
+  div.classList.add("admin-simple-card");
   div.dataset.clienteId = cliente.id;
 
   div.innerHTML = `
-    <div class="cliente-header-v2 cliente-header-admin-pro" onclick="toggleClienteAlunos('${cliente.id}')">
-      <div class="cliente-header-esq">
-        <div class="cliente-avatar">
-          ${(cliente.nome_empresa || cliente.email || "C").charAt(0).toUpperCase()}
-        </div>
+    <div class="admin-simple-head">
+      <button type="button" class="admin-simple-main" onclick="toggleClienteAlunos('${cliente.id}')">
+        <span class="admin-simple-avatar">${(cliente.nome_empresa || cliente.email || "C").charAt(0).toUpperCase()}</span>
+        <span class="admin-simple-title-wrap">
+          <strong>${cliente.nome_empresa || cliente.email}</strong>
+          ${cliente.nome_empresa ? `<small>${cliente.email}</small>` : `<small>Cliente Mensalize</small>`}
+        </span>
+      </button>
+
+      <div class="admin-simple-actions">
+        <span class="admin-chip plano">${resumoPlano.nome}</span>
+        <span class="admin-chip ${statusBloqueado ? "bloqueado" : "ativo"}">${statusTexto}</span>
+        <button type="button" class="admin-simple-manage" onclick="toggleClienteAlunos('${cliente.id}')">
+          Gerenciar
+        </button>
+        <button type="button" class="admin-simple-delete" onclick="event.stopPropagation(); removerCliente('${cliente.id}')" title="Remover cliente">
+          🗑
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-simple-usage">
+      <div>
+        <strong>${total} / ${limite}</strong>
+        <span>alunos usados</span>
+      </div>
+      <div class="admin-simple-progress">
+        <i class="${progressoClasse}" style="width:${porcentagem}%"></i>
+      </div>
+      <small>${porcentagem}% do limite</small>
+    </div>
+
+    <div class="admin-simple-panel escondido" id="detalhes-cliente-${cliente.id}" onclick="event.stopPropagation()">
+      <div class="admin-simple-grid">
+        <label class="admin-simple-field">
+          <span>Plano</span>
+          <select id="plano-${cliente.id}" onchange="aplicarPresetPlanoCliente('${cliente.id}', this.value)">
+            <option value="trial" ${cliente.plano === "trial" ? "selected" : ""}>Trial</option>
+            <option value="basic" ${cliente.plano === "basic" ? "selected" : ""}>Basic</option>
+            <option value="pro" ${cliente.plano === "pro" ? "selected" : ""}>Pro</option>
+            <option value="premium" ${cliente.plano === "premium" ? "selected" : ""}>Premium</option>
+          </select>
+          <small id="plano-resumo-${cliente.id}">${resumoPlano.descricao}</small>
+        </label>
+
+        <label class="admin-simple-field">
+          <span>Status</span>
+          <select id="status-${cliente.id}" onchange="sincronizarAcessoClienteAdmin('${cliente.id}')">
+            <option value="ativo" ${cliente.status === "ativo" ? "selected" : ""}>Ativo</option>
+            <option value="bloqueado" ${cliente.status === "bloqueado" ? "selected" : ""}>Bloqueado</option>
+          </select>
+          <small>Bloqueado impede o cliente de usar o app.</small>
+        </label>
+
+        <label class="admin-simple-field">
+          <span>Limite de alunos</span>
+          <input type="number" id="limite-input-${cliente.id}" value="${limite}" min="1">
+          <small id="plano-limite-sugerido-${cliente.id}">Sugestão do plano: ${obterConfigPlanoAdmin(cliente.plano || "trial").limite} alunos</small>
+        </label>
+
+        <label class="admin-simple-access">
+          <span>
+            <strong>Acesso ao sistema</strong>
+            <small>Controle direto do login do cliente.</small>
+          </span>
+          <input type="checkbox" id="pode-usar-${cliente.id}" ${!statusBloqueado ? "checked" : ""}>
+        </label>
+      </div>
+
+      <div class="admin-simple-modules">
         <div>
-          <strong class="cliente-email">${cliente.nome_empresa || cliente.email}</strong>
-          <div class="cliente-meta">
-            <span class="badge-cliente">${resumoPlano.nome}</span>
-            <span class="badge-cliente ${statusBloqueado ? "badge-bloqueado" : "badge-ativo"}">${statusBloqueado ? "Bloqueado" : "Ativo"}</span>
-            <span class="cliente-contagem">${total} / ${limite} alunos</span>
-          </div>
-          ${cliente.nome_empresa ? `<small class="cliente-email-secundario">${cliente.email}</small>` : ""}
+          <strong>Módulos liberados</strong>
+          <small>Definidos automaticamente pelo plano escolhido.</small>
         </div>
-      </div>
-      <div class="cliente-header-dir">
-        <button onclick="event.stopPropagation(); removerCliente('${cliente.id}')" class="btn-remover-cliente" title="Remover cliente">🗑</button>
-        <button type="button" class="btn-gerenciar-cliente" onclick="event.stopPropagation(); toggleClienteAlunos('${cliente.id}')">Gerenciar</button>
-        <span class="cliente-seta" id="seta-${cliente.id}">▼</span>
-      </div>
-    </div>
-
-    <div class="cliente-barra-wrapper">
-      <div class="cliente-barra-fundo">
-        <div class="cliente-barra-fill" style="width:${porcentagem}%; background:${corBarra};"></div>
-      </div>
-      <span class="cliente-barra-label">${porcentagem}% do limite</span>
-    </div>
-
-    <div class="cliente-limite-row cliente-limite-row-clean" onclick="event.stopPropagation()">
-      <label>Limite de alunos</label>
-      <input type="number" id="limite-input-${cliente.id}" value="${limite}" min="1">
-      <button class="btn-salvar-limite" onclick="alterarLimite('${cliente.id}')">Salvar limite</button>
-    </div>
-
-    <div class="cliente-detalhes-admin escondido" id="detalhes-cliente-${cliente.id}">
-      <div class="admin-modulos-box admin-planos-box" onclick="event.stopPropagation()">
-        <div class="admin-modulos-titulo admin-modulos-titulo-v2">
-          <div>
-            <strong>Plano do cliente</strong>
-            <span>Escolha o plano. Os módulos são liberados automaticamente pelo pacote.</span>
-          </div>
-          <span class="admin-plano-badge" id="plano-badge-${cliente.id}">${resumoPlano.tag}</span>
-        </div>
-
-        <div class="admin-planos-opcoes-grid">
-          ${renderizarRecursosPlanoAdmin("trial")}
-          ${renderizarRecursosPlanoAdmin("basic")}
-          ${renderizarRecursosPlanoAdmin("pro")}
-          ${renderizarRecursosPlanoAdmin("premium")}
-        </div>
-
-        <div class="admin-plano-grid admin-plano-grid-v3">
-          <div class="admin-config-item admin-config-destaque">
-            <label>Plano escolhido</label>
-            <select id="plano-${cliente.id}" onchange="aplicarPresetPlanoCliente('${cliente.id}', this.value)">
-              <option value="trial" ${cliente.plano === "trial" ? "selected" : ""}>Trial</option>
-              <option value="basic" ${cliente.plano === "basic" ? "selected" : ""}>Basic</option>
-              <option value="pro" ${cliente.plano === "pro" ? "selected" : ""}>Pro</option>
-              <option value="premium" ${cliente.plano === "premium" ? "selected" : ""}>Premium</option>
-            </select>
-            <small id="plano-resumo-${cliente.id}">${resumoPlano.descricao}</small>
-          </div>
-
-          <div class="admin-config-item">
-            <label>Status da conta</label>
-            <select id="status-${cliente.id}">
-              <option value="ativo" ${cliente.status === "ativo" ? "selected" : ""}>Ativo</option>
-              <option value="bloqueado" ${cliente.status === "bloqueado" ? "selected" : ""}>Bloqueado</option>
-            </select>
-          </div>
-
-          <label class="admin-toggle admin-toggle-acesso admin-toggle-acesso-v3">
-            <span>
-              <strong>🔓 Acesso ao sistema</strong>
-              <small>Libera ou bloqueia o login.</small>
-            </span>
-            <input type="checkbox" id="pode-usar-${cliente.id}" ${cliente.pode_usar !== false ? "checked" : ""}>
-          </label>
-        </div>
-
-        <div class="admin-plano-aplicado-box">
-          <div>
-            <strong>Recursos que serão liberados</strong>
-            <small id="plano-limite-sugerido-${cliente.id}">${obterConfigPlanoAdmin(cliente.plano || "trial").limite} alunos sugeridos</small>
-          </div>
-          <div id="plano-recursos-${cliente.id}">
-            ${renderizarRecursosPlanoSelecionado(cliente.plano || "trial")}
-          </div>
-        </div>
-
-        <div class="admin-plano-row admin-plano-row-v2">
-          <button class="btn-salvar-modulos" onclick="salvarPermissoesCliente('${cliente.id}')">
-            Salvar plano
-          </button>
+        <div id="plano-recursos-${cliente.id}" class="admin-simple-module-list">
+          ${renderizarRecursosPlanoSelecionado(cliente.plano || "trial")}
         </div>
       </div>
 
-      <div class="cliente-alunos-lista" id="alunos-cliente-${cliente.id}">
-        ${renderizarAlunosDoCliente(alunosDoCliente)}
+      <div class="admin-simple-footer">
+        <button type="button" class="admin-simple-save" onclick="salvarPermissoesCliente('${cliente.id}')">
+          Salvar alterações
+        </button>
       </div>
+
+      <details class="admin-simple-students">
+        <summary>Ver alunos desse cliente (${total})</summary>
+        <div class="cliente-alunos-lista" id="alunos-cliente-${cliente.id}">
+          ${renderizarAlunosDoCliente(alunosDoCliente)}
+        </div>
+      </details>
     </div>
   `;
 
   listaClientes.appendChild(div);
+}
+
+function sincronizarAcessoClienteAdmin(clienteId) {
+  const status = document.getElementById(`status-${clienteId}`)?.value || "ativo";
+  const acesso = document.getElementById(`pode-usar-${clienteId}`);
+
+  if (!acesso) return;
+
+  if (status === "bloqueado") {
+    acesso.checked = false;
+    acesso.disabled = true;
+  } else {
+    acesso.disabled = false;
+  }
 }
 
 
@@ -794,8 +799,13 @@ modalRemoverCliente.addEventListener("click", function(event) {
 async function salvarPermissoesCliente(clienteId) {
   const plano = document.getElementById(`plano-${clienteId}`)?.value || "trial";
   const status = document.getElementById(`status-${clienteId}`)?.value || "ativo";
-  const podeUsar = document.getElementById(`pode-usar-${clienteId}`)?.checked !== false;
+  const podeUsarCheckbox = document.getElementById(`pode-usar-${clienteId}`);
+  const podeUsar = status !== "bloqueado" && podeUsarCheckbox?.checked !== false;
   const limiteInput = document.getElementById(`limite-input-${clienteId}`);
+
+  if (status === "bloqueado" && podeUsarCheckbox) {
+    podeUsarCheckbox.checked = false;
+  }
   const limite = Number(limiteInput?.value || obterConfigPlanoAdmin(plano).limite);
   const permissoes = obterPermissoesDoPlanoAdmin(plano);
 
@@ -816,7 +826,7 @@ async function salvarPermissoesCliente(clienteId) {
     return;
   }
 
-  mostrarToast("✅ Plano salvo e permissões aplicadas!");
+  mostrarToast(status === "bloqueado" ? "🔒 Cliente bloqueado com sucesso." : "✅ Plano salvo e permissões aplicadas!");
   await carregarClientes();
   await carregarDashboard();
 }

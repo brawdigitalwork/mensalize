@@ -52,6 +52,10 @@ async function atualizarPainel() {
     }
   });
 
+  const recebido = pagamentosValidos.reduce((total, pagamento) => {
+    return total + valorParaNumero(pagamento.valor);
+  }, 0);
+
   if (error) {
     console.log("Erro ao carregar pagamentos:", error.message);
     totalPagos.textContent = 0;
@@ -59,11 +63,6 @@ async function atualizarPainel() {
     totalPrevisao.textContent = formatarMoeda(previsaoTotal);
   } else {
     totalPagos.textContent = alunosQueJaPagaramIds.size;
-
-    const recebido = pagamentosValidos.reduce((total, pagamento) => {
-      return total + valorParaNumero(pagamento.valor);
-    }, 0);
-
     totalRecebido.textContent = formatarMoeda(recebido);
     totalPrevisao.textContent = formatarMoeda(previsaoTotal);
   }
@@ -72,9 +71,183 @@ async function atualizarPainel() {
   totalPendentes.textContent = pendentes;
   totalAtrasados.textContent = atrasados;
   totalAReceber.textContent = formatarMoeda(valorAReceber);
+
+  atualizarMiniGraficosFinanceiros({
+    recebido,
+    valorAReceber,
+    atrasados,
+    totalAlunosDashboard: alunos.length,
+    pagamentosValidos
+  });
+
   atualizarEspelhosFinanceiros();
   atualizarResumoEvolucao();
 }
+
+
+// ===============================
+// 17.1 MINI GRÁFICOS DOS CARDS FINANCEIROS
+// ===============================
+
+function limitarNumeroGrafico(valor) {
+  const numero = Number(valor);
+  return Number.isFinite(numero) && numero > 0 ? numero : 0;
+}
+
+function gerarSerieVisualFinanceira(valorAtual, tipo = "neutro") {
+  const base = limitarNumeroGrafico(valorAtual);
+
+  if (base <= 0) {
+    return [0, 0, 0, 0, 0, 0, 0];
+  }
+
+  const curvas = {
+    receita: [0.44, 0.56, 0.50, 0.68, 0.63, 0.82, 1],
+    receber: [0.86, 0.92, 0.78, 0.88, 0.74, 0.68, 1],
+    atraso: [0.58, 0.64, 0.70, 0.66, 0.82, 0.76, 1],
+    alunos: [0.72, 0.76, 0.80, 0.84, 0.88, 0.94, 1]
+  };
+
+  return (curvas[tipo] || curvas.receita).map(fator => Math.max(0, Math.round(base * fator)));
+}
+
+function gerarSerieRecebidosDoMes(pagamentosValidos = []) {
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = hoje.getMonth();
+  const diasNoMes = new Date(ano, mes + 1, 0).getDate();
+  const buckets = Array.from({ length: 7 }, () => 0);
+
+  pagamentosValidos.forEach(pagamento => {
+    if (!pagamento || !pagamento.data_pagamento) return;
+
+    const data = new Date(`${String(pagamento.data_pagamento).split("T")[0]}T12:00:00`);
+    if (Number.isNaN(data.getTime()) || data.getMonth() !== mes || data.getFullYear() !== ano) return;
+
+    const indice = Math.min(6, Math.floor(((data.getDate() - 1) / diasNoMes) * 7));
+    buckets[indice] += valorParaNumero(pagamento.valor);
+  });
+
+  const temValor = buckets.some(valor => valor > 0);
+  if (!temValor) return gerarSerieVisualFinanceira(0, "receita");
+
+  // Mantém o gráfico vivo mesmo quando os pagamentos ficaram concentrados em poucos dias.
+  for (let i = 1; i < buckets.length; i++) {
+    if (buckets[i] === 0 && buckets[i - 1] > 0) {
+      buckets[i] = Math.round(buckets[i - 1] * 0.32);
+    }
+  }
+
+  return buckets;
+}
+
+function gerarSerieAlunos(alunosLista = []) {
+  const totalAtual = alunosLista.length;
+  const hoje = new Date();
+  const inicio = new Date(hoje.getFullYear(), hoje.getMonth() - 5, 1);
+  const serie = [];
+
+  for (let i = 0; i < 6; i++) {
+    const limite = new Date(inicio.getFullYear(), inicio.getMonth() + i + 1, 0, 23, 59, 59);
+    const totalAteMes = alunosLista.filter(aluno => {
+      if (!aluno.created_at) return true;
+      const criadoEm = new Date(aluno.created_at);
+      return !Number.isNaN(criadoEm.getTime()) && criadoEm <= limite;
+    }).length;
+
+    serie.push(totalAteMes);
+  }
+
+  if (!serie.some(valor => valor > 0)) {
+    return gerarSerieVisualFinanceira(totalAtual, "alunos");
+  }
+
+  return serie;
+}
+
+function criarSparklineSVG(valores = []) {
+  const serie = (valores.length ? valores : [0, 0, 0, 0, 0, 0, 0]).map(limitarNumeroGrafico);
+  const largura = 150;
+  const altura = 44;
+  const margem = 4;
+  const maximo = Math.max(...serie, 1);
+  const minimo = Math.min(...serie, 0);
+  const intervalo = Math.max(maximo - minimo, 1);
+
+  const pontos = serie.map((valor, indice) => {
+    const x = margem + (indice * ((largura - margem * 2) / Math.max(serie.length - 1, 1)));
+    const y = altura - margem - (((valor - minimo) / intervalo) * (altura - margem * 2));
+    return [Number(x.toFixed(2)), Number(y.toFixed(2))];
+  });
+
+  const linha = pontos.map(([x, y], indice) => `${indice === 0 ? "M" : "L"}${x},${y}`).join(" ");
+  const area = `${linha} L${largura - margem},${altura - margem} L${margem},${altura - margem} Z`;
+
+  return `
+    <svg class="mini-chart-svg" viewBox="0 0 ${largura} ${altura}" aria-hidden="true" focusable="false">
+      <path class="mini-chart-area" d="${area}"></path>
+      <path class="mini-chart-line" d="${linha}"></path>
+      <circle class="mini-chart-dot" cx="${pontos[pontos.length - 1][0]}" cy="${pontos[pontos.length - 1][1]}" r="3.2"></circle>
+    </svg>
+  `;
+}
+
+function inserirMiniGraficoCard(elementoValor, opcoes) {
+  if (!elementoValor) return;
+
+  const card = elementoValor.closest(".card");
+  if (!card) return;
+
+  let grafico = card.querySelector(".mini-card-chart");
+  if (!grafico) {
+    grafico = document.createElement("div");
+    grafico.className = "mini-card-chart";
+    card.appendChild(grafico);
+  }
+
+  card.classList.add("card-com-mini-grafico");
+  grafico.className = `mini-card-chart mini-card-chart-${opcoes.tipo}`;
+  grafico.innerHTML = `
+    ${criarSparklineSVG(opcoes.serie)}
+    <span>${opcoes.legenda}</span>
+  `;
+}
+
+function atualizarMiniGraficosFinanceiros(dados = {}) {
+  try {
+    const recebido = limitarNumeroGrafico(dados.recebido);
+    const valorAReceber = limitarNumeroGrafico(dados.valorAReceber);
+    const atrasadosQtd = limitarNumeroGrafico(dados.atrasados);
+    const totalAlunosDashboard = limitarNumeroGrafico(dados.totalAlunosDashboard);
+
+    inserirMiniGraficoCard(totalRecebido, {
+      tipo: "receita",
+      serie: gerarSerieRecebidosDoMes(dados.pagamentosValidos || []),
+      legenda: recebido > 0 ? "Movimento do mês" : "Sem recebimentos ainda"
+    });
+
+    inserirMiniGraficoCard(totalAReceber, {
+      tipo: "receber",
+      serie: gerarSerieVisualFinanceira(valorAReceber, "receber"),
+      legenda: "Tendência de cobrança"
+    });
+
+    inserirMiniGraficoCard(totalAtrasados, {
+      tipo: "atraso",
+      serie: gerarSerieVisualFinanceira(atrasadosQtd, "atraso"),
+      legenda: atrasadosQtd > 0 ? "Atenção aos atrasos" : "Nenhum atraso no momento"
+    });
+
+    inserirMiniGraficoCard(totalAlunos, {
+      tipo: "alunos",
+      serie: gerarSerieAlunos(alunos),
+      legenda: totalAlunosDashboard > 0 ? "Crescimento da base" : "Sem alunos cadastrados"
+    });
+  } catch (error) {
+    console.warn("[Mensalize] Não foi possível renderizar os mini gráficos:", error);
+  }
+}
+
 
 
 /** Carrega os 3 pagamentos mais recentes para a dashboard inicial. */
@@ -127,6 +300,13 @@ async function carregarUltimosPagamentos() {
 
 /** Espelha os números principais na aba Financeiro. */
 function atualizarEspelhosFinanceiros() {
+  // Se a aba Financeiro mensal existir, ela deve respeitar mês e status selecionados,
+  // não apenas copiar os cards do dashboard do mês atual.
+  if (financeiroMes && listaFinanceiroMensal && typeof carregarResumoFinanceiroMensal === "function") {
+    carregarResumoFinanceiroMensal({ silencioso: true });
+    return;
+  }
+
   if (financeiroRecebidoMirror && totalRecebido) {
     financeiroRecebidoMirror.textContent = totalRecebido.textContent;
   }
@@ -140,56 +320,142 @@ function atualizarEspelhosFinanceiros() {
   }
 }
 
-
 // ===============================
-// 17.1 FINANCEIRO — FILTRO POR MÊS
+// 17.3 FINANCEIRO — MÊS, STATUS E DETALHAMENTO
 // ===============================
 
-function obterMesAtualISO() {
+function obterMesAtualFinanceiro() {
   const hoje = new Date();
   return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}`;
 }
 
 function obterPeriodoFinanceiroSelecionado() {
-  const mes = financeiroMes && financeiroMes.value ? financeiroMes.value : obterMesAtualISO();
-  const [ano, mesNumero] = mes.split("-").map(Number);
-  const inicio = `${ano}-${String(mesNumero).padStart(2, "0")}-01`;
+  const valorMes = financeiroMes && financeiroMes.value
+    ? String(financeiroMes.value).slice(0, 7)
+    : obterMesAtualFinanceiro();
+
+  const [anoTexto, mesTexto] = valorMes.split("-");
+  const ano = Number(anoTexto);
+  const mesNumero = Number(mesTexto);
+
+  if (!Number.isFinite(ano) || !Number.isFinite(mesNumero) || mesNumero < 1 || mesNumero > 12) {
+    const fallback = obterMesAtualFinanceiro();
+    const [anoFallback, mesFallback] = fallback.split("-").map(Number);
+    const fimFallback = new Date(anoFallback, mesFallback, 0);
+    return {
+      mes: fallback,
+      inicio: `${fallback}-01`,
+      fim: `${anoFallback}-${String(mesFallback).padStart(2, "0")}-${String(fimFallback.getDate()).padStart(2, "0")}`,
+      ano: anoFallback,
+      mesNumero: mesFallback
+    };
+  }
+
   const fimData = new Date(ano, mesNumero, 0);
-  const fim = `${fimData.getFullYear()}-${String(fimData.getMonth() + 1).padStart(2, "0")}-${String(fimData.getDate()).padStart(2, "0")}`;
-  return { mes, inicio, fim, ano, mesNumero };
+  const mesFormatado = `${ano}-${String(mesNumero).padStart(2, "0")}`;
+
+  return {
+    mes: mesFormatado,
+    inicio: `${mesFormatado}-01`,
+    fim: `${ano}-${String(mesNumero).padStart(2, "0")}-${String(fimData.getDate()).padStart(2, "0")}`,
+    ano,
+    mesNumero
+  };
 }
 
-function classificarFinanceiroAlunoMes(aluno, pagosSet, fimPeriodo) {
-  if (pagosSet.has(String(aluno.id))) return "pago";
+function normalizarFiltroFinanceiroStatus(valor) {
+  const status = String(valor || "todos").trim().toLowerCase();
+  const mapa = {
+    todos: "todos",
+    todo: "todos",
+    pago: "pago",
+    pagos: "pago",
+    pendente: "pendente",
+    pendentes: "pendente",
+    atrasado: "atrasado",
+    atrasados: "atrasado"
+  };
 
-  const conversorData = typeof dataStringParaDate === "function" ? dataStringParaDate : (valor => new Date(valor));
-  const vencimento = conversorData(aluno.vencimento);
-  const referencia = conversorData(fimPeriodo);
-
-  if (vencimento && referencia && vencimento < referencia) return "atrasado";
-  return "pendente";
+  return mapa[status] || "todos";
 }
 
 function statusFinanceiroTexto(status) {
   const mapa = {
+    todos: "Todos",
     pago: "Pago",
     pendente: "Pendente",
     atrasado: "Atrasado"
   };
-  return mapa[status] || "Pendente";
+
+  return mapa[normalizarFiltroFinanceiroStatus(status)] || "Status";
 }
 
-async function carregarResumoFinanceiroMensal() {
-  if (!financeiroMes || !listaFinanceiroMensal) return;
+function dataFinanceiroParaDate(dataString) {
+  if (!dataString) return null;
+  const partes = String(dataString).split("-");
+  if (partes.length !== 3) return null;
+  const data = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+  return Number.isNaN(data.getTime()) ? null : data;
+}
 
-  if (!financeiroMes.value) {
-    financeiroMes.value = obterMesAtualISO();
+function classificarFinanceiroAlunoMes(aluno, pagosSet, dataFimPeriodo) {
+  if (!aluno) return "pendente";
+  if (pagosSet && pagosSet.has(String(aluno.id))) return "pago";
+
+  const vencimento = dataFinanceiroParaDate(aluno.vencimento);
+  const fimPeriodo = dataFinanceiroParaDate(dataFimPeriodo);
+  const hoje = dataHojeSemHora ? dataHojeSemHora() : new Date();
+  const dataComparacao = fimPeriodo && fimPeriodo < hoje ? fimPeriodo : hoje;
+
+  if (vencimento && vencimento < dataComparacao) return "atrasado";
+  return "pendente";
+}
+
+function montarLinhaFinanceiroMensal(item) {
+  const aluno = item.aluno || {};
+  const status = normalizarFiltroFinanceiroStatus(item.status);
+  const classeStatus = status === "pago" ? "status-pago" : status === "atrasado" ? "status-atrasado" : "status-pendente";
+  const turma = aluno.turma ? ` • ${aluno.turma}` : "";
+  const vencimento = aluno.vencimento ? formatarData(aluno.vencimento) : "Sem vencimento";
+  const valorEsperado = formatarMoeda(item.valorMensalidade || 0);
+  const valorPago = formatarMoeda(item.valorPago || 0);
+  const datasPagamento = item.datasPagamento && item.datasPagamento.length
+    ? item.datasPagamento.map(formatarData).join(", ")
+    : "Sem pagamento no mês";
+
+  return `
+    <div class="financeiro-linha-mensal ${classeStatus}">
+      <div>
+        <strong>${aluno.nome || "Aluno sem nome"}</strong>
+        <span>${statusFinanceiroTexto(status)}${turma} • Vencimento: ${vencimento}</span>
+        <span>${datasPagamento}</span>
+      </div>
+      <div class="financeiro-linha-dir">
+        <strong>${status === "pago" ? valorPago : valorEsperado}</strong>
+        <span class="status-badge ${classeStatus}">${statusFinanceiroTexto(status)}</span>
+      </div>
+    </div>
+  `;
+}
+
+let carregandoFinanceiroMensal = false;
+
+async function carregarResumoFinanceiroMensal(opcoes = {}) {
+  if (!usuarioAtual || !listaFinanceiroMensal) return;
+  if (carregandoFinanceiroMensal) return;
+
+  const periodo = obterPeriodoFinanceiroSelecionado();
+  const filtroStatus = normalizarFiltroFinanceiroStatus(financeiroStatus ? financeiroStatus.value : "todos");
+
+  if (financeiroMes && !financeiroMes.value) {
+    financeiroMes.value = periodo.mes;
   }
 
-  const { inicio, fim } = obterPeriodoFinanceiroSelecionado();
-  const filtroStatus = financeiroStatus ? financeiroStatus.value : "todos";
+  carregandoFinanceiroMensal = true;
 
-  listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Carregando financeiro...</div>`;
+  if (!opcoes.silencioso) {
+    listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Carregando financeiro...</div>`;
+  }
 
   let queryPagamentos = supabaseClient
     .from("pagamentos")
@@ -198,161 +464,117 @@ async function carregarResumoFinanceiroMensal() {
   queryPagamentos = aplicarFiltroUsuario(queryPagamentos);
 
   const { data: pagamentos, error } = await queryPagamentos
-    .gte("data_pagamento", inicio)
-    .lte("data_pagamento", fim);
+    .gte("data_pagamento", periodo.inicio)
+    .lte("data_pagamento", periodo.fim);
+
+  carregandoFinanceiroMensal = false;
 
   if (error) {
     console.log("Erro ao carregar financeiro mensal:", error.message);
-    listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Não foi possível carregar o financeiro do mês.</div>`;
+    listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Erro ao carregar o financeiro deste mês.</div>`;
+    if (!opcoes.silencioso) mostrarToast("Erro ao carregar financeiro.", "erro");
     return;
   }
 
   const pagamentosValidos = pagamentos || [];
-  const pagosSet = new Set(pagamentosValidos.map(p => String(p.aluno_id)));
-  const recebido = pagamentosValidos.reduce((total, pagamento) => total + valorParaNumero(pagamento.valor), 0);
+  const pagamentosPorAluno = new Map();
 
-  let pagos = 0;
-  let pendentes = 0;
-  let atrasados = 0;
-  let previsao = 0;
-  let aReceber = 0;
+  pagamentosValidos.forEach(pagamento => {
+    const alunoId = String(pagamento.aluno_id);
+    const acumulado = pagamentosPorAluno.get(alunoId) || { total: 0, datas: [], quantidade: 0 };
+    acumulado.total += valorParaNumero(pagamento.valor);
+    acumulado.quantidade += 1;
+    if (pagamento.data_pagamento) acumulado.datas.push(String(pagamento.data_pagamento).split("T")[0]);
+    pagamentosPorAluno.set(alunoId, acumulado);
+  });
+
+  const pagosSet = new Set(pagamentosValidos.map(p => String(p.aluno_id)));
+
+  const resumo = {
+    recebido: pagamentosValidos.reduce((total, pagamento) => total + valorParaNumero(pagamento.valor), 0),
+    aReceber: 0,
+    previsao: 0,
+    pagos: 0,
+    pendentes: 0,
+    atrasados: 0
+  };
 
   let linhas = (alunos || []).map(aluno => {
-    const valor = valorParaNumero(aluno.valor);
-    const status = classificarFinanceiroAlunoMes(aluno, pagosSet, fim);
+    const valorMensalidade = valorParaNumero(aluno.valor);
+    const status = classificarFinanceiroAlunoMes(aluno, pagosSet, periodo.fim);
+    const pagamentoAluno = pagamentosPorAluno.get(String(aluno.id)) || { total: 0, datas: [], quantidade: 0 };
 
-    previsao += valor;
-    if (status === "pago") pagos++;
+    resumo.previsao += valorMensalidade;
+    if (status === "pago") resumo.pagos += 1;
     if (status === "pendente") {
-      pendentes++;
-      aReceber += valor;
+      resumo.pendentes += 1;
+      resumo.aReceber += valorMensalidade;
     }
     if (status === "atrasado") {
-      atrasados++;
-      aReceber += valor;
+      resumo.atrasados += 1;
+      resumo.aReceber += valorMensalidade;
     }
 
-    return { aluno, valor, status };
+    return {
+      aluno,
+      status,
+      valorMensalidade,
+      valorPago: pagamentoAluno.total,
+      datasPagamento: pagamentoAluno.datas.sort(),
+      quantidadePagamentos: pagamentoAluno.quantidade
+    };
   });
 
   if (filtroStatus !== "todos") {
     linhas = linhas.filter(item => item.status === filtroStatus);
   }
 
-  if (financeiroRecebidoMirror) financeiroRecebidoMirror.textContent = formatarMoeda(recebido);
-  if (financeiroAReceberMirror) financeiroAReceberMirror.textContent = formatarMoeda(aReceber);
-  if (financeiroPrevisaoMirror) financeiroPrevisaoMirror.textContent = formatarMoeda(previsao);
-  if (financeiroPagosMirror) financeiroPagosMirror.textContent = pagos;
-  if (financeiroPendentesMirror) financeiroPendentesMirror.textContent = pendentes;
-  if (financeiroAtrasadosMirror) financeiroAtrasadosMirror.textContent = atrasados;
+  linhas.sort((a, b) => {
+    const ordem = { atrasado: 1, pendente: 2, pago: 3 };
+    return (ordem[a.status] || 9) - (ordem[b.status] || 9) || String(a.aluno.nome || "").localeCompare(String(b.aluno.nome || ""), "pt-BR");
+  });
+
+  if (financeiroRecebidoMirror) financeiroRecebidoMirror.textContent = formatarMoeda(resumo.recebido);
+  if (financeiroAReceberMirror) financeiroAReceberMirror.textContent = formatarMoeda(resumo.aReceber);
+  if (financeiroPrevisaoMirror) financeiroPrevisaoMirror.textContent = formatarMoeda(resumo.previsao);
+  if (financeiroPagosMirror) financeiroPagosMirror.textContent = resumo.pagos;
+  if (financeiroPendentesMirror) financeiroPendentesMirror.textContent = resumo.pendentes;
+  if (financeiroAtrasadosMirror) financeiroAtrasadosMirror.textContent = resumo.atrasados;
   if (financeiroListaContador) financeiroListaContador.textContent = `${linhas.length} aluno${linhas.length === 1 ? "" : "s"}`;
 
   if (!linhas.length) {
-    listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado para esse filtro.</div>`;
-    return;
+    listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado para esse mês e status.</div>`;
+  } else {
+    listaFinanceiroMensal.innerHTML = linhas.map(montarLinhaFinanceiroMensal).join("");
   }
-
-  linhas.sort((a, b) => {
-    const ordem = { atrasado: 1, pendente: 2, pago: 3 };
-    return (ordem[a.status] || 9) - (ordem[b.status] || 9) || String(a.aluno.nome).localeCompare(String(b.aluno.nome), "pt-BR");
-  });
-
-  listaFinanceiroMensal.innerHTML = linhas.map(({ aluno, valor, status }) => `
-    <div class="financeiro-linha-mensal status-${status}">
-      <div>
-        <strong>${aluno.nome}</strong>
-        <span>Vencimento: ${formatarData(aluno.vencimento)} · ${aluno.telefone || "Sem WhatsApp"}</span>
-      </div>
-      <div class="financeiro-linha-dir">
-        <strong>${formatarMoeda(valor)}</strong>
-        <span class="status-badge status-${status}">${statusFinanceiroTexto(status)}</span>
-      </div>
-    </div>
-  `).join("");
 }
 
-if (financeiroMes) {
-  financeiroMes.value = obterMesAtualISO();
-  financeiroMes.addEventListener("change", carregarResumoFinanceiroMensal);
+function inicializarFinanceiroMensal() {
+  if (financeiroMes && !financeiroMes.value) {
+    financeiroMes.value = obterMesAtualFinanceiro();
+  }
+
+  if (financeiroStatus) {
+    financeiroStatus.value = normalizarFiltroFinanceiroStatus(financeiroStatus.value || "todos");
+    if (!financeiroStatus.dataset.inicializadoFinanceiro) {
+      financeiroStatus.dataset.inicializadoFinanceiro = "true";
+      financeiroStatus.addEventListener("change", () => carregarResumoFinanceiroMensal());
+    }
+  }
+
+  if (financeiroMes && !financeiroMes.dataset.inicializadoFinanceiro) {
+    financeiroMes.dataset.inicializadoFinanceiro = "true";
+    financeiroMes.addEventListener("change", () => carregarResumoFinanceiroMensal());
+    financeiroMes.addEventListener("input", () => carregarResumoFinanceiroMensal({ silencioso: true }));
+  }
+
+  if (btnAtualizarFinanceiroMes && !btnAtualizarFinanceiroMes.dataset.inicializadoFinanceiro) {
+    btnAtualizarFinanceiroMes.dataset.inicializadoFinanceiro = "true";
+    btnAtualizarFinanceiroMes.addEventListener("click", () => carregarResumoFinanceiroMensal());
+  }
 }
 
-if (financeiroStatus) {
-  financeiroStatus.addEventListener("change", carregarResumoFinanceiroMensal);
-}
-
-if (btnAtualizarFinanceiroMes) {
-  btnAtualizarFinanceiroMes.addEventListener("click", carregarResumoFinanceiroMensal);
-}
-
-
-async function registrarPagamentoAluno(aluno, opcoes = {}) {
-  if (!aluno) {
-    return { ok: false, mensagem: "Aluno não encontrado." };
-  }
-
-  const hoje = new Date();
-  const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1)
-    .toISOString()
-    .split("T")[0];
-  const ultimoDiaMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0)
-    .toISOString()
-    .split("T")[0];
-
-  const { data: pagamentoJaExiste, error: erroVerificarPagamento } = await supabaseClient
-    .from("pagamentos")
-    .select("id")
-    .eq("aluno_id", aluno.id)
-    .eq("user_id", aluno.user_id)
-    .gte("data_pagamento", primeiroDiaMes)
-    .lte("data_pagamento", ultimoDiaMes)
-    .limit(1);
-
-  if (erroVerificarPagamento) {
-    return { ok: false, mensagem: "Erro ao verificar pagamento existente." };
-  }
-
-  if (pagamentoJaExiste && pagamentoJaExiste.length > 0) {
-    return { ok: false, mensagem: "Este aluno já tem pagamento registrado neste mês.", jaExiste: true };
-  }
-
-  const valorPagamento = valorParaNumero(aluno.valor);
-  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
-  const dataPagamentoInformada = opcoes.dataPagamento || new Date().toISOString().split("T")[0];
-
-  const pagamentosParaInserir = calculoPagamento.mensalidades.map(() => ({
-    aluno_id: aluno.id,
-    user_id: aluno.user_id,
-    valor: valorPagamento,
-    data_pagamento: dataPagamentoInformada
-  }));
-
-  const { error: erroPagamento } = await supabaseClient
-    .from("pagamentos")
-    .insert(pagamentosParaInserir);
-
-  if (erroPagamento) {
-    return { ok: false, mensagem: "Erro ao registrar pagamento." };
-  }
-
-  const { error: erroAtualizarAluno } = await supabaseClient
-    .from("alunos")
-    .update({
-      vencimento: calculoPagamento.novoVencimento
-    })
-    .eq("id", aluno.id);
-
-  if (erroAtualizarAluno) {
-    return { ok: false, mensagem: "Pagamento salvo, mas erro ao atualizar vencimento." };
-  }
-
-  return {
-    ok: true,
-    novoVencimento: calculoPagamento.novoVencimento,
-    quantidade: calculoPagamento.mensalidades.length
-  };
-}
-
-window.registrarPagamentoAluno = registrarPagamentoAluno;
+inicializarFinanceiroMensal();
 
 // ===============================
 // 18. PAGAMENTOS — CONFIRMAR E REGISTRAR
@@ -399,90 +621,6 @@ modalConfirmarPagamento.addEventListener("click", function(e) {
   }
 });
 
-function obterTemplateCobrancaPadrao(aluno, valorFmt, data) {
-  return `*${nomeEmpresa.toUpperCase()}*
-
-Olá, *${aluno.nome}*. Tudo bem?
-
-Identificamos que sua mensalidade com vencimento em *${data}* encontra-se em aberto.
-
-*Valor:* ${valorFmt}
-
-Caso o pagamento já tenha sido realizado, por favor desconsidere esta mensagem e nos envie o comprovante para confirmação no sistema.
-
-Agradecemos pela atenção e permanecemos à disposição.`;
-}
-
-function aplicarVariaveisTemplateCobranca(template, aluno, valorFmt, data) {
-  return String(template || "")
-    .replaceAll("{nome}", aluno.nome || "")
-    .replaceAll("{valor}", valorFmt || "")
-    .replaceAll("{vencimento}", data || "")
-    .replaceAll("{empresa}", nomeEmpresa || "Mensalize");
-}
-
-function obterMensagemCobranca(aluno, valorFmt, data) {
-  let templateSalvo = "";
-
-  try {
-    templateSalvo = localStorage.getItem("mensalize_template_cobranca") || "";
-  } catch (erro) {
-    templateSalvo = "";
-  }
-
-  if (templateSalvo.trim()) {
-    return aplicarVariaveisTemplateCobranca(templateSalvo, aluno, valorFmt, data);
-  }
-
-  return obterTemplateCobrancaPadrao(aluno, valorFmt, data);
-}
-
-function salvarTemplateCobranca(template) {
-  try {
-    localStorage.setItem("mensalize_template_cobranca", String(template || ""));
-    return true;
-  } catch (erro) {
-    console.log("Não foi possível salvar o template de cobrança:", erro.message);
-    return false;
-  }
-}
-
-window.salvarTemplateCobranca = salvarTemplateCobranca;
-
-function montarMensagemReciboWhatsApp(aluno, resultadoPagamento) {
-  const hoje = new Date();
-  const dataPagamento = hoje.toLocaleDateString("pt-BR");
-  const quantidade = Number(resultadoPagamento?.quantidade || 1);
-  const valorTotal = valorParaNumero(aluno.valor) * quantidade;
-  const proximoVencimento = resultadoPagamento?.novoVencimento
-    ? formatarData(resultadoPagamento.novoVencimento)
-    : formatarData(aluno.vencimento);
-
-  return `*${nomeEmpresa.toUpperCase()}*
-
-Olá, *${aluno.nome}*. Tudo bem?
-
-Confirmamos o recebimento da sua mensalidade.
-
-✅ *Valor pago:* ${formatarMoeda(valorTotal)}
-📅 *Data do pagamento:* ${dataPagamento}
-📌 *Próximo vencimento:* ${proximoVencimento}
-
-Obrigado!`;
-}
-
-function abrirReciboWhatsApp(aluno, resultadoPagamento) {
-  const telefone = limparNumeroWhatsApp(aluno.telefone || aluno.responsavel_whatsapp || "");
-
-  if (!telefone || telefone.length < 10) {
-    mostrarToast("Pagamento confirmado, mas o aluno não tem WhatsApp válido para envio do recibo.", "erro");
-    return;
-  }
-
-  const mensagem = montarMensagemReciboWhatsApp(aluno, resultadoPagamento);
-  window.open(`https://wa.me/55${telefone}?text=${encodeURIComponent(mensagem)}`, "_blank");
-}
-
 btnConfirmarPagamento.addEventListener("click", async function() {
   if (!pagamentoConfirmandoId) return;
 
@@ -499,22 +637,71 @@ btnConfirmarPagamento.addEventListener("click", async function() {
 
   btnConfirmarPagamento.disabled = true;
 
-  const resultado = await registrarPagamentoAluno(aluno);
+  const hoje = new Date();
+  const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1)
+    .toISOString()
+    .split("T")[0];
+  const ultimoDiaMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0)
+    .toISOString()
+    .split("T")[0];
+
+  const { data: pagamentoJaExiste, error: erroVerificarPagamento } = await supabaseClient
+    .from("pagamentos")
+    .select("id")
+    .eq("aluno_id", aluno.id)
+    .eq("user_id", aluno.user_id)
+    .gte("data_pagamento", primeiroDiaMes)
+    .lte("data_pagamento", ultimoDiaMes)
+    .limit(1);
+
+  if (erroVerificarPagamento) {
+    btnConfirmarPagamento.disabled = false;
+    mostrarToast("Erro ao verificar pagamento existente.", "erro");
+    return;
+  }
+
+  if (pagamentoJaExiste && pagamentoJaExiste.length > 0) {
+    btnConfirmarPagamento.disabled = false;
+    mostrarToast("Este aluno já tem pagamento registrado neste mês.", "erro");
+    await carregarAlunos();
+    return;
+  }
+
+  const valorPagamento = valorParaNumero(aluno.valor);
+  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
+
+  const pagamentosParaInserir = calculoPagamento.mensalidades.map(() => ({
+    aluno_id: aluno.id,
+    user_id: aluno.user_id,
+    valor: valorPagamento
+  }));
+
+  const { error: erroPagamento } = await supabaseClient
+    .from("pagamentos")
+    .insert(pagamentosParaInserir);
+
+  if (erroPagamento) {
+    btnConfirmarPagamento.disabled = false;
+    mostrarToast("Erro ao registrar pagamento.", "erro");
+    return;
+  }
+
+  const { error: erroAtualizarAluno } = await supabaseClient
+    .from("alunos")
+    .update({
+      vencimento: calculoPagamento.novoVencimento
+    })
+    .eq("id", aluno.id);
 
   btnConfirmarPagamento.disabled = false;
 
-  if (!resultado.ok) {
-    mostrarToast(resultado.mensagem || "Erro ao registrar pagamento.", "erro");
-    if (resultado.jaExiste) await carregarAlunos();
+  if (erroAtualizarAluno) {
+    mostrarToast("Pagamento salvo, mas erro ao atualizar vencimento.", "erro");
     return;
   }
 
   await carregarAlunos();
   mostrarToast("✅ Pagamento registrado e vencimento atualizado!");
-
-  if (confirm("Deseja enviar um recibo pelo WhatsApp para este aluno?")) {
-    abrirReciboWhatsApp(aluno, resultado);
-  }
 });
 
 // ===============================
@@ -598,7 +785,17 @@ function enviarWhatsApp(id) {
     currency: "BRL"
   });
 
-  const msg = obterMensagemCobranca(aluno, valorFmt, data);
+  const msg = `*${nomeEmpresa.toUpperCase()}*
+
+Olá, *${aluno.nome}*. Tudo bem?
+
+Identificamos que sua mensalidade com vencimento em *${data}* encontra-se em aberto.
+
+*Valor:* ${valorFmt}
+
+Caso o pagamento já tenha sido realizado, por favor desconsidere esta mensagem e nos envie o comprovante para confirmação no sistema.
+
+Agradecemos pela atenção e permanecemos à disposição.`;
 
   const tel = aluno.telefone.replace(/\D/g, "");
 

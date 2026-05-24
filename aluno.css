@@ -2309,3 +2309,326 @@ body {
     min-height: 70px !important;
   }
 }
+
+/* ================================================================
+   CAMADA VISUAL PREMIUM 2026 — ÁREA DO ALUNO
+   Responsividade mobile + refinamento profissional
+================================================================ */
+
+/* --- FONTE PREMIUM --- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --fonte: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --trans-fast: 0.14s cubic-bezier(.2, .8, .2, 1);
+}
+
+/* ================================================================
+   LAYOUT DESKTOP — SIDEBAR STICKY
+================================================================ */
+@media (min-width: 769px) {
+  .student-app {
+    grid-template-columns: 260px minmax(0, 1fr) !important;
+  }
+
+  .student-sidebar {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100dvh !important;
+    overflow-y: auto !important;
+    transform: none !important;
+    z-index: 50 !important;
+  }
+}
+
+/* ================================================================
+   SIDEBAR — OFFCANVAS MOBILE
+================================================================ */
+@media (max-width: 768px) {
+  .student-app {
+    grid-template-columns: 1fr !important;
+  }
+
+  .student-sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: min(300px, 84vw) !important;
+    height: 100dvh !important;
+    transform: translateX(-110%) !important;
+    transition: transform 0.24s ease !important;
+    z-index: 120 !important;
+    overflow-y: auto !important;
+    padding: 18px !important;
+  }
+
+  .student-sidebar.aberta {
+    transform: translateX(0) !important;
+  }
+
+  body.menu-aberto .student-sidebar {
+    transform: translateX(0) !important;
+  }
+
+  body.menu-aberto .menu-overlay {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .menu-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.62) !important;
+    backdrop-filter: blur(4px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    z-index: 115 !important;
+    transition: opacity 0.24s ease, visibility 0.24s ease !important;
+  }
+
+  .menu-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+/* ================================================================
+   TOPBAR — MOBILE
+================================================================ */
+@media (max-width: 768px) {
+  .student-topbar {
+    min-height: 62px !important;
+    padding: calc(10px + var(--safe-top)) 14px 10px 14px !important;
+    gap: 10px !important;
+    border-radius: 0 !important;
+  }
+
+  .student-small-profile strong {
+    max-width: 130px !important;
+    font-size: 13px !important;
+  }
+
+  .student-small-profile span { display: none !important; }
+}
+
+/* ================================================================
+   CONTEÚDO — MOBILE
+================================================================ */
+@media (max-width: 768px) {
+  .student-content {
+    padding: 14px 14px calc(28px + var(--safe-bottom)) 14px !important;
+  }
+}
+
+/* ================================================================
+   WELCOME CARD — MOBILE
+================================================================ */
+@media (max-width: 540px) {
+  .welcome-card {
+    padding: 16px !important;
+    border-radius: 20px !important;
+  }
+
+  .welcome-card h1 {
+    font-size: 22px !important;
+  }
+}
+
+/* ================================================================
+   QUICK GRID — MOBILE
+================================================================ */
+@media (max-width: 480px) {
+  .quick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .quick-card {
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  .quick-card strong { font-size: 17px !important; }
+}
+
+/* ================================================================
+   ACTION ROW — MOBILE
+================================================================ */
+@media (max-width: 480px) {
+  .action-row,
+  .payment-actions,
+  .contact-actions {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .primary-action,
+  .secondary-action,
+  .pay-button,
+  .whatsapp-button,
+  .share-button {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+  }
+}
+
+/* ================================================================
+   PANEL CARD — MOBILE
+================================================================ */
+@media (max-width: 540px) {
+  .panel-card {
+    padding: 16px !important;
+    border-radius: 20px !important;
+  }
+
+  .section-title-row h2 { font-size: 16px !important; }
+}
+
+/* ================================================================
+   STATUS HERO — MOBILE
+================================================================ */
+@media (max-width: 480px) {
+  .status-hero {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .status-hero h2 { font-size: 19px !important; }
+
+  .status-badge {
+    align-self: flex-start !important;
+  }
+}
+
+/* ================================================================
+   FINANCE SUMMARY — MOBILE
+================================================================ */
+@media (max-width: 480px) {
+  .finance-summary-grid,
+  .student-evolution-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .summary-box,
+  .evolution-info {
+    padding: 11px !important;
+    border-radius: 14px !important;
+  }
+
+  .summary-price strong { font-size: 22px !important; }
+}
+
+/* ================================================================
+   STUDENT FORM — MOBILE (1 coluna)
+================================================================ */
+@media (max-width: 600px) {
+  .student-form {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .student-form .full-line { grid-column: 1 / -1 !important; }
+
+  .student-form input,
+  .student-form textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ================================================================
+   PHOTO BOX — MOBILE
+================================================================ */
+@media (max-width: 600px) {
+  .photo-box {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+
+  .photo-preview-wrap { margin: 0 auto !important; }
+}
+
+/* ================================================================
+   INPUTS MOBILE — prevenir zoom iOS
+================================================================ */
+@media (max-width: 640px) {
+  .student-form input,
+  .student-form textarea,
+  .pix-box textarea,
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ================================================================
+   RANKING — PODIO MOBILE
+================================================================ */
+@media (max-width: 480px) {
+  .ranking-podium {
+    gap: 6px !important;
+  }
+
+  .podium-card {
+    padding: 10px 6px !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* ================================================================
+   PIX BOX — MOBILE
+================================================================ */
+@media (max-width: 480px) {
+  .pix-box {
+    border-radius: 16px !important;
+    padding: 12px !important;
+  }
+}
+
+/* ================================================================
+   SECTION TITLE ROW — MOBILE
+================================================================ */
+@media (max-width: 480px) {
+  .section-title-row {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .mini-badge {
+    font-size: 10px !important;
+    padding: 4px 8px !important;
+  }
+}
+
+/* ================================================================
+   OVERFLOW GLOBAL FIX
+================================================================ */
+.student-main {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+.student-content {
+  overflow-x: hidden !important;
+}
+
+/* ================================================================
+   STUDENT FORM — SUBMIT BUTTON MOBILE
+================================================================ */
+@media (max-width: 600px) {
+  .student-form .primary-action[type="submit"],
+  #formPerfilAluno .primary-action {
+    width: 100% !important;
+  }
+}
+
+/* ================================================================
+   FIM — CAMADA VISUAL PREMIUM 2026 — ÁREA DO ALUNO
+================================================================ */

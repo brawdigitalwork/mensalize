@@ -11,7 +11,10 @@ async function iniciarSistema() {
   if (data.session) {
     usuarioAtual = data.session.user;
     sincronizarEstado();
-    await mostrarApp();
+
+    const acessoLiberado = await mostrarApp();
+    if (!acessoLiberado) return;
+
     await carregarAlunos();
   } else {
     mostrarLogin();
@@ -35,6 +38,30 @@ function mostrarLogin() {
   mensagemLogin.textContent = "";
 }
 
+/** Bloqueia a abertura do app quando o Admin desativa a conta do cliente. */
+async function bloquearAcessoCliente(motivo = "Conta bloqueada pelo administrador.") {
+  telaLogin.classList.remove("escondido");
+  app.classList.add("escondido");
+  telaAdmin.classList.add("escondido");
+  btnAdmin.classList.add("escondido");
+
+  if (emailLogin) emailLogin.value = usuarioAtual?.email || "";
+  if (senhaLogin) senhaLogin.value = "";
+  if (mensagemLogin) {
+    mensagemLogin.textContent = motivo;
+    mensagemLogin.classList.add("erro");
+  }
+
+  try {
+    await supabaseClient.auth.signOut();
+  } catch (erro) {
+    console.warn("Erro ao encerrar sessão bloqueada:", erro);
+  }
+
+  usuarioAtual = null;
+  sincronizarEstado();
+}
+
 /** Mostra o app principal e carrega permissões do usuário. */
 async function mostrarApp() {
   telaLogin.classList.add("escondido");
@@ -43,7 +70,7 @@ async function mostrarApp() {
 
   emailUsuario.textContent = usuarioAtual.email;
 
-  await carregarPerfil();
+  return await carregarPerfil();
 }
 
 // ===============================
@@ -90,7 +117,7 @@ const { data, error } = await supabaseClient
 
 if (error) {
   console.log("Erro ao carregar perfil:", error.message);
-  return;
+  return false;
 }
 
   usuarioEhAdmin = data.is_admin === true;
@@ -127,7 +154,12 @@ if (error) {
 
 planoAtual = data.plano || "trial";
 statusConta = data.status || "ativo";
-podeUsarSistema = data.pode_usar !== false;
+podeUsarSistema = data.pode_usar !== false && statusConta !== "bloqueado";
+
+if (!usuarioEhAdmin && !podeUsarSistema) {
+  await bloquearAcessoCliente("Sua conta está bloqueada. Fale com o administrador do Mensalize para regularizar o acesso.");
+  return false;
+}
 
 moduloRankingAtivo = data.modulo_ranking !== false;
 moduloDesafioAtivo = data.modulo_desafio !== false;
@@ -165,6 +197,8 @@ if (btnTurmas) {
   if (usuarioEhAdmin) {
     btnAdmin.classList.remove("escondido");
   }
+
+  return true;
 }
 
 
@@ -202,7 +236,9 @@ btnEntrar.addEventListener("click", async function() {
 
 
 
-  await mostrarApp();
+  const acessoLiberado = await mostrarApp();
+  if (!acessoLiberado) return;
+
   await carregarAlunos();
 });
 

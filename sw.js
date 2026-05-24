@@ -1,6 +1,6 @@
 // sw.js — Service Worker Mensalize
 // Fase 5.1 — Atualização e Cache
-const APP_VERSION = '35';
+const APP_VERSION = '40';
 const CACHE_PREFIX = 'mensalize-';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}`;
 

@@ -941,7 +941,7 @@ button:active { transform: scale(0.97); }
 
 .aluno-premium-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 14px;
 }
@@ -5071,6 +5071,34 @@ textarea:focus-visible {
   gap: 8px;
 }
 
+
+.admin-plano-preco {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.admin-recurso-preco {
+  background: rgba(139, 92, 246, 0.16) !important;
+  border-color: rgba(196, 181, 253, 0.28) !important;
+  color: var(--cor-roxo-claro) !important;
+  font-weight: 950 !important;
+}
+
+[data-tema="claro"] .admin-plano-preco {
+  background: rgba(34, 197, 94, 0.10);
+  border-color: rgba(34, 197, 94, 0.22);
+  color: #15803d;
+}
+
 .admin-plano-resumo-topo {
   display: flex;
   align-items: center;
@@ -5416,5 +5444,379 @@ textarea:focus-visible {
   .btn-mais-acoes {
     flex: initial !important;
     max-width: none;
+  }
+}
+
+/* ================================================================
+   FASE VISUAL PREMIUM v32 — POLIMENTO CORPORATE CLEAN
+   Camada segura: apenas refinamentos visuais, sem alterar estrutura JS.
+================================================================ */
+:root {
+  --premium-surface: rgba(14, 16, 28, 0.86);
+  --premium-surface-2: rgba(19, 22, 38, 0.92);
+  --premium-line: rgba(255, 255, 255, 0.095);
+  --premium-line-strong: rgba(196, 181, 253, 0.22);
+  --premium-shadow: 0 20px 56px rgba(0, 0, 0, 0.30);
+  --premium-shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.20);
+}
+
+body {
+  background:
+    radial-gradient(circle at 10% -8%, rgba(139, 92, 246, 0.18), transparent 34%),
+    radial-gradient(circle at 92% 8%, rgba(56, 189, 248, 0.08), transparent 28%),
+    linear-gradient(180deg, #060814 0%, #080a16 48%, #070812 100%) !important;
+}
+
+.conteudo-app {
+  background: transparent;
+}
+
+.topo,
+.topo-dashboard {
+  background: rgba(7, 9, 18, 0.78) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075) !important;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.20);
+}
+
+.sidebar-app {
+  background:
+    linear-gradient(180deg, rgba(13, 15, 28, 0.985), rgba(7, 8, 17, 0.985)) !important;
+  border-right-color: rgba(255, 255, 255, 0.075) !important;
+}
+
+.sidebar-brand,
+.usuario-box,
+.sidebar-footer {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.085) !important;
+}
+
+.menu-item {
+  min-height: 46px;
+  padding: 12px 13px;
+  font-weight: 760 !important;
+  letter-spacing: -0.01em;
+}
+
+.menu-item:hover,
+.menu-item.ativo {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.16), rgba(56, 189, 248, 0.055)) !important;
+  border-color: rgba(196, 181, 253, 0.18) !important;
+  box-shadow: inset 0 0 0 1px rgba(196, 181, 253, 0.035);
+}
+
+.container,
+.container-dashboard {
+  max-width: 1360px;
+}
+
+.dashboard-hero,
+.painel-card,
+.area-formulario,
+.lista,
+.lista-profissional,
+.financeiro-page,
+.modal-card {
+  background: linear-gradient(180deg, var(--premium-surface-2), rgba(12, 14, 26, 0.92)) !important;
+  border-color: var(--premium-line) !important;
+  box-shadow: var(--premium-shadow-soft) !important;
+}
+
+.dashboard-hero {
+  border-radius: 28px !important;
+  padding: clamp(22px, 4vw, 36px) !important;
+}
+
+.dashboard-hero::before,
+.painel-card::before {
+  opacity: 0.75;
+}
+
+.cards-dashboard,
+.cards {
+  gap: 16px !important;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.068), rgba(255, 255, 255, 0.032)) !important;
+  border-color: rgba(255, 255, 255, 0.095) !important;
+  border-radius: 24px !important;
+  min-height: 132px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
+}
+
+.card::before {
+  height: 2px;
+  opacity: 0.72;
+}
+
+.card h2 {
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.11em !important;
+}
+
+.card p {
+  font-size: clamp(25px, 3.2vw, 36px) !important;
+  line-height: 1.05;
+}
+
+.card span {
+  color: rgba(167, 168, 188, 0.86) !important;
+}
+
+input,
+select,
+textarea {
+  background: rgba(5, 7, 15, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  border-radius: 16px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(196, 181, 253, 0.56) !important;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.13) !important;
+}
+
+button,
+.acao-principal,
+.acao-secundaria,
+.acao-perigo,
+.btn-texto,
+.btn-salvar-limite {
+  letter-spacing: -0.015em;
+}
+
+.acao-principal,
+#btnMostrarForm,
+#btnFormulario,
+#btnEntrar,
+.btn-salvar-perfil {
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.18) !important;
+}
+
+.badge-status,
+.mini-badge,
+.status-badge,
+.admin-badge-status,
+.badge-pago-confirmado {
+  min-height: 28px;
+  letter-spacing: 0.07em !important;
+}
+
+/* Cards dos alunos: mais limpos e consistentes */
+.aluno-card {
+  background: linear-gradient(180deg, rgba(18, 21, 37, 0.92), rgba(11, 13, 24, 0.93)) !important;
+  border-color: rgba(255, 255, 255, 0.085) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.20);
+}
+
+.aluno-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.28);
+}
+
+.aluno-premium-topo h3 {
+  font-size: 17px !important;
+}
+
+.aluno-premium-grid {
+  gap: 11px !important;
+}
+
+.info-premium {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
+}
+
+.info-premium span {
+  font-size: 10px !important;
+  letter-spacing: 0.08em !important;
+}
+
+.info-premium strong {
+  font-size: 15px !important;
+}
+
+.acoes-premium {
+  align-items: center;
+}
+
+.acoes-premium button,
+.badge-pago-confirmado {
+  min-height: 40px !important;
+  border-radius: 14px !important;
+}
+
+.acoes-secundarias-card {
+  width: 100%;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  margin-top: 4px;
+}
+
+.btn-mais-acoes {
+  min-width: 46px !important;
+  width: 46px;
+  padding-inline: 0 !important;
+  font-size: 18px !important;
+}
+
+/* Admin e planos */
+.admin-toolbar,
+.admin-filtros,
+.admin-planos-grid,
+.admin-resumo-grid {
+  gap: 12px !important;
+}
+
+.cliente-card-v2,
+.admin-cliente-card,
+.plano-card,
+.admin-plano-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.032)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.cliente-header-v2,
+.admin-cliente-header {
+  border-radius: 18px;
+}
+
+.admin-modulos-box,
+.admin-config-box,
+.admin-permissoes-box {
+  background: rgba(255, 255, 255, 0.035) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
+}
+
+/* Perfil */
+.perfil-grid,
+.perfil-card,
+.cache-card {
+  border-radius: 24px !important;
+}
+
+#perfilPixCopiaCola,
+textarea#perfilPixCopiaCola {
+  min-height: 82px !important;
+  max-height: 132px;
+  font-size: 13px !important;
+  line-height: 1.4;
+}
+
+/* Financeiro e solicitações */
+.financeiro-filtros,
+.financeiro-resumo-grid,
+.solicitacao-card,
+.financeiro-lista-item {
+  border-radius: 20px !important;
+}
+
+.solicitacao-card,
+.financeiro-lista-item {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.085) !important;
+}
+
+/* Ranking/desafio */
+.ranking-podium,
+.ranking-podio-professor {
+  align-items: end;
+}
+
+.podium-card,
+.ranking-podio-card,
+.ranking-professor-podio-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035)) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.20);
+}
+
+/* Tema claro mais clean */
+[data-tema="claro"] body {
+  background: #f6f7fb !important;
+}
+
+[data-tema="claro"] .dashboard-hero,
+[data-tema="claro"] .painel-card,
+[data-tema="claro"] .area-formulario,
+[data-tema="claro"] .lista,
+[data-tema="claro"] .lista-profissional,
+[data-tema="claro"] .financeiro-page,
+[data-tema="claro"] .modal-card,
+[data-tema="claro"] .aluno-card,
+[data-tema="claro"] .cliente-card-v2,
+[data-tema="claro"] .admin-cliente-card,
+[data-tema="claro"] .plano-card,
+[data-tema="claro"] .admin-plano-card {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(17, 24, 39, 0.085) !important;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.06) !important;
+}
+
+[data-tema="claro"] input,
+[data-tema="claro"] select,
+[data-tema="claro"] textarea {
+  background: #fff !important;
+  border-color: rgba(17, 24, 39, 0.10) !important;
+}
+
+@media (min-width: 1180px) {
+  .container,
+  .container-dashboard {
+    padding-left: max(4.4%, calc(4.4% + var(--safe-left))) !important;
+    padding-right: max(4.4%, calc(4.4% + var(--safe-right))) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard-hero {
+    align-items: stretch !important;
+  }
+
+  .hero-actions,
+  .topo-form-acoes {
+    width: 100%;
+  }
+
+  .hero-actions button,
+  .topo-form-acoes button {
+    flex: 1 1 auto;
+  }
+
+  .card,
+  .aluno-card,
+  .painel-card,
+  .dashboard-hero {
+    border-radius: 20px !important;
+  }
+
+  .aluno-premium-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .aluno-premium-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .acoes-premium > .acao-principal,
+  .acoes-premium > .acao-secundaria.whatsapp,
+  .badge-pago-confirmado {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .btn-mais-acoes {
+    width: 100% !important;
   }
 }

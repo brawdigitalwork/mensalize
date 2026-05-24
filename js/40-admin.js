@@ -140,7 +140,7 @@ function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
   if (adminFiltroClientesAtual === "todos") return true;
   if (adminFiltroClientesAtual === "ativo") return status !== "bloqueado" && podeUsar;
   if (adminFiltroClientesAtual === "bloqueado") return status === "bloqueado" || !podeUsar;
-  if (["trial", "basic", "pro"].includes(adminFiltroClientesAtual)) return plano === adminFiltroClientesAtual;
+  if (["trial", "basic", "pro", "premium"].includes(adminFiltroClientesAtual)) return plano === adminFiltroClientesAtual;
   if (adminFiltroClientesAtual === "limite") return total >= limite;
 
   return true;
@@ -237,6 +237,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
           ${renderizarRecursosPlanoAdmin("trial")}
           ${renderizarRecursosPlanoAdmin("basic")}
           ${renderizarRecursosPlanoAdmin("pro")}
+          ${renderizarRecursosPlanoAdmin("premium")}
         </div>
 
         <div class="admin-plano-grid admin-plano-grid-v3">
@@ -246,6 +247,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
               <option value="trial" ${cliente.plano === "trial" ? "selected" : ""}>Trial</option>
               <option value="basic" ${cliente.plano === "basic" ? "selected" : ""}>Basic</option>
               <option value="pro" ${cliente.plano === "pro" ? "selected" : ""}>Pro</option>
+              <option value="premium" ${cliente.plano === "premium" ? "selected" : ""}>Premium</option>
             </select>
             <small id="plano-resumo-${cliente.id}">${resumoPlano.descricao}</small>
           </div>
@@ -298,9 +300,10 @@ const PLANOS_MENSALIZE_ADMIN = {
   trial: {
     nome: "Trial",
     tag: "Teste",
-    limite: 50,
-    descricao: "Acesso inicial para teste, com o essencial para validar o sistema.",
-    destaque: "Ideal para parceria, demonstração e primeiros testes.",
+    preco: "R$ 0,00 / 30 dias",
+    limite: 30,
+    descricao: "Teste gratuito para o professor conhecer o Mensalize com as funções essenciais.",
+    destaque: "Para demonstração, parceria e validação inicial.",
     modulos: {
       modulo_evolucao: false,
       modulo_presenca: false,
@@ -310,21 +313,24 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_turmas: false
     },
     recursos: [
-      "Alunos e mensalidades",
+      "Até 30 alunos",
+      "Cadastro de alunos",
+      "Controle de mensalidades",
       "Página do aluno",
       "Pix copia e cola",
       "Cobrança via WhatsApp",
-      "Limite sugerido: 50 alunos"
+      "Solicitação de confirmação de pagamento"
     ]
   },
   basic: {
     nome: "Basic",
     tag: "Entrada",
-    limite: 100,
-    descricao: "Plano para professor pequeno que precisa organizar alunos, financeiro e comunicação.",
-    destaque: "Bom para começar a cobrar mensalidades com mais controle.",
+    preco: "R$ 29,90/mês",
+    limite: 50,
+    descricao: "Plano de entrada para professor pequeno ou turma única.",
+    destaque: "Para organizar alunos, mensalidades, avisos e aniversários.",
     modulos: {
-      modulo_evolucao: true,
+      modulo_evolucao: false,
       modulo_presenca: false,
       modulo_avisos: true,
       modulo_ranking: false,
@@ -332,19 +338,21 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_turmas: false
     },
     recursos: [
+      "Até 50 alunos",
       "Tudo do Trial",
-      "Quadro de avisos",
-      "Evolução/graduação",
+      "Avisos",
       "Aniversariantes",
-      "Limite sugerido: 100 alunos"
+      "Financeiro mensal",
+      "Página individual do aluno"
     ]
   },
   pro: {
     nome: "Pro",
-    tag: "Completo",
-    limite: 300,
-    descricao: "Plano completo para academia com turmas, presença, ranking e desafio.",
-    destaque: "Para vender como o pacote principal do Mensalize.",
+    tag: "Mais vendido",
+    preco: "R$ 49,90/mês",
+    limite: 150,
+    descricao: "Plano principal para academia de jiu-jitsu ou artes marciais.",
+    destaque: "Para vender como pacote principal do Mensalize.",
     modulos: {
       modulo_evolucao: true,
       modulo_presenca: true,
@@ -354,12 +362,38 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_turmas: true
     },
     recursos: [
+      "Até 150 alunos",
       "Tudo do Basic",
       "Turmas",
       "Presenças",
       "Ranking de presença",
       "Desafio de presença",
-      "Limite sugerido: 300 alunos"
+      "Evolução/graduação",
+      "Aulas canceladas"
+    ]
+  },
+  premium: {
+    nome: "Premium",
+    tag: "Academia",
+    preco: "R$ 79,90/mês",
+    limite: 300,
+    descricao: "Plano completo para academia maior ou cliente com operação mais avançada.",
+    destaque: "Para clientes com mais alunos, suporte mais próximo e tudo liberado.",
+    modulos: {
+      modulo_evolucao: true,
+      modulo_presenca: true,
+      modulo_avisos: true,
+      modulo_ranking: true,
+      modulo_desafio: true,
+      modulo_turmas: true
+    },
+    recursos: [
+      "Até 300 alunos",
+      "Tudo do Pro",
+      "Todos os módulos liberados",
+      "Suporte prioritário",
+      "Configuração inicial assistida",
+      "Ajustes simples sob demanda"
     ]
   }
 };
@@ -385,6 +419,7 @@ function renderizarRecursosPlanoAdmin(plano) {
         <span class="admin-plano-badge-mini">${config.tag}</span>
         <strong>${config.nome}</strong>
       </div>
+      <span class="admin-plano-preco">${config.preco || ""}</span>
       <p>${config.destaque}</p>
       <ul>
         ${config.recursos.map(recurso => `<li>${recurso}</li>`).join("")}
@@ -397,6 +432,7 @@ function renderizarRecursosPlanoSelecionado(plano) {
   const config = obterConfigPlanoAdmin(plano);
   return `
     <div class="admin-recursos-plano-lista">
+      <span class="admin-recurso-preco">${config.preco || ""}</span>
       ${config.recursos.map(recurso => `<span>✓ ${recurso}</span>`).join("")}
     </div>
   `;

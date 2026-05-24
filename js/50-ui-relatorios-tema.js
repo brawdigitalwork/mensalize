@@ -162,137 +162,294 @@ if (inputValor) {
 
 
 // ===============================
-// 28. RELATÓRIO — EXPORTAR EXCEL / PDF
+// 28. RELATÓRIO — EXPORTAR PLANILHA FINANCEIRA
 // ===============================
 
-/** Monta HTML completo do relatório mensal para exportação. */
-function montarRelatorioMensalHTML() {
-  const hoje = new Date();
-  const mesAno = hoje.toLocaleString("pt-BR", { month: "long", year: "numeric" });
+/** Evita quebrar o HTML da planilha ao inserir textos vindos do banco. */
+function escaparHTMLRelatorio(valor) {
+  return String(valor ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
-  const totalAlunosRel = alunos.length;
-  let pagos = 0;
-  let pendentes = 0;
-  let atrasados = 0;
-  let recebido = 0;
-  let aReceber = 0;
-  let previsao = 0;
+/** Nome legível do mês selecionado no financeiro. */
+function obterTituloMesRelatorio(periodo) {
+  const data = new Date(Number(periodo.ano), Number(periodo.mesNumero) - 1, 1);
+  return data.toLocaleString("pt-BR", { month: "long", year: "numeric" });
+}
 
-  const linhas = alunos.map(aluno => {
-    const pago = alunosPagosMes.has(String(aluno.id));
-    const status = pago ? "Pago" : (verificarStatus(aluno.vencimento) === "atrasado" ? "Atrasado" : "Pendente");
-    const valor = valorParaNumero(aluno.valor);
-    previsao += valor;
-    if (pago) {
-      pagos++;
-      recebido += valor;
-    } else {
-      aReceber += valor;
-      if (status === "Atrasado") atrasados++; else pendentes++;
+/** Converte número para texto simples sem o R$, útil para a planilha. */
+function numeroPlanilha(valor) {
+  return Number(valorParaNumero(valor) || 0).toFixed(2);
+}
+
+/** Busca pagamentos do período selecionado e monta os dados consolidados. */
+async function obterDadosRelatorioFinanceiroSelecionado() {
+  const fallbackPeriodo = (() => {
+    const hoje = new Date();
+    const mes = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}`;
+    const inicio = `${mes}-01`;
+    const fimData = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
+    const fim = `${fimData.getFullYear()}-${String(fimData.getMonth() + 1).padStart(2, "0")}-${String(fimData.getDate()).padStart(2, "0")}`;
+    return { mes, inicio, fim, ano: hoje.getFullYear(), mesNumero: hoje.getMonth() + 1 };
+  })();
+
+  const periodo = typeof obterPeriodoFinanceiroSelecionado === "function"
+    ? obterPeriodoFinanceiroSelecionado()
+    : fallbackPeriodo;
+
+  const filtroStatus = financeiroStatus ? financeiroStatus.value : "todos";
+
+  let queryPagamentos = supabaseClient
+    .from("pagamentos")
+    .select("id,user_id,aluno_id,valor,data_pagamento,created_at");
+
+  queryPagamentos = aplicarFiltroUsuario(queryPagamentos);
+
+  const { data: pagamentos, error } = await queryPagamentos
+    .gte("data_pagamento", periodo.inicio)
+    .lte("data_pagamento", periodo.fim);
+
+  if (error) {
+    throw error;
+  }
+
+  const pagamentosValidos = pagamentos || [];
+  const pagamentosPorAluno = new Map();
+
+  pagamentosValidos.forEach(pagamento => {
+    const alunoId = String(pagamento.aluno_id);
+    const acumulado = pagamentosPorAluno.get(alunoId) || {
+      total: 0,
+      datas: [],
+      quantidade: 0
+    };
+
+    acumulado.total += valorParaNumero(pagamento.valor);
+    acumulado.quantidade += 1;
+    if (pagamento.data_pagamento) {
+      acumulado.datas.push(String(pagamento.data_pagamento).split("T")[0]);
     }
+
+    pagamentosPorAluno.set(alunoId, acumulado);
+  });
+
+  const pagosSet = new Set(pagamentosValidos.map(p => String(p.aluno_id)));
+
+  let resumo = {
+    totalAlunos: (alunos || []).length,
+    alunosNoRelatorio: 0,
+    pagos: 0,
+    pendentes: 0,
+    atrasados: 0,
+    recebido: 0,
+    aReceber: 0,
+    previsao: 0
+  };
+
+  let linhas = (alunos || []).map(aluno => {
+    const valorMensalidade = valorParaNumero(aluno.valor);
+    const status = typeof classificarFinanceiroAlunoMes === "function"
+      ? classificarFinanceiroAlunoMes(aluno, pagosSet, periodo.fim)
+      : (pagosSet.has(String(aluno.id)) ? "pago" : verificarStatus(aluno.vencimento));
+
+    const pagamentoAluno = pagamentosPorAluno.get(String(aluno.id)) || { total: 0, datas: [], quantidade: 0 };
+
+    resumo.previsao += valorMensalidade;
+    if (status === "pago") resumo.pagos += 1;
+    if (status === "pendente") {
+      resumo.pendentes += 1;
+      resumo.aReceber += valorMensalidade;
+    }
+    if (status === "atrasado") {
+      resumo.atrasados += 1;
+      resumo.aReceber += valorMensalidade;
+    }
+
+    return {
+      aluno,
+      valorMensalidade,
+      valorPago: pagamentoAluno.total,
+      status,
+      datasPagamento: pagamentoAluno.datas.sort(),
+      quantidadePagamentos: pagamentoAluno.quantidade
+    };
+  });
+
+  resumo.recebido = pagamentosValidos.reduce((total, pagamento) => total + valorParaNumero(pagamento.valor), 0);
+
+  if (filtroStatus !== "todos") {
+    linhas = linhas.filter(item => item.status === filtroStatus);
+  }
+
+  linhas.sort((a, b) => {
+    const ordem = { atrasado: 1, pendente: 2, pago: 3 };
+    return (ordem[a.status] || 9) - (ordem[b.status] || 9) || String(a.aluno.nome).localeCompare(String(b.aluno.nome), "pt-BR");
+  });
+
+  resumo.alunosNoRelatorio = linhas.length;
+
+  return {
+    periodo,
+    filtroStatus,
+    resumo,
+    linhas
+  };
+}
+
+function montarRelatorioFinanceiroPlanilhaHTML(dados) {
+  const tituloMes = obterTituloMesRelatorio(dados.periodo);
+  const statusFiltroTexto = dados.filtroStatus === "todos"
+    ? "Todos"
+    : statusFinanceiroTexto(dados.filtroStatus);
+  const dataEmissao = new Date().toLocaleString("pt-BR");
+
+  const linhasTabela = dados.linhas.map((item, index) => {
+    const aluno = item.aluno;
+    const statusTexto = typeof statusFinanceiroTexto === "function"
+      ? statusFinanceiroTexto(item.status)
+      : item.status;
+    const classeStatus = `status-${item.status}`;
+    const telefone = aluno.telefone || aluno.responsavel_whatsapp || "";
+    const faixaGrau = [aluno.faixa || "", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? `${aluno.grau}º grau` : ""]
+      .filter(Boolean)
+      .join(" - ");
 
     return `
       <tr>
-        <td>${aluno.nome}</td>
-        <td>${aluno.telefone}</td>
-        <td>${formatarMoeda(valor)}</td>
-        <td>${formatarData(aluno.vencimento)}</td>
-        <td>${status}</td>
+        <td class="center">${index + 1}</td>
+        <td class="strong">${escaparHTMLRelatorio(aluno.nome || "")}</td>
+        <td>${escaparHTMLRelatorio(telefone || "Sem WhatsApp")}</td>
+        <td>${escaparHTMLRelatorio(aluno.responsavel_nome || "")}</td>
+        <td>${escaparHTMLRelatorio(aluno.turma || "Sem turma")}</td>
+        <td>${escaparHTMLRelatorio(faixaGrau || "Não informado")}</td>
+        <td class="money">${formatarMoeda(item.valorMensalidade)}</td>
+        <td>${aluno.vencimento ? formatarData(aluno.vencimento) : ""}</td>
+        <td class="${classeStatus}">${statusTexto}</td>
+        <td class="money">${formatarMoeda(item.valorPago)}</td>
+        <td>${item.datasPagamento.length ? item.datasPagamento.map(formatarData).join(", ") : ""}</td>
+        <td class="center">${item.quantidadePagamentos}</td>
       </tr>`;
   }).join("");
 
   return `
-    <!DOCTYPE html>
-    <html lang="pt-BR">
+    <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
     <head>
       <meta charset="UTF-8">
-      <title>Relatório Mensalize - ${mesAno}</title>
+      <!--[if gte mso 9]>
+      <xml>
+        <x:ExcelWorkbook>
+          <x:ExcelWorksheets>
+            <x:ExcelWorksheet>
+              <x:Name>Financeiro</x:Name>
+              <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
+            </x:ExcelWorksheet>
+          </x:ExcelWorksheets>
+        </x:ExcelWorkbook>
+      </xml>
+      <![endif]-->
       <style>
-        body { font-family: Arial, sans-serif; color:#111827; }
-        h1 { color:#7c3aed; margin-bottom:4px; }
-        .sub { color:#6b7280; margin-bottom:20px; }
-        .resumo { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:20px; }
-        .box { border:1px solid #ddd; border-radius:10px; padding:10px; }
-        .box span { display:block; color:#6b7280; font-size:12px; }
-        .box strong { font-size:18px; }
-        table { width:100%; border-collapse:collapse; }
-        th { background:#7c3aed; color:white; text-align:left; }
-        th, td { border:1px solid #ddd; padding:8px; font-size:13px; }
-        tr:nth-child(even) { background:#f8f8ff; }
-        @media print { .no-print { display:none; } }
+        body { font-family: Arial, sans-serif; color: #111827; background: #ffffff; }
+        .titulo { font-size: 24px; font-weight: 800; color: #4c1d95; }
+        .subtitulo { color: #6b7280; font-size: 13px; }
+        .info { color: #374151; font-size: 12px; }
+        table { border-collapse: collapse; width: 100%; }
+        td, th { border: 1px solid #d9e2f3; padding: 8px; font-size: 12px; vertical-align: middle; }
+        th { background: #6d28d9; color: #ffffff; font-weight: 700; text-align: left; }
+        .resumo-label { background: #f3f4f6; color: #6b7280; font-weight: 700; text-transform: uppercase; font-size: 11px; }
+        .resumo-valor { background: #ffffff; font-size: 16px; font-weight: 800; color: #111827; }
+        .money { white-space: nowrap; mso-number-format:"\\0022R$\\0022\\ #,##0.00"; }
+        .center { text-align: center; }
+        .strong { font-weight: 700; }
+        .status-pago { background: #dcfce7; color: #166534; font-weight: 700; }
+        .status-pendente { background: #fef3c7; color: #92400e; font-weight: 700; }
+        .status-atrasado { background: #fee2e2; color: #991b1b; font-weight: 700; }
+        .zebra { background: #f8fafc; }
       </style>
     </head>
     <body>
-      <button class="no-print" onclick="window.print()">Salvar como PDF</button>
-      <h1>Relatório Mensalize</h1>
-      <div class="sub">${mesAno}</div>
-      <div class="resumo">
-        <div class="box"><span>Total de alunos</span><strong>${totalAlunosRel}</strong></div>
-        <div class="box"><span>Pagos</span><strong>${pagos}</strong></div>
-        <div class="box"><span>Pendentes</span><strong>${pendentes}</strong></div>
-        <div class="box"><span>Atrasados</span><strong>${atrasados}</strong></div>
-        <div class="box"><span>Recebido</span><strong>${formatarMoeda(recebido)}</strong></div>
-        <div class="box"><span>A receber</span><strong>${formatarMoeda(aReceber)}</strong></div>
-        <div class="box"><span>Previsão do mês</span><strong>${formatarMoeda(previsao)}</strong></div>
-      </div>
       <table>
-        <thead>
-          <tr><th>Nome</th><th>Telefone</th><th>Mensalidade</th><th>Vencimento</th><th>Status</th></tr>
-        </thead>
-        <tbody>${linhas}</tbody>
+        <tr>
+          <td colspan="12" class="titulo">Relatório Financeiro — ${escaparHTMLRelatorio(nomeEmpresa || "Mensalize")}</td>
+        </tr>
+        <tr>
+          <td colspan="12" class="subtitulo">Período: ${escaparHTMLRelatorio(tituloMes)} · Filtro: ${escaparHTMLRelatorio(statusFiltroTexto)} · Emitido em ${escaparHTMLRelatorio(dataEmissao)}</td>
+        </tr>
+        <tr><td colspan="12"></td></tr>
+        <tr>
+          <td class="resumo-label" colspan="2">Recebido</td>
+          <td class="resumo-label" colspan="2">A receber</td>
+          <td class="resumo-label" colspan="2">Previsão</td>
+          <td class="resumo-label" colspan="2">Pagos</td>
+          <td class="resumo-label" colspan="2">Pendentes</td>
+          <td class="resumo-label" colspan="2">Atrasados</td>
+        </tr>
+        <tr>
+          <td class="resumo-valor money" colspan="2">${formatarMoeda(dados.resumo.recebido)}</td>
+          <td class="resumo-valor money" colspan="2">${formatarMoeda(dados.resumo.aReceber)}</td>
+          <td class="resumo-valor money" colspan="2">${formatarMoeda(dados.resumo.previsao)}</td>
+          <td class="resumo-valor center" colspan="2">${dados.resumo.pagos}</td>
+          <td class="resumo-valor center" colspan="2">${dados.resumo.pendentes}</td>
+          <td class="resumo-valor center" colspan="2">${dados.resumo.atrasados}</td>
+        </tr>
+        <tr>
+          <td colspan="12" class="info">Total de alunos cadastrados: ${dados.resumo.totalAlunos} · Alunos exibidos neste relatório: ${dados.resumo.alunosNoRelatorio}</td>
+        </tr>
+        <tr><td colspan="12"></td></tr>
+        <tr>
+          <th>#</th>
+          <th>Aluno</th>
+          <th>WhatsApp</th>
+          <th>Responsável</th>
+          <th>Turma</th>
+          <th>Faixa/Grau</th>
+          <th>Mensalidade</th>
+          <th>Vencimento</th>
+          <th>Status</th>
+          <th>Valor pago no mês</th>
+          <th>Data(s) pagamento</th>
+          <th>Qtd. pag.</th>
+        </tr>
+        ${linhasTabela || `<tr><td colspan="12" class="center">Nenhum aluno encontrado para esse filtro.</td></tr>`}
       </table>
     </body>
     </html>`;
 }
 
-function montarRelatorioCSV() {
-  const cabecalho = ["Nome", "Telefone", "Mensalidade", "Vencimento", "Status", "Turma", "Faixa", "Grau"];
-  const linhas = alunos.map(aluno => {
-    const dias = calcularDias(aluno.vencimento);
-    const status = alunosPagosMes.has(String(aluno.id))
-      ? "Pago"
-      : dias < 0
-        ? `Atrasado há ${Math.abs(dias)} dias`
-        : dias === 0
-          ? "Vence hoje"
-          : "Pendente";
+async function exportarRelatorioFinanceiroPlanilha() {
+  if (!alunos || alunos.length === 0) {
+    mostrarToast("Nenhum aluno carregado para exportar.", "erro");
+    return;
+  }
 
-    return [
-      aluno.nome || "",
-      aluno.telefone || "",
-      formatarMoeda(aluno.valor),
-      aluno.vencimento ? formatarData(aluno.vencimento) : "",
-      status,
-      aluno.turma || "",
-      aluno.faixa || "",
-      aluno.grau || ""
-    ].map(campo => `"${String(campo).replace(/"/g, '""')}"`);
-  });
-
-  return [cabecalho, ...linhas].map(linha => linha.join(";")).join("\n");
-}
-
-if (btnExportar) {
-  btnExportar.addEventListener("click", function() {
-    const hoje = new Date();
-    const mesAno = hoje
-      .toLocaleString("pt-BR", { month: "long", year: "numeric" })
-      .replace(" ", "-");
-
-    const csv = montarRelatorioCSV();
-    const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+  try {
+    const dados = await obterDadosRelatorioFinanceiroSelecionado();
+    const html = montarRelatorioFinanceiroPlanilhaHTML(dados);
+    const nomeFiltro = dados.filtroStatus === "todos" ? "todos" : dados.filtroStatus;
+    const nomeArquivo = `mensalize-financeiro-${dados.periodo.mes}-${nomeFiltro}.xls`;
+    const blob = new Blob(["\ufeff" + html], { type: "application/vnd.ms-excel;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
 
     a.href = url;
-    a.download = `mensalize-relatorio-${mesAno}.csv`;
+    a.download = nomeArquivo;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    mostrarToast("📥 CSV gerado com sucesso!");
-  });
+    mostrarToast("📊 Planilha financeira gerada com sucesso!");
+  } catch (erro) {
+    console.log("Erro ao exportar planilha financeira:", erro?.message || erro);
+    mostrarToast("Erro ao gerar planilha financeira.", "erro");
+  }
+}
+
+if (btnExportar) {
+  btnExportar.addEventListener("click", exportarRelatorioFinanceiroPlanilha);
 }
 
 // ===============================

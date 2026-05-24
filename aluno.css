@@ -2078,3 +2078,234 @@ img.ranking-photo-big {
     width: 100%;
   }
 }
+
+/* ================================================================
+   FASE VISUAL PREMIUM v32 — ÁREA DO ALUNO CORPORATE CLEAN
+   Camada segura: somente refinamento visual.
+================================================================ */
+:root {
+  --premium-surface: rgba(15, 17, 28, 0.90);
+  --premium-surface-2: rgba(20, 22, 36, 0.94);
+  --premium-border: rgba(255, 255, 255, 0.09);
+  --premium-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% -8%, rgba(124, 58, 237, 0.18), transparent 34%),
+    radial-gradient(circle at 94% 12%, rgba(56, 189, 248, 0.07), transparent 28%),
+    linear-gradient(180deg, #070812 0%, #090a16 52%, #070812 100%) !important;
+}
+
+.student-sidebar {
+  background: linear-gradient(180deg, rgba(15, 17, 28, 0.985), rgba(8, 9, 18, 0.985)) !important;
+  border-right-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.student-brand,
+.student-menu-item,
+.student-topbar,
+.student-small-profile {
+  letter-spacing: -0.01em;
+}
+
+.student-brand {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.085) !important;
+}
+
+.student-menu-item {
+  min-height: 46px;
+  border-radius: 15px !important;
+  font-weight: 800;
+}
+
+.student-menu-item:hover,
+.student-menu-item.ativo {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.17), rgba(56, 189, 248, 0.055)) !important;
+  border-color: rgba(167, 139, 250, 0.22) !important;
+}
+
+.student-topbar {
+  background: rgba(8, 9, 18, 0.80) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.075) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.20);
+}
+
+.student-content {
+  max-width: 1040px !important;
+}
+
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card,
+.summary-box,
+.evolution-info,
+.photo-box,
+.status-message,
+.payment-item,
+.pix-box,
+.solicitar-pagamento-box,
+.ranking-home-card {
+  background: linear-gradient(180deg, var(--premium-surface-2), rgba(13, 15, 26, 0.92)) !important;
+  border-color: var(--premium-border) !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.20);
+}
+
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card {
+  border-radius: 24px !important;
+}
+
+.welcome-card h1,
+.status-hero h2,
+.section-title-row h2 {
+  letter-spacing: -0.055em;
+}
+
+.welcome-card p,
+.helper-text,
+.soft-message,
+.empty-message,
+.status-message,
+.photo-box p {
+  color: rgba(161, 161, 181, 0.92) !important;
+}
+
+.quick-grid,
+.finance-summary-grid,
+.student-evolution-grid {
+  gap: 12px !important;
+}
+
+.quick-card,
+.summary-box,
+.evolution-info {
+  border-radius: 18px !important;
+}
+
+.quick-card strong,
+.summary-price strong {
+  letter-spacing: -0.055em;
+}
+
+.primary-action,
+.secondary-action,
+.pay-button,
+.whatsapp-button,
+.share-button {
+  border-radius: 15px !important;
+  letter-spacing: -0.015em;
+}
+
+.primary-action,
+.pay-button {
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.20);
+}
+
+.secondary-action,
+.share-button {
+  background: rgba(255, 255, 255, 0.055) !important;
+  border-color: rgba(255, 255, 255, 0.095) !important;
+}
+
+.status-badge,
+.mini-badge {
+  min-height: 28px;
+  letter-spacing: 0.075em;
+}
+
+.student-form input,
+.student-form textarea,
+.photo-box input,
+.pix-box textarea {
+  background: rgba(5, 7, 14, 0.72) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  border-radius: 15px !important;
+}
+
+.student-form input:focus,
+.student-form textarea:focus,
+.pix-box textarea:focus {
+  border-color: rgba(167, 139, 250, 0.55) !important;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.14) !important;
+}
+
+.pix-box {
+  padding: 14px !important;
+  border-radius: 18px !important;
+  gap: 9px !important;
+}
+
+.pix-box h3 {
+  font-size: 16px !important;
+  letter-spacing: -0.04em;
+}
+
+.pix-box textarea {
+  min-height: 74px !important;
+  max-height: 116px;
+  font-size: 12px !important;
+}
+
+.solicitar-pagamento-box {
+  border-radius: 18px !important;
+  padding: 14px !important;
+}
+
+.payment-item {
+  border-radius: 16px !important;
+}
+
+.ranking-tabs {
+  gap: 8px !important;
+}
+
+.ranking-tab {
+  background: rgba(255, 255, 255, 0.055) !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+.ranking-tab.ativo {
+  background: rgba(124, 58, 237, 0.18) !important;
+  border-color: rgba(167, 139, 250, 0.25) !important;
+}
+
+.podium-card,
+.ranking-list-item,
+.ranking-student-row {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.062), rgba(255, 255, 255, 0.034)) !important;
+  border-color: rgba(255, 255, 255, 0.095) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.20);
+}
+
+.update-banner {
+  border-color: rgba(167, 139, 250, 0.24) !important;
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.38) !important;
+}
+
+@media (max-width: 640px) {
+  .student-content {
+    padding-top: 14px !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .summary-box,
+  .pix-box,
+  .solicitar-pagamento-box {
+    border-radius: 19px !important;
+  }
+
+  .section-title-row {
+    align-items: flex-start;
+  }
+
+  .pix-box textarea {
+    min-height: 70px !important;
+  }
+}

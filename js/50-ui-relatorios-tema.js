@@ -115,13 +115,28 @@ modalCobrar.addEventListener("click", e => { if (e.target === modalCobrar) modal
 
 const inputValor = document.getElementById("valorMensalidade");
 
-/** Permite apenas caracteres compatíveis com valor monetário. */
+/** Permite digitar valores quebrados como 19,99 ou 19.99 sem transformar em 1.999,00. */
 function limparCampoMoedaDuranteDigitacao(input) {
-  input.value = input.value.replace(/[^\d,.]/g, "");
+  if (!input) return;
+
+  let valor = String(input.value || "").replace(/[^\d,.]/g, "");
+
+  // Mantém somente um separador decimal enquanto digita.
+  const ultimoSeparador = Math.max(valor.lastIndexOf(","), valor.lastIndexOf("."));
+  if (ultimoSeparador !== -1) {
+    const antes = valor.slice(0, ultimoSeparador).replace(/[,.]/g, "");
+    const separador = valor[ultimoSeparador];
+    const depois = valor.slice(ultimoSeparador + 1).replace(/[,.]/g, "").slice(0, 2);
+    valor = `${antes}${separador}${depois}`;
+  }
+
+  input.value = valor;
 }
 
 /** Formata campo de valor ao sair do input. */
 function formatarCampoMoeda(input) {
+  if (!input) return;
+
   const numero = valorParaNumero(input.value);
 
   if (!numero) {
@@ -132,13 +147,18 @@ function formatarCampoMoeda(input) {
   input.value = formatarMoeda(numero);
 }
 
-inputValor.addEventListener("input", function() {
-  limparCampoMoedaDuranteDigitacao(this);
-});
+if (inputValor) {
+  inputValor.setAttribute("inputmode", "decimal");
+  inputValor.setAttribute("autocomplete", "off");
 
-inputValor.addEventListener("blur", function() {
-  formatarCampoMoeda(this);
-});
+  inputValor.addEventListener("input", function() {
+    limparCampoMoedaDuranteDigitacao(this);
+  });
+
+  inputValor.addEventListener("blur", function() {
+    formatarCampoMoeda(this);
+  });
+}
 
 
 // ===============================
@@ -389,6 +409,9 @@ if (btnCancelarEdicaoRapida) btnCancelarEdicaoRapida.addEventListener("click", f
 if (modalEdicaoRapida) modalEdicaoRapida.addEventListener("click", e => { if (e.target === modalEdicaoRapida) fecharEdicaoRapida(); });
 
 if (edicaoRapidaValor) {
+  edicaoRapidaValor.setAttribute("inputmode", "decimal");
+  edicaoRapidaValor.setAttribute("autocomplete", "off");
+
   edicaoRapidaValor.addEventListener("input", function() {
     limparCampoMoedaDuranteDigitacao(this);
   });

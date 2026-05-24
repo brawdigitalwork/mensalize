@@ -63,6 +63,15 @@ let rankingTurmaAtivo = true;
 let rankingTurmasAtivo = true;
 let rankingMinimoAulas = 4;
 
+
+let planoAtual = "trial";
+let statusConta = "ativo";
+let podeUsarSistema = true;
+
+let moduloRankingAtivo = true;
+let moduloDesafioAtivo = true;
+let moduloTurmasAtivo = true;
+
 // Estado centralizado: mantém um ponto único para depuração e próximas evoluções.
 const estado = window.estado = {
   usuario: null,
@@ -223,6 +232,7 @@ const viewPerfil = document.getElementById("viewPerfil");
 const btnNavDashboard = document.getElementById("btnNavDashboard");
 const btnNavAlunos = document.getElementById("btnNavAlunos");
 const btnNavFinanceiro = document.getElementById("btnNavFinanceiro");
+const btnNavDesafio = document.getElementById("btnNavDesafio");
 const btnNavPerfil = document.getElementById("btnNavPerfil");
 const btnAbrirMenu = document.getElementById("btnAbrirMenu");
 const menuOverlay = document.getElementById("menuOverlay");
@@ -236,6 +246,7 @@ const nomeClienteDashboard = document.getElementById("nomeClienteDashboard");
 const formPerfil = document.getElementById("formPerfil");
 const perfilNomeEmpresa = document.getElementById("perfilNomeEmpresa");
 const perfilWhatsApp = document.getElementById("perfilWhatsApp");
+const perfilPixCopiaCola = document.getElementById("perfilPixCopiaCola");
 const msgPerfil = document.getElementById("msgPerfil");
 const btnNavEvolucao = document.getElementById("btnNavEvolucao");
 const btnNavAvisos = document.getElementById("btnNavAvisos");
@@ -325,7 +336,9 @@ const novaFaixaGraduacao = document.getElementById("novaFaixaGraduacao");
 const novoGrauGraduacao = document.getElementById("novoGrauGraduacao");
 const dataGraduacaoRegistro = document.getElementById("dataGraduacaoRegistro");
 const observacaoGraduacao = document.getElementById("observacaoGraduacao");
-
+const viewDesafio = document.getElementById("viewDesafio");
+const listaRankingDesafioProfessor = document.getElementById("listaRankingDesafioProfessor");
+const btnAtualizarDesafio = document.getElementById("btnAtualizarDesafio");
 
 // ===============================
 // 06. UTILITÁRIOS — VALORES / MOEDA
@@ -336,37 +349,54 @@ const observacaoGraduacao = document.getElementById("observacaoGraduacao");
  * Exemplos: "R$ 100,00" -> 100 | "1.000,50" -> 1000.5
  */
 function valorParaNumero(valor) {
-  if (typeof valor === "number") return valor;
+  if (typeof valor === "number") return Number.isFinite(valor) ? valor : 0;
 
   let texto = String(valor || "").trim();
   if (!texto) return 0;
 
-  // Remove R$, espaços e qualquer caractere que não seja número, vírgula, ponto ou sinal negativo
-  texto = texto.replace(/[R$\s]/g, "").replace(/[^\d,.-]/g, "");
+  texto = texto
+    .replace(/R\$/gi, "")
+    .replace(/\s/g, "")
+    .replace(/[^\d,.-]/g, "");
 
-  const temVirgula = texto.includes(",");
-  const temPonto = texto.includes(".");
+  if (!texto || texto === "," || texto === "." || texto === "-" || texto === "-," || texto === "-.") {
+    return 0;
+  }
 
-  if (temVirgula) {
-    // Formato brasileiro: 1.000,50 -> 1000.50
-    texto = texto.replace(/\./g, "").replace(",", ".");
+  const negativo = texto.startsWith("-");
+  texto = texto.replace(/-/g, "");
+
+  const ultimaVirgula = texto.lastIndexOf(",");
+  const ultimoPonto = texto.lastIndexOf(".");
+  const temVirgula = ultimaVirgula !== -1;
+  const temPonto = ultimoPonto !== -1;
+
+  if (temVirgula && temPonto) {
+    // Usa o último separador como decimal: 1.234,56 ou 1,234.56.
+    const indiceDecimal = Math.max(ultimaVirgula, ultimoPonto);
+    const inteiro = texto.slice(0, indiceDecimal).replace(/[,.]/g, "");
+    const decimal = texto.slice(indiceDecimal + 1).replace(/[,.]/g, "");
+    texto = `${inteiro}.${decimal}`;
+  } else if (temVirgula) {
+    // No sistema brasileiro, vírgula é decimal: 19,99 -> 19.99.
+    const partes = texto.split(",");
+    const decimal = partes.pop() || "";
+    const inteiro = partes.join("").replace(/\./g, "");
+    texto = `${inteiro}.${decimal}`;
   } else if (temPonto) {
     const partes = texto.split(".");
-    const ultimaParte = partes[partes.length - 1];
+    const ultimaParte = partes[partes.length - 1] || "";
 
-    if (partes.length > 2) {
-      // Exemplo: 1.000.000 -> 1000000
-      texto = texto.replace(/\./g, "");
-    } else if (ultimaParte.length === 2) {
-      // Exemplo: 100.00 -> 100.00
-      texto = texto;
+    if (partes.length === 2 && ultimaParte.length <= 2) {
+      // Permite ponto como decimal também: 19.99 ou 19.9.
+      texto = `${partes[0]}.${ultimaParte}`;
     } else {
-      // Exemplo: 10.000 -> 10000
+      // Pontos com 3 dígitos finais continuam sendo milhar: 10.000 -> 10000.
       texto = texto.replace(/\./g, "");
     }
   }
 
-  const numero = Number(texto);
+  const numero = Number(`${negativo ? "-" : ""}${texto}`);
   return Number.isFinite(numero) ? numero : 0;
 }
 

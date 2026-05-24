@@ -1977,3 +1977,70 @@ img.ranking-photo-big {
 .photo-editor-card .soft-message {
   min-height: 20px;
 }
+
+
+/* ================================================================
+   PIX COPIA E COLA — FINANCEIRO DO ALUNO
+================================================================ */
+.pix-box {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  padding: 14px;
+}
+
+.pix-box h3 {
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.pix-box p {
+  color: var(--texto-secundario);
+}
+
+.pix-box textarea {
+  width: 100%;
+  min-height: 96px;
+  resize: vertical;
+  border-radius: var(--raio-md);
+  border: 1px solid var(--borda);
+  background: rgba(0,0,0,0.18);
+  color: var(--texto-primario);
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* ================================================================
+   AJUSTE 2026.05.24 — Pix mais compacto no financeiro do aluno
+================================================================ */
+.pix-box {
+  gap: 8px !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+}
+
+.pix-box h3 {
+  font-size: 16px !important;
+}
+
+.pix-box p {
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+
+.pix-box textarea {
+  min-height: 68px !important;
+  max-height: 120px;
+  font-size: 12px !important;
+  padding: 10px !important;
+  resize: vertical;
+}
+
+.pix-box .primary-action {
+  min-height: 42px;
+  padding: 10px 13px;
+}

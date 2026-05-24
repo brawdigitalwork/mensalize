@@ -67,6 +67,14 @@ async function carregarAlunos() {
   if (typeof mostrarBannerVencimentos === "function") {
     mostrarBannerVencimentos();
   }
+
+  if (typeof carregarRankingDashboard === "function") {
+    await carregarRankingDashboard();
+  }
+
+  if (typeof renderizarDesafioPresencaProfessor === "function") {
+    renderizarDesafioPresencaProfessor();
+  }
 }
 
 // ===============================

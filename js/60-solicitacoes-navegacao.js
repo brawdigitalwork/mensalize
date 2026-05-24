@@ -202,10 +202,26 @@ async function recusarSolicitacaoAlteracao(id) {
 // 31. NAVEGAÇÃO PRINCIPAL — SIDEBAR
 // ===============================
 function abrirViewPrincipal(view) {
+
+  // =====================================================
+// PROTEÇÃO SaaS — MÓDULOS
+// =====================================================
+
+if (view === "desafio" && !moduloDesafioAtivo) {
+  mostrarToast("Seu plano não possui acesso ao módulo Desafio.", "erro");
+  return;
+}
+
+if (view === "turmas" && !moduloTurmasAtivo) {
+  mostrarToast("Seu plano não possui acesso ao módulo Turmas.", "erro");
+  return;
+}
+
   const views = {
     dashboard: viewDashboard,
     alunos: viewAlunos,
     financeiro: viewFinanceiro,
+    desafio: viewDesafio,
     evolucao: viewEvolucao,
     presencas: viewPresencas,
     turmas: viewTurmas,
@@ -229,6 +245,7 @@ function abrirViewPrincipal(view) {
     dashboard: ["Início", "Tudo que você precisa acompanhar hoje em um só lugar."],
     alunos: ["Alunos", "Consulte, filtre e gerencie todos os alunos cadastrados."],
     financeiro: ["Financeiro", "Acompanhe recebimentos, previsão mensal e relatórios."],
+    desafio: ["Desafio", "Acompanhe o ranking de presença dos alunos e turmas."],
     evolucao: ["Evolução", "Acompanhe graduações, alunos aptos e próximos da avaliação."],
     presencas: ["Presenças", "Faça a chamada do dia separada por turma."],
     turmas: ["Turmas", "Organize dias de aula e cancele aulas sem afetar a frequência."],
@@ -243,6 +260,9 @@ function abrirViewPrincipal(view) {
 
   if (view === "financeiro" && typeof carregarGrafico === "function") {
     carregarGrafico();
+  }
+  if (view === "desafio" && typeof atualizarDesafioPresencaProfessor === "function") {
+    atualizarDesafioPresencaProfessor();
   }
   if (view === "evolucao") {
     renderizarEvolucao();
@@ -298,6 +318,8 @@ function inicializarNavegacaoPrincipal() {
   if (btnNavDashboard) btnNavDashboard.addEventListener("click", () => abrirViewPrincipal("dashboard"));
   if (btnNavAlunos) btnNavAlunos.addEventListener("click", () => abrirViewPrincipal("alunos"));
   if (btnNavFinanceiro) btnNavFinanceiro.addEventListener("click", () => abrirViewPrincipal("financeiro"));
+  const botaoNavDesafio = document.getElementById("btnNavDesafio");
+  if (botaoNavDesafio) botaoNavDesafio.addEventListener("click", () => abrirViewPrincipal("desafio"));
   if (btnNavEvolucao) btnNavEvolucao.addEventListener("click", () => abrirViewPrincipal("evolucao"));
   if (btnNavPresencas) btnNavPresencas.addEventListener("click", () => abrirViewPrincipal("presencas"));
   if (btnNavTurmas) btnNavTurmas.addEventListener("click", () => abrirViewPrincipal("turmas"));
@@ -341,12 +363,8 @@ async function salvarPerfilProfessor(event) {
 
   const nome = perfilNomeEmpresa ? perfilNomeEmpresa.value.trim() : "";
   const whatsapp = perfilWhatsApp ? limparNumeroWhatsApp(perfilWhatsApp.value) : "";
-  const presencaMinima = perfilPresencaMinima && perfilPresencaMinima.value ? Math.max(0, Math.min(100, Number(perfilPresencaMinima.value))) : 70;
-  const periodoFreq = perfilPeriodoFrequencia && perfilPeriodoFrequencia.value ? Math.max(1, Math.min(24, Number(perfilPeriodoFrequencia.value))) : 6;
-  const rankingGeral = perfilRankingGeral ? perfilRankingGeral.checked : true;
-  const rankingTurma = perfilRankingTurma ? perfilRankingTurma.checked : true;
-  const rankingTurmas = perfilRankingTurmas ? perfilRankingTurmas.checked : true;
-  const rankingMinimo = perfilRankingMinimoAulas && perfilRankingMinimoAulas.value ? Math.max(1, Math.min(31, Number(perfilRankingMinimoAulas.value))) : 4;
+  const campoPixCopiaCola = document.getElementById("perfilPixCopiaCola");
+  const pixCopiaCola = campoPixCopiaCola ? campoPixCopiaCola.value.trim() : "";
 
   if (!nome) {
     if (msgPerfil) msgPerfil.textContent = "Informe o nome da empresa ou academia.";
@@ -360,20 +378,14 @@ async function salvarPerfilProfessor(event) {
     return;
   }
 
+  // A tela de Perfil do professor agora salva somente dados públicos.
+  // Planos, módulos, ranking e permissões ficam sob controle do Admin.
   const { error } = await supabaseClient
     .from("profiles")
     .update({
       nome_empresa: nome,
       whatsapp_professor: whatsapp || null,
-      modulo_evolucao: perfilModuloEvolucao ? perfilModuloEvolucao.checked : true,
-      modulo_presenca: perfilModuloPresenca ? perfilModuloPresenca.checked : false,
-      modulo_avisos: perfilModuloAvisos ? perfilModuloAvisos.checked : false,
-      presenca_minima_percentual: presencaMinima,
-      frequencia_periodo_meses: periodoFreq,
-      ranking_geral_ativo: rankingGeral,
-      ranking_turma_ativo: rankingTurma,
-      ranking_turmas_ativo: rankingTurmas,
-      ranking_minimo_aulas: rankingMinimo
+      pix_copia_cola: pixCopiaCola || null
     })
     .eq("id", usuarioAtual.id);
 
@@ -384,18 +396,7 @@ async function salvarPerfilProfessor(event) {
   }
 
   nomeEmpresa = nome;
-  moduloEvolucaoAtivo = perfilModuloEvolucao ? perfilModuloEvolucao.checked : true;
-  moduloPresencaAtivo = perfilModuloPresenca ? perfilModuloPresenca.checked : false;
-  moduloAvisosAtivo = perfilModuloAvisos ? perfilModuloAvisos.checked : false;
-  presencaMinimaPercentual = presencaMinima;
-  frequenciaPeriodoMeses = periodoFreq;
-  rankingGeralAtivo = rankingGeral;
-  rankingTurmaAtivo = rankingTurma;
-  rankingTurmasAtivo = rankingTurmas;
-  rankingMinimoAulas = rankingMinimo;
-  aplicarModulosInterface();
   sincronizarEstado();
-  if (typeof carregarDadosFrequencia === "function") carregarDadosFrequencia().then(() => { if (typeof renderizarEvolucao === "function") renderizarEvolucao(); });
 
   if (nomeClienteDashboard) {
     nomeClienteDashboard.textContent = nome;
@@ -403,6 +404,10 @@ async function salvarPerfilProfessor(event) {
 
   if (perfilWhatsApp) {
     perfilWhatsApp.value = whatsapp;
+  }
+
+  if (campoPixCopiaCola) {
+    campoPixCopiaCola.value = pixCopiaCola;
   }
 
   if (msgPerfil) {

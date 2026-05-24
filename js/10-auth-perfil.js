@@ -56,16 +56,42 @@ async function carregarPerfil() {
   usuarioEhAdmin = false;
   limiteAlunos = 30;
 
-  const { data, error } = await supabaseClient
-    .from("profiles")
-    .select("is_admin, limite_alunos, nome_empresa, whatsapp_professor, modulo_evolucao, modulo_presenca, modulo_avisos, presenca_minima_percentual, frequencia_periodo_meses, ranking_geral_ativo, ranking_turma_ativo, ranking_turmas_ativo, ranking_minimo_aulas")
-    .eq("id", usuarioAtual.id)
-    .single();
+const { data, error } = await supabaseClient
+  .from("profiles")
+  .select(`
+    is_admin,
+    limite_alunos,
+    nome_empresa,
+    whatsapp_professor,
+    pix_copia_cola,
 
-  if (error) {
-    console.log("Erro ao carregar perfil:", error.message);
-    return;
-  }
+    modulo_evolucao,
+    modulo_presenca,
+    modulo_avisos,
+
+    modulo_ranking,
+    modulo_desafio,
+    modulo_turmas,
+
+    plano,
+    status,
+    pode_usar,
+
+    presenca_minima_percentual,
+    frequencia_periodo_meses,
+
+    ranking_geral_ativo,
+    ranking_turma_ativo,
+    ranking_turmas_ativo,
+    ranking_minimo_aulas
+  `)
+  .eq("id", usuarioAtual.id)
+  .single();
+
+if (error) {
+  console.log("Erro ao carregar perfil:", error.message);
+  return;
+}
 
   usuarioEhAdmin = data.is_admin === true;
   limiteAlunos = data.limite_alunos || 30;
@@ -84,6 +110,10 @@ async function carregarPerfil() {
     perfilWhatsApp.value = data.whatsapp_professor || "";
   }
 
+  if (perfilPixCopiaCola) {
+    perfilPixCopiaCola.value = data.pix_copia_cola || "";
+  }
+
   moduloEvolucaoAtivo = data.modulo_evolucao !== false;
   moduloPresencaAtivo = data.modulo_presenca === true;
   moduloAvisosAtivo = data.modulo_avisos === true;
@@ -94,6 +124,14 @@ async function carregarPerfil() {
   rankingTurmaAtivo = data.ranking_turma_ativo !== false;
   rankingTurmasAtivo = data.ranking_turmas_ativo !== false;
   rankingMinimoAulas = Number(data.ranking_minimo_aulas || 4);
+
+planoAtual = data.plano || "trial";
+statusConta = data.status || "ativo";
+podeUsarSistema = data.pode_usar !== false;
+
+moduloRankingAtivo = data.modulo_ranking !== false;
+moduloDesafioAtivo = data.modulo_desafio !== false;
+moduloTurmasAtivo = data.modulo_turmas !== false;
 
   if (perfilModuloEvolucao) perfilModuloEvolucao.checked = moduloEvolucaoAtivo;
   if (perfilModuloPresenca) perfilModuloPresenca.checked = moduloPresencaAtivo;
@@ -107,10 +145,28 @@ async function carregarPerfil() {
   aplicarModulosInterface();
   sincronizarEstado();
 
+    const btnDesafio = document.getElementById("btnNavDesafio");
+  const btnTurmas = document.getElementById("btnNavTurmas");
+
+if (btnDesafio) {
+  btnDesafio.classList.toggle(
+    "escondido",
+    !moduloDesafioAtivo
+  );
+}
+
+if (btnTurmas) {
+  btnTurmas.classList.toggle(
+    "escondido",
+    !moduloTurmasAtivo
+  );
+}
+
   if (usuarioEhAdmin) {
     btnAdmin.classList.remove("escondido");
   }
 }
+
 
 // ===============================
 // CRIAR CONTA
@@ -143,6 +199,8 @@ btnEntrar.addEventListener("click", async function() {
 
   usuarioAtual = data.user;
   sincronizarEstado();
+
+
 
   await mostrarApp();
   await carregarAlunos();

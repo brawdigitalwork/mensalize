@@ -55,14 +55,21 @@
 
       <nav class="sidebar-menu" aria-label="Menu principal">
         <button type="button" id="btnNavDashboard" class="menu-item ativo" data-view="dashboard">🏠 Início</button>
-        <button type="button" id="btnNavAlunos" class="menu-item" data-view="alunos">👥 Alunos</button>
         <button type="button" id="btnNavCadastrar" class="menu-item">➕ Novo aluno</button>
+        <button type="button" id="btnNavAlunos" class="menu-item" data-view="alunos">👥 Alunos</button>
         <button type="button" id="btnNavFinanceiro" class="menu-item" data-view="financeiro">💰 Financeiro</button>
+        <button type="button" id="btnNavTurmas" class="menu-item modulo-presenca" data-view="turmas">📚 Turmas</button>
+        <button type="button" id="btnNavAvisos" class="menu-item modulo-avisos" data-view="avisos">📣 Avisos</button>
         <button type="button" id="btnNavEvolucao" class="menu-item modulo-evolucao" data-view="evolucao">🥋 Evolução</button>
         <button type="button" id="btnNavPresencas" class="menu-item modulo-presenca" data-view="presencas">✅ Presenças</button>
-        <button type="button" id="btnNavTurmas" class="menu-item modulo-presenca" data-view="turmas">📚 Turmas</button>
+
+        <button type="button" id="btnNavDesafio"
+        class="menu-item"
+        data-view="desafio">
+        🏆 Desafio
+        </button>
+
         <button type="button" id="btnNavAniversariantes" class="menu-item" data-view="aniversariantes">🎂 Aniversariantes</button>
-        <button type="button" id="btnNavAvisos" class="menu-item modulo-avisos" data-view="avisos">📣 Avisos</button>
         <button type="button" id="btnNavSolicitacoes" class="menu-item" data-view="solicitacoes">📝 Solicitações</button>
         <button type="button" id="btnNavPerfil" class="menu-item" data-view="perfil">👤 Perfil</button>
       </nav>
@@ -224,7 +231,24 @@
                 </div>
               </div>
             </article>
-</section>
+
+            <article class="painel-card painel-desafio">
+              <div class="painel-topo">
+                <div>
+                  <span class="page-eyebrow">Ranking</span>
+                  <h2>Desafio de presença</h2>
+                  <p>Acompanhe os alunos com mais presença do mês.</p>
+                </div>
+              </div>
+
+              <div id="dashboardRankingPresenca">
+                <div class="empty-state-mini">
+                  Carregando ranking...
+                </div>
+              </div>
+            </article>
+
+          </section>
         </section>
 
         <section id="viewAlunos" class="view-app">
@@ -551,6 +575,28 @@
           </section>
         </section>
 
+        <section id="viewDesafio" class="view-app">
+          <section class="painel-card desafio-page">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Desafio</span>
+                <h2>Desafio de presença</h2>
+                <p>Acompanhe o ranking de presença dos alunos e das turmas no período configurado.</p>
+              </div>
+              <button type="button" id="btnAtualizarDesafio" class="acao-secundaria">Atualizar ranking</button>
+            </div>
+
+            <div class="ranking-tabs">
+              <button type="button" class="ranking-tab ativo" data-ranking-professor="geral">Geral</button>
+              <button type="button" class="ranking-tab" data-ranking-professor="turmas">Turmas</button>
+            </div>
+
+            <div id="listaRankingDesafioProfessor" class="lista-evolucao">
+              <div class="empty-state-mini">Carregando ranking...</div>
+            </div>
+          </section>
+        </section>
+
         <section id="viewAvisos" class="view-app">
           <section class="painel-card avisos-page">
             <div class="painel-topo">
@@ -618,16 +664,16 @@
         </section>
 
         <section id="viewPerfil" class="view-app">
-          <section class="painel-card perfil-page">
-            <div class="painel-topo">
+          <section class="painel-card perfil-page perfil-page-clean">
+            <div class="painel-topo perfil-topo-clean">
               <div>
                 <span class="page-eyebrow">Perfil</span>
-                <h2>Dados do professor</h2>
-                <p>Essas informações aparecem na página do aluno e no contato pelo WhatsApp.</p>
+                <h2>Dados públicos do professor</h2>
+                <p>Atualize os dados que aparecem para os alunos na área pública.</p>
               </div>
             </div>
 
-            <form id="formPerfil" class="perfil-form">
+            <form id="formPerfil" class="perfil-form perfil-form-clean">
               <label class="campo-perfil">
                 <span>Nome da empresa / academia</span>
                 <input type="text" id="perfilNomeEmpresa" placeholder="Ex: Academia Nuti Jiu-Jitsu">
@@ -638,43 +684,15 @@
                 <input type="tel" id="perfilWhatsApp" placeholder="Ex: 31999999999">
               </label>
 
-              <div class="perfil-ajuda">
-                Use somente números com DDD. Exemplo: <strong>31999999999</strong>.
-                A página do aluno usará esse número no botão <strong>Falar com professor</strong>.
-              </div>
+              <label class="campo-perfil perfil-pix-compacto">
+                <span>Pix copia e cola</span>
+                <textarea id="perfilPixCopiaCola" rows="2" placeholder="Cole aqui o Pix copia e cola"></textarea>
+              </label>
 
-              <div class="perfil-recursos">
-                <span class="perfil-recursos-titulo">Recursos do sistema</span>
-                <label><input type="checkbox" id="perfilModuloEvolucao" checked> Ativar módulo de evolução/graduação</label>
-                <label><input type="checkbox" id="perfilModuloPresenca"> Ativar presença e aula experimental</label>
-                <label><input type="checkbox" id="perfilModuloAvisos"> Ativar avisos por turma</label>
+              <div class="perfil-actions campo-cheio">
+                <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
+                <p id="msgPerfil" class="msg-perfil"></p>
               </div>
-
-              <div class="perfil-recursos">
-                <span class="perfil-recursos-titulo">Frequência e graduação</span>
-                <label class="campo-perfil">
-                  <span>Presença mínima para avaliação (%)</span>
-                  <input type="number" id="perfilPresencaMinima" min="0" max="100" value="70">
-                </label>
-                <label class="campo-perfil">
-                  <span>Período analisado em meses</span>
-                  <input type="number" id="perfilPeriodoFrequencia" min="1" max="24" value="6">
-                </label>
-              </div>
-
-              <div class="perfil-recursos">
-                <span class="perfil-recursos-titulo">Ranking de presença</span>
-                <label><input type="checkbox" id="perfilRankingGeral" checked> Ativar ranking geral da academia</label>
-                <label><input type="checkbox" id="perfilRankingTurma" checked> Ativar ranking da turma do aluno</label>
-                <label><input type="checkbox" id="perfilRankingTurmas" checked> Ativar ranking entre turmas</label>
-                <label class="campo-perfil">
-                  <span>Mínimo de aulas válidas para entrar no ranking</span>
-                  <input type="number" id="perfilRankingMinimoAulas" min="1" max="31" value="4">
-                </label>
-              </div>
-
-              <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
-              <p id="msgPerfil" class="msg-perfil"></p>
             </form>
           </section>
         </section>
@@ -801,7 +819,7 @@
 
     <label class="input-group">
       <span>Mensalidade</span>
-      <input type="text" id="valorMensalidade" placeholder="R$ 0,00" required inputmode="numeric">
+      <input type="text" id="valorMensalidade" placeholder="R$ 0,00" required inputmode="decimal" autocomplete="off">
     </label>
 
     <label class="input-group">
@@ -989,7 +1007,7 @@
       <input type="hidden" id="edicaoRapidaAlunoId">
       <label class="campo-perfil">
         <span>Valor da mensalidade</span>
-        <input type="text" id="edicaoRapidaValor" placeholder="R$ 0,00">
+        <input type="text" id="edicaoRapidaValor" placeholder="R$ 0,00" inputmode="decimal" autocomplete="off">
       </label>
       <label class="campo-perfil">
         <span>Vencimento</span>

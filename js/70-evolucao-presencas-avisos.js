@@ -167,6 +167,7 @@ async function salvarGraduacao() {
   if (modalGraduacao) modalGraduacao.classList.add("escondido");
   mostrarToast("Graduação registrada com sucesso!");
   await carregarAlunos();
+  await carregarRankingDashboard();
   renderizarEvolucao();
 }
 
@@ -541,3 +542,278 @@ window.MensalizeApp = {
   aplicarFiltroUsuario,
   executarQuery
 };
+
+let rankingProfessorAtual = "geral";
+
+function obterPresencasPorAluno() {
+  const mapa = new Map();
+
+  (presencasPeriodo || []).forEach(presenca => {
+    if (presenca.presente !== true) return;
+
+    const alunoId = String(presenca.aluno_id);
+    mapa.set(alunoId, (mapa.get(alunoId) || 0) + 1);
+  });
+
+  return mapa;
+}
+
+function obterRankingGeralProfessor() {
+  const presencasPorAluno = obterPresencasPorAluno();
+
+  return (alunos || [])
+    .filter(aluno => String(aluno.status_aluno || "ativo").toLowerCase() !== "inativo")
+    .map(aluno => ({
+      id: aluno.id,
+      nome: aluno.nome,
+      turma: aluno.turma || "Sem turma",
+      foto_url: aluno.foto_url || "",
+      presencas: presencasPorAluno.get(String(aluno.id)) || 0
+    }))
+    .filter(item => item.presencas > 0)
+    .sort((a, b) => b.presencas - a.presencas || String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+}
+
+function obterRankingTurmasProfessor() {
+  const mapa = new Map();
+
+  (presencasPeriodo || []).forEach(presenca => {
+    if (presenca.presente !== true) return;
+
+    const aluno = (alunos || []).find(a => String(a.id) === String(presenca.aluno_id));
+    const turma = presenca.turma || aluno?.turma || "Sem turma";
+
+    if (!mapa.has(turma)) {
+      mapa.set(turma, {
+        nome: turma,
+        presencas: 0,
+        alunos: new Set()
+      });
+    }
+
+    const item = mapa.get(turma);
+    item.presencas += 1;
+    item.alunos.add(String(presenca.aluno_id));
+  });
+
+  return [...mapa.values()]
+    .map(item => ({
+      nome: item.nome,
+      presencas: item.presencas,
+      totalAlunos: item.alunos.size
+    }))
+    .sort((a, b) => b.presencas - a.presencas || String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+}
+
+function textoPosicaoRankingProfessor(posicao) {
+  if (Number(posicao) === 1) return "🥇";
+  if (Number(posicao) === 2) return "🥈";
+  if (Number(posicao) === 3) return "🥉";
+  return `${posicao}º`;
+}
+
+function primeiraLetraRankingProfessor(texto) {
+  return String(texto || "A").trim().charAt(0).toUpperCase() || "A";
+}
+
+function nomeCurtoRankingProfessor(nome) {
+  const partes = String(nome || "Aluno").trim().split(/\s+/).filter(Boolean);
+  if (partes.length <= 1) return partes[0] || "Aluno";
+  return `${partes[0]} ${partes[partes.length - 1]}`;
+}
+
+function criarAvatarRankingProfessor(item, grande = false) {
+  const foto = item.foto_url || "";
+  const nome = item.nome || item.nome_turma || "T";
+
+  if (foto) {
+    return `<img src="${foto}" alt="${nome}" class="ranking-photo ${grande ? "ranking-photo-big" : ""}">`;
+  }
+
+  return `<div class="ranking-avatar ${grande ? "ranking-avatar-big" : ""}">${primeiraLetraRankingProfessor(nome)}</div>`;
+}
+
+function normalizarItensRankingProfessor(lista) {
+  return (lista || []).map((item, index) => ({
+    ...item,
+    posicao: index + 1,
+    nome_turma: item.nome_turma || item.nome,
+  }));
+}
+
+function renderizarPodioRankingProfessor(lista) {
+  const normalizada = normalizarItensRankingProfessor(lista);
+  const top = normalizada.slice(0, 3);
+
+  if (!top.length) {
+    return `<div class="empty-state-mini">Nenhuma presença registrada no período ainda.</div>`;
+  }
+
+  const mapa = { 1: null, 2: null, 3: null };
+  top.forEach(item => {
+    mapa[Number(item.posicao)] = item;
+  });
+
+  const ordem = [2, 1, 3].filter(pos => mapa[pos]);
+
+  return `
+    <div class="ranking-podium desafio-ranking-podium">
+      ${ordem.map(pos => {
+        const item = mapa[pos];
+        const primeiro = Number(item.posicao) === 1;
+        const ehTurma = rankingProfessorAtual === "turmas" || Object.prototype.hasOwnProperty.call(item, "totalAlunos");
+        const nome = ehTurma ? (item.nome || item.nome_turma || "Turma") : nomeCurtoRankingProfessor(item.nome);
+        const detalhe = ehTurma
+          ? `${item.presencas} presença${item.presencas === 1 ? "" : "s"}`
+          : `${item.presencas} presença${item.presencas === 1 ? "" : "s"}`;
+        const sub = ehTurma
+          ? `${item.totalAlunos || 0} aluno${Number(item.totalAlunos || 0) === 1 ? "" : "s"}`
+          : (item.turma || "Sem turma");
+
+        return `
+          <div class="podium-card ${primeiro ? "podium-first" : ""}">
+            <span class="podium-medal">${textoPosicaoRankingProfessor(item.posicao)}</span>
+            ${ehTurma ? `<div class="ranking-avatar ${primeiro ? "ranking-avatar-big" : ""}">${primeiraLetraRankingProfessor(nome)}</div>` : criarAvatarRankingProfessor(item, primeiro)}
+            <strong>${nome}</strong>
+            <small>${detalhe}</small>
+            <span class="ranking-subtext">${sub}</span>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderizarListaRankingProfessor(lista) {
+  const normalizada = normalizarItensRankingProfessor(lista).slice(3);
+  if (!normalizada.length) return "";
+
+  return `
+    <div class="desafio-ranking-lista">
+      ${normalizada.map(item => {
+        const ehTurma = rankingProfessorAtual === "turmas" || Object.prototype.hasOwnProperty.call(item, "totalAlunos");
+        const nome = ehTurma ? (item.nome || item.nome_turma || "Turma") : item.nome;
+        const detalhe = ehTurma
+          ? `${item.totalAlunos || 0} aluno${Number(item.totalAlunos || 0) === 1 ? "" : "s"} com presença`
+          : (item.turma || "Sem turma");
+
+        return `
+          <div class="evolucao-item desafio-ranking-item">
+            <div>
+              <strong>${item.posicao}º ${nome}</strong>
+              <span>${detalhe}</span>
+              <small>${item.presencas} presença${item.presencas === 1 ? "" : "s"} no período</small>
+            </div>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderizarDesafioPresencaProfessor() {
+  const container = document.getElementById("listaRankingDesafioProfessor");
+  if (!container) return;
+
+  const lista = rankingProfessorAtual === "turmas"
+    ? obterRankingTurmasProfessor()
+    : obterRankingGeralProfessor();
+
+  if (!lista.length) {
+    container.innerHTML = `
+      <div class="empty-state-mini">
+        Nenhuma presença registrada no período ainda.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    ${renderizarPodioRankingProfessor(lista)}
+    ${renderizarListaRankingProfessor(lista)}
+  `;
+}
+
+async function atualizarDesafioPresencaProfessor() {
+  if (typeof carregarDadosFrequencia === "function") {
+    await carregarDadosFrequencia();
+  }
+
+  renderizarDesafioPresencaProfessor();
+  carregarRankingDashboard();
+}
+
+function renderizarPodioDashboardProfessor(lista) {
+  const normalizada = normalizarItensRankingProfessor(lista).slice(0, 3);
+
+  if (!normalizada.length) {
+    return `<div class="empty-state-mini">Nenhuma presença registrada no período ainda.</div>`;
+  }
+
+  const mapa = { 1: null, 2: null, 3: null };
+  normalizada.forEach(item => {
+    mapa[Number(item.posicao)] = item;
+  });
+
+  const ordem = [2, 1, 3].filter(pos => mapa[pos]);
+
+  return `
+    <div class="ranking-podium desafio-ranking-podium dashboard-ranking-podium">
+      ${ordem.map(pos => {
+        const item = mapa[pos];
+        const primeiro = Number(item.posicao) === 1;
+        const nome = nomeCurtoRankingProfessor(item.nome);
+        const turma = item.turma || "Sem turma";
+
+        return `
+          <div class="podium-card ${primeiro ? "podium-first" : ""}">
+            <span class="podium-medal">${textoPosicaoRankingProfessor(item.posicao)}</span>
+            ${criarAvatarRankingProfessor(item, primeiro)}
+            <strong>${nome}</strong>
+            <small>${item.presencas} presença${item.presencas === 1 ? "" : "s"}</small>
+            <span class="ranking-subtext">${turma}</span>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+async function carregarRankingDashboard() {
+  const container = document.getElementById("dashboardRankingPresenca");
+  if (!container) return;
+
+  const ranking = obterRankingGeralProfessor();
+
+  if (ranking.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state-mini">
+        Nenhuma presença registrada no período ainda.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="dashboard-ranking-home">
+      ${renderizarPodioDashboardProfessor(ranking)}
+    </div>
+  `;
+}
+
+document.querySelectorAll("[data-ranking-professor]").forEach(botao => {
+  botao.addEventListener("click", () => {
+    rankingProfessorAtual = botao.dataset.rankingProfessor || "geral";
+
+    document.querySelectorAll("[data-ranking-professor]").forEach(btn => {
+      btn.classList.toggle("ativo", btn === botao);
+    });
+
+    renderizarDesafioPresencaProfessor();
+  });
+});
+
+const botaoAtualizarDesafio = document.getElementById("btnAtualizarDesafio");
+if (botaoAtualizarDesafio) {
+  botaoAtualizarDesafio.addEventListener("click", atualizarDesafioPresencaProfessor);
+}

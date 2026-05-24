@@ -6703,440 +6703,294 @@ textarea:focus {
 ================================================================ */
 
 /* ================================================================
-   V39 — ADMIN SIMPLES E FUNCIONAL
-   Limpa cards de clientes e deixa a gestão mais objetiva.
+   V42 — HOME: BOTÃO PARA RANKING COMPLETO
 ================================================================ */
-.admin-simple-card {
-  width: 100%;
-  background: linear-gradient(180deg, rgba(18, 20, 36, 0.86), rgba(10, 12, 24, 0.92));
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 24px;
-  padding: 16px;
-  display: grid;
-  gap: 14px;
-  box-shadow: 0 18px 48px rgba(0,0,0,0.22);
-  overflow: hidden;
-}
-
-.admin-simple-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  min-width: 0;
-}
-
-.admin-simple-main {
-  display: flex !important;
-  align-items: center;
+.painel-desafio .painel-topo {
+  align-items: flex-start;
   gap: 12px;
-  min-width: 0;
-  flex: 1 1 auto;
-  background: transparent !important;
-  border: 0 !important;
-  color: var(--texto-primario) !important;
-  padding: 0 !important;
-  min-height: auto !important;
-  text-align: left;
-  box-shadow: none !important;
 }
 
-.admin-simple-main:hover {
-  transform: none !important;
-}
-
-.admin-simple-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  background: linear-gradient(135deg, var(--cor-roxo), #22c55e);
-  color: #fff;
-  font-weight: 900;
-  font-size: 18px;
-  box-shadow: 0 14px 34px rgba(124,58,237,0.25);
-}
-
-.admin-simple-title-wrap {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.admin-simple-title-wrap strong {
-  font-size: 16px;
-  color: #fff;
-  letter-spacing: -0.04em;
+.btn-ranking-home,
+.btn-ranking-home-inline {
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.admin-simple-title-wrap small {
-  color: var(--texto-terciario);
-  font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.admin-simple-actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.admin-chip {
-  min-height: 30px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--raio-pill);
-  padding: 6px 10px;
-  font-size: 11px;
-  font-weight: 900;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.06);
-  color: var(--texto-secundario);
-  white-space: nowrap;
-}
-
-.admin-chip.plano {
-  background: var(--cor-roxo-bg);
-  border-color: var(--cor-roxo-borda);
-  color: var(--cor-roxo-claro);
-}
-
-.admin-chip.ativo {
-  background: var(--verde-bg);
-  border-color: var(--verde-borda);
-  color: #4ade80;
-}
-
-.admin-chip.bloqueado {
-  background: var(--vermelho-bg);
-  border-color: var(--vermelho-borda);
-  color: #f87171;
-}
-
-.admin-simple-manage,
-.admin-simple-save {
-  background: linear-gradient(135deg, var(--cor-roxo), #9333ea) !important;
-  color: #fff !important;
-  border: 0 !important;
-  border-radius: 14px !important;
   min-height: 40px;
   padding: 10px 14px;
-  font-weight: 900;
+  border-radius: var(--raio-pill) !important;
 }
 
-.admin-simple-delete {
-  width: 40px;
-  height: 40px;
-  min-height: 40px;
-  padding: 0 !important;
-  display: grid;
-  place-items: center;
-  border-radius: 14px !important;
-  background: var(--vermelho-bg) !important;
-  color: #fca5a5 !important;
-  border: 1px solid var(--vermelho-borda) !important;
+.btn-ranking-home-inline {
+  width: fit-content;
+  margin: 14px auto 0;
 }
 
-.admin-simple-usage {
-  display: grid;
-  grid-template-columns: auto minmax(120px, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.07);
+@media (max-width: 680px) {
+  .painel-desafio .painel-topo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-ranking-home,
+  .btn-ranking-home-inline {
+    width: 100%;
+  }
 }
 
-.admin-simple-usage strong {
-  display: block;
-  font-size: 16px;
-  color: #fff;
-  letter-spacing: -0.03em;
-}
-
-.admin-simple-usage span,
-.admin-simple-usage small {
-  color: var(--texto-terciario);
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.admin-simple-progress {
-  height: 8px;
-  border-radius: var(--raio-pill);
-  background: rgba(255,255,255,0.08);
-  overflow: hidden;
-}
-
-.admin-simple-progress i {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--cor-roxo), var(--cor-roxo-claro));
-}
-
-.admin-simple-progress i.ok { background: linear-gradient(90deg, #22c55e, #86efac); }
-.admin-simple-progress i.warn { background: linear-gradient(90deg, #f59e0b, #fde68a); }
-.admin-simple-progress i.danger { background: linear-gradient(90deg, #ef4444, #fca5a5); }
-
-.admin-simple-panel {
-  display: grid;
-  gap: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-
-.admin-simple-panel.escondido { display: none !important; }
-
-.admin-simple-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.admin-simple-field,
-.admin-simple-access {
-  display: grid;
-  gap: 7px;
-  min-width: 0;
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.075);
-}
-
-.admin-simple-field span,
-.admin-simple-access span > strong {
-  color: var(--texto-primario);
-  font-weight: 900;
-  font-size: 13px;
-}
-
-.admin-simple-field small,
-.admin-simple-access small,
-.admin-simple-modules small {
-  color: var(--texto-terciario);
-  font-size: 11px;
-  line-height: 1.35;
-}
-
-.admin-simple-field input,
-.admin-simple-field select {
-  min-height: 44px;
-}
-
-.admin-simple-access {
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-}
-
-.admin-simple-access input[type="checkbox"] {
-  width: 22px;
-  height: 22px;
-  accent-color: var(--cor-roxo);
-}
-
-.admin-simple-modules {
-  display: flex;
+/* ================================================================
+   V43 — RANKING UNIFICADO PROFESSOR/ALUNO
+================================================================ */
+.desafio-page .painel-topo {
   align-items: flex-start;
+  gap: 14px;
+}
+
+.desafio-page .ranking-tabs {
+  margin: 16px 0 18px;
+}
+
+.desafio-ranking-full {
+  display: grid;
+  gap: 16px;
+}
+
+.ranking-professor-summary {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(139,92,246,0.08);
-  border: 1px solid rgba(196,181,253,0.14);
+  padding: 12px 14px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  background: rgba(255,255,255,0.045);
 }
 
-.admin-simple-modules > div:first-child strong {
-  display: block;
-  color: #fff;
-  font-size: 14px;
-  margin-bottom: 2px;
-}
-
-.admin-simple-module-list {
-  min-width: min(420px, 100%);
-}
-
-.admin-simple-module-list .admin-recursos-plano-lista {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  justify-content: flex-end;
-}
-
-.admin-simple-module-list .admin-recursos-plano-lista span {
-  width: auto !important;
-  padding: 6px 9px;
-  border-radius: var(--raio-pill);
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
+.ranking-professor-summary p {
   color: var(--texto-secundario);
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 13px;
+  margin: 0;
 }
 
-.admin-simple-module-list .admin-recursos-plano-lista .admin-recurso-preco {
-  background: var(--cor-roxo-bg);
-  border-color: var(--cor-roxo-borda);
+.ranking-turma-professor-lista {
+  display: grid;
+  gap: 16px;
+}
+
+.ranking-turma-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.032));
+}
+
+.ranking-turma-topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ranking-turma-topo strong {
+  display: block;
+  font-size: 16px;
+  color: var(--texto-primario);
+}
+
+.ranking-turma-topo span:not(.mini-badge) {
+  display: block;
+  margin-top: 3px;
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+.ranking-row.desafio-ranking-item {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  background: rgba(255,255,255,0.04);
+}
+
+.ranking-position {
+  width: 36px;
+  text-align: center;
+  font-weight: 900;
   color: var(--cor-roxo-claro);
 }
 
-.admin-simple-footer {
-  display: flex;
-  justify-content: flex-end;
+.ranking-row-info {
+  min-width: 0;
 }
 
-.admin-simple-students {
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.035);
-  overflow: hidden;
-}
-
-.admin-simple-students summary {
-  cursor: pointer;
-  list-style: none;
-  padding: 13px 14px;
+.ranking-row-info strong {
+  display: block;
   color: var(--texto-primario);
-  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.admin-simple-students summary::-webkit-details-marker { display: none; }
-.admin-simple-students .cliente-alunos-lista { padding: 0 14px 14px; }
-
-[data-tema="claro"] .admin-simple-card,
-[data-tema="claro"] .admin-simple-field,
-[data-tema="claro"] .admin-simple-access,
-[data-tema="claro"] .admin-simple-students {
-  background: rgba(255,255,255,0.90) !important;
-  border-color: var(--borda) !important;
+.ranking-row-info small {
+  display: block;
+  color: var(--texto-secundario);
 }
 
-[data-tema="claro"] .admin-simple-title-wrap strong,
-[data-tema="claro"] .admin-simple-modules > div:first-child strong,
-[data-tema="claro"] .admin-simple-usage strong {
-  color: var(--texto-primario) !important;
+.ranking-empty-compact {
+  color: var(--texto-terciario);
+  font-size: 13px;
+  text-align: center;
+  padding: 8px;
 }
 
-@media (max-width: 900px) {
-  .admin-simple-head {
-    align-items: flex-start;
+.dashboard-ranking-home .btn-ranking-home-inline {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .desafio-page .painel-topo,
+  .ranking-professor-summary,
+  .ranking-turma-topo {
     flex-direction: column;
+    align-items: stretch;
   }
 
-  .admin-simple-actions {
-    width: 100%;
-    justify-content: flex-start;
+  .ranking-row.desafio-ranking-item {
+    grid-template-columns: auto auto minmax(0, 1fr);
   }
 
-  .admin-simple-manage {
-    flex: 1 1 auto;
-  }
-
-  .admin-simple-usage {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .admin-simple-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .admin-simple-modules {
-    flex-direction: column;
-  }
-
-  .admin-simple-module-list,
-  .admin-simple-module-list .admin-recursos-plano-lista {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .admin-simple-footer,
-  .admin-simple-save {
-    width: 100%;
+  .ranking-row.desafio-ranking-item .mini-badge {
+    grid-column: 1 / -1;
+    width: fit-content;
   }
 }
-
-@media (max-width: 520px) {
-  .admin-simple-card {
-    padding: 14px;
-    border-radius: 20px;
-  }
-
-  .admin-simple-main {
-    width: 100%;
-  }
-
-  .admin-simple-title-wrap strong,
-  .admin-simple-title-wrap small {
-    max-width: calc(100vw - 118px);
-  }
-
-  .admin-simple-actions > * {
-    flex: 1 1 auto;
-  }
-
-  .admin-simple-delete {
-    flex: 0 0 44px;
-  }
-}
-
 
 /* ================================================================
-   V40 — CORREÇÃO DOS MINI GRÁFICOS NOS CARDS FINANCEIROS
-   Reaplica o estilo dos gráficos após o pacote Admin v39.
+   V45 — RANKING DO PROFESSOR IGUAL AO PORTAL DO ALUNO
 ================================================================ */
-.card-com-mini-grafico {
-  min-height: 176px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+.ranking-lista-igual-aluno,
+.ranking-lista-home {
+  display: grid;
+  gap: 10px;
 }
 
-.card-com-mini-grafico p {
-  position: relative;
-  z-index: 2;
+.ranking-lista-igual-aluno .ranking-row,
+.ranking-lista-home .ranking-row {
+  display: grid;
+  grid-template-columns: 52px auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  background: rgba(255,255,255,0.045);
 }
 
-.card-com-mini-grafico > span:not(.mini-card-chart span) {
-  position: relative;
-  z-index: 2;
+.ranking-lista-home .ranking-row {
+  padding: 12px;
+}
+
+.ranking-position {
+  width: 46px;
+  text-align: center;
+  font-weight: 950;
+  color: var(--cor-roxo-claro);
+  font-size: 15px;
+}
+
+.ranking-row-info {
+  min-width: 0;
+}
+
+.ranking-row-info strong {
+  display: block;
+  color: var(--texto-primario);
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ranking-row-info small {
+  display: block;
+  color: var(--texto-secundario);
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.ranking-turma-professor-lista {
+  display: grid;
+  gap: 14px;
+}
+
+.ranking-turma-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  background: rgba(255,255,255,0.035);
+}
+
+.ranking-turma-topo strong {
+  display: block;
+  font-size: 18px;
+  color: var(--texto-primario);
+}
+
+.ranking-turma-topo span {
+  display: block;
+  color: var(--texto-secundario);
+  font-weight: 750;
+  margin-top: 2px;
+}
+
+.ranking-professor-summary {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  .ranking-lista-igual-aluno .ranking-row,
+  .ranking-lista-home .ranking-row {
+    grid-template-columns: 42px auto minmax(0, 1fr);
+    padding: 12px;
+  }
+
+  .ranking-position {
+    width: 38px;
+  }
+}
+
+/* ================================================================
+   V45 — CORREÇÃO REAL DOS MINI GRÁFICOS FINANCEIROS
+================================================================ */
+.card.card-com-mini-grafico {
+  min-height: 222px;
 }
 
 .mini-card-chart {
   position: relative;
   z-index: 2;
-  margin-top: auto;
-  padding-top: 12px;
-  display: grid;
-  gap: 5px;
-  color: var(--cor-roxo-claro);
   width: 100%;
-  min-width: 0;
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
   pointer-events: none;
+  color: var(--cor-roxo-claro);
 }
+
+.mini-card-chart-receita { color: var(--verde); }
+.mini-card-chart-receber { color: var(--azul); }
+.mini-card-chart-atraso { color: var(--vermelho); }
+.mini-card-chart-alunos { color: var(--cor-roxo-claro); }
 
 .mini-card-chart span {
   display: block;
-  margin: 0;
-  color: var(--texto-terciario);
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: 0;
-  text-transform: none;
+  margin-top: 0;
+  color: var(--texto-secundario);
+  font-size: 12px;
   line-height: 1.2;
 }
 
@@ -7147,52 +7001,36 @@ textarea:focus {
   overflow: visible;
 }
 
-.mini-chart-line {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 6px 12px rgba(139, 92, 246, 0.22));
+.mini-chart-area {
+  fill: currentColor !important;
+  opacity: 0.14 !important;
+  stroke: none !important;
 }
 
-.mini-chart-area {
-  fill: currentColor;
-  opacity: 0.13;
+.mini-chart-line {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 3 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 .mini-chart-dot {
-  fill: currentColor;
-  stroke: rgba(255, 255, 255, 0.72);
-  stroke-width: 1.5;
+  fill: currentColor !important;
+  stroke: var(--bg-base) !important;
+  stroke-width: 2 !important;
 }
 
-.mini-card-chart-receita { color: var(--verde); }
-.mini-card-chart-receber { color: var(--azul); }
-.mini-card-chart-atraso { color: var(--vermelho); }
-.mini-card-chart-alunos { color: var(--cor-roxo-claro); }
-
-[data-tema="claro"] .mini-chart-dot {
-  stroke: rgba(255, 255, 255, 0.92);
+.card .mini-card-chart svg,
+.card .mini-card-chart path,
+.card .mini-card-chart circle {
+  max-width: 100%;
+  vector-effect: non-scaling-stroke;
 }
 
-[data-tema="claro"] .mini-chart-area {
-  opacity: 0.17;
-}
-
-@media (max-width: 1100px) {
-  .card-com-mini-grafico {
-    min-height: 168px;
-  }
-}
-
-@media (max-width: 640px) {
-  .card-com-mini-grafico {
-    min-height: 164px;
-  }
-
-  .mini-card-chart {
-    padding-top: 10px;
+@media (max-width: 760px) {
+  .card.card-com-mini-grafico {
+    min-height: 202px;
   }
 
   .mini-chart-svg {

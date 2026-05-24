@@ -2632,3 +2632,97 @@ body {
 /* ================================================================
    FIM — CAMADA VISUAL PREMIUM 2026 — ÁREA DO ALUNO
 ================================================================ */
+
+/* ================================================================
+   V41 — CORREÇÃO DEFINITIVA DA NAVBAR / SIDEBAR DA ÁREA DO ALUNO
+   A sidebar fica sempre offcanvas, igual ao painel do professor.
+   Ela só aparece quando o body recebe .menu-aberto pelo botão ☰.
+================================================================ */
+.student-app {
+  display: block !important;
+  grid-template-columns: 1fr !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+}
+
+.student-main {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.student-sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: min(310px, 86vw) !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  padding: 18px !important;
+  transform: translateX(-112%) !important;
+  transition: transform 0.24s ease !important;
+  z-index: 90 !important;
+  box-shadow: 24px 0 70px rgba(0, 0, 0, 0.52) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  will-change: transform;
+}
+
+body.menu-aberto .student-sidebar {
+  transform: translateX(0) !important;
+}
+
+.menu-overlay {
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.58) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: 80 !important;
+  transition: opacity 0.2s ease, visibility 0.2s ease !important;
+}
+
+body.menu-aberto .menu-overlay {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+body.menu-aberto {
+  overflow: hidden !important;
+}
+
+.student-topbar {
+  width: 100% !important;
+}
+
+.student-content {
+  width: 100% !important;
+  max-width: 980px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (min-width: 901px) {
+  .student-sidebar {
+    width: min(310px, 86vw) !important;
+    transform: translateX(-112%) !important;
+  }
+
+  body.menu-aberto .student-sidebar {
+    transform: translateX(0) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .student-sidebar {
+    width: min(86vw, 310px) !important;
+  }
+
+  .student-content {
+    padding-left: max(14px, calc(14px + var(--safe-left))) !important;
+    padding-right: max(14px, calc(14px + var(--safe-right))) !important;
+  }
+}

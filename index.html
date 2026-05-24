@@ -239,6 +239,9 @@
                   <h2>Desafio de presença</h2>
                   <p>Acompanhe os alunos com mais presença do mês.</p>
                 </div>
+                <button type="button" id="btnVerRankingCompletoHome" class="acao-secundaria btn-ranking-home">
+                  Ver ranking completo
+                </button>
               </div>
 
               <div id="dashboardRankingPresenca">
@@ -295,29 +298,10 @@
                 <h2>Resumo financeiro</h2>
                 <p>Use essa área para acompanhar recebimentos, previsão e exportar relatórios.</p>
               </div>
-              <button type="button" id="btnExportar" class="btn-exportar">📊 Exportar planilha</button>
+              <button type="button" id="btnExportar" class="btn-exportar">📥 Exportar relatório</button>
             </div>
 
-            <div class="financeiro-filtros-mes">
-              <label class="campo-filtro-financeiro">
-                <span>Mês de referência</span>
-                <input type="month" id="financeiroMes">
-              </label>
-
-              <label class="campo-filtro-financeiro">
-                <span>Status</span>
-                <select id="financeiroStatus">
-                  <option value="todos">Todos</option>
-                  <option value="pago">Pagos</option>
-                  <option value="pendente">Pendentes</option>
-                  <option value="atrasado">Atrasados</option>
-                </select>
-              </label>
-
-              <button type="button" id="btnAtualizarFinanceiroMes" class="acao-secundaria">Atualizar</button>
-            </div>
-
-            <div class="financeiro-resumo-grid financeiro-resumo-grid-v2">
+            <div class="financeiro-resumo-grid">
               <div class="financeiro-box receita">
                 <span>Recebido</span>
                 <strong id="financeiroRecebidoMirror">R$ 0,00</strong>
@@ -329,31 +313,6 @@
               <div class="financeiro-box previsao">
                 <span>Previsão</span>
                 <strong id="financeiroPrevisaoMirror">R$ 0,00</strong>
-              </div>
-              <div class="financeiro-box pago">
-                <span>Pagos</span>
-                <strong id="financeiroPagosMirror">0</strong>
-              </div>
-              <div class="financeiro-box pendente">
-                <span>Pendentes</span>
-                <strong id="financeiroPendentesMirror">0</strong>
-              </div>
-              <div class="financeiro-box alerta">
-                <span>Atrasados</span>
-                <strong id="financeiroAtrasadosMirror">0</strong>
-              </div>
-            </div>
-
-            <div class="financeiro-lista-mensal-wrap">
-              <div class="section-title-row financeiro-lista-topo">
-                <div>
-                  <span class="page-eyebrow">Detalhamento</span>
-                  <h2>Alunos no mês selecionado</h2>
-                </div>
-                <span id="financeiroListaContador" class="mini-badge">0 alunos</span>
-              </div>
-              <div id="listaFinanceiroMensal" class="financeiro-lista-mensal">
-                <div class="empty-state-mini">Selecione um mês para carregar o financeiro.</div>
               </div>
             </div>
           </section>
@@ -623,19 +582,20 @@
           <section class="painel-card desafio-page">
             <div class="painel-topo">
               <div>
-                <span class="page-eyebrow">Desafio</span>
-                <h2>Desafio de presença</h2>
-                <p>Acompanhe o ranking de presença dos alunos e das turmas no período configurado.</p>
+                <span class="page-eyebrow">Ranking</span>
+                <h2>Ranking de presença do mês</h2>
+                <p>O ranking considera as presenças do mês, aulas válidas e aulas canceladas. Use as abas para ver geral, por turma ou entre turmas.</p>
               </div>
               <button type="button" id="btnAtualizarDesafio" class="acao-secundaria">Atualizar ranking</button>
             </div>
 
-            <div class="ranking-tabs">
-              <button type="button" class="ranking-tab ativo" data-ranking-professor="geral">Geral</button>
+            <div class="ranking-tabs" id="rankingTabsProfessor">
+              <button type="button" class="ranking-tab ativo" data-ranking-professor="turma">Por turma</button>
+              <button type="button" class="ranking-tab" data-ranking-professor="geral">Geral</button>
               <button type="button" class="ranking-tab" data-ranking-professor="turmas">Turmas</button>
             </div>
 
-            <div id="listaRankingDesafioProfessor" class="lista-evolucao">
+            <div id="listaRankingDesafioProfessor" class="ranking-list desafio-ranking-full">
               <div class="empty-state-mini">Carregando ranking...</div>
             </div>
           </section>
@@ -660,14 +620,6 @@
                 <span>Turma / destino</span>
                 <input type="text" id="avisoTurma" placeholder="Ex: Todos, Infantil, Adulto noite">
               </label>
-              <label class="campo-perfil">
-                <span>Início do aviso</span>
-                <input type="date" id="avisoDataInicio">
-              </label>
-              <label class="campo-perfil">
-                <span>Ativo até</span>
-                <input type="date" id="avisoDataFim">
-              </label>
               <label class="campo-perfil campo-cheio">
                 <span>Mensagem</span>
                 <textarea id="avisoMensagem" rows="4" placeholder="Digite o aviso para os alunos..."></textarea>
@@ -688,8 +640,8 @@
             <div class="painel-topo">
               <div>
                 <span class="page-eyebrow">Solicitações</span>
-                <h2>Solicitações dos alunos</h2>
-                <p>Confira pedidos de alteração e confirmações de pagamento enviadas pela página do aluno.</p>
+                <h2>Alterações enviadas pelos alunos</h2>
+                <p>Confira pedidos de mudança de turma e aprove somente o que fizer sentido.</p>
               </div>
               <button type="button" id="btnAtualizarSolicitacoes" class="acao-secundaria">Atualizar</button>
             </div>
@@ -716,15 +668,16 @@
         </section>
 
         <section id="viewPerfil" class="view-app">
-          <section class="painel-card perfil-page perfil-page-clean">
-            <div class="painel-topo perfil-topo-clean">
+          <section class="painel-card perfil-page">
+            <div class="painel-topo">
               <div>
                 <span class="page-eyebrow">Perfil</span>
                 <h2>Dados do professor</h2>
+                <p>Essas informações aparecem na página do aluno e no contato pelo WhatsApp.</p>
               </div>
             </div>
 
-            <form id="formPerfil" class="perfil-form perfil-form-clean">
+            <form id="formPerfil" class="perfil-form">
               <label class="campo-perfil">
                 <span>Nome da empresa / academia</span>
                 <input type="text" id="perfilNomeEmpresa" placeholder="Ex: Academia Nuti Jiu-Jitsu">
@@ -735,15 +688,43 @@
                 <input type="tel" id="perfilWhatsApp" placeholder="Ex: 31999999999">
               </label>
 
-              <label class="campo-perfil perfil-pix-compacto">
-                <span>Pix copia e cola</span>
-                <textarea id="perfilPixCopiaCola" rows="2" placeholder="Cole aqui o Pix copia e cola"></textarea>
-              </label>
-
-              <div class="perfil-actions campo-cheio">
-                <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
-                <p id="msgPerfil" class="msg-perfil"></p>
+              <div class="perfil-ajuda">
+                Use somente números com DDD. Exemplo: <strong>31999999999</strong>.
+                A página do aluno usará esse número no botão <strong>Falar com professor</strong>.
               </div>
+
+              <div class="perfil-recursos">
+                <span class="perfil-recursos-titulo">Recursos do sistema</span>
+                <label><input type="checkbox" id="perfilModuloEvolucao" checked> Ativar módulo de evolução/graduação</label>
+                <label><input type="checkbox" id="perfilModuloPresenca"> Ativar presença e aula experimental</label>
+                <label><input type="checkbox" id="perfilModuloAvisos"> Ativar avisos por turma</label>
+              </div>
+
+              <div class="perfil-recursos">
+                <span class="perfil-recursos-titulo">Frequência e graduação</span>
+                <label class="campo-perfil">
+                  <span>Presença mínima para avaliação (%)</span>
+                  <input type="number" id="perfilPresencaMinima" min="0" max="100" value="70">
+                </label>
+                <label class="campo-perfil">
+                  <span>Período analisado em meses</span>
+                  <input type="number" id="perfilPeriodoFrequencia" min="1" max="24" value="6">
+                </label>
+              </div>
+
+              <div class="perfil-recursos">
+                <span class="perfil-recursos-titulo">Ranking de presença</span>
+                <label><input type="checkbox" id="perfilRankingGeral" checked> Ativar ranking geral da academia</label>
+                <label><input type="checkbox" id="perfilRankingTurma" checked> Ativar ranking da turma do aluno</label>
+                <label><input type="checkbox" id="perfilRankingTurmas" checked> Ativar ranking entre turmas</label>
+                <label class="campo-perfil">
+                  <span>Mínimo de aulas válidas para entrar no ranking</span>
+                  <input type="number" id="perfilRankingMinimoAulas" min="1" max="31" value="4">
+                </label>
+              </div>
+
+              <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
+              <p id="msgPerfil" class="msg-perfil"></p>
             </form>
           </section>
         </section>
@@ -781,34 +762,8 @@
 
       </div>
 
-      <div class="admin-card admin-card-clientes">
-        <div class="admin-card-header">
-          <div>
-            <span class="page-eyebrow">Clientes</span>
-            <h3>👥 Gestão de clientes</h3>
-          </div>
-        </div>
-
-        <div class="admin-clientes-toolbar">
-          <input
-            type="text"
-            id="adminBuscaClientes"
-            class="admin-busca-clientes"
-            placeholder="Buscar cliente por email ou academia..."
-          >
-
-          <div class="admin-filtros-clientes" aria-label="Filtros de clientes">
-            <button type="button" class="admin-filtro-cliente ativo" data-admin-filtro-clientes="todos">Todos</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="ativo">Ativos</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="bloqueado">Bloqueados</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="trial">Trial</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="basic">Basic</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="pro">Pro</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="premium">Premium</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="limite">No limite</button>
-          </div>
-        </div>
-
+      <div class="admin-card">
+        <h3>👥 Clientes</h3>
         <div id="listaClientes"></div>
       </div>
 
@@ -896,7 +851,7 @@
 
     <label class="input-group">
       <span>Mensalidade</span>
-      <input type="text" id="valorMensalidade" placeholder="R$ 0,00" required inputmode="decimal" autocomplete="off">
+      <input type="text" id="valorMensalidade" placeholder="R$ 0,00" required inputmode="numeric">
     </label>
 
     <label class="input-group">
@@ -1084,7 +1039,7 @@
       <input type="hidden" id="edicaoRapidaAlunoId">
       <label class="campo-perfil">
         <span>Valor da mensalidade</span>
-        <input type="text" id="edicaoRapidaValor" placeholder="R$ 0,00" inputmode="decimal" autocomplete="off">
+        <input type="text" id="edicaoRapidaValor" placeholder="R$ 0,00">
       </label>
       <label class="campo-perfil">
         <span>Vencimento</span>

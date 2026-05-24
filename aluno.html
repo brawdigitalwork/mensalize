@@ -14,6 +14,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
   <script src="config.js"></script>
+  <link rel="manifest" href="manifest-aluno.json">
+  <link rel="apple-touch-icon" href="icons/aluno-icon-192.png">
 </head>
 <body>
   <section id="estadoInicial" class="loading-screen">
@@ -188,32 +190,6 @@
             </div>
 
             <div id="areaPagamento" class="payment-actions"></div>
-
-            <article id="boxSolicitarPagamento" class="payment-confirm-box escondido">
-              <div class="section-title-row compact-title-row">
-                <div>
-                  <span class="eyebrow">Confirmação</span>
-                  <h2>Já fez o pagamento?</h2>
-                </div>
-              </div>
-              <p class="helper-text">Depois de pagar, envie uma solicitação para o professor conferir e dar baixa no sistema.</p>
-              <form id="formSolicitarPagamento" class="student-form payment-confirm-form">
-                <label>
-                  <span>Data do pagamento</span>
-                  <input type="date" id="solicitarPagamentoData" />
-                </label>
-                <label>
-                  <span>Valor pago</span>
-                  <input type="text" id="solicitarPagamentoValor" inputmode="decimal" placeholder="R$ 0,00" />
-                </label>
-                <label class="full-line">
-                  <span>Observação</span>
-                  <textarea id="solicitarPagamentoObs" rows="3" placeholder="Ex: Paguei agora pelo Pix"></textarea>
-                </label>
-                <button type="submit" class="secondary-action">Solicitar confirmação</button>
-                <p id="msgSolicitarPagamento" class="soft-message"></p>
-              </form>
-            </article>
           </article>
 
           <article class="panel-card">
@@ -397,12 +373,6 @@
     const textoVencimento = document.getElementById("textoVencimento");
     const mensagemStatus = document.getElementById("mensagemStatus");
     const areaPagamento = document.getElementById("areaPagamento");
-    const boxSolicitarPagamento = document.getElementById("boxSolicitarPagamento");
-    const formSolicitarPagamento = document.getElementById("formSolicitarPagamento");
-    const solicitarPagamentoData = document.getElementById("solicitarPagamentoData");
-    const solicitarPagamentoValor = document.getElementById("solicitarPagamentoValor");
-    const solicitarPagamentoObs = document.getElementById("solicitarPagamentoObs");
-    const msgSolicitarPagamento = document.getElementById("msgSolicitarPagamento");
     const areaContatoProfessor = document.getElementById("areaContatoProfessor");
 
     const contadorPagamentos = document.getElementById("contadorPagamentos");
@@ -558,32 +528,6 @@
       return mapa[tipo] || "📢 Comunicado";
     }
 
-    function valorParaNumeroAluno(valor) {
-      if (typeof valor === "number") return Number.isFinite(valor) ? valor : 0;
-      let texto = String(valor || "").trim().replace(/R\$\s?/g, "").replace(/\s/g, "");
-      if (!texto) return 0;
-      if (texto.includes(",")) {
-        texto = texto.replace(/\./g, "").replace(",", ".");
-      }
-      const numero = Number(texto);
-      return Number.isFinite(numero) ? numero : 0;
-    }
-
-    function configurarSolicitacaoPagamento(aluno) {
-      if (!boxSolicitarPagamento) return;
-
-      const pagoMes = aluno.pago_mes === true;
-      boxSolicitarPagamento.classList.toggle("escondido", pagoMes);
-
-      if (solicitarPagamentoData && !solicitarPagamentoData.value) {
-        solicitarPagamentoData.value = new Date().toISOString().split("T")[0];
-      }
-
-      if (solicitarPagamentoValor) {
-        solicitarPagamentoValor.value = formatarMoeda(aluno.valor || 0);
-      }
-    }
-
     function gerarStatus(aluno) {
       const dias = calcularDias(aluno.vencimento);
       if (aluno.pago_mes === true) return { texto: "Pago", classe: "status-pago", titulo: "Mensalidade em dia", mensagem: "Seu pagamento deste mês já foi registrado." };
@@ -598,79 +542,6 @@
       const telefoneComPais = telefoneInformado.startsWith("55") ? telefoneInformado : `55${telefoneInformado}`;
       const mensagem = `Olá, sou ${aluno.nome || "aluno"}. Quero falar sobre minha mensalidade.`;
       return `https://wa.me/${telefoneComPais}?text=${encodeURIComponent(mensagem)}`;
-    }
-
-    async function carregarPixProfessorPublico() {
-      if (!codigoPublico) return "";
-
-      try {
-        const { data, error } = await supabaseClient.rpc("buscar_pix_professor_publico", {
-          codigo: codigoPublico
-        });
-
-        if (error) throw error;
-
-        const registro = Array.isArray(data) ? data[0] : data;
-        return registro?.pix_copia_cola || "";
-      } catch (erro) {
-        console.log("Erro ao carregar Pix do professor:", erro?.message || erro);
-        return "";
-      }
-    }
-
-    function renderizarAreaPagamentoAluno(linkPagamento, botaoProfessor, pixCopiaCola = "") {
-      const partes = [];
-
-      if (linkPagamento) {
-        partes.push(`
-          <a href="${linkPagamento}" target="_blank" rel="noopener" class="pay-button">
-            Pagar mensalidade <span>→</span>
-          </a>
-        `);
-      }
-
-      if (pixCopiaCola) {
-        partes.push(`
-          <div class="pix-box">
-            <span class="eyebrow">Pix copia e cola</span>
-            <h3>Pagamento via Pix</h3>
-            <p>Copie o código abaixo, pague no app do banco e envie o comprovante para o professor.</p>
-
-            <textarea id="pixCopiaColaAluno" readonly>${escapeHtml(pixCopiaCola)}</textarea>
-
-            <button type="button" id="btnCopiarPixAluno" class="primary-action">
-              Copiar Pix
-            </button>
-          </div>
-        `);
-      }
-
-      if (!linkPagamento && !pixCopiaCola) {
-        partes.push(`<p class="soft-message center-message">O pagamento ainda não foi configurado pelo professor.</p>`);
-      }
-
-      partes.push(botaoProfessor);
-
-      areaPagamento.innerHTML = partes.join("");
-
-      const btnCopiarPixAluno = document.getElementById("btnCopiarPixAluno");
-      const campoPix = document.getElementById("pixCopiaColaAluno");
-
-      if (btnCopiarPixAluno && campoPix) {
-        btnCopiarPixAluno.addEventListener("click", async () => {
-          try {
-            await navigator.clipboard.writeText(campoPix.value);
-          } catch (erro) {
-            campoPix.select();
-            document.execCommand("copy");
-          }
-
-          btnCopiarPixAluno.textContent = "Pix copiado!";
-          setTimeout(() => {
-            btnCopiarPixAluno.textContent = "Copiar Pix";
-          }, 1800);
-        });
-      }
     }
 
     function statusEvolucaoAluno(aluno) {
@@ -795,13 +666,16 @@
         ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="whatsapp-button">Falar com professor</a>`
         : `<p class="soft-message center-message">WhatsApp do professor ainda não foi cadastrado.</p>`;
 
-      renderizarAreaPagamentoAluno(linkPagamento, botaoProfessor, "");
-
-      carregarPixProfessorPublico().then((pixCopiaCola) => {
-        renderizarAreaPagamentoAluno(linkPagamento, botaoProfessor, pixCopiaCola);
-      });
-
-      configurarSolicitacaoPagamento(aluno);
+      if (linkPagamento) {
+        areaPagamento.innerHTML = `
+          <a href="${linkPagamento}" target="_blank" rel="noopener" class="pay-button">Pagar mensalidade <span>→</span></a>
+          ${botaoProfessor}
+        `;
+      } else {
+        areaPagamento.innerHTML = linkWhatsAppProfessor
+          ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">Falar com professor <span>→</span></a><p class="soft-message center-message">O link de pagamento ainda não foi cadastrado.</p>`
+          : `<p class="soft-message center-message">O link de pagamento e o WhatsApp do professor ainda não foram cadastrados.</p>`;
+      }
 
       areaContatoProfessor.innerHTML = linkWhatsAppProfessor
         ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">Falar com professor <span>→</span></a>`
@@ -1267,53 +1141,6 @@
 
     modalEditorFotoAluno?.addEventListener("click", (event) => {
       if (event.target === modalEditorFotoAluno) fecharEditorFotoAluno();
-    });
-
-    solicitarPagamentoValor?.addEventListener("blur", function() {
-      const valor = valorParaNumeroAluno(this.value);
-      this.value = valor ? formatarMoeda(valor) : "";
-    });
-
-    formSolicitarPagamento?.addEventListener("submit", async function(event) {
-      event.preventDefault();
-
-      if (!codigoPublico || !alunoAtual) return;
-
-      const dataPagamento = solicitarPagamentoData?.value || new Date().toISOString().split("T")[0];
-      const valorInformado = valorParaNumeroAluno(solicitarPagamentoValor?.value || alunoAtual.valor);
-      const observacao = solicitarPagamentoObs?.value.trim() || null;
-
-      if (!dataPagamento) {
-        msgSolicitarPagamento.textContent = "Informe a data do pagamento.";
-        msgSolicitarPagamento.classList.add("is-error");
-        return;
-      }
-
-      if (!valorInformado || valorInformado <= 0) {
-        msgSolicitarPagamento.textContent = "Informe o valor pago.";
-        msgSolicitarPagamento.classList.add("is-error");
-        return;
-      }
-
-      msgSolicitarPagamento.textContent = "Enviando solicitação...";
-      msgSolicitarPagamento.classList.remove("is-error");
-
-      const { data, error } = await supabaseClient.rpc("solicitar_confirmacao_pagamento_publico", {
-        codigo: codigoPublico,
-        valor_pago: valorInformado,
-        data_paga: dataPagamento,
-        observacao_aluno: observacao
-      });
-
-      if (error || data === false) {
-        msgSolicitarPagamento.textContent = "Não foi possível enviar a solicitação agora.";
-        msgSolicitarPagamento.classList.add("is-error");
-        console.log("Erro ao solicitar confirmação de pagamento:", error?.message || error);
-        return;
-      }
-
-      msgSolicitarPagamento.textContent = "✅ Solicitação enviada. O professor vai conferir o pagamento.";
-      if (solicitarPagamentoObs) solicitarPagamentoObs.value = "";
     });
 
     formPerfilAluno?.addEventListener("submit", async function(event) {

@@ -7037,3 +7037,34 @@ textarea:focus {
     height: 38px;
   }
 }
+
+/* ================================================================
+   V46 — PROFESSOR: RANKING EM PÓDIO
+================================================================ */
+.ranking-professor-podio {
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
+
+.ranking-turma-card .ranking-professor-podio {
+  margin-top: 4px;
+}
+
+.ranking-lista-pos-podio {
+  margin-top: 10px;
+}
+
+.ranking-professor-podio .podium-card small {
+  text-align: center;
+  line-height: 1.35;
+}
+
+@media (max-width: 720px) {
+  .ranking-professor-podio {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ranking-professor-podio .podium-card {
+    min-height: auto;
+  }
+}

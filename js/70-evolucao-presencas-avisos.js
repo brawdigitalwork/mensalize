@@ -811,6 +811,60 @@ function renderizarListaRankingProfessor(lista, tipo = rankingProfessorAtual) {
   `;
 }
 
+
+function renderizarPodioRankingProfessor(lista, tipo = rankingProfessorAtual) {
+  const top = (lista || []).slice(0, 3);
+
+  if (!top.length) {
+    return `<p class="empty-message">Ainda não há dados suficientes para formar o pódio deste mês.</p>`;
+  }
+
+  const mapa = { 1: null, 2: null, 3: null };
+  top.forEach((item, index) => {
+    mapa[Number(item.posicao || index + 1)] = item;
+  });
+
+  const ordem = [2, 1, 3].filter(pos => mapa[pos]);
+
+  return `
+    <div class="ranking-podium desafio-ranking-podium ranking-professor-podio">
+      ${ordem.map(pos => {
+        const item = mapa[pos];
+        const primeiro = Number(item.posicao) === 1;
+        const ehTurma = tipo === "turmas" || Object.prototype.hasOwnProperty.call(item, "totalAlunos");
+        const nome = ehTurma ? (item.nome || item.nome_turma || "Turma") : item.nome;
+        const detalhe = item.texto_detalhe || (
+          ehTurma
+            ? `${String(Number(item.percentual || 0)).replace(".", ",")}% média`
+            : `${item.turma || "Sem turma"} • ${item.presencas || 0}/${item.aulas_validas || 0} aulas`
+        );
+
+        return `
+          <div class="podium-card ${primeiro ? "podium-first" : ""}">
+            <span class="podium-medal">${textoPosicaoRankingProfessor(item.posicao || pos)}</span>
+            ${ehTurma ? `<div class="ranking-avatar ${primeiro ? "ranking-avatar-big" : ""}">${primeiraLetraRankingProfessor(nome)}</div>` : criarAvatarRankingProfessor(item, primeiro)}
+            <strong>${nome}</strong>
+            <small>${detalhe}</small>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function renderizarListaAposPodioRankingProfessor(lista, tipo = rankingProfessorAtual) {
+  const restante = (lista || []).slice(3);
+
+  if (!restante.length) return "";
+
+  return `
+    <div class="desafio-ranking-lista ranking-lista-igual-aluno ranking-lista-pos-podio">
+      ${restante.map(item => renderizarLinhaRankingProfessor(item, tipo)).join("")}
+    </div>
+  `;
+}
+
+
 function renderizarRankingAgrupadoPorTurmaProfessor() {
   const grupos = obterRankingPorTurmaProfessor();
 
@@ -828,7 +882,8 @@ function renderizarRankingAgrupadoPorTurmaProfessor() {
               <span>${grupo.itens.length} aluno${grupo.itens.length === 1 ? "" : "s"} no ranking</span>
             </div>
           </div>
-          ${renderizarListaRankingProfessor(grupo.itens, "turma")}
+          ${renderizarPodioRankingProfessor(grupo.itens, "turma")}
+          ${renderizarListaAposPodioRankingProfessor(grupo.itens, "turma")}
         </section>
       `).join("")}
     </div>
@@ -864,7 +919,10 @@ function renderizarDesafioPresencaProfessor() {
     return;
   }
 
-  container.innerHTML = renderizarListaRankingProfessor(lista, rankingProfessorAtual);
+  container.innerHTML = `
+    ${renderizarPodioRankingProfessor(lista, rankingProfessorAtual)}
+    ${renderizarListaAposPodioRankingProfessor(lista, rankingProfessorAtual)}
+  `;
 }
 
 async function atualizarDesafioPresencaProfessor() {
@@ -877,17 +935,7 @@ async function atualizarDesafioPresencaProfessor() {
 }
 
 function renderizarPodioDashboardProfessor(lista) {
-  const top = (lista || []).slice(0, 3);
-
-  if (!top.length) {
-    return `<div class="empty-state-mini">Nenhuma presença registrada no mês atual ainda.</div>`;
-  }
-
-  return `
-    <div class="desafio-ranking-lista ranking-lista-home">
-      ${top.map(item => renderizarLinhaRankingProfessor(item, "aluno")).join("")}
-    </div>
-  `;
+  return renderizarPodioRankingProfessor(lista, "geral");
 }
 
 async function carregarRankingDashboard() {

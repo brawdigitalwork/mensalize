@@ -188,6 +188,32 @@
             </div>
 
             <div id="areaPagamento" class="payment-actions"></div>
+
+            <article id="boxSolicitarPagamento" class="payment-confirm-box escondido">
+              <div class="section-title-row compact-title-row">
+                <div>
+                  <span class="eyebrow">Confirmação</span>
+                  <h2>Já fez o pagamento?</h2>
+                </div>
+              </div>
+              <p class="helper-text">Depois de pagar, envie uma solicitação para o professor conferir e dar baixa no sistema.</p>
+              <form id="formSolicitarPagamento" class="student-form payment-confirm-form">
+                <label>
+                  <span>Data do pagamento</span>
+                  <input type="date" id="solicitarPagamentoData" />
+                </label>
+                <label>
+                  <span>Valor pago</span>
+                  <input type="text" id="solicitarPagamentoValor" inputmode="decimal" placeholder="R$ 0,00" />
+                </label>
+                <label class="full-line">
+                  <span>Observação</span>
+                  <textarea id="solicitarPagamentoObs" rows="3" placeholder="Ex: Paguei agora pelo Pix"></textarea>
+                </label>
+                <button type="submit" class="secondary-action">Solicitar confirmação</button>
+                <p id="msgSolicitarPagamento" class="soft-message"></p>
+              </form>
+            </article>
           </article>
 
           <article class="panel-card">
@@ -371,6 +397,12 @@
     const textoVencimento = document.getElementById("textoVencimento");
     const mensagemStatus = document.getElementById("mensagemStatus");
     const areaPagamento = document.getElementById("areaPagamento");
+    const boxSolicitarPagamento = document.getElementById("boxSolicitarPagamento");
+    const formSolicitarPagamento = document.getElementById("formSolicitarPagamento");
+    const solicitarPagamentoData = document.getElementById("solicitarPagamentoData");
+    const solicitarPagamentoValor = document.getElementById("solicitarPagamentoValor");
+    const solicitarPagamentoObs = document.getElementById("solicitarPagamentoObs");
+    const msgSolicitarPagamento = document.getElementById("msgSolicitarPagamento");
     const areaContatoProfessor = document.getElementById("areaContatoProfessor");
 
     const contadorPagamentos = document.getElementById("contadorPagamentos");
@@ -524,6 +556,32 @@
         financeiro: "💰 Financeiro"
       };
       return mapa[tipo] || "📢 Comunicado";
+    }
+
+    function valorParaNumeroAluno(valor) {
+      if (typeof valor === "number") return Number.isFinite(valor) ? valor : 0;
+      let texto = String(valor || "").trim().replace(/R\$\s?/g, "").replace(/\s/g, "");
+      if (!texto) return 0;
+      if (texto.includes(",")) {
+        texto = texto.replace(/\./g, "").replace(",", ".");
+      }
+      const numero = Number(texto);
+      return Number.isFinite(numero) ? numero : 0;
+    }
+
+    function configurarSolicitacaoPagamento(aluno) {
+      if (!boxSolicitarPagamento) return;
+
+      const pagoMes = aluno.pago_mes === true;
+      boxSolicitarPagamento.classList.toggle("escondido", pagoMes);
+
+      if (solicitarPagamentoData && !solicitarPagamentoData.value) {
+        solicitarPagamentoData.value = new Date().toISOString().split("T")[0];
+      }
+
+      if (solicitarPagamentoValor) {
+        solicitarPagamentoValor.value = formatarMoeda(aluno.valor || 0);
+      }
     }
 
     function gerarStatus(aluno) {
@@ -742,6 +800,8 @@
       carregarPixProfessorPublico().then((pixCopiaCola) => {
         renderizarAreaPagamentoAluno(linkPagamento, botaoProfessor, pixCopiaCola);
       });
+
+      configurarSolicitacaoPagamento(aluno);
 
       areaContatoProfessor.innerHTML = linkWhatsAppProfessor
         ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">Falar com professor <span>→</span></a>`
@@ -1207,6 +1267,53 @@
 
     modalEditorFotoAluno?.addEventListener("click", (event) => {
       if (event.target === modalEditorFotoAluno) fecharEditorFotoAluno();
+    });
+
+    solicitarPagamentoValor?.addEventListener("blur", function() {
+      const valor = valorParaNumeroAluno(this.value);
+      this.value = valor ? formatarMoeda(valor) : "";
+    });
+
+    formSolicitarPagamento?.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      if (!codigoPublico || !alunoAtual) return;
+
+      const dataPagamento = solicitarPagamentoData?.value || new Date().toISOString().split("T")[0];
+      const valorInformado = valorParaNumeroAluno(solicitarPagamentoValor?.value || alunoAtual.valor);
+      const observacao = solicitarPagamentoObs?.value.trim() || null;
+
+      if (!dataPagamento) {
+        msgSolicitarPagamento.textContent = "Informe a data do pagamento.";
+        msgSolicitarPagamento.classList.add("is-error");
+        return;
+      }
+
+      if (!valorInformado || valorInformado <= 0) {
+        msgSolicitarPagamento.textContent = "Informe o valor pago.";
+        msgSolicitarPagamento.classList.add("is-error");
+        return;
+      }
+
+      msgSolicitarPagamento.textContent = "Enviando solicitação...";
+      msgSolicitarPagamento.classList.remove("is-error");
+
+      const { data, error } = await supabaseClient.rpc("solicitar_confirmacao_pagamento_publico", {
+        codigo: codigoPublico,
+        valor_pago: valorInformado,
+        data_paga: dataPagamento,
+        observacao_aluno: observacao
+      });
+
+      if (error || data === false) {
+        msgSolicitarPagamento.textContent = "Não foi possível enviar a solicitação agora.";
+        msgSolicitarPagamento.classList.add("is-error");
+        console.log("Erro ao solicitar confirmação de pagamento:", error?.message || error);
+        return;
+      }
+
+      msgSolicitarPagamento.textContent = "✅ Solicitação enviada. O professor vai conferir o pagamento.";
+      if (solicitarPagamentoObs) solicitarPagamentoObs.value = "";
     });
 
     formPerfilAluno?.addEventListener("submit", async function(event) {

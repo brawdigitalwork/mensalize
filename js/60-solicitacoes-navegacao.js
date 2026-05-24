@@ -37,30 +37,42 @@ async function carregarSolicitacoesAlteracao() {
 
   listaSolicitacoes.innerHTML = `<div class="empty-state-mini">Carregando solicitações...</div>`;
 
-  const { data, error } = await supabaseClient
-    .from("solicitacoes_alteracao")
-    .select("id, aluno_id, user_id, tipo, status, dados_solicitados, observacao, created_at, respondido_em")
-    .eq("user_id", usuarioAtual.id)
-    .order("created_at", { ascending: false })
-    .limit(80);
+  const [resAlteracoes, resPagamentos] = await Promise.all([
+    supabaseClient
+      .from("solicitacoes_alteracao")
+      .select("id, aluno_id, user_id, tipo, status, dados_solicitados, observacao, created_at, respondido_em")
+      .eq("user_id", usuarioAtual.id)
+      .order("created_at", { ascending: false })
+      .limit(80),
 
-  if (error) {
+    supabaseClient
+      .from("solicitacoes_pagamento")
+      .select("id, aluno_id, user_id, valor_informado, data_pagamento, observacao, status, created_at, respondido_em")
+      .eq("user_id", usuarioAtual.id)
+      .order("created_at", { ascending: false })
+      .limit(80)
+  ]);
+
+  if (resAlteracoes.error || resPagamentos.error) {
     listaSolicitacoes.innerHTML = `<div class="empty-state-mini">Erro ao carregar solicitações.</div>`;
-    console.log("Erro ao carregar solicitações:", error.message);
+    console.log("Erro ao carregar solicitações:", resAlteracoes.error?.message || resPagamentos.error?.message);
     return;
   }
 
-  const lista = data || [];
+  const alteracoes = (resAlteracoes.data || []).map(item => ({ ...item, categoria_solicitacao: "alteracao" }));
+  const pagamentos = (resPagamentos.data || []).map(item => ({ ...item, categoria_solicitacao: "pagamento" }));
+  const lista = [...pagamentos, ...alteracoes].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
   const idsAlunos = [...new Set(lista.map(s => s.aluno_id).filter(Boolean))];
-  let nomesPorId = new Map();
+  let alunosPorId = new Map();
 
   if (idsAlunos.length) {
     const { data: alunosSolicitacoes } = await supabaseClient
       .from("alunos")
-      .select("id, nome, turma, faixa, grau, data_ultima_graduacao")
+      .select("id, user_id, nome, telefone, valor, vencimento, turma, faixa, grau, data_ultima_graduacao")
       .in("id", idsAlunos);
 
-    (alunosSolicitacoes || []).forEach(a => nomesPorId.set(String(a.id), a));
+    (alunosSolicitacoes || []).forEach(a => alunosPorId.set(String(a.id), a));
   }
 
   if (totalSolicitacoesPendentes) totalSolicitacoesPendentes.textContent = lista.filter(s => s.status === "pendente").length;
@@ -72,7 +84,14 @@ async function carregarSolicitacoesAlteracao() {
     return;
   }
 
-  function descricaoSolicitacao(solicitacao, aluno) {
+  function statusSolicitacaoTexto(status) {
+    if (status === "pendente") return "Pendente";
+    if (status === "aprovada") return "Aprovada";
+    if (status === "recusada") return "Recusada";
+    return "Solicitação";
+  }
+
+  function descricaoSolicitacaoAlteracao(solicitacao, aluno) {
     const dados = solicitacao.dados_solicitados || {};
     if (solicitacao.tipo === "graduacao") {
       return `
@@ -95,24 +114,37 @@ async function carregarSolicitacoesAlteracao() {
     `;
   }
 
-  listaSolicitacoes.innerHTML = lista.map(solicitacao => {
-    const aluno = nomesPorId.get(String(solicitacao.aluno_id));
-    const statusTexto = solicitacao.status === "pendente" ? "Pendente" : solicitacao.status === "aprovada" ? "Aprovada" : "Recusada";
-    const podeResponder = solicitacao.status === "pendente";
+  function descricaoSolicitacaoPagamento(solicitacao, aluno) {
+    const valorAluno = aluno ? valorParaNumero(aluno.valor) : 0;
+    const valorInformado = valorParaNumero(solicitacao.valor_informado || valorAluno);
 
     return `
-      <article class="solicitacao-card status-${solicitacao.status}">
+      <p><strong>Pedido:</strong> confirmação de pagamento</p>
+      <p><strong>Valor informado:</strong> ${formatarMoeda(valorInformado)}</p>
+      <p><strong>Valor cadastrado:</strong> ${aluno ? formatarMoeda(valorAluno) : "Aluno não encontrado"}</p>
+      <p><strong>Data informada:</strong> ${solicitacao.data_pagamento ? formatarData(solicitacao.data_pagamento) : "Não informada"}</p>
+      ${solicitacao.observacao ? `<p><strong>Obs. do aluno:</strong> ${solicitacao.observacao}</p>` : ""}
+    `;
+  }
+
+  listaSolicitacoes.innerHTML = lista.map(solicitacao => {
+    const aluno = alunosPorId.get(String(solicitacao.aluno_id));
+    const statusTexto = statusSolicitacaoTexto(solicitacao.status);
+    const podeResponder = solicitacao.status === "pendente";
+    const isPagamento = solicitacao.categoria_solicitacao === "pagamento";
+
+    return `
+      <article class="solicitacao-card status-${solicitacao.status} ${isPagamento ? "solicitacao-pagamento" : ""}">
         <div>
-          <span class="page-eyebrow">${statusTexto}</span>
+          <span class="page-eyebrow">${isPagamento ? "Pagamento" : statusTexto}</span>
           <h3>${aluno?.nome || "Aluno"}</h3>
-          ${descricaoSolicitacao(solicitacao, aluno)}
-          ${solicitacao.observacao ? `<p><strong>Obs. do aluno:</strong> ${solicitacao.observacao}</p>` : ""}
+          ${isPagamento ? descricaoSolicitacaoPagamento(solicitacao, aluno) : descricaoSolicitacaoAlteracao(solicitacao, aluno)}
           <small>Enviado em ${new Date(solicitacao.created_at).toLocaleDateString("pt-BR")}</small>
         </div>
         ${podeResponder ? `
           <div class="solicitacao-acoes">
-            <button type="button" class="acao-principal" onclick="aprovarSolicitacaoAlteracao('${solicitacao.id}')">Aprovar</button>
-            <button type="button" class="acao-perigo" onclick="recusarSolicitacaoAlteracao('${solicitacao.id}')">Recusar</button>
+            <button type="button" class="acao-principal" onclick="${isPagamento ? `aprovarSolicitacaoPagamento('${solicitacao.id}')` : `aprovarSolicitacaoAlteracao('${solicitacao.id}')`}">${isPagamento ? "Confirmar pagamento" : "Aprovar"}</button>
+            <button type="button" class="acao-perigo" onclick="${isPagamento ? `recusarSolicitacaoPagamento('${solicitacao.id}')` : `recusarSolicitacaoAlteracao('${solicitacao.id}')`}">Recusar</button>
           </div>
         ` : ""}
       </article>
@@ -198,6 +230,80 @@ async function recusarSolicitacaoAlteracao(id) {
   await carregarSolicitacoesAlteracao();
 }
 
+
+async function aprovarSolicitacaoPagamento(id) {
+  const { data: solicitacao, error: erroBusca } = await supabaseClient
+    .from("solicitacoes_pagamento")
+    .select("id, aluno_id, user_id, valor_informado, data_pagamento, status")
+    .eq("id", id)
+    .single();
+
+  if (erroBusca || !solicitacao) {
+    mostrarToast("Solicitação de pagamento não encontrada.", "erro");
+    return;
+  }
+
+  if (solicitacao.status !== "pendente") {
+    mostrarToast("Essa solicitação já foi respondida.", "erro");
+    return;
+  }
+
+  const { data: aluno, error: erroAluno } = await supabaseClient
+    .from("alunos")
+    .select("id,user_id,nome,valor,vencimento")
+    .eq("id", solicitacao.aluno_id)
+    .eq("user_id", usuarioAtual.id)
+    .single();
+
+  if (erroAluno || !aluno) {
+    mostrarToast("Aluno não encontrado para confirmar pagamento.", "erro");
+    return;
+  }
+
+  if (typeof registrarPagamentoAluno !== "function") {
+    mostrarToast("Função de pagamento não carregada. Atualize o sistema.", "erro");
+    return;
+  }
+
+  const resultado = await registrarPagamentoAluno(aluno, {
+    dataPagamento: solicitacao.data_pagamento || new Date().toISOString().split("T")[0]
+  });
+
+  if (!resultado.ok && !resultado.jaExiste) {
+    mostrarToast(resultado.mensagem || "Erro ao confirmar pagamento.", "erro");
+    return;
+  }
+
+  const { error: erroFinalizar } = await supabaseClient
+    .from("solicitacoes_pagamento")
+    .update({ status: "aprovada", respondido_em: new Date().toISOString() })
+    .eq("id", id);
+
+  if (erroFinalizar) {
+    mostrarToast("Pagamento registrado, mas erro ao finalizar solicitação.", "erro");
+    return;
+  }
+
+  await carregarAlunos();
+  await carregarSolicitacoesAlteracao();
+  mostrarToast(resultado.jaExiste ? "Solicitação aprovada. Esse aluno já tinha pagamento no mês." : "✅ Pagamento confirmado com sucesso!");
+}
+
+async function recusarSolicitacaoPagamento(id) {
+  const { error } = await supabaseClient
+    .from("solicitacoes_pagamento")
+    .update({ status: "recusada", respondido_em: new Date().toISOString() })
+    .eq("id", id);
+
+  if (error) {
+    mostrarToast("Erro ao recusar solicitação de pagamento.", "erro");
+    return;
+  }
+
+  mostrarToast("Solicitação de pagamento recusada.");
+  await carregarSolicitacoesAlteracao();
+}
+
 // ===============================
 // 31. NAVEGAÇÃO PRINCIPAL — SIDEBAR
 // ===============================
@@ -258,8 +364,13 @@ if (view === "turmas" && !moduloTurmasAtivo) {
   if (tituloPagina && textos[view]) tituloPagina.textContent = textos[view][0];
   if (descricaoPagina && textos[view]) descricaoPagina.textContent = textos[view][1];
 
-  if (view === "financeiro" && typeof carregarGrafico === "function") {
-    carregarGrafico();
+  if (view === "financeiro") {
+    if (typeof carregarResumoFinanceiroMensal === "function") {
+      carregarResumoFinanceiroMensal();
+    }
+    if (typeof carregarGrafico === "function") {
+      carregarGrafico();
+    }
   }
   if (view === "desafio" && typeof atualizarDesafioPresencaProfessor === "function") {
     atualizarDesafioPresencaProfessor();
@@ -312,6 +423,22 @@ function inicializarNavegacaoPrincipal() {
   document.addEventListener("keydown", function(event) {
     if (event.key === "Escape") {
       fecharMenuLateral();
+    }
+
+    const tecla = String(event.key || "").toLowerCase();
+    const atalhoBusca = tecla === "k" && (event.ctrlKey || event.metaKey);
+
+    if (atalhoBusca) {
+      event.preventDefault();
+      abrirViewPrincipal("alunos");
+
+      setTimeout(() => {
+        const campo = document.getElementById("campoBusca");
+        if (campo) {
+          campo.focus();
+          campo.select();
+        }
+      }, 80);
     }
   });
 

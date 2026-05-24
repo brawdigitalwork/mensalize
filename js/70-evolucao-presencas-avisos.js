@@ -422,7 +422,7 @@ async function carregarAvisos() {
   if (!listaAvisos || !usuarioAtual) return;
   const { data, error } = await supabaseClient
     .from("avisos")
-    .select("id,titulo,turma,mensagem,tipo,prioridade,ativo,created_at,user_id")
+    .select("id,titulo,turma,mensagem,tipo,prioridade,ativo,data_inicio,data_fim,created_at,user_id")
     .eq("user_id", usuarioAtual.id)
     .order("created_at", { ascending: false })
     .limit(20);
@@ -444,15 +444,28 @@ async function carregarAvisos() {
     const destino = aviso.turma ? `Destino: ${escaparTextoSeguro(aviso.turma)}` : "Destino: Todos os alunos";
     const tipo = avisoTipoTexto(aviso.tipo);
     const importante = aviso.prioridade === "importante" || aviso.tipo === "importante";
+    const hojeISO = new Date().toISOString().split("T")[0];
+    const aindaNaoIniciou = aviso.data_inicio && aviso.data_inicio > hojeISO;
+    const expirado = aviso.data_fim && aviso.data_fim < hojeISO;
+    const statusPeriodo = expirado ? "Expirado" : aindaNaoIniciou ? "Agendado" : "Ativo";
+    const periodo = `${aviso.data_inicio ? formatarData(aviso.data_inicio) : "Hoje"} até ${aviso.data_fim ? formatarData(aviso.data_fim) : "sem data final"}`;
+
     return `
-      <div class="evolucao-item aviso-item ${importante ? 'aviso-importante' : ''}">
+      <div class="evolucao-item aviso-item ${importante ? 'aviso-importante' : ''} ${expirado ? 'aviso-expirado' : ''}">
         <div>
-          <span class="mini-badge">${tipo}</span>
+          <div class="aviso-badges-row">
+            <span class="mini-badge">${tipo}</span>
+            <span class="mini-badge ${expirado ? 'status-atrasado' : aindaNaoIniciou ? 'status-pendente' : 'status-ok'}">${statusPeriodo}</span>
+          </div>
           <strong>${titulo}</strong>
           <span>${destino}</span>
           <small>${mensagem}</small>
+          <small class="aviso-periodo">Período: ${periodo}</small>
         </div>
-        <button type="button" class="acao-secundaria" onclick="copiarAviso('${aviso.id}')">Copiar</button>
+        <div class="aviso-acoes">
+          <button type="button" class="acao-secundaria" onclick="copiarAviso('${aviso.id}')">Copiar</button>
+          <button type="button" class="acao-perigo" onclick="removerAviso('${aviso.id}')">Apagar</button>
+        </div>
       </div>
     `;
   }).join("");
@@ -470,17 +483,47 @@ async function copiarAviso(id) {
   }
 }
 
+async function removerAviso(id) {
+  if (!usuarioAtual || !id) return;
+
+  const confirmar = window.confirm("Apagar este aviso? Essa ação não pode ser desfeita.");
+  if (!confirmar) return;
+
+  const { error } = await supabaseClient
+    .from("avisos")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", usuarioAtual.id);
+
+  if (error) {
+    console.error("Erro ao apagar aviso:", error.message);
+    mostrarToast("Erro ao apagar aviso.", "erro");
+    return;
+  }
+
+  mostrarToast("Aviso apagado com sucesso.");
+  await carregarAvisos();
+}
+
 async function salvarAviso(event) {
   event.preventDefault();
   if (!usuarioAtual) return;
   const titulo = avisoTitulo ? avisoTitulo.value.trim() : "";
   const turma = avisoTurma ? avisoTurma.value.trim() : "";
   const mensagem = avisoMensagem ? avisoMensagem.value.trim() : "";
+  const dataInicio = avisoDataInicio && avisoDataInicio.value ? avisoDataInicio.value : null;
+  const dataFim = avisoDataFim && avisoDataFim.value ? avisoDataFim.value : null;
   const tipo = document.getElementById("avisoTipo")?.value || "comunicado";
   const prioridade = document.getElementById("avisoPrioridade")?.value || "normal";
 
   if (!titulo || !mensagem) {
     if (msgAviso) msgAviso.textContent = "Preencha título e mensagem.";
+    return;
+  }
+
+  if (dataInicio && dataFim && dataFim < dataInicio) {
+    if (msgAviso) msgAviso.textContent = "A data final não pode ser antes da data inicial.";
+    mostrarToast("Confira o período do aviso.", "erro");
     return;
   }
 
@@ -491,6 +534,8 @@ async function salvarAviso(event) {
     mensagem,
     tipo,
     prioridade,
+    data_inicio: dataInicio,
+    data_fim: dataFim,
     ativo: true
   });
 

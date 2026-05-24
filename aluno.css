@@ -2044,3 +2044,37 @@ img.ranking-photo-big {
   min-height: 42px;
   padding: 10px 13px;
 }
+
+/* ================================================================
+   CONFIRMAÇÃO DE PAGAMENTO — ÁREA DO ALUNO
+================================================================ */
+.payment-confirm-box {
+  width: 100%;
+  margin-top: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  padding: 14px;
+}
+
+.payment-confirm-box .compact-title-row {
+  margin-bottom: 8px;
+}
+
+.payment-confirm-box h2 {
+  font-size: 17px;
+}
+
+.payment-confirm-form {
+  margin-top: 12px;
+}
+
+.payment-confirm-form button {
+  width: fit-content;
+}
+
+@media (max-width: 680px) {
+  .payment-confirm-form button {
+    width: 100%;
+  }
+}

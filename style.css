@@ -4864,3 +4864,557 @@ textarea:focus-visible {
     flex-basis: 100%;
   }
 }
+
+
+/* ================================================================
+   FASE 2 — ADMIN E PERFIL MAIS PROFISSIONAIS
+================================================================ */
+.perfil-page-clean {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.perfil-topo-clean {
+  margin-bottom: 18px;
+}
+
+.perfil-form-clean {
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.perfil-form-clean .campo-cheio {
+  grid-column: 1 / -1;
+}
+
+.perfil-form-clean textarea#perfilPixCopiaCola {
+  min-height: 86px !important;
+  max-height: 150px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.admin-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.admin-card-clientes {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-clientes-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 360px) 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.admin-busca-clientes {
+  min-height: 44px;
+  border-radius: 14px;
+}
+
+.admin-filtros-clientes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.admin-filtro-cliente {
+  min-height: 38px;
+  padding: 9px 12px;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.055) !important;
+  color: var(--texto-secundario) !important;
+  border: 1px solid var(--borda) !important;
+  box-shadow: none !important;
+}
+
+.admin-filtro-cliente:hover,
+.admin-filtro-cliente.ativo {
+  background: var(--cor-roxo-bg) !important;
+  color: var(--texto-primario) !important;
+  border-color: var(--cor-roxo-borda) !important;
+  transform: translateY(-1px);
+}
+
+.admin-empty-state {
+  padding: 22px;
+  text-align: center;
+  color: var(--texto-secundario);
+  border: 1px dashed var(--borda);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.035);
+}
+
+.cliente-card-admin-pro {
+  overflow: hidden;
+}
+
+.cliente-header-admin-pro {
+  align-items: center;
+}
+
+.cliente-email-secundario {
+  display: block;
+  margin-top: 4px;
+  color: var(--texto-terciario);
+  font-size: 12px;
+}
+
+.badge-ativo {
+  background: var(--verde-bg) !important;
+  color: #4ade80 !important;
+  border-color: var(--verde-borda) !important;
+}
+
+.badge-bloqueado {
+  background: var(--vermelho-bg) !important;
+  color: #f87171 !important;
+  border-color: var(--vermelho-borda) !important;
+}
+
+.btn-gerenciar-cliente {
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.065) !important;
+  color: var(--texto-primario) !important;
+  border: 1px solid var(--borda) !important;
+  box-shadow: none !important;
+}
+
+.btn-gerenciar-cliente:hover {
+  background: var(--cor-roxo-bg) !important;
+  border-color: var(--cor-roxo-borda) !important;
+}
+
+.cliente-limite-row-clean {
+  grid-template-columns: auto 120px auto;
+  justify-content: flex-start;
+}
+
+.cliente-limite-row-clean label {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.admin-planos-box {
+  margin-top: 12px;
+}
+
+.admin-modulos-titulo-v2 span {
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+@media (max-width: 860px) {
+  .admin-clientes-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-filtros-clientes {
+    justify-content: flex-start;
+  }
+
+  .cliente-header-dir {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .perfil-form-clean {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .cliente-limite-row-clean {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .cliente-limite-row-clean input,
+  .cliente-limite-row-clean button {
+    width: 100%;
+  }
+
+  .admin-filtro-cliente {
+    flex: 1 1 auto;
+  }
+}
+
+/* ================================================================
+   AJUSTE 2026.05.24 — Fase 3 Planos definidos
+================================================================ */
+.admin-planos-opcoes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.admin-plano-resumo-card {
+  min-height: 168px;
+  padding: 13px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.09);
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.admin-plano-resumo-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.admin-plano-resumo-topo strong {
+  color: var(--texto-primario);
+  font-size: 15px;
+}
+
+.admin-plano-badge-mini {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 5px 8px;
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--cor-roxo-claro);
+  border: 1px solid var(--cor-roxo-borda);
+  background: var(--cor-roxo-bg);
+}
+
+.admin-plano-resumo-card p {
+  margin: 0;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.admin-plano-resumo-card ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 16px;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.admin-plano-grid-v3 {
+  grid-template-columns: minmax(0, 1.2fr) minmax(140px, .55fr) minmax(210px, .8fr) !important;
+  align-items: stretch;
+}
+
+.admin-toggle-acesso-v3 {
+  margin: 0;
+  min-height: 100%;
+}
+
+.admin-plano-aplicado-box {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  border-radius: 18px;
+  border: 1px solid rgba(34,197,94,0.18);
+  background: rgba(34,197,94,0.075);
+  margin-bottom: 14px;
+}
+
+.admin-plano-aplicado-box strong {
+  display: block;
+  color: var(--texto-primario);
+  font-size: 14px;
+}
+
+.admin-plano-aplicado-box small {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.admin-recursos-plano-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.admin-recursos-plano-lista span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(34,197,94,0.20);
+  background: rgba(34,197,94,0.08);
+  color: #86efac;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+[data-tema="claro"] .admin-plano-resumo-card,
+[data-tema="claro"] .admin-plano-aplicado-box {
+  background: #fff !important;
+  border-color: rgba(17,24,39,0.10) !important;
+}
+
+[data-tema="claro"] .admin-recursos-plano-lista span {
+  color: #15803d;
+  background: rgba(34,197,94,0.09);
+}
+
+@media (max-width: 980px) {
+  .admin-planos-opcoes-grid,
+  .admin-plano-grid-v3 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================================================
+   FASE 4 — FINANCEIRO POR MÊS + AVISOS COM PERÍODO
+================================================================ */
+.financeiro-filtros-mes {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(160px, 200px) auto;
+  gap: 12px;
+  align-items: end;
+  margin: 18px 0;
+}
+
+.campo-filtro-financeiro {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.campo-filtro-financeiro span {
+  color: var(--texto-secundario);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.financeiro-resumo-grid-v2 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.financeiro-lista-mensal-wrap {
+  margin-top: 18px;
+  border-top: 1px solid var(--borda);
+  padding-top: 18px;
+}
+
+.financeiro-lista-topo {
+  margin-bottom: 12px;
+}
+
+.financeiro-lista-mensal {
+  display: grid;
+  gap: 10px;
+}
+
+.financeiro-linha-mensal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: var(--raio-lg);
+  background: rgba(255,255,255,0.045);
+  border: 1px solid var(--borda);
+}
+
+.financeiro-linha-mensal > div:first-child {
+  min-width: 0;
+}
+
+.financeiro-linha-mensal strong {
+  display: block;
+  color: var(--texto-primario);
+}
+
+.financeiro-linha-mensal span {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+.financeiro-linha-dir {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.financeiro-linha-mensal.status-atrasado {
+  border-color: rgba(239, 68, 68, 0.28);
+  background: rgba(239, 68, 68, 0.07);
+}
+
+.financeiro-linha-mensal.status-pago {
+  border-color: rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.06);
+}
+
+.aviso-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+
+.aviso-periodo {
+  display: inline-block !important;
+  margin-top: 6px;
+  color: var(--texto-terciario) !important;
+}
+
+.aviso-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.aviso-expirado {
+  opacity: 0.72;
+}
+
+@media (max-width: 980px) {
+  .financeiro-resumo-grid-v2 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .financeiro-filtros-mes {
+    grid-template-columns: 1fr;
+  }
+
+  .financeiro-resumo-grid-v2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .financeiro-linha-mensal {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .financeiro-linha-dir {
+    width: 100%;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .aviso-acoes {
+    justify-content: flex-start;
+  }
+}
+
+/* ================================================================
+   SOLICITAÇÕES DE PAGAMENTO
+================================================================ */
+.solicitacao-card.solicitacao-pagamento {
+  border-color: rgba(56, 189, 248, 0.24);
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.08), rgba(255,255,255,0.035));
+}
+
+.solicitacao-card.solicitacao-pagamento .page-eyebrow {
+  color: #7dd3fc;
+  border-color: rgba(56, 189, 248, 0.26);
+  background: rgba(56, 189, 248, 0.10);
+}
+
+/* ================================================================
+   CARDS DE ALUNO — AÇÕES RECOLHIDAS
+================================================================ */
+.acoes-premium-recolhidas {
+  display: grid;
+  gap: 10px;
+}
+
+.acoes-primarias-card,
+.acoes-secundarias-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+.acoes-primarias-card > button,
+.acoes-primarias-card > span,
+.acoes-secundarias-card > button {
+  flex: 1 1 150px;
+}
+
+.acoes-secundarias-card {
+  display: none;
+  padding-top: 10px;
+  border-top: 1px solid var(--borda);
+}
+
+.aluno-card.expandido .acoes-secundarias-card {
+  display: flex;
+}
+
+.btn-mais-acoes {
+  flex: 0 0 52px !important;
+  max-width: 70px;
+  font-size: 20px !important;
+  line-height: 1;
+}
+
+.badge-pago-confirmado {
+  min-height: 44px;
+  padding: 12px 16px;
+  border-radius: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--verde-bg);
+  color: var(--verde);
+  border: 1px solid var(--verde-borda);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .acoes-primarias-card,
+  .acoes-secundarias-card {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .acoes-secundarias-card {
+    display: none;
+  }
+
+  .aluno-card.expandido .acoes-secundarias-card {
+    display: grid;
+  }
+
+  .btn-mais-acoes {
+    flex: initial !important;
+    max-width: none;
+  }
+}

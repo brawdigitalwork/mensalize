@@ -95,65 +95,344 @@ btnCriarUsuario.addEventListener("click", async function() {
 });
 
 
-function obterResumoPlanoAdmin(plano) {
-  const mapa = {
-    trial: {
-      nome: "Trial",
-      descricao: "Teste controlado, ideal para liberar acesso inicial sem entregar todos os módulos.",
-      tag: "Teste"
-    },
-    basic: {
-      nome: "Basic",
-      descricao: "Plano básico para gestão financeira, alunos e ranking essencial.",
-      tag: "Entrada"
-    },
-    pro: {
-      nome: "Pro",
-      descricao: "Plano completo com presença, turmas, desafio e recursos avançados.",
-      tag: "Completo"
-    }
-  };
+let adminFiltroClientesAtual = "todos";
+let adminBuscaClientesTexto = "";
 
-  return mapa[plano] || mapa.trial;
+function normalizarAdminTexto(valor) {
+  return String(valor || "").trim().toLowerCase();
+}
+
+function inicializarFiltrosClientesAdmin() {
+  const inputBusca = document.getElementById("adminBuscaClientes");
+  const botoesFiltro = document.querySelectorAll("[data-admin-filtro-clientes]");
+
+  if (inputBusca && !inputBusca.dataset.inicializado) {
+    inputBusca.dataset.inicializado = "true";
+    inputBusca.addEventListener("input", () => {
+      adminBuscaClientesTexto = normalizarAdminTexto(inputBusca.value);
+      renderizarClientesAdminCache();
+    });
+  }
+
+  botoesFiltro.forEach(botao => {
+    if (botao.dataset.inicializado) return;
+    botao.dataset.inicializado = "true";
+    botao.addEventListener("click", () => {
+      adminFiltroClientesAtual = botao.dataset.adminFiltroClientes || "todos";
+      botoesFiltro.forEach(btn => btn.classList.toggle("ativo", btn === botao));
+      renderizarClientesAdminCache();
+    });
+  });
+}
+
+let clientesAdminUltimosAlunos = [];
+
+function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
+  const total = alunosDoCliente.length;
+  const limite = Number(cliente.limite_alunos || 30);
+  const texto = `${cliente.email || ""} ${cliente.nome_empresa || ""}`.toLowerCase();
+  const plano = cliente.plano || "trial";
+  const status = cliente.status || "ativo";
+  const podeUsar = cliente.pode_usar !== false;
+
+  if (adminBuscaClientesTexto && !texto.includes(adminBuscaClientesTexto)) return false;
+
+  if (adminFiltroClientesAtual === "todos") return true;
+  if (adminFiltroClientesAtual === "ativo") return status !== "bloqueado" && podeUsar;
+  if (adminFiltroClientesAtual === "bloqueado") return status === "bloqueado" || !podeUsar;
+  if (["trial", "basic", "pro"].includes(adminFiltroClientesAtual)) return plano === adminFiltroClientesAtual;
+  if (adminFiltroClientesAtual === "limite") return total >= limite;
+
+  return true;
+}
+
+function renderizarClientesAdminCache() {
+  if (!listaClientes) return;
+
+  const clientesBase = (clientesCache || []).filter(c => !c.is_admin);
+  const todosAlunosAdmin = clientesAdminUltimosAlunos || [];
+  const clientesFiltrados = clientesBase.filter(cliente => {
+    const alunosDoCliente = todosAlunosAdmin.filter(a => String(a.user_id) === String(cliente.id));
+    return clientePassaFiltroAdmin(cliente, alunosDoCliente);
+  });
+
+  listaClientes.innerHTML = "";
+
+  if (clientesBase.length === 0) {
+    listaClientes.innerHTML = `<p class="admin-empty-state">Nenhum cliente cadastrado ainda.</p>`;
+    return;
+  }
+
+  if (clientesFiltrados.length === 0) {
+    listaClientes.innerHTML = `<p class="admin-empty-state">Nenhum cliente encontrado para esse filtro.</p>`;
+    return;
+  }
+
+  clientesFiltrados.forEach(cliente => renderizarCardClienteAdmin(cliente, todosAlunosAdmin));
+}
+
+function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
+  const alunosDoCliente = (todosAlunosAdmin || []).filter(
+    a => String(a.user_id) === String(cliente.id)
+  );
+
+  const total = alunosDoCliente.length;
+  const limite = Number(cliente.limite_alunos || 30);
+  const porcentagem = Math.min(Math.round((total / limite) * 100), 100);
+  const corBarra = porcentagem >= 100 ? "#ef4444" : porcentagem >= 75 ? "#facc15" : "#22c55e";
+  const resumoPlano = obterResumoPlanoAdmin(cliente.plano || "trial");
+  const statusBloqueado = cliente.status === "bloqueado" || cliente.pode_usar === false;
+
+  const div = document.createElement("div");
+  div.classList.add("cliente-card-v2", "cliente-card-admin-pro");
+  div.dataset.clienteId = cliente.id;
+
+  div.innerHTML = `
+    <div class="cliente-header-v2 cliente-header-admin-pro" onclick="toggleClienteAlunos('${cliente.id}')">
+      <div class="cliente-header-esq">
+        <div class="cliente-avatar">
+          ${(cliente.nome_empresa || cliente.email || "C").charAt(0).toUpperCase()}
+        </div>
+        <div>
+          <strong class="cliente-email">${cliente.nome_empresa || cliente.email}</strong>
+          <div class="cliente-meta">
+            <span class="badge-cliente">${resumoPlano.nome}</span>
+            <span class="badge-cliente ${statusBloqueado ? "badge-bloqueado" : "badge-ativo"}">${statusBloqueado ? "Bloqueado" : "Ativo"}</span>
+            <span class="cliente-contagem">${total} / ${limite} alunos</span>
+          </div>
+          ${cliente.nome_empresa ? `<small class="cliente-email-secundario">${cliente.email}</small>` : ""}
+        </div>
+      </div>
+      <div class="cliente-header-dir">
+        <button onclick="event.stopPropagation(); removerCliente('${cliente.id}')" class="btn-remover-cliente" title="Remover cliente">🗑</button>
+        <button type="button" class="btn-gerenciar-cliente" onclick="event.stopPropagation(); toggleClienteAlunos('${cliente.id}')">Gerenciar</button>
+        <span class="cliente-seta" id="seta-${cliente.id}">▼</span>
+      </div>
+    </div>
+
+    <div class="cliente-barra-wrapper">
+      <div class="cliente-barra-fundo">
+        <div class="cliente-barra-fill" style="width:${porcentagem}%; background:${corBarra};"></div>
+      </div>
+      <span class="cliente-barra-label">${porcentagem}% do limite</span>
+    </div>
+
+    <div class="cliente-limite-row cliente-limite-row-clean" onclick="event.stopPropagation()">
+      <label>Limite de alunos</label>
+      <input type="number" id="limite-input-${cliente.id}" value="${limite}" min="1">
+      <button class="btn-salvar-limite" onclick="alterarLimite('${cliente.id}')">Salvar limite</button>
+    </div>
+
+    <div class="cliente-detalhes-admin escondido" id="detalhes-cliente-${cliente.id}">
+      <div class="admin-modulos-box admin-planos-box" onclick="event.stopPropagation()">
+        <div class="admin-modulos-titulo admin-modulos-titulo-v2">
+          <div>
+            <strong>Plano do cliente</strong>
+            <span>Escolha o plano. Os módulos são liberados automaticamente pelo pacote.</span>
+          </div>
+          <span class="admin-plano-badge" id="plano-badge-${cliente.id}">${resumoPlano.tag}</span>
+        </div>
+
+        <div class="admin-planos-opcoes-grid">
+          ${renderizarRecursosPlanoAdmin("trial")}
+          ${renderizarRecursosPlanoAdmin("basic")}
+          ${renderizarRecursosPlanoAdmin("pro")}
+        </div>
+
+        <div class="admin-plano-grid admin-plano-grid-v3">
+          <div class="admin-config-item admin-config-destaque">
+            <label>Plano escolhido</label>
+            <select id="plano-${cliente.id}" onchange="aplicarPresetPlanoCliente('${cliente.id}', this.value)">
+              <option value="trial" ${cliente.plano === "trial" ? "selected" : ""}>Trial</option>
+              <option value="basic" ${cliente.plano === "basic" ? "selected" : ""}>Basic</option>
+              <option value="pro" ${cliente.plano === "pro" ? "selected" : ""}>Pro</option>
+            </select>
+            <small id="plano-resumo-${cliente.id}">${resumoPlano.descricao}</small>
+          </div>
+
+          <div class="admin-config-item">
+            <label>Status da conta</label>
+            <select id="status-${cliente.id}">
+              <option value="ativo" ${cliente.status === "ativo" ? "selected" : ""}>Ativo</option>
+              <option value="bloqueado" ${cliente.status === "bloqueado" ? "selected" : ""}>Bloqueado</option>
+            </select>
+          </div>
+
+          <label class="admin-toggle admin-toggle-acesso admin-toggle-acesso-v3">
+            <span>
+              <strong>🔓 Acesso ao sistema</strong>
+              <small>Libera ou bloqueia o login.</small>
+            </span>
+            <input type="checkbox" id="pode-usar-${cliente.id}" ${cliente.pode_usar !== false ? "checked" : ""}>
+          </label>
+        </div>
+
+        <div class="admin-plano-aplicado-box">
+          <div>
+            <strong>Recursos que serão liberados</strong>
+            <small id="plano-limite-sugerido-${cliente.id}">${obterConfigPlanoAdmin(cliente.plano || "trial").limite} alunos sugeridos</small>
+          </div>
+          <div id="plano-recursos-${cliente.id}">
+            ${renderizarRecursosPlanoSelecionado(cliente.plano || "trial")}
+          </div>
+        </div>
+
+        <div class="admin-plano-row admin-plano-row-v2">
+          <button class="btn-salvar-modulos" onclick="salvarPermissoesCliente('${cliente.id}')">
+            Salvar plano
+          </button>
+        </div>
+      </div>
+
+      <div class="cliente-alunos-lista" id="alunos-cliente-${cliente.id}">
+        ${renderizarAlunosDoCliente(alunosDoCliente)}
+      </div>
+    </div>
+  `;
+
+  listaClientes.appendChild(div);
+}
+
+
+const PLANOS_MENSALIZE_ADMIN = {
+  trial: {
+    nome: "Trial",
+    tag: "Teste",
+    limite: 50,
+    descricao: "Acesso inicial para teste, com o essencial para validar o sistema.",
+    destaque: "Ideal para parceria, demonstração e primeiros testes.",
+    modulos: {
+      modulo_evolucao: false,
+      modulo_presenca: false,
+      modulo_avisos: false,
+      modulo_ranking: false,
+      modulo_desafio: false,
+      modulo_turmas: false
+    },
+    recursos: [
+      "Alunos e mensalidades",
+      "Página do aluno",
+      "Pix copia e cola",
+      "Cobrança via WhatsApp",
+      "Limite sugerido: 50 alunos"
+    ]
+  },
+  basic: {
+    nome: "Basic",
+    tag: "Entrada",
+    limite: 100,
+    descricao: "Plano para professor pequeno que precisa organizar alunos, financeiro e comunicação.",
+    destaque: "Bom para começar a cobrar mensalidades com mais controle.",
+    modulos: {
+      modulo_evolucao: true,
+      modulo_presenca: false,
+      modulo_avisos: true,
+      modulo_ranking: false,
+      modulo_desafio: false,
+      modulo_turmas: false
+    },
+    recursos: [
+      "Tudo do Trial",
+      "Quadro de avisos",
+      "Evolução/graduação",
+      "Aniversariantes",
+      "Limite sugerido: 100 alunos"
+    ]
+  },
+  pro: {
+    nome: "Pro",
+    tag: "Completo",
+    limite: 300,
+    descricao: "Plano completo para academia com turmas, presença, ranking e desafio.",
+    destaque: "Para vender como o pacote principal do Mensalize.",
+    modulos: {
+      modulo_evolucao: true,
+      modulo_presenca: true,
+      modulo_avisos: true,
+      modulo_ranking: true,
+      modulo_desafio: true,
+      modulo_turmas: true
+    },
+    recursos: [
+      "Tudo do Basic",
+      "Turmas",
+      "Presenças",
+      "Ranking de presença",
+      "Desafio de presença",
+      "Limite sugerido: 300 alunos"
+    ]
+  }
+};
+
+function obterConfigPlanoAdmin(plano) {
+  return PLANOS_MENSALIZE_ADMIN[plano] || PLANOS_MENSALIZE_ADMIN.trial;
+}
+
+function obterResumoPlanoAdmin(plano) {
+  const config = obterConfigPlanoAdmin(plano);
+  return {
+    nome: config.nome,
+    descricao: config.descricao,
+    tag: config.tag
+  };
+}
+
+function renderizarRecursosPlanoAdmin(plano) {
+  const config = obterConfigPlanoAdmin(plano);
+  return `
+    <div class="admin-plano-resumo-card" id="plano-card-${plano}">
+      <div class="admin-plano-resumo-topo">
+        <span class="admin-plano-badge-mini">${config.tag}</span>
+        <strong>${config.nome}</strong>
+      </div>
+      <p>${config.destaque}</p>
+      <ul>
+        ${config.recursos.map(recurso => `<li>${recurso}</li>`).join("")}
+      </ul>
+    </div>
+  `;
+}
+
+function renderizarRecursosPlanoSelecionado(plano) {
+  const config = obterConfigPlanoAdmin(plano);
+  return `
+    <div class="admin-recursos-plano-lista">
+      ${config.recursos.map(recurso => `<span>✓ ${recurso}</span>`).join("")}
+    </div>
+  `;
 }
 
 function aplicarPresetPlanoCliente(clienteId, planoSelecionado) {
   const plano = planoSelecionado || document.getElementById(`plano-${clienteId}`)?.value || "trial";
+  const config = obterConfigPlanoAdmin(plano);
   const resumo = obterResumoPlanoAdmin(plano);
 
-  const ranking = document.getElementById(`mod-ranking-${clienteId}`);
-  const desafio = document.getElementById(`mod-desafio-${clienteId}`);
-  const turmas = document.getElementById(`mod-turmas-${clienteId}`);
+  const limiteInput = document.getElementById(`limite-input-${clienteId}`);
+  const recursosEl = document.getElementById(`plano-recursos-${clienteId}`);
   const resumoEl = document.getElementById(`plano-resumo-${clienteId}`);
   const badgeEl = document.getElementById(`plano-badge-${clienteId}`);
+  const limiteSugeridoEl = document.getElementById(`plano-limite-sugerido-${clienteId}`);
 
-  if (plano === "trial") {
-    if (ranking) ranking.checked = true;
-    if (desafio) desafio.checked = false;
-    if (turmas) turmas.checked = false;
+  if (limiteInput && Number(limiteInput.value || 0) < config.limite) {
+    limiteInput.value = config.limite;
   }
 
-  if (plano === "basic") {
-    if (ranking) ranking.checked = true;
-    if (desafio) desafio.checked = true;
-    if (turmas) turmas.checked = false;
-  }
-
-  if (plano === "pro") {
-    if (ranking) ranking.checked = true;
-    if (desafio) desafio.checked = true;
-    if (turmas) turmas.checked = true;
-  }
-
+  if (recursosEl) recursosEl.innerHTML = renderizarRecursosPlanoSelecionado(plano);
   if (resumoEl) resumoEl.textContent = resumo.descricao;
   if (badgeEl) badgeEl.textContent = resumo.tag;
+  if (limiteSugeridoEl) limiteSugeridoEl.textContent = `${config.limite} alunos sugeridos`;
+}
+
+function obterPermissoesDoPlanoAdmin(plano) {
+  const config = obterConfigPlanoAdmin(plano);
+  return { ...config.modulos };
 }
 
 /** Admin: carrega clientes e lista alunos de cada cliente. */
 async function carregarClientes() {
   listaClientes.innerHTML = `<div class="skeleton-wrapper"><div class="skeleton-card"></div><div class="skeleton-card"></div></div>`;
+  inicializarFiltrosClientesAdmin();
 
-  // Busca clientes e todos os alunos em paralelo
   const [{ data: clientes, error }, { data: todosAlunosAdmin }] = await Promise.all([
     supabaseClient.from("profiles").select(`
   id,
@@ -183,149 +462,9 @@ async function carregarClientes() {
     return;
   }
 
-  clientesCache = clientes;
-  listaClientes.innerHTML = "";
-
-  // Filtra só não-admins para a lista de clientes
-  const clientesFiltrados = clientes.filter(c => !c.is_admin);
-
-  if (clientesFiltrados.length === 0) {
-    listaClientes.innerHTML = `<p style="color:#a1a1aa; text-align:center; padding:20px;">Nenhum cliente cadastrado ainda.</p>`;
-    return;
-  }
-
-  clientesFiltrados.forEach(cliente => {
-    const alunosDoCliente = (todosAlunosAdmin || []).filter(
-      a => String(a.user_id) === String(cliente.id)
-    );
-
-    const total = alunosDoCliente.length;
-    const limite = cliente.limite_alunos || 30;
-    const porcentagem = Math.min(Math.round((total / limite) * 100), 100);
-    const corBarra = porcentagem >= 100 ? "#ef4444" : porcentagem >= 75 ? "#facc15" : "#22c55e";
-
-    const div = document.createElement("div");
-    div.classList.add("cliente-card-v2");
-    div.dataset.clienteId = cliente.id;
-
-    div.innerHTML = `
-      <div class="cliente-header-v2" onclick="toggleClienteAlunos('${cliente.id}')">
-        <div class="cliente-header-esq">
-          <div class="cliente-avatar">
-            ${cliente.email.charAt(0).toUpperCase()}
-          </div>
-          <div>
-            <strong class="cliente-email">${cliente.email}</strong>
-            <div class="cliente-meta">
-              <span class="badge-cliente">CLIENTE</span>
-              <span class="cliente-contagem">${total} / ${limite} alunos</span>
-            </div>
-          </div>
-        </div>
-        <div class="cliente-header-dir">
-          <button onclick="event.stopPropagation(); removerCliente('${cliente.id}')" class="btn-remover-cliente" title="Remover cliente">🗑</button>
-          <span class="cliente-seta" id="seta-${cliente.id}">▼</span>
-        </div>
-      </div>
-
-      <div class="cliente-barra-wrapper">
-        <div class="cliente-barra-fundo">
-          <div class="cliente-barra-fill" style="width:${porcentagem}%; background:${corBarra};"></div>
-        </div>
-        <span class="cliente-barra-label">${porcentagem}% do limite</span>
-      </div>
-
-      <div class="cliente-limite-row cliente-limite-row-clean" onclick="event.stopPropagation()">
-        <label>Limite de alunos:</label>
-        <input type="number" id="limite-input-${cliente.id}" value="${limite}" min="1">
-        <button class="btn-salvar-limite" onclick="alterarLimite('${cliente.id}')">Salvar</button>
-        <span class="cliente-limite-hint">Clique no cliente para ver plano, permissões e alunos.</span>
-      </div>
-
-      <div class="cliente-detalhes-admin escondido" id="detalhes-cliente-${cliente.id}">
-
-<div class="admin-modulos-box admin-planos-box" onclick="event.stopPropagation()">
-
-  <div class="admin-modulos-titulo admin-modulos-titulo-v2">
-    <div>
-      <strong>Plano e permissões</strong>
-      <span>Controle o que o cliente pode acessar. O professor não altera isso no Perfil.</span>
-    </div>
-    <span class="admin-plano-badge" id="plano-badge-${cliente.id}">${obterResumoPlanoAdmin(cliente.plano || "trial").tag}</span>
-  </div>
-
-  <div class="admin-plano-grid">
-    <div class="admin-config-item admin-config-destaque">
-      <label>Plano do cliente</label>
-      <select id="plano-${cliente.id}" onchange="aplicarPresetPlanoCliente('${cliente.id}', this.value)">
-        <option value="trial" ${cliente.plano === "trial" ? "selected" : ""}>Trial</option>
-        <option value="basic" ${cliente.plano === "basic" ? "selected" : ""}>Basic</option>
-        <option value="pro" ${cliente.plano === "pro" ? "selected" : ""}>Pro</option>
-      </select>
-      <small id="plano-resumo-${cliente.id}">${obterResumoPlanoAdmin(cliente.plano || "trial").descricao}</small>
-    </div>
-
-    <div class="admin-config-item">
-      <label>Status da conta</label>
-      <select id="status-${cliente.id}">
-        <option value="ativo" ${cliente.status === "ativo" ? "selected" : ""}>Ativo</option>
-        <option value="bloqueado" ${cliente.status === "bloqueado" ? "selected" : ""}>Bloqueado</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="admin-modulos-grid admin-modulos-grid-v2">
-
-    <label class="admin-toggle admin-toggle-acesso">
-      <span>
-        <strong>🔓 Acesso ao sistema</strong>
-        <small>Bloqueia ou libera o login do cliente.</small>
-      </span>
-      <input type="checkbox" id="pode-usar-${cliente.id}" ${cliente.pode_usar !== false ? "checked" : ""}>
-    </label>
-
-    <label class="admin-toggle">
-      <span>
-        <strong>🏆 Ranking</strong>
-        <small>Ranking de presença na área do aluno.</small>
-      </span>
-      <input type="checkbox" id="mod-ranking-${cliente.id}" ${cliente.modulo_ranking !== false ? "checked" : ""}>
-    </label>
-
-    <label class="admin-toggle">
-      <span>
-        <strong>🎯 Desafio</strong>
-        <small>Tela de desafio de presença do professor.</small>
-      </span>
-      <input type="checkbox" id="mod-desafio-${cliente.id}" ${cliente.modulo_desafio !== false ? "checked" : ""}>
-    </label>
-
-    <label class="admin-toggle">
-      <span>
-        <strong>📚 Turmas</strong>
-        <small>Gestão de turmas e frequência por turma.</small>
-      </span>
-      <input type="checkbox" id="mod-turmas-${cliente.id}" ${cliente.modulo_turmas !== false ? "checked" : ""}>
-    </label>
-
-  </div>
-
-  <div class="admin-plano-row admin-plano-row-v2">
-    <button class="btn-salvar-modulos" onclick="salvarPermissoesCliente('${cliente.id}')">
-      Salvar plano e permissões
-    </button>
-  </div>
-
-</div>
-
-        <div class="cliente-alunos-lista" id="alunos-cliente-${cliente.id}">
-          ${renderizarAlunosDoCliente(alunosDoCliente)}
-        </div>
-      </div>
-    `;
-
-    listaClientes.appendChild(div);
-  });
+  clientesCache = clientes || [];
+  clientesAdminUltimosAlunos = todosAlunosAdmin || [];
+  renderizarClientesAdminCache();
 }
 
 /** Admin: gera HTML resumido dos alunos dentro do card do cliente. */
@@ -404,6 +543,7 @@ async function alterarLimite(id) {
 
   mostrarToast("✅ Limite atualizado com sucesso!");
   await carregarClientes();
+  await carregarDashboard();
 }
 
 /** Admin: atualiza números gerais do painel administrativo. */
@@ -457,7 +597,15 @@ function removerCliente(userId) {
 
 /** Define filtro atual da lista e atualiza botão ativo. */
 function setFiltro(filtro) {
-  filtroAtual = filtro;
+  const filtroSeguro = FILTROS_ALUNOS_VALIDOS.includes(filtro) ? filtro : "todos";
+  filtroAtual = filtroSeguro;
+
+  try {
+    localStorage.setItem("mensalize_filtro", filtroAtual);
+  } catch (erro) {
+    console.log("Não foi possível salvar o filtro:", erro.message);
+  }
+
   sincronizarEstado();
   paginaAtual = 1;
 
@@ -473,7 +621,7 @@ function setFiltro(filtro) {
     pago: "filtroPago"
   };
 
-  const el = document.getElementById(mapa[filtro]);
+  const el = document.getElementById(mapa[filtroAtual]);
   if (el) el.classList.add("filtro-ativo");
 
   mostrarAlunos();
@@ -608,18 +756,12 @@ modalRemoverCliente.addEventListener("click", function(event) {
 
 
 async function salvarPermissoesCliente(clienteId) {
-
-  const plano = document.getElementById(`plano-${clienteId}`).value;
-
-  const status = document.getElementById(`status-${clienteId}`).value;
-
-  const podeUsar = document.getElementById(`pode-usar-${clienteId}`).checked;
-
-  const moduloRanking = document.getElementById(`mod-ranking-${clienteId}`).checked;
-
-  const moduloDesafio = document.getElementById(`mod-desafio-${clienteId}`).checked;
-
-  const moduloTurmas = document.getElementById(`mod-turmas-${clienteId}`).checked;
+  const plano = document.getElementById(`plano-${clienteId}`)?.value || "trial";
+  const status = document.getElementById(`status-${clienteId}`)?.value || "ativo";
+  const podeUsar = document.getElementById(`pode-usar-${clienteId}`)?.checked !== false;
+  const limiteInput = document.getElementById(`limite-input-${clienteId}`);
+  const limite = Number(limiteInput?.value || obterConfigPlanoAdmin(plano).limite);
+  const permissoes = obterPermissoesDoPlanoAdmin(plano);
 
   const { error } = await supabaseClient
     .from("profiles")
@@ -627,26 +769,18 @@ async function salvarPermissoesCliente(clienteId) {
       plano: plano,
       status: status,
       pode_usar: podeUsar,
-
-      modulo_ranking: moduloRanking,
-      modulo_desafio: moduloDesafio,
-      modulo_turmas: moduloTurmas
+      limite_alunos: limite,
+      ...permissoes
     })
     .eq("id", clienteId);
 
   if (error) {
     console.log(error);
-
-    mostrarToast(
-      "Erro ao salvar permissões.",
-      "erro"
-    );
-
+    mostrarToast("Erro ao salvar plano.", "erro");
     return;
   }
 
-  mostrarToast(
-    "✅ Permissões salvas!"
-  );
-
+  mostrarToast("✅ Plano salvo e permissões aplicadas!");
+  await carregarClientes();
+  await carregarDashboard();
 }

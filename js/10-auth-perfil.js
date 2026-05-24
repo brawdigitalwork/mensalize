@@ -5,7 +5,7 @@
 
 /** Verifica se já existe sessão ativa e abre login ou app. */
 async function iniciarSistema() {
-  setFiltro("todos");
+  setFiltro(typeof obterFiltroSalvoAlunos === "function" ? obterFiltroSalvoAlunos() : "todos");
   const { data } = await supabaseClient.auth.getSession();
 
   if (data.session) {

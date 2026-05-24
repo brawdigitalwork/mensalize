@@ -7,30 +7,19 @@ async function carregarAlunos() {
   const skeletonLista = document.getElementById("skeletonLista");
   if (skeletonLista) skeletonLista.classList.remove("escondido");
 
-  let queryAlunos = supabaseClient
-    .from("alunos")
-    .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
+  aplicarFiltroSalvoAlunos();
 
-  queryAlunos = aplicarFiltroUsuario(queryAlunos);
-
-  const { data, error } = await queryAlunos
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    mostrarToast("Erro ao carregar alunos.", "erro");
-    if (skeletonLista) skeletonLista.classList.add("escondido");
-    return;
-  }
-
-  alunos = data;
-  sincronizarEstado();
-
-  // Carrega quem pagou este mês para o badge e filtro
   const hoje = new Date();
   const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1)
     .toISOString().split("T")[0];
   const ultimoDiaMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0)
     .toISOString().split("T")[0];
+
+  let queryAlunos = supabaseClient
+    .from("alunos")
+    .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
+
+  queryAlunos = aplicarFiltroUsuario(queryAlunos);
 
   let queryPagamentosMes = supabaseClient
     .from("pagamentos")
@@ -38,26 +27,47 @@ async function carregarAlunos() {
 
   queryPagamentosMes = aplicarFiltroUsuario(queryPagamentosMes);
 
-  const { data: pagamentosMes } = await queryPagamentosMes
-    .gte("data_pagamento", primeiroDiaMes)
-    .lte("data_pagamento", ultimoDiaMes);
+  // Alunos e pagamentos do mês não dependem um do outro, então carregam em paralelo.
+  const [{ data, error }, { data: pagamentosMes, error: erroPagamentosMes }] = await Promise.all([
+    queryAlunos.order("created_at", { ascending: false }),
+    queryPagamentosMes
+      .gte("data_pagamento", primeiroDiaMes)
+      .lte("data_pagamento", ultimoDiaMes)
+  ]);
 
+  if (error) {
+    mostrarToast("Erro ao carregar alunos.", "erro");
+    if (skeletonLista) skeletonLista.classList.add("escondido");
+    return;
+  }
+
+  if (erroPagamentosMes) {
+    console.log("Erro ao carregar pagamentos do mês:", erroPagamentosMes.message);
+  }
+
+  alunos = data || [];
   alunosPagosMes = new Set((pagamentosMes || []).map(p => String(p.aluno_id)));
+  sincronizarEstado();
+
+  // Turmas e frequência também podem carregar em paralelo; a renderização vem depois.
+  await Promise.all([
+    typeof carregarTurmasSistema === "function" ? carregarTurmasSistema() : Promise.resolve(),
+    typeof carregarDadosFrequencia === "function" ? carregarDadosFrequencia() : Promise.resolve()
+  ]);
 
   if (skeletonLista) skeletonLista.classList.add("escondido");
-
-  if (typeof carregarTurmasSistema === "function") {
-    await carregarTurmasSistema();
-  }
-  if (typeof carregarDadosFrequencia === "function") {
-    await carregarDadosFrequencia();
-  }
 
   paginaAtual = 1;
   sincronizarEstado();
   mostrarAlunos();
-  await atualizarPainel();
-  await carregarUltimosPagamentos();
+
+  // Painel, pagamentos recentes e ranking dependem dos dados acima, mas entre si são independentes.
+  await Promise.all([
+    typeof atualizarPainel === "function" ? atualizarPainel() : Promise.resolve(),
+    typeof carregarUltimosPagamentos === "function" ? carregarUltimosPagamentos() : Promise.resolve(),
+    typeof carregarRankingDashboard === "function" ? carregarRankingDashboard() : Promise.resolve()
+  ]);
+
   preencherTurmasPresenca();
   if (typeof preencherSelectsTurmas === "function") preencherSelectsTurmas();
   if (typeof atualizarResumoAniversariantes === "function") {
@@ -66,10 +76,6 @@ async function carregarAlunos() {
 
   if (typeof mostrarBannerVencimentos === "function") {
     mostrarBannerVencimentos();
-  }
-
-  if (typeof carregarRankingDashboard === "function") {
-    await carregarRankingDashboard();
   }
 
   if (typeof renderizarDesafioPresencaProfessor === "function") {
@@ -314,6 +320,24 @@ function calcularMensalidadesParaRegistrar(vencimentoAtual) {
 // 16. ALUNOS — FILTRAR, ORDENAR, PAGINAR E RENDERIZAR
 // ===============================
 
+const FILTROS_ALUNOS_VALIDOS = ["todos", "pendente", "atrasado", "hoje", "pago"];
+
+function obterFiltroSalvoAlunos() {
+  try {
+    const filtroSalvo = localStorage.getItem("mensalize_filtro");
+    return FILTROS_ALUNOS_VALIDOS.includes(filtroSalvo) ? filtroSalvo : "todos";
+  } catch (erro) {
+    return "todos";
+  }
+}
+
+function aplicarFiltroSalvoAlunos() {
+  const filtroSalvo = obterFiltroSalvoAlunos();
+  if (FILTROS_ALUNOS_VALIDOS.includes(filtroSalvo)) {
+    filtroAtual = filtroSalvo;
+  }
+}
+
 /** Aplica busca, filtros, ordenação, paginação e renderiza os cards dos alunos. */
 function mostrarAlunos() {
   listaAlunos.innerHTML = "";
@@ -331,10 +355,18 @@ function mostrarAlunos() {
 
   // ── 1. Filtra por busca e filtro ──────────────────────────────
   let lista = alunos.filter(function(aluno) {
-    const nomeAluno = aluno.nome.toLowerCase();
-    const telefoneAluno = aluno.telefone.toLowerCase();
+    const nomeAluno = String(aluno.nome || "").toLowerCase();
+    const telefoneAluno = String(aluno.telefone || "").toLowerCase();
+    const turmaAlunoTexto = String(aluno.turma || "").toLowerCase();
+    const faixaAlunoTexto = String(aluno.faixa || "").toLowerCase();
 
-    if (textoBusca && !nomeAluno.includes(textoBusca) && !telefoneAluno.includes(textoBusca)) {
+    if (
+      textoBusca &&
+      !nomeAluno.includes(textoBusca) &&
+      !telefoneAluno.includes(textoBusca) &&
+      !turmaAlunoTexto.includes(textoBusca) &&
+      !faixaAlunoTexto.includes(textoBusca)
+    ) {
       return false;
     }
 
@@ -445,23 +477,29 @@ function mostrarAlunos() {
     </div>
   </div>
 
-  <div class="acoes-premium">
-    <button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">
-    ✅ Registrar pagamento
-    </button>
-    <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">💬 WhatsApp</button>
+  <div class="acoes-premium acoes-premium-recolhidas">
+    <div class="acoes-primarias-card">
+      ${jaPagou
+        ? `<span class="badge-pago-confirmado">✅ Mensalidade paga</span>`
+        : `<button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">✅ Registrar pagamento</button>`
+      }
+      <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">💬 WhatsApp</button>
+      <button class="acao-secundaria btn-mais-acoes" type="button" onclick="this.closest('.aluno-card').classList.toggle('expandido')" aria-label="Mostrar mais ações">···</button>
+    </div>
 
-    <button class="acao-secundaria" onclick="abrirPaginaAluno('${aluno.codigo_publico}')">
-      📄 Página do aluno
-    </button>
-    <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">
-      🔗 Enviar página
-    </button>
+    <div class="acoes-secundarias-card">
+      <button class="acao-secundaria" onclick="abrirPaginaAluno('${aluno.codigo_publico}')">
+        📄 Página do aluno
+      </button>
+      <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">
+        🔗 Enviar página
+      </button>
 
-    <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">🕘 Histórico</button>
-    ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Graduação</button>` : ""}
-    <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">✏ Editar</button>
-    <button class="acao-perigo" onclick="removerAluno('${aluno.id}')">🗑 Remover</button>
+      <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">🕘 Histórico</button>
+      ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Graduação</button>` : ""}
+      <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">✏ Editar</button>
+      <button class="acao-perigo" onclick="removerAluno('${aluno.id}')">🗑 Remover</button>
+    </div>
   </div>
 `;
     listaAlunos.appendChild(card);

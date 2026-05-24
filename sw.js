@@ -1,6 +1,6 @@
 // sw.js — Service Worker Mensalize
 // Fase 5.1 — Atualização e Cache
-const APP_VERSION = '2026.05.24-valor-quebrado-v24';
+const APP_VERSION = '2026.05.24-melhorias-cards-v30';
 const CACHE_PREFIX = 'mensalize-';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}`;
 

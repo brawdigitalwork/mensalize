@@ -347,29 +347,6 @@
   <script>
     const supabaseClient = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey);
 
-    let codigoPublico = new URLSearchParams(window.location.search).get("codigo");
-
-    // PWA / app instalado:
-    // Quando o aluno adiciona a página à tela inicial, alguns navegadores abrem pelo
-    // start_url do manifest e removem o ?codigo=... do link. Por isso salvamos o código
-    // no primeiro acesso e reaproveitamos quando o app abrir sem parâmetro.
-    const STORAGE_CODIGO_ALUNO = "mensalize_codigo_aluno_publico";
-
-    if (codigoPublico) {
-      codigoPublico = String(codigoPublico).trim();
-      try {
-        localStorage.setItem(STORAGE_CODIGO_ALUNO, codigoPublico);
-      } catch (erro) {
-        console.warn("[Mensalize Aluno] Não foi possível salvar o código público:", erro);
-      }
-    } else {
-      try {
-        codigoPublico = localStorage.getItem(STORAGE_CODIGO_ALUNO) || "";
-      } catch (erro) {
-        codigoPublico = "";
-      }
-    }
-
     const estadoInicial = document.getElementById("estadoInicial");
     const portalConteudo = document.getElementById("portalConteudo");
     const estadoErro = document.getElementById("estadoErro");
@@ -454,6 +431,27 @@
 
     let alunoAtual = null;
     let codigoPublico = null;
+    const STORAGE_CODIGO_ALUNO = "mensalize_codigo_aluno_publico";
+
+    function obterCodigoPublicoAluno() {
+      const params = new URLSearchParams(window.location.search);
+      const codigoUrl = String(params.get("codigo") || "").trim();
+
+      if (codigoUrl) {
+        try {
+          localStorage.setItem(STORAGE_CODIGO_ALUNO, codigoUrl);
+        } catch (erro) {
+          console.warn("[Mensalize Aluno] Não foi possível salvar o código público:", erro);
+        }
+        return codigoUrl;
+      }
+
+      try {
+        return String(localStorage.getItem(STORAGE_CODIGO_ALUNO) || "").trim();
+      } catch (erro) {
+        return "";
+      }
+    }
     let arquivoFoto = null;
     let cropperFotoAluno = null;
     let rankingsAluno = { geral: [], turma: [], turmas: [] };
@@ -1039,7 +1037,7 @@ function renderizarAluno(aluno) {
 
     async function carregarAluno() {
       const params = new URLSearchParams(window.location.search);
-      codigoPublico = params.get("codigo");
+      codigoPublico = obterCodigoPublicoAluno();
       if (!codigoPublico) return mostrarErro("Código do aluno não encontrado. Abra novamente pelo link enviado pelo professor.");
 
       try {

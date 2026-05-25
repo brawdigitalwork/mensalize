@@ -1,6 +1,6 @@
 // sw.js — Service Worker Mensalize
 // Fase 5.1 — Atualização e Cache
-const APP_VERSION = '50.3';
+const APP_VERSION = '50.4';
 const CACHE_PREFIX = 'mensalize-';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}`;
 
@@ -12,7 +12,6 @@ const ASSETS = [
   '/manifest.json',
   '/icons/aluno-icon-512.png',
   '/icons/aluno-icon-192.png',
-  '/manifest-aluno.json',
   '/logo.png',
   '/aluno.html',
   '/aluno.css',

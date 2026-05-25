@@ -1,35 +1,42 @@
 /* ================================================================
+   GOOGLE FONTS — PREMIUM TYPOGRAPHY
+================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+/* ================================================================
    ÁREA DO ALUNO — MENSALIZE
-   Mobile first · Sidebar · Portal limpo
+   Mobile first · Sidebar · Portal premium 2026
 ================================================================ */
 :root {
-  --cor-roxo: #7c3aed;
-  --cor-roxo-hover: #6d28d9;
-  --cor-roxo-claro: #a78bfa;
-  --cor-roxo-bg: rgba(124, 58, 237, 0.12);
-  --cor-roxo-borda: rgba(124, 58, 237, 0.28);
-  --bg-base: #09090f;
-  --bg-card: rgba(17, 17, 24, 0.88);
-  --bg-card-strong: rgba(22, 22, 34, 0.96);
-  --bg-muted: rgba(255, 255, 255, 0.045);
-  --borda: rgba(255, 255, 255, 0.075);
-  --borda-hover: rgba(124, 58, 237, 0.45);
-  --texto-primario: #f4f4f6;
-  --texto-secundario: #a1a1b5;
-  --texto-terciario: #6f6f83;
+  --cor-roxo: #9333ea;
+  --cor-roxo-hover: #7c3aed;
+  --cor-roxo-claro: #c084fc;
+  --cor-roxo-bg: rgba(147, 51, 234, 0.12);
+  --cor-roxo-borda: rgba(192, 132, 252, 0.22);
+  --bg-base: #04040e;
+  --bg-card: rgba(12, 12, 24, 0.90);
+  --bg-card-strong: rgba(16, 16, 32, 0.96);
+  --bg-muted: rgba(255, 255, 255, 0.038);
+  --borda: rgba(255, 255, 255, 0.068);
+  --borda-hover: rgba(192, 132, 252, 0.42);
+  --texto-primario: #f0f0f8;
+  --texto-secundario: #9a9bb4;
+  --texto-terciario: #636378;
   --verde: #22c55e;
-  --verde-bg: rgba(34, 197, 94, 0.13);
+  --verde-bg: rgba(34, 197, 94, 0.11);
   --amarelo: #f59e0b;
-  --amarelo-bg: rgba(245, 158, 11, 0.14);
+  --amarelo-bg: rgba(245, 158, 11, 0.12);
   --vermelho: #ef4444;
-  --vermelho-bg: rgba(239, 68, 68, 0.13);
+  --vermelho-bg: rgba(239, 68, 68, 0.11);
   --azul: #38bdf8;
-  --azul-bg: rgba(56, 189, 248, 0.13);
+  --azul-bg: rgba(56, 189, 248, 0.11);
   --raio-md: 14px;
   --raio-lg: 18px;
   --raio-xl: 22px;
   --raio-pill: 999px;
-  --fonte: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --fonte-display: 'Syne', system-ui, sans-serif;
+  --fonte: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --glow-roxo: 0 0 28px rgba(147, 51, 234, 0.20);
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
@@ -42,15 +49,28 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   background:
-    radial-gradient(circle at 18% -10%, rgba(124, 58, 237, 0.24), transparent 30%),
-    radial-gradient(circle at 92% 18%, rgba(34, 197, 94, 0.08), transparent 26%),
-    var(--bg-base);
+    radial-gradient(ellipse 80% 52% at 10% -6%, rgba(147, 51, 234, 0.22), transparent),
+    radial-gradient(ellipse 55% 38% at 95% 12%, rgba(34, 197, 94, 0.07), transparent),
+    radial-gradient(ellipse 60% 45% at 50% 105%, rgba(56, 189, 248, 0.06), transparent),
+    linear-gradient(160deg, #04040e 0%, #07071a 55%, #04040d 100%);
   color: var(--texto-primario);
   font-family: var(--fonte);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.024;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
 a { color: inherit; text-decoration: none; }
 button, input, textarea { font-family: inherit; }
@@ -67,23 +87,30 @@ button { cursor: pointer; }
 .loading-card {
   width: 100%;
   max-width: 360px;
-  background: var(--bg-card);
-  border: 1px solid var(--borda);
-  border-radius: var(--raio-xl);
-  padding: 26px;
+  background: linear-gradient(160deg, rgba(14, 14, 28, 0.90), rgba(8, 8, 20, 0.94));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 26px;
+  padding: 28px;
   text-align: center;
-  box-shadow: 0 22px 60px rgba(0,0,0,0.35);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.42), 0 0 0 1px rgba(147, 51, 234, 0.08);
 }
 .loading-logo {
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
-  margin: 0 auto 14px;
-  background: linear-gradient(135deg, var(--cor-roxo), #9333ea);
-  box-shadow: 0 0 25px rgba(124,58,237,0.45);
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, #9333ea, #7c3aed);
+  box-shadow: 0 0 32px rgba(147,51,234,0.42), 0 0 0 1px rgba(192, 132, 252, 0.16);
+  animation: pulseGlow 2s ease-in-out infinite;
 }
-.loading-card strong { display: block; font-size: 17px; margin-bottom: 4px; }
-.loading-card span { color: var(--texto-secundario); }
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 32px rgba(147,51,234,0.42), 0 0 0 1px rgba(192, 132, 252, 0.16); }
+  50%       { box-shadow: 0 0 48px rgba(147,51,234,0.60), 0 0 0 1px rgba(192, 132, 252, 0.28); }
+}
+
+.loading-card strong { display: block; font-size: 17px; margin-bottom: 4px; font-family: var(--fonte-display); font-weight: 700; letter-spacing: -0.03em; }
+.loading-card span { color: var(--texto-secundario); font-size: 13px; }
 
 .student-app {
   min-height: 100vh;
@@ -97,28 +124,29 @@ button { cursor: pointer; }
   height: 100vh;
   height: 100dvh;
   padding: 18px;
-  background: rgba(17,17,24,0.96);
-  border-right: 1px solid var(--borda);
+  background: rgba(10, 10, 20, 0.97);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
   gap: 16px;
   z-index: 50;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: inset -1px 0 0 rgba(147, 51, 234, 0.07);
 }
 .student-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px;
-  border: 1px solid var(--borda);
-  border-radius: var(--raio-lg);
-  background: rgba(255,255,255,0.035);
+  padding: 11px;
+  border: 1px solid rgba(192, 132, 252, 0.12);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.09), rgba(255, 255, 255, 0.03));
 }
-.student-brand-logo { width: 40px; height: 40px; border-radius: 13px; object-fit: cover; }
-.student-brand strong { display: block; color: var(--cor-roxo-claro); font-size: 17px; font-weight: 900; }
-.student-brand span { display: block; color: var(--texto-terciario); font-size: 11px; }
-.student-menu { display: grid; gap: 8px; }
+.student-brand-logo { width: 40px; height: 40px; border-radius: 13px; object-fit: cover; box-shadow: 0 6px 18px rgba(147, 51, 234, 0.28); }
+.student-brand strong { display: block; color: #fff; font-size: 17px; font-weight: 800; font-family: var(--fonte-display); letter-spacing: -0.04em; }
+.student-brand span { display: block; color: var(--texto-terciario); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 1px; }
+.student-menu { display: grid; gap: 6px; }
 .student-menu-item {
   width: 100%;
   min-height: 44px;
@@ -126,16 +154,23 @@ button { cursor: pointer; }
   background: transparent;
   color: var(--texto-secundario);
   border: 1px solid transparent;
-  border-radius: var(--raio-md);
+  border-radius: 13px;
   text-align: left;
-  font-weight: 750;
-  transition: 0.2s ease;
+  font-weight: 500;
+  font-family: var(--fonte);
+  font-size: 13.5px;
+  letter-spacing: -0.01em;
+  transition: 0.18s ease;
 }
 .student-menu-item:hover,
 .student-menu-item.ativo {
-  background: var(--cor-roxo-bg);
-  color: var(--texto-primario);
-  border-color: var(--cor-roxo-borda);
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.14), rgba(56, 189, 248, 0.04));
+  color: #fff;
+  border-color: rgba(192, 132, 252, 0.14);
+  transform: translateX(3px);
+}
+.student-menu-item.ativo {
+  font-weight: 700;
 }
 
 .student-main { min-width: 0; }
@@ -143,25 +178,30 @@ button { cursor: pointer; }
   position: sticky;
   top: 0;
   z-index: 30;
-  min-height: 72px;
+  min-height: 70px;
   padding: calc(12px + var(--safe-top)) max(18px, calc(18px + var(--safe-right))) 12px max(18px, calc(18px + var(--safe-left)));
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: rgba(9,9,15,0.76);
-  border-bottom: 1px solid var(--borda);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(4, 4, 14, 0.78);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
 }
 .menu-button {
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  border: 1px solid var(--borda);
-  background: var(--bg-card-strong);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.044);
   color: var(--texto-primario);
-  font-size: 20px;
+  font-size: 18px;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.menu-button:hover {
+  background: rgba(147, 51, 234, 0.14);
+  transform: translateY(-1px);
 }
 .student-small-profile { margin-left: auto; display: flex; align-items: center; gap: 10px; min-width: 0; }
 .student-top-avatar,
@@ -185,24 +225,53 @@ button { cursor: pointer; }
 .panel-card,
 .quick-card,
 .error-card {
-  background: var(--bg-card);
-  border: 1px solid var(--borda);
+  background: linear-gradient(160deg, rgba(14, 14, 28, 0.88), rgba(8, 8, 20, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.068);
   border-radius: var(--raio-xl);
   padding: 18px;
-  box-shadow: 0 18px 48px rgba(0,0,0,0.3);
+  box-shadow: 0 16px 44px rgba(0,0,0,0.32);
+  position: relative;
+  overflow: hidden;
 }
-.welcome-card h1 { font-size: 25px; line-height: 1.12; margin: 3px 0 7px; }
+
+/* Subtle top highlight on panels */
+.panel-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(192, 132, 252, 0.18), transparent);
+  pointer-events: none;
+}
+
+.welcome-card h1 { 
+  font-size: 26px; 
+  line-height: 1.1; 
+  margin: 3px 0 7px; 
+  font-family: var(--fonte-display); 
+  font-weight: 800; 
+  letter-spacing: -0.05em;
+}
 .welcome-card p,
 .helper-text,
 .photo-box p { color: var(--texto-secundario); }
-.eyebrow { display: block; color: var(--cor-roxo-claro); font-size: 11px; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
+.eyebrow { 
+  display: block; 
+  color: var(--cor-roxo-claro); 
+  font-size: 10px; 
+  font-weight: 700; 
+  letter-spacing: 0.10em; 
+  text-transform: uppercase; 
+  margin-bottom: 5px; 
+  font-family: var(--fonte);
+}
 .quick-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .quick-card span,
 .summary-box span,
 .evolution-info span,
-.student-form label span { display: block; color: var(--texto-terciario); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
-.quick-card strong { display: block; font-size: 20px; line-height: 1.1; margin-bottom: 4px; }
-.quick-card small { color: var(--texto-secundario); }
+.student-form label span { display: block; color: var(--texto-terciario); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+.quick-card strong { display: block; font-size: 21px; line-height: 1.1; margin-bottom: 4px; font-family: var(--fonte-display); font-weight: 700; letter-spacing: -0.04em; }
+.quick-card small { color: var(--texto-secundario); font-size: 12px; }
 .action-row,
 .payment-actions,
 .contact-actions { display: flex; flex-wrap: wrap; gap: 9px; }
@@ -214,21 +283,40 @@ button { cursor: pointer; }
   min-height: 46px;
   border: none;
   border-radius: var(--raio-md);
-  padding: 12px 15px;
-  font-weight: 900;
+  padding: 12px 18px;
+  font-weight: 700;
+  font-family: var(--fonte);
+  font-size: 13.5px;
+  letter-spacing: -0.02em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  cursor: pointer;
 }
 .primary-action,
-.pay-button { background: linear-gradient(135deg, var(--cor-roxo), #9333ea); color: #fff; }
-.secondary-action { background: rgba(255,255,255,0.06); color: var(--texto-primario); border: 1px solid var(--borda); }
+.pay-button { 
+  background: linear-gradient(135deg, #9333ea, #7c3aed); 
+  color: #fff; 
+  border: 1px solid rgba(192, 132, 252, 0.18);
+}
+.primary-action:hover,
+.pay-button:hover { 
+  transform: translateY(-2px); 
+  box-shadow: 0 14px 32px rgba(147, 51, 234, 0.28); 
+  background: linear-gradient(135deg, #a855f7, #8b3cf6);
+}
+.secondary-action { background: rgba(255,255,255,0.054); color: var(--texto-primario); border: 1px solid rgba(255, 255, 255, 0.08); }
+.secondary-action:hover { background: rgba(255,255,255,0.08); transform: translateY(-1px); }
 .whatsapp-button,
-.whatsapp-primary { background: rgba(37,211,102,0.12); color: #4ade80; border: 1px solid rgba(37,211,102,0.25); }
-.share-button { width: 100%; background: rgba(255,255,255,0.06); color: var(--texto-primario); border: 1px solid var(--borda); }
+.whatsapp-primary { background: rgba(37,211,102,0.10); color: #4ade80; border: 1px solid rgba(37,211,102,0.22); }
+.whatsapp-button:hover,
+.whatsapp-primary:hover { background: rgba(37,211,102,0.16); transform: translateY(-1px); }
+.share-button { width: 100%; background: rgba(255,255,255,0.054); color: var(--texto-primario); border: 1px solid rgba(255, 255, 255, 0.08); }
+.share-button:hover { background: rgba(255,255,255,0.08); }
 .section-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-.section-title-row h2 { font-size: 18px; }
+.section-title-row h2 { font-size: 19px; font-family: var(--fonte-display); font-weight: 800; letter-spacing: -0.05em; }
 .mini-badge,
 .status-badge {
   display: inline-flex;
@@ -236,27 +324,28 @@ button { cursor: pointer; }
   justify-content: center;
   border-radius: var(--raio-pill);
   padding: 5px 10px;
-  font-size: 11px;
-  font-weight: 900;
+  font-size: 10.5px;
+  font-weight: 700;
   border: 1px solid var(--cor-roxo-borda);
   background: var(--cor-roxo-bg);
   color: var(--cor-roxo-claro);
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 .status-pago,
-.status-ok { background: var(--verde-bg); color: #4ade80; border-color: rgba(34,197,94,0.32); }
-.status-atrasado { background: var(--vermelho-bg); color: #f87171; border-color: rgba(239,68,68,0.35); }
+.status-ok { background: var(--verde-bg); color: #4ade80; border-color: rgba(34,197,94,0.28); }
+.status-atrasado { background: var(--vermelho-bg); color: #f87171; border-color: rgba(239,68,68,0.30); }
 .status-hoje,
-.status-warn { background: var(--azul-bg); color: var(--azul); border-color: rgba(56,189,248,0.32); }
-.status-pendente { background: var(--amarelo-bg); color: var(--amarelo); border-color: rgba(245,158,11,0.34); }
-.muted-badge { background: rgba(255,255,255,0.05); border-color: var(--borda); color: var(--texto-secundario); }
+.status-warn { background: var(--azul-bg); color: var(--azul); border-color: rgba(56,189,248,0.28); }
+.status-pendente { background: var(--amarelo-bg); color: var(--amarelo); border-color: rgba(245,158,11,0.30); }
+.muted-badge { background: rgba(255,255,255,0.04); border-color: var(--borda); color: var(--texto-secundario); }
 
 .status-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
-.status-hero h2 { font-size: 22px; line-height: 1.15; margin-bottom: 8px; }
+.status-hero h2 { font-size: 23px; line-height: 1.12; margin-bottom: 8px; font-family: var(--fonte-display); font-weight: 800; letter-spacing: -0.05em; }
 .status-message,
 .soft-message,
 .empty-message { color: var(--texto-secundario); }
-.status-message { background: var(--bg-muted); border: 1px solid var(--borda); border-radius: var(--raio-md); padding: 10px 12px; }
+.status-message { background: rgba(255,255,255,0.034); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--raio-md); padding: 10px 12px; font-size: 13px; }
 .finance-summary-grid,
 .student-evolution-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin: 14px 0; }
 .summary-box,
@@ -2828,5 +2917,416 @@ body.menu-aberto {
 
   .btn-copy-pix-clean {
     width: 100%;
+  }
+}
+
+/* ================================================================
+   PREMIUM 2026 — UPGRADES ÁREA DO ALUNO
+================================================================ */
+
+/* Avatar premium */
+.student-top-avatar,
+.photo-avatar {
+  background: linear-gradient(135deg, #9333ea, #7c3aed) !important;
+  box-shadow: 0 0 18px rgba(147, 51, 234, 0.28);
+}
+
+.student-top-photo {
+  border-color: rgba(192, 132, 252, 0.26) !important;
+  box-shadow: 0 0 14px rgba(147, 51, 234, 0.18);
+}
+
+/* Animação de entrada refinada */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.student-view { animation: fadeInUp 0.22s ease both; }
+
+/* Scrollbar premium */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(147, 51, 234, 0.24); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(192, 132, 252, 0.38); }
+
+/* Selection */
+::selection { background: rgba(147, 51, 234, 0.28); color: #fff; }
+
+/* Summary box números premium */
+.summary-price strong { 
+  color: #fff !important; 
+  font-size: 30px !important; 
+  line-height: 1 !important; 
+  font-family: var(--fonte-display) !important; 
+  letter-spacing: -0.05em !important;
+}
+
+.summary-box strong,
+.evolution-info strong { 
+  display: block; 
+  font-size: 16px; 
+  font-family: var(--fonte-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* Summary box e evolution-info com borda premium */
+.summary-box,
+.evolution-info { 
+  background: rgba(255,255,255,0.034) !important; 
+  border: 1px solid rgba(255, 255, 255, 0.065) !important; 
+  border-radius: var(--raio-md); 
+  padding: 13px; 
+  transition: border-color 0.18s ease;
+}
+.summary-box:hover,
+.evolution-info:hover {
+  border-color: rgba(192, 132, 252, 0.14) !important;
+}
+
+/* Quick card hover state */
+.quick-card {
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  cursor: default;
+}
+.quick-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(192, 132, 252, 0.14) !important;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.28);
+}
+
+/* Ranking podium cards premium */
+.podium-card {
+  background: linear-gradient(160deg, rgba(14, 14, 28, 0.90), rgba(8, 8, 20, 0.94)) !important;
+  border-color: rgba(255, 255, 255, 0.065) !important;
+}
+
+/* Link buttons */
+.link-button {
+  font-family: var(--fonte) !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  color: var(--cor-roxo-claro) !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 4px 0 !important;
+  min-height: unset !important;
+  cursor: pointer;
+}
+.link-button:hover { 
+  color: #fff !important; 
+  transform: none !important;
+}
+
+/* Student form inputs premium */
+.student-form input,
+.student-form textarea,
+.student-form select {
+  background: rgba(255, 255, 255, 0.040) !important;
+  border-color: rgba(255, 255, 255, 0.075) !important;
+  border-radius: 13px !important;
+  font-family: var(--fonte) !important;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease !important;
+}
+.student-form input:focus,
+.student-form textarea:focus,
+.student-form select:focus {
+  border-color: rgba(192, 132, 252, 0.44) !important;
+  box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.09) !important;
+}
+
+/* Notices (avisos) item */
+.student-notice-item {
+  border-color: rgba(255, 255, 255, 0.062) !important;
+  background: rgba(255, 255, 255, 0.030) !important;
+  border-radius: 14px !important;
+}
+
+/* Photo box premium */
+.photo-box {
+  border-color: rgba(255, 255, 255, 0.065) !important;
+  background: rgba(255, 255, 255, 0.028) !important;
+  border-radius: 16px !important;
+}
+.photo-avatar { 
+  border-radius: 50%;
+  box-shadow: 0 0 22px rgba(147, 51, 234, 0.24);
+  font-family: var(--fonte-display);
+}
+
+/* ================================================================
+   V50 — RESPONSIVIDADE FORTE DO PORTAL DO ALUNO + COPIAR PIX
+================================================================ */
+
+/* Garante que nada estoure horizontalmente no celular */
+html,
+body,
+.student-app,
+.student-main,
+.student-content,
+.student-view,
+.panel-card,
+.welcome-card,
+.quick-card,
+.pix-aluno-card-clean,
+.pix-code-clean {
+  max-width: 100% !important;
+}
+
+.student-main,
+.student-content,
+.student-view,
+.panel-card,
+.pix-aluno-card-clean,
+.pix-code-clean {
+  min-width: 0 !important;
+}
+
+.student-content {
+  overflow-x: hidden !important;
+}
+
+/* Botão copiar com feedback */
+.btn-copy-pix-clean.copiado {
+  background: var(--verde-bg) !important;
+  color: #4ade80 !important;
+  border-color: rgba(34, 197, 94, 0.32) !important;
+}
+
+/* Pix mais equilibrado no portal */
+.pix-aluno-card-clean {
+  overflow: hidden;
+}
+
+.pix-aluno-card-clean .pix-aluno-textarea {
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+/* Imagens e textos nunca devem empurrar a largura */
+.student-small-profile,
+.student-small-profile div,
+.section-title-row,
+.status-hero,
+.payment-item,
+.ranking-row,
+.pix-code-actions {
+  min-width: 0 !important;
+}
+
+.student-small-profile strong,
+.student-small-profile span,
+.section-title-row h2,
+.ranking-row-info strong,
+.ranking-row-info small,
+.payment-left strong,
+.payment-left span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tablets e celulares grandes */
+@media (max-width: 820px) {
+  .student-topbar {
+    min-height: 66px;
+    padding-left: max(14px, calc(14px + var(--safe-left))) !important;
+    padding-right: max(14px, calc(14px + var(--safe-right))) !important;
+  }
+
+  .student-content {
+    width: 100% !important;
+    padding: 16px max(14px, calc(14px + var(--safe-right))) calc(28px + var(--safe-bottom)) max(14px, calc(14px + var(--safe-left))) !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card {
+    border-radius: 20px !important;
+    padding: 16px !important;
+  }
+
+  .welcome-card h1 {
+    font-size: clamp(23px, 8vw, 30px) !important;
+  }
+
+  .section-title-row,
+  .status-hero {
+    gap: 10px !important;
+  }
+}
+
+/* Celular */
+@media (max-width: 560px) {
+  body {
+    font-size: 13.5px;
+  }
+
+  .student-topbar {
+    gap: 8px !important;
+  }
+
+  .menu-button {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+  }
+
+  .student-small-profile {
+    gap: 8px !important;
+  }
+
+  .student-top-avatar,
+  .student-top-photo {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .student-small-profile strong {
+    max-width: 145px !important;
+    font-size: 13px !important;
+  }
+
+  .student-small-profile span {
+    max-width: 145px !important;
+    font-size: 10.5px !important;
+  }
+
+  .quick-grid,
+  .finance-summary-grid,
+  .student-evolution-grid,
+  .student-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  .section-title-row,
+  .status-hero,
+  .payment-item {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .action-row,
+  .payment-actions,
+  .contact-actions {
+    flex-direction: column !important;
+  }
+
+  .primary-action,
+  .secondary-action,
+  .pay-button,
+  .whatsapp-button,
+  .share-button,
+  .btn-confirm-pix-clean,
+  .btn-copy-pix-clean {
+    width: 100% !important;
+  }
+
+  .pix-aluno-card-clean {
+    padding: 14px !important;
+    border-radius: 20px !important;
+  }
+
+  .pix-code-clean {
+    padding: 10px !important;
+  }
+
+  .pix-code-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .pix-aluno-card-clean .pix-aluno-textarea {
+    min-height: 82px !important;
+    max-height: 130px !important;
+    font-size: 10.8px !important;
+  }
+
+  .payment-left,
+  .payment-item {
+    width: 100%;
+  }
+
+  .payment-value {
+    align-self: flex-end;
+  }
+
+  .ranking-row,
+  .ranking-row.aluno-ranking-row {
+    grid-template-columns: auto minmax(0, 1fr) !important;
+  }
+
+  .ranking-row .mini-badge,
+  .ranking-row .ranking-badge {
+    grid-column: 1 / -1;
+    width: fit-content;
+  }
+}
+
+/* Celular muito estreito */
+@media (max-width: 390px) {
+  .student-content {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .pix-aluno-card-clean {
+    padding: 13px !important;
+  }
+
+  .student-small-profile strong,
+  .student-small-profile span {
+    max-width: 118px !important;
+  }
+
+  .primary-action,
+  .secondary-action,
+  .pay-button,
+  .whatsapp-button,
+  .share-button {
+    min-height: 44px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+/* ================================================================
+   V50.1 — MARCA DO PORTAL: MENSALIZE ALUNO
+================================================================ */
+.student-brand-portal strong {
+  font-size: 18px !important;
+  line-height: 1 !important;
+  color: #fff !important;
+}
+
+.student-brand-portal span {
+  display: block;
+  margin-top: 3px;
+  color: var(--cor-roxo-claro) !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+}
+
+.student-brand-portal small {
+  display: block;
+  max-width: 165px;
+  margin-top: 4px;
+  color: var(--texto-terciario);
+  font-size: 10.5px;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .student-brand-portal small {
+    max-width: 150px;
   }
 }

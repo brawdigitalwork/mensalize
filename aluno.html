@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Área do Aluno - Mensalize</title>
-  <meta name="description" content="Área do aluno Mensalize para acompanhar mensalidade, pagamentos, dados e graduação." />
+  <title>Mensalize Aluno</title>
+  <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, pagamentos, Pix, avisos, ranking e graduação." />
   <meta name="theme-color" content="#7c3aed" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta property="og:title" content="Área do Aluno - Mensalize" />
-  <meta property="og:description" content="Acompanhe sua mensalidade, dados e evolução pelo Mensalize." />
+  <meta property="og:title" content="Mensalize Aluno" />
+  <meta property="og:description" content="Acompanhe mensalidade, Pix, pagamentos, avisos, ranking e graduação pelo Mensalize Aluno." />
   <link rel="stylesheet" href="aluno.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -21,8 +21,8 @@
   <section id="estadoInicial" class="loading-screen">
     <div class="loading-card">
       <div class="loading-logo"></div>
-      <strong>Carregando área do aluno...</strong>
-      <span>Buscando seus dados com segurança.</span>
+      <strong>Carregando Mensalize Aluno...</strong>
+      <span>Seu portal do aluno com segurança.</span>
     </div>
   </section>
 
@@ -30,11 +30,12 @@
     <div id="menuOverlay" class="menu-overlay" aria-hidden="true"></div>
 
     <aside class="student-sidebar" id="studentSidebar">
-      <div class="student-brand">
-        <img src="logo.png" alt="Logo Mensalize" class="student-brand-logo" />
+      <div class="student-brand student-brand-portal">
+        <img src="logo.png" alt="Logo Mensalize Aluno" class="student-brand-logo" />
         <div>
-          <strong id="nomeAcademia">Mensalize</strong>
-          <span>Área do aluno</span>
+          <strong>Mensalize</strong>
+          <span>Aluno</span>
+          <small id="nomeAcademia">Portal do aluno</small>
         </div>
       </div>
 
@@ -50,13 +51,13 @@
 
     <div class="student-main">
       <header class="student-topbar">
-        <button id="btnAbrirMenuAluno" type="button" class="menu-button" aria-label="Abrir menu">☰</button>
+        <button id="btnAbrirMenuAluno" type="button" class="menu-button" aria-label="Abrir menu do Mensalize Aluno">☰</button>
         <div class="student-small-profile">
           <img id="fotoAlunoTopo" class="student-top-photo escondido" alt="Foto do aluno" />
           <div id="avatarAlunoTopo" class="student-top-avatar">A</div>
           <div>
             <strong id="nomeAlunoTopo">Aluno</strong>
-            <span id="subtituloAlunoTopo">Área do aluno</span>
+            <span id="subtituloAlunoTopo">Mensalize Aluno</span>
           </div>
         </div>
       </header>
@@ -639,21 +640,70 @@
 
     async function copiarPixAluno() {
       const pix = obterPixCopiaColaAluno(alunoAtual);
-      if (!pix) return;
+      const botao = document.getElementById("btnCopiarPixAluno");
+      const campo = document.getElementById("pixCopiaColaAluno");
+      const msg = document.getElementById("msgSolicitarPagamentoAluno");
+      const textoOriginal = botao ? botao.textContent : "Copiar Pix";
+
+      if (!pix) {
+        if (msg) {
+          msg.textContent = "Pix não cadastrado pela academia.";
+          msg.classList.add("is-error");
+        }
+        return;
+      }
+
+      function feedbackCopiado() {
+        if (botao) {
+          botao.textContent = "Copiado";
+          botao.classList.add("copiado");
+          setTimeout(() => {
+            botao.textContent = textoOriginal || "Copiar Pix";
+            botao.classList.remove("copiado");
+          }, 1800);
+        }
+
+        if (msg) {
+          msg.textContent = "Pix copiado. Agora cole no app do seu banco.";
+          msg.classList.remove("is-error");
+        }
+      }
+
+      function selecionarCampoPix() {
+        if (!campo) return;
+        campo.removeAttribute("readonly");
+        campo.focus();
+        campo.select();
+        campo.setSelectionRange(0, campo.value.length);
+        campo.setAttribute("readonly", "readonly");
+      }
 
       try {
-        await navigator.clipboard.writeText(pix);
-        const botao = document.getElementById("btnCopiarPixAluno");
-        if (botao) {
-          const textoOriginal = botao.textContent;
-          botao.textContent = "✅ Pix copiado";
-          setTimeout(() => { botao.textContent = textoOriginal || "Copiar Pix"; }, 1800);
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(pix);
+          feedbackCopiado();
+          return;
         }
+
+        selecionarCampoPix();
+        const copiou = document.execCommand && document.execCommand("copy");
+
+        if (!copiou) throw new Error("Fallback copy failed");
+
+        feedbackCopiado();
       } catch (erro) {
-        const campo = document.getElementById("pixCopiaColaAluno");
-        if (campo) {
-          campo.focus();
-          campo.select();
+        selecionarCampoPix();
+
+        if (botao) {
+          botao.textContent = "Selecionei o Pix";
+          setTimeout(() => {
+            botao.textContent = textoOriginal || "Copiar Pix";
+          }, 2000);
+        }
+
+        if (msg) {
+          msg.textContent = "Não consegui copiar automaticamente. O Pix foi selecionado para você copiar manualmente.";
+          msg.classList.add("is-error");
         }
       }
     }
@@ -731,7 +781,7 @@ function renderizarAluno(aluno) {
 
       nomeAcademia.textContent = aluno.nome_empresa || CONFIG.nomeEmpresa || "Mensalize";
       nomeAlunoTopo.textContent = aluno.nome || "Aluno";
-      subtituloAlunoTopo.textContent = aluno.turma ? `Turma ${aluno.turma}` : "Área do aluno";
+      subtituloAlunoTopo.textContent = aluno.turma ? `Turma ${aluno.turma}` : "Mensalize Aluno";
       atualizarFotos(aluno);
 
       inicioStatusMensalidade.textContent = status.texto;
@@ -1326,7 +1376,7 @@ function renderizarAluno(aluno) {
     });
 
     btnCompartilhar?.addEventListener("click", async function() {
-      const titulo = alunoAtual?.nome ? `Página de ${alunoAtual.nome}` : "Área do aluno";
+      const titulo = alunoAtual?.nome ? `Página de ${alunoAtual.nome}` : "Mensalize Aluno";
       const texto = "Acompanhe sua mensalidade e dados pelo portal do aluno.";
       try {
         if (navigator.share) {

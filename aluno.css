@@ -2726,3 +2726,107 @@ body.menu-aberto {
     padding-right: max(14px, calc(14px + var(--safe-right))) !important;
   }
 }
+
+/* ================================================================
+   V49 — PIX NO PORTAL DO ALUNO NO PADRÃO DO SISTEMA
+================================================================ */
+.pix-aluno-card-clean {
+  display: grid;
+  gap: 13px;
+  padding: 16px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  background: var(--bg-card);
+}
+
+.pix-aluno-header-clean {
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.pix-aluno-header-clean h2 {
+  margin-top: 6px;
+}
+
+.pix-aluno-header-clean p {
+  margin-top: 4px;
+  color: var(--texto-secundario);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.pix-code-clean {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  background: var(--bg-muted);
+}
+
+.pix-code-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pix-code-actions span {
+  color: var(--texto-secundario);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.btn-copy-pix-clean {
+  min-height: 34px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.pix-aluno-card-clean .pix-aluno-textarea {
+  width: 100%;
+  min-height: 72px;
+  max-height: 118px;
+  resize: vertical;
+  padding: 10px;
+  border-radius: var(--raio-md);
+  border: 1px solid var(--borda);
+  background: rgba(0, 0, 0, 0.20);
+  color: var(--texto-primario);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  outline: none;
+}
+
+.btn-confirm-pix-clean {
+  min-height: 44px;
+}
+
+.pix-feedback-message {
+  min-height: 16px;
+  margin: -2px 0 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+.pix-feedback-message.is-error {
+  color: var(--vermelho);
+}
+
+@media (max-width: 520px) {
+  .pix-aluno-card-clean {
+    padding: 14px;
+  }
+
+  .pix-code-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .btn-copy-pix-clean {
+    width: 100%;
+  }
+}

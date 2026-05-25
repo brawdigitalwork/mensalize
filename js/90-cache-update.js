@@ -1,6 +1,6 @@
 // js/90-cache-update.js — controle de atualização/cache do Mensalize
 // Fase 5.1 — Atualização e Cache
-const MENSALIZE_APP_VERSION = '46';
+const MENSALIZE_APP_VERSION = '49';
 window.MENSALIZE_APP_VERSION = MENSALIZE_APP_VERSION;
 
 let mensalizeNovaVersaoWorker = null;

@@ -677,10 +677,10 @@
               </div>
             </div>
 
-            <form id="formPerfil" class="perfil-form">
+            <form id="formPerfil" class="perfil-form perfil-form-simples">
               <label class="campo-perfil">
-                <span>Nome da empresa / academia</span>
-                <input type="text" id="perfilNomeEmpresa" placeholder="Ex: Academia Nuti Jiu-Jitsu">
+                <span>Nome da academia</span>
+                <input type="text" id="perfilNomeEmpresa" placeholder="Ex: CT Mensalize">
               </label>
 
               <label class="campo-perfil">
@@ -688,40 +688,24 @@
                 <input type="tel" id="perfilWhatsApp" placeholder="Ex: 31999999999">
               </label>
 
-              <div class="perfil-ajuda">
-                Use somente números com DDD. Exemplo: <strong>31999999999</strong>.
-                A página do aluno usará esse número no botão <strong>Falar com professor</strong>.
-              </div>
+              <div class="perfil-secao-pix campo-cheio">
+                <div class="perfil-secao-topo">
+                  <div>
+                    <span class="page-eyebrow">Pix</span>
+                    <h3>Pix copia e cola</h3>
+                    <p>Esse código aparece na aba Financeiro da área do aluno.</p>
+                  </div>
+                </div>
 
-              <div class="perfil-recursos">
-                <span class="perfil-recursos-titulo">Recursos do sistema</span>
-                <label><input type="checkbox" id="perfilModuloEvolucao" checked> Ativar módulo de evolução/graduação</label>
-                <label><input type="checkbox" id="perfilModuloPresenca"> Ativar presença e aula experimental</label>
-                <label><input type="checkbox" id="perfilModuloAvisos"> Ativar avisos por turma</label>
-              </div>
-
-              <div class="perfil-recursos">
-                <span class="perfil-recursos-titulo">Frequência e graduação</span>
-                <label class="campo-perfil">
-                  <span>Presença mínima para avaliação (%)</span>
-                  <input type="number" id="perfilPresencaMinima" min="0" max="100" value="70">
-                </label>
-                <label class="campo-perfil">
-                  <span>Período analisado em meses</span>
-                  <input type="number" id="perfilPeriodoFrequencia" min="1" max="24" value="6">
+                <label class="campo-perfil campo-cheio campo-pix-simples">
+                  <span>Código Pix</span>
+                  <textarea id="perfilPixCopiaCola" rows="3" placeholder="Cole aqui o Pix copia e cola da academia"></textarea>
                 </label>
               </div>
 
-              <div class="perfil-recursos">
-                <span class="perfil-recursos-titulo">Ranking de presença</span>
-                <label><input type="checkbox" id="perfilRankingGeral" checked> Ativar ranking geral da academia</label>
-                <label><input type="checkbox" id="perfilRankingTurma" checked> Ativar ranking da turma do aluno</label>
-                <label><input type="checkbox" id="perfilRankingTurmas" checked> Ativar ranking entre turmas</label>
-                <label class="campo-perfil">
-                  <span>Mínimo de aulas válidas para entrar no ranking</span>
-                  <input type="number" id="perfilRankingMinimoAulas" min="1" max="31" value="4">
-                </label>
-              </div>
+              <p class="perfil-aviso-admin campo-cheio">
+                Plano, status, limite de alunos e módulos são controlados apenas pelo Admin.
+              </p>
 
               <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
               <p id="msgPerfil" class="msg-perfil"></p>

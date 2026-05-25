@@ -7068,3 +7068,65 @@ textarea:focus {
     min-height: auto;
   }
 }
+
+/* ================================================================
+   V49 — PERFIL PIX NO PADRÃO DO SISTEMA
+================================================================ */
+.perfil-form-simples {
+  align-items: stretch;
+}
+
+.perfil-secao-pix {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.perfil-secao-topo h3 {
+  margin-top: 6px;
+  color: var(--texto-primario);
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+
+.perfil-secao-topo p {
+  margin-top: 4px;
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+.campo-pix-simples {
+  padding: 0 !important;
+}
+
+.campo-pix-simples textarea {
+  min-height: 86px;
+  max-height: 140px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.perfil-aviso-admin {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  color: var(--texto-secundario);
+  background: rgba(255, 255, 255, 0.028);
+  font-size: 12px;
+}
+
+@media (max-width: 720px) {
+  .perfil-secao-pix {
+    padding: 14px;
+  }
+
+  .campo-pix-simples textarea {
+    min-height: 78px;
+  }
+}

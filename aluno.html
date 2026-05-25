@@ -632,7 +632,98 @@
       }
     }
 
-    function renderizarAluno(aluno) {
+    
+    function obterPixCopiaColaAluno(aluno) {
+      return String(aluno?.pix_copia_cola || aluno?.pixCopiaCola || "").trim();
+    }
+
+    async function copiarPixAluno() {
+      const pix = obterPixCopiaColaAluno(alunoAtual);
+      if (!pix) return;
+
+      try {
+        await navigator.clipboard.writeText(pix);
+        const botao = document.getElementById("btnCopiarPixAluno");
+        if (botao) {
+          const textoOriginal = botao.textContent;
+          botao.textContent = "✅ Pix copiado";
+          setTimeout(() => { botao.textContent = textoOriginal || "Copiar Pix"; }, 1800);
+        }
+      } catch (erro) {
+        const campo = document.getElementById("pixCopiaColaAluno");
+        if (campo) {
+          campo.focus();
+          campo.select();
+        }
+      }
+    }
+
+    async function solicitarConfirmacaoPagamentoAluno() {
+      if (!codigoPublico || !alunoAtual) return;
+
+      const botao = document.getElementById("btnSolicitarConfirmacaoPagamento");
+      const msg = document.getElementById("msgSolicitarPagamentoAluno");
+
+      if (botao) botao.disabled = true;
+      if (msg) {
+        msg.textContent = "Enviando solicitação de confirmação...";
+        msg.classList.remove("is-error");
+      }
+
+      try {
+        const { data, error } = await supabaseClient.rpc("solicitar_confirmacao_pagamento_publico", {
+          codigo: codigoPublico,
+          valor_pago: alunoAtual.valor || null,
+          observacao_aluno: "Aluno solicitou confirmação pela área do aluno."
+        });
+
+        if (error || data === false) {
+          throw error || new Error("Solicitação recusada.");
+        }
+
+        if (msg) msg.textContent = "✅ Solicitação enviada para o professor.";
+        if (botao) botao.textContent = "Solicitação enviada";
+      } catch (erro) {
+        if (msg) {
+          msg.textContent = "Não foi possível enviar a solicitação agora. Fale com o professor.";
+          msg.classList.add("is-error");
+        }
+        if (botao) botao.disabled = false;
+      }
+    }
+
+    function montarAreaPixAluno(aluno) {
+      const pix = obterPixCopiaColaAluno(aluno);
+      if (!pix) return "";
+
+      return `
+        <section class="pix-aluno-card pix-aluno-card-clean">
+          <div class="section-title-row pix-aluno-header-clean">
+            <div>
+              <span class="eyebrow">Pix</span>
+              <h2>Pix da academia</h2>
+              <p>Copie o código abaixo, pague no banco e solicite a confirmação.</p>
+            </div>
+          </div>
+
+          <div class="pix-code-clean">
+            <div class="pix-code-actions">
+              <span>Pix copia e cola</span>
+              <button type="button" id="btnCopiarPixAluno" class="secondary-action btn-copy-pix-clean" onclick="copiarPixAluno()">Copiar Pix</button>
+            </div>
+            <textarea id="pixCopiaColaAluno" class="pix-aluno-textarea" readonly>${escapeHtml(pix)}</textarea>
+          </div>
+
+          <button type="button" id="btnSolicitarConfirmacaoPagamento" class="primary-action btn-confirm-pix-clean" onclick="solicitarConfirmacaoPagamentoAluno()">
+            Solicitar confirmação
+          </button>
+          <p id="msgSolicitarPagamentoAluno" class="soft-message pix-feedback-message"></p>
+        </section>
+      `;
+    }
+
+
+function renderizarAluno(aluno) {
       alunoAtual = aluno;
       const status = gerarStatus(aluno);
       const linkPagamento = normalizarLink(aluno.link_pagamento);
@@ -666,15 +757,23 @@
         ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="whatsapp-button">Falar com professor</a>`
         : `<p class="soft-message center-message">WhatsApp do professor ainda não foi cadastrado.</p>`;
 
+      const areaPixAluno = montarAreaPixAluno(aluno);
+
       if (linkPagamento) {
         areaPagamento.innerHTML = `
-          <a href="${linkPagamento}" target="_blank" rel="noopener" class="pay-button">Pagar mensalidade <span>→</span></a>
+          ${areaPixAluno}
+          <a href="${linkPagamento}" target="_blank" rel="noopener" class="pay-button">Abrir link de pagamento <span>→</span></a>
+          ${botaoProfessor}
+        `;
+      } else if (areaPixAluno) {
+        areaPagamento.innerHTML = `
+          ${areaPixAluno}
           ${botaoProfessor}
         `;
       } else {
         areaPagamento.innerHTML = linkWhatsAppProfessor
-          ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">Falar com professor <span>→</span></a><p class="soft-message center-message">O link de pagamento ainda não foi cadastrado.</p>`
-          : `<p class="soft-message center-message">O link de pagamento e o WhatsApp do professor ainda não foram cadastrados.</p>`;
+          ? `<a href="${linkWhatsAppProfessor}" target="_blank" rel="noopener" class="pay-button whatsapp-primary">Falar com professor <span>→</span></a><p class="soft-message center-message">O Pix ou link de pagamento ainda não foi cadastrado.</p>`
+          : `<p class="soft-message center-message">O Pix, o link de pagamento e o WhatsApp do professor ainda não foram cadastrados.</p>`;
       }
 
       areaContatoProfessor.innerHTML = linkWhatsAppProfessor

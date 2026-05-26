@@ -266,7 +266,8 @@ async function aprovarSolicitacaoPagamento(id) {
   }
 
   const resultado = await registrarPagamentoAluno(aluno, {
-    dataPagamento: solicitacao.data_pagamento || new Date().toISOString().split("T")[0]
+  dataPagamento: solicitacao.data_pagamento || new Date().toISOString().split("T")[0],
+  valorPagamento: solicitacao.valor_informado || aluno.valor
   });
 
   if (!resultado.ok && !resultado.jaExiste) {

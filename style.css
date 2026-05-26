@@ -7130,3 +7130,183 @@ textarea:focus {
     min-height: 78px;
   }
 }
+
+/* ================================================================
+   CORREÇÃO — LISTA DO RANKING APÓS O PÓDIO
+   Corrige 4º, 5º, 6º em diante no desafio/ranking do professor
+================================================================ */
+
+.ranking-lista-pos-podio,
+.desafio-ranking-lista,
+.ranking-turma-card .desafio-ranking-lista {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+}
+
+.ranking-lista-pos-podio .ranking-row,
+.desafio-ranking-lista .ranking-row,
+.ranking-turma-card .ranking-row {
+  display: grid;
+  grid-template-columns: 42px 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.ranking-lista-pos-podio .ranking-position,
+.desafio-ranking-lista .ranking-position {
+  width: 42px;
+  min-width: 42px;
+  text-align: center;
+  font-weight: 900;
+  color: var(--cor-roxo-claro);
+}
+
+.ranking-lista-pos-podio .ranking-photo,
+.desafio-ranking-lista .ranking-photo,
+.ranking-lista-pos-podio .ranking-avatar,
+.desafio-ranking-lista .ranking-avatar {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  overflow: hidden !important;
+  flex: 0 0 38px !important;
+}
+
+.ranking-lista-pos-podio .ranking-row-info,
+.desafio-ranking-lista .ranking-row-info {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ranking-lista-pos-podio .ranking-row-info strong,
+.desafio-ranking-lista .ranking-row-info strong {
+  display: block;
+  max-width: 100%;
+  color: var(--texto-primario);
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ranking-lista-pos-podio .ranking-row-info small,
+.desafio-ranking-lista .ranking-row-info small {
+  display: block;
+  max-width: 100%;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ranking-lista-pos-podio .mini-badge,
+.desafio-ranking-lista .mini-badge {
+  justify-self: end;
+  white-space: nowrap;
+}
+
+/* Celular */
+@media (max-width: 640px) {
+  .ranking-lista-pos-podio .ranking-row,
+  .desafio-ranking-lista .ranking-row,
+  .ranking-turma-card .ranking-row {
+    grid-template-columns: 36px 38px minmax(0, 1fr);
+  }
+
+  .ranking-lista-pos-podio .mini-badge,
+  .desafio-ranking-lista .mini-badge {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-left: 78px;
+  }
+}
+
+/* ================================================================
+   CORREÇÃO — TEMA CLARO MENOS BRANCO E MAIS LEGÍVEL
+================================================================ */
+
+[data-tema="claro"] {
+  --bg-base: #eef0f8;
+  --bg-nivel-1: rgba(255, 255, 255, 0.78);
+  --bg-nivel-2: rgba(255, 255, 255, 0.88);
+  --bg-nivel-3: #ffffff;
+
+  --texto-primario: #171827;
+  --texto-secundario: #50566f;
+  --texto-terciario: #747a91;
+
+  --borda: rgba(30, 41, 59, 0.12);
+  --borda-hover: rgba(124, 58, 237, 0.34);
+}
+
+[data-tema="claro"] body {
+  background:
+    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
+    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
+    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
+  color: var(--texto-primario) !important;
+}
+
+[data-tema="claro"] .topo,
+[data-tema="claro"] .topo-dashboard {
+  background: rgba(246, 247, 251, 0.88) !important;
+  border-bottom-color: rgba(30, 41, 59, 0.10) !important;
+}
+
+[data-tema="claro"] .dashboard-hero,
+[data-tema="claro"] .painel-card,
+[data-tema="claro"] .area-formulario,
+[data-tema="claro"] .lista,
+[data-tema="claro"] .financeiro-page,
+[data-tema="claro"] .modal-card,
+[data-tema="claro"] .card,
+[data-tema="claro"] .aluno-card,
+[data-tema="claro"] .admin-simple-card,
+[data-tema="claro"] .admin-cliente-card {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+  color: var(--texto-primario) !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
+}
+
+[data-tema="claro"] input,
+[data-tema="claro"] select,
+[data-tema="claro"] textarea {
+  background: rgba(248, 250, 252, 0.92) !important;
+  color: var(--texto-primario) !important;
+  border-color: rgba(30, 41, 59, 0.14) !important;
+}
+
+[data-tema="claro"] input::placeholder,
+[data-tema="claro"] textarea::placeholder {
+  color: #8a90a3 !important;
+}
+
+[data-tema="claro"] .menu-item,
+[data-tema="claro"] .btn-tema,
+[data-tema="claro"] .btn-admin,
+[data-tema="claro"] .acao-secundaria {
+  color: var(--texto-primario) !important;
+}
+
+[data-tema="claro"] .page-eyebrow,
+[data-tema="claro"] .mini-badge,
+[data-tema="claro"] .status-badge {
+  background: rgba(124, 58, 237, 0.09) !important;
+  color: #6d28d9 !important;
+  border-color: rgba(124, 58, 237, 0.20) !important;
+}

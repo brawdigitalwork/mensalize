@@ -577,6 +577,110 @@ function inicializarFinanceiroMensal() {
 inicializarFinanceiroMensal();
 
 // ===============================
+// 17.4 PAGAMENTO — FUNÇÃO REUTILIZÁVEL
+// Usada pelo modal "Marcar como pago" e pela solicitação enviada pelo aluno.
+// ===============================
+
+async function registrarPagamentoAluno(aluno, opcoes = {}) {
+  if (!aluno || !aluno.id) {
+    return {
+      ok: false,
+      mensagem: "Aluno inválido para registrar pagamento."
+    };
+  }
+
+  const dataPagamento = opcoes.dataPagamento || new Date().toISOString().split("T")[0];
+
+  const dataBase = dataPagamentoParaDateLocal(dataPagamento);
+  const primeiroDiaMes = new Date(dataBase.getFullYear(), dataBase.getMonth(), 1)
+    .toISOString()
+    .split("T")[0];
+
+  const ultimoDiaMes = new Date(dataBase.getFullYear(), dataBase.getMonth() + 1, 0)
+    .toISOString()
+    .split("T")[0];
+
+  const { data: pagamentoJaExiste, error: erroVerificarPagamento } = await supabaseClient
+    .from("pagamentos")
+    .select("id")
+    .eq("aluno_id", aluno.id)
+    .eq("user_id", aluno.user_id)
+    .gte("data_pagamento", primeiroDiaMes)
+    .lte("data_pagamento", ultimoDiaMes)
+    .limit(1);
+
+  if (erroVerificarPagamento) {
+    return {
+      ok: false,
+      mensagem: "Erro ao verificar pagamento existente."
+    };
+  }
+
+  if (pagamentoJaExiste && pagamentoJaExiste.length > 0) {
+    return {
+      ok: true,
+      jaExiste: true,
+      mensagem: "Esse aluno já tem pagamento registrado neste mês."
+    };
+  }
+
+  const valorPagamento = valorParaNumero(opcoes.valorPagamento || aluno.valor);
+  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
+
+  const pagamentosParaInserir = calculoPagamento.mensalidades.map(() => ({
+    aluno_id: aluno.id,
+    user_id: aluno.user_id,
+    valor: valorPagamento,
+    data_pagamento: dataPagamento
+  }));
+
+  const { error: erroPagamento } = await supabaseClient
+    .from("pagamentos")
+    .insert(pagamentosParaInserir);
+
+  if (erroPagamento) {
+    return {
+      ok: false,
+      mensagem: "Erro ao registrar pagamento."
+    };
+  }
+
+  const { error: erroAtualizarAluno } = await supabaseClient
+    .from("alunos")
+    .update({
+      vencimento: calculoPagamento.novoVencimento
+    })
+    .eq("id", aluno.id);
+
+  if (erroAtualizarAluno) {
+    return {
+      ok: false,
+      mensagem: "Pagamento salvo, mas erro ao atualizar vencimento."
+    };
+  }
+
+  return {
+    ok: true,
+    jaExiste: false,
+    novoVencimento: calculoPagamento.novoVencimento,
+    mensagem: "Pagamento registrado com sucesso."
+  };
+}
+
+function dataPagamentoParaDateLocal(dataString) {
+  const partes = String(dataString || "").split("-");
+  if (partes.length !== 3) return new Date();
+
+  const data = new Date(
+    Number(partes[0]),
+    Number(partes[1]) - 1,
+    Number(partes[2])
+  );
+
+  return Number.isNaN(data.getTime()) ? new Date() : data;
+}
+
+// ===============================
 // 18. PAGAMENTOS — CONFIRMAR E REGISTRAR
 // ===============================
 

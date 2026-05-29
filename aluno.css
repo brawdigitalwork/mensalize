@@ -2830,3 +2830,242 @@ body.menu-aberto {
     width: 100%;
   }
 }
+
+/* ================================================================
+   PONTO ESTÁVEL — PORTAL DO ALUNO MOBILE
+   Fase 1: trava largura, melhora cards e evita estouro no celular
+================================================================ */
+
+/* Segurança geral: nada pode passar da largura da tela */
+html,
+body,
+.student-app,
+.student-main,
+.student-content,
+.student-view,
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card,
+.pix-aluno-card,
+.pix-aluno-card-clean,
+.pix-code-clean {
+  max-width: 100% !important;
+}
+
+/* Evita que grids/cards forcem largura maior que a tela */
+.student-main,
+.student-content,
+.student-view,
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card,
+.pix-aluno-card,
+.pix-aluno-card-clean,
+.pix-code-clean,
+.finance-summary-grid,
+.quick-grid,
+.student-evolution-grid,
+.student-form {
+  min-width: 0 !important;
+}
+
+/* Esconde qualquer estouro lateral pequeno */
+.student-content {
+  overflow-x: hidden !important;
+}
+
+/* Textos longos não podem empurrar o card */
+.student-small-profile strong,
+.student-small-profile span,
+.section-title-row h2,
+.status-hero h2,
+.quick-card strong,
+.summary-box strong,
+.evolution-info strong,
+.payment-left strong,
+.payment-left span,
+.ranking-row-info strong,
+.ranking-row-info small {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Pix copia e cola não pode quebrar o layout */
+.pix-aluno-textarea,
+#pixCopiaColaAluno {
+  max-width: 100% !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+/* Celular e tablets pequenos */
+@media (max-width: 760px) {
+  .student-content {
+    width: 100% !important;
+    padding-left: max(14px, calc(14px + var(--safe-left))) !important;
+    padding-right: max(14px, calc(14px + var(--safe-right))) !important;
+    padding-top: 16px !important;
+    padding-bottom: calc(28px + var(--safe-bottom)) !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .error-card {
+    border-radius: 20px !important;
+    padding: 16px !important;
+  }
+
+  .welcome-card h1 {
+    font-size: clamp(23px, 7vw, 30px) !important;
+    line-height: 1.12 !important;
+  }
+
+  .section-title-row,
+  .status-hero {
+    gap: 10px !important;
+  }
+}
+
+/* Celular normal */
+@media (max-width: 560px) {
+  .student-topbar {
+    min-height: 66px !important;
+    gap: 8px !important;
+    padding-left: max(14px, calc(14px + var(--safe-left))) !important;
+    padding-right: max(14px, calc(14px + var(--safe-right))) !important;
+  }
+
+  .menu-button {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+  }
+
+  .student-small-profile {
+    gap: 8px !important;
+    min-width: 0 !important;
+  }
+
+  .student-top-avatar,
+  .student-top-photo {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+  }
+
+  .student-small-profile strong {
+    max-width: 145px !important;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+  }
+
+  .student-small-profile span {
+    max-width: 145px !important;
+    font-size: 10.5px !important;
+    white-space: nowrap !important;
+  }
+
+  .quick-grid,
+  .finance-summary-grid,
+  .student-evolution-grid,
+  .student-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  .section-title-row,
+  .status-hero,
+  .payment-item {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .action-row,
+  .payment-actions,
+  .contact-actions {
+    flex-direction: column !important;
+  }
+
+  .primary-action,
+  .secondary-action,
+  .pay-button,
+  .whatsapp-button,
+  .share-button {
+    width: 100% !important;
+  }
+
+  .pix-aluno-card,
+  .pix-aluno-card-clean {
+    padding: 14px !important;
+    border-radius: 20px !important;
+  }
+
+  .pix-code-clean {
+    padding: 10px !important;
+  }
+
+  .pix-code-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .pix-code-actions button,
+  .btn-copy-pix-clean,
+  .btn-confirm-pix-clean {
+    width: 100% !important;
+  }
+
+  .pix-aluno-textarea,
+  #pixCopiaColaAluno {
+    min-height: 78px !important;
+    max-height: 130px !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+
+  .payment-left,
+  .payment-item {
+    width: 100%;
+  }
+
+  .payment-value {
+    align-self: flex-end;
+  }
+}
+
+/* Celular bem estreito: iPhone pequeno / Android pequeno */
+@media (max-width: 390px) {
+  .student-content {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .error-card,
+  .pix-aluno-card,
+  .pix-aluno-card-clean {
+    padding: 13px !important;
+    border-radius: 18px !important;
+  }
+
+  .student-small-profile strong,
+  .student-small-profile span {
+    max-width: 118px !important;
+  }
+
+  .primary-action,
+  .secondary-action,
+  .pay-button,
+  .whatsapp-button,
+  .share-button {
+    min-height: 44px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}

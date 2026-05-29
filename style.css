@@ -7309,4 +7309,562 @@ textarea:focus {
   background: rgba(124, 58, 237, 0.09) !important;
   color: #6d28d9 !important;
   border-color: rgba(124, 58, 237, 0.20) !important;
+} 
+
+/* ================================================================
+   CORREÇÃO — ADMIN MAIS LIMPO E CHECKBOXES MENORES
+   Ajusta visual do painel admin sem mexer na lógica
+================================================================ */
+
+.admin-page,
+#viewAdmin,
+.admin-clientes,
+.admin-simple-list,
+.admin-clientes-lista {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Cards dos clientes no Admin */
+.admin-simple-card,
+.admin-cliente-card,
+.cliente-card-admin {
+  display: grid;
+  gap: 14px;
+  padding: 16px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 22px !important;
+  background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.032)) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+/* Cabeçalho do card */
+.admin-simple-head,
+.admin-cliente-topo,
+.admin-card-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Nome / email do cliente */
+.admin-simple-title,
+.admin-cliente-nome,
+.admin-card-titulo {
+  display: block;
+  color: var(--texto-primario);
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-simple-email,
+.admin-cliente-email,
+.admin-card-subtitulo {
+  display: block;
+  margin-top: 3px;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Grade de informações do cliente */
+.admin-simple-grid,
+.admin-cliente-grid,
+.admin-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* Caixinhas internas: plano, status, limite etc */
+.admin-simple-info,
+.admin-info-box,
+.admin-cliente-info {
+  padding: 11px 12px !important;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+  min-width: 0;
+}
+
+.admin-simple-info span,
+.admin-info-box span,
+.admin-cliente-info span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--texto-terciario);
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.admin-simple-info strong,
+.admin-info-box strong,
+.admin-cliente-info strong {
+  display: block;
+  color: var(--texto-primario);
+  font-size: 14px;
+  font-weight: 850;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Área de ações do Admin */
+.admin-simple-actions,
+.admin-cliente-acoes,
+.admin-card-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Botões menores e mais alinhados no Admin */
+.admin-simple-actions button,
+.admin-cliente-acoes button,
+.admin-card-acoes button,
+.admin-simple-card button,
+.admin-cliente-card button {
+  min-height: 38px !important;
+  padding: 9px 12px !important;
+  border-radius: 13px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+/* Área dos módulos/permissões */
+.admin-modulos,
+.admin-simple-modulos,
+.admin-permissoes,
+.admin-checkbox-grid,
+.admin-modulos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.028);
+}
+
+/* Labels dos checkboxes */
+.admin-modulos label,
+.admin-simple-modulos label,
+.admin-permissoes label,
+.admin-checkbox-grid label,
+.admin-modulos-grid label,
+.modulo-toggle,
+.admin-toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  width: auto !important;
+  min-height: 34px !important;
+  padding: 7px 10px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: var(--raio-pill) !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  color: var(--texto-secundario) !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+  line-height: 1 !important;
+  cursor: pointer;
+}
+
+/* Checkbox pequeno */
+.admin-modulos input[type="checkbox"],
+.admin-simple-modulos input[type="checkbox"],
+.admin-permissoes input[type="checkbox"],
+.admin-checkbox-grid input[type="checkbox"],
+.admin-modulos-grid input[type="checkbox"],
+.modulo-toggle input[type="checkbox"],
+.admin-toggle input[type="checkbox"] {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  min-height: 15px !important;
+  max-width: 15px !important;
+  max-height: 15px !important;
+  margin: 0 !important;
+  accent-color: var(--cor-roxo);
+  flex: 0 0 15px !important;
+}
+
+/* Quando o checkbox estiver marcado */
+.admin-modulos label:has(input[type="checkbox"]:checked),
+.admin-simple-modulos label:has(input[type="checkbox"]:checked),
+.admin-permissoes label:has(input[type="checkbox"]:checked),
+.admin-checkbox-grid label:has(input[type="checkbox"]:checked),
+.admin-modulos-grid label:has(input[type="checkbox"]:checked),
+.modulo-toggle:has(input[type="checkbox"]:checked),
+.admin-toggle:has(input[type="checkbox"]:checked) {
+  background: var(--cor-roxo-bg) !important;
+  border-color: var(--cor-roxo-borda) !important;
+  color: var(--texto-primario) !important;
+}
+
+/* Selects e inputs dentro do Admin */
+.admin-simple-card input,
+.admin-simple-card select,
+.admin-cliente-card input,
+.admin-cliente-card select {
+  min-height: 42px !important;
+  padding: 10px 12px !important;
+  border-radius: 13px !important;
+  font-size: 14px !important;
+}
+
+/* Tema claro no Admin */
+[data-tema="claro"] .admin-simple-card,
+[data-tema="claro"] .admin-cliente-card,
+[data-tema="claro"] .cliente-card-admin {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+}
+
+[data-tema="claro"] .admin-simple-info,
+[data-tema="claro"] .admin-info-box,
+[data-tema="claro"] .admin-cliente-info,
+[data-tema="claro"] .admin-modulos,
+[data-tema="claro"] .admin-simple-modulos,
+[data-tema="claro"] .admin-permissoes,
+[data-tema="claro"] .admin-checkbox-grid,
+[data-tema="claro"] .admin-modulos-grid {
+  background: rgba(248, 250, 252, 0.78) !important;
+  border-color: rgba(30, 41, 59, 0.10) !important;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .admin-simple-grid,
+  .admin-cliente-grid,
+  .admin-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-simple-card,
+  .admin-cliente-card,
+  .cliente-card-admin {
+    padding: 14px !important;
+    border-radius: 20px !important;
+  }
+
+  .admin-simple-head,
+  .admin-cliente-topo,
+  .admin-card-topo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-simple-grid,
+  .admin-cliente-grid,
+  .admin-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-simple-actions,
+  .admin-cliente-acoes,
+  .admin-card-acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-simple-actions button,
+  .admin-cliente-acoes button,
+  .admin-card-acoes button,
+  .admin-simple-card button,
+  .admin-cliente-card button {
+    width: 100%;
+  }
+
+  .admin-modulos,
+  .admin-simple-modulos,
+  .admin-permissoes,
+  .admin-checkbox-grid,
+  .admin-modulos-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .admin-modulos label,
+  .admin-simple-modulos label,
+  .admin-permissoes label,
+  .admin-checkbox-grid label,
+  .admin-modulos-grid label,
+  .modulo-toggle,
+  .admin-toggle {
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+}
+
+/* =========================================================
+   AJUSTE PONTUAL — CHECKBOX "ACESSO AO SISTEMA" NO ADMIN
+   Deixa a linha mais limpa e reduz o checkbox gigante
+========================================================= */
+
+.admin-permissoes > label,
+.admin-checkbox-grid > label,
+.admin-modulos-grid > label,
+.admin-simple-modulos > label,
+.admin-modulos > label,
+.admin-toggle,
+.modulo-toggle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-height: 56px !important;
+  padding: 14px 16px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  text-align: left !important;
+}
+
+/* Faz o texto ocupar o lado esquerdo corretamente */
+.admin-permissoes > label span,
+.admin-checkbox-grid > label span,
+.admin-modulos-grid > label span,
+.admin-simple-modulos > label span,
+.admin-modulos > label span,
+.admin-toggle span,
+.modulo-toggle span,
+.admin-permissoes > label strong,
+.admin-checkbox-grid > label strong,
+.admin-modulos-grid > label strong,
+.admin-simple-modulos > label strong,
+.admin-modulos > label strong,
+.admin-toggle strong,
+.modulo-toggle strong,
+.admin-permissoes > label small,
+.admin-checkbox-grid > label small,
+.admin-modulos-grid > label small,
+.admin-simple-modulos > label small,
+.admin-modulos > label small,
+.admin-toggle small,
+.modulo-toggle small {
+  flex: 1;
+}
+
+/* CHECKBOX pequeno e alinhado */
+.admin-permissoes input[type="checkbox"],
+.admin-checkbox-grid input[type="checkbox"],
+.admin-modulos-grid input[type="checkbox"],
+.admin-simple-modulos input[type="checkbox"],
+.admin-modulos input[type="checkbox"],
+.admin-toggle input[type="checkbox"],
+.modulo-toggle input[type="checkbox"] {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  margin: 0 0 0 auto !important;
+  transform: none !important;
+  zoom: 1 !important;
+  flex: 0 0 18px !important;
+  accent-color: var(--cor-roxo);
+  cursor: pointer;
+}
+
+/* Quando estiver marcado */
+.admin-permissoes > label:has(input[type="checkbox"]:checked),
+.admin-checkbox-grid > label:has(input[type="checkbox"]:checked),
+.admin-modulos-grid > label:has(input[type="checkbox"]:checked),
+.admin-simple-modulos > label:has(input[type="checkbox"]:checked),
+.admin-modulos > label:has(input[type="checkbox"]:checked),
+.admin-toggle:has(input[type="checkbox"]:checked),
+.modulo-toggle:has(input[type="checkbox"]:checked) {
+  border-color: rgba(139, 92, 246, 0.45) !important;
+  background: rgba(124, 58, 237, 0.10) !important;
+}
+
+/* No celular continua bonito */
+@media (max-width: 640px) {
+  .admin-permissoes > label,
+  .admin-checkbox-grid > label,
+  .admin-modulos-grid > label,
+  .admin-simple-modulos > label,
+  .admin-modulos > label,
+  .admin-toggle,
+  .modulo-toggle {
+    padding: 12px 14px !important;
+    min-height: 52px !important;
+  }
+
+  .admin-permissoes input[type="checkbox"],
+  .admin-checkbox-grid input[type="checkbox"],
+  .admin-modulos-grid input[type="checkbox"],
+  .admin-simple-modulos input[type="checkbox"],
+  .admin-modulos input[type="checkbox"],
+  .admin-toggle input[type="checkbox"],
+  .modulo-toggle input[type="checkbox"] {
+    width: 17px !important;
+    height: 17px !important;
+    min-width: 17px !important;
+    min-height: 17px !important;
+  }
+}
+/* ================================================================
+   CORREÇÃO REAL — ACESSO AO SISTEMA NO ADMIN
+   Alvo certo: .admin-simple-access
+================================================================ */
+
+/* A linha inteira do acesso */
+.admin-simple-access {
+  grid-column: 1 / -1 !important;
+
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+
+  min-height: auto !important;
+  padding: 14px 16px !important;
+
+  border: 1px solid rgba(34, 197, 94, 0.22) !important;
+  border-radius: 18px !important;
+  background: rgba(34, 197, 94, 0.07) !important;
+
+  color: var(--texto-primario) !important;
+}
+
+/* Bloco do texto */
+.admin-simple-access > span {
+  display: grid !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+}
+
+/* Título */
+.admin-simple-access strong {
+  display: block !important;
+  color: var(--texto-primario) !important;
+  font-size: 14px !important;
+  font-weight: 850 !important;
+  line-height: 1.2 !important;
+}
+
+/* Descrição */
+.admin-simple-access small {
+  display: block !important;
+  color: var(--texto-secundario) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+}
+
+/* Esconde o checkbox quadradão nativo */
+.admin-simple-access input[type="checkbox"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+
+  width: 44px !important;
+  height: 24px !important;
+  min-width: 44px !important;
+  min-height: 24px !important;
+  max-width: 44px !important;
+  max-height: 24px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+
+  position: relative !important;
+  cursor: pointer !important;
+
+  transform: none !important;
+  zoom: 1 !important;
+  flex: 0 0 44px !important;
+}
+
+/* Bolinha do switch */
+.admin-simple-access input[type="checkbox"]::before {
+  content: "" !important;
+
+  position: absolute !important;
+  top: 3px !important;
+  left: 3px !important;
+
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28) !important;
+
+  transition: transform 0.2s ease !important;
+}
+
+/* Quando marcado */
+.admin-simple-access input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  border-color: rgba(34, 197, 94, 0.55) !important;
+}
+
+/* Move a bolinha para a direita quando marcado */
+.admin-simple-access input[type="checkbox"]:checked::before {
+  transform: translateX(20px) !important;
+}
+
+/* Quando estiver desabilitado */
+.admin-simple-access input[type="checkbox"]:disabled {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+}
+
+/* Tema claro */
+[data-tema="claro"] .admin-simple-access {
+  background: rgba(34, 197, 94, 0.08) !important;
+  border-color: rgba(34, 197, 94, 0.24) !important;
+}
+
+[data-tema="claro"] .admin-simple-access input[type="checkbox"] {
+  background: rgba(15, 23, 42, 0.14) !important;
+}
+
+/* Celular */
+@media (max-width: 640px) {
+  .admin-simple-access {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    padding: 12px 14px !important;
+    border-radius: 16px !important;
+  }
+
+  .admin-simple-access input[type="checkbox"] {
+    width: 42px !important;
+    height: 23px !important;
+    min-width: 42px !important;
+    min-height: 23px !important;
+  }
+
+  .admin-simple-access input[type="checkbox"]::before {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  .admin-simple-access input[type="checkbox"]:checked::before {
+    transform: translateX(19px) !important;
+  }
 }

@@ -3069,3 +3069,159 @@ body,
     padding-right: 12px !important;
   }
 }
+
+/* ================================================================
+   PONTO ESTÁVEL — PORTAL DO ALUNO MOBILE
+   Fase 2: polimento leve da Home do aluno
+================================================================ */
+
+/* Card principal de boas-vindas */
+.welcome-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(196, 181, 253, 0.14);
+  background:
+    radial-gradient(circle at 92% 0%, rgba(124, 58, 237, 0.16), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.060), rgba(255, 255, 255, 0.034));
+}
+
+/* Brilho discreto dentro do card principal */
+.welcome-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.08), transparent 35%);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Garante que o texto fique acima do brilho */
+.welcome-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Título da Home do aluno */
+.welcome-card h1 {
+  color: var(--texto-primario);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+}
+
+/* Texto abaixo do título */
+.welcome-card p {
+  max-width: 620px;
+  color: var(--texto-secundario);
+  line-height: 1.55;
+}
+
+/* Cards rápidos da Home */
+.quick-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 118px;
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.030));
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+/* Linha roxa discreta no topo do card */
+.quick-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cor-roxo), var(--cor-roxo-claro));
+  opacity: 0.85;
+}
+
+/* Hover só em telas que usam mouse */
+@media (hover: hover) {
+  .quick-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(196, 181, 253, 0.22);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.034));
+  }
+}
+
+/* Label pequeno do card */
+.quick-card span {
+  color: var(--texto-terciario);
+  font-size: 10.5px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+/* Valor/título do card */
+.quick-card strong {
+  color: var(--texto-primario);
+  font-weight: 900;
+  line-height: 1.08;
+}
+
+/* Texto auxiliar */
+.quick-card small {
+  color: var(--texto-secundario);
+  line-height: 1.35;
+}
+
+/* Grade da Home mais equilibrada */
+.quick-grid {
+  gap: 12px;
+}
+
+/* Botões da Home mais consistentes */
+.action-row .primary-action,
+.action-row .secondary-action {
+  min-height: 46px;
+  border-radius: 15px;
+}
+
+/* Tema claro */
+[data-tema="claro"] .welcome-card,
+[data-tema="claro"] .quick-card {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(30, 41, 59, 0.10) !important;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.055);
+}
+
+[data-tema="claro"] .welcome-card::before {
+  opacity: 0.35;
+}
+
+/* Celular */
+@media (max-width: 560px) {
+  .welcome-card {
+    padding: 16px !important;
+  }
+
+  .welcome-card h1 {
+    font-size: clamp(24px, 8vw, 31px) !important;
+  }
+
+  .welcome-card p {
+    font-size: 13px;
+  }
+
+  .quick-card {
+    min-height: auto;
+    padding: 15px !important;
+  }
+
+  .quick-card strong {
+    font-size: clamp(20px, 6vw, 25px);
+  }
+
+  .quick-card small {
+    font-size: 12px;
+  }
+}

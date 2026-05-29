@@ -3225,3 +3225,583 @@ body,
     font-size: 12px;
   }
 }
+
+/* ================================================================
+   PORTAL DO ALUNO — BOTÕES TEMA E ATUALIZAR SISTEMA
+================================================================ */
+
+.student-sidebar-footer {
+  margin-top: auto;
+  display: grid;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--borda);
+}
+
+.student-footer-button {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border-radius: var(--raio-md);
+  border: 1px solid var(--borda);
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--texto-primario);
+  font-size: 13px;
+  font-weight: 850;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.student-footer-button:hover {
+  background: var(--cor-roxo-bg);
+  border-color: var(--cor-roxo-borda);
+}
+
+.student-footer-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+[data-tema="claro"] .student-footer-button {
+  background: rgba(17, 24, 39, 0.045);
+  color: var(--texto-primario);
+  border-color: rgba(17, 24, 39, 0.10);
+}
+
+[data-tema="claro"] .student-footer-button:hover {
+  background: rgba(124, 58, 237, 0.10);
+  border-color: rgba(124, 58, 237, 0.22);
+}
+
+/* ================================================================
+   CORREÇÃO — TEMA CLARO COMPLETO NO PORTAL DO ALUNO
+   Usa as variáveis do theme.css e corrige fundo/cards no aluno
+================================================================ */
+
+/* Funciona se o tema estiver no HTML */
+html[data-tema="claro"],
+html[data-tema="claro"] body {
+  background:
+    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
+    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
+    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
+  color: var(--texto-primario) !important;
+}
+
+/* Funciona se o tema estiver no BODY */
+body[data-tema="claro"] {
+  background:
+    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
+    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
+    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
+  color: var(--texto-primario) !important;
+}
+
+/* Remove grade/fundo escuro antigo */
+html[data-tema="claro"] body::before,
+body[data-tema="claro"]::before {
+  display: none !important;
+}
+
+/* Estrutura principal do portal */
+html[data-tema="claro"] .student-app,
+html[data-tema="claro"] .student-main,
+html[data-tema="claro"] .student-content,
+body[data-tema="claro"] .student-app,
+body[data-tema="claro"] .student-main,
+body[data-tema="claro"] .student-content {
+  background: transparent !important;
+  color: var(--texto-primario) !important;
+}
+
+/* Topbar do aluno */
+html[data-tema="claro"] .student-topbar,
+body[data-tema="claro"] .student-topbar {
+  background: rgba(246, 247, 251, 0.90) !important;
+  border-bottom-color: rgba(30, 41, 59, 0.10) !important;
+}
+
+/* Sidebar/menu do aluno */
+html[data-tema="claro"] .student-sidebar,
+body[data-tema="claro"] .student-sidebar {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(30, 41, 59, 0.10) !important;
+}
+
+html[data-tema="claro"] .student-brand,
+body[data-tema="claro"] .student-brand {
+  background: rgba(124, 58, 237, 0.06) !important;
+  border-color: rgba(124, 58, 237, 0.14) !important;
+}
+
+html[data-tema="claro"] .student-brand strong,
+body[data-tema="claro"] .student-brand strong {
+  color: var(--texto-primario) !important;
+}
+
+/* Cards principais do aluno */
+html[data-tema="claro"] .welcome-card,
+html[data-tema="claro"] .panel-card,
+html[data-tema="claro"] .quick-card,
+html[data-tema="claro"] .summary-box,
+html[data-tema="claro"] .payment-item,
+html[data-tema="claro"] .ranking-row,
+html[data-tema="claro"] .pix-aluno-card,
+html[data-tema="claro"] .pix-aluno-card-clean,
+html[data-tema="claro"] .error-card,
+body[data-tema="claro"] .welcome-card,
+body[data-tema="claro"] .panel-card,
+body[data-tema="claro"] .quick-card,
+body[data-tema="claro"] .summary-box,
+body[data-tema="claro"] .payment-item,
+body[data-tema="claro"] .ranking-row,
+body[data-tema="claro"] .pix-aluno-card,
+body[data-tema="claro"] .pix-aluno-card-clean,
+body[data-tema="claro"] .error-card {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+  color: var(--texto-primario) !important;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06) !important;
+}
+
+/* Textos principais */
+html[data-tema="claro"] .welcome-card h1,
+html[data-tema="claro"] .section-title-row h2,
+html[data-tema="claro"] .status-hero h2,
+html[data-tema="claro"] .quick-card strong,
+html[data-tema="claro"] .summary-box strong,
+html[data-tema="claro"] .ranking-row-info strong,
+body[data-tema="claro"] .welcome-card h1,
+body[data-tema="claro"] .section-title-row h2,
+body[data-tema="claro"] .status-hero h2,
+body[data-tema="claro"] .quick-card strong,
+body[data-tema="claro"] .summary-box strong,
+body[data-tema="claro"] .ranking-row-info strong {
+  color: var(--texto-primario) !important;
+}
+
+/* Textos secundários */
+html[data-tema="claro"] .welcome-card p,
+html[data-tema="claro"] .section-title-row p,
+html[data-tema="claro"] .quick-card small,
+html[data-tema="claro"] .summary-box span,
+html[data-tema="claro"] .ranking-row-info small,
+body[data-tema="claro"] .welcome-card p,
+body[data-tema="claro"] .section-title-row p,
+body[data-tema="claro"] .quick-card small,
+body[data-tema="claro"] .summary-box span,
+body[data-tema="claro"] .ranking-row-info small {
+  color: var(--texto-secundario) !important;
+}
+
+/* Inputs, textarea e Pix */
+html[data-tema="claro"] input,
+html[data-tema="claro"] textarea,
+html[data-tema="claro"] select,
+html[data-tema="claro"] .pix-aluno-textarea,
+html[data-tema="claro"] #pixCopiaColaAluno,
+body[data-tema="claro"] input,
+body[data-tema="claro"] textarea,
+body[data-tema="claro"] select,
+body[data-tema="claro"] .pix-aluno-textarea,
+body[data-tema="claro"] #pixCopiaColaAluno {
+  background: rgba(248, 250, 252, 0.94) !important;
+  color: var(--texto-primario) !important;
+  border-color: rgba(30, 41, 59, 0.14) !important;
+}
+
+/* Botões secundários */
+html[data-tema="claro"] .secondary-action,
+html[data-tema="claro"] .student-footer-button,
+html[data-tema="claro"] .menu-button,
+body[data-tema="claro"] .secondary-action,
+body[data-tema="claro"] .student-footer-button,
+body[data-tema="claro"] .menu-button {
+  background: rgba(255, 255, 255, 0.78) !important;
+  color: var(--texto-primario) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+}
+
+/* Menu do aluno */
+html[data-tema="claro"] .student-menu button,
+body[data-tema="claro"] .student-menu button {
+  color: var(--texto-secundario) !important;
+}
+
+html[data-tema="claro"] .student-menu button.ativo,
+html[data-tema="claro"] .student-menu button:hover,
+body[data-tema="claro"] .student-menu button.ativo,
+body[data-tema="claro"] .student-menu button:hover {
+  background: rgba(124, 58, 237, 0.10) !important;
+  color: var(--texto-primario) !important;
+  border-color: rgba(124, 58, 237, 0.18) !important;
+}
+
+/* ================================================================
+   CORREÇÃO COMPLEMENTAR — TEMA CLARO NO FINANCEIRO, EDITAR E GRADUAÇÃO
+   Corrige cards internos que ainda ficaram escuros no portal do aluno
+================================================================ */
+
+/* Caixas internas do Financeiro, Editar aluno e Graduação */
+html[data-tema="claro"] .finance-summary-grid .summary-box,
+html[data-tema="claro"] .student-evolution-grid .evolution-info,
+html[data-tema="claro"] .student-form,
+html[data-tema="claro"] .student-form label,
+html[data-tema="claro"] .photo-box,
+html[data-tema="claro"] .status-message,
+html[data-tema="claro"] .payment-item,
+html[data-tema="claro"] .pix-code-clean,
+html[data-tema="claro"] .center-message,
+html[data-tema="claro"] .empty-message,
+html[data-tema="claro"] .empty-state-mini,
+body[data-tema="claro"] .finance-summary-grid .summary-box,
+body[data-tema="claro"] .student-evolution-grid .evolution-info,
+body[data-tema="claro"] .student-form,
+body[data-tema="claro"] .student-form label,
+body[data-tema="claro"] .photo-box,
+body[data-tema="claro"] .status-message,
+body[data-tema="claro"] .payment-item,
+body[data-tema="claro"] .pix-code-clean,
+body[data-tema="claro"] .center-message,
+body[data-tema="claro"] .empty-message,
+body[data-tema="claro"] .empty-state-mini {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+  color: var(--texto-primario) !important;
+  box-shadow: none !important;
+}
+
+/* Caixas que precisam de fundo um pouco mais suave */
+html[data-tema="claro"] .summary-box,
+html[data-tema="claro"] .evolution-info,
+html[data-tema="claro"] .photo-box,
+html[data-tema="claro"] .status-message,
+body[data-tema="claro"] .summary-box,
+body[data-tema="claro"] .evolution-info,
+body[data-tema="claro"] .photo-box,
+body[data-tema="claro"] .status-message {
+  background: rgba(248, 250, 252, 0.86) !important;
+}
+
+/* Textos principais dentro desses cards */
+html[data-tema="claro"] .summary-box strong,
+html[data-tema="claro"] .evolution-info strong,
+html[data-tema="claro"] .student-form strong,
+html[data-tema="claro"] .payment-left strong,
+html[data-tema="claro"] .status-message strong,
+body[data-tema="claro"] .summary-box strong,
+body[data-tema="claro"] .evolution-info strong,
+body[data-tema="claro"] .student-form strong,
+body[data-tema="claro"] .payment-left strong,
+body[data-tema="claro"] .status-message strong {
+  color: var(--texto-primario) !important;
+}
+
+/* Textos secundários */
+html[data-tema="claro"] .summary-box span,
+html[data-tema="claro"] .evolution-info span,
+html[data-tema="claro"] .student-form label span,
+html[data-tema="claro"] .photo-box p,
+html[data-tema="claro"] .payment-left span,
+html[data-tema="claro"] .status-message,
+html[data-tema="claro"] .soft-message,
+html[data-tema="claro"] .empty-message,
+html[data-tema="claro"] .empty-state-mini,
+body[data-tema="claro"] .summary-box span,
+body[data-tema="claro"] .evolution-info span,
+body[data-tema="claro"] .student-form label span,
+body[data-tema="claro"] .photo-box p,
+body[data-tema="claro"] .payment-left span,
+body[data-tema="claro"] .status-message,
+body[data-tema="claro"] .soft-message,
+body[data-tema="claro"] .empty-message,
+body[data-tema="claro"] .empty-state-mini {
+  color: var(--texto-secundario) !important;
+}
+
+/* Inputs da tela Editar aluno */
+html[data-tema="claro"] .student-form input,
+html[data-tema="claro"] .student-form textarea,
+html[data-tema="claro"] .photo-box input,
+body[data-tema="claro"] .student-form input,
+body[data-tema="claro"] .student-form textarea,
+body[data-tema="claro"] .photo-box input {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: var(--texto-primario) !important;
+  border-color: rgba(30, 41, 59, 0.14) !important;
+}
+
+/* Placeholder dos inputs */
+html[data-tema="claro"] .student-form input::placeholder,
+html[data-tema="claro"] .student-form textarea::placeholder,
+body[data-tema="claro"] .student-form input::placeholder,
+body[data-tema="claro"] .student-form textarea::placeholder {
+  color: #8a90a3 !important;
+}
+
+/* Área do histórico de pagamentos */
+html[data-tema="claro"] .payments-list,
+body[data-tema="claro"] .payments-list {
+  color: var(--texto-primario) !important;
+}
+
+/* Ícone do pagamento */
+html[data-tema="claro"] .payment-icon,
+body[data-tema="claro"] .payment-icon {
+  background: rgba(34, 197, 94, 0.12) !important;
+  color: #16a34a !important;
+}
+
+/* Badge/status continuam coloridos, mas sem parecer escuro */
+html[data-tema="claro"] .status-badge,
+html[data-tema="claro"] .mini-badge,
+body[data-tema="claro"] .status-badge,
+body[data-tema="claro"] .mini-badge {
+  background: rgba(124, 58, 237, 0.09) !important;
+  border-color: rgba(124, 58, 237, 0.20) !important;
+  color: #6d28d9 !important;
+}
+
+/* Status pago/atrasado/pendente no tema claro */
+html[data-tema="claro"] .status-pago,
+body[data-tema="claro"] .status-pago {
+  background: rgba(34, 197, 94, 0.12) !important;
+  color: #15803d !important;
+  border-color: rgba(34, 197, 94, 0.26) !important;
+}
+
+html[data-tema="claro"] .status-atrasado,
+body[data-tema="claro"] .status-atrasado {
+  background: rgba(239, 68, 68, 0.10) !important;
+  color: #b91c1c !important;
+  border-color: rgba(239, 68, 68, 0.24) !important;
+}
+
+html[data-tema="claro"] .status-pendente,
+body[data-tema="claro"] .status-pendente {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #b45309 !important;
+  border-color: rgba(245, 158, 11, 0.26) !important;
+}
+
+/* ================================================================
+   PORTAL DO ALUNO — POLIMENTO DO FINANCEIRO / PIX
+   Deixa o Pix mais limpo, proporcional e fácil de usar
+================================================================ */
+
+/* Card principal do Pix */
+.pix-aluno-card,
+.pix-aluno-card-clean {
+  display: grid;
+  gap: 12px;
+  padding: 16px !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(196, 181, 253, 0.16) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.12), transparent 36%),
+    rgba(255, 255, 255, 0.045) !important;
+  overflow: hidden;
+}
+
+/* Cabeçalho do Pix */
+.pix-aluno-header-clean,
+.pix-aluno-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 0 !important;
+}
+
+.pix-aluno-header-clean h2,
+.pix-aluno-topo strong {
+  color: var(--texto-primario);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.pix-aluno-header-clean p,
+.pix-aluno-topo p {
+  margin-top: 5px;
+  color: var(--texto-secundario);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* Caixa onde fica o código Pix */
+.pix-code-clean,
+.pix-code-box {
+  display: grid;
+  gap: 9px;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--borda) !important;
+  background: rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Linha "Pix copia e cola" + botão copiar */
+.pix-code-actions,
+.pix-code-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pix-code-actions span,
+.pix-code-label span {
+  color: var(--texto-terciario);
+  font-size: 10.5px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Campo do Pix */
+.pix-aluno-textarea,
+#pixCopiaColaAluno {
+  width: 100%;
+  min-height: 74px !important;
+  max-height: 128px !important;
+  padding: 10px 11px !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--borda) !important;
+  background: rgba(9, 9, 15, 0.62) !important;
+  color: var(--texto-primario) !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  resize: vertical;
+  outline: none;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+/* Botão Copiar Pix */
+.btn-copy-pix-clean,
+.copy-pix-button,
+#btnCopiarPixAluno {
+  min-height: 38px !important;
+  padding: 9px 13px !important;
+  border-radius: var(--raio-pill) !important;
+  border: 1px solid var(--cor-roxo-borda) !important;
+  background: var(--cor-roxo-bg) !important;
+  color: var(--cor-roxo-claro) !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  white-space: nowrap;
+}
+
+/* Feedback quando copiou */
+.btn-copy-pix-clean.copiado,
+.copy-pix-button.copiado,
+#btnCopiarPixAluno.copiado {
+  background: var(--verde-bg) !important;
+  color: #4ade80 !important;
+  border-color: rgba(34, 197, 94, 0.32) !important;
+}
+
+/* Botão Solicitar confirmação */
+.btn-confirm-pix-clean,
+.pix-confirm-button,
+#btnSolicitarConfirmacaoPagamento {
+  width: 100%;
+  min-height: 46px !important;
+  border-radius: 15px !important;
+  background: linear-gradient(135deg, var(--cor-roxo), #9333ea) !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 12px 28px rgba(124, 58, 237, 0.22);
+}
+
+/* Mensagem de feedback abaixo do botão */
+.pix-feedback-message,
+#msgSolicitarPagamentoAluno {
+  min-height: 18px;
+  margin: 0 !important;
+  color: var(--texto-secundario);
+  text-align: center;
+  font-size: 12px;
+}
+
+.pix-feedback-message.is-error,
+#msgSolicitarPagamentoAluno.is-error {
+  color: #f87171 !important;
+}
+
+/* Tema claro do Pix */
+html[data-tema="claro"] .pix-aluno-card,
+html[data-tema="claro"] .pix-aluno-card-clean,
+body[data-tema="claro"] .pix-aluno-card,
+body[data-tema="claro"] .pix-aluno-card-clean {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.08), transparent 36%),
+    rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+}
+
+html[data-tema="claro"] .pix-code-clean,
+html[data-tema="claro"] .pix-code-box,
+body[data-tema="claro"] .pix-code-clean,
+body[data-tema="claro"] .pix-code-box {
+  background: rgba(248, 250, 252, 0.86) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+}
+
+html[data-tema="claro"] .pix-aluno-textarea,
+html[data-tema="claro"] #pixCopiaColaAluno,
+body[data-tema="claro"] .pix-aluno-textarea,
+body[data-tema="claro"] #pixCopiaColaAluno {
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: var(--texto-primario) !important;
+  border-color: rgba(30, 41, 59, 0.14) !important;
+}
+
+html[data-tema="claro"] .btn-copy-pix-clean,
+html[data-tema="claro"] .copy-pix-button,
+html[data-tema="claro"] #btnCopiarPixAluno,
+body[data-tema="claro"] .btn-copy-pix-clean,
+body[data-tema="claro"] .copy-pix-button,
+body[data-tema="claro"] #btnCopiarPixAluno {
+  background: rgba(124, 58, 237, 0.09) !important;
+  color: #6d28d9 !important;
+  border-color: rgba(124, 58, 237, 0.22) !important;
+}
+
+/* Celular */
+@media (max-width: 560px) {
+  .pix-aluno-card,
+  .pix-aluno-card-clean {
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  .pix-aluno-header-clean,
+  .pix-aluno-topo {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pix-code-actions,
+  .pix-code-label {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-copy-pix-clean,
+  .copy-pix-button,
+  #btnCopiarPixAluno {
+    width: 100% !important;
+  }
+
+  .pix-aluno-textarea,
+  #pixCopiaColaAluno {
+    min-height: 82px !important;
+    font-size: 10.8px !important;
+  }
+}

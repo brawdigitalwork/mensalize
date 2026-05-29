@@ -7868,3 +7868,188 @@ textarea:focus {
     transform: translateX(19px) !important;
   }
 }
+
+/* ================================================================
+   CORREÇÃO — TEMA CLARO COMPLETO
+   Corrige quando só os cards ficam claros e o fundo continua escuro
+================================================================ */
+
+/* Caso o tema esteja aplicado no HTML */
+html[data-tema="claro"],
+html[data-tema="claro"] body {
+  background:
+    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
+    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
+    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
+  color: #171827 !important;
+}
+
+/* Caso o tema esteja aplicado no BODY */
+body[data-tema="claro"] {
+  background:
+    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
+    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
+    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
+  color: #171827 !important;
+}
+
+/* Remove a grade escura no tema claro */
+html[data-tema="claro"] body::before,
+body[data-tema="claro"]::before {
+  display: none !important;
+}
+
+/* Variáveis do tema claro para os dois jeitos */
+html[data-tema="claro"],
+body[data-tema="claro"] {
+  --bg-base: #eef0f8;
+  --bg-nivel-1: rgba(255, 255, 255, 0.82);
+  --bg-nivel-2: rgba(255, 255, 255, 0.90);
+  --bg-nivel-3: #ffffff;
+  --bg-input: rgba(248, 250, 252, 0.94);
+
+  --texto-primario: #171827;
+  --texto-secundario: #50566f;
+  --texto-terciario: #747a91;
+
+  --borda: rgba(30, 41, 59, 0.12);
+  --borda-hover: rgba(124, 58, 237, 0.34);
+}
+
+/* Topo no tema claro */
+html[data-tema="claro"] .topo,
+html[data-tema="claro"] .topo-dashboard,
+body[data-tema="claro"] .topo,
+body[data-tema="claro"] .topo-dashboard {
+  background: rgba(246, 247, 251, 0.90) !important;
+  border-bottom-color: rgba(30, 41, 59, 0.10) !important;
+}
+
+/* Textos do topo */
+html[data-tema="claro"] .topo-esquerda h1,
+html[data-tema="claro"] #tituloPagina,
+body[data-tema="claro"] .topo-esquerda h1,
+body[data-tema="claro"] #tituloPagina {
+  color: #171827 !important;
+}
+
+html[data-tema="claro"] #descricaoPagina,
+body[data-tema="claro"] #descricaoPagina {
+  color: #50566f !important;
+}
+
+/* Sidebar no tema claro */
+html[data-tema="claro"] .sidebar-app,
+body[data-tema="claro"] .sidebar-app {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-right-color: rgba(30, 41, 59, 0.10) !important;
+}
+
+html[data-tema="claro"] .sidebar-brand,
+body[data-tema="claro"] .sidebar-brand {
+  background: rgba(124, 58, 237, 0.06) !important;
+  border-color: rgba(124, 58, 237, 0.14) !important;
+}
+
+html[data-tema="claro"] .sidebar-brand strong,
+body[data-tema="claro"] .sidebar-brand strong {
+  color: #171827 !important;
+}
+
+/* Cards e painéis principais */
+html[data-tema="claro"] .dashboard-hero,
+html[data-tema="claro"] .painel-card,
+html[data-tema="claro"] .area-formulario,
+html[data-tema="claro"] .lista,
+html[data-tema="claro"] .financeiro-page,
+html[data-tema="claro"] .modal-card,
+html[data-tema="claro"] .card,
+html[data-tema="claro"] .aluno-card,
+html[data-tema="claro"] .admin-simple-card,
+html[data-tema="claro"] .admin-cliente-card,
+html[data-tema="claro"] .solicitacao-card,
+html[data-tema="claro"] .ranking-turma-card,
+body[data-tema="claro"] .dashboard-hero,
+body[data-tema="claro"] .painel-card,
+body[data-tema="claro"] .area-formulario,
+body[data-tema="claro"] .lista,
+body[data-tema="claro"] .financeiro-page,
+body[data-tema="claro"] .modal-card,
+body[data-tema="claro"] .card,
+body[data-tema="claro"] .aluno-card,
+body[data-tema="claro"] .admin-simple-card,
+body[data-tema="claro"] .admin-cliente-card,
+body[data-tema="claro"] .solicitacao-card,
+body[data-tema="claro"] .ranking-turma-card {
+  background: rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+  color: #171827 !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
+}
+
+/* Títulos dentro dos cards */
+html[data-tema="claro"] .dashboard-hero h2,
+html[data-tema="claro"] .painel-card h2,
+html[data-tema="claro"] .lista h2,
+html[data-tema="claro"] .area-formulario h2,
+html[data-tema="claro"] .financeiro-page h2,
+html[data-tema="claro"] .aluno-premium-topo h3,
+body[data-tema="claro"] .dashboard-hero h2,
+body[data-tema="claro"] .painel-card h2,
+body[data-tema="claro"] .lista h2,
+body[data-tema="claro"] .area-formulario h2,
+body[data-tema="claro"] .financeiro-page h2,
+body[data-tema="claro"] .aluno-premium-topo h3 {
+  color: #171827 !important;
+}
+
+/* Textos secundários */
+html[data-tema="claro"] .dashboard-hero p,
+html[data-tema="claro"] .painel-card p,
+html[data-tema="claro"] .aluno-premium-topo p,
+body[data-tema="claro"] .dashboard-hero p,
+body[data-tema="claro"] .painel-card p,
+body[data-tema="claro"] .aluno-premium-topo p {
+  color: #50566f !important;
+}
+
+/* Inputs no tema claro */
+html[data-tema="claro"] input,
+html[data-tema="claro"] select,
+html[data-tema="claro"] textarea,
+body[data-tema="claro"] input,
+body[data-tema="claro"] select,
+body[data-tema="claro"] textarea {
+  background: rgba(248, 250, 252, 0.94) !important;
+  color: #171827 !important;
+  border-color: rgba(30, 41, 59, 0.14) !important;
+}
+
+/* Botões secundários no tema claro */
+html[data-tema="claro"] .acao-secundaria,
+html[data-tema="claro"] .btn-texto,
+html[data-tema="claro"] .btn-tema,
+html[data-tema="claro"] .btn-admin,
+body[data-tema="claro"] .acao-secundaria,
+body[data-tema="claro"] .btn-texto,
+body[data-tema="claro"] .btn-tema,
+body[data-tema="claro"] .btn-admin {
+  background: rgba(255, 255, 255, 0.78) !important;
+  color: #171827 !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+}
+
+/* Menu ativo no tema claro */
+html[data-tema="claro"] .menu-item,
+body[data-tema="claro"] .menu-item {
+  color: #50566f !important;
+}
+
+html[data-tema="claro"] .menu-item.ativo,
+html[data-tema="claro"] .menu-item:hover,
+body[data-tema="claro"] .menu-item.ativo,
+body[data-tema="claro"] .menu-item:hover {
+  background: rgba(124, 58, 237, 0.10) !important;
+  color: #171827 !important;
+  border-color: rgba(124, 58, 237, 0.18) !important;
+}

@@ -356,7 +356,7 @@ const PLANOS_MENSALIZE_ADMIN = {
     tag: "Mais vendido",
     preco: "R$ 49,90/mês",
     limite: 150,
-    descricao: "Plano principal para academia de jiu-jitsu ou artes marciais.",
+    descricao: "Plano completo para academias, estúdios, escolas e profissionais que precisam controlar alunos, mensalidades e presença.",
     destaque: "Para vender como pacote principal do Mensalize.",
     modulos: {
       modulo_evolucao: true,

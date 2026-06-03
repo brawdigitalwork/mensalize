@@ -8053,3 +8053,752 @@ body[data-tema="claro"] .menu-item:hover {
   color: #171827 !important;
   border-color: rgba(124, 58, 237, 0.18) !important;
 }
+
+/* ================================================================
+   PAINEL PROFESSOR/CLIENTE — RESPONSIVIDADE MOBILE BASE
+   Corrige tela "solta", estouro lateral e cards desalinhados
+================================================================ */
+
+/* Segurança geral: nada deve passar da largura da tela */
+html,
+body,
+.app-layout,
+.conteudo-app,
+.container,
+.container-dashboard,
+.view-app,
+.dashboard-hero,
+.painel-card,
+.lista,
+.area-formulario,
+.financeiro-page,
+.aluno-card,
+.admin-simple-card,
+.admin-cliente-card,
+.solicitacao-card,
+.modal-card {
+  max-width: 100% !important;
+}
+
+/* Permite que grids/flex encolham no celular */
+.conteudo-app,
+.container,
+.container-dashboard,
+.view-app,
+.dashboard-hero,
+.painel-card,
+.lista,
+.area-formulario,
+.financeiro-page,
+.aluno-card,
+.admin-simple-card,
+.admin-cliente-card,
+.solicitacao-card,
+.modal-card,
+.cards,
+.cards-dashboard,
+.dashboard-grid,
+.financeiro-resumo-grid,
+.aluno-premium-grid,
+.admin-simple-grid,
+.admin-resumo-grid {
+  min-width: 0 !important;
+}
+
+/* Evita rolagem lateral */
+html,
+body,
+.conteudo-app,
+.container,
+.container-dashboard {
+  overflow-x: hidden !important;
+}
+
+/* Garante que a área principal ocupe a largura certa */
+.app-layout {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.conteudo-app {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Textos longos não podem empurrar a tela */
+#tituloPagina,
+#descricaoPagina,
+.usuario-info strong,
+.dashboard-hero h2,
+.painel-card h2,
+.lista h2,
+.aluno-premium-topo h3,
+.aluno-premium-topo p,
+.info-premium strong,
+.admin-simple-title,
+.admin-simple-email,
+.ranking-row-info strong,
+.ranking-row-info small,
+.payment-left strong,
+.payment-left span {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* Tablet e celular grande */
+@media (max-width: 900px) {
+  .container,
+  .container-dashboard {
+    width: 100% !important;
+    padding-left: max(16px, calc(16px + var(--safe-left))) !important;
+    padding-right: max(16px, calc(16px + var(--safe-right))) !important;
+    padding-top: 16px !important;
+    padding-bottom: calc(28px + var(--safe-bottom)) !important;
+  }
+
+  .topo,
+  .topo-dashboard {
+    width: 100% !important;
+    padding-left: max(16px, calc(16px + var(--safe-left))) !important;
+    padding-right: max(16px, calc(16px + var(--safe-right))) !important;
+  }
+
+  .dashboard-hero {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+  }
+
+  .hero-actions {
+    width: 100% !important;
+    justify-content: stretch !important;
+  }
+
+  .hero-actions button {
+    flex: 1 1 160px;
+  }
+
+  .cards,
+  .cards-dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .aluno-premium-grid,
+  .financeiro-resumo-grid,
+  .admin-simple-grid,
+  .admin-resumo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Celular */
+@media (max-width: 640px) {
+  .container,
+  .container-dashboard {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    padding-top: 14px !important;
+  }
+
+  .topo,
+  .topo-dashboard {
+    min-height: 68px !important;
+    gap: 8px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    border-radius: 0 0 20px 20px !important;
+  }
+
+  .topo-esquerda {
+    gap: 10px !important;
+    min-width: 0 !important;
+  }
+
+  #tituloPagina,
+  .topo-esquerda h1 {
+    font-size: clamp(22px, 8vw, 29px) !important;
+    line-height: 1.08 !important;
+  }
+
+  #descricaoPagina {
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+
+  .page-eyebrow {
+    font-size: 9px !important;
+    padding: 6px 8px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .btn-menu,
+  #btnMenu {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 14px !important;
+  }
+
+  .usuario-box {
+    padding: 6px !important;
+    border-radius: 999px !important;
+  }
+
+  .usuario-info {
+    display: none !important;
+  }
+
+  .usuario-avatar {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .dashboard-hero,
+  .painel-card,
+  .lista,
+  .area-formulario,
+  .financeiro-page,
+  .aluno-card,
+  .admin-simple-card,
+  .admin-cliente-card,
+  .solicitacao-card {
+    padding: 16px !important;
+    border-radius: 20px !important;
+  }
+
+  .cards,
+  .cards-dashboard,
+  .dashboard-grid,
+  .aluno-premium-grid,
+  .financeiro-resumo-grid,
+  .admin-simple-grid,
+  .admin-resumo-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card {
+    min-height: auto !important;
+    padding: 16px !important;
+    border-radius: 20px !important;
+  }
+
+  .card p {
+    font-size: clamp(26px, 10vw, 34px) !important;
+  }
+
+  .painel-topo,
+  .lista-topo,
+  .topo-form,
+  .aluno-premium-topo,
+  .admin-simple-head,
+  .financeiro-topo {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .hero-actions,
+  .acoes-premium,
+  .admin-simple-actions,
+  .presenca-acoes,
+  .modal-acoes,
+  .topo-form-acoes {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+
+  .hero-actions button,
+  .acoes-premium button,
+  .admin-simple-actions button,
+  .presenca-acoes button,
+  .modal-acoes button,
+  .topo-form-acoes button,
+  .btn-salvar-perfil,
+  .acao-principal,
+  .acao-secundaria,
+  .btn-exportar {
+    width: 100% !important;
+  }
+
+  form,
+  .perfil-form,
+  .admin-form-grid,
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .campo-cheio {
+    grid-column: 1 / -1 !important;
+  }
+
+  .filtros,
+  .ranking-tabs {
+    margin-left: -2px;
+    margin-right: -2px;
+    padding-bottom: 6px;
+  }
+
+  .campo-busca {
+    max-width: 100% !important;
+  }
+}
+
+/* Celular estreito */
+@media (max-width: 390px) {
+  .container,
+  .container-dashboard {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .topo,
+  .topo-dashboard {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .dashboard-hero,
+  .painel-card,
+  .lista,
+  .area-formulario,
+  .financeiro-page,
+  .aluno-card,
+  .admin-simple-card,
+  .admin-cliente-card,
+  .solicitacao-card,
+  .card {
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ================================================================
+   PAINEL PROFESSOR — DASHBOARD MOBILE MAIS PROPORCIONAL
+   Polimento da tela inicial no celular
+================================================================ */
+
+/* Card principal da Home */
+@media (max-width: 640px) {
+  .dashboard-hero {
+    padding: 18px !important;
+    border-radius: 22px !important;
+    gap: 16px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.14), transparent 38%),
+      linear-gradient(180deg, rgba(18, 20, 36, 0.88), rgba(13, 15, 28, 0.94)) !important;
+  }
+
+  .dashboard-hero h2 {
+    font-size: clamp(24px, 8vw, 32px) !important;
+    line-height: 1.06 !important;
+    letter-spacing: -0.06em !important;
+  }
+
+  .dashboard-hero p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+    max-width: 100% !important;
+  }
+
+  .hero-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+  }
+
+  .hero-actions button {
+    width: 100% !important;
+    min-height: 46px !important;
+    border-radius: 15px !important;
+  }
+}
+
+/* Cards financeiros da Home */
+@media (max-width: 640px) {
+  .cards-dashboard {
+    gap: 12px !important;
+  }
+
+  .cards-dashboard .card {
+    display: grid !important;
+    gap: 6px !important;
+    min-height: 132px !important;
+    padding: 17px !important;
+    border-radius: 22px !important;
+  }
+
+  .cards-dashboard .card h2 {
+    margin-bottom: 2px !important;
+    font-size: 10.5px !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .cards-dashboard .card p {
+    font-size: clamp(26px, 9vw, 36px) !important;
+    line-height: 1.02 !important;
+    margin: 0 !important;
+  }
+
+  .cards-dashboard .card span {
+    margin-top: 2px !important;
+    font-size: 11.5px !important;
+    line-height: 1.35 !important;
+  }
+}
+
+/* Mini gráficos dentro dos cards financeiros */
+@media (max-width: 640px) {
+  .mini-card-chart {
+    margin-top: 6px !important;
+    min-height: 46px !important;
+  }
+
+  .mini-chart-svg {
+    width: 100% !important;
+    height: 42px !important;
+  }
+
+  .mini-card-chart span {
+    font-size: 10.5px !important;
+    margin-top: 2px !important;
+  }
+}
+
+/* Grid inferior da dashboard */
+@media (max-width: 640px) {
+  .dashboard-grid {
+    gap: 12px !important;
+  }
+
+  .painel-card {
+    padding: 16px !important;
+    border-radius: 22px !important;
+  }
+
+  .painel-topo {
+    margin-bottom: 12px !important;
+  }
+
+  .painel-topo h2 {
+    font-size: clamp(18px, 6vw, 23px) !important;
+    line-height: 1.12 !important;
+  }
+
+  .painel-topo p {
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
+  }
+
+  .painel-topo .btn-texto,
+  .painel-topo .acao-secundaria {
+    width: 100% !important;
+    min-height: 42px !important;
+  }
+}
+
+/* Pagamentos recentes */
+@media (max-width: 640px) {
+  .ultimos-pagamentos {
+    gap: 9px !important;
+  }
+
+  .pagamento-recente-item {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 8px !important;
+    padding: 12px !important;
+    border-radius: 17px !important;
+  }
+
+  .pagamento-recente-item strong {
+    max-width: 100% !important;
+    font-size: 13px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .pagamento-recente-item span {
+    font-size: 11.5px !important;
+  }
+
+  .pagamento-recente-valor {
+    font-size: 12.5px !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* Ações rápidas */
+@media (max-width: 640px) {
+  .acoes-rapidas-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+  }
+
+  .acao-rapida {
+    width: 100% !important;
+    min-height: 46px !important;
+    border-radius: 15px !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+}
+
+/* Cards pequenos de evolução/aniversariantes */
+@media (max-width: 640px) {
+  .evolucao-mini-grid,
+  .aniversariantes-resumo-grid,
+  .financeiro-resumo-grid {
+    gap: 10px !important;
+  }
+
+  .evolucao-mini-card,
+  .financeiro-box {
+    padding: 13px !important;
+    border-radius: 17px !important;
+  }
+
+  .evolucao-mini-card span,
+  .financeiro-box span {
+    font-size: 10.5px !important;
+  }
+
+  .evolucao-mini-card strong,
+  .financeiro-box strong {
+    font-size: clamp(21px, 7vw, 28px) !important;
+    line-height: 1.05 !important;
+  }
+}
+
+/* Tema claro da dashboard mobile */
+@media (max-width: 640px) {
+  html[data-tema="claro"] .dashboard-hero,
+  body[data-tema="claro"] .dashboard-hero {
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.08), transparent 38%),
+      rgba(255, 255, 255, 0.86) !important;
+    border-color: rgba(30, 41, 59, 0.12) !important;
+  }
+
+  html[data-tema="claro"] .cards-dashboard .card,
+  body[data-tema="claro"] .cards-dashboard .card,
+  html[data-tema="claro"] .painel-card,
+  body[data-tema="claro"] .painel-card,
+  html[data-tema="claro"] .pagamento-recente-item,
+  body[data-tema="claro"] .pagamento-recente-item,
+  html[data-tema="claro"] .financeiro-box,
+  body[data-tema="claro"] .financeiro-box,
+  html[data-tema="claro"] .evolucao-mini-card,
+  body[data-tema="claro"] .evolucao-mini-card {
+    background: rgba(255, 255, 255, 0.84) !important;
+    border-color: rgba(30, 41, 59, 0.12) !important;
+    color: var(--texto-primario) !important;
+  }
+
+  html[data-tema="claro"] .dashboard-hero h2,
+  body[data-tema="claro"] .dashboard-hero h2,
+  html[data-tema="claro"] .painel-card h2,
+  body[data-tema="claro"] .painel-card h2 {
+    color: var(--texto-primario) !important;
+  }
+
+  html[data-tema="claro"] .dashboard-hero p,
+  body[data-tema="claro"] .dashboard-hero p,
+  html[data-tema="claro"] .painel-card p,
+  body[data-tema="claro"] .painel-card p {
+    color: var(--texto-secundario) !important;
+  }
+}
+
+/* ================================================================
+   CORREÇÃO — DASHBOARD MOBILE: CARDS FINANCEIROS E PAGAMENTOS
+   Corrige cards altos demais e nomes escondidos nos pagamentos recentes
+================================================================ */
+
+@media (max-width: 640px) {
+  /* Cards financeiros da Home menos altos */
+  .cards-dashboard .card {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+  }
+
+  .cards-dashboard .card h2 {
+    margin: 0 !important;
+    font-size: 10.5px !important;
+    line-height: 1.2 !important;
+  }
+
+  .cards-dashboard .card p {
+    margin: 0 !important;
+    font-size: clamp(28px, 10vw, 38px) !important;
+    line-height: 1 !important;
+  }
+
+  .cards-dashboard .card span {
+    margin: 0 !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Mini gráfico dentro dos cards: menor e sem ocupar metade do card */
+  .cards-dashboard .mini-card-chart {
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    margin-top: 6px !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  .cards-dashboard .mini-chart-svg,
+  .cards-dashboard .mini-card-chart svg {
+    width: 100% !important;
+    height: 38px !important;
+    max-height: 38px !important;
+    display: block !important;
+  }
+
+  .cards-dashboard .mini-card-chart span {
+    display: block !important;
+    margin-top: 2px !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Remove qualquer camada decorativa que esteja cobrindo conteúdo dos cards */
+  .cards-dashboard .card::after,
+  .pagamento-recente-item::after,
+  .ultimos-pagamentos::after {
+    display: none !important;
+    content: none !important;
+  }
+}
+
+/* ================================================================
+   CORREÇÃO — PAGAMENTOS RECENTES NO MOBILE
+================================================================ */
+
+@media (max-width: 640px) {
+  .ultimos-pagamentos {
+    display: grid !important;
+    gap: 9px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  .pagamento-recente-item {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    padding: 12px 13px !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+
+    background: rgba(255, 255, 255, 0.045) !important;
+    border: 1px solid var(--borda) !important;
+  }
+
+  /* Lado esquerdo: nome e data */
+  .pagamento-recente-item > div:first-child {
+    position: relative !important;
+    z-index: 2 !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .pagamento-recente-item strong {
+    display: block !important;
+    position: relative !important;
+    z-index: 2 !important;
+
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+
+    color: var(--texto-primario) !important;
+    font-size: 13.5px !important;
+    line-height: 1.25 !important;
+  }
+
+  .pagamento-recente-item span {
+    display: block !important;
+    position: relative !important;
+    z-index: 2 !important;
+
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+
+    color: var(--texto-secundario) !important;
+    font-size: 11.5px !important;
+    line-height: 1.25 !important;
+    margin-top: 2px !important;
+  }
+
+  /* Valor do lado direito */
+  .pagamento-recente-valor {
+    position: relative !important;
+    z-index: 3 !important;
+
+    justify-self: end !important;
+    white-space: nowrap !important;
+
+    color: var(--verde) !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+  }
+
+  /* Se existir algum gráfico/canvas/svg dentro dos pagamentos, esconde no mobile */
+  .pagamento-recente-item svg,
+  .pagamento-recente-item canvas,
+  .pagamento-recente-item .mini-card-chart,
+  .pagamento-recente-item .mini-chart-svg {
+    display: none !important;
+  }
+}
+
+/* Tema claro dos pagamentos recentes */
+@media (max-width: 640px) {
+  html[data-tema="claro"] .pagamento-recente-item,
+  body[data-tema="claro"] .pagamento-recente-item {
+    background: rgba(255, 255, 255, 0.86) !important;
+    border-color: rgba(30, 41, 59, 0.12) !important;
+  }
+
+  html[data-tema="claro"] .pagamento-recente-item strong,
+  body[data-tema="claro"] .pagamento-recente-item strong {
+    color: var(--texto-primario) !important;
+  }
+
+  html[data-tema="claro"] .pagamento-recente-item span,
+  body[data-tema="claro"] .pagamento-recente-item span {
+    color: var(--texto-secundario) !important;
+  }
+}

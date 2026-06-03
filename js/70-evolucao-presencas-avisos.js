@@ -120,7 +120,7 @@ function renderizarEvolucao() {
         ${evolucao.frequencia && evolucao.frequencia.percentual !== null ? `<small>Frequência analisada: ${evolucao.frequencia.percentual}% • mínimo ${evolucao.frequencia.minimo}% • ${evolucao.frequencia.presencas}/${evolucao.frequencia.aulasValidas} aulas válidas</small>` : ""}
       </div>
       <div class="evolucao-acoes">
-        <button type="button" class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Registrar graduação</button>
+        <button type="button" class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Registrar Evolução</button>
       </div>
     </div>
   `).join("");
@@ -150,7 +150,7 @@ async function salvarGraduacao() {
     .update({ faixa, grau, data_ultima_graduacao: data })
     .eq("id", id);
   if (error) {
-    mostrarToast("Erro ao registrar graduação.", "erro");
+    mostrarToast("Erro ao registrar evolução.", "erro");
     return;
   }
   const alunoAtualGraduacao = alunos.find(a => String(a.id) === String(id));
@@ -165,7 +165,7 @@ async function salvarGraduacao() {
     observacao
   });
   if (modalGraduacao) modalGraduacao.classList.add("escondido");
-  mostrarToast("Graduação registrada com sucesso!");
+  mostrarToast("Evolução registrada com sucesso!");
   await carregarAlunos();
   await carregarRankingDashboard();
   renderizarEvolucao();
@@ -242,7 +242,7 @@ function renderizarListaPresencas() {
       if (presencaTotalPresentes) presencaTotalPresentes.textContent = "0";
       if (presencaTotalFaltas) presencaTotalFaltas.textContent = "0";
       if (presencaTotalAlunos) presencaTotalAlunos.textContent = "0";
-      listaPresencas.innerHTML = `<div class="empty-state-mini aula-cancelada-box"><strong>Aula cancelada em ${formatarData(data)}</strong><br>${aulaCancelada.motivo || "Aula cancelada"}. Esta aula não entra no cálculo de frequência para graduação.</div>`;
+      listaPresencas.innerHTML = `<div class="empty-state-mini aula-cancelada-box"><strong>Aula cancelada em ${formatarData(data)}</strong><br>${aulaCancelada.motivo || "Aula cancelada"}. Esta aula não entra no cálculo de frequência para evolução.</div>`;
       return;
     }
   }

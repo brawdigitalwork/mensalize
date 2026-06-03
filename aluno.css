@@ -3805,3 +3805,644 @@ body[data-tema="claro"] #btnCopiarPixAluno {
     font-size: 10.8px !important;
   }
 }
+
+/* ================================================================
+   PORTAL DO ALUNO — POLIMENTO DO RANKING / DESAFIO
+   Deixa pódio, lista e fotos mais proporcionais
+================================================================ */
+
+/* Área geral do ranking */
+.ranking-home-card,
+.ranking-full-card,
+.ranking-section,
+#rankingAluno,
+#rankingCompletoAluno {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Abas do ranking */
+.ranking-tabs {
+  gap: 8px;
+  padding-bottom: 4px;
+}
+
+.ranking-tab {
+  min-height: 38px;
+  padding: 8px 13px;
+  border-radius: var(--raio-pill);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+/* Pódio */
+.ranking-podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+/* Card do pódio */
+.podium-card {
+  min-width: 0;
+  padding: 14px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--borda);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.13), transparent 42%),
+    rgba(255, 255, 255, 0.045);
+  overflow: hidden;
+}
+
+/* Primeiro lugar um pouco mais destacado */
+.podium-first {
+  transform: translateY(-6px);
+  border-color: rgba(245, 158, 11, 0.35);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.16), transparent 44%),
+    rgba(255, 255, 255, 0.05);
+}
+
+/* Foto/avatar do pódio */
+.podium-photo,
+.podium-avatar,
+.podium-card img {
+  width: 58px !important;
+  height: 58px !important;
+  min-width: 58px !important;
+  max-width: 58px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  margin: 0 auto 8px !important;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid rgba(196, 181, 253, 0.28);
+}
+
+/* Nome no pódio */
+.podium-card strong,
+.podium-name {
+  display: block;
+  max-width: 100%;
+  color: var(--texto-primario);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Detalhe do pódio */
+.podium-card small,
+.podium-score {
+  display: block;
+  margin-top: 4px;
+  color: var(--texto-secundario);
+  font-size: 11.5px;
+  line-height: 1.3;
+}
+
+/* Lista abaixo do pódio */
+.ranking-list,
+.ranking-lista,
+.ranking-lista-aluno {
+  display: grid;
+  gap: 9px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Linha da lista */
+.ranking-row,
+.aluno-ranking-row {
+  display: grid;
+  grid-template-columns: 38px 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  border-radius: 17px;
+  border: 1px solid var(--borda);
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+/* Posição: 4º, 5º, 6º */
+.ranking-position,
+.ranking-posicao {
+  width: 38px;
+  min-width: 38px;
+  text-align: center;
+  color: var(--cor-roxo-claro);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* Foto da lista */
+.ranking-photo,
+.ranking-avatar,
+.ranking-row img,
+.aluno-ranking-row img {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  overflow: hidden !important;
+  flex: 0 0 38px !important;
+  border: 1px solid rgba(196, 181, 253, 0.22);
+}
+
+/* Texto da linha */
+.ranking-row-info {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ranking-row-info strong {
+  display: block;
+  max-width: 100%;
+  color: var(--texto-primario);
+  font-size: 13.5px;
+  font-weight: 850;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ranking-row-info small {
+  display: block;
+  max-width: 100%;
+  margin-top: 2px;
+  color: var(--texto-secundario);
+  font-size: 11.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Badge da pontuação */
+.ranking-row .mini-badge,
+.aluno-ranking-row .mini-badge,
+.ranking-score-badge {
+  justify-self: end;
+  white-space: nowrap;
+}
+
+/* Destaque se a linha for do próprio aluno */
+.ranking-row.is-current-user,
+.aluno-ranking-row.is-current-user,
+.ranking-row.aluno-atual {
+  border-color: var(--cor-roxo-borda);
+  background: var(--cor-roxo-bg);
+}
+
+/* Tema claro */
+html[data-tema="claro"] .podium-card,
+body[data-tema="claro"] .podium-card,
+html[data-tema="claro"] .ranking-row,
+body[data-tema="claro"] .ranking-row,
+html[data-tema="claro"] .aluno-ranking-row,
+body[data-tema="claro"] .aluno-ranking-row {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+  color: var(--texto-primario) !important;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.045);
+}
+
+html[data-tema="claro"] .podium-first,
+body[data-tema="claro"] .podium-first {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.10), transparent 44%),
+    rgba(255, 255, 255, 0.86) !important;
+  border-color: rgba(245, 158, 11, 0.24) !important;
+}
+
+html[data-tema="claro"] .podium-card strong,
+html[data-tema="claro"] .ranking-row-info strong,
+body[data-tema="claro"] .podium-card strong,
+body[data-tema="claro"] .ranking-row-info strong {
+  color: var(--texto-primario) !important;
+}
+
+html[data-tema="claro"] .podium-card small,
+html[data-tema="claro"] .ranking-row-info small,
+body[data-tema="claro"] .podium-card small,
+body[data-tema="claro"] .ranking-row-info small {
+  color: var(--texto-secundario) !important;
+}
+
+/* Celular */
+@media (max-width: 560px) {
+  .ranking-podium {
+    gap: 8px;
+  }
+
+  .podium-card {
+    padding: 12px 7px;
+    border-radius: 18px;
+  }
+
+  .podium-first {
+    transform: translateY(-4px);
+  }
+
+  .podium-photo,
+  .podium-avatar,
+  .podium-card img {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    max-width: 48px !important;
+  }
+
+  .podium-card strong,
+  .podium-name {
+    font-size: 12px;
+  }
+
+  .podium-card small,
+  .podium-score {
+    font-size: 10.5px;
+  }
+
+  .ranking-row,
+  .aluno-ranking-row {
+    grid-template-columns: 34px 38px minmax(0, 1fr);
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .ranking-position,
+  .ranking-posicao {
+    width: 34px;
+    min-width: 34px;
+    font-size: 12px;
+  }
+
+  .ranking-photo,
+  .ranking-avatar,
+  .ranking-row img,
+  .aluno-ranking-row img {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+  }
+
+  .ranking-row .mini-badge,
+  .aluno-ranking-row .mini-badge,
+  .ranking-score-badge {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-left: 80px;
+    margin-top: -2px;
+  }
+}
+
+/* Celular muito pequeno */
+@media (max-width: 390px) {
+  .ranking-podium {
+    gap: 6px;
+  }
+
+  .podium-card {
+    padding: 11px 6px;
+  }
+
+  .podium-photo,
+  .podium-avatar,
+  .podium-card img {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+  }
+
+  .ranking-row-info strong {
+    font-size: 12.5px;
+  }
+
+  .ranking-row-info small {
+    font-size: 11px;
+  }
+}
+
+/* ================================================================
+   PORTAL DO ALUNO — POLIMENTO DA GRADUAÇÃO
+   Deixa faixa, grau, evolução e histórico mais bonitos
+================================================================ */
+
+/* Área geral da graduação */
+.student-evolution-grid,
+.graduation-grid,
+.evolution-grid {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  gap: 12px;
+}
+
+/* Cards/caixas de informação da graduação */
+.evolution-info,
+.graduation-info,
+.graduation-card,
+.faixa-card,
+.grau-card {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  padding: 15px !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(196, 181, 253, 0.14) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.10), transparent 36%),
+    rgba(255, 255, 255, 0.045) !important;
+}
+
+/* Pequeno brilho interno */
+.evolution-info::before,
+.graduation-info::before,
+.graduation-card::before,
+.faixa-card::before,
+.grau-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.065), transparent 34%);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Conteúdo acima do brilho */
+.evolution-info > *,
+.graduation-info > *,
+.graduation-card > *,
+.faixa-card > *,
+.grau-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Labels pequenos */
+.evolution-info span,
+.graduation-info span,
+.graduation-card span,
+.faixa-card span,
+.grau-card span {
+  display: block;
+  color: var(--texto-terciario);
+  font-size: 10.5px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+
+/* Valores principais: faixa, grau, datas */
+.evolution-info strong,
+.graduation-info strong,
+.graduation-card strong,
+.faixa-card strong,
+.grau-card strong {
+  display: block;
+  color: var(--texto-primario);
+  font-size: clamp(18px, 5vw, 24px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  overflow-wrap: anywhere;
+}
+
+/* Textos auxiliares */
+.evolution-info small,
+.graduation-info small,
+.graduation-card small,
+.faixa-card small,
+.grau-card small {
+  display: block;
+  margin-top: 6px;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Status de graduação/evolução */
+.graduation-status,
+.evolution-status,
+.status-graduacao,
+.status-evolucao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 7px 11px;
+  border-radius: var(--raio-pill);
+  border: 1px solid var(--cor-roxo-borda);
+  background: var(--cor-roxo-bg);
+  color: var(--cor-roxo-claro);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: normal;
+}
+
+/* Barra/progresso de evolução, se existir */
+.evolution-progress,
+.graduation-progress,
+.progress-graduacao {
+  width: 100%;
+  height: 9px;
+  border-radius: var(--raio-pill);
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.evolution-progress-fill,
+.graduation-progress-fill,
+.progress-graduacao-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cor-roxo), var(--cor-roxo-claro));
+}
+
+/* Histórico/lista de graduação */
+.graduation-history,
+.evolution-history,
+.historico-graduacao,
+.lista-historico-graduacao {
+  display: grid;
+  gap: 9px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Item do histórico */
+.graduation-history-item,
+.evolution-history-item,
+.historico-graduacao-item,
+.item-historico-graduacao {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--borda);
+  background: rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+
+/* Bolinha/ícone do histórico */
+.graduation-history-item::before,
+.evolution-history-item::before,
+.historico-graduacao-item::before,
+.item-historico-graduacao::before {
+  content: "🥋";
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--cor-roxo-bg);
+  border: 1px solid var(--cor-roxo-borda);
+  font-size: 15px;
+}
+
+/* Texto do histórico */
+.graduation-history-item strong,
+.evolution-history-item strong,
+.historico-graduacao-item strong,
+.item-historico-graduacao strong {
+  display: block;
+  color: var(--texto-primario);
+  font-size: 13.5px;
+  font-weight: 850;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.graduation-history-item span,
+.evolution-history-item span,
+.historico-graduacao-item span,
+.item-historico-graduacao span,
+.graduation-history-item small,
+.evolution-history-item small,
+.historico-graduacao-item small,
+.item-historico-graduacao small {
+  display: block;
+  margin-top: 3px;
+  color: var(--texto-secundario);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+/* Tema claro */
+html[data-tema="claro"] .evolution-info,
+html[data-tema="claro"] .graduation-info,
+html[data-tema="claro"] .graduation-card,
+html[data-tema="claro"] .faixa-card,
+html[data-tema="claro"] .grau-card,
+body[data-tema="claro"] .evolution-info,
+body[data-tema="claro"] .graduation-info,
+body[data-tema="claro"] .graduation-card,
+body[data-tema="claro"] .faixa-card,
+body[data-tema="claro"] .grau-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.06), transparent 36%),
+    rgba(255, 255, 255, 0.84) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.045);
+}
+
+html[data-tema="claro"] .graduation-history-item,
+html[data-tema="claro"] .evolution-history-item,
+html[data-tema="claro"] .historico-graduacao-item,
+html[data-tema="claro"] .item-historico-graduacao,
+body[data-tema="claro"] .graduation-history-item,
+body[data-tema="claro"] .evolution-history-item,
+body[data-tema="claro"] .historico-graduacao-item,
+body[data-tema="claro"] .item-historico-graduacao {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(30, 41, 59, 0.12) !important;
+}
+
+/* Textos no tema claro */
+html[data-tema="claro"] .evolution-info strong,
+html[data-tema="claro"] .graduation-info strong,
+html[data-tema="claro"] .graduation-card strong,
+html[data-tema="claro"] .faixa-card strong,
+html[data-tema="claro"] .grau-card strong,
+html[data-tema="claro"] .graduation-history-item strong,
+html[data-tema="claro"] .evolution-history-item strong,
+body[data-tema="claro"] .evolution-info strong,
+body[data-tema="claro"] .graduation-info strong,
+body[data-tema="claro"] .graduation-card strong,
+body[data-tema="claro"] .faixa-card strong,
+body[data-tema="claro"] .grau-card strong,
+body[data-tema="claro"] .graduation-history-item strong,
+body[data-tema="claro"] .evolution-history-item strong {
+  color: var(--texto-primario) !important;
+}
+
+html[data-tema="claro"] .evolution-info span,
+html[data-tema="claro"] .graduation-info span,
+html[data-tema="claro"] .graduation-card span,
+html[data-tema="claro"] .faixa-card span,
+html[data-tema="claro"] .grau-card span,
+html[data-tema="claro"] .evolution-info small,
+html[data-tema="claro"] .graduation-info small,
+html[data-tema="claro"] .graduation-card small,
+body[data-tema="claro"] .evolution-info span,
+body[data-tema="claro"] .graduation-info span,
+body[data-tema="claro"] .graduation-card span,
+body[data-tema="claro"] .faixa-card span,
+body[data-tema="claro"] .grau-card span,
+body[data-tema="claro"] .evolution-info small,
+body[data-tema="claro"] .graduation-info small,
+body[data-tema="claro"] .graduation-card small {
+  color: var(--texto-secundario) !important;
+}
+
+/* Celular */
+@media (max-width: 560px) {
+  .evolution-info,
+  .graduation-info,
+  .graduation-card,
+  .faixa-card,
+  .grau-card {
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  .evolution-info strong,
+  .graduation-info strong,
+  .graduation-card strong,
+  .faixa-card strong,
+  .grau-card strong {
+    font-size: clamp(18px, 6vw, 23px);
+  }
+
+  .graduation-history-item,
+  .evolution-history-item,
+  .historico-graduacao-item,
+  .item-historico-graduacao {
+    padding: 11px;
+    border-radius: 15px;
+  }
+}

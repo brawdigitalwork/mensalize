@@ -79,7 +79,7 @@ function gerarMensagemParabens(aluno) {
   const primeiroNome = String(aluno.nome || "").trim().split(" ")[0] || "aluno";
   const empresa = nomeEmpresa || "Mensalize";
 
-  return `${empresa} parabeniza você, ${primeiroNome}! 🎉\n\nQue seu novo ciclo venha com muita saúde, evolução, disciplina e muitas conquistas dentro e fora do tatame. Feliz aniversário! 🥳\n\nOss! 🥋`;
+  return `${empresa} parabeniza você, ${primeiroNome}! 🎉\n\nQue seu novo ciclo venha com muita saúde, alegria, aprendizado e muitas conquistas. Feliz aniversário! 🥳`;
 }
 
 function obterTelefoneAniversariante(aluno) {

@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Mensalize Aluno</title>
-  <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação." />
+  <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e evolução." />
   <meta name="theme-color" content="#7c3aed" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Mensalize Aluno" />
   <meta property="og:title" content="Mensalize Aluno" />
-  <meta property="og:description" content="Acompanhe mensalidade, Pix, pagamentos, avisos, ranking e graduação pelo Mensalize Aluno." />
+  <meta property="og:description" content="Acompanhe mensalidade, Pix, pagamentos, avisos, ranking e evolução pelo Mensalize Aluno." />
+  <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="aluno.css" />
   <link rel="icon" href="logo-aluno.png" />
   <link rel="apple-touch-icon" href="icons/mensalize-aluno-icon-192.png" />
@@ -81,10 +82,21 @@
         <button type="button" class="student-menu-item ativo" data-view="inicio">🏠 Início</button>
         <button type="button" class="student-menu-item" data-view="dados">👤 Editar dados</button>
         <button type="button" class="student-menu-item" data-view="financas">💰 Finanças</button>
-        <button type="button" class="student-menu-item" data-view="graduacao">🥋 Graduação</button>
+        <button type="button" class="student-menu-item" data-view="graduacao">📈 Evolução</button>
         <button type="button" id="menuRankingAluno" class="student-menu-item" data-view="ranking">🏆 Ranking</button>
         <button type="button" class="student-menu-item" data-view="contato">📲 Contato</button>
       </nav>
+
+      <div class="student-sidebar-footer">
+        <button type="button" id="btnTemaAluno" class="student-footer-button">
+          🌙 Tema
+        </button>
+
+        <button type="button" id="btnAtualizarAluno" class="student-footer-button">
+          🔄 Atualizar sistema
+        </button>
+      </div>
+
     </aside>
 
     <div class="student-main">
@@ -115,7 +127,7 @@
               <small id="inicioVencimento">--/--/----</small>
             </article>
             <article class="quick-card">
-              <span>Graduação</span>
+              <span>Evolução</span>
               <strong id="inicioGraduacao">Não informada</strong>
               <small id="inicioAvaliacao">Sem previsão</small>
             </article>
@@ -123,13 +135,13 @@
 
           <div class="action-row">
             <button type="button" class="primary-action" data-view-target="financas">Ver financeiro</button>
-            <button type="button" class="secondary-action" data-view-target="graduacao">Ver graduação</button>
+            <button type="button" class="secondary-action" data-view-target="graduacao">Ver Evolução</button>
           </div>
 
           <article id="avisosAlunoHomeCard" class="panel-card notices-home-card escondido">
             <div class="section-title-row">
               <div>
-                <span class="eyebrow">Avisos da academia</span>
+                <span class="eyebrow">Avisos</span>
                 <h2>Quadro de avisos</h2>
               </div>
               <span id="avisosAlunoContador" class="mini-badge">0 avisos</span>
@@ -249,7 +261,7 @@
           <article class="panel-card">
             <div class="section-title-row">
               <div>
-                <span class="eyebrow">Graduação</span>
+                <span class="eyebrow">Evolução</span>
                 <h2>Minha evolução</h2>
               </div>
               <span id="badgeEvolucao" class="mini-badge">Avaliação</span>
@@ -261,21 +273,21 @@
             <div class="section-title-row">
               <div>
                 <span class="eyebrow">Solicitação</span>
-                <h2>Solicitar correção de graduação</h2>
+                <h2>Solicitar correção de evolução</h2>
               </div>
             </div>
             <p class="helper-text">Use isso só caso alguma informação esteja errada. O professor precisa aprovar antes de alterar no sistema.</p>
             <form id="formSolicitarGraduacao" class="student-form">
               <label>
-                <span>Faixa correta</span>
-                <input type="text" id="solicitarFaixa" placeholder="Ex: Branca, Azul, Roxa" />
+                <span>Nível correto</span>
+                <input type="text" id="solicitarFaixa" placeholder="Ex: Iniciante, Intermediário, Avançado" />
               </label>
               <label>
-                <span>Grau correto</span>
-                <input type="text" id="solicitarGrau" placeholder="Ex: 0, 1, 2, 3, 4" />
+                <span>Etapa correta</span>
+                <input type="text" id="solicitarGrau" placeholder="Ex: 0, 1, 2, 3, 4 ou etapa atual" />
               </label>
               <label>
-                <span>Data correta da última graduação</span>
+                <span>Data correta da última evolução</span>
                 <input type="date" id="solicitarDataGraduacao" />
               </label>
               <label class="full-line">
@@ -581,7 +593,7 @@
       const mapa = {
         comunicado: "📢 Comunicado",
         importante: "⚠️ Importante",
-        graduacao: "🥋 Graduação",
+        graduacao: "📈 Evolução",
         aula: "📅 Aula / horário",
         financeiro: "💰 Financeiro"
       };
@@ -635,11 +647,11 @@
         badgeEvolucao.textContent = status.texto;
         badgeEvolucao.className = `mini-badge ${status.classe}`;
       }
-      const linhas = [
-        ["Faixa atual", aluno.faixa ? `Faixa ${aluno.faixa}` : "Não informada"],
-        ["Grau", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? `${aluno.grau}º grau` : "Não informado"],
+     const linhas = [
+        ["Nível atual", aluno.faixa ? aluno.faixa : "Não informado"],
+        ["Etapa", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? aluno.grau : "Não informada"],
         ["Turma", aluno.turma || "Não informada"],
-        ["Última graduação", aluno.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"],
+        ["Última evolução", aluno.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"],
         ["Tempo mínimo", aluno.tempo_avaliacao_meses ? `${aluno.tempo_avaliacao_meses} meses` : "Não informado"],
         ["Previsão para avaliação", status.data ? formatarData(status.data) : "Não calculada"]
       ];
@@ -649,7 +661,7 @@
           <strong>${valor}</strong>
         </div>
       `).join("");
-      inicioGraduacao.textContent = aluno.faixa ? `Faixa ${aluno.faixa}${aluno.grau ? ` • ${aluno.grau}º grau` : ""}` : "Não informada";
+      inicioGraduacao.textContent = aluno.faixa ? `${aluno.faixa}${aluno.grau ? ` • etapa ${aluno.grau}` : ""}` : "Não informada";
       inicioAvaliacao.textContent = status.texto;
     }
 
@@ -1412,7 +1424,7 @@ function renderizarAluno(aluno) {
       const grau = solicitarGrau.value.trim();
       const dataGraduacao = solicitarDataGraduacao.value || null;
       if (!faixa && !grau && !dataGraduacao) {
-        msgSolicitarGraduacao.textContent = "Informe pelo menos faixa, grau ou data.";
+        msgSolicitarGraduacao.textContent = "Informe pelo menos faixa, nível ou data.";
         msgSolicitarGraduacao.classList.add("is-error");
         return;
       }
@@ -1453,5 +1465,81 @@ function renderizarAluno(aluno) {
     carregarAluno();
   </script>
   <script src="js/90-cache-update.js"></script>
+
+<script>
+  (function inicializarBotoesAluno() {
+    const CHAVE_TEMA_ALUNO = "mensalize_tema_aluno";
+
+    function aplicarTemaAluno(tema) {
+      const temaFinal = tema === "claro" ? "claro" : "escuro";
+      document.documentElement.setAttribute("data-tema", temaFinal);
+      localStorage.setItem(CHAVE_TEMA_ALUNO, temaFinal);
+
+      const botaoTema = document.getElementById("btnTemaAluno");
+      if (botaoTema) {
+        botaoTema.textContent = temaFinal === "claro" ? "🌙 Tema escuro" : "☀️ Tema claro";
+      }
+    }
+
+    function alternarTemaAluno() {
+      const temaAtual = document.documentElement.getAttribute("data-tema") || "escuro";
+      const proximoTema = temaAtual === "claro" ? "escuro" : "claro";
+      aplicarTemaAluno(proximoTema);
+    }
+
+    async function atualizarSistemaAluno() {
+      const botao = document.getElementById("btnAtualizarAluno");
+
+      if (botao) {
+        botao.disabled = true;
+        botao.textContent = "Atualizando...";
+      }
+
+      try {
+        if ("serviceWorker" in navigator) {
+          const registros = await navigator.serviceWorker.getRegistrations();
+
+          for (const registro of registros) {
+            await registro.update();
+
+            if (registro.waiting) {
+              registro.waiting.postMessage({ type: "SKIP_WAITING" });
+            }
+          }
+        }
+
+        if ("caches" in window) {
+          const nomesCaches = await caches.keys();
+
+          await Promise.all(
+            nomesCaches
+              .filter(nome => nome.includes("mensalize"))
+              .map(nome => caches.delete(nome))
+          );
+        }
+      } catch (erro) {
+        console.warn("[Mensalize Aluno] Não foi possível limpar o cache:", erro);
+      }
+
+      window.location.reload();
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const temaSalvo = localStorage.getItem(CHAVE_TEMA_ALUNO) || "escuro";
+      aplicarTemaAluno(temaSalvo);
+
+      const botaoTema = document.getElementById("btnTemaAluno");
+      if (botaoTema) {
+        botaoTema.addEventListener("click", alternarTemaAluno);
+      }
+
+      const botaoAtualizar = document.getElementById("btnAtualizarAluno");
+      if (botaoAtualizar) {
+        botaoAtualizar.addEventListener("click", atualizarSistemaAluno);
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>

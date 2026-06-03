@@ -95,12 +95,12 @@ async function carregarSolicitacoesAlteracao() {
     const dados = solicitacao.dados_solicitados || {};
     if (solicitacao.tipo === "graduacao") {
       return `
-        <p><strong>Pedido:</strong> correção de graduação</p>
-        <p><strong>Faixa atual:</strong> ${aluno?.faixa || "Não informada"}</p>
-        <p><strong>Faixa solicitada:</strong> ${dados.faixa || dados.nova_faixa || "Sem alteração"}</p>
-        <p><strong>Grau atual:</strong> ${aluno?.grau || "Não informado"}</p>
-        <p><strong>Grau solicitado:</strong> ${dados.grau || dados.novo_grau || "Sem alteração"}</p>
-        <p><strong>Última graduação atual:</strong> ${aluno?.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"}</p>
+        <p><strong>Pedido:</strong> correção de evolução</p>
+        <p><strong>Nível atual:</strong> ${aluno?.faixa || "Não informado"}</p>
+        <p><strong>Nível solicitado:</strong> ${dados.faixa || dados.nova_faixa || "Sem alteração"}</p>
+        <p><strong>Etapa atual:</strong> ${aluno?.grau || "Não informada"}</p>
+        <p><strong>Etapa solicitada:</strong> ${dados.grau || dados.novo_grau || "Sem alteração"}</p>
+        <p><strong>Última evolução atual:</strong> ${aluno?.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"}</p>
         <p><strong>Data solicitada:</strong> ${dados.data_ultima_graduacao ? formatarData(dados.data_ultima_graduacao) : "Sem alteração"}</p>
       `;
     }

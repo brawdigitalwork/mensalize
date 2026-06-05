@@ -130,10 +130,12 @@ function preencherSelectsTurmas() {
     turmaAluno.innerHTML = `<option value="">Turma / horário</option>${opcoes}`;
 
     if (valorAtual && ![...turmaAluno.options].some(opt => opt.value === valorAtual)) {
-      turmaAluno.insertAdjacentHTML("beforeend", `<option value="${valorAtual}">${valorAtual} (antiga)</option>`);
+      turmaAluno.insertAdjacentHTML("beforeend", `<option value="" disabled>Turma antiga: ${valorAtual} — selecione uma turma cadastrada</option>`);
+      turmaAluno.value = "";
+    } else {
+      turmaAluno.value = valorAtual;
     }
 
-    turmaAluno.value = valorAtual;
     turmaAluno.removeAttribute("data-valor-atual");
   }
 
@@ -277,7 +279,118 @@ function calcularFrequenciaAluno(aluno) {
   };
 }
 
+
+function alunosVinculadosTurma(turma) {
+  const nomeTurma = normalizarTextoTurma(turma && turma.nome);
+  if (!nomeTurma) return [];
+
+  return (alunos || []).filter(aluno => {
+    const status = String(aluno.status_aluno || "ativo").toLowerCase();
+    if (status === "inativo") return false;
+
+    if (turma.id && aluno.turma_id && String(aluno.turma_id) === String(turma.id)) return true;
+    return normalizarTextoTurma(aluno.turma) === nomeTurma;
+  });
+}
+
+function textoQuantidadeAlunosTurma(turma) {
+  const total = alunosVinculadosTurma(turma).length;
+  return `${total} aluno${total === 1 ? "" : "s"} vinculado${total === 1 ? "" : "s"}`;
+}
+
+
+function atualizarResumoTurmasPremium() {
+  const totalTurmas = document.getElementById("resumoTotalTurmas");
+  const turmasAtivas = document.getElementById("resumoTurmasAtivas");
+  const aulasCanceladasResumo = document.getElementById("resumoAulasCanceladas");
+
+  if (totalTurmas) totalTurmas.textContent = String((turmasCadastradas || []).length);
+  if (turmasAtivas) turmasAtivas.textContent = String((turmasCadastradas || []).filter(t => t.ativa !== false).length);
+  if (aulasCanceladasResumo) aulasCanceladasResumo.textContent = String((aulasCanceladas || []).length);
+}
+
+function abrirPainelFormularioTurma(modo = "nova") {
+  const painel = document.getElementById("painelFormTurma");
+  const painelCancelar = document.getElementById("painelFormCancelarAula");
+  const titulo = document.getElementById("tituloPainelTurma");
+
+  if (painelCancelar) painelCancelar.classList.add("escondido");
+  if (painel) painel.classList.remove("escondido");
+  if (titulo) titulo.textContent = modo === "edicao" ? "Editar turma" : "Nova turma";
+
+  if (painel) painel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function fecharPainelFormularioTurma() {
+  const painel = document.getElementById("painelFormTurma");
+  if (painel) painel.classList.add("escondido");
+}
+
+function abrirPainelCancelarAula() {
+  const painel = document.getElementById("painelFormCancelarAula");
+  const painelTurma = document.getElementById("painelFormTurma");
+
+  if (painelTurma && !turmaEditandoId) painelTurma.classList.add("escondido");
+  if (painel) {
+    painel.classList.remove("escondido");
+    painel.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function fecharPainelCancelarAula() {
+  const painel = document.getElementById("painelFormCancelarAula");
+  if (painel) painel.classList.add("escondido");
+}
+
+function inicializarTelaTurmasPremium() {
+  const btnAbrir = document.getElementById("btnAbrirFormTurma");
+  const btnFechar = document.getElementById("btnFecharFormTurma");
+  const btnAbrirCancelar = document.getElementById("btnAbrirFormCancelarAula");
+  const btnAbrirCancelarSec = document.getElementById("btnAbrirFormCancelarAulaSecundario");
+  const btnFecharCancelar = document.getElementById("btnFecharFormCancelarAula");
+  const btnCancelarFormAula = document.getElementById("btnCancelarFormAula");
+
+  if (btnAbrir && !btnAbrir.dataset.inicializado) {
+    btnAbrir.dataset.inicializado = "true";
+    btnAbrir.addEventListener("click", () => {
+      limparFormularioTurma();
+      if (msgTurma) msgTurma.textContent = "";
+      abrirPainelFormularioTurma("nova");
+    });
+  }
+
+  if (btnFechar && !btnFechar.dataset.inicializado) {
+    btnFechar.dataset.inicializado = "true";
+    btnFechar.addEventListener("click", () => {
+      limparFormularioTurma();
+      if (msgTurma) msgTurma.textContent = "";
+      fecharPainelFormularioTurma();
+    });
+  }
+
+  [btnAbrirCancelar, btnAbrirCancelarSec].forEach(botao => {
+    if (!botao || botao.dataset.inicializado) return;
+    botao.dataset.inicializado = "true";
+    botao.addEventListener("click", () => {
+      if (msgCancelarAula) msgCancelarAula.textContent = "";
+      abrirPainelCancelarAula();
+    });
+  });
+
+  [btnFecharCancelar, btnCancelarFormAula].forEach(botao => {
+    if (!botao || botao.dataset.inicializado) return;
+    botao.dataset.inicializado = "true";
+    botao.addEventListener("click", () => {
+      if (formCancelarAula) formCancelarAula.reset();
+      if (msgCancelarAula) msgCancelarAula.textContent = "";
+      fecharPainelCancelarAula();
+    });
+  });
+}
+
 function renderizarTurmas() {
+  atualizarResumoTurmasPremium();
+
   if (listaTurmas) {
     if (!turmasCadastradas.length) {
       listaTurmas.innerHTML = `<div class="empty-state-mini">Nenhuma turma cadastrada ainda.</div>`;
@@ -288,7 +401,10 @@ function renderizarTurmas() {
             <strong>${turma.nome}</strong>
             <span>${diasSemanaTexto(turma.dias_semana)}${turma.horario ? " • " + turma.horario : ""}</span>
             ${turma.professor ? `<small>Professor: ${turma.professor}</small>` : ""}
-            <small>${turma.ativa === false ? "Turma inativa" : "Turma ativa"}</small>
+            <div class="turma-meta-grid">
+              <span class="turma-meta-pill alunos">👥 ${textoQuantidadeAlunosTurma(turma)}</span>
+              <span class="turma-meta-pill ${turma.ativa === false ? "inativa" : "ativa"}">${turma.ativa === false ? "Turma inativa" : "Turma ativa"}</span>
+            </div>
           </div>
 
           <div class="turma-item-acoes">
@@ -320,8 +436,10 @@ function renderizarTurmas() {
 }
 
 async function prepararTelaTurmas() {
+  inicializarTelaTurmasPremium();
   await carregarTurmasSistema();
   renderizarTurmas();
+  fecharPainelFormularioTurma();
 }
 
 function editarTurma(id) {
@@ -333,6 +451,7 @@ function editarTurma(id) {
   }
 
   turmaEditandoId = turma.id;
+  abrirPainelFormularioTurma("edicao");
 
   if (turmaNome) turmaNome.value = turma.nome || "";
   if (turmaHorario) turmaHorario.value = turma.horario || "";
@@ -441,6 +560,7 @@ async function salvarTurma(event) {
 
   await carregarTurmasSistema();
   renderizarTurmas();
+  fecharPainelFormularioTurma();
 }
 
 function limparFormularioTurma() {
@@ -456,6 +576,7 @@ if (btnCancelarEdicaoTurma) {
   btnCancelarEdicaoTurma.addEventListener("click", () => {
     limparFormularioTurma();
     if (msgTurma) msgTurma.textContent = "Edição cancelada.";
+    fecharPainelFormularioTurma();
   });
 }
 
@@ -520,6 +641,7 @@ async function salvarAulaCancelada(event) {
   await carregarDadosFrequencia();
 
   renderizarTurmas();
+  fecharPainelCancelarAula();
 
   if (typeof renderizarEvolucao === "function") {
     renderizarEvolucao();

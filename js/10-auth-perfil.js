@@ -91,6 +91,7 @@ const { data, error } = await supabaseClient
     nome_empresa,
     whatsapp_professor,
     pix_copia_cola,
+    modulo_fight,
 
     modulo_evolucao,
     modulo_presenca,
@@ -99,6 +100,7 @@ const { data, error } = await supabaseClient
     modulo_ranking,
     modulo_desafio,
     modulo_turmas,
+    modulo_fight,
 
     plano,
     status,
@@ -141,6 +143,8 @@ if (error) {
     perfilPixCopiaCola.value = data.pix_copia_cola || "";
   }
 
+  window.moduloFightAtivo = data.modulo_fight === true;
+
   moduloEvolucaoAtivo = data.modulo_evolucao !== false;
   moduloPresencaAtivo = data.modulo_presenca === true;
   moduloAvisosAtivo = data.modulo_avisos === true;
@@ -164,6 +168,12 @@ if (!usuarioEhAdmin && !podeUsarSistema) {
 moduloRankingAtivo = data.modulo_ranking !== false;
 moduloDesafioAtivo = data.modulo_desafio !== false;
 moduloTurmasAtivo = data.modulo_turmas !== false;
+window.moduloFightAtivo = data.modulo_fight === true;
+
+document.querySelectorAll(".modulo-fight").forEach(el => {
+  el.classList.toggle("escondido", !window.moduloFightAtivo);
+});
+
 
   if (perfilModuloEvolucao) perfilModuloEvolucao.checked = moduloEvolucaoAtivo;
   if (perfilModuloPresenca) perfilModuloPresenca.checked = moduloPresencaAtivo;
@@ -175,6 +185,7 @@ moduloTurmasAtivo = data.modulo_turmas !== false;
   if (perfilRankingTurmas) perfilRankingTurmas.checked = rankingTurmasAtivo;
   if (perfilRankingMinimoAulas) perfilRankingMinimoAulas.value = rankingMinimoAulas;
   aplicarModulosInterface();
+  if (typeof aplicarModuloFightInterface === "function") aplicarModuloFightInterface();
   sincronizarEstado();
 
     const btnDesafio = document.getElementById("btnNavDesafio");

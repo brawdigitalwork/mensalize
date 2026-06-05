@@ -61,7 +61,10 @@
         <button type="button" id="btnNavFinanceiro" class="menu-item" data-view="financeiro">💰 Financeiro</button>
         <button type="button" id="btnNavTurmas" class="menu-item modulo-presenca" data-view="turmas">📚 Turmas</button>
         <button type="button" id="btnNavAvisos" class="menu-item modulo-avisos" data-view="avisos">📣 Avisos</button>
-        <button type="button" id="btnNavEvolucao" class="menu-item modulo-evolucao" data-view="evolucao">📈 Evolução</button>
+        <button type="button" id="btnNavEvolucao" class="menu-item modulo-evolucao" data-view="evolucao">🥋 Graduação</button>
+        <button type="button" id="btnNavProgramaFight" class="menu-item modulo-fight" data-view="programaFight">
+          📚 Programa Fight
+        </button>
         <button type="button" id="btnNavPresencas" class="menu-item modulo-presenca" data-view="presencas">✅ Presenças</button>
 
         <button type="button" id="btnNavDesafio"
@@ -77,7 +80,7 @@
 
       <div class="sidebar-footer">
         <button id="btnAdmin" class="btn-admin escondido">⚙ Admin</button>
-        <button id="btnTema" class="btn-tema" title="Alternar tema">🌙 Tema</button>
+        <button id="btnTema" class="btn-tema escondido" title="Tema desativado">🌙 Tema</button>
         <button id="btnSair" class="btn-sair">Sair</button>
       </div>
     </aside>
@@ -162,14 +165,29 @@
           </section>
 
           <section class="dashboard-grid">
+            <article id="centralNotificacoesCard" class="painel-card painel-notificacoes">
+              <div class="painel-topo">
+                <div>
+                  <span class="page-eyebrow">Central inteligente</span>
+                  <h2>Notificações</h2>
+                  <p id="centralNotificacoesResumo">Acompanhe o que precisa de ação hoje.</p>
+                </div>
+                <span id="centralNotificacoesContador" class="mini-badge">0 alertas</span>
+              </div>
+
+              <div id="centralNotificacoesLista" class="notificacoes-lista">
+                <div class="empty-state-mini">Carregando notificações...</div>
+              </div>
+            </article>
+
             <article class="painel-card painel-evolucao modulo-evolucao">
               <div class="painel-topo">
                 <div>
-                  <span class="page-eyebrow">Evolução</span>
+                  <span class="page-eyebrow">Mensalize Fight</span>
                   <h2>Graduações próximas</h2>
-                  <p id="dashboardEvolucaoTexto">Acompanhe alunos aptos e próximos da avaliação.</p>
+                  <p id="dashboardEvolucaoTexto">Acompanhe faixas, graus e alunos aptos para avaliação.</p>
                 </div>
-                <button type="button" class="btn-texto" data-view-target="evolucao">Ver evolução</button>
+                <button type="button" class="btn-texto" data-view-target="evolucao">Ver graduação</button>
               </div>
               <div class="evolucao-mini-grid">
                 <div class="evolucao-mini-card">
@@ -333,9 +351,9 @@
           <section class="painel-card evolucao-page">
             <div class="painel-topo">
               <div>
-                <span class="page-eyebrow">Evolução</span>
-                <h2>Evolução dos alunos</h2>
-                <p>Veja alunos aptos, próximos da avaliação e acompanhe a evolução de cada aluno.</p>
+                <span class="page-eyebrow">Mensalize Fight</span>
+                <h2>Graduação dos alunos</h2>
+                <p>Veja alunos aptos, próximos da avaliação e acompanhe faixa, grau e evolução na luta.</p>
               </div>
             </div>
 
@@ -362,11 +380,153 @@
             </div>
 
             <div id="listaEvolucao" class="lista-evolucao">
-              <div class="empty-state-mini">Carregando evolução dos alunos...</div>
+              <div class="empty-state-mini">Carregando graduação dos alunos...</div>
             </div>
           </section>
         </section>
 
+
+        <section id="viewProgramaFight" class="view-app">
+          <section class="painel-card programa-fight-page modulo-fight">
+            <div class="painel-topo">
+              <div>
+                <span class="page-eyebrow">Mensalize Fight</span>
+                <h2>Programa de Graduação</h2>
+                <p>Cadastre categorias, técnicas e links de vídeo para cada faixa. O aluno verá no portal o programa da faixa atual dele.</p>
+              </div>
+              <button type="button" id="btnAtualizarProgramaFight" class="acao-secundaria">Atualizar</button>
+            </div>
+
+            <div class="programa-fight-info-grid">
+              <div class="financeiro-box previsao">
+                <span>Faixas</span>
+                <strong id="programaFightTotalFaixas">0</strong>
+              </div>
+              <div class="financeiro-box receber">
+                <span>Categorias</span>
+                <strong id="programaFightTotalCategorias">0</strong>
+              </div>
+              <div class="financeiro-box receita">
+                <span>Técnicas ativas</span>
+                <strong id="programaFightTotalTecnicas">0</strong>
+              </div>
+            </div>
+
+            <div class="programa-fight-command">
+              <div class="programa-fight-command-copy">
+                <span class="page-eyebrow">Montagem do programa</span>
+                <h3>Organize a graduação sem poluir a tela</h3>
+                <p>Use os botões abaixo apenas quando for cadastrar algo novo. O programa já cadastrado fica limpo e organizado por faixa.</p>
+              </div>
+
+              <div class="programa-fight-command-actions">
+                <button type="button" id="btnAbrirFormCategoria" class="acao-secundaria">+ Nova categoria</button>
+                <button type="button" id="btnAbrirFormTecnica" class="acao-principal">+ Nova técnica</button>
+              </div>
+            </div>
+
+            <div id="programaFightCriacaoPanel" class="programa-fight-criacao-panel escondido">
+              <div class="programa-fight-criacao-topo">
+                <div>
+                  <span class="page-eyebrow">Cadastro</span>
+                  <h3 id="programaFightCriacaoTitulo">Novo conteúdo</h3>
+                  <p id="programaFightCriacaoTexto">Cadastre somente quando precisar alterar o programa.</p>
+                </div>
+                <button type="button" id="btnFecharCriacaoProgramaFight" class="btn-fechar" aria-label="Fechar cadastro">×</button>
+              </div>
+
+              <div class="programa-fight-layout programa-fight-layout-criacao">
+                <form id="formCategoriaGraduacao" class="perfil-form programa-fight-form programa-fight-form-criacao escondido" data-criacao-tipo="categoria">
+                  <div class="form-section-title">
+                    <strong>Nova categoria</strong>
+                    <small>Ex: Posições básicas, Quedas, Defesas, Raspagens.</small>
+                  </div>
+
+                  <label class="campo-perfil">
+                    <span>Faixa atual</span>
+                    <select id="categoriaFaixaOrigem">
+                      <option value="">Selecione</option>
+                    </select>
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>Próxima faixa</span>
+                    <select id="categoriaFaixaDestino">
+                      <option value="">Opcional</option>
+                    </select>
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>Nome da categoria</span>
+                    <input type="text" id="categoriaGraduacaoNome" placeholder="Ex: Técnicas, Quedas, Defesas">
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>Ordem</span>
+                    <input type="number" id="categoriaGraduacaoOrdem" value="1" min="0">
+                  </label>
+
+                  <button type="submit" class="btn-salvar-perfil">Salvar categoria</button>
+                  <p id="msgCategoriaGraduacao" class="msg-perfil"></p>
+                </form>
+
+                <form id="formTecnicaGraduacao" class="perfil-form programa-fight-form programa-fight-form-criacao escondido" data-criacao-tipo="tecnica">
+                  <div class="form-section-title">
+                    <strong>Nova técnica / conteúdo</strong>
+                    <small>Adicione o golpe, posição, requisito ou conteúdo da categoria.</small>
+                  </div>
+
+                  <label class="campo-perfil campo-cheio">
+                    <span>Categoria</span>
+                    <select id="tecnicaGraduacaoCategoria">
+                      <option value="">Selecione uma categoria</option>
+                    </select>
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>Título</span>
+                    <input type="text" id="tecnicaGraduacaoTitulo" placeholder="Ex: Raspagem tesoura">
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>Ordem</span>
+                    <input type="number" id="tecnicaGraduacaoOrdem" value="1" min="0">
+                  </label>
+
+                  <label class="campo-perfil campo-cheio">
+                    <span>Descrição</span>
+                    <textarea id="tecnicaGraduacaoDescricao" rows="3" placeholder="Resumo simples para o aluno entender o que estudar."></textarea>
+                  </label>
+
+                  <label class="campo-perfil campo-cheio">
+                    <span>Link do vídeo</span>
+                    <input type="url" id="tecnicaGraduacaoVideo" placeholder="https://youtube.com/...">
+                  </label>
+
+                  <button type="submit" class="btn-salvar-perfil">Salvar técnica</button>
+                  <p id="msgTecnicaGraduacao" class="msg-perfil"></p>
+                </form>
+              </div>
+            </div>
+
+            <div class="programa-fight-lista-topo">
+              <div>
+                <span class="page-eyebrow">Conteúdos cadastrados</span>
+                <h2>Programa por faixa</h2>
+              </div>
+              <label class="campo-perfil programa-fight-filtro">
+                <span>Filtrar faixa</span>
+                <select id="programaFightFiltroFaixa">
+                  <option value="todos">Todas as faixas</option>
+                </select>
+              </label>
+            </div>
+
+            <div id="listaProgramaGraduacao" class="programa-fight-lista">
+              <div class="empty-state-mini">Carregando programa de graduação...</div>
+            </div>
+          </section>
+        </section>
 
         <section id="viewPresencas" class="view-app">
           <section class="painel-card presencas-page">
@@ -416,138 +576,185 @@
             <div id="listaPresencas" class="lista-presencas">
               <div class="empty-state-mini">Carregando chamada...</div>
             </div>
+
+            <section class="historico-chamadas-card">
+              <div class="section-title-row">
+                <div>
+                  <span class="page-eyebrow">Histórico</span>
+                  <h2>Últimas chamadas</h2>
+                  <p>Veja as chamadas já salvas no período e abra rapidamente uma data anterior.</p>
+                </div>
+                <span id="historicoChamadasContador" class="mini-badge">0 chamadas</span>
+              </div>
+              <div id="historicoChamadas" class="historico-chamadas-list">
+                <div class="empty-state-mini">Carregando histórico de chamadas...</div>
+              </div>
+            </section>
           </section>
         </section>
 
         
         <section id="viewTurmas" class="view-app">
-          <section class="painel-card turmas-page">
-            <div class="painel-topo">
+          <section class="painel-card turmas-page turmas-premium-page">
+            <div class="painel-topo turmas-premium-hero">
               <div>
-                <span class="page-eyebrow">Turmas</span>
-                <h2>Cadastro de turmas</h2>
-                <p>Defina os dias de aula para que frequência, graduação e ranking funcionem corretamente.</p>
+                <span class="page-eyebrow">Turmas e aulas</span>
+                <h2>Gestão de turmas</h2>
+                <p>Organize horários, professores, dias de aula e cancelamentos sem deixar formulários abertos o tempo todo.</p>
+              </div>
+              <div class="turmas-premium-actions">
+                <button type="button" id="btnAbrirFormTurma" class="acao-principal">+ Nova turma</button>
+                <button type="button" id="btnAbrirFormCancelarAula" class="acao-secundaria">Cancelar aula</button>
               </div>
             </div>
 
-            <form id="formTurma" class="perfil-form">
-              <label class="campo-perfil">
-                <span>Nome da turma</span>
-                <input type="text" id="turmaNome" placeholder="Ex: Adulto noite">
-              </label>
+            <div class="turmas-premium-resumo">
+              <div class="financeiro-box previsao">
+                <span>Turmas</span>
+                <strong id="resumoTotalTurmas">0</strong>
+              </div>
+              <div class="financeiro-box receita">
+                <span>Ativas</span>
+                <strong id="resumoTurmasAtivas">0</strong>
+              </div>
+              <div class="financeiro-box alerta">
+                <span>Aulas canceladas</span>
+                <strong id="resumoAulasCanceladas">0</strong>
+              </div>
+            </div>
 
-              <label class="campo-perfil">
-                <span>Horário</span>
-                <input type="text" id="turmaHorario" placeholder="Ex: 20:00">
-              </label>
-
-              <label class="campo-perfil">
-                <span>Professor responsável</span>
-                <input type="text" id="turmaProfessor" placeholder="Ex: Nuti">
-              </label>
-
-              <div class="campo-perfil campo-cheio">
-                <span>Dias de aula</span>
-
-                <div class="dias-semana-grid dias-semana-chips">
-                  <label class="dia-chip">
-                    <input type="checkbox" name="turmaDias" value="0">
-                    <span>Dom</span>
-                  </label>
-
-                  <label class="dia-chip">
-                    <input type="checkbox" name="turmaDias" value="1">
-                    <span>Seg</span>
-                  </label>
-
-                  <label class="dia-chip">
-                    <input type="checkbox" name="turmaDias" value="2">
-                    <span>Ter</span>
-                  </label>
-
-                  <label class="dia-chip">
-                    <input type="checkbox" name="turmaDias" value="3">
-                    <span>Qua</span>
-                  </label>
-
-                  <label class="dia-chip">
-                    <input type="checkbox" name="turmaDias" value="4">
-                    <span>Qui</span>
-                  </label>
-
-                  <label class="dia-chip">
-                    <input type="checkbox" name="turmaDias" value="5">
-                    <span>Sex</span>
-                  </label>
-
-                  <label class="dia-chip">
-                    <input type="checkbox" name="turmaDias" value="6">
-                    <span>Sáb</span>
-                  </label>
+            <div id="painelFormTurma" class="turmas-premium-form-card escondido">
+              <div class="turmas-premium-form-head">
+                <div>
+                  <span class="page-eyebrow">Cadastro</span>
+                  <h3 id="tituloPainelTurma">Nova turma</h3>
+                  <p>Cadastre dias, horário e professor responsável desta turma.</p>
                 </div>
-              </div> 
-
-                  <label class="turma-status-chip">
-                    <input type="checkbox" id="turmaAtiva" checked>
-                    <span>Turma ativa</span>
-                  </label>
-
-              <div class="acoes-form-turma">
-                <button type="submit" id="btnSalvarTurma" class="btn-salvar-perfil">Salvar turma</button>
-                <button type="button" id="btnCancelarEdicaoTurma" class="acao-secundaria escondido">Cancelar edição</button>
+                <button type="button" id="btnFecharFormTurma" class="btn-fechar" aria-label="Fechar cadastro de turma">×</button>
               </div>
 
-              <p id="msgTurma" class="msg-perfil"></p>
-            </form>
+              <form id="formTurma" class="perfil-form turmas-premium-form">
+                <label class="campo-perfil">
+                  <span>Nome da turma</span>
+                  <input type="text" id="turmaNome" placeholder="Ex: Adulto noite">
+                </label>
 
-            <div id="listaTurmas" class="lista-evolucao turmas-lista">
+                <label class="campo-perfil">
+                  <span>Horário</span>
+                  <input type="text" id="turmaHorario" placeholder="Ex: 20:00">
+                </label>
+
+                <label class="campo-perfil">
+                  <span>Professor responsável</span>
+                  <input type="text" id="turmaProfessor" placeholder="Ex: Nuti">
+                </label>
+
+                <div class="campo-perfil campo-cheio">
+                  <span>Dias de aula</span>
+
+                  <div class="dias-semana-grid dias-semana-chips">
+                    <label class="dia-chip"><input type="checkbox" name="turmaDias" value="0"><span>Dom</span></label>
+                    <label class="dia-chip"><input type="checkbox" name="turmaDias" value="1"><span>Seg</span></label>
+                    <label class="dia-chip"><input type="checkbox" name="turmaDias" value="2"><span>Ter</span></label>
+                    <label class="dia-chip"><input type="checkbox" name="turmaDias" value="3"><span>Qua</span></label>
+                    <label class="dia-chip"><input type="checkbox" name="turmaDias" value="4"><span>Qui</span></label>
+                    <label class="dia-chip"><input type="checkbox" name="turmaDias" value="5"><span>Sex</span></label>
+                    <label class="dia-chip"><input type="checkbox" name="turmaDias" value="6"><span>Sáb</span></label>
+                  </div>
+                </div>
+
+                <label class="turma-status-chip">
+                  <input type="checkbox" id="turmaAtiva" checked>
+                  <span>Turma ativa</span>
+                </label>
+
+                <div class="acoes-form-turma">
+                  <button type="submit" id="btnSalvarTurma" class="btn-salvar-perfil">Salvar turma</button>
+                  <button type="button" id="btnCancelarEdicaoTurma" class="acao-secundaria escondido">Cancelar edição</button>
+                </div>
+
+                <p id="msgTurma" class="msg-perfil"></p>
+              </form>
+            </div>
+
+            <div class="turmas-premium-list-head">
+              <div>
+                <span class="page-eyebrow">Turmas cadastradas</span>
+                <h2>Lista de turmas</h2>
+                <p>Veja rapidamente quais turmas estão ativas e quantos alunos estão vinculados.</p>
+              </div>
+            </div>
+
+            <div id="listaTurmas" class="lista-evolucao turmas-lista turmas-premium-lista">
               <div class="empty-state-mini">Nenhuma turma cadastrada ainda.</div>
             </div>
           </section>
 
-          <section class="painel-card turmas-page">
-            <div class="painel-topo">
+          <section class="painel-card turmas-page turmas-cancelamentos-page">
+            <div class="painel-topo turmas-premium-hero compacta">
               <div>
                 <span class="page-eyebrow">Aulas canceladas</span>
-                <h2>Cancelar aula</h2>
+                <h2>Cancelamentos</h2>
                 <p>Aulas canceladas não contam como falta nem entram no cálculo de frequência.</p>
+              </div>
+              <button type="button" id="btnAbrirFormCancelarAulaSecundario" class="acao-secundaria">+ Cancelar aula</button>
+            </div>
+
+            <div id="painelFormCancelarAula" class="turmas-premium-form-card cancelamento escondido">
+              <div class="turmas-premium-form-head">
+                <div>
+                  <span class="page-eyebrow">Novo cancelamento</span>
+                  <h3>Cancelar aula</h3>
+                  <p>Informe a turma, data e motivo para remover essa aula da frequência.</p>
+                </div>
+                <button type="button" id="btnFecharFormCancelarAula" class="btn-fechar" aria-label="Fechar cancelamento de aula">×</button>
+              </div>
+
+              <form id="formCancelarAula" class="perfil-form turmas-premium-form">
+                <label class="campo-perfil">
+                  <span>Turma</span>
+                  <select id="cancelarTurma">
+                    <option value="">Selecione uma turma</option>
+                  </select>
+                </label>
+
+                <label class="campo-perfil">
+                  <span>Data da aula</span>
+                  <input type="date" id="cancelarData">
+                </label>
+
+                <label class="campo-perfil">
+                  <span>Motivo</span>
+                  <input type="text" id="cancelarMotivo" placeholder="Ex: Feriado">
+                </label>
+
+                <label class="campo-perfil campo-cheio">
+                  <span>Observação</span>
+                  <textarea id="cancelarObservacao" rows="3" placeholder="Opcional"></textarea>
+                </label>
+
+                <div class="acoes-form-turma">
+                  <button type="submit" class="btn-salvar-perfil">Salvar cancelamento</button>
+                  <button type="button" id="btnCancelarFormAula" class="acao-secundaria">Cancelar</button>
+                </div>
+                <p id="msgCancelarAula" class="msg-perfil"></p>
+              </form>
+            </div>
+
+            <div class="turmas-premium-list-head">
+              <div>
+                <span class="page-eyebrow">Histórico</span>
+                <h2>Aulas canceladas</h2>
+                <p>Reative uma aula caso o cancelamento tenha sido registrado por engano.</p>
               </div>
             </div>
 
-            <form id="formCancelarAula" class="perfil-form">
-              <label class="campo-perfil">
-                <span>Turma</span>
-                <select id="cancelarTurma">
-                  <option value="">Selecione uma turma</option>
-                </select>
-              </label>
-
-              <label class="campo-perfil">
-                <span>Data da aula</span>
-                <input type="date" id="cancelarData">
-              </label>
-
-              <label class="campo-perfil">
-                <span>Motivo</span>
-                <input type="text" id="cancelarMotivo" placeholder="Ex: Feriado">
-              </label>
-
-              <label class="campo-perfil campo-cheio">
-                <span>Observação</span>
-                <textarea id="cancelarObservacao" rows="3" placeholder="Opcional"></textarea>
-              </label>
-
-              <button type="submit" class="btn-salvar-perfil">Cancelar aula</button>
-              <p id="msgCancelarAula" class="msg-perfil"></p>
-            </form>
-
-            <div id="listaAulasCanceladas" class="lista-evolucao aulas-canceladas-lista">
+            <div id="listaAulasCanceladas" class="lista-evolucao aulas-canceladas-lista turmas-premium-lista">
               <div class="empty-state-mini">Nenhuma aula cancelada registrada.</div>
             </div>
           </section>
         </section>
 
-        
         <section id="viewAniversariantes" class="view-app">
           <section class="painel-card aniversariantes-page">
             <div class="painel-topo">
@@ -851,7 +1058,7 @@
   </div>
 
   <div class="form-section modulo-evolucao">
-    <h3>🥋 Evolução do aluno</h3>
+    <h3>🥋 Graduação do aluno</h3>
 
     <label class="input-group">
       <span>Faixa atual</span>
@@ -1052,6 +1259,8 @@
   <script src="js/70-evolucao-presencas-avisos.js"></script>
   <script src="js/75-aniversariantes.js"></script>
   <script src="js/76-turmas-frequencia.js"></script>
+  <script src="js/77-programa-fight.js"></script>
+  <script src="js/85-notificacoes-inteligentes.js"></script>
   <script src="js/80-realtime.js"></script>
   <script src="js/90-cache-update.js"></script>
   <script src="js/99-app.js"></script>

@@ -4446,3 +4446,522 @@ body[data-tema="claro"] .graduation-card small {
     border-radius: 15px;
   }
 }
+
+
+/* ================================================================
+   MENSALIZE FIGHT — PROGRAMA DA MINHA FAIXA
+================================================================ */
+.programa-faixa-card {
+  overflow: hidden;
+}
+
+.programa-faixa-list {
+  display: grid;
+  gap: 14px;
+}
+
+.programa-faixa-categoria {
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.085);
+  border-radius: var(--raio-xl);
+  padding: 15px;
+}
+
+.programa-faixa-categoria-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.programa-faixa-categoria-topo h3 {
+  color: var(--texto-primario);
+  font-size: 18px;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+}
+
+.programa-faixa-tecnicas {
+  display: grid;
+  gap: 10px;
+}
+
+.programa-faixa-tecnica {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px;
+  background: rgba(9,9,15,0.42);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+}
+
+.programa-faixa-tecnica strong {
+  display: block;
+  color: var(--texto-primario);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.programa-faixa-tecnica p {
+  color: var(--texto-secundario);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.programa-video-button {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 9px 12px;
+  border-radius: var(--raio-md);
+  background: rgba(124, 58, 237, 0.16);
+  color: var(--cor-roxo-claro);
+  border: 1px solid var(--cor-roxo-borda);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.programa-video-button::before {
+  content: "▶";
+  margin-right: 6px;
+  font-size: 10px;
+}
+
+.programa-video-button:hover {
+  background: var(--cor-roxo-bg);
+  border-color: var(--borda-hover);
+}
+
+@media (max-width: 640px) {
+  .programa-faixa-categoria {
+    padding: 13px;
+    border-radius: 20px;
+  }
+
+  .programa-faixa-categoria-topo,
+  .programa-faixa-tecnica {
+    flex-direction: column;
+  }
+
+  .programa-video-button {
+    width: 100%;
+  }
+}
+
+
+/* ================================================================
+   FASE 3.1 — PROGRAMA DA PRÓXIMA FAIXA
+   Linguagem mais direta e motivadora para o aluno
+================================================================ */
+.programa-faixa-card .section-title-row h2 {
+  letter-spacing: -0.06em;
+}
+
+.programa-faixa-jornada {
+  margin-bottom: 14px;
+  padding: 16px;
+  border-radius: var(--raio-lg);
+  border: 1px solid var(--cor-roxo-borda);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.16), transparent 38%),
+    rgba(255, 255, 255, 0.045);
+}
+
+.programa-faixa-jornada strong {
+  display: block;
+  color: #fff;
+  font-size: clamp(20px, 5vw, 30px);
+  line-height: 1.08;
+  letter-spacing: -0.065em;
+  margin-top: 2px;
+}
+
+.programa-faixa-jornada p {
+  color: var(--texto-secundario);
+  margin-top: 8px;
+}
+
+.programa-faixa-bloco-titulo {
+  margin: 4px 0 12px;
+  color: var(--texto-primario);
+  font-size: 14px;
+  font-weight: 950;
+  letter-spacing: -0.03em;
+}
+
+.programa-video-button {
+  white-space: nowrap;
+}
+
+/* ================================================================
+   ÁREA DO ALUNO — PRÓXIMA FAIXA EM SANFONA
+   Evita lista gigante de golpes aberta na tela.
+================================================================ */
+.programa-faixa-accordion {
+  overflow: hidden;
+}
+
+.programa-faixa-toggle {
+  width: 100%;
+  min-height: 64px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.045) !important;
+  border: 1px solid rgba(255, 255, 255, 0.085) !important;
+  border-radius: 20px !important;
+  color: var(--texto-primario) !important;
+  padding: 13px !important;
+  box-shadow: none !important;
+}
+
+.programa-faixa-toggle:hover {
+  transform: none !important;
+  border-color: var(--cor-roxo-borda) !important;
+}
+
+.programa-faixa-toggle-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.14);
+  border: 1px solid rgba(196, 181, 253, 0.18);
+  color: var(--cor-roxo-claro);
+  font-weight: 950;
+}
+
+.programa-faixa-toggle-text {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.programa-faixa-toggle-text strong {
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.programa-faixa-toggle-text small {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+.programa-faixa-accordion .programa-faixa-tecnicas {
+  margin-top: 10px;
+}
+
+.programa-faixa-accordion.aberta .programa-faixa-toggle {
+  border-color: rgba(196, 181, 253, 0.28) !important;
+  background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(255,255,255,0.045)) !important;
+}
+
+@media (max-width: 520px) {
+  .programa-faixa-toggle {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .programa-faixa-toggle > .mini-badge {
+    grid-column: 2;
+    width: fit-content;
+  }
+}
+
+/* ================================================================
+   FASE 4.3 — PRÓXIMA FAIXA PREMIUM
+   Cards mais limpos, menos aparência de lista bruta.
+================================================================ */
+.programa-faixa-card {
+  overflow: hidden;
+}
+
+.programa-faixa-card .section-title-row {
+  margin-bottom: 16px;
+}
+
+.programa-faixa-card .section-title-row h2 {
+  font-size: clamp(24px, 5vw, 36px);
+  line-height: 1.02;
+}
+
+.programa-faixa-jornada {
+  position: relative;
+  overflow: hidden;
+  padding: 18px !important;
+  border-radius: 26px !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139,92,246,0.22), transparent 36%),
+    radial-gradient(circle at 0% 100%, rgba(34,197,94,0.08), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.035)) !important;
+  border-color: rgba(196,181,253,0.22) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 44px rgba(0,0,0,0.18);
+}
+
+.programa-faixa-jornada::after {
+  content: "🥋";
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  font-size: 46px;
+  opacity: 0.09;
+  transform: rotate(-10deg);
+}
+
+.programa-faixa-bloco-titulo {
+  margin: 16px 0 12px !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(139,92,246,0.12);
+  border: 1px solid rgba(196,181,253,0.15);
+  color: var(--cor-roxo-claro) !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.09em !important;
+}
+
+.programa-faixa-list {
+  gap: 12px !important;
+}
+
+.programa-faixa-categoria.programa-faixa-accordion {
+  padding: 0 !important;
+  border-radius: 24px !important;
+  border-color: rgba(255,255,255,0.09) !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.052), rgba(255,255,255,0.026)) !important;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.18);
+}
+
+.programa-faixa-categoria.programa-faixa-accordion.aberta {
+  border-color: rgba(196,181,253,0.26) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139,92,246,0.12), transparent 32%),
+    linear-gradient(180deg, rgba(255,255,255,0.064), rgba(255,255,255,0.030)) !important;
+}
+
+.programa-faixa-toggle {
+  min-height: 72px !important;
+  padding: 14px !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  background: transparent !important;
+}
+
+.programa-faixa-toggle:hover {
+  background: rgba(255,255,255,0.025) !important;
+}
+
+.programa-faixa-toggle-icon {
+  width: 40px !important;
+  height: 40px !important;
+  background: linear-gradient(135deg, rgba(139,92,246,0.24), rgba(34,197,94,0.08)) !important;
+  border-color: rgba(196,181,253,0.22) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.programa-faixa-toggle-text .eyebrow {
+  display: none;
+}
+
+.programa-faixa-toggle-text strong {
+  font-size: 17px !important;
+  letter-spacing: -0.045em;
+}
+
+.programa-faixa-toggle-text small {
+  color: var(--texto-secundario) !important;
+  font-weight: 750;
+}
+
+.programa-faixa-toggle > .mini-badge {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  background: rgba(255,255,255,0.055) !important;
+  border-color: rgba(255,255,255,0.10) !important;
+  color: #fff !important;
+}
+
+.programa-faixa-tecnicas {
+  margin: 0 14px 14px !important;
+  padding: 13px !important;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.16);
+  border: 1px solid rgba(255,255,255,0.075);
+}
+
+.programa-faixa-tecnica {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center !important;
+  padding: 14px !important;
+  border-radius: 18px !important;
+  background: rgba(255,255,255,0.038) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+.programa-faixa-tecnica + .programa-faixa-tecnica {
+  margin-top: 9px;
+}
+
+.programa-faixa-tecnica strong {
+  font-size: 15px !important;
+  letter-spacing: -0.03em;
+}
+
+.programa-faixa-tecnica p {
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+.programa-video-button {
+  border-radius: 14px !important;
+  background: rgba(139,92,246,0.13) !important;
+  border-color: rgba(196,181,253,0.20) !important;
+  color: var(--cor-roxo-claro) !important;
+}
+
+@media (max-width: 640px) {
+  .programa-faixa-toggle {
+    grid-template-columns: auto minmax(0, 1fr) !important;
+  }
+
+  .programa-faixa-toggle > .mini-badge {
+    grid-column: 2 !important;
+    width: fit-content;
+  }
+
+  .programa-faixa-tecnica {
+    grid-template-columns: 1fr !important;
+    align-items: stretch !important;
+  }
+
+  .programa-video-button {
+    width: 100%;
+  }
+}
+
+/* ================================================================
+   CHECK-IN DO ALUNO — QR CODE
+================================================================ */
+.checkin-aluno-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.checkin-aluno-card {
+  width: min(100%, 430px);
+  background: linear-gradient(180deg, rgba(22, 22, 34, 0.98), rgba(12, 12, 20, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 26px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.48);
+}
+
+.checkin-aluno-icon {
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  background: rgba(34, 197, 94, 0.13);
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  font-size: 28px;
+}
+
+.checkin-aluno-card h1 {
+  font-size: 27px;
+  line-height: 1.08;
+  margin: 4px 0 8px;
+}
+
+.checkin-aluno-card p {
+  color: var(--texto-secundario);
+}
+
+.checkin-aluno-resumo {
+  margin: 18px 0;
+  padding: 15px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--borda);
+  text-align: left;
+}
+
+.checkin-aluno-resumo span {
+  display: block;
+  color: var(--texto-terciario);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-bottom: 5px;
+}
+
+.checkin-aluno-resumo strong {
+  display: block;
+  font-size: 18px;
+  color: var(--texto-primario);
+}
+
+.checkin-aluno-resumo small {
+  display: block;
+  margin-top: 3px;
+  color: var(--texto-secundario);
+}
+
+.checkin-aluno-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.checkin-aluno-actions button {
+  width: 100%;
+}
+
+.checkin-aluno-msg {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--borda);
+}
+
+.checkin-aluno-msg.is-success {
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.28);
+}
+
+.checkin-aluno-msg.is-error {
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.30);
+}

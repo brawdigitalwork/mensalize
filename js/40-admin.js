@@ -140,7 +140,7 @@ function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
   if (adminFiltroClientesAtual === "todos") return true;
   if (adminFiltroClientesAtual === "ativo") return status !== "bloqueado" && podeUsar;
   if (adminFiltroClientesAtual === "bloqueado") return status === "bloqueado" || !podeUsar;
-  if (["trial", "basic", "pro", "premium"].includes(adminFiltroClientesAtual)) return plano === adminFiltroClientesAtual;
+  if (["trial", "basic", "pro", "fight", "premium"].includes(adminFiltroClientesAtual)) return plano === adminFiltroClientesAtual;
   if (adminFiltroClientesAtual === "limite") return total >= limite;
 
   return true;
@@ -229,6 +229,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
             <option value="trial" ${cliente.plano === "trial" ? "selected" : ""}>Trial</option>
             <option value="basic" ${cliente.plano === "basic" ? "selected" : ""}>Basic</option>
             <option value="pro" ${cliente.plano === "pro" ? "selected" : ""}>Pro</option>
+            <option value="fight" ${cliente.plano === "fight" ? "selected" : ""}>Mensalize Fight</option>
             <option value="premium" ${cliente.plano === "premium" ? "selected" : ""}>Premium</option>
           </select>
           <small id="plano-resumo-${cliente.id}">${resumoPlano.descricao}</small>
@@ -310,12 +311,14 @@ const PLANOS_MENSALIZE_ADMIN = {
     descricao: "Teste gratuito para o professor conhecer o Mensalize com as funções essenciais.",
     destaque: "Para demonstração, parceria e validação inicial.",
     modulos: {
+      modulo_fight: false,
       modulo_evolucao: false,
       modulo_presenca: false,
       modulo_avisos: false,
       modulo_ranking: false,
       modulo_desafio: false,
-      modulo_turmas: false
+      modulo_turmas: false,
+      modulo_fight: false,
     },
     recursos: [
       "Até 30 alunos",
@@ -335,12 +338,14 @@ const PLANOS_MENSALIZE_ADMIN = {
     descricao: "Plano de entrada para professor pequeno ou turma única.",
     destaque: "Para organizar alunos, mensalidades, avisos e aniversários.",
     modulos: {
+      modulo_fight: false,
       modulo_evolucao: false,
       modulo_presenca: false,
       modulo_avisos: true,
       modulo_ranking: false,
       modulo_desafio: false,
-      modulo_turmas: false
+      modulo_turmas: false,
+      modulo_fight: false,
     },
     recursos: [
       "Até 50 alunos",
@@ -356,15 +361,17 @@ const PLANOS_MENSALIZE_ADMIN = {
     tag: "Mais vendido",
     preco: "R$ 49,90/mês",
     limite: 150,
-    descricao: "Plano completo para academias, estúdios, escolas e profissionais que precisam controlar alunos, mensalidades e presença.",
-    destaque: "Para vender como pacote principal do Mensalize.",
+    descricao: "Plano principal para academias, estúdios, escolas e profissionais que precisam controlar alunos, mensalidades, turmas e presença.",
+    destaque: "Para vender como pacote principal do Mensalize, sem graduação de luta.",
     modulos: {
-      modulo_evolucao: true,
+      modulo_fight: false,
+      modulo_evolucao: false,
       modulo_presenca: true,
       modulo_avisos: true,
       modulo_ranking: true,
       modulo_desafio: true,
-      modulo_turmas: true
+      modulo_turmas: true,
+      modulo_fight: false,
     },
     recursos: [
       "Até 150 alunos",
@@ -373,8 +380,36 @@ const PLANOS_MENSALIZE_ADMIN = {
       "Presenças",
       "Ranking de presença",
       "Desafio de presença",
-      "Evolução/graduação",
       "Aulas canceladas"
+    ]
+  },
+  fight: {
+    nome: "Mensalize Fight",
+    tag: "Artes marciais",
+    preco: "R$ 59,90/mês",
+    limite: 150,
+    descricao: "Plano para academias de luta que precisam controlar mensalidades, presenças, ranking e graduação por faixa e grau.",
+    destaque: "Para jiu-jitsu, muay thai, boxe, judô, karatê e CTs de luta.",
+    modulos: {
+      modulo_fight: true,
+      modulo_evolucao: true,
+      modulo_presenca: true,
+      modulo_avisos: true,
+      modulo_ranking: true,
+      modulo_desafio: true,
+      modulo_turmas: true,
+      modulo_fight: false,
+    },
+    recursos: [
+      "Até 150 alunos",
+      "Tudo do Pro",
+      "Graduação por faixa e grau",
+      "Tempo mínimo para avaliação",
+      "Frequência mínima para graduação",
+      "Alunos aptos para avaliação",
+      "Solicitação de correção de graduação",
+      "Programa de Graduação por faixa",
+      "Links de vídeo por técnica"
     ]
   },
   premium: {
@@ -385,17 +420,21 @@ const PLANOS_MENSALIZE_ADMIN = {
     descricao: "Plano completo para academia maior ou cliente com operação mais avançada.",
     destaque: "Para clientes com mais alunos, suporte mais próximo e tudo liberado.",
     modulos: {
+      modulo_fight: true,
       modulo_evolucao: true,
       modulo_presenca: true,
       modulo_avisos: true,
       modulo_ranking: true,
       modulo_desafio: true,
-      modulo_turmas: true
+      modulo_turmas: true,
+      modulo_fight: false,
     },
     recursos: [
       "Até 300 alunos",
       "Tudo do Pro",
+      "Mensalize Fight incluso",
       "Todos os módulos liberados",
+      "Programa de Graduação por faixa",
       "Suporte prioritário",
       "Configuração inicial assistida",
       "Ajustes simples sob demanda"
@@ -482,6 +521,7 @@ async function carregarClientes() {
   limite_alunos,
   is_admin,
   whatsapp_professor,
+  modulo_fight,
 
   modulo_evolucao,
   modulo_presenca,
@@ -490,6 +530,7 @@ async function carregarClientes() {
   modulo_ranking,
   modulo_desafio,
   modulo_turmas,
+  modulo_fight,
 
   plano,
   status,
@@ -591,7 +632,7 @@ async function alterarLimite(id) {
 async function carregarDashboard() {
   const { data: clientes, error: erroClientes } = await supabaseClient
     .from("profiles")
-    .select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_evolucao,modulo_presenca,modulo_avisos");
+    .select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_fight,modulo_evolucao,modulo_presenca,modulo_avisos");
 
   const { data: todosAlunos, error: erroAlunos } = await supabaseClient
     .from("alunos")

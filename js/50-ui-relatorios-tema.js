@@ -682,21 +682,21 @@ document.querySelector(".card.receita").title = "Clique para ver gráfico";
 // 32. TEMA — CLARO / ESCURO
 // ===============================
 
-/** Aplica tema visual e salva preferência no localStorage. */
-function aplicarTema(tema) {
-  document.documentElement.setAttribute("data-tema", tema);
-  btnTema.textContent = tema === "claro" ? "🌙" : "☀️";
-  localStorage.setItem("mensalize-tema", tema);
+/** Tema claro desativado temporariamente no Beta. */
+function aplicarTema() {
+  document.documentElement.setAttribute("data-tema", "escuro");
+  document.body.removeAttribute("data-tema");
+  localStorage.setItem("mensalize-tema", "escuro");
+
+  if (typeof btnTema !== "undefined" && btnTema) {
+    btnTema.textContent = "🌙 Tema";
+    btnTema.classList.add("escondido");
+  }
 }
 
-btnTema.addEventListener("click", () => {
-  const atual = document.documentElement.getAttribute("data-tema");
-  aplicarTema(atual === "claro" ? "escuro" : "claro");
-});
-
-// Aplica tema salvo
-const temaSalvo = localStorage.getItem("mensalize-tema") || "escuro";
-aplicarTema(temaSalvo);
+// Garante que qualquer tema claro salvo antigo seja removido.
+localStorage.setItem("mensalize-tema", "escuro");
+aplicarTema();
 
 //ABRIR PAGINA DO ALUNO
 

@@ -81,6 +81,10 @@ async function carregarAlunos() {
   if (typeof renderizarDesafioPresencaProfessor === "function") {
     renderizarDesafioPresencaProfessor();
   }
+
+  if (typeof atualizarCentralNotificacoesInteligentes === "function") {
+    await atualizarCentralNotificacoesInteligentes();
+  }
 }
 
 // ===============================
@@ -100,6 +104,11 @@ formAluno.addEventListener("submit", async function(event) {
 
   const turmaSelecionadaNome = turmaAluno ? turmaAluno.value.trim() : "";
   const turmaSelecionadaObj = typeof encontrarTurmaPorNome === "function" ? encontrarTurmaPorNome(turmaSelecionadaNome) : null;
+
+  if (turmaSelecionadaNome && !turmaSelecionadaObj) {
+    mostrarToast("Selecione uma turma cadastrada em Turmas.", "erro");
+    return;
+  }
 
   const dadosExtrasAluno = {
     data_nascimento: dataNascimentoAluno && dataNascimentoAluno.value ? dataNascimentoAluno.value : null,

@@ -95,12 +95,12 @@ async function carregarSolicitacoesAlteracao() {
     const dados = solicitacao.dados_solicitados || {};
     if (solicitacao.tipo === "graduacao") {
       return `
-        <p><strong>Pedido:</strong> correção de evolução</p>
-        <p><strong>Nível atual:</strong> ${aluno?.faixa || "Não informado"}</p>
-        <p><strong>Nível solicitado:</strong> ${dados.faixa || dados.nova_faixa || "Sem alteração"}</p>
-        <p><strong>Etapa atual:</strong> ${aluno?.grau || "Não informada"}</p>
-        <p><strong>Etapa solicitada:</strong> ${dados.grau || dados.novo_grau || "Sem alteração"}</p>
-        <p><strong>Última evolução atual:</strong> ${aluno?.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"}</p>
+        <p><strong>Pedido:</strong> correção de graduação</p>
+        <p><strong>Faixa atual:</strong> ${aluno?.faixa || "Não informada"}</p>
+        <p><strong>Faixa solicitada:</strong> ${dados.faixa || dados.nova_faixa || "Sem alteração"}</p>
+        <p><strong>Grau atual:</strong> ${aluno?.grau || "Não informado"}</p>
+        <p><strong>Grau solicitado:</strong> ${dados.grau || dados.novo_grau || "Sem alteração"}</p>
+        <p><strong>Última graduação atual:</strong> ${aluno?.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"}</p>
         <p><strong>Data solicitada:</strong> ${dados.data_ultima_graduacao ? formatarData(dados.data_ultima_graduacao) : "Sem alteração"}</p>
       `;
     }
@@ -150,12 +150,15 @@ async function carregarSolicitacoesAlteracao() {
       </article>
     `;
   }).join("");
+  if (typeof atualizarCentralNotificacoesInteligentes === "function") {
+    atualizarCentralNotificacoesInteligentes();
+  }
 }
 
 async function aprovarSolicitacaoAlteracao(id) {
   const { data: solicitacao, error: erroBusca } = await supabaseClient
     .from("solicitacoes_alteracao")
-    .select("id, aluno_id, dados_solicitados, tipo, status")
+    .select("id, aluno_id, user_id, dados_solicitados, tipo, status")
     .eq("id", id)
     .single();
 
@@ -182,7 +185,22 @@ async function aprovarSolicitacaoAlteracao(id) {
       mostrarToast("A solicitação não possui turma informada.", "erro");
       return;
     }
-    atualizacaoAluno.turma = novaTurma;
+
+    const normalizarTurmaSolicitacao = typeof normalizarTextoTurma === "function"
+      ? normalizarTextoTurma
+      : (valor) => String(valor || "").trim().toLowerCase();
+
+    const turmaCadastrada = (turmasCadastradas || []).find(turma =>
+      turma.ativa !== false && normalizarTurmaSolicitacao(turma.nome) === normalizarTurmaSolicitacao(novaTurma)
+    );
+
+    if (!turmaCadastrada) {
+      mostrarToast("Essa turma não está cadastrada em Turmas. Recuse a solicitação ou cadastre a turma antes de aprovar.", "erro");
+      return;
+    }
+
+    atualizacaoAluno.turma = turmaCadastrada.nome;
+    atualizacaoAluno.turma_id = turmaCadastrada.id;
   }
 
   if (Object.keys(atualizacaoAluno).length === 0) {
@@ -319,6 +337,16 @@ if (view === "desafio" && !moduloDesafioAtivo) {
   return;
 }
 
+if (view === "evolucao" && !moduloEvolucaoAtivo) {
+  mostrarToast("Seu plano não possui acesso ao módulo Graduação / Mensalize Fight.", "erro");
+  return;
+}
+
+if (view === "programaFight" && !window.moduloFightAtivo) {
+  mostrarToast("Seu plano não possui acesso ao Programa Fight.", "erro");
+  return;
+}
+
 if (view === "turmas" && !moduloTurmasAtivo) {
   mostrarToast("Seu plano não possui acesso ao módulo Turmas.", "erro");
   return;
@@ -335,6 +363,7 @@ if (view === "turmas" && !moduloTurmasAtivo) {
     avisos: viewAvisos,
     solicitacoes: viewSolicitacoes,
     aniversariantes: document.getElementById("viewAniversariantes"),
+    programaFight: document.getElementById("viewProgramaFight"),
     perfil: viewPerfil
   };
 
@@ -353,12 +382,13 @@ if (view === "turmas" && !moduloTurmasAtivo) {
     alunos: ["Alunos", "Consulte, filtre e gerencie todos os alunos cadastrados."],
     financeiro: ["Financeiro", "Acompanhe recebimentos, previsão mensal e relatórios."],
     desafio: ["Desafio", "Acompanhe o ranking de presença dos alunos e turmas."],
-    evolucao: ["Evolução", "Acompanhe graduações, alunos aptos e próximos da avaliação."],
+    evolucao: ["Graduação", "Acompanhe faixas, graus e alunos aptos para avaliação."],
     presencas: ["Presenças", "Faça a chamada do dia separada por turma."],
     turmas: ["Turmas", "Organize dias de aula e cancele aulas sem afetar a frequência."],
     avisos: ["Avisos", "Crie avisos rápidos para alunos e turmas."],
     solicitacoes: ["Solicitações", "Aprove ou recuse alterações enviadas pelos alunos."],
     aniversariantes: ["Aniversariantes", "Veja os alunos que fazem aniversário e envie parabéns pelo WhatsApp."],
+    programaFight: ["Programa de Graduação", "Cadastre categorias, técnicas e vídeos por faixa."],
     perfil: ["Perfil", "Atualize os dados da empresa, WhatsApp e recursos ativos."]
   };
 
@@ -393,6 +423,10 @@ if (view === "turmas" && !moduloTurmasAtivo) {
   }
   if (view === "aniversariantes" && typeof renderizarAniversariantes === "function") {
     renderizarAniversariantes();
+  }
+
+  if (view === "programaFight" && typeof prepararProgramaFight === "function") {
+    prepararProgramaFight();
   }
 
   fecharMenuLateral();
@@ -454,7 +488,14 @@ function inicializarNavegacaoPrincipal() {
   if (btnNavAniversariantes) btnNavAniversariantes.addEventListener("click", () => abrirViewPrincipal("aniversariantes"));
   if (btnNavAvisos) btnNavAvisos.addEventListener("click", () => abrirViewPrincipal("avisos"));
   if (btnNavSolicitacoes) btnNavSolicitacoes.addEventListener("click", () => abrirViewPrincipal("solicitacoes"));
+  
+  const btnNavProgramaFight = document.getElementById("btnNavProgramaFight");
+  if (btnNavProgramaFight) {
+    btnNavProgramaFight.addEventListener("click", () => abrirViewPrincipal("programaFight"));
+  }
+  
   if (btnNavPerfil) btnNavPerfil.addEventListener("click", () => abrirViewPrincipal("perfil"));
+  
 
   if (btnNavCadastrar) {
     btnNavCadastrar.addEventListener("click", () => {

@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Mensalize Aluno</title>
-  <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e evolução." />
+  <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação." />
   <meta name="theme-color" content="#7c3aed" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Mensalize Aluno" />
   <meta property="og:title" content="Mensalize Aluno" />
-  <meta property="og:description" content="Acompanhe mensalidade, Pix, pagamentos, avisos, ranking e evolução pelo Mensalize Aluno." />
+  <meta property="og:description" content="Acompanhe mensalidade, Pix, pagamentos, avisos, ranking e graduação pelo Mensalize Aluno." />
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="aluno.css" />
   <link rel="icon" href="logo-aluno.png" />
@@ -82,13 +82,14 @@
         <button type="button" class="student-menu-item ativo" data-view="inicio">🏠 Início</button>
         <button type="button" class="student-menu-item" data-view="dados">👤 Editar dados</button>
         <button type="button" class="student-menu-item" data-view="financas">💰 Finanças</button>
-        <button type="button" class="student-menu-item" data-view="graduacao">📈 Evolução</button>
+        <button type="button" class="student-menu-item" data-view="graduacao">🥋 Graduação</button>
+        <button type="button" id="menuProgramaFaixaAluno" class="student-menu-item escondido" data-view="programa">🥋 Próxima faixa</button>
         <button type="button" id="menuRankingAluno" class="student-menu-item" data-view="ranking">🏆 Ranking</button>
         <button type="button" class="student-menu-item" data-view="contato">📲 Contato</button>
       </nav>
 
       <div class="student-sidebar-footer">
-        <button type="button" id="btnTemaAluno" class="student-footer-button">
+        <button type="button" id="btnTemaAluno" class="student-footer-button escondido">
           🌙 Tema
         </button>
 
@@ -117,7 +118,7 @@
           <div class="welcome-card">
             <span class="eyebrow">Início</span>
             <h1>Resumo rápido</h1>
-            <p>Veja o que realmente importa agora: mensalidade, evolução e contato com o professor.</p>
+            <p>Veja o que realmente importa agora: mensalidade, graduação e contato com o professor.</p>
           </div>
 
           <div class="quick-grid">
@@ -127,7 +128,7 @@
               <small id="inicioVencimento">--/--/----</small>
             </article>
             <article class="quick-card">
-              <span>Evolução</span>
+              <span>Graduação</span>
               <strong id="inicioGraduacao">Não informada</strong>
               <small id="inicioAvaliacao">Sem previsão</small>
             </article>
@@ -135,7 +136,8 @@
 
           <div class="action-row">
             <button type="button" class="primary-action" data-view-target="financas">Ver financeiro</button>
-            <button type="button" class="secondary-action" data-view-target="graduacao">Ver Evolução</button>
+            <button type="button" class="secondary-action" data-view-target="graduacao">Ver Graduação</button>
+            <button type="button" id="btnVerProgramaFaixa" class="secondary-action escondido" data-view-target="programa">Ver próxima faixa</button>
           </div>
 
           <article id="avisosAlunoHomeCard" class="panel-card notices-home-card escondido">
@@ -261,8 +263,8 @@
           <article class="panel-card">
             <div class="section-title-row">
               <div>
-                <span class="eyebrow">Evolução</span>
-                <h2>Minha evolução</h2>
+                <span class="eyebrow">Graduação</span>
+                <h2>Minha graduação</h2>
               </div>
               <span id="badgeEvolucao" class="mini-badge">Avaliação</span>
             </div>
@@ -273,21 +275,21 @@
             <div class="section-title-row">
               <div>
                 <span class="eyebrow">Solicitação</span>
-                <h2>Solicitar correção de evolução</h2>
+                <h2>Solicitar correção de graduação</h2>
               </div>
             </div>
             <p class="helper-text">Use isso só caso alguma informação esteja errada. O professor precisa aprovar antes de alterar no sistema.</p>
             <form id="formSolicitarGraduacao" class="student-form">
               <label>
-                <span>Nível correto</span>
-                <input type="text" id="solicitarFaixa" placeholder="Ex: Iniciante, Intermediário, Avançado" />
+                <span>Faixa correta</span>
+                <input type="text" id="solicitarFaixa" placeholder="Ex: Branca, Azul, Roxa" />
               </label>
               <label>
-                <span>Etapa correta</span>
-                <input type="text" id="solicitarGrau" placeholder="Ex: 0, 1, 2, 3, 4 ou etapa atual" />
+                <span>Grau correto</span>
+                <input type="text" id="solicitarGrau" placeholder="Ex: 0, 1, 2, 3, 4" />
               </label>
               <label>
-                <span>Data correta da última evolução</span>
+                <span>Data correta da última graduação</span>
                 <input type="date" id="solicitarDataGraduacao" />
               </label>
               <label class="full-line">
@@ -310,7 +312,9 @@
             <form id="formSolicitarTurma" class="student-form">
               <label>
                 <span>Turma desejada</span>
-                <input type="text" id="solicitarTurma" placeholder="Ex: Adulto noite" />
+                <select id="solicitarTurma">
+                  <option value="">Carregando turmas...</option>
+                </select>
               </label>
               <label class="full-line">
                 <span>Observação</span>
@@ -322,6 +326,24 @@
           </article>
         </section>
 
+
+
+        <section id="viewProgramaFaixaAluno" class="student-view">
+          <article class="panel-card programa-faixa-card">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Mensalize Fight</span>
+                <h2>Rumo à próxima faixa</h2>
+                <p id="programaFaixaResumo" class="helper-text">Veja o que seu professor separou para sua evolução.</p>
+              </div>
+              <span id="programaFaixaBadge" class="mini-badge">Sua jornada</span>
+            </div>
+
+            <div id="programaFaixaLista" class="programa-faixa-list">
+              <p class="empty-message">Carregando sua trilha de graduação...</p>
+            </div>
+          </article>
+        </section>
 
 
         <section id="viewRankingAluno" class="student-view">
@@ -353,6 +375,29 @@
       </main>
     </div>
   </section>
+
+  <section id="checkinAlunoModal" class="checkin-aluno-modal escondido" aria-hidden="true">
+    <div class="checkin-aluno-card" role="dialog" aria-modal="true" aria-labelledby="checkinAlunoTitulo">
+      <div class="checkin-aluno-icon">✅</div>
+      <span class="eyebrow">Check-in da aula</span>
+      <h1 id="checkinAlunoTitulo">Confirmar presença</h1>
+      <p id="checkinAlunoDescricao">Confirme sua presença somente se você estiver na aula agora.</p>
+
+      <div class="checkin-aluno-resumo">
+        <span>Aluno</span>
+        <strong id="checkinAlunoNome">Aluno</strong>
+        <small id="checkinAlunoTurma">Turma</small>
+      </div>
+
+      <div class="checkin-aluno-actions">
+        <button type="button" id="btnConfirmarCheckinAluno" class="primary-action">Confirmar presença</button>
+        <button type="button" id="btnFecharCheckinAluno" class="secondary-action">Agora não</button>
+      </div>
+
+      <p id="msgCheckinAluno" class="soft-message checkin-aluno-msg"></p>
+    </div>
+  </section>
+
 
   <section id="estadoErro" class="error-card escondido">
     <div class="error-icon">⚠️</div>
@@ -479,8 +524,22 @@
     const avisosAlunoLista = document.getElementById("avisosAlunoLista");
     const avisosAlunoContador = document.getElementById("avisosAlunoContador");
 
+    const menuProgramaFaixaAluno = document.getElementById("menuProgramaFaixaAluno");
+    const btnVerProgramaFaixa = document.getElementById("btnVerProgramaFaixa");
+    const programaFaixaResumo = document.getElementById("programaFaixaResumo");
+    const programaFaixaBadge = document.getElementById("programaFaixaBadge");
+    const programaFaixaLista = document.getElementById("programaFaixaLista");
+
+    const checkinAlunoModal = document.getElementById("checkinAlunoModal");
+    const checkinAlunoNome = document.getElementById("checkinAlunoNome");
+    const checkinAlunoTurma = document.getElementById("checkinAlunoTurma");
+    const btnConfirmarCheckinAluno = document.getElementById("btnConfirmarCheckinAluno");
+    const btnFecharCheckinAluno = document.getElementById("btnFecharCheckinAluno");
+    const msgCheckinAluno = document.getElementById("msgCheckinAluno");
+
     let alunoAtual = null;
     let codigoPublico = null;
+    let turmasAlunoDisponiveis = [];
     const STORAGE_CODIGO_ALUNO = "mensalize_codigo_aluno_publico";
 
     function obterCodigoPublicoAluno() {
@@ -502,10 +561,113 @@
         return "";
       }
     }
+
+    function obterCodigoCheckinUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return String(params.get("checkin") || "").trim().toUpperCase();
+    }
+
+    function fecharCheckinAluno() {
+      if (!checkinAlunoModal) return;
+      checkinAlunoModal.classList.add("escondido");
+      checkinAlunoModal.setAttribute("aria-hidden", "true");
+    }
+
+    function abrirCheckinAluno(aluno) {
+      const codigoCheckin = obterCodigoCheckinUrl();
+      if (!codigoCheckin || !checkinAlunoModal || !aluno) return;
+
+      if (checkinAlunoNome) checkinAlunoNome.textContent = aluno.nome || "Aluno";
+      if (checkinAlunoTurma) checkinAlunoTurma.textContent = aluno.turma ? `Turma ${aluno.turma}` : "Turma da aula";
+      if (msgCheckinAluno) {
+        msgCheckinAluno.textContent = "Confira seus dados e toque em Confirmar presença.";
+        msgCheckinAluno.className = "soft-message checkin-aluno-msg";
+      }
+      if (btnConfirmarCheckinAluno) {
+        btnConfirmarCheckinAluno.disabled = false;
+        btnConfirmarCheckinAluno.textContent = "Confirmar presença";
+      }
+
+      checkinAlunoModal.classList.remove("escondido");
+      checkinAlunoModal.setAttribute("aria-hidden", "false");
+    }
+
+    function definirMensagemCheckin(texto, tipo = "") {
+      if (!msgCheckinAluno) return;
+      msgCheckinAluno.textContent = texto;
+      msgCheckinAluno.className = `soft-message checkin-aluno-msg ${tipo}`.trim();
+    }
+
+    async function confirmarCheckinAluno() {
+      const codigoCheckin = obterCodigoCheckinUrl();
+
+      if (!codigoCheckin || !codigoPublico) {
+        definirMensagemCheckin("Não foi possível identificar seu check-in. Abra sua Área do Aluno e escaneie o QR novamente.", "is-error");
+        return;
+      }
+
+      if (btnConfirmarCheckinAluno) {
+        btnConfirmarCheckinAluno.disabled = true;
+        btnConfirmarCheckinAluno.textContent = "Confirmando...";
+      }
+
+      definirMensagemCheckin("Confirmando sua presença com segurança...");
+
+      try {
+        const resposta = await fetch(`${CONFIG.supabaseUrl}/functions/v1/checkin-presenca`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": CONFIG.supabaseAnonKey,
+            "Authorization": `Bearer ${CONFIG.supabaseAnonKey}`
+          },
+          body: JSON.stringify({
+            codigo_checkin: codigoCheckin,
+            codigo_publico: codigoPublico
+          })
+        });
+
+        const resultado = await resposta.json().catch(() => ({}));
+
+        if (resposta.ok && resultado.ok) {
+          definirMensagemCheckin(resultado.message || "Presença registrada com sucesso.", "is-success");
+          if (btnConfirmarCheckinAluno) {
+            btnConfirmarCheckinAluno.textContent = "Presença confirmada";
+          }
+          if (typeof carregarRankingsAluno === "function" && alunoAtual) {
+            carregarRankingsAluno(alunoAtual);
+          }
+          return;
+        }
+
+        if (resposta.status === 409 || resultado.ja_registrada) {
+          definirMensagemCheckin(resultado.message || "Sua presença já foi registrada nesta aula.", "is-success");
+          if (btnConfirmarCheckinAluno) {
+            btnConfirmarCheckinAluno.textContent = "Já registrada";
+          }
+          return;
+        }
+
+        definirMensagemCheckin(resultado.message || "Não foi possível confirmar sua presença.", "is-error");
+        if (btnConfirmarCheckinAluno) {
+          btnConfirmarCheckinAluno.disabled = false;
+          btnConfirmarCheckinAluno.textContent = "Tentar novamente";
+        }
+      } catch (erro) {
+        console.warn("[Mensalize Aluno] Erro no check-in:", erro);
+        definirMensagemCheckin("Erro de conexão ao confirmar presença. Tente novamente.", "is-error");
+        if (btnConfirmarCheckinAluno) {
+          btnConfirmarCheckinAluno.disabled = false;
+          btnConfirmarCheckinAluno.textContent = "Tentar novamente";
+        }
+      }
+    }
     let arquivoFoto = null;
     let cropperFotoAluno = null;
     let rankingsAluno = { geral: [], turma: [], turmas: [] };
     let rankingAtivoAluno = "turma";
+    let programaFaixaCarregado = false;
+    const programaFaixaCategoriasAbertas = new Set();
 
     nomeAcademia.textContent = CONFIG.nomeEmpresa || CONFIG.nomeApp || "Mensalize";
 
@@ -533,6 +695,7 @@
         dados: "viewDadosAluno",
         financas: "viewFinancasAluno",
         graduacao: "viewGraduacaoAluno",
+        programa: "viewProgramaFaixaAluno",
         ranking: "viewRankingAluno",
         contato: "viewContatoAluno"
       };
@@ -546,6 +709,8 @@
     menuOverlay?.addEventListener("click", fecharMenuAluno);
     document.querySelectorAll(".student-menu-item").forEach(btn => btn.addEventListener("click", () => abrirViewAluno(btn.dataset.view)));
     document.querySelectorAll("[data-view-target]").forEach(btn => btn.addEventListener("click", () => abrirViewAluno(btn.dataset.viewTarget)));
+    btnFecharCheckinAluno?.addEventListener("click", fecharCheckinAluno);
+    btnConfirmarCheckinAluno?.addEventListener("click", confirmarCheckinAluno);
 
     function formatarMoeda(valor) {
       return Number(valor || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -589,11 +754,15 @@
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
+
+    function normalizarTexto(texto) {
+      return String(texto || "").trim().toLowerCase();
+    }
     function avisoTipoTexto(tipo) {
       const mapa = {
         comunicado: "📢 Comunicado",
         importante: "⚠️ Importante",
-        graduacao: "📈 Evolução",
+        graduacao: "🥋 Graduação",
         aula: "📅 Aula / horário",
         financeiro: "💰 Financeiro"
       };
@@ -648,10 +817,10 @@
         badgeEvolucao.className = `mini-badge ${status.classe}`;
       }
      const linhas = [
-        ["Nível atual", aluno.faixa ? aluno.faixa : "Não informado"],
-        ["Etapa", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? aluno.grau : "Não informada"],
+        ["Faixa atual", aluno.faixa ? `Faixa ${aluno.faixa}` : "Não informada"],
+        ["Grau", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? `${aluno.grau}º grau` : "Não informado"],
         ["Turma", aluno.turma || "Não informada"],
-        ["Última evolução", aluno.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"],
+        ["Última graduação", aluno.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"],
         ["Tempo mínimo", aluno.tempo_avaliacao_meses ? `${aluno.tempo_avaliacao_meses} meses` : "Não informado"],
         ["Previsão para avaliação", status.data ? formatarData(status.data) : "Não calculada"]
       ];
@@ -661,7 +830,7 @@
           <strong>${valor}</strong>
         </div>
       `).join("");
-      inicioGraduacao.textContent = aluno.faixa ? `${aluno.faixa}${aluno.grau ? ` • etapa ${aluno.grau}` : ""}` : "Não informada";
+      inicioGraduacao.textContent = aluno.faixa ? `Faixa ${aluno.faixa}${aluno.grau ? ` • ${aluno.grau}º grau` : ""}` : "Não informada";
       inicioAvaliacao.textContent = status.texto;
     }
 
@@ -704,7 +873,188 @@
       }
     }
 
-    
+        function atualizarAcessoProgramaFaixaAluno(disponivel) {
+      if (menuProgramaFaixaAluno) {
+        menuProgramaFaixaAluno.classList.toggle("escondido", !disponivel);
+      }
+
+      if (btnVerProgramaFaixa) {
+        btnVerProgramaFaixa.classList.toggle("escondido", !disponivel);
+      }
+    }
+
+    function agruparProgramaFaixaAluno(linhas) {
+      const grupos = [];
+
+      (linhas || []).forEach(item => {
+        const categoriaId = item.categoria_id || "sem-categoria";
+        let grupo = grupos.find(g => String(g.id) === String(categoriaId));
+
+        if (!grupo) {
+          grupo = {
+            id: categoriaId,
+            nome: item.categoria_nome || "Conteúdos",
+            ordem: Number(item.categoria_ordem || 0),
+            faixaOrigem: item.faixa_origem_nome || item.faixa_atual || "",
+            faixaDestino: item.faixa_destino_nome || "",
+            tecnicas: []
+          };
+          grupos.push(grupo);
+        }
+
+        if (item.tecnica_id) {
+          grupo.tecnicas.push({
+            id: item.tecnica_id,
+            titulo: item.tecnica_titulo || "Técnica",
+            descricao: item.tecnica_descricao || "",
+            videoUrl: item.tecnica_video_url || "",
+            ordem: Number(item.tecnica_ordem || 0)
+          });
+        }
+      });
+
+      grupos.sort((a, b) => (a.ordem - b.ordem) || a.nome.localeCompare(b.nome, "pt-BR"));
+
+      grupos.forEach(grupo => {
+        grupo.tecnicas.sort((a, b) => (a.ordem - b.ordem) || a.titulo.localeCompare(b.titulo, "pt-BR"));
+      });
+
+      return grupos;
+    }
+
+    function alternarCategoriaProgramaAluno(categoriaId) {
+      const id = String(categoriaId || "");
+      if (!id) return;
+
+      const card = document.querySelector(`[data-programa-categoria="${id}"]`);
+      if (!card) return;
+
+      const estaAberta = card.classList.toggle("aberta");
+      card.dataset.aberta = estaAberta ? "true" : "false";
+      if (estaAberta) {
+        programaFaixaCategoriasAbertas.add(id);
+      } else {
+        programaFaixaCategoriasAbertas.delete(id);
+      }
+
+      const conteudo = card.querySelector(".programa-faixa-tecnicas");
+      if (conteudo) conteudo.classList.toggle("escondido", !estaAberta);
+
+      const icone = card.querySelector(".programa-faixa-toggle-icon");
+      if (icone) icone.textContent = estaAberta ? "▾" : "▸";
+
+      const botao = card.querySelector(".programa-faixa-toggle");
+      if (botao) botao.setAttribute("aria-expanded", estaAberta ? "true" : "false");
+    }
+
+    function renderizarProgramaFaixaAluno(linhas) {
+      const dados = Array.isArray(linhas) ? linhas : [];
+      const temConteudo = dados.length > 0;
+
+      atualizarAcessoProgramaFaixaAluno(temConteudo);
+      programaFaixaCarregado = true;
+
+      if (!programaFaixaLista || !programaFaixaResumo || !programaFaixaBadge) return;
+
+      if (!temConteudo) {
+        programaFaixaBadge.textContent = alunoAtual?.faixa ? alunoAtual.faixa : "Sem faixa";
+        programaFaixaResumo.textContent = alunoAtual?.faixa
+          ? "Seu professor ainda não cadastrou sua trilha até a próxima faixa."
+          : "Sua faixa ainda não foi informada pelo professor.";
+
+        programaFaixaLista.innerHTML = `
+          <p class="empty-message">
+            ${alunoAtual?.faixa
+              ? "Quando seu professor cadastrar o que você precisa treinar, sua trilha vai aparecer aqui."
+              : "Peça ao professor para cadastrar sua faixa e liberar sua trilha de graduação."}
+          </p>
+        `;
+        return;
+      }
+
+      const primeiraLinha = dados[0] || {};
+      const faixaOrigem = primeiraLinha.faixa_origem_nome || primeiraLinha.faixa_atual || alunoAtual?.faixa || "Sua faixa";
+      const faixaDestino = primeiraLinha.faixa_destino_nome || "";
+      const tituloFaixa = faixaDestino ? `${faixaOrigem} → ${faixaDestino}` : faixaOrigem;
+      const grupos = agruparProgramaFaixaAluno(dados);
+      const totalTecnicas = grupos.reduce((total, grupo) => total + grupo.tecnicas.length, 0);
+
+      programaFaixaBadge.textContent = tituloFaixa;
+      programaFaixaResumo.textContent = `${totalTecnicas} conteúdo${totalTecnicas === 1 ? "" : "s"} para treinar rumo à próxima faixa.`;
+
+      programaFaixaLista.innerHTML = `
+        <div class="programa-faixa-jornada">
+          <span class="eyebrow">Sua jornada</span>
+          <strong>${escapeHtml(tituloFaixa)}</strong>
+          <p>Estude, treine com frequência e tire dúvidas com seu professor.</p>
+        </div>
+        <div class="programa-faixa-bloco-titulo">O que você precisa treinar</div>
+      ` + grupos.map(grupo => {
+        const idCategoria = String(grupo.id || grupo.nome || "categoria");
+        const estaAberta = programaFaixaCategoriasAbertas.has(idCategoria);
+
+        return `
+          <article class="programa-faixa-categoria programa-faixa-accordion ${estaAberta ? "aberta" : ""}" data-programa-categoria="${escapeHtml(idCategoria)}" data-aberta="${estaAberta ? "true" : "false"}">
+            <button type="button" class="programa-faixa-categoria-topo programa-faixa-toggle" onclick="alternarCategoriaProgramaAluno('${escapeHtml(idCategoria)}')" aria-expanded="${estaAberta ? "true" : "false"}">
+              <span class="programa-faixa-toggle-icon">${estaAberta ? "▾" : "▸"}</span>
+              <span class="programa-faixa-toggle-text">
+                <span class="eyebrow">${escapeHtml(tituloFaixa)}</span>
+                <strong>${escapeHtml(grupo.nome)}</strong>
+                <small>${grupo.tecnicas.length} item${grupo.tecnicas.length === 1 ? "" : "s"} para treinar</small>
+              </span>
+              <span class="mini-badge muted-badge">${grupo.tecnicas.length}</span>
+            </button>
+
+            <div class="programa-faixa-tecnicas ${estaAberta ? "" : "escondido"}">
+              ${grupo.tecnicas.map(tecnica => {
+                const videoUrl = normalizarLink(tecnica.videoUrl);
+                return `
+                  <div class="programa-faixa-tecnica">
+                    <div>
+                      <strong>${escapeHtml(tecnica.titulo)}</strong>
+                      ${tecnica.descricao ? `<p>${escapeHtml(tecnica.descricao)}</p>` : `<p class="helper-text">Sem descrição cadastrada ainda.</p>`}
+                    </div>
+                    ${videoUrl ? `<a href="${escapeHtml(videoUrl)}" target="_blank" rel="noopener" class="programa-video-button">Ver aula em vídeo</a>` : ""}
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function carregarProgramaFaixaAluno() {
+      if (!codigoPublico) return;
+
+      if (programaFaixaLista) {
+        programaFaixaLista.innerHTML = `<p class="empty-message">Carregando sua trilha de graduação...</p>`;
+      }
+
+      try {
+        const { data, error } = await supabaseClient.rpc("buscar_programa_faixa_aluno", {
+          p_codigo_publico: codigoPublico
+        });
+
+        if (error) throw error;
+
+        renderizarProgramaFaixaAluno(data || []);
+      } catch (erro) {
+        console.log("Erro ao carregar programa da faixa:", erro?.message || erro);
+        atualizarAcessoProgramaFaixaAluno(false);
+
+        if (programaFaixaResumo) {
+          programaFaixaResumo.textContent = "Não foi possível carregar o programa da sua faixa agora.";
+        }
+
+        if (programaFaixaLista) {
+          programaFaixaLista.innerHTML = `<p class="empty-message">Atualize a página ou tente novamente mais tarde.</p>`;
+        }
+      }
+    }
+
+
+
     function obterPixCopiaColaAluno(aluno) {
       return String(aluno?.pix_copia_cola || aluno?.pixCopiaCola || "").trim();
     }
@@ -844,6 +1194,58 @@
     }
 
 
+    function preencherTurmasSolicitacaoAluno(aluno) {
+      if (!solicitarTurma) return;
+
+      solicitarTurma.innerHTML = `<option value="">Carregando turmas...</option>`;
+      carregarTurmasSolicitacaoAluno(aluno);
+    }
+
+    async function carregarTurmasSolicitacaoAluno(aluno) {
+      if (!solicitarTurma || !codigoPublico) return;
+
+      try {
+        let turmas = [];
+
+        const respostaRpc = await supabaseClient.rpc("buscar_turmas_aluno_publico", {
+          codigo: codigoPublico
+        });
+
+        if (!respostaRpc.error && Array.isArray(respostaRpc.data)) {
+          turmas = respostaRpc.data;
+        } else if (aluno && aluno.user_id) {
+          const respostaDireta = await supabaseClient
+            .from("turmas")
+            .select("id,nome,horario,ativa")
+            .eq("user_id", aluno.user_id)
+            .eq("ativa", true)
+            .order("nome", { ascending: true });
+
+          if (!respostaDireta.error) turmas = respostaDireta.data || [];
+        }
+
+        turmasAlunoDisponiveis = (turmas || []).filter(turma => turma && turma.ativa !== false && turma.nome);
+
+        if (!turmasAlunoDisponiveis.length) {
+          solicitarTurma.innerHTML = `<option value="">Nenhuma turma disponível</option>`;
+          return;
+        }
+
+        solicitarTurma.innerHTML = `<option value="">Selecione a turma desejada</option>` + turmasAlunoDisponiveis.map(turma => {
+          const texto = `${escapeHtml(turma.nome)}${turma.horario ? " • " + escapeHtml(turma.horario) : ""}`;
+          return `<option value="${escapeHtml(turma.nome)}">${texto}</option>`;
+        }).join("");
+
+        if (aluno && aluno.turma && turmasAlunoDisponiveis.some(turma => normalizarTexto(turma.nome) === normalizarTexto(aluno.turma))) {
+          solicitarTurma.value = aluno.turma;
+        } else {
+          solicitarTurma.value = "";
+        }
+      } catch (erro) {
+        solicitarTurma.innerHTML = `<option value="">Não foi possível carregar as turmas</option>`;
+      }
+    }
+
 function renderizarAluno(aluno) {
       alunoAtual = aluno;
       const status = gerarStatus(aluno);
@@ -869,7 +1271,7 @@ function renderizarAluno(aluno) {
       perfilAlunoNascimento.value = aluno.data_nascimento || "";
       perfilAlunoResponsavel.value = aluno.responsavel_nome || "";
       perfilAlunoResponsavelWhatsApp.value = aluno.responsavel_whatsapp || "";
-      solicitarTurma.value = aluno.turma || "";
+      preencherTurmasSolicitacaoAluno(aluno);
       solicitarFaixa.value = aluno.faixa || "";
       solicitarGrau.value = aluno.grau || "";
       solicitarDataGraduacao.value = aluno.data_ultima_graduacao || "";
@@ -903,8 +1305,10 @@ function renderizarAluno(aluno) {
 
       renderizarEvolucaoAluno(aluno);
       carregarAvisosAluno();
+      carregarProgramaFaixaAluno();
       carregarRankingsAluno(aluno);
       mostrarPortal();
+      abrirCheckinAluno(aluno);
     }
 
 
@@ -1088,7 +1492,13 @@ function renderizarAluno(aluno) {
     async function carregarAluno() {
       const params = new URLSearchParams(window.location.search);
       codigoPublico = obterCodigoPublicoAluno();
-      if (!codigoPublico) return mostrarErro("Código do aluno não encontrado. Abra novamente pelo link enviado pelo professor.");
+      if (!codigoPublico) {
+        const codigoCheckin = obterCodigoCheckinUrl();
+        return mostrarErro(codigoCheckin
+          ? "Para confirmar presença, abra primeiro sua Área do Aluno pelo link enviado pelo professor. Depois escaneie o QR Code novamente."
+          : "Código do aluno não encontrado. Abra novamente pelo link enviado pelo professor."
+        );
+      }
 
       try {
         const { data, error } = await supabaseClient.rpc("buscar_aluno_publico", { codigo: codigoPublico });
@@ -1397,7 +1807,14 @@ function renderizarAluno(aluno) {
       if (!codigoPublico) return;
       const turma = solicitarTurma.value.trim();
       if (!turma) {
-        msgSolicitarTurma.textContent = "Informe a turma desejada.";
+        msgSolicitarTurma.textContent = "Selecione uma turma cadastrada pelo professor.";
+        msgSolicitarTurma.classList.add("is-error");
+        return;
+      }
+
+      const turmaExiste = turmasAlunoDisponiveis.some(item => normalizarTexto(item.nome) === normalizarTexto(turma));
+      if (!turmaExiste) {
+        msgSolicitarTurma.textContent = "Essa turma não está disponível. Escolha uma turma cadastrada pelo professor.";
         msgSolicitarTurma.classList.add("is-error");
         return;
       }
@@ -1424,7 +1841,7 @@ function renderizarAluno(aluno) {
       const grau = solicitarGrau.value.trim();
       const dataGraduacao = solicitarDataGraduacao.value || null;
       if (!faixa && !grau && !dataGraduacao) {
-        msgSolicitarGraduacao.textContent = "Informe pelo menos faixa, nível ou data.";
+        msgSolicitarGraduacao.textContent = "Informe pelo menos faixa, grau ou data.";
         msgSolicitarGraduacao.classList.add("is-error");
         return;
       }
@@ -1470,21 +1887,19 @@ function renderizarAluno(aluno) {
   (function inicializarBotoesAluno() {
     const CHAVE_TEMA_ALUNO = "mensalize_tema_aluno";
 
-    function aplicarTemaAluno(tema) {
-      const temaFinal = tema === "claro" ? "claro" : "escuro";
-      document.documentElement.setAttribute("data-tema", temaFinal);
-      localStorage.setItem(CHAVE_TEMA_ALUNO, temaFinal);
+    function aplicarTemaAluno() {
+      document.documentElement.setAttribute("data-tema", "escuro");
+      localStorage.setItem(CHAVE_TEMA_ALUNO, "escuro");
 
       const botaoTema = document.getElementById("btnTemaAluno");
       if (botaoTema) {
-        botaoTema.textContent = temaFinal === "claro" ? "🌙 Tema escuro" : "☀️ Tema claro";
+        botaoTema.textContent = "🌙 Tema";
+        botaoTema.classList.add("escondido");
       }
     }
 
     function alternarTemaAluno() {
-      const temaAtual = document.documentElement.getAttribute("data-tema") || "escuro";
-      const proximoTema = temaAtual === "claro" ? "escuro" : "claro";
-      aplicarTemaAluno(proximoTema);
+        aplicarTemaAluno();
     }
 
     async function atualizarSistemaAluno() {
@@ -1525,8 +1940,8 @@ function renderizarAluno(aluno) {
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-      const temaSalvo = localStorage.getItem(CHAVE_TEMA_ALUNO) || "escuro";
-      aplicarTemaAluno(temaSalvo);
+      localStorage.setItem(CHAVE_TEMA_ALUNO, "escuro");
+      aplicarTemaAluno();
 
       const botaoTema = document.getElementById("btnTemaAluno");
       if (botaoTema) {

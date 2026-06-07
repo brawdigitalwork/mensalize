@@ -318,7 +318,6 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_ranking: false,
       modulo_desafio: false,
       modulo_turmas: false,
-      modulo_fight: false,
     },
     recursos: [
       "Até 30 alunos",
@@ -345,7 +344,6 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_ranking: false,
       modulo_desafio: false,
       modulo_turmas: false,
-      modulo_fight: false,
     },
     recursos: [
       "Até 50 alunos",
@@ -371,7 +369,6 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_ranking: true,
       modulo_desafio: true,
       modulo_turmas: true,
-      modulo_fight: false,
     },
     recursos: [
       "Até 150 alunos",
@@ -398,7 +395,6 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_ranking: true,
       modulo_desafio: true,
       modulo_turmas: true,
-      modulo_fight: false,
     },
     recursos: [
       "Até 150 alunos",
@@ -427,7 +423,6 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_ranking: true,
       modulo_desafio: true,
       modulo_turmas: true,
-      modulo_fight: false,
     },
     recursos: [
       "Até 300 alunos",

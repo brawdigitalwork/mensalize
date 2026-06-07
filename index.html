@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mensalize</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
@@ -172,10 +176,21 @@
                   <h2>Notificações</h2>
                   <p id="centralNotificacoesResumo">Acompanhe o que precisa de ação hoje.</p>
                 </div>
-                <span id="centralNotificacoesContador" class="mini-badge">0 alertas</span>
+                <div class="central-notificacoes-acoes">
+                  <span id="centralNotificacoesContador" class="mini-badge">0 atenção</span>
+                  <button
+                    type="button"
+                    id="btnToggleNotificacoesDashboard"
+                    class="acao-secundaria btn-toggle-notificacoes"
+                    aria-expanded="false"
+                    aria-controls="centralNotificacoesLista"
+                  >
+                    Ver alertas
+                  </button>
+                </div>
               </div>
 
-              <div id="centralNotificacoesLista" class="notificacoes-lista">
+              <div id="centralNotificacoesLista" class="notificacoes-lista" aria-hidden="true">
                 <div class="empty-state-mini">Carregando notificações...</div>
               </div>
             </article>

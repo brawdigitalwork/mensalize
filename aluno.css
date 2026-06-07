@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap');
+
 /* ================================================================
    ÁREA DO ALUNO — MENSALIZE
    Mobile first · Sidebar · Portal limpo
@@ -29,7 +31,7 @@
   --raio-lg: 18px;
   --raio-xl: 22px;
   --raio-pill: 999px;
-  --fonte: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --fonte: 'Geist', 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
@@ -103,8 +105,6 @@ button { cursor: pointer; }
   flex-direction: column;
   gap: 16px;
   z-index: 50;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
 }
 .student-brand {
   display: flex;
@@ -116,7 +116,7 @@ button { cursor: pointer; }
   background: rgba(255,255,255,0.035);
 }
 .student-brand-logo { width: 40px; height: 40px; border-radius: 13px; object-fit: cover; }
-.student-brand strong { display: block; color: var(--cor-roxo-claro); font-size: 17px; font-weight: 900; }
+.student-brand strong { display: block; color: var(--cor-roxo-claro); font-size: 17px; font-weight: 600; }
 .student-brand span { display: block; color: var(--texto-terciario); font-size: 11px; }
 .student-menu { display: grid; gap: 8px; }
 .student-menu-item {
@@ -128,7 +128,7 @@ button { cursor: pointer; }
   border: 1px solid transparent;
   border-radius: var(--raio-md);
   text-align: left;
-  font-weight: 750;
+  font-weight: 600;
   transition: 0.2s ease;
 }
 .student-menu-item:hover,
@@ -151,8 +151,6 @@ button { cursor: pointer; }
   gap: 12px;
   background: rgba(9,9,15,0.76);
   border-bottom: 1px solid var(--borda);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 .menu-button {
   width: 44px;
@@ -171,7 +169,7 @@ button { cursor: pointer; }
   flex-shrink: 0;
   background: linear-gradient(135deg, var(--cor-roxo), #9333ea);
   color: #fff;
-  font-weight: 900;
+  font-weight: 600;
 }
 .student-top-avatar { width: 38px; height: 38px; border-radius: 50%; font-size: 16px; }
 .student-top-photo { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--cor-roxo-borda); }
@@ -195,12 +193,12 @@ button { cursor: pointer; }
 .welcome-card p,
 .helper-text,
 .photo-box p { color: var(--texto-secundario); }
-.eyebrow { display: block; color: var(--cor-roxo-claro); font-size: 11px; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
+.eyebrow { display: block; color: var(--cor-roxo-claro); font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
 .quick-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .quick-card span,
 .summary-box span,
 .evolution-info span,
-.student-form label span { display: block; color: var(--texto-terciario); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
+.student-form label span { display: block; color: var(--texto-terciario); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
 .quick-card strong { display: block; font-size: 20px; line-height: 1.1; margin-bottom: 4px; }
 .quick-card small { color: var(--texto-secundario); }
 .action-row,
@@ -215,7 +213,7 @@ button { cursor: pointer; }
   border: none;
   border-radius: var(--raio-md);
   padding: 12px 15px;
-  font-weight: 900;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -237,7 +235,7 @@ button { cursor: pointer; }
   border-radius: var(--raio-pill);
   padding: 5px 10px;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 600;
   border: 1px solid var(--cor-roxo-borda);
   background: var(--cor-roxo-bg);
   color: var(--cor-roxo-claro);
@@ -296,13 +294,13 @@ button { cursor: pointer; }
 .payments-list { display: grid; gap: 10px; }
 .payment-item { display: flex; justify-content: space-between; gap: 12px; align-items: center; background: rgba(255,255,255,0.04); border: 1px solid var(--borda); border-radius: var(--raio-md); padding: 12px; }
 .payment-left { display: flex; align-items: center; gap: 10px; }
-.payment-icon { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #4ade80; background: var(--verde-bg); flex-shrink: 0; font-weight: 900; }
+.payment-icon { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #4ade80; background: var(--verde-bg); flex-shrink: 0; font-weight: 600; }
 .payment-left strong { display: block; font-size: 13px; }
 .payment-left span:last-child { color: var(--texto-terciario); font-size: 12px; }
 .payment-value { color: #4ade80; white-space: nowrap; }
 .error-card { width: calc(100% - 36px); max-width: 420px; margin: 80px auto; text-align: center; }
 .error-icon { font-size: 42px; margin-bottom: 8px; }
-.retry-link { display: inline-flex; margin-top: 12px; color: var(--cor-roxo-claro); font-weight: 900; }
+.retry-link { display: inline-flex; margin-top: 12px; color: var(--cor-roxo-claro); font-weight: 600; }
 .menu-overlay { display: none; }
 
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -487,8 +485,6 @@ body.menu-aberto {
   background: rgba(17, 17, 24, 0.96);
   color: var(--texto-primario);
   box-shadow: 0 20px 60px rgba(0,0,0,0.42);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
 }
 .update-banner strong { display: block; font-size: 14px; margin-bottom: 2px; }
 .update-banner span { display: block; color: var(--texto-secundario); font-size: 12px; }
@@ -500,7 +496,7 @@ body.menu-aberto {
   background: var(--cor-roxo);
   color: #fff;
   border: 0;
-  font-weight: 800;
+  font-weight: 600;
 }
 @media (max-width: 560px) {
   .update-banner { align-items: stretch; flex-direction: column; }
@@ -515,7 +511,7 @@ body.menu-aberto {
   background: transparent;
   border: 0;
   color: var(--cor-roxo-claro);
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
   padding: 8px 0;
 }
@@ -533,7 +529,7 @@ body.menu-aberto {
   color: var(--texto-secundario);
   border-radius: var(--raio-pill);
   padding: 8px 12px;
-  font-weight: 850;
+  font-weight: 600;
   font-size: 12px;
 }
 .ranking-tab.ativo {
@@ -587,7 +583,7 @@ body.menu-aberto {
   border-radius: 50%;
   background: rgba(255,255,255,0.06);
   margin-bottom: 8px;
-  font-weight: 900;
+  font-weight: 600;
 }
 .ranking-photo,
 .ranking-avatar {
@@ -602,7 +598,7 @@ body.menu-aberto {
   background: linear-gradient(135deg, var(--cor-roxo), #9333ea);
   color: #fff;
   font-size: 20px;
-  font-weight: 950;
+  font-weight: 600;
   box-shadow: 0 0 20px rgba(124,58,237,0.24);
 }
 .ranking-photo-big,
@@ -629,7 +625,7 @@ body.menu-aberto {
   background: var(--verde-bg);
   color: #4ade80;
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 600;
 }
 .is-you { border-color: rgba(34,197,94,0.35) !important; }
 .ranking-student-note {
@@ -655,7 +651,7 @@ body.menu-aberto {
   width: 38px;
   flex-shrink: 0;
   text-align: center;
-  font-weight: 950;
+  font-weight: 600;
   color: var(--cor-roxo-claro);
 }
 .ranking-row .ranking-photo,
@@ -794,7 +790,7 @@ body.menu-aberto { overflow: hidden; }
   border-radius: 16px;
   color: var(--texto-secundario);
   border: 1px solid transparent;
-  font-weight: 840;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 .student-menu-item:hover,
@@ -810,8 +806,6 @@ body.menu-aberto { overflow: hidden; }
   background: rgba(7,8,18,0.66);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   border-radius: 0 0 28px 28px;
-  backdrop-filter: blur(22px) saturate(145%);
-  -webkit-backdrop-filter: blur(22px) saturate(145%);
 }
 .menu-button {
   width: 46px;
@@ -842,7 +836,7 @@ body.menu-aberto { overflow: hidden; }
 .ranking-avatar-big {
   background: linear-gradient(135deg, #8b5cf6, #22c55e);
   color: #fff;
-  font-weight: 950;
+  font-weight: 600;
 }
 .student-small-profile strong { color: #fff; max-width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .student-small-profile span { color: var(--texto-secundario); }
@@ -862,8 +856,6 @@ body.menu-aberto { overflow: hidden; }
   border: 1px solid rgba(255,255,255,0.095) !important;
   border-radius: 26px !important;
   box-shadow: 0 18px 48px rgba(0,0,0,0.22);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 .welcome-card { padding: clamp(20px, 4vw, 32px); position: relative; overflow: hidden; }
 .welcome-card::before,
@@ -888,7 +880,7 @@ body.menu-aberto { overflow: hidden; }
   width: fit-content;
   font-size: 10px;
   line-height: 1;
-  font-weight: 950;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--cor-roxo-claro);
@@ -925,7 +917,7 @@ input:focus, textarea:focus, select:focus { border-color: rgba(196,181,253,0.50)
   background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
   color: #fff !important;
   border-radius: 15px !important;
-  font-weight: 900 !important;
+  font-weight: 600 !important;
   box-shadow: 0 18px 38px rgba(124,58,237,0.24) !important;
 }
 .secondary-action,
@@ -936,7 +928,7 @@ input:focus, textarea:focus, select:focus { border-color: rgba(196,181,253,0.50)
   color: var(--texto-primario) !important;
   border: 1px solid rgba(255,255,255,0.10) !important;
   border-radius: 15px !important;
-  font-weight: 850 !important;
+  font-weight: 600 !important;
 }
 .primary-action:hover,
 .pay-button:hover,
@@ -952,7 +944,7 @@ input:focus, textarea:focus, select:focus { border-color: rgba(196,181,253,0.50)
 .mini-badge,
 .you-badge {
   border-radius: 999px !important;
-  font-weight: 950 !important;
+  font-weight: 600 !important;
   letter-spacing: .06em;
 }
 .photo-box {
@@ -985,7 +977,7 @@ input:focus, textarea:focus, select:focus { border-color: rgba(196,181,253,0.50)
   background: rgba(255,255,255,0.055) !important;
   border: 1px solid rgba(255,255,255,0.09) !important;
   color: var(--texto-secundario) !important;
-  font-weight: 850;
+  font-weight: 600;
 }
 .ranking-tab.ativo,
 .ranking-tab.selecionado {
@@ -1022,7 +1014,7 @@ input:focus, textarea:focus, select:focus { border-color: rgba(196,181,253,0.50)
 .ranking-row { display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: 12px; padding: 12px; }
 .ranking-row.is-you,
 .podium-card.is-you { border-color: rgba(34,197,94,0.32) !important; background: linear-gradient(180deg, rgba(34,197,94,0.10), rgba(255,255,255,0.035)) !important; }
-.ranking-position { font-weight: 950; color: var(--cor-roxo-claro); min-width: 34px; }
+.ranking-position { font-weight: 600; color: var(--cor-roxo-claro); min-width: 34px; }
 .ranking-student-note { color: var(--texto-secundario); margin-top: 10px; }
 @keyframes podiumFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 .podium-first { animation: podiumFloat 3.4s ease-in-out infinite; }
@@ -1096,7 +1088,7 @@ input:focus, textarea:focus, select:focus { border-color: rgba(196,181,253,0.50)
   background: rgba(124, 58, 237, 0.15);
   color: #c4b5fd;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
@@ -1603,7 +1595,7 @@ video {
   max-width: 100% !important;
   color: #fff !important;
   font-size: 13px !important;
-  font-weight: 900 !important;
+  font-weight: 600 !important;
   line-height: 1.15 !important;
   text-align: center !important;
   overflow: hidden !important;
@@ -2117,7 +2109,7 @@ body {
 .student-menu-item {
   min-height: 46px;
   border-radius: 15px !important;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .student-menu-item:hover,
@@ -2310,16 +2302,8 @@ body {
   }
 }
 
-/* ================================================================
-   CAMADA VISUAL PREMIUM 2026 — ÁREA DO ALUNO
-   Responsividade mobile + refinamento profissional
-================================================================ */
-
-/* --- FONTE PREMIUM --- */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-
 :root {
-  --fonte: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --fonte: 'Inter', system-ui, sans-serif;
   --trans-fast: 0.14s cubic-bezier(.2, .8, .2, 1);
 }
 
@@ -2379,8 +2363,7 @@ body {
     position: fixed !important;
     inset: 0 !important;
     background: rgba(0, 0, 0, 0.62) !important;
-    backdrop-filter: blur(4px) !important;
-    opacity: 0 !important;
+opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
     z-index: 115 !important;
@@ -2774,7 +2757,7 @@ body.menu-aberto {
 .pix-code-actions span {
   color: var(--texto-secundario);
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -3105,7 +3088,7 @@ body,
 /* Título da Home do aluno */
 .welcome-card h1 {
   color: var(--texto-primario);
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: -0.055em;
 }
 
@@ -3157,14 +3140,14 @@ body,
 .quick-card span {
   color: var(--texto-terciario);
   font-size: 10.5px;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.08em;
 }
 
 /* Valor/título do card */
 .quick-card strong {
   color: var(--texto-primario);
-  font-weight: 900;
+  font-weight: 600;
   line-height: 1.08;
 }
 
@@ -3247,7 +3230,7 @@ body,
   background: rgba(255, 255, 255, 0.055);
   color: var(--texto-primario);
   font-size: 13px;
-  font-weight: 850;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3619,7 +3602,7 @@ body[data-tema="claro"] .status-pendente {
 .pix-aluno-topo strong {
   color: var(--texto-primario);
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1.15;
 }
@@ -3656,7 +3639,7 @@ body[data-tema="claro"] .status-pendente {
 .pix-code-label span {
   color: var(--texto-terciario);
   font-size: 10.5px;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -3692,7 +3675,7 @@ body[data-tema="claro"] .status-pendente {
   background: var(--cor-roxo-bg) !important;
   color: var(--cor-roxo-claro) !important;
   font-size: 12px !important;
-  font-weight: 900 !important;
+  font-weight: 600 !important;
   white-space: nowrap;
 }
 
@@ -3715,7 +3698,7 @@ body[data-tema="claro"] .status-pendente {
   background: linear-gradient(135deg, var(--cor-roxo), #9333ea) !important;
   color: #fff !important;
   font-size: 13px !important;
-  font-weight: 900 !important;
+  font-weight: 600 !important;
   box-shadow: 0 12px 28px rgba(124, 58, 237, 0.22);
 }
 
@@ -3832,7 +3815,7 @@ body[data-tema="claro"] #btnCopiarPixAluno {
   padding: 8px 13px;
   border-radius: var(--raio-pill);
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 600;
 }
 
 /* Pódio */
@@ -3890,7 +3873,7 @@ body[data-tema="claro"] #btnCopiarPixAluno {
   max-width: 100%;
   color: var(--texto-primario);
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 600;
   line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3943,7 +3926,7 @@ body[data-tema="claro"] #btnCopiarPixAluno {
   text-align: center;
   color: var(--cor-roxo-claro);
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 /* Foto da lista */
@@ -3973,7 +3956,7 @@ body[data-tema="claro"] #btnCopiarPixAluno {
   max-width: 100%;
   color: var(--texto-primario);
   font-size: 13.5px;
-  font-weight: 850;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -4202,7 +4185,7 @@ body[data-tema="claro"] .ranking-row-info small {
   display: block;
   color: var(--texto-terciario);
   font-size: 10.5px;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 5px;
@@ -4217,7 +4200,7 @@ body[data-tema="claro"] .ranking-row-info small {
   display: block;
   color: var(--texto-primario);
   font-size: clamp(18px, 5vw, 24px);
-  font-weight: 900;
+  font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.045em;
   overflow-wrap: anywhere;
@@ -4253,7 +4236,7 @@ body[data-tema="claro"] .ranking-row-info small {
   background: var(--cor-roxo-bg);
   color: var(--cor-roxo-claro);
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: normal;
@@ -4331,7 +4314,7 @@ body[data-tema="claro"] .ranking-row-info small {
   display: block;
   color: var(--texto-primario);
   font-size: 13.5px;
-  font-weight: 850;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -4523,7 +4506,7 @@ body[data-tema="claro"] .graduation-card small {
   color: var(--cor-roxo-claro);
   border: 1px solid var(--cor-roxo-borda);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -4591,7 +4574,7 @@ body[data-tema="claro"] .graduation-card small {
   margin: 4px 0 12px;
   color: var(--texto-primario);
   font-size: 14px;
-  font-weight: 950;
+  font-weight: 600;
   letter-spacing: -0.03em;
 }
 
@@ -4638,7 +4621,7 @@ body[data-tema="claro"] .graduation-card small {
   background: rgba(139, 92, 246, 0.14);
   border: 1px solid rgba(196, 181, 253, 0.18);
   color: var(--cor-roxo-claro);
-  font-weight: 950;
+  font-weight: 600;
 }
 
 .programa-faixa-toggle-text {
@@ -4787,7 +4770,7 @@ body[data-tema="claro"] .graduation-card small {
 
 .programa-faixa-toggle-text small {
   color: var(--texto-secundario) !important;
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .programa-faixa-toggle > .mini-badge {
@@ -4919,7 +4902,7 @@ body[data-tema="claro"] .graduation-card small {
   display: block;
   color: var(--texto-terciario);
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.7px;
   margin-bottom: 5px;
@@ -4964,4 +4947,630 @@ body[data-tema="claro"] .graduation-card small {
   color: #f87171;
   background: rgba(239, 68, 68, 0.12);
   border-color: rgba(239, 68, 68, 0.30);
+}
+
+
+/* ================================================================
+   MENSALIZE ALUNO — ENTERPRISE VISUAL TEST LAYER
+   Alinha o portal ao visual SaaS premium do app principal.
+================================================================ */
+:root {
+  --cor-roxo: #7c3aed;
+  --cor-roxo-hover: #6d28d9;
+  --cor-roxo-claro: #a78bfa;
+  --cor-roxo-bg: rgba(124, 58, 237, 0.12);
+  --cor-roxo-borda: rgba(124, 58, 237, 0.32);
+  --verde: #10b981;
+  --verde-bg: rgba(16, 185, 129, 0.12);
+  --amarelo: #f59e0b;
+  --amarelo-bg: rgba(245, 158, 11, 0.12);
+  --vermelho: #ef4444;
+  --vermelho-bg: rgba(239, 68, 68, 0.12);
+  --azul: #38bdf8;
+  --azul-bg: rgba(56, 189, 248, 0.12);
+  --bg-base: #060712;
+  --bg-card: #0d0f1a;
+  --bg-card-strong: #111321;
+  --bg-muted: rgba(255, 255, 255, 0.05);
+  --bg-input: #0a0c16;
+  --borda: rgba(255, 255, 255, 0.12);
+  --borda-hover: rgba(167, 139, 250, 0.46);
+  --texto-primario: #f8fafc;
+  --texto-secundario: #b6bccd;
+  --texto-terciario: #7d8498;
+  --raio-md: 8px;
+  --raio-lg: 12px;
+  --raio-xl: 16px;
+  --raio-pill: 999px;
+  --fonte: 'Geist', 'DM Sans', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --trans: 150ms ease;
+}
+
+html,
+body {
+  background: var(--bg-base) !important;
+  font-family: var(--fonte);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+body::before { display: none !important; }
+body { background: var(--bg-base) !important; }
+
+h1, h2, h3, strong { font-weight: 500 !important; letter-spacing: -0.01em; }
+
+.student-app { background: var(--bg-base); }
+.student-sidebar {
+  width: 240px;
+  background: var(--bg-card) !important;
+  border-right: 1px solid var(--borda) !important;
+  box-shadow: none !important;
+padding: var(--space-4) !important;
+}
+
+.student-brand {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-radius: var(--raio-lg) !important;
+  padding: var(--space-3) !important;
+}
+.student-brand-logo { width: 36px; height: 36px; border-radius: var(--raio-md); }
+.student-brand strong { font-size: 16px !important; font-weight: 500 !important; color: var(--texto-primario) !important; }
+.student-brand span,
+.student-brand small { color: var(--texto-terciario) !important; }
+
+.student-menu { gap: var(--space-1) !important; }
+.student-menu-item {
+  min-height: 40px !important;
+  height: 40px !important;
+  padding: 0 var(--space-3) !important;
+  border-radius: var(--raio-md) !important;
+  color: var(--texto-secundario) !important;
+  border: 0 !important;
+  border-left: 2px solid transparent !important;
+  background: transparent !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: background var(--trans), color var(--trans), border-color var(--trans) !important;
+}
+.student-menu-item:hover { background: rgba(255,255,255,0.05) !important; color: var(--texto-primario) !important; }
+.student-menu-item.ativo { background: var(--cor-roxo-bg) !important; color: var(--texto-primario) !important; border-left-color: var(--cor-roxo) !important; }
+
+.student-topbar {
+  min-height: 56px !important;
+  background: var(--bg-base) !important;
+  border-bottom: 1px solid var(--borda) !important;
+  box-shadow: none !important;
+padding: calc(var(--space-3) + var(--safe-top)) max(var(--space-4), calc(var(--space-4) + var(--safe-right))) var(--space-3) max(var(--space-4), calc(var(--space-4) + var(--safe-left))) !important;
+}
+
+.menu-button {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: var(--raio-md) !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--borda) !important;
+  color: var(--texto-primario) !important;
+}
+
+.student-content {
+  max-width: 960px !important;
+  padding: var(--space-6) max(var(--space-4), calc(var(--space-5) + var(--safe-right))) calc(var(--space-8) + var(--safe-bottom)) max(var(--space-4), calc(var(--space-5) + var(--safe-left))) !important;
+}
+
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card,
+.summary-box,
+.evolution-info,
+.photo-box,
+.payment-item,
+.ranking-card,
+.programa-aluno-card,
+.checkin-aluno-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: var(--raio-lg) !important;
+  box-shadow: none !important;
+}
+
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card { padding: var(--space-6) !important; }
+.welcome-card h1 { font-size: 24px !important; font-weight: 500 !important; letter-spacing: -0.01em !important; }
+.welcome-card p,
+.helper-text,
+.photo-box p,
+.empty-message,
+.soft-message { color: var(--texto-secundario) !important; }
+
+.eyebrow {
+  color: var(--texto-terciario) !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  margin-bottom: var(--space-1) !important;
+}
+
+.quick-grid,
+.finance-summary-grid,
+.student-evolution-grid { gap: var(--space-4) !important; }
+.quick-card span,
+.summary-box span,
+.evolution-info span,
+.student-form label span { color: var(--texto-terciario) !important; font-weight: 500 !important; }
+.quick-card strong,
+.summary-box strong,
+.evolution-info strong { font-weight: 500 !important; }
+
+.primary-action,
+.secondary-action,
+.pay-button,
+.whatsapp-button,
+.share-button,
+.student-footer-button,
+.link-button {
+  min-height: 44px !important;
+  border-radius: var(--raio-md) !important;
+  padding: 0 var(--space-4) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background var(--trans), border-color var(--trans), color var(--trans) !important;
+}
+.primary-action,
+.pay-button { background: var(--cor-roxo) !important; color: #fff !important; }
+.primary-action:hover,
+.pay-button:hover { background: var(--cor-roxo-hover) !important; }
+.secondary-action,
+.share-button,
+.student-footer-button,
+.link-button { background: transparent !important; color: var(--texto-primario) !important; border: 1px solid var(--borda) !important; }
+.secondary-action:hover,
+.share-button:hover,
+.student-footer-button:hover,
+.link-button:hover { background: rgba(255,255,255,0.05) !important; }
+.whatsapp-button,
+.whatsapp-primary { background: var(--verde-bg) !important; color: #6ee7b7 !important; border: 1px solid rgba(16,185,129,0.30) !important; }
+
+.student-form input,
+.student-form textarea,
+.student-form select,
+.photo-box input {
+  min-height: 40px !important;
+  border-radius: var(--raio-md) !important;
+  background: var(--bg-input) !important;
+  border: 1px solid var(--borda) !important;
+  color: var(--texto-primario) !important;
+  box-shadow: none !important;
+}
+.student-form input:focus,
+.student-form textarea:focus,
+.student-form select:focus { border-color: var(--cor-roxo) !important; box-shadow: none !important; outline: none !important; }
+
+.mini-badge,
+.status-badge,
+.muted-badge {
+  border-radius: 6px !important;
+  padding: 2px 8px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+.status-pago,
+.status-ok { background: var(--verde-bg) !important; color: #6ee7b7 !important; }
+.status-atrasado { background: var(--vermelho-bg) !important; color: #fca5a5 !important; }
+.status-hoje,
+.status-warn,
+.status-pendente { background: var(--amarelo-bg) !important; color: #fbbf24 !important; }
+
+.payment-item,
+.notice-item,
+.ranking-item,
+.programa-aluno-tecnica {
+  border-radius: var(--raio-lg) !important;
+  border: 1px solid var(--borda) !important;
+  background: transparent !important;
+}
+
+.student-checkin-screen,
+.checkin-aluno-card {
+  background: var(--bg-card) !important;
+  border-color: var(--borda) !important;
+  box-shadow: none !important;
+}
+
+@media (min-width: 768px) {
+  .student-app { grid-template-columns: 240px minmax(0, 1fr) !important; }
+}
+
+@media (max-width: 767px) {
+  .student-app { grid-template-columns: 1fr !important; }
+  .student-sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: min(280px, 86vw) !important;
+    transform: translateX(-105%);
+    z-index: 90 !important;
+  }
+  body.menu-aberto .student-sidebar,
+  .student-app.menu-aberto .student-sidebar { transform: translateX(0) !important; }
+  .student-content { padding: var(--space-5) var(--space-4) calc(var(--space-8) + var(--safe-bottom)) !important; }
+  .quick-grid,
+  .finance-summary-grid,
+  .student-evolution-grid,
+  .student-form { grid-template-columns: 1fr !important; }
+}
+
+/* ================================================================
+   ENTERPRISE C2 — CORREÇÃO DE ESPAÇAMENTO DO PORTAL DO ALUNO
+   Ajusta cards encostados e textos grudados sem alterar HTML/JS.
+================================================================ */
+
+.student-view.ativa,
+.student-notices-list,
+.payments-list,
+.ranking-list,
+.ranking-lista,
+.ranking-lista-aluno,
+.programa-faixa-list,
+.programa-faixa-tecnicas,
+.lista-historico-graduacao,
+.checkin-aluno-resumo {
+  gap: var(--space-4, 16px) !important;
+}
+
+.student-content > * + *,
+.student-view > * + * {
+  margin-top: var(--space-4, 16px);
+}
+
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card,
+.payment-item,
+.payment-confirm-box,
+.pix-aluno-card,
+.pix-aluno-card-clean,
+.ranking-card,
+.ranking-full-card,
+.ranking-home-card,
+.podium-card,
+.ranking-item,
+.ranking-row,
+.ranking-list-item,
+.ranking-student-row,
+.programa-aluno-card,
+.programa-faixa-card,
+.programa-faixa-categoria,
+.programa-faixa-tecnica,
+.graduation-card,
+.faixa-card,
+.grau-card,
+.evolution-history-item,
+.graduation-history-item,
+.historico-graduacao-item,
+.item-historico-graduacao,
+.notice-item,
+.aviso-item,
+.student-notice-item,
+.checkin-aluno-card,
+.photo-editor-card,
+.photo-box,
+.summary-box,
+.evolution-info {
+  padding: var(--space-5, 20px) !important;
+  box-sizing: border-box;
+}
+
+.welcome-card > * + *,
+.panel-card > * + *,
+.quick-card > * + *,
+.error-card > * + *,
+.payment-item > * + *,
+.payment-confirm-box > * + *,
+.pix-aluno-card > * + *,
+.pix-aluno-card-clean > * + *,
+.ranking-card > * + *,
+.ranking-full-card > * + *,
+.ranking-home-card > * + *,
+.podium-card > * + *,
+.programa-aluno-card > * + *,
+.programa-faixa-card > * + *,
+.programa-faixa-categoria > * + *,
+.programa-faixa-tecnica > * + *,
+.graduation-card > * + *,
+.faixa-card > * + *,
+.grau-card > * + *,
+.checkin-aluno-card > * + *,
+.photo-box > * + *,
+.summary-box > * + *,
+.evolution-info > * + * {
+  margin-top: var(--space-3, 12px);
+}
+
+.section-title-row,
+.status-hero,
+.photo-box,
+.payment-item,
+.payment-left,
+.ranking-row,
+.ranking-list-item,
+.ranking-student-row,
+.programa-faixa-categoria-topo,
+.programa-faixa-toggle,
+.checkin-aluno-actions,
+.action-row,
+.payment-actions,
+.contact-actions,
+.finance-summary-grid,
+.student-evolution-grid,
+.quick-grid,
+.graduation-grid,
+.evolution-grid {
+  gap: var(--space-4, 16px) !important;
+}
+
+.section-title-row,
+.status-hero {
+  margin-bottom: var(--space-4, 16px) !important;
+}
+
+.welcome-card h1,
+.panel-card h2,
+.status-hero h2,
+.programa-faixa-bloco-titulo,
+.quick-card strong,
+.summary-box strong,
+.evolution-info strong {
+  line-height: 1.22 !important;
+  margin-bottom: var(--space-2, 8px) !important;
+}
+
+.welcome-card p,
+.panel-card p,
+.quick-card small,
+.summary-box span,
+.evolution-info span,
+.helper-text,
+.soft-message,
+.empty-message,
+.status-message,
+.programa-faixa-tecnica,
+.programa-aluno-card p,
+.checkin-aluno-msg,
+.checkin-aluno-resumo,
+.student-form label span {
+  line-height: 1.48 !important;
+}
+
+.student-form,
+.payment-confirm-form {
+  gap: var(--space-4, 16px) !important;
+}
+
+.student-form label {
+  min-width: 0;
+}
+
+.student-form input,
+.student-form textarea,
+.photo-box input {
+  padding-left: var(--space-4, 16px) !important;
+  padding-right: var(--space-4, 16px) !important;
+}
+
+@media (max-width: 767px) {
+  .student-content {
+    padding-left: var(--space-4, 16px) !important;
+    padding-right: var(--space-4, 16px) !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .error-card,
+  .payment-item,
+  .pix-aluno-card,
+  .pix-aluno-card-clean,
+  .ranking-card,
+  .ranking-full-card,
+  .ranking-home-card,
+  .programa-aluno-card,
+  .programa-faixa-card,
+  .programa-faixa-categoria,
+  .programa-faixa-tecnica,
+  .graduation-card,
+  .checkin-aluno-card,
+  .photo-box,
+  .summary-box,
+  .evolution-info {
+    padding: var(--space-4, 16px) !important;
+  }
+
+  .quick-grid,
+  .finance-summary-grid,
+  .student-evolution-grid,
+  .graduation-grid,
+  .evolution-grid {
+    gap: var(--space-3, 12px) !important;
+  }
+}
+
+/* ================================================================
+   C3 — CORREÇÃO REAL DE ESPAÇAMENTO DO PORTAL DO ALUNO
+   Mantém a lógica intacta. Foco: respiro interno e leitura mobile.
+================================================================ */
+
+.student-content,
+.student-view.ativa {
+  gap: var(--space-5, 20px) !important;
+}
+
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card,
+.summary-box,
+.evolution-info,
+.photo-box,
+.payment-item,
+.student-program-card,
+.student-program-category,
+.student-program-technique,
+.ranking-home-card,
+.notices-home-card,
+.checkin-card,
+.student-checkin-card,
+.contact-card,
+.quick-action-card {
+  padding: var(--space-5, 20px) !important;
+  border-radius: 16px !important;
+  box-sizing: border-box !important;
+}
+
+.quick-grid,
+.finance-summary-grid,
+.student-evolution-grid,
+.student-program-grid,
+.student-form,
+.payments-list,
+.student-notices-list,
+.ranking-podium,
+.ranking-list,
+.action-row,
+.payment-actions,
+.contact-actions {
+  gap: var(--space-4, 16px) !important;
+}
+
+.section-title-row,
+.status-hero,
+.student-program-head,
+.student-program-category-head,
+.checkin-head,
+.student-checkin-head {
+  gap: var(--space-4, 16px) !important;
+  margin-bottom: var(--space-4, 16px) !important;
+}
+
+.section-title-row h2,
+.status-hero h2,
+.welcome-card h1,
+.student-program-head h2,
+.student-program-category-head h3,
+.checkin-head h2,
+.student-checkin-head h2 {
+  margin: 0 0 var(--space-2, 8px) 0 !important;
+  line-height: 1.18 !important;
+}
+
+.welcome-card p,
+.panel-card p,
+.quick-card small,
+.helper-text,
+.status-message,
+.soft-message,
+.empty-message,
+.summary-box span,
+.evolution-info span,
+.payment-left span,
+.student-program-card p,
+.student-program-category p,
+.student-program-technique p,
+.checkin-card p,
+.student-checkin-card p {
+  line-height: 1.5 !important;
+}
+
+.quick-card span,
+.summary-box span,
+.evolution-info span,
+.student-form label span,
+.eyebrow,
+.mini-badge,
+.status-badge {
+  margin-bottom: var(--space-2, 8px) !important;
+}
+
+.quick-card strong,
+.summary-box strong,
+.evolution-info strong,
+.summary-price strong {
+  display: block !important;
+  margin: 0 !important;
+  line-height: 1.12 !important;
+}
+
+.payment-item,
+.student-program-technique,
+.ranking-row,
+.notice-item,
+.student-notice-item {
+  min-height: 56px !important;
+  gap: var(--space-4, 16px) !important;
+}
+
+.payment-item > *,
+.student-program-technique > *,
+.ranking-row > *,
+.notice-item > *,
+.student-notice-item > * {
+  min-width: 0 !important;
+}
+
+.primary-action,
+.secondary-action,
+.pay-button,
+.whatsapp-button,
+.share-button {
+  min-height: 44px !important;
+  padding-left: var(--space-4, 16px) !important;
+  padding-right: var(--space-4, 16px) !important;
+}
+
+.student-form input,
+.student-form textarea,
+.student-form select,
+.photo-box input {
+  padding-left: var(--space-4, 16px) !important;
+  padding-right: var(--space-4, 16px) !important;
+}
+
+@media (max-width: 767px) {
+  .student-content {
+    padding-left: var(--space-4, 16px) !important;
+    padding-right: var(--space-4, 16px) !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .error-card,
+  .summary-box,
+  .evolution-info,
+  .photo-box,
+  .payment-item,
+  .student-program-card,
+  .student-program-category,
+  .student-program-technique,
+  .ranking-home-card,
+  .notices-home-card,
+  .checkin-card,
+  .student-checkin-card,
+  .contact-card,
+  .quick-action-card {
+    padding: var(--space-4, 16px) !important;
+  }
 }

@@ -15,6 +15,52 @@ const NOTIFICACOES_MVP_LIMITES_POR_TIPO = {
 
 let notificacoesUltimosCortesPorTipo = {};
 
+let centralNotificacoesAberta = false;
+
+function notificacoesEhAtencaoReal(item) {
+  return item && (item.prioridade === "urgente" || item.prioridade === "importante");
+}
+
+function notificacoesAtualizarEstadoVisual(totalAtencao = 0, totalNotificacoes = 0) {
+  const card = document.getElementById("centralNotificacoesCard");
+  const lista = document.getElementById("centralNotificacoesLista");
+  const botao = document.getElementById("btnToggleNotificacoesDashboard");
+
+  if (card) {
+    card.classList.toggle("central-notificacoes-aberta", centralNotificacoesAberta);
+    card.dataset.totalAtencao = String(totalAtencao);
+    card.dataset.totalNotificacoes = String(totalNotificacoes);
+  }
+
+  if (lista) {
+    lista.setAttribute("aria-hidden", centralNotificacoesAberta ? "false" : "true");
+  }
+
+  if (botao) {
+    botao.textContent = centralNotificacoesAberta ? "Ocultar alertas" : "Ver alertas";
+    botao.setAttribute("aria-expanded", centralNotificacoesAberta ? "true" : "false");
+    botao.disabled = totalNotificacoes === 0;
+  }
+}
+
+function configurarToggleCentralNotificacoes() {
+  const botao = document.getElementById("btnToggleNotificacoesDashboard");
+  const card = document.getElementById("centralNotificacoesCard");
+
+  if (!botao || botao.dataset.toggleConfigurado === "true") return;
+
+  botao.dataset.toggleConfigurado = "true";
+
+  botao.addEventListener("click", () => {
+    const totalAtencao = Number(card?.dataset.totalAtencao || 0);
+    const totalNotificacoes = Number(card?.dataset.totalNotificacoes || 0);
+
+    centralNotificacoesAberta = !centralNotificacoesAberta;
+    notificacoesAtualizarEstadoVisual(totalAtencao, totalNotificacoes);
+  });
+}
+
+
 function notificacoesHojeISO() {
   const hoje = new Date();
   return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-${String(hoje.getDate()).padStart(2, "0")}`;
@@ -500,17 +546,27 @@ function renderizarCentralNotificacoes(notificacoes) {
 
   if (!card || !lista) return;
 
+  configurarToggleCentralNotificacoes();
+
   const total = notificacoes.length;
+  const totalAtencao = notificacoes.filter(notificacoesEhAtencaoReal).length;
+
+  card.dataset.totalAtencao = String(totalAtencao);
+  card.dataset.totalNotificacoes = String(total);
 
   if (contador) {
-    contador.textContent = `${total} alerta${total === 1 ? "" : "s"}`;
-    contador.className = total > 0 ? "mini-badge status-warn" : "mini-badge status-ok";
+    contador.textContent = totalAtencao === 1
+      ? "1 precisa de atenção"
+      : `${totalAtencao} precisam de atenção`;
+    contador.className = totalAtencao > 0 ? "mini-badge status-warn" : "mini-badge status-ok";
   }
 
   if (resumo) {
-    resumo.textContent = total > 0
-      ? "Veja o que precisa de ação hoje."
-      : "Tudo certo por enquanto. Nenhuma ação urgente agora.";
+    resumo.textContent = totalAtencao > 0
+      ? `${totalAtencao} alerta${totalAtencao === 1 ? "" : "s"} realmente precisa${totalAtencao === 1 ? "" : "m"} de ação.`
+      : total > 0
+        ? "Sem urgências agora. Há apenas avisos informativos disponíveis."
+        : "Tudo certo por enquanto. Nenhuma ação urgente agora.";
   }
 
   if (!total) {
@@ -520,6 +576,8 @@ function renderizarCentralNotificacoes(notificacoes) {
         <p>Nenhuma notificação importante para agora.</p>
       </div>
     `;
+
+    notificacoesAtualizarEstadoVisual(totalAtencao, total);
     return;
   }
 
@@ -556,6 +614,8 @@ function renderizarCentralNotificacoes(notificacoes) {
       </div>
     `;
   }).join("");
+
+  notificacoesAtualizarEstadoVisual(totalAtencao, total);
 }
 
 async function atualizarCentralNotificacoesInteligentes() {

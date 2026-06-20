@@ -269,9 +269,9 @@
             <article class="painel-card painel-desafio">
               <div class="painel-topo">
                 <div>
-                  <span class="page-eyebrow">Ranking</span>
-                  <h2>Desafio de presença</h2>
-                  <p>Acompanhe os alunos com mais presença do mês.</p>
+                  <span class="page-eyebrow">Desafio</span>
+                  <h2>Desafio da Aula</h2>
+                  <p>Acompanhe presença, técnica, atitude e pontos extras dos alunos.</p>
                 </div>
                 <button type="button" id="btnVerRankingCompletoHome" class="acao-secundaria btn-ranking-home">
                   Ver ranking completo
@@ -544,67 +544,103 @@
         </section>
 
         <section id="viewPresencas" class="view-app">
-          <section class="painel-card presencas-page">
-            <div class="painel-topo">
+          <section class="painel-card presencas-page presencas-page-profissional">
+            <div class="painel-topo presencas-hero">
               <div>
                 <span class="page-eyebrow">Presenças</span>
                 <h2>Presenças do dia</h2>
-                <p>Escolha a data e a turma para fazer a chamada dos alunos.</p>
+                <p>Escolha a data e a turma, confira os alunos e salve a chamada em poucos passos.</p>
+              </div>
+              <div class="presencas-hero-badge">
+                <span>Fluxo simples</span>
+                <strong>1. Escolher • 2. Marcar • 3. Salvar</strong>
               </div>
             </div>
 
-            <div class="presenca-controles">
-              <label class="campo-perfil">
-                <span>Data da aula</span>
-                <input type="date" id="presencaData">
-              </label>
-              <label class="campo-perfil">
-                <span>Turma</span>
-                <select id="presencaTurma">
-                  <option value="todas">Todas as turmas</option>
-                </select>
-              </label>
-              <button type="button" id="btnAtualizarChamada" class="acao-secundaria">Atualizar chamada</button>
-            </div>
-
-            <div class="financeiro-resumo-grid presenca-resumo-grid">
-              <div class="financeiro-box receita">
-                <span>Presentes</span>
-                <strong id="presencaTotalPresentes">0</strong>
-              </div>
-              <div class="financeiro-box alerta">
-                <span>Faltas</span>
-                <strong id="presencaTotalFaltas">0</strong>
-              </div>
-              <div class="financeiro-box previsao">
-                <span>Alunos na chamada</span>
-                <strong id="presencaTotalAlunos">0</strong>
-              </div>
-            </div>
-
-            <div class="presenca-acoes">
-              <button type="button" id="btnMarcarTodosPresentes" class="acao-secundaria">Marcar todos presentes</button>
-              <button type="button" id="btnLimparChamada" class="acao-secundaria">Limpar chamada</button>
-              <button type="button" id="btnSalvarChamada" class="acao-principal">Salvar chamada</button>
-            </div>
-
-            <div id="listaPresencas" class="lista-presencas">
-              <div class="empty-state-mini">Carregando chamada...</div>
-            </div>
-
-            <section class="historico-chamadas-card">
-              <div class="section-title-row">
-                <div>
-                  <span class="page-eyebrow">Histórico</span>
-                  <h2>Últimas chamadas</h2>
-                  <p>Veja as chamadas já salvas no período e abra rapidamente uma data anterior.</p>
+            <div class="presencas-layout-profissional">
+              <section class="presenca-card-presenca presenca-card-controles">
+                <div class="presenca-card-topo">
+                  <div>
+                    <span class="presenca-step">Passo 1</span>
+                    <h3>Selecionar aula</h3>
+                    <p>Escolha a data e a turma antes de abrir a chamada.</p>
+                  </div>
                 </div>
-                <span id="historicoChamadasContador" class="mini-badge">0 chamadas</span>
-              </div>
-              <div id="historicoChamadas" class="historico-chamadas-list">
-                <div class="empty-state-mini">Carregando histórico de chamadas...</div>
-              </div>
-            </section>
+
+                <div class="presenca-controles">
+                  <label class="campo-perfil">
+                    <span>Data da aula</span>
+                    <input type="date" id="presencaData">
+                  </label>
+                  <label class="campo-perfil">
+                    <span>Turma</span>
+                    <select id="presencaTurma">
+                      <option value="todas">Todas as turmas</option>
+                    </select>
+                  </label>
+                  <button type="button" id="btnAtualizarChamada" class="acao-secundaria">Atualizar chamada</button>
+                </div>
+              </section>
+
+              <section class="presenca-card-presenca presenca-card-resumo">
+                <div class="presenca-card-topo">
+                  <div>
+                    <span class="presenca-step">Resumo</span>
+                    <h3>Situação da chamada</h3>
+                    <p>Acompanhe rapidamente quantos alunos estão presentes ou faltaram.</p>
+                  </div>
+                </div>
+
+                <div class="financeiro-resumo-grid presenca-resumo-grid">
+                  <div class="financeiro-box receita">
+                    <span>Presentes</span>
+                    <strong id="presencaTotalPresentes">0</strong>
+                  </div>
+                  <div class="financeiro-box alerta">
+                    <span>Faltas</span>
+                    <strong id="presencaTotalFaltas">0</strong>
+                  </div>
+                  <div class="financeiro-box previsao">
+                    <span>Alunos na chamada</span>
+                    <strong id="presencaTotalAlunos">0</strong>
+                  </div>
+                </div>
+              </section>
+
+              <section class="presenca-card-presenca presenca-card-chamada">
+                <div class="presenca-card-topo presenca-card-topo-com-acoes">
+                  <div>
+                    <span class="presenca-step">Passo 2</span>
+                    <h3>Chamada dos alunos</h3>
+                    <p>Marque os presentes, revise a lista e salve a chamada.</p>
+                  </div>
+
+                  <div class="presenca-acoes">
+                    <button type="button" id="btnMarcarTodosPresentes" class="acao-secundaria">Marcar todos presentes</button>
+                    <button type="button" id="btnLimparChamada" class="acao-secundaria">Limpar chamada</button>
+                    <button type="button" id="btnSalvarChamada" class="acao-principal">Salvar chamada</button>
+                  </div>
+                </div>
+
+                <div id="listaPresencas" class="lista-presencas">
+                  <div class="empty-state-mini">Carregando chamada...</div>
+                </div>
+              </section>
+
+              <section class="presenca-card-presenca historico-chamadas-card">
+                <div class="section-title-row">
+                  <div>
+                    <span class="page-eyebrow">Histórico</span>
+                    <h2>Últimas chamadas</h2>
+                    <p>Veja as chamadas já salvas no período e abra rapidamente uma data anterior.</p>
+                  </div>
+                  <span id="historicoChamadasContador" class="mini-badge">0 chamadas</span>
+                </div>
+                <div id="historicoChamadas" class="historico-chamadas-list">
+                  <div class="empty-state-mini">Carregando histórico de chamadas...</div>
+                </div>
+              </section>
+            </div>
           </section>
         </section>
 
@@ -805,17 +841,141 @@
           <section class="painel-card desafio-page">
             <div class="painel-topo">
               <div>
-                <span class="page-eyebrow">Ranking</span>
-                <h2>Ranking de presença do mês</h2>
-                <p>O ranking considera as presenças do mês, aulas válidas e aulas canceladas. Use as abas para ver geral, por turma ou entre turmas.</p>
+                <span class="page-eyebrow">Desafio</span>
+                <h2>Desafio da Aula</h2>
+                <p>Ranking mensal com presença do mês + pontos extras lançados pelo professor.</p>
               </div>
-              <button type="button" id="btnAtualizarDesafio" class="acao-secundaria">Atualizar ranking</button>
+              <button type="button" id="btnAtualizarDesafio" class="acao-secundaria">Atualizar mês</button>
             </div>
 
+            <div class="desafio-resumo-regras" aria-label="Regras do Desafio da Aula">
+              <div class="desafio-regra-card">
+                <span>📅 Período</span>
+                <strong>Mês atual</strong>
+                <small>O placar visual recomeça todo mês.</small>
+              </div>
+
+              <div class="desafio-regra-card">
+                <span>✅ Pontos base</span>
+                <strong>Presenças</strong>
+                <small>Calculadas pela chamada salva.</small>
+              </div>
+
+              <div class="desafio-regra-card">
+                <span>⭐ Extras</span>
+                <strong>Técnica + atitude</strong>
+                <small>Pontos lançados pelo professor.</small>
+              </div>
+            </div>
+
+            <section class="desafio-pontos-card desafio-pontos-card-recolhido" aria-labelledby="desafioPontosTitulo">
+              <div class="desafio-pontos-topo">
+                <div>
+                  <span class="page-eyebrow">Pontos rápidos</span>
+                  <h3 id="desafioPontosTitulo">Adicionar pontos ao aluno</h3>
+                  <p>Abra somente quando precisar lançar pontos extras para um aluno.</p>
+                </div>
+
+                <button
+                  type="button"
+                  id="btnTogglePontosDesafio"
+                  class="acao-secundaria btn-toggle-pontos-desafio"
+                  aria-expanded="false"
+                  aria-controls="desafioPontosConteudo"
+                >
+                  Abrir pontuações
+                </button>
+              </div>
+
+              <div id="desafioPontosConteudo" class="desafio-pontos-conteudo escondido" aria-hidden="true">
+                <div class="desafio-pontos-form">
+                  <label class="campo-perfil">
+                    <span>Aluno</span>
+                    <select id="desafioPontosAluno">
+                      <option value="">Carregando alunos...</option>
+                    </select>
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>Observação opcional</span>
+                    <input
+                      type="text"
+                      id="desafioPontosObservacao"
+                      maxlength="160"
+                      placeholder="Ex: executou bem a técnica do dia"
+                    >
+                  </label>
+                </div>
+
+                <div class="desafio-pontos-botoes">
+                  <button type="button" class="desafio-ponto-btn desafio-ponto-tecnica" data-desafio-ponto data-tipo="tecnica" data-subtipo="tecnica_dia" data-pontos="2">
+                    🥋 Técnica do dia <small>+2</small>
+                  </button>
+                  <button type="button" class="desafio-ponto-btn desafio-ponto-atitude" data-desafio-ponto data-tipo="atitude" data-subtipo="ajudou_colega" data-pontos="2">
+                    🤝 Ajudou colega <small>+2</small>
+                  </button>
+                  <button type="button" class="desafio-ponto-btn desafio-ponto-aula" data-desafio-ponto data-tipo="desafio_aula" data-subtipo="cumpriu_missao" data-pontos="3">
+                    🎯 Desafio da aula <small>+3</small>
+                  </button>
+                  <button type="button" class="desafio-ponto-btn desafio-ponto-competicao" data-desafio-ponto data-tipo="competicao" data-subtipo="participou" data-pontos="5">
+                    🏆 Participou de campeonato <small>+5</small>
+                  </button>
+                  <button type="button" class="desafio-ponto-btn desafio-ponto-competicao" data-desafio-ponto data-tipo="competicao" data-subtipo="ganhou_luta" data-pontos="6">
+                    🥊 Ganhou luta <small>+6</small>
+                  </button>
+                  <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="bronze" data-pontos="8">
+                    🥉 Bronze <small>+8</small>
+                  </button>
+                  <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="prata" data-pontos="10">
+                    🥈 Prata <small>+10</small>
+                  </button>
+                  <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="ouro" data-pontos="12">
+                    🥇 Ouro <small>+12</small>
+                  </button>
+                </div>
+
+                <p id="desafioPontosFeedback" class="desafio-pontos-feedback">
+                  Escolha um aluno e toque em uma ação para lançar pontos.
+                </p>
+              </div>
+            </section>
+
+            <section class="desafio-historico-card desafio-historico-card-recolhido" aria-labelledby="desafioHistoricoTitulo">
+              <div class="desafio-historico-topo">
+                <div>
+                  <span class="page-eyebrow">Histórico do mês</span>
+                  <h3 id="desafioHistoricoTitulo">Pontos lançados</h3>
+                  <p>Abra somente quando precisar revisar ou apagar pontos lançados neste mês.</p>
+                </div>
+
+                <button
+                  type="button"
+                  id="btnToggleHistoricoDesafio"
+                  class="acao-secundaria btn-toggle-historico-desafio"
+                  aria-expanded="false"
+                  aria-controls="desafioHistoricoConteudo"
+                >
+                  Ver pontos lançados
+                </button>
+              </div>
+
+              <div id="desafioHistoricoConteudo" class="desafio-historico-conteudo escondido" aria-hidden="true">
+                <div class="desafio-historico-controles">
+                  <button type="button" id="btnAtualizarHistoricoDesafio" class="acao-secundaria">
+                    Atualizar histórico
+                  </button>
+                </div>
+
+                <div id="desafioPontosHistorico" class="desafio-historico-lista">
+                  <div class="empty-state-mini">Carregando histórico de pontos...</div>
+                </div>
+              </div>
+            </section>
+
             <div class="ranking-tabs" id="rankingTabsProfessor">
-              <button type="button" class="ranking-tab ativo" data-ranking-professor="turma">Por turma</button>
-              <button type="button" class="ranking-tab" data-ranking-professor="geral">Geral</button>
-              <button type="button" class="ranking-tab" data-ranking-professor="turmas">Turmas</button>
+              <button type="button" class="ranking-tab ativo" data-ranking-professor="turma">Alunos por turma</button>
+              <button type="button" class="ranking-tab" data-ranking-professor="geral">Geral dos alunos</button>
+              <button type="button" class="ranking-tab" data-ranking-professor="turmas">Ranking das turmas</button>
             </div>
 
             <div id="listaRankingDesafioProfessor" class="ranking-list desafio-ranking-full">

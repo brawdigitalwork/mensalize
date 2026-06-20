@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Mensalize Aluno</title>
   <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação." />
   <meta name="theme-color" content="#7c3aed" />
@@ -88,7 +88,7 @@
         <button type="button" class="student-menu-item" data-view="financas">💰 Finanças</button>
         <button type="button" class="student-menu-item" data-view="graduacao">🥋 Graduação</button>
         <button type="button" id="menuProgramaFaixaAluno" class="student-menu-item escondido" data-view="programa">🥋 Próxima faixa</button>
-        <button type="button" id="menuRankingAluno" class="student-menu-item" data-view="ranking">🏆 Ranking</button>
+        <button type="button" id="menuRankingAluno" class="student-menu-item" data-view="ranking">🏆 Desafio</button>
         <button type="button" class="student-menu-item" data-view="contato">📲 Contato</button>
       </nav>
 
@@ -160,11 +160,12 @@
           <article id="rankingHomeCard" class="panel-card ranking-home-card escondido">
             <div class="section-title-row">
               <div>
-                <span class="eyebrow">Ranking do mês</span>
-                <h2>Desafio de presença</h2>
+                <span class="eyebrow">Desafio do mês</span>
+                <h2>Desafio da Aula</h2>
               </div>
               <button type="button" class="link-button" data-view-target="ranking">Ver completo</button>
             </div>
+            <p class="helper-text ranking-helper-compact">Presenças + pontos extras lançados pelo professor neste mês.</p>
             <div class="ranking-tabs mini-tabs" id="rankingHomeTabs"></div>
             <div id="rankingHomePodio" class="ranking-podium">
               <p class="empty-message">Carregando ranking...</p>
@@ -354,12 +355,12 @@
           <article id="rankingFullCard" class="panel-card">
             <div class="section-title-row">
               <div>
-                <span class="eyebrow">Ranking</span>
-                <h2>Ranking de presença do mês</h2>
+                <span class="eyebrow">Desafio</span>
+                <h2>Desafio da Aula do mês</h2>
               </div>
               <span id="rankingMesAtual" class="mini-badge">Mês atual</span>
             </div>
-            <p class="helper-text">O ranking considera as presenças do mês, aulas válidas e aulas canceladas. A disputa pode ser geral, por turma ou entre turmas, conforme a configuração da academia.</p>
+            <p class="helper-text">O Desafio soma as presenças do mês com os pontos extras lançados pelo professor, como técnica, atitude, desafio da aula e competição.</p>
             <div class="ranking-tabs" id="rankingFullTabs"></div>
             <div id="rankingFullList" class="ranking-list">
               <p class="empty-message">Carregando ranking...</p>
@@ -1326,8 +1327,8 @@ function renderizarAluno(aluno) {
     function rankingsAtivos(aluno) {
       const ativos = [];
       if (aluno.ranking_turma_ativo !== false) ativos.push({ id: "turma", label: "Minha turma" });
-      if (aluno.ranking_geral_ativo !== false) ativos.push({ id: "geral", label: "Geral" });
-      if (aluno.ranking_turmas_ativo !== false) ativos.push({ id: "turmas", label: "Turmas" });
+      if (aluno.ranking_geral_ativo !== false) ativos.push({ id: "geral", label: "Geral dos alunos" });
+      if (aluno.ranking_turmas_ativo !== false) ativos.push({ id: "turmas", label: "Ranking das turmas" });
       return ativos;
     }
 
@@ -1343,6 +1344,46 @@ function renderizarAluno(aluno) {
       if (Number(posicao) === 2) return "🥈";
       if (Number(posicao) === 3) return "🥉";
       return `${posicao}º`;
+    }
+
+    function numeroRanking(valor) {
+      const numero = Number(valor || 0);
+      return Number.isFinite(numero) ? numero : 0;
+    }
+
+    function pluralRanking(valor, singular, plural) {
+      return Number(valor) === 1 ? singular : plural;
+    }
+
+    function textoResumoDesafioAluno(item) {
+      const pontosTotal = numeroRanking(item.pontos_total);
+      const presencas = numeroRanking(item.presencas);
+      const extras = numeroRanking(item.pontos_extras);
+      const partes = [
+        `${pontosTotal} ${pluralRanking(pontosTotal, "ponto", "pontos")}`,
+        `${presencas} ${pluralRanking(presencas, "presença", "presenças")}`
+      ];
+
+      if (extras > 0) {
+        partes.push(`+${extras} ${pluralRanking(extras, "extra", "extras")}`);
+      }
+
+      return partes.join(" • ");
+    }
+
+    function textoDetalheDesafioAluno(item) {
+      const turma = item.turma || "Turma não informada";
+      const pontosPresenca = numeroRanking(item.pontos_presenca);
+      const pontosExtras = numeroRanking(item.pontos_extras);
+      return `${turma} • presença ${pontosPresenca} pts • extras ${pontosExtras} pts`;
+    }
+
+    function textoResumoDesafioTurma(item) {
+      const pontosTotal = numeroRanking(item.pontos_total);
+      const presencas = numeroRanking(item.presencas);
+      const extras = numeroRanking(item.pontos_extras);
+      const alunos = numeroRanking(item.alunos_participantes);
+      return `${pontosTotal} ${pluralRanking(pontosTotal, "ponto", "pontos")} • ${presencas} presenças • +${extras} extras • ${alunos} ${pluralRanking(alunos, "aluno", "alunos")}`;
     }
 
     function montarTabsRanking(container, ativos, selecionado) {
@@ -1380,7 +1421,7 @@ function renderizarAluno(aluno) {
             <span class="podium-medal">${textoPosicao(item.posicao)}</span>
             ${criarAvatarRanking(item, Number(item.posicao) === 1)}
             <strong>${item.eh_aluno_atual ? 'Você' : nomeCurto(item.nome)}</strong>
-            <small>${Number(item.frequencia_percentual || 0).toFixed(1).replace('.', ',')}% • ${item.presencas}/${item.aulas_validas}</small>
+            <small class="ranking-score-line">${textoResumoDesafioAluno(item)}</small>
             ${voce}
           </div>
         `;
@@ -1399,7 +1440,7 @@ function renderizarAluno(aluno) {
             <span class="podium-medal">${textoPosicao(item.posicao)}</span>
             <div class="ranking-avatar ${Number(item.posicao) === 1 ? 'ranking-avatar-big' : ''}">${primeiraLetra(item.nome_turma || 'T')}</div>
             <strong>${item.nome_turma || 'Turma'}</strong>
-            <small>${Number(item.frequencia_media || 0).toFixed(1).replace('.', ',')}% média</small>
+            <small class="ranking-score-line">${textoResumoDesafioTurma(item)}</small>
             ${item.eh_turma_aluno ? `<span class="you-badge">Sua turma</span>` : ""}
           </div>
         `;
@@ -1410,12 +1451,12 @@ function renderizarAluno(aluno) {
       if (tipo === "turmas") {
         const minha = (lista || []).find(item => item.eh_turma_aluno === true);
         if (!minha) return "Sua turma ainda não entrou no ranking deste mês.";
-        return `Sua turma está em ${minha.posicao}º lugar com ${Number(minha.frequencia_media || 0).toFixed(1).replace('.', ',')}% de frequência média.`;
+        return `Sua turma está em ${minha.posicao}º lugar com ${numeroRanking(minha.pontos_total)} pontos neste mês.`;
       }
       const atual = itemAlunoAtual(lista);
       if (!atual) return "Você ainda não entrou no ranking deste mês. Continue treinando para aparecer aqui.";
-      if (Number(atual.posicao) <= 3) return `Parabéns! Você está no pódio em ${atual.posicao}º lugar este mês. 🏆`;
-      return `Você está em ${atual.posicao}º lugar este mês. Continue firme para buscar o pódio. 💪`;
+      if (Number(atual.posicao) <= 3) return `Parabéns! Você está no pódio em ${atual.posicao}º lugar com ${numeroRanking(atual.pontos_total)} pontos. 🏆`;
+      return `Você está em ${atual.posicao}º lugar com ${numeroRanking(atual.pontos_total)} pontos. Continue firme para buscar o pódio. 💪`;
     }
 
     function renderizarListaRankingAluno(lista) {
@@ -1426,7 +1467,8 @@ function renderizarAluno(aluno) {
           ${criarAvatarRanking(item)}
           <div class="ranking-row-info">
             <strong>${item.eh_aluno_atual ? 'Você' : item.nome}</strong>
-            <small>${item.turma || 'Turma não informada'} • ${item.presencas}/${item.aulas_validas} aulas • ${Number(item.frequencia_percentual || 0).toFixed(1).replace('.', ',')}%</small>
+            <small class="ranking-score-line">${textoResumoDesafioAluno(item)}</small>
+            <small class="ranking-detail-line">${textoDetalheDesafioAluno(item)}</small>
           </div>
         </div>
       `).join("");
@@ -1440,7 +1482,7 @@ function renderizarAluno(aluno) {
           <div class="ranking-avatar">${primeiraLetra(item.nome_turma || 'T')}</div>
           <div class="ranking-row-info">
             <strong>${item.nome_turma || 'Turma'}</strong>
-            <small>${Number(item.frequencia_media || 0).toFixed(1).replace('.', ',')}% média • ${item.alunos_participantes || 0} alunos no ranking</small>
+            <small class="ranking-score-line">${textoResumoDesafioTurma(item)}</small>
           </div>
         </div>
       `).join("");
@@ -1478,13 +1520,13 @@ function renderizarAluno(aluno) {
       try {
         const tarefas = [];
         if (aluno.ranking_geral_ativo !== false) {
-          tarefas.push(supabaseClient.rpc("buscar_ranking_presenca_publico", { codigo: codigoPublico, tipo_ranking: "geral" }).then(r => { rankingsAluno.geral = r.error ? [] : (r.data || []); }));
+          tarefas.push(supabaseClient.rpc("buscar_desafio_aluno_publico", { codigo: codigoPublico, tipo_ranking: "geral" }).then(r => { rankingsAluno.geral = r.error ? [] : (r.data || []); }));
         }
         if (aluno.ranking_turma_ativo !== false) {
-          tarefas.push(supabaseClient.rpc("buscar_ranking_presenca_publico", { codigo: codigoPublico, tipo_ranking: "turma" }).then(r => { rankingsAluno.turma = r.error ? [] : (r.data || []); }));
+          tarefas.push(supabaseClient.rpc("buscar_desafio_aluno_publico", { codigo: codigoPublico, tipo_ranking: "turma" }).then(r => { rankingsAluno.turma = r.error ? [] : (r.data || []); }));
         }
         if (aluno.ranking_turmas_ativo !== false) {
-          tarefas.push(supabaseClient.rpc("buscar_ranking_turmas_publico", { codigo: codigoPublico }).then(r => { rankingsAluno.turmas = r.error ? [] : (r.data || []); }));
+          tarefas.push(supabaseClient.rpc("buscar_desafio_turmas_publico", { codigo: codigoPublico }).then(r => { rankingsAluno.turmas = r.error ? [] : (r.data || []); }));
         }
         await Promise.all(tarefas);
       } catch (erro) {

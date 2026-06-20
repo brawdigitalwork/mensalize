@@ -347,6 +347,16 @@ function aplicarFiltroSalvoAlunos() {
   }
 }
 
+function alternarCardAluno(botao) {
+  const card = botao.closest(".aluno-card");
+  if (!card) return;
+
+  const aberto = card.classList.toggle("expandido");
+
+  botao.textContent = aberto ? "Ocultar opções" : "Ver opções";
+  botao.setAttribute("aria-expanded", aberto ? "true" : "false");
+}
+
 /** Aplica busca, filtros, ordenação, paginação e renderiza os cards dos alunos. */
 function mostrarAlunos() {
   listaAlunos.innerHTML = "";
@@ -462,55 +472,74 @@ function mostrarAlunos() {
     if (jaPagou) card.classList.add("aluno-pago");
 
     card.innerHTML = `
-  <div class="aluno-premium-topo">
-    <div class="aluno-topo-identidade">
-      ${aluno.foto_url ? `<img src="${aluno.foto_url}" alt="Foto de ${aluno.nome}" class="aluno-card-foto">` : `<div class="aluno-card-avatar">${String(aluno.nome || "A").trim().charAt(0).toUpperCase() || "A"}</div>`}
-      <div>
-        <h3>${aluno.nome}</h3>
-        <p>📱 ${aluno.telefone}</p>
-        ${moduloEvolucaoAtivo && resumoEvolucaoAluno(aluno) ? `<p class="aluno-evolucao-resumo">🥋 ${resumoEvolucaoAluno(aluno)}</p>` : ""}
-        ${moduloPresencaAtivo && aluno.responsavel_nome ? `<p class="aluno-evolucao-resumo">👤 Resp.: ${aluno.responsavel_nome}</p>` : ""}
+      <div class="aluno-premium-topo aluno-card-resumo">
+        <div class="aluno-topo-identidade">
+          ${aluno.foto_url
+            ? `<img src="${aluno.foto_url}" alt="Foto de ${aluno.nome}" class="aluno-card-foto">`
+            : `<div class="aluno-card-avatar">${String(aluno.nome || "A").trim().charAt(0).toUpperCase() || "A"}</div>`
+          }
+
+          <div class="aluno-resumo-texto">
+            <h3>${aluno.nome}</h3>
+
+            <div class="aluno-resumo-infos">
+              <span>📱 ${aluno.telefone || "Sem telefone"}</span>
+              ${moduloEvolucaoAtivo && resumoEvolucaoAluno(aluno) ? `<span>🥋 ${resumoEvolucaoAluno(aluno)}</span>` : ""}
+            </div>
+          </div>
+        </div>
+
+        <div class="aluno-resumo-direita">
+          <span class="badge-status ${classeStatus}">${textoStatus}</span>
+          <button
+            type="button"
+            class="acao-secundaria btn-opcoes-aluno"
+            onclick="alternarCardAluno(this)"
+            aria-expanded="false"
+          >
+            Ver opções
+          </button>
+        </div>
       </div>
-    </div>
-    <span class="badge-status ${classeStatus}">${textoStatus}</span>
-  </div>
 
-  <div class="aluno-premium-grid">
-    <div class="info-premium">
-      <span>💰 Mensalidade</span>
-      <strong>${formatarMoeda(aluno.valor)}</strong>
-    </div>
-    <div class="info-premium">
-      <span>📅 ${jaPagou ? "Próx. vencimento" : "Vencimento"}</span>
-      <strong>${formatarData(aluno.vencimento)}</strong>
-    </div>
-  </div>
+      <div class="aluno-detalhes-recolhiveis">
+        <div class="aluno-premium-grid">
+          <div class="info-premium">
+            <span>Mensalidade</span>
+            <strong>${formatarMoeda(aluno.valor)}</strong>
+          </div>
 
-  <div class="acoes-premium acoes-premium-recolhidas">
-    <div class="acoes-primarias-card">
-      ${jaPagou
-        ? `<span class="badge-pago-confirmado">✅ Mensalidade paga</span>`
-        : `<button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">✅ Registrar pagamento</button>`
-      }
-      <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">💬 WhatsApp</button>
-      <button class="acao-secundaria btn-mais-acoes" type="button" onclick="this.closest('.aluno-card').classList.toggle('expandido')" aria-label="Mostrar mais ações">···</button>
-    </div>
+          <div class="info-premium">
+            <span>${jaPagou ? "Próx. vencimento" : "Vencimento"}</span>
+            <strong>${formatarData(aluno.vencimento)}</strong>
+          </div>
+        </div>
 
-    <div class="acoes-secundarias-card">
-      <button class="acao-secundaria" onclick="abrirPaginaAluno('${aluno.codigo_publico}')">
-        📄 Página do aluno
-      </button>
-      <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">
-        🔗 Enviar página
-      </button>
+        <div class="acoes-premium acoes-premium-recolhidas">
+          ${jaPagou
+            ? `<span class="badge-pago-confirmado">✅ Mensalidade paga</span>`
+            : `<button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">✅ Registrar pagamento</button>`
+          }
 
-      <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">🕘 Histórico</button>
-      ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Graduação</button>` : ""}
-      <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">✏ Editar</button>
-      <button class="acao-perigo" onclick="removerAluno('${aluno.id}')">🗑 Remover</button>
-    </div>
-  </div>
-`;
+          <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">💬 WhatsApp</button>
+
+          <button class="acao-secundaria" onclick="abrirPaginaAluno('${aluno.codigo_publico}')">
+            📄 Página do aluno
+          </button>
+
+          <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">
+            🔗 Enviar página
+          </button>
+
+          <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">🕘 Histórico</button>
+
+          ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Graduação</button>` : ""}
+
+          <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">✏ Editar</button>
+          <button class="acao-perigo" onclick="removerAluno('${aluno.id}')">🗑 Remover</button>
+        </div>
+      </div>
+  `;
     listaAlunos.appendChild(card);
   });
 

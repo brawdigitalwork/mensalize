@@ -1195,7 +1195,6 @@ async function salvarChamadaPresenca() {
 
   mostrarToast("Chamada salva com sucesso!");
   if (typeof carregarDadosFrequencia === "function") await carregarDadosFrequencia();
-  desafioPresencasMesProfessorCarregado = false;
   await carregarMarcacoesPresenca();
   renderizarListaPresencas();
   renderizarHistoricoChamadas();
@@ -1225,8 +1224,6 @@ async function registrarPresencaAluno(id, presente) {
     mostrarToast("Erro ao registrar presença.", "erro");
     return;
   }
-
-  desafioPresencasMesProfessorCarregado = false;
   mostrarToast("Presença registrada!");
 }
 
@@ -1560,9 +1557,8 @@ async function registrarPontoRapidoDesafio(botao) {
   if (observacaoInput) observacaoInput.value = "";
 
   desafioPontosMesProfessorCarregado = false;
-  await carregarPresencasDesafioMesProfessor(true);
-  await carregarPontosDesafioMesProfessor(true);
-  await renderizarDesafioPresencaProfessor();
+  await carregarPontosDesafioMesProfessor();
+  renderizarDesafioPresencaProfessor();
   await carregarRankingDashboard();
 
   const minimoAulas = obterMinimoAulasRankingDesafioProfessor();
@@ -1586,61 +1582,9 @@ function configurarDesafioPontosRapidos() {
   });
 }
 
-function configurarTogglePontosDesafioProfessor() {
-  const botao = document.getElementById("btnTogglePontosDesafio");
-  const conteudo = document.getElementById("desafioPontosConteudo");
-  const card = document.querySelector(".desafio-pontos-card");
-
-  if (!botao || !conteudo || botao.dataset.inicializado === "true") return;
-
-  botao.dataset.inicializado = "true";
-
-  const aplicarEstado = (aberto) => {
-    conteudo.classList.toggle("escondido", !aberto);
-    conteudo.setAttribute("aria-hidden", aberto ? "false" : "true");
-    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
-    botao.textContent = aberto ? "Fechar pontuações" : "Abrir pontuações";
-    if (card) card.classList.toggle("desafio-pontos-card-recolhido", !aberto);
-  };
-
-  aplicarEstado(false);
-
-  botao.addEventListener("click", () => {
-    const aberto = botao.getAttribute("aria-expanded") === "true";
-    aplicarEstado(!aberto);
-  });
-}
-
-function configurarToggleHistoricoDesafioProfessor() {
-  const botao = document.getElementById("btnToggleHistoricoDesafio");
-  const conteudo = document.getElementById("desafioHistoricoConteudo");
-  const card = document.querySelector(".desafio-historico-card");
-
-  if (!botao || !conteudo || botao.dataset.inicializado === "true") return;
-
-  botao.dataset.inicializado = "true";
-
-  const aplicarEstado = (aberto) => {
-    conteudo.classList.toggle("escondido", !aberto);
-    conteudo.setAttribute("aria-hidden", aberto ? "false" : "true");
-    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
-    botao.textContent = aberto ? "Ocultar pontos lançados" : "Ver pontos lançados";
-    if (card) card.classList.toggle("desafio-historico-card-recolhido", !aberto);
-  };
-
-  aplicarEstado(false);
-
-  botao.addEventListener("click", () => {
-    const aberto = botao.getAttribute("aria-expanded") === "true";
-    aplicarEstado(!aberto);
-  });
-}
-
 
 let desafioPontosMesProfessor = [];
 let desafioPontosMesProfessorCarregado = false;
-let desafioPresencasMesProfessor = [];
-let desafioPresencasMesProfessorCarregado = false;
 
 function obterPeriodoRankingMesAtualProfessor() {
   const hoje = new Date();
@@ -1661,45 +1605,6 @@ function dataDateParaISOProfessor(data) {
 function dataISOProfessor(dataValor) {
   if (!dataValor) return "";
   return String(dataValor).split("T")[0];
-}
-
-async function carregarPresencasDesafioMesProfessor(forcar = false) {
-  if (!usuarioAtual || !supabaseClient) {
-    desafioPresencasMesProfessor = [];
-    desafioPresencasMesProfessorCarregado = true;
-    return desafioPresencasMesProfessor;
-  }
-
-  if (!forcar && desafioPresencasMesProfessorCarregado) {
-    return desafioPresencasMesProfessor;
-  }
-
-  const periodo = obterPeriodoRankingMesAtualProfessor();
-  const inicio = dataDateParaISOProfessor(periodo.inicio);
-  const fim = dataDateParaISOProfessor(periodo.fim);
-
-  const { data, error } = await supabaseClient
-    .from("presencas")
-    .select("id,aluno_id,turma,turma_id,data_aula,presente")
-    .eq("user_id", usuarioAtual.id)
-    .gte("data_aula", inicio)
-    .lte("data_aula", fim);
-
-  if (error) {
-    console.log("Erro ao carregar presenças mensais do desafio:", error.message);
-    desafioPresencasMesProfessor = [];
-    desafioPresencasMesProfessorCarregado = false;
-    return desafioPresencasMesProfessor;
-  }
-
-  desafioPresencasMesProfessor = data || [];
-  desafioPresencasMesProfessorCarregado = true;
-  return desafioPresencasMesProfessor;
-}
-
-function invalidarCacheDesafioProfessor() {
-  desafioPresencasMesProfessorCarregado = false;
-  desafioPontosMesProfessorCarregado = false;
 }
 
 function desafioPontosExtrasAtivoProfessor() {
@@ -1757,205 +1662,6 @@ async function carregarPontosDesafioMesProfessor(forcar = false) {
   return desafioPontosMesProfessor;
 }
 
-
-function labelTipoPontoDesafioProfessor(tipo) {
-  const mapa = {
-    tecnica: "Técnica",
-    atitude: "Atitude",
-    desafio_aula: "Desafio da aula",
-    competicao: "Competição"
-  };
-
-  return mapa[String(tipo || "")] || "Ponto";
-}
-
-function labelSubtipoPontoDesafioProfessor(tipo, subtipo) {
-  const config = obterConfigPontoDesafio(tipo, subtipo);
-  if (config && config.label) return config.label;
-
-  return String(subtipo || "")
-    .replaceAll("_", " ")
-    .replace(/\b\w/g, letra => letra.toUpperCase()) || "Ponto extra";
-}
-
-function obterAlunoHistoricoDesafioProfessor(alunoId) {
-  return (alunos || []).find(aluno => String(aluno.id) === String(alunoId)) || null;
-}
-
-function obterNomeAlunoHistoricoDesafioProfessor(ponto) {
-  const aluno = obterAlunoHistoricoDesafioProfessor(ponto?.aluno_id);
-  return aluno?.nome || "Aluno removido";
-}
-
-function obterTurmaHistoricoDesafioProfessor(ponto) {
-  const aluno = obterAlunoHistoricoDesafioProfessor(ponto?.aluno_id);
-  const turmaAluno = aluno?.turma || "";
-
-  if (turmaAluno) return turmaAluno;
-
-  if (ponto?.turma_id && Array.isArray(turmasCadastradas)) {
-    const turma = turmasCadastradas.find(item => String(item.id) === String(ponto.turma_id));
-    if (turma?.nome) return turma.nome;
-  }
-
-  return "Sem turma";
-}
-
-function formatarDataPontoDesafioProfessor(dataValor) {
-  const dataISO = dataISOProfessor(dataValor);
-  if (!dataISO) return "Sem data";
-
-  if (typeof formatarData === "function") {
-    return formatarData(dataISO);
-  }
-
-  const partes = dataISO.split("-");
-  if (partes.length !== 3) return dataISO;
-  return `${partes[2]}/${partes[1]}/${partes[0]}`;
-}
-
-function renderizarItemHistoricoPontoDesafioProfessor(ponto) {
-  const nomeAluno = obterNomeAlunoHistoricoDesafioProfessor(ponto);
-  const turma = obterTurmaHistoricoDesafioProfessor(ponto);
-  const tipo = labelTipoPontoDesafioProfessor(ponto.tipo);
-  const subtipo = labelSubtipoPontoDesafioProfessor(ponto.tipo, ponto.subtipo);
-  const pontos = normalizarPontosInteiroProfessor(ponto.pontos);
-  const data = formatarDataPontoDesafioProfessor(ponto.data_ponto);
-  const observacao = String(ponto.observacao || "").trim();
-
-  return `
-    <div class="desafio-historico-item" data-ponto-id="${ponto.id}">
-      <div class="desafio-historico-info">
-        <strong>${nomeAluno}</strong>
-        <span>${tipo} • ${subtipo} • ${turma} • ${data}</span>
-        ${observacao ? `<small>Obs: ${observacao}</small>` : ""}
-        <span class="desafio-historico-pontos">+${pontos} ponto${pontos === 1 ? "" : "s"}</span>
-      </div>
-
-      <div class="desafio-historico-acoes">
-        <button
-          type="button"
-          class="btn-excluir-ponto-desafio"
-          data-excluir-ponto-desafio="${ponto.id}"
-        >
-          Excluir
-        </button>
-
-        <div class="desafio-confirmacao-excluir" aria-live="polite">
-          <span>Excluir este ponto?</span>
-          <button
-            type="button"
-            class="btn-confirmar-exclusao-ponto"
-            data-confirmar-exclusao-ponto="${ponto.id}"
-          >
-            Sim, excluir
-          </button>
-          <button
-            type="button"
-            class="btn-cancelar-exclusao-ponto"
-            data-cancelar-exclusao-ponto
-          >
-            Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function renderizarHistoricoPontosDesafioProfessor() {
-  const container = document.getElementById("desafioPontosHistorico");
-  if (!container) return;
-
-  if (!desafioPontosExtrasAtivoProfessor()) {
-    container.innerHTML = `<div class="empty-state-mini">Pontos extras não estão ativos neste plano.</div>`;
-    return;
-  }
-
-  const pontos = (desafioPontosMesProfessor || []).slice(0, 40);
-
-  if (!pontos.length) {
-    container.innerHTML = `<div class="empty-state-mini">Nenhum ponto extra lançado neste mês ainda.</div>`;
-    return;
-  }
-
-  container.innerHTML = pontos.map(renderizarItemHistoricoPontoDesafioProfessor).join("");
-}
-
-async function excluirPontoDesafioProfessor(pontoId) {
-  if (!usuarioAtual || !pontoId) return;
-
-  const ponto = (desafioPontosMesProfessor || []).find(item => String(item.id) === String(pontoId));
-  const nomeAluno = ponto ? obterNomeAlunoHistoricoDesafioProfessor(ponto) : "este aluno";
-  const pontos = ponto ? normalizarPontosInteiroProfessor(ponto.pontos) : 0;
-
-  const { error } = await supabaseClient
-    .from("desafio_pontos")
-    .delete()
-    .eq("id", pontoId)
-    .eq("user_id", usuarioAtual.id);
-
-  if (error) {
-    console.log("Erro ao excluir ponto do desafio:", error.message);
-    mostrarToast("Erro ao excluir ponto.", "erro");
-    return;
-  }
-
-  desafioPontosMesProfessorCarregado = false;
-  await carregarPontosDesafioMesProfessor(true);
-  renderizarHistoricoPontosDesafioProfessor();
-  await renderizarDesafioPresencaProfessor();
-  await carregarRankingDashboard();
-
-  mostrarToast("Ponto excluído do desafio.");
-}
-
-function configurarHistoricoDesafioPontos() {
-  const botaoAtualizar = document.getElementById("btnAtualizarHistoricoDesafio");
-  const lista = document.getElementById("desafioPontosHistorico");
-
-  if (botaoAtualizar && botaoAtualizar.dataset.inicializado !== "true") {
-    botaoAtualizar.dataset.inicializado = "true";
-    botaoAtualizar.addEventListener("click", async () => {
-      await carregarPontosDesafioMesProfessor(true);
-      renderizarHistoricoPontosDesafioProfessor();
-      await renderizarDesafioPresencaProfessor();
-      await carregarRankingDashboard();
-    });
-  }
-
-  if (lista && lista.dataset.inicializado !== "true") {
-    lista.dataset.inicializado = "true";
-    lista.addEventListener("click", async (evento) => {
-      const botaoExcluir = evento.target.closest("[data-excluir-ponto-desafio]");
-      const botaoConfirmar = evento.target.closest("[data-confirmar-exclusao-ponto]");
-      const botaoCancelar = evento.target.closest("[data-cancelar-exclusao-ponto]");
-      const item = evento.target.closest(".desafio-historico-item");
-
-      if (botaoExcluir) {
-        document.querySelectorAll(".desafio-historico-item.confirmando-exclusao").forEach(outroItem => {
-          if (outroItem !== item) outroItem.classList.remove("confirmando-exclusao");
-        });
-
-        if (item) item.classList.add("confirmando-exclusao");
-        return;
-      }
-
-      if (botaoCancelar) {
-        if (item) item.classList.remove("confirmando-exclusao");
-        return;
-      }
-
-      if (botaoConfirmar) {
-        const pontoId = botaoConfirmar.dataset.confirmarExclusaoPonto;
-        botaoConfirmar.disabled = true;
-        botaoConfirmar.textContent = "Excluindo...";
-        await excluirPontoDesafioProfessor(pontoId);
-      }
-    });
-  }
-}
-
 function presencaPertenceMesAtualProfessor(presenca) {
   const dataTexto = dataISOProfessor(presenca?.data_aula);
   if (!dataTexto) return false;
@@ -1971,11 +1677,7 @@ function presencaPertenceMesAtualProfessor(presenca) {
 }
 
 function obterPresencasMesAtualProfessor() {
-  const fonte = desafioPresencasMesProfessorCarregado
-    ? desafioPresencasMesProfessor
-    : (presencasPeriodo || []);
-
-  return (fonte || []).filter(presenca =>
+  return (presencasPeriodo || []).filter(presenca =>
     presenca &&
     presenca.presente === true &&
     presencaPertenceMesAtualProfessor(presenca)
@@ -2339,24 +2041,11 @@ function obterListaRankingProfessorAtual() {
   return obterRankingGeralProfessor();
 }
 
-async function renderizarDesafioPresencaProfessor() {
-  configurarTogglePontosDesafioProfessor();
-  configurarToggleHistoricoDesafioProfessor();
+function renderizarDesafioPresencaProfessor() {
   configurarDesafioPontosRapidos();
-  configurarHistoricoDesafioPontos();
 
   const container = document.getElementById("listaRankingDesafioProfessor");
   if (!container) return;
-
-  if (!desafioPresencasMesProfessorCarregado) {
-    await carregarPresencasDesafioMesProfessor();
-  }
-
-  if (!desafioPontosMesProfessorCarregado) {
-    await carregarPontosDesafioMesProfessor();
-  }
-
-  renderizarHistoricoPontosDesafioProfessor();
 
   document.querySelectorAll("[data-ranking-professor]").forEach(btn => {
     btn.classList.toggle("ativo", btn.dataset.rankingProfessor === rankingProfessorAtual);
@@ -2385,18 +2074,14 @@ async function renderizarDesafioPresencaProfessor() {
 }
 
 async function atualizarDesafioPresencaProfessor() {
-  configurarTogglePontosDesafioProfessor();
-  configurarToggleHistoricoDesafioProfessor();
   configurarDesafioPontosRapidos();
-  configurarHistoricoDesafioPontos();
 
   if (typeof carregarDadosFrequencia === "function") {
     await carregarDadosFrequencia();
   }
 
-  await carregarPresencasDesafioMesProfessor(true);
   await carregarPontosDesafioMesProfessor(true);
-  await renderizarDesafioPresencaProfessor();
+  renderizarDesafioPresencaProfessor();
   await carregarRankingDashboard();
 }
 
@@ -2407,10 +2092,6 @@ function renderizarPodioDashboardProfessor(lista) {
 async function carregarRankingDashboard() {
   const container = document.getElementById("dashboardRankingPresenca");
   if (!container) return;
-
-  if (!desafioPresencasMesProfessorCarregado) {
-    await carregarPresencasDesafioMesProfessor();
-  }
 
   if (!desafioPontosMesProfessorCarregado) {
     await carregarPontosDesafioMesProfessor();
@@ -2470,6 +2151,4 @@ if (botaoAtualizarDesafio) {
   botaoAtualizarDesafio.addEventListener("click", atualizarDesafioPresencaProfessor);
 }
 
-configurarTogglePontosDesafioProfessor();
-configurarToggleHistoricoDesafioProfessor();
 configurarDesafioPontosRapidos();

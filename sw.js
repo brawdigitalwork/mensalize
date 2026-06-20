@@ -1,6 +1,6 @@
 // sw.js — Service Worker Mensalize
-// Fase 5.1 — Atualização e Cache
-const APP_VERSION = 'Mensalize Beta-1.01';
+// Atualização e cache
+const APP_VERSION = 'Mensalize Beta-1.2';
 const CACHE_PREFIX = 'mensalize-';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}`;
 
@@ -28,7 +28,9 @@ const ASSETS = [
   '/js/70-evolucao-presencas-avisos.js',
   '/js/75-aniversariantes.js',
   '/js/76-turmas-frequencia.js',
+  '/js/77-programa-fight.js',
   '/js/80-realtime.js',
+  '/js/85-notificacoes-inteligentes.js',
   '/js/90-cache-update.js',
   '/js/99-app.js',
   '/script.js'
@@ -48,9 +50,7 @@ async function cachearAsset(cache, asset) {
   try {
     const request = new Request(asset, { cache: 'reload' });
     const response = await fetch(request);
-    if (response && response.ok) {
-      await cache.put(asset, response.clone());
-    }
+    if (response && response.ok) await cache.put(asset, response.clone());
   } catch (error) {
     console.warn('[Mensalize SW] Não foi possível cachear:', asset, error);
   }
@@ -60,7 +60,6 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => Promise.all(ASSETS.map(asset => cachearAsset(cache, asset))))
   );
-  // Fica aguardando; a página mostra o botão de atualizar e envia SKIP_WAITING.
 });
 
 self.addEventListener('activate', event => {
@@ -99,9 +98,7 @@ async function networkFirst(request) {
   const cache = await caches.open(CACHE_NAME);
   try {
     const response = await fetch(request);
-    if (response && response.ok) {
-      cache.put(request, response.clone()).catch(() => {});
-    }
+    if (response && response.ok) cache.put(request, response.clone()).catch(() => {});
     return response;
   } catch (error) {
     const cached = await cache.match(request);
@@ -132,14 +129,11 @@ self.addEventListener('fetch', event => {
   if (deveIgnorar(request)) return;
 
   const destino = request.destination;
-
-  // HTML/CSS/JS: tenta sempre a versão nova primeiro.
   if (request.mode === 'navigate' || ['document', 'script', 'style', 'worker'].includes(destino)) {
     event.respondWith(networkFirst(request));
     return;
   }
 
-  // Imagens e manifest: cache primeiro, porque mudam menos.
   if (['image', 'manifest'].includes(destino)) {
     event.respondWith(cacheFirst(request));
     return;

@@ -1,9 +1,12 @@
 /* ================================================================
-   DESIGN SYSTEM — CSS VARIABLES
-   Versão limpa e consolidada
+   MENSALIZE PROFESSOR — LAYOUT E COMPONENTES
+   Usa os tokens globais definidos em theme.css.
+   Este arquivo controla telas, cards, botões, listas, modais e responsivo.
 ================================================================ */
 /* ================================================================
-   TEMA CLARO
+   LEGADO — TEMA CLARO
+   Mantido temporariamente para evitar quebra visual.
+   O Mensalize opera em escuro fixo via theme.css.
 ================================================================ */
 [data-tema="claro"] {
   --bg-base:          #f5f6fb;
@@ -11633,5 +11636,1465 @@ textarea {
   .btn-toggle-notificacoes {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* ================================================================
+   FASE 3A — DASHBOARD PROFESSOR PREMIUM
+   Cole este bloco no final do style.css.
+   Não toca em JS, HTML, IDs ou classes existentes.
+   Remove-se inteiro se necessário, sem efeito colateral.
+================================================================ */
+
+/* ----------------------------------------------------------------
+   1. CARDS DE MÉTRICAS — borda semântica por tipo
+   Sobrescreve o ::before genérico arco-íris para cada card ter
+   a cor do seu significado (verde = receita, azul = a receber,
+   vermelho = atrasados, roxo = total).
+---------------------------------------------------------------- */
+#viewDashboard .cards-dashboard .card.receita::before {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+#viewDashboard .cards-dashboard .card.receber::before {
+  background: linear-gradient(90deg, #38bdf8, #7dd3fc);
+}
+
+#viewDashboard .cards-dashboard .card.alerta::before {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+/* Quarto card — Total de alunos mantém o gradiente neutro original */
+#viewDashboard .cards-dashboard .card:not(.receita):not(.receber):not(.alerta)::before {
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+}
+
+/* ----------------------------------------------------------------
+   2. HERO DA DASHBOARD — respiro inferior e separador
+---------------------------------------------------------------- */
+#viewDashboard .dashboard-hero {
+  margin-bottom: 28px !important;
+  padding-bottom: 28px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+/* ----------------------------------------------------------------
+   3. DASHBOARD GRID — coluna principal mais larga
+   Dá mais peso visual para a Central Inteligente e os painéis
+   principais vs. a coluna secundária.
+---------------------------------------------------------------- */
+#viewDashboard .dashboard-grid {
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr) !important;
+  gap: 18px !important;
+}
+
+/* ----------------------------------------------------------------
+   4. AÇÕES RÁPIDAS — grid 2×2 no desktop, mais presença visual
+---------------------------------------------------------------- */
+#viewDashboard .acoes-rapidas-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+}
+
+#viewDashboard .acao-rapida {
+  background: rgba(255, 255, 255, 0.055) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 16px !important;
+  padding: 14px 16px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--texto-primario) !important;
+  text-align: left !important;
+  min-height: 54px !important;
+  transition: background var(--trans), border-color var(--trans), transform var(--trans) !important;
+}
+
+#viewDashboard .acao-rapida:hover {
+  background: rgba(124, 58, 237, 0.14) !important;
+  border-color: rgba(196, 181, 253, 0.28) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ----------------------------------------------------------------
+   5. CENTRAL INTELIGENTE — container levemente mais destacado
+   Só ajusta o fundo e a borda do card para ter mais presença
+   sem mexer na lógica do recolhível (Fase B4).
+---------------------------------------------------------------- */
+#centralNotificacoesCard.painel-notificacoes {
+  background: linear-gradient(
+    180deg,
+    rgba(124, 58, 237, 0.10),
+    rgba(18, 20, 36, 0.82)
+  ) !important;
+  border-color: rgba(196, 181, 253, 0.16) !important;
+}
+
+/* ----------------------------------------------------------------
+   6. RESPONSIVO MOBILE — ajustes da dashboard em telas pequenas
+---------------------------------------------------------------- */
+@media (max-width: 760px) {
+  /* Hero sem separador em mobile — economiza espaço */
+  #viewDashboard .dashboard-hero {
+    padding-bottom: 20px !important;
+    margin-bottom: 20px !important;
+    border-bottom-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  /* Grid da dashboard já vira 1 coluna pelo responsivo global,
+     mas garantimos explicitamente para o viewDashboard */
+  #viewDashboard .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Ações rápidas voltam para 1 coluna em mobile */
+  #viewDashboard .acoes-rapidas-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Cards de métricas — 2 colunas em mobile (evita scroll longo) */
+  #viewDashboard .cards-dashboard {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Telas muito pequenas — cards e ações voltam para 1 coluna */
+  #viewDashboard .cards-dashboard {
+    grid-template-columns: 1fr !important;
+  }
+
+  #viewDashboard .acoes-rapidas-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ================================================================
+   FASE 3B — DASHBOARD PROFESSOR COM CARA DE PRODUTO
+   Complementa a Fase 3A.
+   Apenas CSS. Não altera HTML, JS, IDs ou classes existentes.
+================================================================ */
+
+/* ----------------------------------------------------------------
+   1. DASHBOARD — ritmo visual geral
+---------------------------------------------------------------- */
+#viewDashboard.ativa {
+  display: grid;
+  gap: 22px;
+}
+
+#viewDashboard .dashboard-hero,
+#viewDashboard .cards-dashboard,
+#viewDashboard .dashboard-grid {
+  width: 100%;
+}
+
+/* ----------------------------------------------------------------
+   2. HERO — mais produto, menos card comum
+---------------------------------------------------------------- */
+#viewDashboard .dashboard-hero {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.22), transparent 34%),
+    linear-gradient(135deg, rgba(18, 20, 36, 0.96), rgba(11, 13, 24, 0.98)) !important;
+  border-color: rgba(196, 181, 253, 0.16) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28) !important;
+}
+
+#viewDashboard .dashboard-hero h2 {
+  font-size: clamp(26px, 4vw, 42px) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.07em !important;
+}
+
+#viewDashboard .dashboard-hero p {
+  max-width: 620px;
+  font-size: 14px;
+  color: var(--texto-secundario);
+}
+
+#viewDashboard .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#viewDashboard .hero-actions button {
+  min-height: 42px !important;
+  border-radius: 12px !important;
+}
+
+/* ----------------------------------------------------------------
+   3. CARDS DE MÉTRICAS — mais limpos e consistentes
+---------------------------------------------------------------- */
+#viewDashboard .cards-dashboard {
+  margin-top: -4px !important;
+}
+
+#viewDashboard .cards-dashboard .card {
+  min-height: 150px !important;
+  padding: 20px 18px !important;
+  border-radius: 20px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035)) !important;
+  border-color: rgba(255, 255, 255, 0.095) !important;
+}
+
+#viewDashboard .cards-dashboard .card h2 {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.10em !important;
+  margin-bottom: 12px !important;
+}
+
+#viewDashboard .cards-dashboard .card p {
+  font-size: clamp(25px, 3.2vw, 36px) !important;
+  line-height: 1 !important;
+  margin-bottom: 8px !important;
+}
+
+#viewDashboard .cards-dashboard .card span {
+  max-width: 220px;
+  color: var(--texto-terciario) !important;
+}
+
+/* ----------------------------------------------------------------
+   4. CENTRAL INTELIGENTE — vira faixa superior da área operacional
+---------------------------------------------------------------- */
+#centralNotificacoesCard {
+  grid-column: 1 / -1;
+}
+
+#centralNotificacoesCard .painel-topo {
+  align-items: center !important;
+}
+
+#centralNotificacoesCard .central-notificacoes-acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+#centralNotificacoesContador {
+  min-height: 34px;
+  padding-inline: 12px !important;
+  background: rgba(124, 58, 237, 0.16) !important;
+  border-color: rgba(196, 181, 253, 0.28) !important;
+  color: #ddd6fe !important;
+}
+
+#btnToggleNotificacoesDashboard {
+  min-height: 38px !important;
+  padding: 0 14px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------
+   5. PAINÉIS DA DASHBOARD — alinhamento e presença
+---------------------------------------------------------------- */
+#viewDashboard .painel-card {
+  min-height: 100%;
+  border-radius: 22px !important;
+  padding: 20px !important;
+}
+
+#viewDashboard .painel-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+#viewDashboard .painel-topo h2 {
+  font-size: clamp(18px, 2vw, 24px) !important;
+  line-height: 1.08 !important;
+  margin: 0 !important;
+}
+
+#viewDashboard .painel-topo p {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+#viewDashboard .btn-texto,
+#viewDashboard .acao-secundaria,
+#viewDashboard .btn-ranking-home {
+  min-height: 38px !important;
+  border-radius: 999px !important;
+  padding: 0 13px !important;
+  font-size: 12px !important;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------
+   6. AÇÕES RÁPIDAS — botões com cara de atalhos reais
+---------------------------------------------------------------- */
+#viewDashboard .acoes-rapidas-grid {
+  gap: 12px !important;
+}
+
+#viewDashboard .acao-rapida {
+  position: relative;
+  overflow: hidden;
+}
+
+#viewDashboard .acao-rapida::after {
+  content: "›";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--texto-terciario);
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+#viewDashboard .acao-rapida:hover::after {
+  color: var(--cor-roxo-claro);
+  opacity: 1;
+}
+
+/* ----------------------------------------------------------------
+   7. PAINÉIS ESPECÍFICOS — identidade visual leve
+---------------------------------------------------------------- */
+#viewDashboard .painel-evolucao {
+  border-color: rgba(167, 139, 250, 0.16) !important;
+}
+
+#viewDashboard .painel-destaque {
+  border-color: rgba(56, 189, 248, 0.15) !important;
+}
+
+#viewDashboard .painel-aniversariantes {
+  border-color: rgba(245, 158, 11, 0.15) !important;
+}
+
+#viewDashboard .painel-desafio {
+  border-color: rgba(16, 185, 129, 0.15) !important;
+}
+
+/* ----------------------------------------------------------------
+   8. BANNER DE VENCIMENTOS — mais encaixado na dashboard
+---------------------------------------------------------------- */
+.banner-vencimentos {
+  max-width: 1440px;
+  margin: 16px auto 0 !important;
+  width: calc(100% - 12%) !important;
+  border-radius: 18px !important;
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(15, 17, 30, 0.96)) !important;
+  border: 1px solid rgba(245, 158, 11, 0.20) !important;
+}
+
+.banner-vencimentos #textoBanner {
+  color: var(--texto-secundario);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.banner-acoes .btn-banner {
+  border-radius: 999px !important;
+  min-height: 34px !important;
+  height: 34px !important;
+  padding: 0 12px !important;
+  font-size: 12px !important;
+}
+
+/* ----------------------------------------------------------------
+   9. MOBILE — dashboard mais confortável
+---------------------------------------------------------------- */
+@media (max-width: 760px) {
+  #viewDashboard {
+    gap: 18px;
+  }
+
+  #viewDashboard .dashboard-hero {
+    display: grid !important;
+    gap: 16px !important;
+  }
+
+  #viewDashboard .hero-actions {
+    justify-content: stretch;
+  }
+
+  #viewDashboard .hero-actions button {
+    width: 100%;
+  }
+
+  #viewDashboard .painel-topo {
+    display: grid;
+    gap: 12px;
+  }
+
+  #centralNotificacoesCard .central-notificacoes-acoes {
+    justify-content: stretch;
+  }
+
+  #centralNotificacoesContador,
+  #btnToggleNotificacoesDashboard {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .banner-vencimentos {
+    width: calc(100% - 28px) !important;
+    margin-top: 14px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  #viewDashboard .dashboard-hero h2 {
+    font-size: 28px !important;
+  }
+
+  #viewDashboard .cards-dashboard .card {
+    min-height: 132px !important;
+  }
+
+  #viewDashboard .cards-dashboard .card p {
+    font-size: 28px !important;
+  }
+}
+
+/* ================================================================
+   FASE 4A FINAL — ABA ALUNOS LIMPA E PROFISSIONAL
+   Card recolhido com nome, telefone, graduação e status financeiro.
+   Apenas CSS para classes criadas no js/20-alunos.js.
+================================================================ */
+
+#viewAlunos .aluno-card {
+  padding: 16px 18px !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+
+#viewAlunos .aluno-card-resumo {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 18px !important;
+  margin-bottom: 0 !important;
+}
+
+#viewAlunos .aluno-topo-identidade {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+
+#viewAlunos .aluno-card-foto,
+#viewAlunos .aluno-card-avatar {
+  width: 48px !important;
+  height: 48px !important;
+  flex: 0 0 48px !important;
+}
+
+#viewAlunos .aluno-card-foto {
+  object-fit: cover !important;
+}
+
+#viewAlunos .aluno-resumo-texto {
+  min-width: 0 !important;
+}
+
+#viewAlunos .aluno-resumo-texto h3 {
+  margin: 0 0 4px !important;
+  color: var(--texto-primario) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#viewAlunos .aluno-resumo-infos {
+  display: grid !important;
+  gap: 2px !important;
+  margin-top: 0 !important;
+}
+
+#viewAlunos .aluno-resumo-infos span {
+  display: block !important;
+  color: var(--texto-secundario) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#viewAlunos .aluno-resumo-direita {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  min-width: 190px !important;
+}
+
+#viewAlunos .aluno-resumo-direita .badge-status {
+  min-height: 30px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  white-space: nowrap !important;
+}
+
+#viewAlunos .btn-opcoes-aluno {
+  min-height: 32px !important;
+  height: 32px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+/* Gaveta fechada por padrão */
+#viewAlunos .aluno-detalhes-recolhiveis {
+  max-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-4px) !important;
+  transition:
+    max-height 260ms ease,
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms ease !important;
+}
+
+/* Gaveta aberta */
+#viewAlunos .aluno-card.expandido .aluno-detalhes-recolhiveis {
+  max-height: 720px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+  margin-top: 14px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Mensalidade e vencimento compactos */
+#viewAlunos .aluno-premium-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-bottom: 12px !important;
+}
+
+#viewAlunos .info-premium {
+  flex: 0 1 150px !important;
+  padding: 9px 11px !important;
+  border-radius: 12px !important;
+}
+
+#viewAlunos .info-premium span {
+  font-size: 9px !important;
+  margin-bottom: 2px !important;
+}
+
+#viewAlunos .info-premium strong {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+}
+
+/* Ações compactas */
+#viewAlunos .acoes-premium-recolhidas {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+#viewAlunos .acoes-premium-recolhidas button,
+#viewAlunos .badge-pago-confirmado {
+  width: auto !important;
+  min-width: 128px !important;
+  min-height: 36px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+#viewAlunos .badge-pago-confirmado {
+  display: inline-flex !important;
+  align-items: center !important;
+  background: rgba(34, 197, 94, 0.13) !important;
+  color: #86efac !important;
+  border: 1px solid rgba(34, 197, 94, 0.24) !important;
+  font-weight: 600 !important;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  #viewAlunos .aluno-card-resumo {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  #viewAlunos .aluno-resumo-direita {
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+    padding-left: 60px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  #viewAlunos .aluno-resumo-direita {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    padding-left: 0 !important;
+    width: 100% !important;
+  }
+
+  #viewAlunos .aluno-resumo-direita .badge-status,
+  #viewAlunos .btn-opcoes-aluno,
+  #viewAlunos .acoes-premium-recolhidas button,
+  #viewAlunos .badge-pago-confirmado {
+    width: 100% !important;
+  }
+
+  #viewAlunos .info-premium {
+    flex: 1 1 calc(50% - 8px) !important;
+  }
+}
+
+/* ================================================================
+   FASE 5A.1 — PRESENÇAS PROFISSIONAL / VISUAL SEGURO
+   Reorganiza a tela sem alterar IDs nem depender de JS novo.
+================================================================ */
+
+#viewPresencas .presencas-page-profissional {
+  display: grid;
+  gap: 18px;
+  overflow: visible;
+}
+
+#viewPresencas .presencas-hero {
+  align-items: center;
+  margin-bottom: 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#viewPresencas .presencas-hero p {
+  max-width: 720px;
+}
+
+#viewPresencas .presencas-hero-badge {
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  min-width: 220px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(139, 92, 246, 0.10);
+  border: 1px solid rgba(196, 181, 253, 0.16);
+}
+
+#viewPresencas .presencas-hero-badge span {
+  color: var(--texto-terciario);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+}
+
+#viewPresencas .presencas-hero-badge strong {
+  color: var(--texto-primario);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+}
+
+#viewPresencas .presencas-layout-profissional {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 14px;
+  align-items: start;
+}
+
+#viewPresencas .presenca-card-presenca {
+  position: relative;
+  min-width: 0;
+  padding: 16px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.032));
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  overflow: hidden;
+}
+
+#viewPresencas .presenca-card-presenca::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.10), transparent 34%);
+  pointer-events: none;
+}
+
+#viewPresencas .presenca-card-presenca > * {
+  position: relative;
+  z-index: 1;
+}
+
+#viewPresencas .presenca-card-controles,
+#viewPresencas .presenca-card-resumo {
+  min-height: 100%;
+}
+
+#viewPresencas .presenca-card-chamada,
+#viewPresencas .historico-chamadas-card {
+  grid-column: 1 / -1;
+}
+
+#viewPresencas .presenca-card-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+#viewPresencas .presenca-card-topo h3 {
+  margin: 4px 0 3px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+#viewPresencas .presenca-card-topo p {
+  color: var(--texto-secundario);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+#viewPresencas .presenca-step {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: var(--raio-pill);
+  background: rgba(139, 92, 246, 0.13);
+  border: 1px solid rgba(196, 181, 253, 0.16);
+  color: var(--cor-roxo-claro);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+#viewPresencas .presenca-controles {
+  grid-template-columns: minmax(160px, 0.75fr) minmax(210px, 1fr) auto;
+  margin-bottom: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+#viewPresencas .presenca-resumo-grid {
+  margin-bottom: 0;
+}
+
+#viewPresencas .presenca-resumo-grid .financeiro-box {
+  min-height: 96px;
+}
+
+#viewPresencas .presenca-card-topo-com-acoes {
+  align-items: center;
+}
+
+#viewPresencas .presenca-acoes {
+  margin: 0;
+  justify-content: flex-end;
+}
+
+#viewPresencas .presenca-acoes button {
+  min-height: 38px;
+  padding: 9px 13px;
+  border-radius: var(--raio-pill);
+  font-size: 12px;
+}
+
+#viewPresencas .lista-presencas {
+  margin-top: 0;
+}
+
+#viewPresencas .presenca-turma-card {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+#viewPresencas .historico-chamadas-card {
+  margin-top: 0;
+  padding-top: 16px;
+  border-top: 0;
+}
+
+#viewPresencas .historico-chamadas-card .section-title-row {
+  margin-bottom: 14px;
+}
+
+@media (max-width: 980px) {
+  #viewPresencas .presencas-hero {
+    display: grid;
+    gap: 14px;
+  }
+
+  #viewPresencas .presencas-hero-badge {
+    justify-items: start;
+    min-width: 0;
+    width: 100%;
+  }
+
+  #viewPresencas .presencas-hero-badge strong {
+    text-align: left;
+  }
+
+  #viewPresencas .presencas-layout-profissional {
+    grid-template-columns: 1fr;
+  }
+
+  #viewPresencas .presenca-card-chamada,
+  #viewPresencas .historico-chamadas-card {
+    grid-column: auto;
+  }
+
+  #viewPresencas .presenca-card-topo-com-acoes {
+    display: grid;
+  }
+
+  #viewPresencas .presenca-acoes {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  #viewPresencas .presenca-controles {
+    grid-template-columns: 1fr;
+  }
+
+  #viewPresencas .presenca-resumo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #viewPresencas .presenca-acoes {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  #viewPresencas .presenca-acoes button {
+    width: 100%;
+  }
+
+  #viewPresencas .presenca-card-presenca {
+    padding: 14px;
+    border-radius: 20px;
+  }
+}
+
+/* ================================================================
+   FASE 6A.2 — DESAFIO DA AULA: PONTOS RÁPIDOS
+================================================================ */
+
+.desafio-pontos-card {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  margin: 18px 0;
+  padding: 18px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.16), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035));
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  overflow: hidden;
+}
+
+.desafio-pontos-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.desafio-pontos-topo h3 {
+  color: #fff;
+  font-size: clamp(18px, 2vw, 24px);
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.desafio-pontos-topo p {
+  color: var(--texto-secundario);
+  margin-top: 6px;
+  max-width: 760px;
+}
+
+.btn-toggle-pontos-desafio {
+  min-width: 160px;
+  white-space: nowrap;
+}
+
+.desafio-pontos-card-recolhido {
+  padding-bottom: 18px;
+}
+
+.desafio-pontos-conteudo {
+  display: grid;
+  gap: 16px;
+}
+
+.desafio-pontos-conteudo.escondido {
+  display: none !important;
+}
+
+.desafio-pontos-form {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(240px, 1fr);
+  gap: 12px;
+  align-items: end;
+}
+
+.desafio-pontos-botoes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.desafio-ponto-btn {
+  min-height: 48px;
+  justify-content: center;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.060) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  color: var(--texto-primario) !important;
+  box-shadow: none !important;
+  text-align: center;
+}
+
+.desafio-ponto-btn small {
+  margin-left: 5px;
+  color: var(--cor-roxo-claro);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.desafio-ponto-btn:hover {
+  background: rgba(139, 92, 246, 0.16) !important;
+  border-color: rgba(196, 181, 253, 0.28) !important;
+}
+
+.desafio-ponto-tecnica small { color: #c4b5fd; }
+.desafio-ponto-atitude small { color: #86efac; }
+.desafio-ponto-aula small { color: #93c5fd; }
+.desafio-ponto-competicao small,
+.desafio-ponto-medalha small { color: #fbbf24; }
+
+.desafio-pontos-feedback {
+  margin: 0;
+  color: var(--texto-terciario);
+  font-size: 12px;
+}
+
+.desafio-pontos-feedback.sucesso {
+  color: #86efac;
+}
+
+.desafio-pontos-feedback.erro {
+  color: #fca5a5;
+}
+
+@media (max-width: 920px) {
+  .desafio-pontos-form,
+  .desafio-pontos-botoes {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .desafio-pontos-topo {
+    display: grid;
+  }
+
+  .btn-toggle-pontos-desafio {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .desafio-pontos-card {
+    padding: 16px;
+  }
+
+  .desafio-pontos-form,
+  .desafio-pontos-botoes {
+    grid-template-columns: 1fr;
+  }
+
+  .desafio-ponto-btn {
+    width: 100%;
+  }
+}
+
+/* ================================================================
+   FASE 6A.4 — DESAFIO DA AULA: HISTÓRICO DE PONTOS
+================================================================ */
+
+.desafio-historico-card {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0;
+  padding: 18px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.10), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.030));
+  border: 1px solid rgba(255, 255, 255, 0.095);
+}
+
+.desafio-historico-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.desafio-historico-topo h3 {
+  color: #fff;
+  font-size: clamp(18px, 2vw, 24px);
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.desafio-historico-topo p {
+  color: var(--texto-secundario);
+  margin-top: 6px;
+  max-width: 760px;
+}
+
+.desafio-historico-card-recolhido {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.07), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025));
+}
+
+.btn-toggle-historico-desafio {
+  white-space: nowrap;
+}
+
+.desafio-historico-conteudo {
+  display: grid;
+  gap: 10px;
+}
+
+.desafio-historico-conteudo.escondido {
+  display: none !important;
+}
+
+.desafio-historico-controles {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.desafio-historico-lista {
+  display: grid;
+  gap: 10px;
+}
+
+.desafio-historico-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.085);
+}
+
+.desafio-historico-info {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.desafio-historico-info strong {
+  color: #fff;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.desafio-historico-info span,
+.desafio-historico-info small {
+  color: var(--texto-secundario);
+  font-size: 12px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.desafio-historico-pontos {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--raio-pill);
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(196, 181, 253, 0.18);
+  color: var(--cor-roxo-claro);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.btn-excluir-ponto-desafio {
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: var(--raio-pill) !important;
+  background: var(--vermelho-bg) !important;
+  border: 1px solid var(--vermelho-borda) !important;
+  color: #fca5a5 !important;
+  box-shadow: none !important;
+  white-space: nowrap;
+}
+
+.btn-excluir-ponto-desafio:hover {
+  background: var(--vermelho) !important;
+  color: #fff !important;
+  transform: none;
+}
+
+.desafio-historico-acoes {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
+.desafio-confirmacao-excluir {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 16px;
+  background: rgba(248, 113, 113, 0.10);
+  border: 1px solid rgba(248, 113, 113, 0.22);
+}
+
+.desafio-confirmacao-excluir span {
+  color: #fecaca;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.btn-confirmar-exclusao-ponto,
+.btn-cancelar-exclusao-ponto {
+  min-height: 34px;
+  padding: 7px 10px;
+  border-radius: var(--raio-pill) !important;
+  box-shadow: none !important;
+  white-space: nowrap;
+}
+
+.btn-confirmar-exclusao-ponto {
+  background: var(--vermelho) !important;
+  color: #fff !important;
+}
+
+.btn-cancelar-exclusao-ponto {
+  background: rgba(255, 255, 255, 0.065) !important;
+  color: var(--texto-primario) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+}
+
+.desafio-historico-item.confirmando-exclusao .btn-excluir-ponto-desafio {
+  display: none;
+}
+
+.desafio-historico-item.confirmando-exclusao .desafio-confirmacao-excluir {
+  display: flex;
+}
+
+@media (max-width: 720px) {
+  .desafio-historico-topo {
+    display: grid;
+  }
+
+  .desafio-historico-topo button,
+  .desafio-historico-controles button {
+    width: 100%;
+  }
+
+  .desafio-historico-controles {
+    display: grid;
+  }
+
+  .desafio-historico-item {
+    grid-template-columns: 1fr;
+  }
+
+  .desafio-historico-acoes,
+  .btn-excluir-ponto-desafio,
+  .desafio-confirmacao-excluir,
+  .btn-confirmar-exclusao-ponto,
+  .btn-cancelar-exclusao-ponto {
+    width: 100%;
+  }
+
+  .desafio-historico-acoes {
+    justify-items: stretch;
+  }
+
+  .desafio-confirmacao-excluir {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .desafio-historico-item.confirmando-exclusao .desafio-confirmacao-excluir {
+    display: grid;
+  }
+
+  .desafio-confirmacao-excluir span {
+    grid-column: 1 / -1;
+    white-space: normal;
+  }
+}
+
+
+
+/* ================================================================
+   FASE 6A.5 — DESAFIO DA AULA: POLIMENTO VISUAL LEVE
+   Não muda regra de ranking. Apenas melhora clareza e leitura.
+================================================================ */
+
+.desafio-page > .painel-topo {
+  margin-bottom: 14px;
+}
+
+.desafio-page > .painel-topo #btnAtualizarDesafio {
+  min-width: 134px;
+}
+
+.desafio-resumo-regras {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 4px 0 16px;
+}
+
+.desafio-regra-card {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 14px;
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.058), rgba(255, 255, 255, 0.032));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.desafio-regra-card span {
+  color: var(--texto-terciario);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+.desafio-regra-card strong {
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: -0.035em;
+}
+
+.desafio-regra-card small {
+  color: var(--texto-secundario);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.desafio-pontos-card,
+.desafio-historico-card {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.desafio-pontos-card-recolhido,
+.desafio-historico-card-recolhido {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.048), rgba(255, 255, 255, 0.026)) !important;
+}
+
+.desafio-pontos-card-recolhido .page-eyebrow,
+.desafio-historico-card-recolhido .page-eyebrow {
+  opacity: 0.82;
+}
+
+.desafio-pontos-topo h3,
+.desafio-historico-topo h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.desafio-pontos-topo h3::before {
+  content: "＋";
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9px;
+  background: rgba(139, 92, 246, 0.17);
+  color: #c4b5fd;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.desafio-historico-topo h3::before {
+  content: "↺";
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #93c5fd;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.btn-toggle-pontos-desafio,
+.btn-toggle-historico-desafio {
+  border-radius: var(--raio-pill) !important;
+}
+
+#rankingTabsProfessor {
+  margin-top: 18px;
+  padding-top: 4px;
+}
+
+#rankingTabsProfessor .ranking-tab {
+  font-weight: 700;
+}
+
+#listaRankingDesafioProfessor {
+  padding-top: 2px;
+}
+
+@media (max-width: 920px) {
+  .desafio-resumo-regras {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .desafio-page > .painel-topo #btnAtualizarDesafio {
+    width: 100%;
+  }
+
+  .desafio-regra-card {
+    padding: 13px;
+  }
+}
+
+/* ================================================================
+   CORREÇÃO — BOTÃO / CARD DE ATUALIZAÇÃO CENTRALIZADO
+================================================================ */
+
+/* Container do aviso de atualização */
+.update-banner,
+.mensalize-update-banner,
+.release-update-banner,
+.update-card {
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+  transform: translateX(-50%) !important;
+
+  width: min(560px, calc(100% - 28px)) !important;
+  max-width: 560px !important;
+
+  z-index: 99998 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+
+  padding: 14px !important;
+  border-radius: 20px !important;
+  box-sizing: border-box !important;
+
+  text-align: left !important;
+}
+
+/* Área de texto do aviso */
+.update-banner > div,
+.mensalize-update-banner > div,
+.release-update-banner > div,
+.update-card > div {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+/* Botão dentro do aviso */
+.update-banner button,
+.mensalize-update-banner button,
+.release-update-banner button,
+.update-card button {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  align-self: center !important;
+  white-space: nowrap !important;
+}
+
+/* Celular: fica bonito, centralizado e sem entortar */
+@media (max-width: 560px) {
+  .update-banner,
+  .mensalize-update-banner,
+  .release-update-banner,
+  .update-card {
+    width: calc(100% - 24px) !important;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+
+    flex-direction: column !important;
+    align-items: stretch !important;
+    text-align: center !important;
+  }
+
+  .update-banner button,
+  .mensalize-update-banner button,
+  .release-update-banner button,
+  .update-card button {
+    width: 100% !important;
+    justify-content: center !important;
   }
 }

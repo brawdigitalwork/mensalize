@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap');
-
 /* ================================================================
    ÁREA DO ALUNO — MENSALIZE
    Mobile first · Sidebar · Portal limpo
@@ -768,7 +766,6 @@ body.menu-aberto .student-sidebar { transform: translateX(0) !important; }
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.68) !important;
-  backdrop-filter: blur(4px);
   opacity: 0;
   pointer-events: none;
   transition: opacity .22s ease;
@@ -896,7 +893,7 @@ body.menu-aberto { overflow: hidden; }
 .quick-card,
 .summary-box { padding: 18px; }
 .quick-card span,
-.summary-box span { color: var(--texto-secundario); font-weight: 780; }
+.summary-box span { color: var(--texto-secundario); font-weight: 600; }
 .quick-card strong,
 .summary-box strong { color: #fff; letter-spacing: -0.05em; }
 .section-title-row { align-items: flex-start; gap: 14px; }
@@ -3169,7 +3166,12 @@ body,
   border-radius: 15px;
 }
 
-/* Tema claro */
+/* ================================================================
+   LEGADO — TEMA CLARO DO PORTAL ALUNO
+   Mantido temporariamente para evitar quebra visual.
+   O portal opera em escuro fixo, mas esses blocos ainda serão auditados.
+================================================================ */
+
 [data-tema="claro"] .welcome-card,
 [data-tema="claro"] .quick-card {
   background: rgba(255, 255, 255, 0.84) !important;
@@ -5572,5 +5574,363 @@ padding: calc(var(--space-3) + var(--safe-top)) max(var(--space-4), calc(var(--s
   .contact-card,
   .quick-action-card {
     padding: var(--space-4, 16px) !important;
+  }
+}
+
+
+/* ================================================================
+   FASE 6B.2 — DESAFIO MENSAL NO PORTAL DO ALUNO
+================================================================ */
+.ranking-helper-compact {
+  margin: -4px 0 10px;
+  font-size: 12px;
+}
+
+.ranking-score-line {
+  color: var(--texto-primario) !important;
+  font-weight: 700;
+}
+
+.ranking-detail-line {
+  margin-top: 2px;
+  color: var(--texto-terciario) !important;
+  font-size: 11px !important;
+}
+
+.ranking-row-info small + small {
+  display: block;
+}
+
+
+/* ================================================================
+   FASE 6C.1 — ESTABILIZAÇÃO MOBILE DO PORTAL DO ALUNO
+   Objetivo: celular primeiro, sem zoom acidental, sem arrasto lateral
+   e com menos sensação de cards flutuando no toque.
+================================================================ */
+html,
+body {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
+  -webkit-text-size-adjust: 100%;
+  touch-action: pan-y;
+}
+
+body {
+  position: relative;
+}
+
+#portalConteudo,
+.student-app,
+.student-main,
+.student-content,
+.student-view,
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card,
+.summary-box,
+.evolution-info,
+.photo-box,
+.payment-item,
+.ranking-home-card,
+.notices-home-card,
+.ranking-list,
+.ranking-row,
+.ranking-row-info,
+.section-title-row,
+.status-hero,
+.action-row,
+.payment-actions,
+.contact-actions,
+.student-form,
+.quick-grid,
+.finance-summary-grid,
+.student-evolution-grid {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.student-content {
+  overflow-x: hidden !important;
+}
+
+.student-view,
+.welcome-card,
+.panel-card,
+.quick-card,
+.error-card {
+  overflow-x: hidden !important;
+  overflow-wrap: anywhere;
+}
+
+img,
+svg,
+canvas,
+video,
+iframe {
+  max-width: 100% !important;
+}
+
+button,
+a,
+input,
+textarea,
+select,
+.student-menu-item,
+.primary-action,
+.secondary-action,
+.pay-button,
+.whatsapp-button,
+.share-button,
+.link-button,
+.ranking-tab {
+  touch-action: manipulation;
+}
+
+input,
+textarea,
+select {
+  font-size: 16px !important;
+}
+
+.ranking-tabs {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.ranking-podium {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.podium-card,
+.ranking-row,
+.payment-item,
+.summary-box,
+.evolution-info,
+.quick-card {
+  transform: none !important;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .student-view,
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .summary-box,
+  .evolution-info,
+  .payment-item,
+  .ranking-row,
+  .podium-card,
+  .student-menu-item,
+  .menu-button,
+  .primary-action,
+  .secondary-action,
+  .pay-button,
+  .whatsapp-button,
+  .share-button {
+    animation: none !important;
+    transition: background-color 0.16s ease, border-color 0.16s ease, opacity 0.16s ease !important;
+  }
+
+  .student-menu-item:hover,
+  .menu-button:hover,
+  .podium-card:hover,
+  .podium-first:hover,
+  .quick-card:hover,
+  .panel-card:hover,
+  .ranking-row:hover,
+  .primary-action:hover,
+  .secondary-action:hover,
+  .pay-button:hover,
+  .whatsapp-button:hover,
+  .share-button:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .podium-first {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: hidden !important;
+  }
+
+  .student-topbar {
+    left: 0 !important;
+    right: 0 !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .student-content {
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding-left: max(14px, calc(14px + var(--safe-left))) !important;
+    padding-right: max(14px, calc(14px + var(--safe-right))) !important;
+  }
+
+  .student-small-profile {
+    max-width: calc(100vw - 76px) !important;
+    overflow: hidden !important;
+  }
+
+  .student-small-profile strong,
+  .student-small-profile span,
+  .ranking-row-info strong,
+  .ranking-row-info small,
+  .payment-left strong,
+  .payment-left span,
+  .section-title-row h2,
+  .welcome-card h1,
+  .helper-text,
+  .status-message,
+  .empty-message {
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  .section-title-row,
+  .status-hero,
+  .photo-box,
+  .payment-item,
+  .ranking-row {
+    width: 100% !important;
+  }
+
+  .ranking-row {
+    align-items: flex-start !important;
+  }
+
+  .ranking-position {
+    width: 32px !important;
+    min-width: 32px !important;
+  }
+
+  .ranking-row .ranking-photo,
+  .ranking-row .ranking-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+  }
+
+  .primary-action,
+  .secondary-action,
+  .pay-button,
+  .whatsapp-button,
+  .share-button {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .student-content {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .welcome-card,
+  .panel-card,
+  .quick-card,
+  .summary-box,
+  .evolution-info,
+  .photo-box,
+  .payment-item,
+  .ranking-row {
+    padding: 14px !important;
+  }
+
+  .student-small-profile strong {
+    max-width: 112px !important;
+  }
+}
+
+/* ================================================================
+   CORREÇÃO — BOTÃO / CARD DE ATUALIZAÇÃO CENTRALIZADO
+================================================================ */
+
+/* Container do aviso de atualização */
+.update-banner,
+.mensalize-update-banner,
+.release-update-banner,
+.update-card {
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+  transform: translateX(-50%) !important;
+
+  width: min(560px, calc(100% - 28px)) !important;
+  max-width: 560px !important;
+
+  z-index: 99998 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+
+  padding: 14px !important;
+  border-radius: 20px !important;
+  box-sizing: border-box !important;
+
+  text-align: left !important;
+}
+
+/* Área de texto do aviso */
+.update-banner > div,
+.mensalize-update-banner > div,
+.release-update-banner > div,
+.update-card > div {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+/* Botão dentro do aviso */
+.update-banner button,
+.mensalize-update-banner button,
+.release-update-banner button,
+.update-card button {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  align-self: center !important;
+  white-space: nowrap !important;
+}
+
+/* Celular: fica bonito, centralizado e sem entortar */
+@media (max-width: 560px) {
+  .update-banner,
+  .mensalize-update-banner,
+  .release-update-banner,
+  .update-card {
+    width: calc(100% - 24px) !important;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+
+    flex-direction: column !important;
+    align-items: stretch !important;
+    text-align: center !important;
+  }
+
+  .update-banner button,
+  .mensalize-update-banner button,
+  .release-update-banner button,
+  .update-card button {
+    width: 100% !important;
+    justify-content: center !important;
   }
 }

@@ -55,6 +55,9 @@ btnCriarUsuario.addEventListener("click", async function() {
     return;
   }
 
+  btnCriarUsuario.disabled = true;
+  const textoBotaoOriginal = btnCriarUsuario.textContent;
+  btnCriarUsuario.textContent = "Criando...";
   msgAdmin.textContent = "Criando usuário...";
 
   try {
@@ -91,6 +94,9 @@ btnCriarUsuario.addEventListener("click", async function() {
   } catch (err) {
     console.log("Erro completo ao criar usuário:", err);
     msgAdmin.textContent = "Erro ao criar usuário.";
+  } finally {
+    btnCriarUsuario.disabled = false;
+    btnCriarUsuario.textContent = textoBotaoOriginal;
   }
 });
 
@@ -627,7 +633,7 @@ async function alterarLimite(id) {
 async function carregarDashboard() {
   const { data: clientes, error: erroClientes } = await supabaseClient
     .from("profiles")
-    .select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_fight,modulo_evolucao,modulo_presenca,modulo_avisos");
+    .select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_fight,modulo_evolucao,modulo_presenca,modulo_avisos,plano,status,pode_usar");
 
   const { data: todosAlunos, error: erroAlunos } = await supabaseClient
     .from("alunos")
@@ -643,20 +649,34 @@ async function carregarDashboard() {
     return;
   }
 
-  totalClientes.textContent = clientes.length;
-  totalAlunosAdmin.textContent = todosAlunos.length;
+  const clientesBase = (clientes || []).filter(cliente => !cliente.is_admin);
+  const alunosBase = todosAlunos || [];
+
+  const ativos = clientesBase.filter(cliente => cliente.status !== "bloqueado" && cliente.pode_usar !== false).length;
+  const bloqueados = clientesBase.filter(cliente => cliente.status === "bloqueado" || cliente.pode_usar === false).length;
 
   let noLimite = 0;
 
-  clientes.forEach(cliente => {
-    const alunosDoCliente = todosAlunos.filter(a => String(a.user_id) === String(cliente.id));
+  clientesBase.forEach(cliente => {
+    const limite = Number(cliente.limite_alunos || 30);
+    const alunosDoCliente = alunosBase.filter(a => String(a.user_id) === String(cliente.id));
 
-    if (alunosDoCliente.length >= cliente.limite_alunos) {
+    if (alunosDoCliente.length >= limite) {
       noLimite++;
     }
   });
 
-  clientesLimite.textContent = noLimite;
+  const elTotalClientes = document.getElementById("totalClientes");
+  const elTotalAlunos = document.getElementById("totalAlunosAdmin");
+  const elClientesLimite = document.getElementById("clientesLimite");
+  const elAtivos = document.getElementById("clientesAtivosAdmin");
+  const elBloqueados = document.getElementById("clientesBloqueadosAdmin");
+
+  if (elTotalClientes) elTotalClientes.textContent = clientesBase.length;
+  if (elTotalAlunos) elTotalAlunos.textContent = alunosBase.length;
+  if (elClientesLimite) elClientesLimite.textContent = noLimite;
+  if (elAtivos) elAtivos.textContent = ativos;
+  if (elBloqueados) elBloqueados.textContent = bloqueados;
 }
 
 /** Admin: abre confirmação para remover cliente. */

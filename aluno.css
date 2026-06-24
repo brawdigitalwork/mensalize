@@ -5860,77 +5860,285 @@ select {
   }
 }
 
+
 /* ================================================================
-   CORREÇÃO — BOTÃO / CARD DE ATUALIZAÇÃO CENTRALIZADO
+   PORTAL DO ALUNO — POLIMENTO PROFISSIONAL
+   Foco: menos poluição, mais clareza e experiência mobile
 ================================================================ */
+.student-content {
+  gap: 18px !important;
+}
 
-/* Container do aviso de atualização */
-.update-banner,
-.mensalize-update-banner,
-.release-update-banner,
-.update-card {
-  position: fixed !important;
-  left: 50% !important;
-  right: auto !important;
-  bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
-  transform: translateX(-50%) !important;
+.welcome-card {
+  border: 1px solid rgba(167, 139, 250, .18) !important;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(124, 58, 237, .20), transparent 34%),
+    linear-gradient(145deg, rgba(20, 20, 32, .96), rgba(10, 10, 18, .96)) !important;
+}
 
-  width: min(560px, calc(100% - 28px)) !important;
-  max-width: 560px !important;
+.welcome-card h1 {
+  letter-spacing: -0.055em !important;
+}
 
-  z-index: 99998 !important;
+.quick-grid {
+  align-items: stretch !important;
+}
 
+.quick-card {
+  min-height: 118px !important;
   display: flex !important;
-  align-items: center !important;
+  flex-direction: column !important;
   justify-content: space-between !important;
-  gap: 14px !important;
-
-  padding: 14px !important;
-  border-radius: 20px !important;
-  box-sizing: border-box !important;
-
-  text-align: left !important;
+  border-color: rgba(255,255,255,.08) !important;
 }
 
-/* Área de texto do aviso */
-.update-banner > div,
-.mensalize-update-banner > div,
-.release-update-banner > div,
-.update-card > div {
-  min-width: 0 !important;
-  flex: 1 1 auto !important;
+.quick-card span {
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: .07em !important;
+  text-transform: uppercase !important;
+  color: rgba(226, 232, 240, .62) !important;
 }
 
-/* Botão dentro do aviso */
-.update-banner button,
-.mensalize-update-banner button,
-.release-update-banner button,
-.update-card button {
+.quick-card strong {
+  margin-top: 10px !important;
+}
+
+.action-row {
+  gap: 10px !important;
+}
+
+.notices-home-card,
+.ranking-home-card,
+.panel-card {
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .22) !important;
+}
+
+.student-notices-list {
+  gap: 12px !important;
+}
+
+.student-notice-item {
+  padding: 16px !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  background: rgba(255,255,255,.045) !important;
+}
+
+.student-notice-item strong {
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+}
+
+.student-notice-item p {
+  margin-top: 8px !important;
+  line-height: 1.48 !important;
+}
+
+.notice-kind,
+.mini-badge {
+  border: 1px solid rgba(167, 139, 250, .20) !important;
+}
+
+/* Solicitações do aluno: fechadas por padrão para não poluir a tela */
+.student-request-card {
+  padding: 18px !important;
+}
+
+.student-request-card .section-title-row {
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.student-request-card h2 {
+  margin-bottom: 0 !important;
+}
+
+.student-request-toggle {
   flex: 0 0 auto !important;
-  margin: 0 !important;
-  align-self: center !important;
-  white-space: nowrap !important;
+  min-height: 36px !important;
+  padding: 0 13px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(167, 139, 250, .22) !important;
+  background: rgba(124, 58, 237, .10) !important;
+  color: #ddd6fe !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
 }
 
-/* Celular: fica bonito, centralizado e sem entortar */
-@media (max-width: 560px) {
-  .update-banner,
-  .mensalize-update-banner,
-  .release-update-banner,
-  .update-card {
-    width: calc(100% - 24px) !important;
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+.student-request-toggle:hover {
+  background: rgba(124, 58, 237, .18) !important;
+}
 
-    flex-direction: column !important;
-    align-items: stretch !important;
-    text-align: center !important;
+.request-summary {
+  margin-top: 10px !important;
+  margin-bottom: 0 !important;
+}
+
+.student-request-body {
+  display: none;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.student-request-card.request-open .student-request-body {
+  display: block;
+}
+
+.student-request-card.request-open .request-summary {
+  display: none;
+}
+
+.student-request-body .student-form {
+  margin-top: 12px !important;
+}
+
+@media (max-width: 560px) {
+  .welcome-card,
+  .panel-card,
+  .quick-card {
+    border-radius: 24px !important;
   }
 
-  .update-banner button,
-  .mensalize-update-banner button,
-  .release-update-banner button,
-  .update-card button {
+  .action-row {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .action-row button {
     width: 100% !important;
-    justify-content: center !important;
+  }
+
+  .student-request-card .section-title-row {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+  }
+
+  .student-request-toggle {
+    min-width: 86px !important;
+  }
+}
+
+/* ================================================================
+   MENSALIZE ALUNO — POLIMENTO SaaS 1A
+   Padronização visual + estados vazios profissionais
+================================================================ */
+
+:root {
+  --student-empty-border: rgba(148, 163, 184, 0.24);
+  --student-empty-bg: rgba(255, 255, 255, 0.045);
+  --student-focus: rgba(167, 139, 250, 0.44);
+}
+
+.student-card,
+.student-panel,
+.info-card,
+.payment-card,
+.ranking-card,
+.notice-card,
+.graduation-card,
+.program-card,
+.solicitacao-card-aluno {
+  box-shadow: 0 18px 52px rgba(2, 6, 23, .20) !important;
+}
+
+.empty-message,
+.student-empty,
+.aluno-empty-state,
+.ranking-empty,
+.payments-empty {
+  width: 100% !important;
+  min-height: 116px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 24px 16px !important;
+  border: 1px dashed var(--student-empty-border) !important;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(circle at top left, rgba(139, 92, 246, .10), transparent 38%),
+    var(--student-empty-bg) !important;
+  color: var(--student-muted, #94a3b8) !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  line-height: 1.45 !important;
+  text-align: center !important;
+}
+
+.empty-message::before,
+.student-empty::before,
+.aluno-empty-state::before,
+.ranking-empty::before,
+.payments-empty::before {
+  content: "";
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 10px;
+  display: block;
+  border-radius: 13px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, .26), rgba(34, 197, 94, .12));
+  border: 1px solid rgba(255, 255, 255, .10);
+}
+
+#listaPagamentos:empty,
+#rankingAlunoLista:empty,
+#rankingTurmasAlunoLista:empty,
+#avisosAlunoLista:empty,
+#programaFaixaLista:empty {
+  min-height: 116px;
+  display: grid;
+  place-items: center;
+  padding: 22px 16px;
+  border: 1px dashed var(--student-empty-border);
+  border-radius: 20px;
+  background: var(--student-empty-bg);
+  color: var(--student-muted, #94a3b8);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+#listaPagamentos:empty::before { content: "Nenhum pagamento registrado ainda."; }
+#rankingAlunoLista:empty::before { content: "Ainda não há dados suficientes para formar o ranking deste mês."; }
+#rankingTurmasAlunoLista:empty::before { content: "Ainda não há turmas suficientes no ranking deste mês."; }
+#avisosAlunoLista:empty::before { content: "Nenhum aviso publicado no momento."; }
+#programaFaixaLista:empty::before { content: "Sua trilha de graduação aparecerá aqui quando estiver configurada."; }
+
+.primary-action:focus-visible,
+.secondary-action:focus-visible,
+.student-menu-item:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--student-focus) !important;
+  outline-offset: 3px !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(167, 139, 250, .42) !important;
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, .10) !important;
+}
+
+.primary-action,
+.secondary-action,
+.student-menu-item,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 560px) {
+  .empty-message,
+  .student-empty,
+  .aluno-empty-state,
+  .ranking-empty,
+  .payments-empty {
+    min-height: 104px !important;
+    border-radius: 18px !important;
+    padding: 20px 14px !important;
+    font-size: 13px !important;
   }
 }

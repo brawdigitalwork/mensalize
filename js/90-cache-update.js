@@ -1,5 +1,5 @@
 // js/90-cache-update.js — atualização, cache e novidades do Mensalize
-const MENSALIZE_APP_VERSION = 'Mensalize Beta-1.2';
+const MENSALIZE_APP_VERSION = 'Mensalize Beta-1.4';
 window.MENSALIZE_APP_VERSION = MENSALIZE_APP_VERSION;
 
 /*
@@ -7,41 +7,56 @@ window.MENSALIZE_APP_VERSION = MENSALIZE_APP_VERSION;
  * Ao trocar `version`, o aviso será mostrado uma vez novamente para cada usuário.
  */
 const MENSALIZE_RELEASE = {
-  version: 'Beta 1.2',
+  version: 'Beta 1.4',
   date: 'Junho de 2026',
   eyebrow: 'Atualização disponível',
-  title: 'O Mensalize recebeu melhorias importantes',
-  summary: 'Esta versão melhora a experiência no celular, organiza melhor as presenças, fortalece o Desafio da Aula e deixa as atualizações do sistema mais confiáveis.',
+  title: 'O Mensalize ficou mais profissional',
+  summary: 'Esta versão consolida melhorias importantes no painel do professor, portal do aluno, financeiro, solicitações, avisos, configurações, Admin e Desafio da Aula.',
   highlights: [
     {
-      icon: '✅',
-      title: 'Presenças mais organizadas',
-      description: 'A tela de presenças recebeu melhorias para deixar a chamada mais clara, estável e preparada para turmas reais e check-in por QR Code.'
-    },
-    {
       icon: '🏆',
-      title: 'Desafio da Aula aprimorado',
-      description: 'O ranking agora considera o desempenho mensal, somando presenças e pontos extras lançados pelo professor.'
+      title: 'Desafio da Aula unificado',
+      description: 'O ranking do professor e do aluno agora seguem a mesma regra, com presenças e pontos extras batendo corretamente.'
     },
     {
-      icon: '⭐',
-      title: 'Pontos extras e histórico',
-      description: 'O professor pode lançar pontos por técnica, atitude, desafio da aula e competição, além de acompanhar o histórico de pontuação do mês.'
+      icon: '👤',
+      title: 'Alunos com visão mais completa',
+      description: 'A lista de alunos ficou mais executiva e ganhou acesso ao perfil completo com dados, financeiro, graduação e ações rápidas.'
+    },
+    {
+      icon: '💰',
+      title: 'Financeiro mais operacional',
+      description: 'O financeiro recebeu filtros melhores, visão mensal mais clara e cobranças em massa recolhidas para reduzir poluição visual.'
+    },
+    {
+      icon: '📩',
+      title: 'Solicitações organizadas por status',
+      description: 'As solicitações agora ficam separadas entre pendentes, aprovadas e recusadas, com detalhes recolhidos e confirmação nas ações.'
+    },
+    {
+      icon: '📢',
+      title: 'Avisos mais profissionais',
+      description: 'A central de avisos ficou recolhível, mais limpa, com cards refinados e opção de editar comunicados já publicados.'
+    },
+    {
+      icon: '📊',
+      title: 'Dashboard como Central do Dia',
+      description: 'A tela inicial agora destaca solicitações, atrasos, chamadas, graduação e pontos importantes da operação.'
+    },
+    {
+      icon: '⚙️',
+      title: 'Configurações do professor refinadas',
+      description: 'A área de configurações foi reorganizada com dados da academia, Pix, critérios de graduação e recursos ativos.'
     },
     {
       icon: '📱',
-      title: 'Portal do aluno melhor no celular',
-      description: 'A área do aluno recebeu ajustes visuais e de responsividade para navegar melhor em telas menores.'
+      title: 'Portal do aluno e visual geral polidos',
+      description: 'O portal do aluno, estados vazios, cards, botões e espaçamentos receberam ajustes para uma experiência mais consistente.'
     },
     {
-      icon: '⚡',
-      title: 'Atualizações mais confiáveis',
-      description: 'Melhorias no cache ajudam o aplicativo a carregar versões novas com mais segurança e menos problemas.'
-    },
-    {
-      icon: '✨',
-      title: 'Interface mais consistente',
-      description: 'Cards, botões, menus e espaçamentos foram refinados para deixar o uso diário mais simples e profissional.'
+      icon: '🛡️',
+      title: 'Admin e login mais maduros',
+      description: 'O Admin ganhou visão mais executiva e o login do professor ficou mais seguro, salvando apenas o e-mail e sem entrar automaticamente.'
     }
   ]
 };
@@ -377,11 +392,46 @@ window.limparCacheMensalize = limparCacheMensalize;
 window.mostrarBannerAtualizacaoMensalize = mostrarBannerAtualizacao;
 window.abrirNovidadesMensalize = abrirModalNovidades;
 
-document.addEventListener('DOMContentLoaded', () => {
-  criarBannerAtualizacao();
-  criarModalNovidades();
-  adicionarBotaoAtualizarSistema();
-  mostrarNovidadesSeNecessario();
-});
+function painelProfessorEstaAberto() {
+  const telaLogin = document.getElementById('telaLogin');
+  const app = document.getElementById('app');
 
-registrarServiceWorkerMensalize();
+  if (telaLogin && !telaLogin.classList.contains('escondido')) {
+    return false;
+  }
+
+  if (app && app.classList.contains('escondido')) {
+    return false;
+  }
+
+  return true;
+}
+
+function executarDepoisDoLogin(callback) {
+  let tentativas = 0;
+
+  const timer = setInterval(() => {
+    tentativas++;
+
+    if (painelProfessorEstaAberto()) {
+      clearInterval(timer);
+      callback();
+      return;
+    }
+
+    if (tentativas >= 120) {
+      clearInterval(timer);
+    }
+  }, 500);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  registrarServiceWorkerMensalize();
+
+  executarDepoisDoLogin(() => {
+    criarBannerAtualizacao();
+    adicionarBotaoAtualizarSistema();
+
+    mostrarNovidadesSeNecessario();
+  });
+});

@@ -390,6 +390,23 @@ function statusFinanceiroTexto(status) {
   return mapa[normalizarFiltroFinanceiroStatus(status)] || "Status";
 }
 
+
+function escaparHtmlFinanceiro(valor) {
+  return String(valor ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function obterClasseFinanceiroStatus(status) {
+  const statusNormalizado = normalizarFiltroFinanceiroStatus(status);
+  if (statusNormalizado === "pago") return "status-pago";
+  if (statusNormalizado === "atrasado") return "status-atrasado";
+  return "status-pendente";
+}
+
 function dataFinanceiroParaDate(dataString) {
   if (!dataString) return null;
   const partes = String(dataString).split("-");
@@ -414,8 +431,8 @@ function classificarFinanceiroAlunoMes(aluno, pagosSet, dataFimPeriodo) {
 function montarLinhaFinanceiroMensal(item) {
   const aluno = item.aluno || {};
   const status = normalizarFiltroFinanceiroStatus(item.status);
-  const classeStatus = status === "pago" ? "status-pago" : status === "atrasado" ? "status-atrasado" : "status-pendente";
-  const turma = aluno.turma ? ` • ${aluno.turma}` : "";
+  const classeStatus = obterClasseFinanceiroStatus(status);
+  const turma = aluno.turma ? aluno.turma : "Sem turma";
   const vencimento = aluno.vencimento ? formatarData(aluno.vencimento) : "Sem vencimento";
   const valorEsperado = formatarMoeda(item.valorMensalidade || 0);
   const valorPago = formatarMoeda(item.valorPago || 0);
@@ -423,22 +440,268 @@ function montarLinhaFinanceiroMensal(item) {
     ? item.datasPagamento.map(formatarData).join(", ")
     : "Sem pagamento no mês";
 
+  const alunoId = escaparHtmlFinanceiro(aluno.id || "");
+  const nomeAluno = escaparHtmlFinanceiro(aluno.nome || "Aluno sem nome");
+  const turmaTexto = escaparHtmlFinanceiro(turma);
+  const vencimentoTexto = escaparHtmlFinanceiro(vencimento);
+  const datasTexto = escaparHtmlFinanceiro(datasPagamento);
+  const statusTexto = statusFinanceiroTexto(status);
+
+  const acoes = status === "pago"
+    ? `<button type="button" class="acao-secundaria financeiro-row-btn" data-financeiro-cobrar="${alunoId}">WhatsApp</button>`
+    : `
+      <button type="button" class="acao-secundaria financeiro-row-btn" data-financeiro-cobrar="${alunoId}">Cobrar</button>
+      <button type="button" class="acao-principal financeiro-row-btn" data-financeiro-pago="${alunoId}">Marcar pago</button>
+    `;
+
   return `
-    <div class="financeiro-linha-mensal ${classeStatus}">
-      <div>
-        <strong>${aluno.nome || "Aluno sem nome"}</strong>
-        <span>${statusFinanceiroTexto(status)}${turma} • Vencimento: ${vencimento}</span>
-        <span>${datasPagamento}</span>
+    <article class="financeiro-linha-mensal financeiro-linha-pro ${classeStatus}">
+      <div class="financeiro-linha-info">
+        <div class="financeiro-linha-nome-row">
+          <strong>${nomeAluno}</strong>
+          <span class="status-badge ${classeStatus}">${statusTexto}</span>
+        </div>
+        <div class="financeiro-linha-meta">
+          <span>${turmaTexto}</span>
+          <span>Vencimento: ${vencimentoTexto}</span>
+          <span>${datasTexto}</span>
+        </div>
       </div>
-      <div class="financeiro-linha-dir">
-        <strong>${status === "pago" ? valorPago : valorEsperado}</strong>
-        <span class="status-badge ${classeStatus}">${statusFinanceiroTexto(status)}</span>
+
+      <div class="financeiro-linha-dir financeiro-linha-dir-pro">
+        <div>
+          <small>${status === "pago" ? "Recebido" : "Valor esperado"}</small>
+          <strong>${status === "pago" ? valorPago : valorEsperado}</strong>
+        </div>
+        <div class="financeiro-row-actions">
+          ${acoes}
+        </div>
       </div>
-    </div>
+    </article>
   `;
 }
 
+let ultimoResumoFinanceiroMensal = null;
 let carregandoFinanceiroMensal = false;
+let financeiroCobrancaMassaFiltro = "atrasado";
+let financeiroCobrancaMassaAberta = false;
+
+function obterAlunosCobrancaMassa() {
+  if (!ultimoResumoFinanceiroMensal || !Array.isArray(ultimoResumoFinanceiroMensal.linhas)) return [];
+
+  return ultimoResumoFinanceiroMensal.linhas
+    .filter(item => item && item.aluno && item.status !== "pago")
+    .filter(item => financeiroCobrancaMassaFiltro === "todos" || item.status === financeiroCobrancaMassaFiltro)
+    .sort((a, b) => {
+      const ordem = { atrasado: 1, pendente: 2 };
+      return (ordem[a.status] || 9) - (ordem[b.status] || 9) || String(a.aluno.nome || "").localeCompare(String(b.aluno.nome || ""), "pt-BR");
+    });
+}
+
+function gerarMensagemCobrancaFinanceiro(item) {
+  const aluno = item?.aluno || {};
+  const empresa = nomeEmpresa || "Mensalize";
+  const nomeAluno = aluno.nome || "aluno";
+  const data = aluno.vencimento ? formatarData(aluno.vencimento) : "sem vencimento informado";
+  const valorFmt = formatarMoeda(item?.valorMensalidade || aluno.valor || 0);
+  const status = normalizarFiltroFinanceiroStatus(item?.status);
+  const chamada = status === "atrasado"
+    ? "Identificamos que sua mensalidade está em atraso."
+    : "Sua mensalidade consta em aberto no sistema.";
+
+  return `*${String(empresa).toUpperCase()}*\n\nOlá, *${nomeAluno}*. Tudo bem?\n\n${chamada}\n\n*Vencimento:* ${data}\n*Valor:* ${valorFmt}\n\nCaso o pagamento já tenha sido realizado, por favor desconsidere esta mensagem e nos envie o comprovante para confirmação.\n\nAgradecemos pela atenção.`;
+}
+
+function copiarTextoFinanceiro(texto, mensagemSucesso = "Copiado.") {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto)
+      .then(() => mostrarToast(mensagemSucesso))
+      .catch(() => mostrarToast("Não foi possível copiar.", "erro"));
+    return;
+  }
+
+  const area = document.createElement("textarea");
+  area.value = texto;
+  document.body.appendChild(area);
+  area.select();
+  document.execCommand("copy");
+  area.remove();
+  mostrarToast(mensagemSucesso);
+}
+
+function atualizarEstadoVisualCobrancaMassaFinanceiro() {
+  const painel = document.getElementById("financeiroCobrancaMassa");
+  const botao = document.getElementById("btnAlternarCobrancaMassaFinanceiro");
+  if (!painel) return;
+
+  painel.classList.toggle("recolhido", !financeiroCobrancaMassaAberta);
+
+  if (botao) {
+    botao.textContent = financeiroCobrancaMassaAberta ? "Fechar" : "Abrir cobranças";
+    botao.setAttribute("aria-expanded", String(financeiroCobrancaMassaAberta));
+  }
+}
+
+function criarPainelCobrancaMassaFinanceiro() {
+  if (document.getElementById("financeiroCobrancaMassa")) return;
+
+  const referencia = document.querySelector(".financeiro-filtros-mes") || listaFinanceiroMensal;
+  if (!referencia || !referencia.parentNode) return;
+
+  const painel = document.createElement("section");
+  painel.id = "financeiroCobrancaMassa";
+  painel.className = "financeiro-cobranca-massa recolhido";
+  painel.innerHTML = `
+    <div class="financeiro-cobranca-topo">
+      <div>
+        <span class="page-eyebrow">Cobrança assistida</span>
+        <h3>Cobranças em massa</h3>
+        <p>Abra somente quando quiser organizar alunos em aberto e cobrar pelo WhatsApp.</p>
+      </div>
+      <div class="financeiro-cobranca-resumo-acoes">
+        <span id="financeiroCobrancaMassaResumo" class="financeiro-lista-contador">0 alunos</span>
+        <button type="button" id="btnAlternarCobrancaMassaFinanceiro" class="acao-secundaria" aria-expanded="false">
+          Abrir cobranças
+        </button>
+      </div>
+    </div>
+
+    <div class="financeiro-cobranca-toolbar">
+      <div class="financeiro-cobranca-tabs" role="group" aria-label="Filtro de cobrança">
+        <button type="button" class="ativo" data-financeiro-cobranca-filtro="atrasado">Atrasados</button>
+        <button type="button" data-financeiro-cobranca-filtro="pendente">Pendentes</button>
+        <button type="button" data-financeiro-cobranca-filtro="todos">Todos em aberto</button>
+      </div>
+      <button type="button" id="btnFinanceiroCopiarListaCobranca" class="acao-secundaria">Copiar lista</button>
+    </div>
+
+    <div id="financeiroCobrancaMassaLista" class="financeiro-cobranca-lista">
+      <div class="empty-state-mini">Carregando cobranças...</div>
+    </div>
+  `;
+
+  referencia.insertAdjacentElement("afterend", painel);
+  atualizarEstadoVisualCobrancaMassaFinanceiro();
+
+  painel.addEventListener("click", event => {
+    const alternar = event.target.closest("#btnAlternarCobrancaMassaFinanceiro");
+    if (alternar) {
+      financeiroCobrancaMassaAberta = !financeiroCobrancaMassaAberta;
+      atualizarEstadoVisualCobrancaMassaFinanceiro();
+      return;
+    }
+
+    const filtro = event.target.closest("[data-financeiro-cobranca-filtro]");
+    if (filtro) {
+      financeiroCobrancaMassaFiltro = filtro.getAttribute("data-financeiro-cobranca-filtro") || "atrasado";
+      painel.querySelectorAll("[data-financeiro-cobranca-filtro]").forEach(botao => {
+        botao.classList.toggle("ativo", botao === filtro);
+      });
+      atualizarPainelCobrancaMassaFinanceiro();
+      return;
+    }
+
+    const copiarAluno = event.target.closest("[data-financeiro-copiar-cobranca]");
+    if (copiarAluno) {
+      const alunoId = copiarAluno.getAttribute("data-financeiro-copiar-cobranca");
+      const item = obterAlunosCobrancaMassa().find(linha => String(linha.aluno.id) === String(alunoId));
+      if (!item) return mostrarToast("Aluno não encontrado na cobrança.", "erro");
+      copiarTextoFinanceiro(gerarMensagemCobrancaFinanceiro(item), "Mensagem de cobrança copiada.");
+      return;
+    }
+
+    const cobrarAluno = event.target.closest("[data-financeiro-cobrar-massa]");
+    if (cobrarAluno) {
+      enviarWhatsApp(cobrarAluno.getAttribute("data-financeiro-cobrar-massa"));
+      return;
+    }
+
+    const copiarLista = event.target.closest("#btnFinanceiroCopiarListaCobranca");
+    if (copiarLista) {
+      copiarListaCobrancaMassaFinanceiro();
+    }
+  });
+}
+
+function montarLinhaCobrancaMassaFinanceiro(item) {
+  const aluno = item.aluno || {};
+  const alunoId = escaparHtmlFinanceiro(aluno.id || "");
+  const nomeAluno = escaparHtmlFinanceiro(aluno.nome || "Aluno sem nome");
+  const status = normalizarFiltroFinanceiroStatus(item.status);
+  const statusTexto = statusFinanceiroTexto(status);
+  const classeStatus = obterClasseFinanceiroStatus(status);
+  const vencimento = aluno.vencimento ? formatarData(aluno.vencimento) : "Sem vencimento";
+  const valor = formatarMoeda(item.valorMensalidade || 0);
+  const telefone = aluno.telefone ? aluno.telefone.replace(/\D/g, "") : "";
+  const telefoneOk = telefone.length >= 10;
+
+  return `
+    <article class="financeiro-cobranca-item ${classeStatus}">
+      <div class="financeiro-cobranca-aluno">
+        <strong>${nomeAluno}</strong>
+        <span>${statusTexto} · Vencimento: ${escaparHtmlFinanceiro(vencimento)} · ${valor}</span>
+      </div>
+      <div class="financeiro-cobranca-actions">
+        <button type="button" class="acao-secundaria" data-financeiro-copiar-cobranca="${alunoId}">Copiar mensagem</button>
+        <button type="button" class="acao-principal" data-financeiro-cobrar-massa="${alunoId}" ${telefoneOk ? "" : "disabled"}>WhatsApp</button>
+      </div>
+    </article>
+  `;
+}
+
+function atualizarPainelCobrancaMassaFinanceiro() {
+  criarPainelCobrancaMassaFinanceiro();
+
+  const lista = document.getElementById("financeiroCobrancaMassaLista");
+  const resumo = document.getElementById("financeiroCobrancaMassaResumo");
+  if (!lista) return;
+
+  const linhas = obterAlunosCobrancaMassa();
+  const label = financeiroCobrancaMassaFiltro === "atrasado"
+    ? "atrasado"
+    : financeiroCobrancaMassaFiltro === "pendente"
+      ? "pendente"
+      : "em aberto";
+
+  if (resumo) {
+    resumo.textContent = `${linhas.length} ${linhas.length === 1 ? "aluno" : "alunos"} ${label}${linhas.length === 1 ? "" : "s"}`;
+  }
+
+  if (!linhas.length) {
+    lista.innerHTML = `<div class="empty-state-mini">Nenhum aluno ${label} neste mês.</div>`;
+    return;
+  }
+
+  lista.innerHTML = linhas.map(montarLinhaCobrancaMassaFinanceiro).join("");
+  atualizarEstadoVisualCobrancaMassaFinanceiro();
+}
+
+function copiarListaCobrancaMassaFinanceiro() {
+  const linhas = obterAlunosCobrancaMassa();
+  if (!linhas.length) {
+    mostrarToast("Nenhum aluno em aberto para copiar.", "erro");
+    return;
+  }
+
+  const periodo = ultimoResumoFinanceiroMensal?.periodo?.mes || obterMesAtualFinanceiro();
+  const titulo = financeiroCobrancaMassaFiltro === "atrasado"
+    ? "Alunos atrasados"
+    : financeiroCobrancaMassaFiltro === "pendente"
+      ? "Alunos pendentes"
+      : "Alunos em aberto";
+
+  const texto = [
+    `${titulo} — ${periodo}`,
+    "",
+    ...linhas.map((item, indice) => {
+      const aluno = item.aluno || {};
+      const vencimento = aluno.vencimento ? formatarData(aluno.vencimento) : "Sem vencimento";
+      return `${indice + 1}. ${aluno.nome || "Aluno sem nome"} — ${formatarMoeda(item.valorMensalidade || 0)} — venc. ${vencimento}`;
+    })
+  ].join("\n");
+
+  copiarTextoFinanceiro(texto, "Lista de cobrança copiada.");
+}
 
 async function carregarResumoFinanceiroMensal(opcoes = {}) {
   if (!usuarioAtual || !listaFinanceiroMensal) return;
@@ -525,6 +788,15 @@ async function carregarResumoFinanceiroMensal(opcoes = {}) {
     };
   });
 
+
+  const todasAsLinhasFinanceiras = linhas.slice();
+  ultimoResumoFinanceiroMensal = {
+    periodo,
+    filtroStatus,
+    resumo: { ...resumo },
+    linhas: todasAsLinhasFinanceiras
+  };
+
   if (filtroStatus !== "todos") {
     linhas = linhas.filter(item => item.status === filtroStatus);
   }
@@ -540,16 +812,91 @@ async function carregarResumoFinanceiroMensal(opcoes = {}) {
   if (financeiroPagosMirror) financeiroPagosMirror.textContent = resumo.pagos;
   if (financeiroPendentesMirror) financeiroPendentesMirror.textContent = resumo.pendentes;
   if (financeiroAtrasadosMirror) financeiroAtrasadosMirror.textContent = resumo.atrasados;
-  if (financeiroListaContador) financeiroListaContador.textContent = `${linhas.length} aluno${linhas.length === 1 ? "" : "s"}`;
+  if (financeiroListaContador) financeiroListaContador.textContent = `${linhas.length} de ${(alunos || []).length} aluno${linhas.length === 1 ? "" : "s"}`;
 
   if (!linhas.length) {
     listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado para esse mês e status.</div>`;
   } else {
     listaFinanceiroMensal.innerHTML = linhas.map(montarLinhaFinanceiroMensal).join("");
   }
+
+  atualizarPainelCobrancaMassaFinanceiro();
+}
+
+
+function copiarResumoFinanceiroMensal() {
+  if (!ultimoResumoFinanceiroMensal) {
+    mostrarToast("Abra o financeiro do mês antes de copiar o resumo.", "erro");
+    return;
+  }
+
+  const { periodo, resumo, linhas } = ultimoResumoFinanceiroMensal;
+  const atrasados = linhas.filter(item => item.status === "atrasado");
+  const pendentes = linhas.filter(item => item.status === "pendente");
+
+  const texto = [
+    `Resumo financeiro — ${periodo.mes}`,
+    `Recebido: ${formatarMoeda(resumo.recebido)}`,
+    `A receber: ${formatarMoeda(resumo.aReceber)}`,
+    `Previsão: ${formatarMoeda(resumo.previsao)}`,
+    `Pagos: ${resumo.pagos}`,
+    `Pendentes: ${resumo.pendentes}`,
+    `Atrasados: ${resumo.atrasados}`,
+    "",
+    atrasados.length ? "Alunos atrasados:" : "Sem alunos atrasados.",
+    ...atrasados.slice(0, 20).map(item => `- ${item.aluno.nome || "Aluno sem nome"} (${formatarMoeda(item.valorMensalidade || 0)})`),
+    atrasados.length > 20 ? `... e mais ${atrasados.length - 20} aluno(s).` : "",
+    "",
+    pendentes.length ? "Pendentes a vencer/em aberto:" : "Sem pendências em aberto.",
+    ...pendentes.slice(0, 20).map(item => `- ${item.aluno.nome || "Aluno sem nome"} (${formatarMoeda(item.valorMensalidade || 0)})`),
+    pendentes.length > 20 ? `... e mais ${pendentes.length - 20} aluno(s).` : ""
+  ].filter(Boolean).join("\n");
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(texto)
+      .then(() => mostrarToast("Resumo financeiro copiado."))
+      .catch(() => mostrarToast("Não foi possível copiar o resumo.", "erro"));
+    return;
+  }
+
+  const area = document.createElement("textarea");
+  area.value = texto;
+  document.body.appendChild(area);
+  area.select();
+  document.execCommand("copy");
+  area.remove();
+  mostrarToast("Resumo financeiro copiado.");
+}
+
+function inicializarAcoesListaFinanceira() {
+  if (listaFinanceiroMensal && !listaFinanceiroMensal.dataset.acoesFinanceiroInicializadas) {
+    listaFinanceiroMensal.dataset.acoesFinanceiroInicializadas = "true";
+    listaFinanceiroMensal.addEventListener("click", event => {
+      const botaoCobrar = event.target.closest("[data-financeiro-cobrar]");
+      if (botaoCobrar) {
+        const alunoId = botaoCobrar.getAttribute("data-financeiro-cobrar");
+        enviarWhatsApp(alunoId);
+        return;
+      }
+
+      const botaoPago = event.target.closest("[data-financeiro-pago]");
+      if (botaoPago) {
+        const alunoId = botaoPago.getAttribute("data-financeiro-pago");
+        marcarComoPago(alunoId);
+      }
+    });
+  }
+
+  const btnCopiarResumo = document.getElementById("btnFinanceiroCopiarResumo");
+  if (btnCopiarResumo && !btnCopiarResumo.dataset.inicializadoFinanceiro) {
+    btnCopiarResumo.dataset.inicializadoFinanceiro = "true";
+    btnCopiarResumo.addEventListener("click", copiarResumoFinanceiroMensal);
+  }
 }
 
 function inicializarFinanceiroMensal() {
+  inicializarAcoesListaFinanceira();
+  criarPainelCobrancaMassaFinanceiro();
   if (financeiroMes && !financeiroMes.value) {
     financeiroMes.value = obterMesAtualFinanceiro();
   }

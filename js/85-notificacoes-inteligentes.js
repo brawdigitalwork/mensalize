@@ -625,6 +625,10 @@ async function atualizarCentralNotificacoesInteligentes() {
   try {
     const notificacoes = await gerarNotificacoesInteligentes();
     renderizarCentralNotificacoes(notificacoes);
+
+    if (typeof atualizarDashboardExecutivoMensalize === "function") {
+      await atualizarDashboardExecutivoMensalize();
+    }
   } catch (erro) {
     console.warn("[Mensalize] Erro ao atualizar central de notificações:", erro);
     lista.innerHTML = `<div class="empty-state-mini">Não foi possível carregar as notificações agora.</div>`;
@@ -634,3 +638,171 @@ async function atualizarCentralNotificacoesInteligentes() {
 window.atualizarCentralNotificacoesInteligentes = atualizarCentralNotificacoesInteligentes;
 window.notificacoesExecutarAcao = notificacoesExecutarAcao;
 window.abrirTelaPresencaTurma = abrirTelaPresencaTurma;
+
+
+// ================================================================
+// DASHBOARD — CENTRAL DO DIA PROFISSIONAL
+// ================================================================
+
+function dashboardDiaDefinirTexto(id, valor) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = String(valor);
+}
+
+function dashboardDiaAtualizarCard(acao, valor, status = "neutro") {
+  const card = document.querySelector(`[data-dashboard-dia-acao="${acao}"]`);
+  if (!card) return;
+
+  card.classList.remove("tem-alerta", "status-ok");
+
+  if (status === "alerta" || Number(valor) > 0) {
+    card.classList.add("tem-alerta");
+  } else if (status === "ok" || Number(valor) === 0) {
+    card.classList.add("status-ok");
+  }
+}
+
+function dashboardDiaAlunoAtivo(aluno) {
+  const status = String(aluno?.status_aluno || "ativo").toLowerCase();
+  return status !== "inativo" && status !== "pausado";
+}
+
+function dashboardDiaContarAtrasados() {
+  const hoje = typeof dataHojeSemHora === "function" ? dataHojeSemHora() : new Date();
+
+  return (alunos || []).filter(dashboardDiaAlunoAtivo).filter(aluno => {
+    if (!aluno || !aluno.vencimento) return false;
+    if (typeof alunosPagosMes !== "undefined" && alunosPagosMes instanceof Set && alunosPagosMes.has(String(aluno.id))) return false;
+
+    const vencimento = typeof notificacoesDataLocal === "function"
+      ? notificacoesDataLocal(aluno.vencimento)
+      : new Date(aluno.vencimento);
+
+    if (!vencimento || Number.isNaN(vencimento.getTime())) return false;
+
+    const dias = typeof notificacoesDiasEntre === "function"
+      ? notificacoesDiasEntre(vencimento, hoje)
+      : Math.round((vencimento - hoje) / (1000 * 60 * 60 * 24));
+
+    return dias < 0;
+  }).length;
+}
+
+function dashboardDiaContarChamadasPendentes() {
+  if (typeof moduloPresencaAtivo !== "undefined" && moduloPresencaAtivo === false) return 0;
+
+  return (turmasCadastradas || [])
+    .filter(turma => turma && turma.ativa !== false)
+    .filter(turma => typeof notificacoesTurmaTemAulaHoje === "function" ? notificacoesTurmaTemAulaHoje(turma) : false)
+    .filter(turma => typeof notificacoesAulaCanceladaHoje === "function" ? !notificacoesAulaCanceladaHoje(turma) : true)
+    .filter(turma => typeof notificacoesChamadaJaFeitaHoje === "function" ? !notificacoesChamadaJaFeitaHoje(turma) : true)
+    .length;
+}
+
+function dashboardDiaContarAptosGraduacao() {
+  if (typeof moduloEvolucaoAtivo !== "undefined" && moduloEvolucaoAtivo === false) return 0;
+  if (typeof calcularStatusEvolucao !== "function") return 0;
+
+  return (alunos || [])
+    .filter(dashboardDiaAlunoAtivo)
+    .map(aluno => calcularStatusEvolucao(aluno))
+    .filter(status => status && status.status === "apto")
+    .length;
+}
+
+function dashboardDiaConfigurarAcoes() {
+  document.querySelectorAll("[data-dashboard-dia-acao]").forEach(card => {
+    if (card.dataset.dashboardAcaoConfigurada === "true") return;
+    card.dataset.dashboardAcaoConfigurada = "true";
+
+    card.addEventListener("click", () => {
+      const acao = card.dataset.dashboardDiaAcao;
+
+      if (acao === "solicitacoes") {
+        if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("solicitacoes");
+        return;
+      }
+
+      if (acao === "atrasados") {
+        if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("alunos");
+        if (typeof setFiltro === "function") setFiltro("atrasado");
+        return;
+      }
+
+      if (acao === "presencas") {
+        if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("presencas");
+        return;
+      }
+
+      if (acao === "graduacao") {
+        if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("evolucao");
+      }
+    });
+  });
+}
+
+async function atualizarDashboardExecutivoMensalize() {
+  const container = document.querySelector(".dashboard-executivo-pro");
+  if (!container) return;
+
+  dashboardDiaConfigurarAcoes();
+
+  const statusOperacao = document.getElementById("dashboardStatusOperacao");
+
+  let solicitacoesPendentes = 0;
+  try {
+    if (typeof notificacoesContarSolicitacoesPendentes === "function") {
+      const solicitacoes = await notificacoesContarSolicitacoesPendentes();
+      solicitacoesPendentes = solicitacoes.total || 0;
+    }
+  } catch (erro) {
+    console.warn("[Mensalize] Não foi possível atualizar solicitações da central do dia:", erro);
+  }
+
+  const atrasados = dashboardDiaContarAtrasados();
+  const chamadasPendentes = dashboardDiaContarChamadasPendentes();
+  const aptosGraduacao = dashboardDiaContarAptosGraduacao();
+
+  dashboardDiaDefinirTexto("dashboardDiaSolicitacoes", solicitacoesPendentes);
+  dashboardDiaDefinirTexto("dashboardDiaAtrasados", atrasados);
+  dashboardDiaDefinirTexto("dashboardDiaChamadas", chamadasPendentes);
+  dashboardDiaDefinirTexto("dashboardDiaGraduacao", aptosGraduacao);
+
+  dashboardDiaAtualizarCard("solicitacoes", solicitacoesPendentes, solicitacoesPendentes > 0 ? "alerta" : "ok");
+  dashboardDiaAtualizarCard("atrasados", atrasados, atrasados > 0 ? "alerta" : "ok");
+  dashboardDiaAtualizarCard("presencas", chamadasPendentes, chamadasPendentes > 0 ? "alerta" : "ok");
+  dashboardDiaAtualizarCard("graduacao", aptosGraduacao, aptosGraduacao > 0 ? "alerta" : "ok");
+
+  const totalAcoes = solicitacoesPendentes + atrasados + chamadasPendentes + aptosGraduacao;
+
+  if (statusOperacao) {
+    statusOperacao.classList.remove("status-ok", "status-alerta");
+
+    if (totalAcoes > 0) {
+      statusOperacao.textContent =
+        totalAcoes === 1
+          ? "1 ação pendente hoje"
+          : `${totalAcoes} ações pendentes hoje`;
+    
+      statusOperacao.classList.add("status-alerta");
+    } else {
+      statusOperacao.textContent = "Operação em dia";
+      statusOperacao.classList.add("status-ok");
+    }
+  }
+}
+
+window.atualizarDashboardExecutivoMensalize = atualizarDashboardExecutivoMensalize;
+
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      if (typeof atualizarDashboardExecutivoMensalize === "function") atualizarDashboardExecutivoMensalize();
+    }, 1200);
+  });
+} else {
+  setTimeout(() => {
+    if (typeof atualizarDashboardExecutivoMensalize === "function") atualizarDashboardExecutivoMensalize();
+  }, 1200);
+}

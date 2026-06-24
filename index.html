@@ -27,8 +27,33 @@
       Sistema de gestão de mensalidades
       </p>
 
-      <input type="email" id="emailLogin" placeholder="E-mail">
-      <input type="password" id="senhaLogin" placeholder="Senha">
+      <input 
+        type="email" 
+        id="emailLogin" 
+        placeholder="E-mail"
+        autocomplete="username"
+      >
+
+      <div class="login-senha-wrap">
+        <input 
+          type="password" 
+          id="senhaLogin" 
+          placeholder="Senha"
+          autocomplete="current-password"
+        >
+        <button type="button" id="btnMostrarSenhaLogin" class="btn-mostrar-senha" aria-label="Mostrar senha">
+          Ver
+        </button>
+      </div>
+
+      <label class="login-salvar-acesso">
+        <input type="checkbox" id="lembrarEmailProfessor">
+        <span>Lembrar meu e-mail neste aparelho</span>
+      </label>
+
+      <p class="login-aviso-seguranca">
+        A senha não será salva.
+      </p>
 
       <button id="btnEntrar">Entrar</button>
       <p class="login-ajuda">
@@ -79,7 +104,7 @@
 
         <button type="button" id="btnNavAniversariantes" class="menu-item" data-view="aniversariantes">🎂 Aniversariantes</button>
         <button type="button" id="btnNavSolicitacoes" class="menu-item" data-view="solicitacoes">📝 Solicitações</button>
-        <button type="button" id="btnNavPerfil" class="menu-item" data-view="perfil">👤 Perfil</button>
+        <button type="button" id="btnNavPerfil" class="menu-item" data-view="perfil">⚙️ Configurações</button>
       </nav>
 
       <div class="sidebar-footer">
@@ -133,6 +158,43 @@
             <div class="hero-actions">
               <button type="button" id="btnMostrarForm">+ Novo aluno</button>
               <button type="button" id="btnCobrarAtrasados" class="btn-cobrar">📢 Cobrar atrasados</button>
+            </div>
+          </section>
+
+          <section class="dashboard-executivo-pro" aria-label="Central do dia">
+            <div class="dashboard-executivo-topo">
+              <div>
+                <span class="page-eyebrow">Operação de hoje</span>
+                <h3>Central do dia</h3>
+                <p>Priorize as ações que mais impactam a rotina da academia.</p>
+              </div>
+              <span id="dashboardStatusOperacao" class="dashboard-status-operacao">Carregando...</span>
+            </div>
+
+            <div class="dashboard-executivo-grid">
+              <button type="button" class="dashboard-executivo-item" data-dashboard-dia-acao="solicitacoes">
+                <span class="dashboard-executivo-label">Solicitações</span>
+                <strong id="dashboardDiaSolicitacoes">0</strong>
+                <small>Pendentes de análise</small>
+              </button>
+
+              <button type="button" class="dashboard-executivo-item" data-dashboard-dia-acao="atrasados">
+                <span class="dashboard-executivo-label">Atrasados</span>
+                <strong id="dashboardDiaAtrasados">0</strong>
+                <small>Alunos para regularizar</small>
+              </button>
+
+              <button type="button" class="dashboard-executivo-item" data-dashboard-dia-acao="presencas">
+                <span class="dashboard-executivo-label">Chamadas</span>
+                <strong id="dashboardDiaChamadas">0</strong>
+                <small>Aulas pendentes hoje</small>
+              </button>
+
+              <button type="button" class="dashboard-executivo-item" data-dashboard-dia-acao="graduacao">
+                <span class="dashboard-executivo-label">Graduação</span>
+                <strong id="dashboardDiaGraduacao">0</strong>
+                <small>Alunos aptos</small>
+              </button>
             </div>
           </section>
 
@@ -325,28 +387,83 @@
         </section>
 
         <section id="viewFinanceiro" class="view-app">
-          <section class="painel-card financeiro-page">
-            <div class="painel-topo">
+          <section class="painel-card financeiro-page financeiro-page-pro">
+            <div class="painel-topo financeiro-topo-pro">
               <div>
                 <span class="page-eyebrow">Financeiro</span>
-                <h2>Resumo financeiro</h2>
-                <p>Use essa área para acompanhar recebimentos, previsão e exportar relatórios.</p>
+                <h2>Gestão financeira</h2>
+                <p>Acompanhe recebimentos, inadimplência e cobranças do mês em uma visão mais operacional.</p>
               </div>
               <button type="button" id="btnExportar" class="btn-exportar">📥 Exportar relatório</button>
             </div>
 
-            <div class="financeiro-resumo-grid">
+            <div class="financeiro-resumo-grid financeiro-resumo-grid-v2 financeiro-resumo-pro">
               <div class="financeiro-box receita">
-                <span>Recebido</span>
+                <span>Recebido no mês</span>
                 <strong id="financeiroRecebidoMirror">R$ 0,00</strong>
+                <small>Entradas registradas</small>
               </div>
               <div class="financeiro-box receber">
                 <span>A receber</span>
                 <strong id="financeiroAReceberMirror">R$ 0,00</strong>
+                <small>Mensalidades em aberto</small>
               </div>
               <div class="financeiro-box previsao">
                 <span>Previsão</span>
                 <strong id="financeiroPrevisaoMirror">R$ 0,00</strong>
+                <small>Base mensal esperada</small>
+              </div>
+              <div class="financeiro-box status-financeiro-pago">
+                <span>Pagos</span>
+                <strong id="financeiroPagosMirror">0</strong>
+                <small>Alunos quitados</small>
+              </div>
+              <div class="financeiro-box status-financeiro-pendente">
+                <span>Pendentes</span>
+                <strong id="financeiroPendentesMirror">0</strong>
+                <small>A vencer / em aberto</small>
+              </div>
+              <div class="financeiro-box status-financeiro-atrasado">
+                <span>Atrasados</span>
+                <strong id="financeiroAtrasadosMirror">0</strong>
+                <small>Exigem cobrança</small>
+              </div>
+            </div>
+
+            <div class="financeiro-operacao-card">
+              <div class="financeiro-operacao-topo">
+                <div>
+                  <span class="page-eyebrow">Operação mensal</span>
+                  <h3>Pagamentos por aluno</h3>
+                  <p>Filtre por mês e status para cobrar, conferir ou marcar pagamento rapidamente.</p>
+                </div>
+                <span id="financeiroListaContador" class="financeiro-lista-contador">0 alunos</span>
+              </div>
+
+              <div class="financeiro-filtros-mes financeiro-filtros-pro">
+                <label class="campo-filtro-financeiro">
+                  <span>Mês</span>
+                  <input type="month" id="financeiroMes">
+                </label>
+
+                <label class="campo-filtro-financeiro">
+                  <span>Status</span>
+                  <select id="financeiroStatus">
+                    <option value="todos">Todos</option>
+                    <option value="atrasado">Atrasados</option>
+                    <option value="pendente">Pendentes</option>
+                    <option value="pago">Pagos</option>
+                  </select>
+                </label>
+
+                <div class="financeiro-acoes-pro">
+                  <button type="button" id="btnAtualizarFinanceiroMes" class="acao-secundaria">Atualizar</button>
+                  <button type="button" id="btnFinanceiroCopiarResumo" class="acao-secundaria">Copiar resumo</button>
+                </div>
+              </div>
+
+              <div id="listaFinanceiroMensal" class="financeiro-lista-mensal financeiro-lista-pro">
+                <div class="empty-state-mini">Carregando financeiro...</div>
               </div>
             </div>
           </section>
@@ -985,33 +1102,79 @@
         </section>
 
         <section id="viewAvisos" class="view-app">
-          <section class="painel-card avisos-page">
-            <div class="painel-topo">
+          <section class="painel-card avisos-page avisos-profissional">
+            <div class="painel-topo avisos-hero">
               <div>
-                <span class="page-eyebrow">Avisos</span>
-                <h2>Avisos para alunos e turmas</h2>
-                <p>Crie avisos rápidos e copie a mensagem para enviar no WhatsApp.</p>
+                <span class="page-eyebrow">Central de avisos</span>
+                <h2>Comunicados para alunos</h2>
+                <p>Publique recados importantes no portal do aluno sem deixar a tela poluída.</p>
+              </div>
+              <button type="button" id="btnNovoAviso" class="acao-principal avisos-novo-btn">+ Novo aviso</button>
+            </div>
+
+            <div class="avisos-resumo-row" aria-label="Resumo dos avisos">
+              <div class="avisos-resumo-card">
+                <strong id="totalAvisosAtivos">0</strong>
+                <span>ativos</span>
+              </div>
+              <div class="avisos-resumo-card suave">
+                <strong id="totalAvisosAgendados">0</strong>
+                <span>agendados</span>
+              </div>
+              <div class="avisos-resumo-card suave">
+                <strong id="totalAvisosExpirados">0</strong>
+                <span>expirados</span>
               </div>
             </div>
 
-            <form id="formAviso" class="perfil-form">
-              <label class="campo-perfil">
-                <span>Título do aviso</span>
-                <input type="text" id="avisoTitulo" placeholder="Ex: Graduação sábado às 10h">
-              </label>
-              <label class="campo-perfil">
-                <span>Turma / destino</span>
-                <input type="text" id="avisoTurma" placeholder="Ex: Todos, Infantil, Adulto noite">
-              </label>
-              <label class="campo-perfil campo-cheio">
-                <span>Mensagem</span>
-                <textarea id="avisoMensagem" rows="4" placeholder="Digite o aviso para os alunos..."></textarea>
-              </label>
-              <button type="submit" class="btn-salvar-perfil">Salvar aviso</button>
-              <p id="msgAviso" class="msg-perfil"></p>
-            </form>
+            <div id="painelNovoAviso" class="avisos-form-wrapper escondido">
+              <form id="formAviso" class="perfil-form avisos-form">
+                <div class="avisos-form-topo">
+                  <div>
+                    <span class="page-eyebrow">Novo comunicado</span>
+                    <h3>Publicar aviso</h3>
+                    <p>O aviso aparecerá no portal do aluno conforme o destino informado.</p>
+                  </div>
+                </div>
 
-            <div id="listaAvisos" class="lista-evolucao avisos-lista">
+                <label class="campo-perfil campo-cheio">
+                  <span>Título do aviso</span>
+                  <input type="text" id="avisoTitulo" placeholder="Ex: Graduação neste sábado">
+                </label>
+
+                <label class="campo-perfil campo-cheio">
+                  <span>Destino</span>
+                  <input type="text" id="avisoTurma" placeholder="Ex: Todos os alunos">
+                </label>
+
+                <div class="avisos-atalhos" aria-label="Destinos rápidos">
+                  <button type="button" data-aviso-destino="Todos os alunos">Todos</button>
+                  <button type="button" data-aviso-destino="Infantil">Infantil</button>
+                  <button type="button" data-aviso-destino="Adulto">Adulto</button>
+                  <button type="button" data-aviso-destino="Competição">Competição</button>
+                </div>
+
+                <label class="campo-perfil campo-cheio">
+                  <span>Mensagem</span>
+                  <textarea id="avisoMensagem" rows="4" placeholder="Escreva o comunicado que aparecerá para os alunos..."></textarea>
+                </label>
+
+                <div class="avisos-form-actions">
+                  <button type="submit" class="btn-salvar-perfil">Publicar aviso</button>
+                  <button type="button" id="btnCancelarAviso" class="acao-secundaria">Cancelar</button>
+                </div>
+                <p id="msgAviso" class="msg-perfil"></p>
+              </form>
+            </div>
+
+            <div class="avisos-lista-topo">
+              <div>
+                <h3>Avisos publicados</h3>
+                <p id="avisosListaResumo">Nenhum aviso cadastrado ainda.</p>
+              </div>
+            </div>
+
+            <div id="listaAvisos" class="avisos-lista-profissional">
               <div class="empty-state-mini">Nenhum aviso cadastrado ainda.</div>
             </div>
           </section>
@@ -1019,79 +1182,173 @@
 
 
         <section id="viewSolicitacoes" class="view-app">
-          <section class="painel-card solicitacoes-page">
-            <div class="painel-topo">
+          <section class="painel-card solicitacoes-page solicitacoes-page-v2">
+            <div class="painel-topo solicitacoes-topo">
               <div>
                 <span class="page-eyebrow">Solicitações</span>
-                <h2>Alterações enviadas pelos alunos</h2>
-                <p>Confira pedidos de mudança de turma e aprove somente o que fizer sentido.</p>
+                <h2>Central de solicitações</h2>
+                <p>Separe pedidos pendentes, aprovados e recusados para responder sem bagunça.</p>
               </div>
               <button type="button" id="btnAtualizarSolicitacoes" class="acao-secundaria">Atualizar</button>
             </div>
 
-            <div class="financeiro-resumo-grid solicitacoes-resumo-grid">
-              <div class="financeiro-box previsao">
+            <div class="solicitacoes-status-grid" role="tablist" aria-label="Filtrar solicitações por status">
+              <button type="button" class="solicitacoes-status-card ativo" data-filtro-solicitacao="pendente" role="tab" aria-selected="true">
                 <span>Pendentes</span>
                 <strong id="totalSolicitacoesPendentes">0</strong>
-              </div>
-              <div class="financeiro-box receita">
+                <small>Aguardando resposta</small>
+              </button>
+              <button type="button" class="solicitacoes-status-card" data-filtro-solicitacao="aprovada" role="tab" aria-selected="false">
                 <span>Aprovadas</span>
                 <strong id="totalSolicitacoesAprovadas">0</strong>
-              </div>
-              <div class="financeiro-box alerta">
+                <small>Já aceitas</small>
+              </button>
+              <button type="button" class="solicitacoes-status-card" data-filtro-solicitacao="recusada" role="tab" aria-selected="false">
                 <span>Recusadas</span>
                 <strong id="totalSolicitacoesRecusadas">0</strong>
+                <small>Não aprovadas</small>
+              </button>
+            </div>
+
+            <div class="solicitacoes-lista-topo">
+              <div>
+                <h3 id="tituloListaSolicitacoes">Solicitações pendentes</h3>
+                <p id="descricaoListaSolicitacoes">Pedidos que ainda precisam da sua resposta.</p>
               </div>
             </div>
 
-            <div id="listaSolicitacoes" class="lista-solicitacoes">
+            <div id="listaSolicitacoes" class="lista-solicitacoes lista-solicitacoes-v2">
               <div class="empty-state-mini">Carregando solicitações...</div>
             </div>
           </section>
         </section>
 
         <section id="viewPerfil" class="view-app">
-          <section class="painel-card perfil-page">
-            <div class="painel-topo">
+          <section class="painel-card perfil-page perfil-configuracoes-page">
+            <div class="painel-topo perfil-configuracoes-hero">
               <div>
-                <span class="page-eyebrow">Perfil</span>
-                <h2>Dados do professor</h2>
-                <p>Essas informações aparecem na página do aluno e no contato pelo WhatsApp.</p>
+                <span class="page-eyebrow">Configurações</span>
+                <h2>Central da academia</h2>
+                <p>Organize os dados públicos, pagamento, graduação e módulos que aparecem para o professor e para o aluno.</p>
               </div>
             </div>
 
-            <form id="formPerfil" class="perfil-form perfil-form-simples">
-              <label class="campo-perfil">
-                <span>Nome da academia</span>
-                <input type="text" id="perfilNomeEmpresa" placeholder="Ex: CT Mensalize">
-              </label>
-
-              <label class="campo-perfil">
-                <span>WhatsApp do professor</span>
-                <input type="tel" id="perfilWhatsApp" placeholder="Ex: 31999999999">
-              </label>
-
-              <div class="perfil-secao-pix campo-cheio">
-                <div class="perfil-secao-topo">
+            <form id="formPerfil" class="perfil-form perfil-configuracoes-form">
+              <section class="config-bloco campo-cheio">
+                <div class="config-bloco-topo">
                   <div>
-                    <span class="page-eyebrow">Pix</span>
-                    <h3>Pix copia e cola</h3>
-                    <p>Esse código aparece na aba Financeiro da área do aluno.</p>
+                    <span class="config-etiqueta">Dados públicos</span>
+                    <h3>Academia e contato</h3>
+                    <p>Essas informações aparecem no portal do aluno e nas mensagens de cobrança.</p>
+                  </div>
+                </div>
+
+                <div class="config-grid-duplo">
+                  <label class="campo-perfil">
+                    <span>Nome da academia</span>
+                    <input type="text" id="perfilNomeEmpresa" placeholder="Ex: CT Mensalize">
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>WhatsApp do professor</span>
+                    <input type="tel" id="perfilWhatsApp" placeholder="Ex: 31999999999">
+                  </label>
+                </div>
+              </section>
+
+              <section class="config-bloco campo-cheio">
+                <div class="config-bloco-topo">
+                  <div>
+                    <span class="config-etiqueta">Financeiro</span>
+                    <h3>Pagamento do aluno</h3>
+                    <p>Configure o Pix exibido no portal do aluno para facilitar o pagamento das mensalidades.</p>
                   </div>
                 </div>
 
                 <label class="campo-perfil campo-cheio campo-pix-simples">
-                  <span>Código Pix</span>
+                  <span>Pix copia e cola</span>
                   <textarea id="perfilPixCopiaCola" rows="3" placeholder="Cole aqui o Pix copia e cola da academia"></textarea>
                 </label>
+              </section>
+
+              <section class="config-bloco campo-cheio">
+                <div class="config-bloco-topo">
+                  <div>
+                    <span class="config-etiqueta">Graduação e frequência</span>
+                    <h3>Critérios de avaliação</h3>
+                    <p>Defina como o Mensalize deve analisar frequência e aptidão para avaliação.</p>
+                  </div>
+                </div>
+
+                <div class="config-grid-tres">
+                  <label class="campo-perfil">
+                    <span>Frequência mínima (%)</span>
+                    <input type="number" id="perfilPresencaMinima" min="0" max="100" step="1" placeholder="70">
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>Período analisado (meses)</span>
+                    <input type="number" id="perfilPeriodoFrequencia" min="1" max="24" step="1" placeholder="6">
+                  </label>
+
+                  <label class="campo-perfil">
+                    <span>Mínimo de aulas no ranking</span>
+                    <input type="number" id="perfilRankingMinimoAulas" min="0" max="100" step="1" placeholder="4">
+                  </label>
+                </div>
+              </section>
+
+              <section class="config-bloco campo-cheio">
+                <div class="config-bloco-topo">
+                  <div>
+                    <span class="config-etiqueta">Módulos</span>
+                    <h3>Recursos ativos</h3>
+                    <p>Visualização dos módulos liberados para esta academia. A liberação continua sendo controlada pelo Admin.</p>
+                  </div>
+                </div>
+
+                <div class="config-modulos-grid" aria-label="Módulos ativos da academia">
+                  <label class="config-modulo-item">
+                    <input type="checkbox" id="perfilModuloPresenca" disabled>
+                    <span>Presenças</span>
+                  </label>
+
+                  <label class="config-modulo-item">
+                    <input type="checkbox" id="perfilModuloEvolucao" disabled>
+                    <span>Evolução</span>
+                  </label>
+
+                  <label class="config-modulo-item">
+                    <input type="checkbox" id="perfilModuloAvisos" disabled>
+                    <span>Avisos</span>
+                  </label>
+
+                  <label class="config-modulo-item">
+                    <input type="checkbox" id="perfilRankingGeral" disabled>
+                    <span>Ranking geral</span>
+                  </label>
+
+                  <label class="config-modulo-item">
+                    <input type="checkbox" id="perfilRankingTurma" disabled>
+                    <span>Ranking por turma</span>
+                  </label>
+
+                  <label class="config-modulo-item">
+                    <input type="checkbox" id="perfilRankingTurmas" disabled>
+                    <span>Ranking entre turmas</span>
+                  </label>
+                </div>
+              </section>
+
+              <div class="config-acoes campo-cheio">
+                <p class="perfil-aviso-admin">
+                  Plano, status, limite de alunos e liberação de módulos continuam protegidos no Painel Admin.
+                </p>
+
+                <button type="submit" class="btn-salvar-perfil">Salvar configurações</button>
               </div>
 
-              <p class="perfil-aviso-admin campo-cheio">
-                Plano, status, limite de alunos e módulos são controlados apenas pelo Admin.
-              </p>
-
-              <button type="submit" class="btn-salvar-perfil">Salvar perfil</button>
-              <p id="msgPerfil" class="msg-perfil"></p>
+              <p id="msgPerfil" class="msg-perfil campo-cheio"></p>
             </form>
           </section>
         </section>
@@ -1101,37 +1358,120 @@
   </section>
 
   <section id="telaAdmin" class="escondido">
-    <div class="admin-container">
+    <div class="admin-container admin-executivo-page">
 
-      <div class="admin-topo">
-        <h2>⚙ Painel Admin</h2>
-        <button id="btnVoltar" class="btn-voltar">⬅ Voltar</button>
+      <div class="admin-topo admin-exec-hero">
+        <div>
+          <span class="page-eyebrow">Área do dono</span>
+          <h2>Painel Admin</h2>
+          <p>Gerencie clientes, planos, limites e acesso ao Mensalize com visão executiva.</p>
+        </div>
+        <button id="btnVoltar" class="btn-voltar">Voltar ao app</button>
       </div>
 
-      <div class="admin-grid">
-
-        <div class="admin-card">
-          <h3>📊 Dashboard</h3>
-          <p>Total clientes: <span id="totalClientes">0</span></p>
-          <p>Total alunos: <span id="totalAlunosAdmin">0</span></p>
-          <p>No limite: <span id="clientesLimite">0</span></p>
+      <div class="admin-resumo-grid admin-exec-metricas">
+        <div class="admin-card admin-metrica-card">
+          <span>Clientes</span>
+          <strong id="totalClientes">0</strong>
+          <small>contas cadastradas</small>
         </div>
 
-        <div class="admin-card">
-          <h3>➕ Criar cliente</h3>
+        <div class="admin-card admin-metrica-card">
+          <span>Alunos gerenciados</span>
+          <strong id="totalAlunosAdmin">0</strong>
+          <small>soma de todos os clientes</small>
+        </div>
 
-          <input type="email" id="novoEmail" placeholder="Email">
-          <input type="password" id="novaSenha" placeholder="Senha">
+        <div class="admin-card admin-metrica-card alerta">
+          <span>No limite</span>
+          <strong id="clientesLimite">0</strong>
+          <small>clientes próximos do limite</small>
+        </div>
 
-          <button id="btnCriarUsuario">Criar usuário</button>
-          <p id="msgAdmin"></p>
+        <div class="admin-card admin-metrica-card sucesso">
+          <span>Ativos</span>
+          <strong id="clientesAtivosAdmin">0</strong>
+          <small>clientes liberados</small>
+        </div>
+
+        <div class="admin-card admin-metrica-card bloqueio">
+          <span>Bloqueados</span>
+          <strong id="clientesBloqueadosAdmin">0</strong>
+          <small>clientes sem acesso</small>
+        </div>
+      </div>
+
+      <div class="admin-grid admin-operacao-grid">
+
+        <div class="admin-card admin-criar-cliente-card">
+          <div class="admin-card-header">
+            <div>
+              <span class="page-eyebrow">Novo cliente</span>
+              <h3>Criar acesso</h3>
+              <p>Crie uma conta para um professor e depois configure o plano na lista de clientes.</p>
+            </div>
+          </div>
+
+          <div class="admin-form-mini">
+            <label class="input-group">
+              <span>Email do cliente</span>
+              <input type="email" id="novoEmail" placeholder="professor@email.com" autocomplete="off">
+            </label>
+
+            <label class="input-group">
+              <span>Senha provisória</span>
+              <input type="password" id="novaSenha" placeholder="Crie uma senha inicial" autocomplete="new-password">
+            </label>
+
+            <button id="btnCriarUsuario" class="acao-principal">Criar usuário</button>
+            <p id="msgAdmin" class="admin-msg"></p>
+          </div>
+        </div>
+
+        <div class="admin-card admin-decisao-card">
+          <div class="admin-card-header">
+            <div>
+              <span class="page-eyebrow">Gestão comercial</span>
+              <h3>Planos do Mensalize</h3>
+              <p>Use os planos para liberar recursos sem editar módulo por módulo.</p>
+            </div>
+          </div>
+
+          <div class="admin-planos-resumo-exec">
+            <span><strong>Trial</strong> Validação inicial</span>
+            <span><strong>Basic</strong> Mensalidades e avisos</span>
+            <span><strong>Pro</strong> Turmas, presença e ranking</span>
+            <span><strong>Fight</strong> Graduação e artes marciais</span>
+            <span><strong>Premium</strong> Operação completa</span>
+          </div>
         </div>
 
       </div>
 
-      <div class="admin-card">
-        <h3>👥 Clientes</h3>
-        <div id="listaClientes"></div>
+      <div class="admin-card admin-card-clientes admin-clientes-exec-card">
+        <div class="admin-card-header">
+          <div>
+            <span class="page-eyebrow">Clientes</span>
+            <h3>Contas cadastradas</h3>
+            <p>Busque, filtre, gerencie planos, limites e acesso de cada cliente.</p>
+          </div>
+        </div>
+
+        <div class="admin-clientes-toolbar">
+          <input type="search" id="adminBuscaClientes" class="admin-busca-clientes" placeholder="Buscar cliente por academia ou email...">
+
+          <div class="admin-filtros-clientes" aria-label="Filtros de clientes">
+            <button type="button" class="admin-filtro-cliente ativo" data-admin-filtro-clientes="todos">Todos</button>
+            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="ativo">Ativos</button>
+            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="bloqueado">Bloqueados</button>
+            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="trial">Trial</button>
+            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="pro">Pro</button>
+            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="fight">Fight</button>
+            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="limite">No limite</button>
+          </div>
+        </div>
+
+        <div id="listaClientes" class="admin-lista-clientes"></div>
       </div>
 
     </div>

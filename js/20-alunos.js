@@ -351,10 +351,72 @@ function alternarCardAluno(botao) {
   const card = botao.closest(".aluno-card");
   if (!card) return;
 
-  const aberto = card.classList.toggle("expandido");
+  const estavaAberto = card.classList.contains("expandido");
 
-  botao.textContent = aberto ? "Ocultar opções" : "Ver opções";
-  botao.setAttribute("aria-expanded", aberto ? "true" : "false");
+  document.querySelectorAll("#listaAlunos .aluno-card.expandido").forEach(function(cardAberto) {
+    if (cardAberto === card) return;
+    cardAberto.classList.remove("expandido");
+    const botaoAberto = cardAberto.querySelector(".btn-opcoes-aluno");
+    if (botaoAberto) {
+      botaoAberto.textContent = "Detalhes";
+      botaoAberto.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  const deveAbrir = !estavaAberto;
+  card.classList.toggle("expandido", deveAbrir);
+  botao.textContent = deveAbrir ? "Ocultar" : "Detalhes";
+  botao.setAttribute("aria-expanded", deveAbrir ? "true" : "false");
+}
+
+function escaparHtmlAluno(valor) {
+  return String(valor ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function obterTextoSeguroAluno(valor, fallback = "Não informado") {
+  const texto = String(valor ?? "").trim();
+  return texto ? texto : fallback;
+}
+
+function obterClasseStatusAluno(aluno, jaPagou, status, dias) {
+  if (String(aluno.status_aluno || "ativo").toLowerCase() === "inativo") return "status-inativo";
+  if (jaPagou) return "status-pago";
+  if (status === "atrasado") return "status-atrasado";
+  if (dias === 0) return "status-hoje";
+  return "status-pendente";
+}
+
+function obterTextoStatusFinanceiroAluno(aluno, jaPagou, status, dias) {
+  if (String(aluno.status_aluno || "ativo").toLowerCase() === "inativo") return "Aluno inativo";
+  if (jaPagou) return "Pago este mês";
+  if (status === "atrasado") return `Atrasado ${Math.abs(dias)}d`;
+  if (dias === 0) return "Vence hoje";
+  if (dias <= 3) return `Vence em ${dias}d`;
+  return `Vence em ${dias}d`;
+}
+
+function renderizarEstadoVazioAlunos(tipo) {
+  const mensagem = tipo === "sem-filtro"
+    ? "Nenhum aluno encontrado para este filtro."
+    : "Nenhum aluno cadastrado ainda.";
+
+  const apoio = tipo === "sem-filtro"
+    ? "Ajuste a busca ou selecione outro filtro para visualizar a lista."
+    : "Cadastre o primeiro aluno para começar a controlar mensalidades, presença e graduação.";
+
+  listaAlunos.innerHTML = `
+    <div class="alunos-empty-state">
+      <div class="alunos-empty-icon">👥</div>
+      <h3>${mensagem}</h3>
+      <p>${apoio}</p>
+      ${tipo === "sem-filtro" ? `<button type="button" class="acao-secundaria" onclick="setFiltro('todos')">Ver todos os alunos</button>` : ``}
+    </div>
+  `;
 }
 
 /** Aplica busca, filtros, ordenação, paginação e renderiza os cards dos alunos. */
@@ -362,12 +424,7 @@ function mostrarAlunos() {
   listaAlunos.innerHTML = "";
 
   if (alunos.length === 0) {
-    listaAlunos.innerHTML = `
-      <div style="text-align:center; padding:40px; color:#a1a1aa;">
-        <p style="font-size:40px; margin-bottom:12px;">📋</p>
-        <p>Nenhum aluno cadastrado ainda.</p>
-        <p style="font-size:13px; margin-top:6px;">Clique em <strong>+ Novo aluno</strong> para começar.</p>
-      </div>`;
+    renderizarEstadoVazioAlunos("sem-alunos");
     contadorLista.textContent = "0 alunos";
     return;
   }
@@ -406,6 +463,7 @@ function mostrarAlunos() {
   // ── 2. Ordenação inteligente ──────────────────────────────────
   // atrasados → vence hoje → vence em breve → pendentes → pagos
   function prioridade(aluno) {
+    if (String(aluno.status_aluno || "ativo").toLowerCase() === "inativo") return 6;
     if (alunosPagosMes.has(String(aluno.id))) return 5;
     const status = verificarStatus(aluno.vencimento);
     const dias = calcularDias(aluno.vencimento);
@@ -418,7 +476,9 @@ function mostrarAlunos() {
   lista.sort((a, b) => {
     const pa = prioridade(a), pb = prioridade(b);
     if (pa !== pb) return pa - pb;
-    return calcularDias(a.vencimento) - calcularDias(b.vencimento);
+    const diferencaDias = calcularDias(a.vencimento) - calcularDias(b.vencimento);
+    if (diferencaDias !== 0) return diferencaDias;
+    return String(a.nome || "").localeCompare(String(b.nome || ""), "pt-BR");
   });
 
   // ── 3. Paginação ──────────────────────────────────────────────
@@ -433,11 +493,7 @@ function mostrarAlunos() {
   contadorLista.textContent = `${total} aluno${total !== 1 ? "s" : ""}`;
 
   if (total === 0) {
-    listaAlunos.innerHTML = `
-      <div style="text-align:center; padding:40px; color:#a1a1aa;">
-        <p style="font-size:36px; margin-bottom:12px;">🔍</p>
-        <p>Nenhum aluno encontrado para este filtro.</p>
-      </div>`;
+    renderizarEstadoVazioAlunos("sem-filtro");
     return;
   }
 
@@ -446,100 +502,110 @@ function mostrarAlunos() {
     const jaPagou = alunosPagosMes.has(String(aluno.id));
     const status = verificarStatus(aluno.vencimento);
     const dias = calcularDias(aluno.vencimento);
-
-    let textoStatus = "";
-    let classeStatus = "";
-
-    if (jaPagou) {
-      textoStatus = "✅ Pago este mês";
-      classeStatus = "status-pago";
-    } else if (status === "atrasado") {
-      textoStatus = `⚠ Atrasado ${Math.abs(dias)}d`;
-      classeStatus = "status-atrasado";
-    } else if (dias === 0) {
-      textoStatus = "📅 Vence hoje";
-      classeStatus = "status-hoje";
-    } else if (dias <= 3) {
-      textoStatus = `🔔 Vence em ${dias}d`;
-      classeStatus = "status-pendente";
-    } else {
-      textoStatus = `📆 Vence em ${dias}d`;
-      classeStatus = "status-pendente";
-    }
+    const textoStatus = obterTextoStatusFinanceiroAluno(aluno, jaPagou, status, dias);
+    const classeStatus = obterClasseStatusAluno(aluno, jaPagou, status, dias);
+    const nomeAlunoSeguro = escaparHtmlAluno(obterTextoSeguroAluno(aluno.nome, "Aluno"));
+    const telefoneAlunoSeguro = escaparHtmlAluno(obterTextoSeguroAluno(aluno.telefone, "Sem telefone"));
+    const turmaAlunoSeguro = escaparHtmlAluno(obterTextoSeguroAluno(aluno.turma, "Sem turma"));
+    const faixaResumo = moduloEvolucaoAtivo && resumoEvolucaoAluno(aluno) ? escaparHtmlAluno(resumoEvolucaoAluno(aluno)) : "Graduação não informada";
+    const statusAlunoTexto = String(aluno.status_aluno || "ativo").toLowerCase() === "inativo" ? "Inativo" : "Ativo";
 
     const card = document.createElement("div");
-    card.classList.add("aluno-card");
+    card.classList.add("aluno-card", "aluno-card-executivo");
     if (jaPagou) card.classList.add("aluno-pago");
 
     card.innerHTML = `
       <div class="aluno-premium-topo aluno-card-resumo">
         <div class="aluno-topo-identidade">
           ${aluno.foto_url
-            ? `<img src="${aluno.foto_url}" alt="Foto de ${aluno.nome}" class="aluno-card-foto">`
+            ? `<img src="${escaparHtmlAluno(aluno.foto_url)}" alt="Foto de ${nomeAlunoSeguro}" class="aluno-card-foto">`
             : `<div class="aluno-card-avatar">${String(aluno.nome || "A").trim().charAt(0).toUpperCase() || "A"}</div>`
           }
 
           <div class="aluno-resumo-texto">
-            <h3>${aluno.nome}</h3>
+            <div class="aluno-nome-linha">
+              <h3>${nomeAlunoSeguro}</h3>
+              <span class="aluno-status-operacional ${statusAlunoTexto === "Inativo" ? "inativo" : "ativo"}">${statusAlunoTexto}</span>
+            </div>
 
             <div class="aluno-resumo-infos">
-              <span>📱 ${aluno.telefone || "Sem telefone"}</span>
-              ${moduloEvolucaoAtivo && resumoEvolucaoAluno(aluno) ? `<span>🥋 ${resumoEvolucaoAluno(aluno)}</span>` : ""}
+              <span>${telefoneAlunoSeguro}</span>
+              <span>${turmaAlunoSeguro}</span>
+              ${moduloEvolucaoAtivo ? `<span>${faixaResumo}</span>` : ""}
             </div>
           </div>
         </div>
 
         <div class="aluno-resumo-direita">
-          <span class="badge-status ${classeStatus}">${textoStatus}</span>
+          <span class="badge-status ${classeStatus}">${escaparHtmlAluno(textoStatus)}</span>
           <button
             type="button"
             class="acao-secundaria btn-opcoes-aluno"
             onclick="alternarCardAluno(this)"
             aria-expanded="false"
           >
-            Ver opções
+            Detalhes
           </button>
+        </div>
+      </div>
+
+      <div class="aluno-card-kpis" aria-label="Resumo do aluno">
+        <div class="aluno-card-kpi">
+          <span>Mensalidade</span>
+          <strong>${formatarMoeda(aluno.valor)}</strong>
+        </div>
+        <div class="aluno-card-kpi">
+          <span>${jaPagou ? "Próx. vencimento" : "Vencimento"}</span>
+          <strong>${formatarData(aluno.vencimento)}</strong>
+        </div>
+        <div class="aluno-card-kpi">
+          <span>Turma</span>
+          <strong>${turmaAlunoSeguro}</strong>
         </div>
       </div>
 
       <div class="aluno-detalhes-recolhiveis">
-        <div class="aluno-premium-grid">
-          <div class="info-premium">
-            <span>Mensalidade</span>
-            <strong>${formatarMoeda(aluno.valor)}</strong>
+        <div class="aluno-detalhes-grid">
+          <div class="aluno-detalhe-card">
+            <span>Contato</span>
+            <strong>${telefoneAlunoSeguro}</strong>
           </div>
 
-          <div class="info-premium">
-            <span>${jaPagou ? "Próx. vencimento" : "Vencimento"}</span>
-            <strong>${formatarData(aluno.vencimento)}</strong>
+          <div class="aluno-detalhe-card">
+            <span>Graduação</span>
+            <strong>${moduloEvolucaoAtivo ? faixaResumo : "Módulo desativado"}</strong>
+          </div>
+
+          <div class="aluno-detalhe-card">
+            <span>Status financeiro</span>
+            <strong>${escaparHtmlAluno(textoStatus)}</strong>
           </div>
         </div>
 
         <div class="acoes-premium acoes-premium-recolhidas">
-          ${jaPagou
-            ? `<span class="badge-pago-confirmado">✅ Mensalidade paga</span>`
-            : `<button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">✅ Registrar pagamento</button>`
-          }
+          <div class="aluno-acoes-bloco aluno-acoes-principais">
+            <span class="aluno-acoes-titulo">Ações principais</span>
+            ${jaPagou
+              ? `<span class="badge-pago-confirmado">Mensalidade paga</span>`
+              : `<button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">Registrar pagamento</button>`
+            }
 
-          <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">💬 WhatsApp</button>
+            <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">WhatsApp</button>
+            <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">Enviar página</button>
+          </div>
 
-          <button class="acao-secundaria" onclick="abrirPaginaAluno('${aluno.codigo_publico}')">
-            📄 Página do aluno
-          </button>
-
-          <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">
-            🔗 Enviar página
-          </button>
-
-          <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">🕘 Histórico</button>
-
-          ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Graduação</button>` : ""}
-
-          <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">✏ Editar</button>
-          <button class="acao-perigo" onclick="removerAluno('${aluno.id}')">🗑 Remover</button>
+          <div class="aluno-acoes-bloco aluno-acoes-gestao">
+            <span class="aluno-acoes-titulo">Gestão do aluno</span>
+            <button class="acao-principal btn-perfil-completo-aluno" onclick="abrirPerfilCompletoAluno('${aluno.id}')">Perfil completo</button>
+            <button class="acao-secundaria" onclick="abrirPaginaAluno('${aluno.codigo_publico}')">Página do aluno</button>
+            <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">Histórico</button>
+            ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">Graduação</button>` : ""}
+            <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">Editar</button>
+            <button class="acao-perigo" onclick="removerAluno('${aluno.id}')">Remover</button>
+          </div>
         </div>
       </div>
-  `;
+    `;
     listaAlunos.appendChild(card);
   });
 
@@ -569,4 +635,186 @@ function mostrarAlunos() {
   }
 }
 
+
 // ===============================
+
+// ===============================
+// 17. ALUNOS — PERFIL COMPLETO EXECUTIVO
+// ===============================
+
+function obterAlunoPorIdPerfil(alunoId) {
+  return alunos.find(aluno => String(aluno.id) === String(alunoId));
+}
+
+function valorPerfilAluno(valor, fallback = "Não informado") {
+  const texto = String(valor ?? "").trim();
+  return texto ? escaparHtmlAluno(texto) : fallback;
+}
+
+function dataPerfilAluno(data, fallback = "Não informada") {
+  if (!data) return fallback;
+  try {
+    return formatarData(data);
+  } catch (erro) {
+    return fallback;
+  }
+}
+
+function calcularResumoFinanceiroPerfil(aluno) {
+  const jaPagou = alunosPagosMes.has(String(aluno.id));
+  const status = verificarStatus(aluno.vencimento);
+  const dias = calcularDias(aluno.vencimento);
+
+  if (jaPagou) {
+    return {
+      titulo: "Mensalidade em dia",
+      detalhe: `Próximo vencimento em ${formatarData(aluno.vencimento)}`,
+      classe: "ok"
+    };
+  }
+
+  if (status === "atrasado") {
+    return {
+      titulo: `Atrasado há ${Math.abs(dias)} dia${Math.abs(dias) !== 1 ? "s" : ""}`,
+      detalhe: `Vencimento em ${formatarData(aluno.vencimento)}`,
+      classe: "alerta"
+    };
+  }
+
+  if (dias === 0) {
+    return {
+      titulo: "Vence hoje",
+      detalhe: `Mensalidade de ${formatarMoeda(aluno.valor)}`,
+      classe: "atenção"
+    };
+  }
+
+  return {
+    titulo: `Vence em ${dias} dia${dias !== 1 ? "s" : ""}`,
+    detalhe: `Vencimento em ${formatarData(aluno.vencimento)}`,
+    classe: "neutro"
+  };
+}
+
+function fecharPerfilCompletoAluno() {
+  const modal = document.getElementById("modalPerfilCompletoAluno");
+  if (modal) modal.remove();
+  document.body.classList.remove("perfil-aluno-aberto");
+}
+
+function abrirPerfilCompletoAluno(alunoId) {
+  const aluno = obterAlunoPorIdPerfil(alunoId);
+  if (!aluno) {
+    mostrarToast("Aluno não encontrado.", "erro");
+    return;
+  }
+
+  fecharPerfilCompletoAluno();
+
+  const financeiro = calcularResumoFinanceiroPerfil(aluno);
+  const nome = escaparHtmlAluno(obterTextoSeguroAluno(aluno.nome, "Aluno"));
+  const telefone = valorPerfilAluno(aluno.telefone, "Sem telefone");
+  const turma = valorPerfilAluno(aluno.turma, "Sem turma");
+  const statusAluno = String(aluno.status_aluno || "ativo").toLowerCase() === "inativo" ? "Inativo" : "Ativo";
+  const faixa = moduloEvolucaoAtivo && resumoEvolucaoAluno(aluno) ? escaparHtmlAluno(resumoEvolucaoAluno(aluno)) : "Graduação não informada";
+  const observacoes = valorPerfilAluno(aluno.observacoes_internas, "Nenhuma observação interna cadastrada.");
+  const responsavel = valorPerfilAluno(aluno.responsavel_nome, "Não informado");
+  const responsavelWhats = valorPerfilAluno(aluno.responsavel_whatsapp, "Não informado");
+
+  const modal = document.createElement("div");
+  modal.id = "modalPerfilCompletoAluno";
+  modal.className = "perfil-aluno-overlay";
+  modal.innerHTML = `
+    <section class="perfil-aluno-modal" role="dialog" aria-modal="true" aria-labelledby="perfilAlunoTitulo">
+      <button type="button" class="perfil-aluno-fechar" onclick="fecharPerfilCompletoAluno()" aria-label="Fechar perfil do aluno">×</button>
+
+      <header class="perfil-aluno-hero">
+        <div class="perfil-aluno-identidade">
+          ${aluno.foto_url
+            ? `<img src="${escaparHtmlAluno(aluno.foto_url)}" alt="Foto de ${nome}" class="perfil-aluno-foto">`
+            : `<div class="perfil-aluno-avatar">${String(aluno.nome || "A").trim().charAt(0).toUpperCase() || "A"}</div>`
+          }
+          <div>
+            <span class="page-eyebrow">Perfil do aluno</span>
+            <h2 id="perfilAlunoTitulo">${nome}</h2>
+            <p>${turma} • ${faixa}</p>
+          </div>
+        </div>
+        <span class="perfil-aluno-status ${statusAluno === "Inativo" ? "inativo" : "ativo"}">${statusAluno}</span>
+      </header>
+
+      <div class="perfil-aluno-kpis">
+        <article class="perfil-aluno-kpi ${financeiro.classe}">
+          <span>Financeiro</span>
+          <strong>${escaparHtmlAluno(financeiro.titulo)}</strong>
+          <small>${escaparHtmlAluno(financeiro.detalhe)}</small>
+        </article>
+        <article class="perfil-aluno-kpi">
+          <span>Mensalidade</span>
+          <strong>${formatarMoeda(aluno.valor)}</strong>
+          <small>Valor cadastrado</small>
+        </article>
+        <article class="perfil-aluno-kpi">
+          <span>Vencimento</span>
+          <strong>${formatarData(aluno.vencimento)}</strong>
+          <small>Data atual</small>
+        </article>
+      </div>
+
+      <div class="perfil-aluno-grid">
+        <article class="perfil-aluno-bloco">
+          <h3>Dados principais</h3>
+          <dl>
+            <div><dt>Telefone</dt><dd>${telefone}</dd></div>
+            <div><dt>Turma</dt><dd>${turma}</dd></div>
+            <div><dt>Nascimento</dt><dd>${dataPerfilAluno(aluno.data_nascimento)}</dd></div>
+            <div><dt>Entrada na academia</dt><dd>${dataPerfilAluno(aluno.data_inicio_academia)}</dd></div>
+          </dl>
+        </article>
+
+        <article class="perfil-aluno-bloco">
+          <h3>Graduação</h3>
+          <dl>
+            <div><dt>Faixa atual</dt><dd>${faixa}</dd></div>
+            <div><dt>Última graduação</dt><dd>${dataPerfilAluno(aluno.data_ultima_graduacao)}</dd></div>
+            <div><dt>Tempo mínimo</dt><dd>${aluno.tempo_avaliacao_meses ? `${Number(aluno.tempo_avaliacao_meses)} meses` : "Não informado"}</dd></div>
+          </dl>
+        </article>
+
+        <article class="perfil-aluno-bloco">
+          <h3>Responsável</h3>
+          <dl>
+            <div><dt>Nome</dt><dd>${responsavel}</dd></div>
+            <div><dt>WhatsApp</dt><dd>${responsavelWhats}</dd></div>
+          </dl>
+        </article>
+
+        <article class="perfil-aluno-bloco perfil-aluno-observacoes">
+          <h3>Observações internas</h3>
+          <p>${observacoes}</p>
+        </article>
+      </div>
+
+      <footer class="perfil-aluno-acoes">
+        <button type="button" class="acao-principal" onclick="enviarWhatsApp('${aluno.id}')">Chamar no WhatsApp</button>
+        <button type="button" class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">Ver histórico</button>
+        ${moduloEvolucaoAtivo ? `<button type="button" class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">Graduação</button>` : ""}
+        <button type="button" class="acao-secundaria" onclick="editarAluno('${aluno.id}')">Editar cadastro</button>
+      </footer>
+    </section>
+  `;
+
+  modal.addEventListener("click", function(event) {
+    if (event.target === modal) fecharPerfilCompletoAluno();
+  });
+
+  document.body.appendChild(modal);
+  document.body.classList.add("perfil-aluno-aberto");
+}
+
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") {
+    fecharPerfilCompletoAluno();
+  }
+});
+

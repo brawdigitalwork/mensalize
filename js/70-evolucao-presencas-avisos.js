@@ -1231,6 +1231,38 @@ async function registrarPresencaAluno(id, presente) {
 }
 
 
+let avisoEmEdicaoId = null;
+
+function obterBotaoSubmitAviso() {
+  return formAviso ? formAviso.querySelector('button[type="submit"]') : null;
+}
+
+function atualizarModoFormularioAviso() {
+  const editando = Boolean(avisoEmEdicaoId);
+  const painel = document.getElementById("painelNovoAviso");
+  const form = document.getElementById("formAviso");
+  const eyebrow = painel ? painel.querySelector(".avisos-form-topo .page-eyebrow") : null;
+  const titulo = painel ? painel.querySelector(".avisos-form-topo h3") : null;
+  const descricao = painel ? painel.querySelector(".avisos-form-topo p") : null;
+  const botaoSubmit = obterBotaoSubmitAviso();
+
+  if (form) form.classList.toggle("modo-edicao", editando);
+  if (eyebrow) eyebrow.textContent = editando ? "Editar comunicado" : "Novo comunicado";
+  if (titulo) titulo.textContent = editando ? "Editar aviso" : "Publicar aviso";
+  if (descricao) {
+    descricao.textContent = editando
+      ? "Ajuste as informações do aviso e salve para atualizar o portal do aluno."
+      : "O aviso aparecerá no portal do aluno conforme o destino informado.";
+  }
+  if (botaoSubmit) botaoSubmit.textContent = editando ? "Salvar alterações" : "Publicar aviso";
+}
+
+function prepararFormularioNovoAvisoProfessor() {
+  avisoEmEdicaoId = null;
+  if (formAviso) formAviso.reset();
+  atualizarModoFormularioAviso();
+}
+
 function avisoTipoTexto(tipo) {
   const mapa = {
     comunicado: "📢 Comunicado",
@@ -1251,6 +1283,13 @@ function escaparTextoSeguro(texto) {
     .replace(/'/g, "&#039;");
 }
 
+function resumirTextoAviso(texto, limite = 128) {
+  const limpo = String(texto || "").replace(/\s+/g, " ").trim();
+  if (!limpo) return "Sem mensagem informada.";
+  if (limpo.length <= limite) return limpo;
+  return `${limpo.slice(0, limite).trim()}...`;
+}
+
 async function carregarAvisos() {
   if (!listaAvisos || !usuarioAtual) return;
   const { data, error } = await supabaseClient
@@ -1263,46 +1302,215 @@ async function carregarAvisos() {
   if (error) {
     console.log("Erro ao carregar avisos:", error.message);
     listaAvisos.innerHTML = `<div class="empty-state-mini">Não foi possível carregar os avisos.</div>`;
+    atualizarResumoAvisosProfessor([]);
     return;
   }
 
-  if (!data || data.length === 0) {
-    listaAvisos.innerHTML = `<div class="empty-state-mini">Nenhum aviso cadastrado ainda.</div>`;
+  const avisos = data || [];
+  atualizarResumoAvisosProfessor(avisos);
+
+  if (avisos.length === 0) {
+    listaAvisos.innerHTML = `
+      <div class="empty-state-mini avisos-empty-state">
+        <strong>Nenhum aviso publicado ainda.</strong>
+        <span>Clique em “Novo aviso” para criar o primeiro comunicado.</span>
+      </div>
+    `;
     return;
   }
 
-  listaAvisos.innerHTML = data.map(aviso => {
+  listaAvisos.innerHTML = avisos.map(aviso => {
     const titulo = escaparTextoSeguro(aviso.titulo);
     const mensagem = escaparTextoSeguro(aviso.mensagem);
-    const destino = aviso.turma ? `Destino: ${escaparTextoSeguro(aviso.turma)}` : "Destino: Todos os alunos";
+    const mensagemPreview = escaparTextoSeguro(resumirTextoAviso(aviso.mensagem));
+    const destinoTexto = aviso.turma ? escaparTextoSeguro(aviso.turma) : "Todos os alunos";
     const tipo = avisoTipoTexto(aviso.tipo);
     const importante = aviso.prioridade === "importante" || aviso.tipo === "importante";
     const hojeISO = new Date().toISOString().split("T")[0];
     const aindaNaoIniciou = aviso.data_inicio && aviso.data_inicio > hojeISO;
     const expirado = aviso.data_fim && aviso.data_fim < hojeISO;
     const statusPeriodo = expirado ? "Expirado" : aindaNaoIniciou ? "Agendado" : "Ativo";
+    const statusClasse = expirado ? "status-atrasado" : aindaNaoIniciou ? "status-pendente" : "status-ok";
+    const dataPublicacao = aviso.created_at ? formatarData(aviso.created_at.split("T")[0]) : "data não informada";
     const periodo = `${aviso.data_inicio ? formatarData(aviso.data_inicio) : "Hoje"} até ${aviso.data_fim ? formatarData(aviso.data_fim) : "sem data final"}`;
 
     return `
-      <div class="evolucao-item aviso-item ${importante ? 'aviso-importante' : ''} ${expirado ? 'aviso-expirado' : ''}">
-        <div>
-          <div class="aviso-badges-row">
-            <span class="mini-badge">${tipo}</span>
-            <span class="mini-badge ${expirado ? 'status-atrasado' : aindaNaoIniciou ? 'status-pendente' : 'status-ok'}">${statusPeriodo}</span>
-          </div>
-          <strong>${titulo}</strong>
-          <span>${destino}</span>
-          <small>${mensagem}</small>
+      <article class="aviso-compacto ${importante ? 'aviso-importante' : ''} ${expirado ? 'aviso-expirado' : ''}" id="avisoCard-${aviso.id}">
+        <button type="button" class="aviso-compacto-resumo" onclick="toggleAvisoDetalhes('${aviso.id}')" aria-expanded="false" aria-controls="avisoDetalhes-${aviso.id}">
+          <span class="aviso-status-dot ${statusClasse}" aria-hidden="true"></span>
+          <span class="aviso-resumo-texto">
+            <span class="aviso-card-meta-topo">
+              <span class="mini-badge">${tipo}</span>
+              <span class="mini-badge ${statusClasse}">${statusPeriodo}</span>
+            </span>
+            <strong>${titulo}</strong>
+            <small>${destinoTexto} · ${dataPublicacao}</small>
+            <span class="aviso-preview">${mensagemPreview}</span>
+          </span>
+          <span class="aviso-chevron" aria-hidden="true">⌄</span>
+        </button>
+
+        <div class="aviso-compacto-detalhes escondido" id="avisoDetalhes-${aviso.id}">
+          <p>${mensagem}</p>
           <small class="aviso-periodo">Período: ${periodo}</small>
+          <div class="aviso-acoes aviso-acoes-recolhivel">
+            <button type="button" class="acao-secundaria btn-editar-aviso" onclick="editarAviso('${aviso.id}')">Editar</button>
+            <button type="button" class="acao-secundaria" onclick="copiarAviso('${aviso.id}')">Copiar mensagem</button>
+            <button type="button" class="acao-perigo" onclick="removerAviso('${aviso.id}')">Excluir</button>
+          </div>
         </div>
-        <div class="aviso-acoes">
-          <button type="button" class="acao-secundaria" onclick="copiarAviso('${aviso.id}')">Copiar</button>
-          <button type="button" class="acao-perigo" onclick="removerAviso('${aviso.id}')">Apagar</button>
-        </div>
-      </div>
+      </article>
     `;
   }).join("");
 }
+
+
+function obterStatusAvisoProfessor(aviso) {
+  const hojeISO = new Date().toISOString().split("T")[0];
+  const aindaNaoIniciou = aviso.data_inicio && aviso.data_inicio > hojeISO;
+  const expirado = aviso.data_fim && aviso.data_fim < hojeISO;
+  if (expirado) return "expirado";
+  if (aindaNaoIniciou) return "agendado";
+  return "ativo";
+}
+
+function atualizarResumoAvisosProfessor(avisos) {
+  const totalAtivos = document.getElementById("totalAvisosAtivos");
+  const totalAgendados = document.getElementById("totalAvisosAgendados");
+  const totalExpirados = document.getElementById("totalAvisosExpirados");
+  const avisosListaResumo = document.getElementById("avisosListaResumo");
+
+  const resumo = (avisos || []).reduce((acc, aviso) => {
+    const status = obterStatusAvisoProfessor(aviso);
+    acc[status] = (acc[status] || 0) + 1;
+    return acc;
+  }, { ativo: 0, agendado: 0, expirado: 0 });
+
+  if (totalAtivos) totalAtivos.textContent = resumo.ativo || 0;
+  if (totalAgendados) totalAgendados.textContent = resumo.agendado || 0;
+  if (totalExpirados) totalExpirados.textContent = resumo.expirado || 0;
+
+  if (avisosListaResumo) {
+    const total = (avisos || []).length;
+    avisosListaResumo.textContent = total === 0
+      ? "Nenhum aviso cadastrado ainda."
+      : `${total} aviso${total === 1 ? "" : "s"} publicado${total === 1 ? "" : "s"}. Clique em um aviso para ver detalhes.`;
+  }
+}
+
+function abrirFormularioAvisoProfessor() {
+  const painel = document.getElementById("painelNovoAviso");
+  if (!painel) return;
+  painel.classList.remove("escondido");
+  atualizarModoFormularioAviso();
+  if (msgAviso) {
+    msgAviso.textContent = "";
+    msgAviso.classList.remove("erro");
+  }
+  setTimeout(() => avisoTitulo?.focus?.(), 80);
+}
+
+function fecharFormularioAvisoProfessor() {
+  const painel = document.getElementById("painelNovoAviso");
+  if (!painel) return;
+  painel.classList.add("escondido");
+  avisoEmEdicaoId = null;
+  if (formAviso) formAviso.reset();
+  atualizarModoFormularioAviso();
+  if (msgAviso) {
+    msgAviso.textContent = "";
+    msgAviso.classList.remove("erro");
+  }
+}
+
+function alternarFormularioAvisoProfessor() {
+  const painel = document.getElementById("painelNovoAviso");
+  if (!painel) return;
+  if (painel.classList.contains("escondido")) {
+    prepararFormularioNovoAvisoProfessor();
+    abrirFormularioAvisoProfessor();
+  } else {
+    fecharFormularioAvisoProfessor();
+  }
+}
+
+function preencherDestinoAvisoProfessor(destino) {
+  if (!avisoTurma) return;
+  avisoTurma.value = destino || "";
+  avisoTurma.focus();
+}
+
+function toggleAvisoDetalhes(id) {
+  const card = document.getElementById(`avisoCard-${id}`);
+  const detalhes = document.getElementById(`avisoDetalhes-${id}`);
+  const resumo = card ? card.querySelector(".aviso-compacto-resumo") : null;
+  if (!card || !detalhes) return;
+
+  const vaiAbrir = detalhes.classList.contains("escondido");
+
+  document.querySelectorAll(".aviso-compacto.aberto").forEach(item => {
+    if (item.id === `avisoCard-${id}`) return;
+    item.classList.remove("aberto");
+    item.querySelector(".aviso-compacto-detalhes")?.classList.add("escondido");
+    item.querySelector(".aviso-compacto-resumo")?.setAttribute("aria-expanded", "false");
+  });
+
+  card.classList.toggle("aberto", vaiAbrir);
+  detalhes.classList.toggle("escondido", !vaiAbrir);
+  if (resumo) resumo.setAttribute("aria-expanded", vaiAbrir ? "true" : "false");
+}
+
+function configurarCentralAvisosProfessor() {
+  document.getElementById("btnNovoAviso")?.addEventListener("click", alternarFormularioAvisoProfessor);
+  document.getElementById("btnCancelarAviso")?.addEventListener("click", () => {
+    if (formAviso) formAviso.reset();
+    fecharFormularioAvisoProfessor();
+  });
+
+  document.querySelectorAll("[data-aviso-destino]").forEach(botao => {
+    botao.addEventListener("click", () => preencherDestinoAvisoProfessor(botao.dataset.avisoDestino || ""));
+  });
+}
+
+window.toggleAvisoDetalhes = toggleAvisoDetalhes;
+window.abrirFormularioAvisoProfessor = abrirFormularioAvisoProfessor;
+window.fecharFormularioAvisoProfessor = fecharFormularioAvisoProfessor;
+
+async function editarAviso(id) {
+  if (!usuarioAtual || !id) return;
+
+  const { data, error } = await supabaseClient
+    .from("avisos")
+    .select("id,titulo,turma,mensagem,tipo,prioridade,data_inicio,data_fim")
+    .eq("id", id)
+    .eq("user_id", usuarioAtual.id)
+    .single();
+
+  if (error || !data) {
+    console.error("Erro ao carregar aviso para edição:", error?.message || error);
+    mostrarToast("Não foi possível editar este aviso.", "erro");
+    return;
+  }
+
+  avisoEmEdicaoId = data.id;
+
+  if (avisoTitulo) avisoTitulo.value = data.titulo || "";
+  if (avisoTurma) avisoTurma.value = data.turma || "";
+  if (avisoMensagem) avisoMensagem.value = data.mensagem || "";
+  if (avisoDataInicio) avisoDataInicio.value = data.data_inicio || "";
+  if (avisoDataFim) avisoDataFim.value = data.data_fim || "";
+
+  const avisoTipo = document.getElementById("avisoTipo");
+  const avisoPrioridade = document.getElementById("avisoPrioridade");
+  if (avisoTipo) avisoTipo.value = data.tipo || "comunicado";
+  if (avisoPrioridade) avisoPrioridade.value = data.prioridade || "normal";
+
+  abrirFormularioAvisoProfessor();
+  document.getElementById("painelNovoAviso")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  mostrarToast("Editando aviso.");
+}
+
+window.editarAviso = editarAviso;
 
 async function copiarAviso(id) {
   const { data } = await supabaseClient.from("avisos").select("titulo, turma, mensagem").eq("id", id).single();
@@ -1350,18 +1558,30 @@ async function salvarAviso(event) {
   const prioridade = document.getElementById("avisoPrioridade")?.value || "normal";
 
   if (!titulo || !mensagem) {
-    if (msgAviso) msgAviso.textContent = "Preencha título e mensagem.";
+    if (msgAviso) {
+      msgAviso.textContent = "Preencha título e mensagem.";
+      msgAviso.classList.add("erro");
+    }
     return;
   }
 
   if (dataInicio && dataFim && dataFim < dataInicio) {
-    if (msgAviso) msgAviso.textContent = "A data final não pode ser antes da data inicial.";
+    if (msgAviso) {
+      msgAviso.textContent = "A data final não pode ser antes da data inicial.";
+      msgAviso.classList.add("erro");
+    }
     mostrarToast("Confira o período do aviso.", "erro");
     return;
   }
 
-  const { error } = await supabaseClient.from("avisos").insert({
-    user_id: usuarioAtual.id,
+  const editando = Boolean(avisoEmEdicaoId);
+  const botaoPublicar = obterBotaoSubmitAviso();
+  if (botaoPublicar) {
+    botaoPublicar.disabled = true;
+    botaoPublicar.textContent = editando ? "Salvando..." : "Publicando...";
+  }
+
+  const dadosAviso = {
     titulo,
     turma: turma || null,
     mensagem,
@@ -1370,16 +1590,47 @@ async function salvarAviso(event) {
     data_inicio: dataInicio,
     data_fim: dataFim,
     ativo: true
-  });
+  };
+
+  const resultado = editando
+    ? await supabaseClient
+        .from("avisos")
+        .update(dadosAviso)
+        .eq("id", avisoEmEdicaoId)
+        .eq("user_id", usuarioAtual.id)
+    : await supabaseClient
+        .from("avisos")
+        .insert({
+          user_id: usuarioAtual.id,
+          ...dadosAviso
+        });
+
+  const { error } = resultado;
+
+  if (botaoPublicar) {
+    botaoPublicar.disabled = false;
+    botaoPublicar.textContent = editando ? "Salvar alterações" : "Publicar aviso";
+  }
 
   if (error) {
-    if (msgAviso) msgAviso.textContent = "Erro ao salvar aviso.";
+    if (msgAviso) {
+      msgAviso.textContent = editando ? "Erro ao atualizar aviso." : "Erro ao publicar aviso.";
+      msgAviso.classList.add("erro");
+    }
     console.error(error);
     return;
   }
 
   if (formAviso) formAviso.reset();
-  if (msgAviso) msgAviso.textContent = "Aviso salvo com sucesso.";
+  avisoEmEdicaoId = null;
+  atualizarModoFormularioAviso();
+
+  if (msgAviso) {
+    msgAviso.textContent = editando ? "Aviso atualizado com sucesso." : "Aviso publicado com sucesso.";
+    msgAviso.classList.remove("erro");
+  }
+  fecharFormularioAvisoProfessor();
+  mostrarToast(editando ? "Aviso atualizado com sucesso." : "Aviso publicado com sucesso.");
   await carregarAvisos();
 }
 
@@ -1402,6 +1653,7 @@ if (btnAtualizarChamada) btnAtualizarChamada.addEventListener("click", prepararT
 if (btnMarcarTodosPresentes) btnMarcarTodosPresentes.addEventListener("click", () => marcarTodosPresencas(true));
 if (btnLimparChamada) btnLimparChamada.addEventListener("click", () => marcarTodosPresencas(false));
 if (btnSalvarChamada) btnSalvarChamada.addEventListener("click", salvarChamadaPresenca);
+configurarCentralAvisosProfessor();
 if (formAviso) formAviso.addEventListener("submit", salvarAviso);
 
 
@@ -1562,6 +1814,7 @@ async function registrarPontoRapidoDesafio(botao) {
   desafioPontosMesProfessorCarregado = false;
   await carregarPresencasDesafioMesProfessor(true);
   await carregarPontosDesafioMesProfessor(true);
+  renderizarHistoricoPontosDesafioProfessor();
   await renderizarDesafioPresencaProfessor();
   await carregarRankingDashboard();
 
@@ -1583,56 +1836,6 @@ function configurarDesafioPontosRapidos() {
 
     botao.dataset.inicializado = "true";
     botao.addEventListener("click", () => registrarPontoRapidoDesafio(botao));
-  });
-}
-
-function configurarTogglePontosDesafioProfessor() {
-  const botao = document.getElementById("btnTogglePontosDesafio");
-  const conteudo = document.getElementById("desafioPontosConteudo");
-  const card = document.querySelector(".desafio-pontos-card");
-
-  if (!botao || !conteudo || botao.dataset.inicializado === "true") return;
-
-  botao.dataset.inicializado = "true";
-
-  const aplicarEstado = (aberto) => {
-    conteudo.classList.toggle("escondido", !aberto);
-    conteudo.setAttribute("aria-hidden", aberto ? "false" : "true");
-    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
-    botao.textContent = aberto ? "Fechar pontuações" : "Abrir pontuações";
-    if (card) card.classList.toggle("desafio-pontos-card-recolhido", !aberto);
-  };
-
-  aplicarEstado(false);
-
-  botao.addEventListener("click", () => {
-    const aberto = botao.getAttribute("aria-expanded") === "true";
-    aplicarEstado(!aberto);
-  });
-}
-
-function configurarToggleHistoricoDesafioProfessor() {
-  const botao = document.getElementById("btnToggleHistoricoDesafio");
-  const conteudo = document.getElementById("desafioHistoricoConteudo");
-  const card = document.querySelector(".desafio-historico-card");
-
-  if (!botao || !conteudo || botao.dataset.inicializado === "true") return;
-
-  botao.dataset.inicializado = "true";
-
-  const aplicarEstado = (aberto) => {
-    conteudo.classList.toggle("escondido", !aberto);
-    conteudo.setAttribute("aria-hidden", aberto ? "false" : "true");
-    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
-    botao.textContent = aberto ? "Ocultar pontos lançados" : "Ver pontos lançados";
-    if (card) card.classList.toggle("desafio-historico-card-recolhido", !aberto);
-  };
-
-  aplicarEstado(false);
-
-  botao.addEventListener("click", () => {
-    const aberto = botao.getAttribute("aria-expanded") === "true";
-    aplicarEstado(!aberto);
   });
 }
 
@@ -1757,6 +1960,72 @@ async function carregarPontosDesafioMesProfessor(forcar = false) {
   return desafioPontosMesProfessor;
 }
 
+
+// ===============================
+// DESAFIO PROFESSOR — CARDS RECOLHÍVEIS E HISTÓRICO DE PONTOS
+// ===============================
+
+function configurarTogglePontosDesafioProfessor() {
+  const botao = document.getElementById("btnTogglePontosDesafio");
+  const conteudo = document.getElementById("desafioPontosConteudo");
+  const card = document.querySelector(".desafio-pontos-card");
+
+  if (!botao || !conteudo || botao.dataset.inicializado === "true") return;
+
+  botao.dataset.inicializado = "true";
+
+  const aplicarEstado = (aberto) => {
+    conteudo.classList.toggle("escondido", !aberto);
+    conteudo.setAttribute("aria-hidden", aberto ? "false" : "true");
+    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
+    botao.textContent = aberto ? "Fechar" : "Abrir pontuações";
+    if (card) card.classList.toggle("desafio-pontos-card-recolhido", !aberto);
+
+    if (aberto) {
+      preencherSelectDesafioPontosRapidos();
+      setTimeout(() => document.getElementById("desafioPontosAluno")?.focus(), 80);
+    }
+  };
+
+  aplicarEstado(false);
+
+  botao.addEventListener("click", () => {
+    const aberto = botao.getAttribute("aria-expanded") === "true";
+    aplicarEstado(!aberto);
+  });
+}
+
+function configurarToggleHistoricoDesafioProfessor() {
+  const botao = document.getElementById("btnToggleHistoricoDesafio");
+  const conteudo = document.getElementById("desafioHistoricoConteudo");
+  const card = document.querySelector(".desafio-historico-card");
+
+  if (!botao || !conteudo || botao.dataset.inicializado === "true") return;
+
+  botao.dataset.inicializado = "true";
+
+  const aplicarEstado = async (aberto) => {
+    conteudo.classList.toggle("escondido", !aberto);
+    conteudo.setAttribute("aria-hidden", aberto ? "false" : "true");
+    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
+    botao.textContent = aberto ? "Ocultar" : "Ver pontos lançados";
+    if (card) card.classList.toggle("desafio-historico-card-recolhido", !aberto);
+
+    if (aberto) {
+      if (!desafioPontosMesProfessorCarregado) {
+        await carregarPontosDesafioMesProfessor();
+      }
+      renderizarHistoricoPontosDesafioProfessor();
+    }
+  };
+
+  aplicarEstado(false);
+
+  botao.addEventListener("click", () => {
+    const aberto = botao.getAttribute("aria-expanded") === "true";
+    aplicarEstado(!aberto);
+  });
+}
 
 function labelTipoPontoDesafioProfessor(tipo) {
   const mapa = {
@@ -1887,7 +2156,6 @@ async function excluirPontoDesafioProfessor(pontoId) {
 
   const ponto = (desafioPontosMesProfessor || []).find(item => String(item.id) === String(pontoId));
   const nomeAluno = ponto ? obterNomeAlunoHistoricoDesafioProfessor(ponto) : "este aluno";
-  const pontos = ponto ? normalizarPontosInteiroProfessor(ponto.pontos) : 0;
 
   const { error } = await supabaseClient
     .from("desafio_pontos")
@@ -1907,7 +2175,7 @@ async function excluirPontoDesafioProfessor(pontoId) {
   await renderizarDesafioPresencaProfessor();
   await carregarRankingDashboard();
 
-  mostrarToast("Ponto excluído do desafio.");
+  mostrarToast(`Ponto removido de ${nomeAluno}.`);
 }
 
 function configurarHistoricoDesafioPontos() {
@@ -2340,9 +2608,9 @@ function obterListaRankingProfessorAtual() {
 }
 
 async function renderizarDesafioPresencaProfessor() {
+  configurarDesafioPontosRapidos();
   configurarTogglePontosDesafioProfessor();
   configurarToggleHistoricoDesafioProfessor();
-  configurarDesafioPontosRapidos();
   configurarHistoricoDesafioPontos();
 
   const container = document.getElementById("listaRankingDesafioProfessor");
@@ -2385,9 +2653,9 @@ async function renderizarDesafioPresencaProfessor() {
 }
 
 async function atualizarDesafioPresencaProfessor() {
+  configurarDesafioPontosRapidos();
   configurarTogglePontosDesafioProfessor();
   configurarToggleHistoricoDesafioProfessor();
-  configurarDesafioPontosRapidos();
   configurarHistoricoDesafioPontos();
 
   if (typeof carregarDadosFrequencia === "function") {
@@ -2470,6 +2738,7 @@ if (botaoAtualizarDesafio) {
   botaoAtualizarDesafio.addEventListener("click", atualizarDesafioPresencaProfessor);
 }
 
+configurarDesafioPontosRapidos();
 configurarTogglePontosDesafioProfessor();
 configurarToggleHistoricoDesafioProfessor();
-configurarDesafioPontosRapidos();
+configurarHistoricoDesafioPontos();

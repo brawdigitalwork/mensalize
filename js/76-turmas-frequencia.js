@@ -249,19 +249,45 @@ function calcularFrequenciaAluno(aluno) {
   const fim = dataLocalISO();
   const aulasValidas = contarAulasValidasTurma(turma, inicio, fim);
 
-  const presencas = (presencasPeriodo || []).filter(p =>
-    String(p.aluno_id) === String(aluno.id) &&
-    p.presente === true &&
-    p.data_aula >= inicio &&
-    p.data_aula <= fim &&
-    (
-      (p.turma_id && String(p.turma_id) === String(turma.id)) ||
-      normalizarTextoTurma(p.turma) === normalizarTextoTurma(turma.nome)
-    ) &&
-    !aulaCanceladaPara(turma.nome, p.data_aula)
-  ).length;
+  const diasPermitidos = new Set(
+    Array.isArray(turma.dias_semana)
+      ? turma.dias_semana
+        .map(normalizarDiaSemanaParaNumero)
+        .filter(dia => dia !== null && Number.isInteger(dia))
+      : []
+  );
 
-  const percentual = aulasValidas > 0 ? Math.round((presencas / aulasValidas) * 100) : null;
+  const datasPresencaValidas = new Set();
+
+  (presencasPeriodo || []).forEach(p => {
+    if (String(p.aluno_id) !== String(aluno.id)) return;
+    if (p.presente !== true) return;
+    if (!p.data_aula || p.data_aula < inicio || p.data_aula > fim) return;
+
+    const mesmaTurma =
+      (p.turma_id && String(p.turma_id) === String(turma.id)) ||
+      normalizarTextoTurma(p.turma) === normalizarTextoTurma(turma.nome);
+
+    if (!mesmaTurma) return;
+    if (aulaCanceladaPara(turma.nome, p.data_aula)) return;
+
+    const diaPresenca = diaDaSemanaDataISO(p.data_aula);
+
+    // Importante: se a turma hoje só tem aula em certos dias,
+    // presenças antigas marcadas fora desses dias não entram mais
+    // no cálculo de frequência para graduação.
+    if (!diasPermitidos.has(diaPresenca)) return;
+
+    // Conta apenas uma presença por data.
+    // Isso evita frequência acima de 100% por registros duplicados.
+    datasPresencaValidas.add(p.data_aula);
+  });
+
+  const presencas = Math.min(datasPresencaValidas.size, aulasValidas);
+  const percentual = aulasValidas > 0
+    ? Math.min(100, Math.round((presencas / aulasValidas) * 100))
+    : null;
+
   const minimo = Number(presencaMinimaPercentual || 70);
 
   const texto = percentual === null
@@ -278,7 +304,6 @@ function calcularFrequenciaAluno(aluno) {
     ok: percentual !== null && percentual >= minimo
   };
 }
-
 
 function alunosVinculadosTurma(turma) {
   const nomeTurma = normalizarTextoTurma(turma && turma.nome);

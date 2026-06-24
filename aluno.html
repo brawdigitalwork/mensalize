@@ -121,8 +121,8 @@
         <section id="viewInicioAluno" class="student-view ativa">
           <div class="welcome-card">
             <span class="eyebrow">Início</span>
-            <h1>Resumo rápido</h1>
-            <p>Veja o que realmente importa agora: mensalidade, graduação e contato com o professor.</p>
+            <h1>Minha área</h1>
+            <p>Acompanhe seus principais dados, mensalidade, graduação, avisos e desempenho no desafio.</p>
           </div>
 
           <div class="quick-grid">
@@ -139,8 +139,8 @@
           </div>
 
           <div class="action-row">
-            <button type="button" class="primary-action" data-view-target="financas">Ver financeiro</button>
-            <button type="button" class="secondary-action" data-view-target="graduacao">Ver Graduação</button>
+            <button type="button" class="primary-action" data-view-target="financas">Mensalidade</button>
+            <button type="button" class="secondary-action" data-view-target="graduacao">Graduação</button>
             <button type="button" id="btnVerProgramaFaixa" class="secondary-action escondido" data-view-target="programa">Ver próxima faixa</button>
           </div>
 
@@ -276,58 +276,66 @@
             <div id="conteudoEvolucaoAluno" class="student-evolution-grid"></div>
           </article>
 
-          <article class="panel-card">
+          <article class="panel-card student-request-card" data-request-card="graduacao">
             <div class="section-title-row">
               <div>
                 <span class="eyebrow">Solicitação</span>
-                <h2>Solicitar correção de graduação</h2>
+                <h2>Correção de graduação</h2>
               </div>
+              <button type="button" class="link-button student-request-toggle" data-request-toggle="graduacao" aria-expanded="false">Solicitar</button>
             </div>
-            <p class="helper-text">Use isso só caso alguma informação esteja errada. O professor precisa aprovar antes de alterar no sistema.</p>
-            <form id="formSolicitarGraduacao" class="student-form">
-              <label>
-                <span>Faixa correta</span>
-                <input type="text" id="solicitarFaixa" placeholder="Ex: Branca, Azul, Roxa" />
-              </label>
-              <label>
-                <span>Grau correto</span>
-                <input type="text" id="solicitarGrau" placeholder="Ex: 0, 1, 2, 3, 4" />
-              </label>
-              <label>
-                <span>Data correta da última graduação</span>
-                <input type="date" id="solicitarDataGraduacao" />
-              </label>
-              <label class="full-line">
-                <span>Observação</span>
-                <textarea id="solicitarGraduacaoObs" rows="3" placeholder="Explique rapidinho o que precisa corrigir"></textarea>
-              </label>
-              <button type="submit" class="secondary-action">Enviar solicitação</button>
-              <p id="msgSolicitarGraduacao" class="soft-message"></p>
-            </form>
+            <p class="helper-text request-summary">Use apenas quando faixa, grau ou data estiverem incorretos.</p>
+            <div class="student-request-body">
+              <p class="helper-text">O professor precisa aprovar antes de alterar no sistema.</p>
+              <form id="formSolicitarGraduacao" class="student-form">
+                <label>
+                  <span>Faixa correta</span>
+                  <input type="text" id="solicitarFaixa" placeholder="Ex: Branca, Azul, Roxa" />
+                </label>
+                <label>
+                  <span>Grau correto</span>
+                  <input type="text" id="solicitarGrau" placeholder="Ex: 0, 1, 2, 3, 4" />
+                </label>
+                <label>
+                  <span>Data correta da última graduação</span>
+                  <input type="date" id="solicitarDataGraduacao" />
+                </label>
+                <label class="full-line">
+                  <span>Observação</span>
+                  <textarea id="solicitarGraduacaoObs" rows="3" placeholder="Explique rapidinho o que precisa corrigir"></textarea>
+                </label>
+                <button type="submit" class="secondary-action">Enviar solicitação</button>
+                <p id="msgSolicitarGraduacao" class="soft-message"></p>
+              </form>
+            </div>
           </article>
 
-          <article class="panel-card">
+          <article class="panel-card student-request-card" data-request-card="turma">
             <div class="section-title-row">
               <div>
                 <span class="eyebrow">Turma</span>
-                <h2>Pedir mudança de turma</h2>
+                <h2>Mudança de turma</h2>
               </div>
+              <button type="button" class="link-button student-request-toggle" data-request-toggle="turma" aria-expanded="false">Pedir</button>
             </div>
-            <p class="helper-text">Quer mudar de horário ou turma? Envie o pedido por aqui para o professor analisar.</p>
-            <form id="formSolicitarTurma" class="student-form">
-              <label>
-                <span>Turma desejada</span>
-                <select id="solicitarTurma">
-                  <option value="">Carregando turmas...</option>
-                </select>
-              </label>
-              <label class="full-line">
-                <span>Observação</span>
-                <textarea id="solicitarTurmaObs" rows="3" placeholder="Explique rapidinho o motivo, se quiser"></textarea>
-              </label>
-              <button type="submit" class="secondary-action">Enviar solicitação</button>
-              <p id="msgSolicitarTurma" class="soft-message"></p>
-            </form>
+            <p class="helper-text request-summary">Solicite mudança de horário ou turma para o professor analisar.</p>
+            <div class="student-request-body">
+              <p class="helper-text">Escolha a turma desejada e envie uma observação, se necessário.</p>
+              <form id="formSolicitarTurma" class="student-form">
+                <label>
+                  <span>Turma desejada</span>
+                  <select id="solicitarTurma">
+                    <option value="">Carregando turmas...</option>
+                  </select>
+                </label>
+                <label class="full-line">
+                  <span>Observação</span>
+                  <textarea id="solicitarTurmaObs" rows="3" placeholder="Explique rapidinho o motivo, se quiser"></textarea>
+                </label>
+                <button type="submit" class="secondary-action">Enviar solicitação</button>
+                <p id="msgSolicitarTurma" class="soft-message"></p>
+              </form>
+            </div>
           </article>
         </section>
 
@@ -1927,8 +1935,6 @@ function renderizarAluno(aluno) {
 
     carregarAluno();
   </script>
-  <script src="js/90-cache-update.js"></script>
-
 <script>
   (function inicializarBotoesAluno() {
     const CHAVE_TEMA_ALUNO = "mensalize_tema_aluno";
@@ -2000,6 +2006,38 @@ function renderizarAluno(aluno) {
       }
     });
   })();
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const cards = Array.from(document.querySelectorAll("[data-request-card]"));
+    const toggles = Array.from(document.querySelectorAll("[data-request-toggle]"));
+
+    function fecharTodosPedidos() {
+      cards.forEach(card => card.classList.remove("request-open"));
+      toggles.forEach(btn => {
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = btn.dataset.requestToggle === "turma" ? "Pedir" : "Solicitar";
+      });
+    }
+
+    toggles.forEach(btn => {
+      btn.addEventListener("click", function() {
+        const alvo = btn.dataset.requestToggle;
+        const card = document.querySelector(`[data-request-card="${alvo}"]`);
+        if (!card) return;
+
+        const vaiAbrir = !card.classList.contains("request-open");
+        fecharTodosPedidos();
+
+        if (vaiAbrir) {
+          card.classList.add("request-open");
+          btn.setAttribute("aria-expanded", "true");
+          btn.textContent = "Fechar";
+        }
+      });
+    });
+  });
 </script>
 
 </body>

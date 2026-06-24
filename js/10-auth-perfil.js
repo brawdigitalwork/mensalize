@@ -6,19 +6,21 @@
 /** Verifica se já existe sessão ativa e abre login ou app. */
 async function iniciarSistema() {
   setFiltro(typeof obterFiltroSalvoAlunos === "function" ? obterFiltroSalvoAlunos() : "todos");
-  const { data } = await supabaseClient.auth.getSession();
 
-  if (data.session) {
-    usuarioAtual = data.session.user;
-    sincronizarEstado();
-
-    const acessoLiberado = await mostrarApp();
-    if (!acessoLiberado) return;
-
-    await carregarAlunos();
-  } else {
-    mostrarLogin();
+  /*
+    O Mensalize agora sempre abre na tela de login.
+    Mesmo que exista uma sessão antiga salva pelo Supabase,
+    ela é encerrada e o professor precisa clicar em Entrar.
+  */
+  try {
+    await supabaseClient.auth.signOut();
+  } catch (erro) {
+    console.warn("Não foi possível encerrar a sessão anterior:", erro);
   }
+
+  usuarioAtual = null;
+  sincronizarEstado();
+  mostrarLogin();
 }
 
 // ===============================
@@ -33,9 +35,59 @@ function mostrarLogin() {
 
   btnAdmin.classList.add("escondido");
 
-  emailLogin.value = "";
+  preencherEmailProfessorSalvo();
   senhaLogin.value = "";
   mensagemLogin.textContent = "";
+  mensagemLogin.classList.remove("erro", "sucesso");
+
+  if (btnEntrar) {
+    btnEntrar.disabled = false;
+    btnEntrar.textContent = "Entrar";
+  }
+}
+
+
+// ===============================
+// 08.1 LOGIN — LEMBRAR APENAS E-MAIL
+// ===============================
+
+const LOGIN_PROFESSOR_EMAIL_KEY = "mensalize:login-professor-email";
+
+function obterEmailProfessorSalvo() {
+  try {
+    return localStorage.getItem(LOGIN_PROFESSOR_EMAIL_KEY) || "";
+  } catch (erro) {
+    console.warn("Erro ao ler e-mail salvo:", erro);
+    return "";
+  }
+}
+
+function salvarEmailProfessorNoAparelho(email) {
+  try {
+    localStorage.setItem(LOGIN_PROFESSOR_EMAIL_KEY, email);
+  } catch (erro) {
+    console.warn("Erro ao salvar e-mail:", erro);
+  }
+}
+
+function apagarEmailProfessorSalvo() {
+  try {
+    localStorage.removeItem(LOGIN_PROFESSOR_EMAIL_KEY);
+  } catch (erro) {
+    console.warn("Erro ao apagar e-mail salvo:", erro);
+  }
+}
+
+function preencherEmailProfessorSalvo() {
+  const lembrarEmailProfessor = document.getElementById("lembrarEmailProfessor");
+  const emailSalvo = obterEmailProfessorSalvo();
+
+  if (emailLogin) emailLogin.value = emailSalvo;
+  if (senhaLogin) senhaLogin.value = "";
+
+  if (lembrarEmailProfessor) {
+    lembrarEmailProfessor.checked = Boolean(emailSalvo);
+  }
 }
 
 /** Bloqueia a abertura do app quando o Admin desativa a conta do cliente. */
@@ -226,11 +278,19 @@ if (btnTurmas) {
 btnEntrar.addEventListener("click", async function() {
   const email = emailLogin.value.trim();
   const senha = senhaLogin.value.trim();
+  const lembrarEmailProfessor = document.getElementById("lembrarEmailProfessor");
 
   if (!email || !senha) {
     mensagemLogin.textContent = "Preencha e-mail e senha.";
+    mensagemLogin.classList.add("erro");
+    mensagemLogin.classList.remove("sucesso");
     return;
   }
+
+  btnEntrar.disabled = true;
+  btnEntrar.textContent = "Entrando...";
+  mensagemLogin.textContent = "";
+  mensagemLogin.classList.remove("erro", "sucesso");
 
   const { data, error } = await supabaseClient.auth.signInWithPassword({
     email: email,
@@ -238,16 +298,29 @@ btnEntrar.addEventListener("click", async function() {
   });
 
   if (error) {
-    mensagemLogin.textContent = error.message;
+    mensagemLogin.textContent = "E-mail ou senha incorretos. Confira e tente novamente.";
+    mensagemLogin.classList.add("erro");
+    mensagemLogin.classList.remove("sucesso");
+
+    btnEntrar.disabled = false;
+    btnEntrar.textContent = "Entrar";
     return;
+  }
+
+  if (lembrarEmailProfessor && lembrarEmailProfessor.checked) {
+    salvarEmailProfessorNoAparelho(email);
+  } else {
+    apagarEmailProfessorSalvo();
   }
 
   usuarioAtual = data.user;
   sincronizarEstado();
 
-
-
   const acessoLiberado = await mostrarApp();
+
+  btnEntrar.disabled = false;
+  btnEntrar.textContent = "Entrar";
+
   if (!acessoLiberado) return;
 
   await carregarAlunos();
@@ -264,6 +337,24 @@ senhaLogin.addEventListener("keydown", function(event) {
     btnEntrar.click();
   }
 });
+
+const btnMostrarSenhaLogin = document.getElementById("btnMostrarSenhaLogin");
+
+if (btnMostrarSenhaLogin) {
+  btnMostrarSenhaLogin.textContent = "Ver";
+  btnMostrarSenhaLogin.setAttribute("aria-label", "Mostrar senha");
+
+  btnMostrarSenhaLogin.addEventListener("click", function() {
+    const senhaEstaVisivel = senhaLogin.type === "text";
+
+    senhaLogin.type = senhaEstaVisivel ? "password" : "text";
+    btnMostrarSenhaLogin.textContent = senhaEstaVisivel ? "Ver" : "Ocultar";
+    btnMostrarSenhaLogin.setAttribute(
+      "aria-label",
+      senhaEstaVisivel ? "Mostrar senha" : "Ocultar senha"
+    );
+  });
+}
 
 // ===============================
 // 11. AUTENTICAÇÃO — SAIR

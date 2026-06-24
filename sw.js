@@ -1,6 +1,6 @@
 // sw.js — Service Worker Mensalize
 // Atualização e cache
-const APP_VERSION = 'Mensalize Beta-1.2';
+const APP_VERSION = 'Mensalize Beta-1.4';
 const CACHE_PREFIX = 'mensalize-';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}`;
 

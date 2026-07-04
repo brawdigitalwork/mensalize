@@ -1,14 +1,30 @@
 // 32. MÓDULO EVOLUÇÃO / GRADUAÇÃO
 // ===============================
+function aplicarEstadoModuloElemento(el, ativo) {
+  const ehItemMenu = el.classList.contains("menu-item");
+
+  if (ehItemMenu) {
+    el.classList.remove("escondido");
+    el.classList.toggle("modulo-bloqueado", !ativo);
+    return;
+  }
+
+  el.classList.toggle("escondido", !ativo);
+  el.classList.remove("modulo-bloqueado");
+}
+
 function aplicarModulosInterface() {
   document.querySelectorAll(".modulo-evolucao").forEach(el => {
-    el.classList.toggle("escondido", !moduloEvolucaoAtivo);
+    aplicarEstadoModuloElemento(el, moduloEvolucaoAtivo);
   });
   document.querySelectorAll(".modulo-presenca").forEach(el => {
-    el.classList.toggle("escondido", !moduloPresencaAtivo);
+    aplicarEstadoModuloElemento(el, moduloPresencaAtivo);
   });
   document.querySelectorAll(".modulo-avisos").forEach(el => {
-    el.classList.toggle("escondido", !moduloAvisosAtivo);
+    aplicarEstadoModuloElemento(el, moduloAvisosAtivo);
+  });
+  document.querySelectorAll(".modulo-ranking").forEach(el => {
+    aplicarEstadoModuloElemento(el, moduloRankingAtivo);
   });
 }
 
@@ -56,7 +72,8 @@ function resumoEvolucaoAluno(aluno) {
   const partes = [];
   if (aluno.faixa) partes.push(`Faixa ${aluno.faixa}`);
   if (aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "") partes.push(`${aluno.grau}º grau`);
-  if (aluno.turma) partes.push(aluno.turma);
+  const turmasTexto = typeof textoTurmasAluno === "function" ? textoTurmasAluno(aluno, "") : (aluno.turma || "");
+  if (turmasTexto) partes.push(turmasTexto);
 
   const status = calcularStatusEvolucao(aluno);
 
@@ -177,8 +194,15 @@ function dataLocalISO() {
 }
 
 function nomeTurmaAluno(aluno) {
-  const turma = String(aluno && aluno.turma ? aluno.turma : "").trim();
-  return turma || "Sem turma";
+  const principal = String(aluno && aluno.turma ? aluno.turma : "").trim();
+  if (principal) return principal;
+
+  if (typeof nomesTurmasAluno === "function") {
+    const nomes = nomesTurmasAluno(aluno);
+    if (nomes.length) return nomes[0];
+  }
+
+  return "Sem turma";
 }
 
 function alunosAtivosParaChamada() {
@@ -187,28 +211,51 @@ function alunosAtivosParaChamada() {
 
 function preencherTurmasPresenca() {
   if (!presencaTurma) return;
+
   const turmaAtual = presencaTurma.value || "todas";
-  const turmasBanco = (turmasCadastradas || []).filter(t => t.ativa !== false).map(t => t.nome);
-  const turmasAlunos = alunosAtivosParaChamada().map(nomeTurmaAluno);
-  const turmas = [...new Set([...turmasBanco, ...turmasAlunos])].filter(Boolean).sort((a, b) => a.localeCompare(b, "pt-BR"));
-  presencaTurma.innerHTML = `<option value="todas">Todas as turmas</option>` + turmas.map(turma => `<option value="${turma}">${turma}</option>`).join("");
-  if (["todas", ...turmas].includes(turmaAtual)) {
+  const turmas = (turmasCadastradas || [])
+    .filter(turma => turma.ativa !== false)
+    .slice()
+    .sort((a, b) => String(a.nome || "").localeCompare(String(b.nome || ""), "pt-BR"));
+
+  presencaTurma.innerHTML = `<option value="todas">Todas as turmas</option>` +
+    turmas.map(turma => `<option value="${turma.nome}">${turma.nome}</option>`).join("");
+
+  if (turmaAtual === "todas" || turmas.some(turma => turma.nome === turmaAtual)) {
     presencaTurma.value = turmaAtual;
+  } else {
+    presencaTurma.value = "todas";
   }
 }
 
 function alunosFiltradosPresenca() {
   const turmaSelecionada = presencaTurma ? presencaTurma.value : "todas";
-  const turmasAtivasIds = new Set((turmasCadastradas || []).filter(turma => turma.ativa !== false).map(turma => String(turma.id)));
+  const turmasAtivas = (turmasCadastradas || []).filter(turma => turma.ativa !== false);
+  const turmasAtivasIds = new Set(turmasAtivas.map(turma => String(turma.id)));
 
   if (turmaSelecionada === "todas") {
-    return alunosAtivosParaChamada().filter(aluno => aluno.turma_id && turmasAtivasIds.has(String(aluno.turma_id)));
+    return alunosAtivosParaChamada().filter(aluno => {
+      const ids = typeof idsTurmasVinculadasAluno === "function"
+        ? idsTurmasVinculadasAluno(aluno)
+        : [aluno.turma_id].filter(Boolean).map(String);
+
+      return ids.some(id => turmasAtivasIds.has(String(id)));
+    });
   }
 
-  const turmaObj = typeof encontrarTurmaPorNome === "function" ? encontrarTurmaPorNome(turmaSelecionada) : null;
+  const turmaObj = typeof encontrarTurmaPorNome === "function"
+    ? encontrarTurmaPorNome(turmaSelecionada)
+    : null;
+
   if (!turmaObj) return [];
 
-  return alunosAtivosParaChamada().filter(aluno => String(aluno.turma_id || "") === String(turmaObj.id));
+  return alunosAtivosParaChamada().filter(aluno => {
+    if (typeof alunoVinculadoTurmaId === "function") {
+      return alunoVinculadoTurmaId(aluno, turmaObj.id);
+    }
+
+    return String(aluno.turma_id || "") === String(turmaObj.id);
+  });
 }
 
 function atualizarResumoChamada() {
@@ -651,7 +698,12 @@ function obterTurmasParaSelecaoChamada(dataISO = dataLocalISO()) {
       return String(a.nome || "").localeCompare(String(b.nome || ""), "pt-BR");
     })
     .map(turma => {
-      const alunosTurma = alunosAtivos.filter(aluno => String(aluno.turma_id || "") === String(turma.id));
+      const alunosTurma = alunosAtivos.filter(aluno => {
+        if (typeof alunoVinculadoTurmaId === "function") {
+          return alunoVinculadoTurmaId(aluno, turma.id);
+        }
+        return String(aluno.turma_id || "") === String(turma.id);
+      });
       return {
         id: turma.id,
         nome: turma.nome,
@@ -1195,7 +1247,6 @@ async function salvarChamadaPresenca() {
 
   mostrarToast("Chamada salva com sucesso!");
   if (typeof carregarDadosFrequencia === "function") await carregarDadosFrequencia();
-  desafioPresencasMesProfessorCarregado = false;
   await carregarMarcacoesPresenca();
   renderizarListaPresencas();
   renderizarHistoricoChamadas();
@@ -1225,43 +1276,9 @@ async function registrarPresencaAluno(id, presente) {
     mostrarToast("Erro ao registrar presença.", "erro");
     return;
   }
-
-  desafioPresencasMesProfessorCarregado = false;
   mostrarToast("Presença registrada!");
 }
 
-
-let avisoEmEdicaoId = null;
-
-function obterBotaoSubmitAviso() {
-  return formAviso ? formAviso.querySelector('button[type="submit"]') : null;
-}
-
-function atualizarModoFormularioAviso() {
-  const editando = Boolean(avisoEmEdicaoId);
-  const painel = document.getElementById("painelNovoAviso");
-  const form = document.getElementById("formAviso");
-  const eyebrow = painel ? painel.querySelector(".avisos-form-topo .page-eyebrow") : null;
-  const titulo = painel ? painel.querySelector(".avisos-form-topo h3") : null;
-  const descricao = painel ? painel.querySelector(".avisos-form-topo p") : null;
-  const botaoSubmit = obterBotaoSubmitAviso();
-
-  if (form) form.classList.toggle("modo-edicao", editando);
-  if (eyebrow) eyebrow.textContent = editando ? "Editar comunicado" : "Novo comunicado";
-  if (titulo) titulo.textContent = editando ? "Editar aviso" : "Publicar aviso";
-  if (descricao) {
-    descricao.textContent = editando
-      ? "Ajuste as informações do aviso e salve para atualizar o portal do aluno."
-      : "O aviso aparecerá no portal do aluno conforme o destino informado.";
-  }
-  if (botaoSubmit) botaoSubmit.textContent = editando ? "Salvar alterações" : "Publicar aviso";
-}
-
-function prepararFormularioNovoAvisoProfessor() {
-  avisoEmEdicaoId = null;
-  if (formAviso) formAviso.reset();
-  atualizarModoFormularioAviso();
-}
 
 function avisoTipoTexto(tipo) {
   const mapa = {
@@ -1283,13 +1300,6 @@ function escaparTextoSeguro(texto) {
     .replace(/'/g, "&#039;");
 }
 
-function resumirTextoAviso(texto, limite = 128) {
-  const limpo = String(texto || "").replace(/\s+/g, " ").trim();
-  if (!limpo) return "Sem mensagem informada.";
-  if (limpo.length <= limite) return limpo;
-  return `${limpo.slice(0, limite).trim()}...`;
-}
-
 async function carregarAvisos() {
   if (!listaAvisos || !usuarioAtual) return;
   const { data, error } = await supabaseClient
@@ -1302,215 +1312,98 @@ async function carregarAvisos() {
   if (error) {
     console.log("Erro ao carregar avisos:", error.message);
     listaAvisos.innerHTML = `<div class="empty-state-mini">Não foi possível carregar os avisos.</div>`;
-    atualizarResumoAvisosProfessor([]);
     return;
   }
 
-  const avisos = data || [];
-  atualizarResumoAvisosProfessor(avisos);
+  const totalAtivos = (data || []).filter(a => {
+    const hojeISO = new Date().toISOString().split("T")[0];
+    return !a.data_fim || a.data_fim >= hojeISO;
+  }).length;
+  const totalAgendados = (data || []).filter(a => {
+    const hojeISO = new Date().toISOString().split("T")[0];
+    return a.data_inicio && a.data_inicio > hojeISO;
+  }).length;
+  const totalExpirados = (data || []).filter(a => {
+    const hojeISO = new Date().toISOString().split("T")[0];
+    return a.data_fim && a.data_fim < hojeISO;
+  }).length;
 
-  if (avisos.length === 0) {
-    listaAvisos.innerHTML = `
-      <div class="empty-state-mini avisos-empty-state">
-        <strong>Nenhum aviso publicado ainda.</strong>
-        <span>Clique em “Novo aviso” para criar o primeiro comunicado.</span>
-      </div>
-    `;
+  const elAtivos = document.getElementById("totalAvisosAtivos");
+  const elAgendados = document.getElementById("totalAvisosAgendados");
+  const elExpirados = document.getElementById("totalAvisosExpirados");
+  if (elAtivos) elAtivos.textContent = totalAtivos;
+  if (elAgendados) elAgendados.textContent = totalAgendados;
+  if (elExpirados) elExpirados.textContent = totalExpirados;
+
+  if (!data || data.length === 0) {
+    listaAvisos.innerHTML = `<div class="empty-state-mini">Nenhum aviso cadastrado ainda.</div>`;
     return;
   }
 
-  listaAvisos.innerHTML = avisos.map(aviso => {
+  listaAvisos.innerHTML = data.map(aviso => {
     const titulo = escaparTextoSeguro(aviso.titulo);
     const mensagem = escaparTextoSeguro(aviso.mensagem);
-    const mensagemPreview = escaparTextoSeguro(resumirTextoAviso(aviso.mensagem));
-    const destinoTexto = aviso.turma ? escaparTextoSeguro(aviso.turma) : "Todos os alunos";
+    const destino = aviso.turma ? `Destino: ${escaparTextoSeguro(aviso.turma)}` : "Destino: Todos os alunos";
     const tipo = avisoTipoTexto(aviso.tipo);
     const importante = aviso.prioridade === "importante" || aviso.tipo === "importante";
     const hojeISO = new Date().toISOString().split("T")[0];
     const aindaNaoIniciou = aviso.data_inicio && aviso.data_inicio > hojeISO;
     const expirado = aviso.data_fim && aviso.data_fim < hojeISO;
     const statusPeriodo = expirado ? "Expirado" : aindaNaoIniciou ? "Agendado" : "Ativo";
-    const statusClasse = expirado ? "status-atrasado" : aindaNaoIniciou ? "status-pendente" : "status-ok";
-    const dataPublicacao = aviso.created_at ? formatarData(aviso.created_at.split("T")[0]) : "data não informada";
-    const periodo = `${aviso.data_inicio ? formatarData(aviso.data_inicio) : "Hoje"} até ${aviso.data_fim ? formatarData(aviso.data_fim) : "sem data final"}`;
 
     return `
-      <article class="aviso-compacto ${importante ? 'aviso-importante' : ''} ${expirado ? 'aviso-expirado' : ''}" id="avisoCard-${aviso.id}">
-        <button type="button" class="aviso-compacto-resumo" onclick="toggleAvisoDetalhes('${aviso.id}')" aria-expanded="false" aria-controls="avisoDetalhes-${aviso.id}">
-          <span class="aviso-status-dot ${statusClasse}" aria-hidden="true"></span>
-          <span class="aviso-resumo-texto">
-            <span class="aviso-card-meta-topo">
-              <span class="mini-badge">${tipo}</span>
-              <span class="mini-badge ${statusClasse}">${statusPeriodo}</span>
-            </span>
-            <strong>${titulo}</strong>
-            <small>${destinoTexto} · ${dataPublicacao}</small>
-            <span class="aviso-preview">${mensagemPreview}</span>
-          </span>
-          <span class="aviso-chevron" aria-hidden="true">⌄</span>
-        </button>
-
-        <div class="aviso-compacto-detalhes escondido" id="avisoDetalhes-${aviso.id}">
-          <p>${mensagem}</p>
-          <small class="aviso-periodo">Período: ${periodo}</small>
-          <div class="aviso-acoes aviso-acoes-recolhivel">
-            <button type="button" class="acao-secundaria btn-editar-aviso" onclick="editarAviso('${aviso.id}')">Editar</button>
-            <button type="button" class="acao-secundaria" onclick="copiarAviso('${aviso.id}')">Copiar mensagem</button>
-            <button type="button" class="acao-perigo" onclick="removerAviso('${aviso.id}')">Excluir</button>
+      <div class="evolucao-item aviso-item ${importante ? "aviso-importante" : ""} ${expirado ? "aviso-expirado" : ""}">
+        <div>
+          <div class="aviso-badges-row">
+            <span class="mini-badge">${tipo}</span>
+            <span class="mini-badge ${expirado ? "status-atrasado" : aindaNaoIniciou ? "status-pendente" : "status-ok"}">${statusPeriodo}</span>
           </div>
+          <strong>${titulo}</strong>
+          <span>${destino}</span>
+          <small>${mensagem}</small>
         </div>
-      </article>
+        <div class="aviso-acoes">
+          <button type="button" class="acao-secundaria" onclick="editarAviso('${aviso.id}')">Editar</button>
+          <button type="button" class="acao-secundaria" onclick="copiarAviso('${aviso.id}')">Copiar</button>
+          <button type="button" class="acao-perigo" onclick="removerAviso('${aviso.id}')">Apagar</button>
+        </div>
+      </div>
     `;
   }).join("");
 }
 
+function editarAviso(id) {
+  const painelNovoAviso = document.getElementById("painelNovoAviso");
+  if (!painelNovoAviso) return;
 
-function obterStatusAvisoProfessor(aviso) {
-  const hojeISO = new Date().toISOString().split("T")[0];
-  const aindaNaoIniciou = aviso.data_inicio && aviso.data_inicio > hojeISO;
-  const expirado = aviso.data_fim && aviso.data_fim < hojeISO;
-  if (expirado) return "expirado";
-  if (aindaNaoIniciou) return "agendado";
-  return "ativo";
-}
-
-function atualizarResumoAvisosProfessor(avisos) {
-  const totalAtivos = document.getElementById("totalAvisosAtivos");
-  const totalAgendados = document.getElementById("totalAvisosAgendados");
-  const totalExpirados = document.getElementById("totalAvisosExpirados");
-  const avisosListaResumo = document.getElementById("avisosListaResumo");
-
-  const resumo = (avisos || []).reduce((acc, aviso) => {
-    const status = obterStatusAvisoProfessor(aviso);
-    acc[status] = (acc[status] || 0) + 1;
-    return acc;
-  }, { ativo: 0, agendado: 0, expirado: 0 });
-
-  if (totalAtivos) totalAtivos.textContent = resumo.ativo || 0;
-  if (totalAgendados) totalAgendados.textContent = resumo.agendado || 0;
-  if (totalExpirados) totalExpirados.textContent = resumo.expirado || 0;
-
-  if (avisosListaResumo) {
-    const total = (avisos || []).length;
-    avisosListaResumo.textContent = total === 0
-      ? "Nenhum aviso cadastrado ainda."
-      : `${total} aviso${total === 1 ? "" : "s"} publicado${total === 1 ? "" : "s"}. Clique em um aviso para ver detalhes.`;
-  }
-}
-
-function abrirFormularioAvisoProfessor() {
-  const painel = document.getElementById("painelNovoAviso");
-  if (!painel) return;
-  painel.classList.remove("escondido");
-  atualizarModoFormularioAviso();
-  if (msgAviso) {
-    msgAviso.textContent = "";
-    msgAviso.classList.remove("erro");
-  }
-  setTimeout(() => avisoTitulo?.focus?.(), 80);
-}
-
-function fecharFormularioAvisoProfessor() {
-  const painel = document.getElementById("painelNovoAviso");
-  if (!painel) return;
-  painel.classList.add("escondido");
-  avisoEmEdicaoId = null;
-  if (formAviso) formAviso.reset();
-  atualizarModoFormularioAviso();
-  if (msgAviso) {
-    msgAviso.textContent = "";
-    msgAviso.classList.remove("erro");
-  }
-}
-
-function alternarFormularioAvisoProfessor() {
-  const painel = document.getElementById("painelNovoAviso");
-  if (!painel) return;
-  if (painel.classList.contains("escondido")) {
-    prepararFormularioNovoAvisoProfessor();
-    abrirFormularioAvisoProfessor();
-  } else {
-    fecharFormularioAvisoProfessor();
-  }
-}
-
-function preencherDestinoAvisoProfessor(destino) {
-  if (!avisoTurma) return;
-  avisoTurma.value = destino || "";
-  avisoTurma.focus();
-}
-
-function toggleAvisoDetalhes(id) {
-  const card = document.getElementById(`avisoCard-${id}`);
-  const detalhes = document.getElementById(`avisoDetalhes-${id}`);
-  const resumo = card ? card.querySelector(".aviso-compacto-resumo") : null;
-  if (!card || !detalhes) return;
-
-  const vaiAbrir = detalhes.classList.contains("escondido");
-
-  document.querySelectorAll(".aviso-compacto.aberto").forEach(item => {
-    if (item.id === `avisoCard-${id}`) return;
-    item.classList.remove("aberto");
-    item.querySelector(".aviso-compacto-detalhes")?.classList.add("escondido");
-    item.querySelector(".aviso-compacto-resumo")?.setAttribute("aria-expanded", "false");
-  });
-
-  card.classList.toggle("aberto", vaiAbrir);
-  detalhes.classList.toggle("escondido", !vaiAbrir);
-  if (resumo) resumo.setAttribute("aria-expanded", vaiAbrir ? "true" : "false");
-}
-
-function configurarCentralAvisosProfessor() {
-  document.getElementById("btnNovoAviso")?.addEventListener("click", alternarFormularioAvisoProfessor);
-  document.getElementById("btnCancelarAviso")?.addEventListener("click", () => {
-    if (formAviso) formAviso.reset();
-    fecharFormularioAvisoProfessor();
-  });
-
-  document.querySelectorAll("[data-aviso-destino]").forEach(botao => {
-    botao.addEventListener("click", () => preencherDestinoAvisoProfessor(botao.dataset.avisoDestino || ""));
-  });
-}
-
-window.toggleAvisoDetalhes = toggleAvisoDetalhes;
-window.abrirFormularioAvisoProfessor = abrirFormularioAvisoProfessor;
-window.fecharFormularioAvisoProfessor = fecharFormularioAvisoProfessor;
-
-async function editarAviso(id) {
-  if (!usuarioAtual || !id) return;
-
-  const { data, error } = await supabaseClient
+  // Busca o aviso direto do Supabase para preencher o form
+  supabaseClient
     .from("avisos")
-    .select("id,titulo,turma,mensagem,tipo,prioridade,data_inicio,data_fim")
+    .select("id,titulo,turma,mensagem")
     .eq("id", id)
-    .eq("user_id", usuarioAtual.id)
-    .single();
+    .single()
+    .then(({ data, error }) => {
+      if (error || !data) {
+        mostrarToast("Erro ao carregar aviso para edição.", "erro");
+        return;
+      }
 
-  if (error || !data) {
-    console.error("Erro ao carregar aviso para edição:", error?.message || error);
-    mostrarToast("Não foi possível editar este aviso.", "erro");
-    return;
-  }
+      if (avisoTitulo) avisoTitulo.value = data.titulo || "";
+      if (avisoTurma) avisoTurma.value = data.turma || "";
+      if (avisoMensagem) avisoMensagem.value = data.mensagem || "";
 
-  avisoEmEdicaoId = data.id;
+      // Guarda o ID em edição no form
+      if (formAviso) formAviso.dataset.editandoId = data.id;
 
-  if (avisoTitulo) avisoTitulo.value = data.titulo || "";
-  if (avisoTurma) avisoTurma.value = data.turma || "";
-  if (avisoMensagem) avisoMensagem.value = data.mensagem || "";
-  if (avisoDataInicio) avisoDataInicio.value = data.data_inicio || "";
-  if (avisoDataFim) avisoDataFim.value = data.data_fim || "";
+      // Atualiza o título do painel
+      const tituloPainel = painelNovoAviso.querySelector("h3");
+      if (tituloPainel) tituloPainel.textContent = "Editar aviso";
 
-  const avisoTipo = document.getElementById("avisoTipo");
-  const avisoPrioridade = document.getElementById("avisoPrioridade");
-  if (avisoTipo) avisoTipo.value = data.tipo || "comunicado";
-  if (avisoPrioridade) avisoPrioridade.value = data.prioridade || "normal";
-
-  abrirFormularioAvisoProfessor();
-  document.getElementById("painelNovoAviso")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  mostrarToast("Editando aviso.");
+      // Abre o painel
+      painelNovoAviso.classList.remove("escondido");
+      painelNovoAviso.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
 }
-
-window.editarAviso = editarAviso;
 
 async function copiarAviso(id) {
   const { data } = await supabaseClient.from("avisos").select("titulo, turma, mensagem").eq("id", id).single();
@@ -1549,88 +1442,61 @@ async function removerAviso(id) {
 async function salvarAviso(event) {
   event.preventDefault();
   if (!usuarioAtual) return;
+
   const titulo = avisoTitulo ? avisoTitulo.value.trim() : "";
   const turma = avisoTurma ? avisoTurma.value.trim() : "";
   const mensagem = avisoMensagem ? avisoMensagem.value.trim() : "";
-  const dataInicio = avisoDataInicio && avisoDataInicio.value ? avisoDataInicio.value : null;
-  const dataFim = avisoDataFim && avisoDataFim.value ? avisoDataFim.value : null;
-  const tipo = document.getElementById("avisoTipo")?.value || "comunicado";
-  const prioridade = document.getElementById("avisoPrioridade")?.value || "normal";
+  const editandoId = formAviso?.dataset.editandoId || null;
 
   if (!titulo || !mensagem) {
-    if (msgAviso) {
-      msgAviso.textContent = "Preencha título e mensagem.";
-      msgAviso.classList.add("erro");
-    }
+    if (msgAviso) msgAviso.textContent = "Preencha título e mensagem.";
     return;
   }
 
-  if (dataInicio && dataFim && dataFim < dataInicio) {
-    if (msgAviso) {
-      msgAviso.textContent = "A data final não pode ser antes da data inicial.";
-      msgAviso.classList.add("erro");
-    }
-    mostrarToast("Confira o período do aviso.", "erro");
-    return;
-  }
-
-  const editando = Boolean(avisoEmEdicaoId);
-  const botaoPublicar = obterBotaoSubmitAviso();
-  if (botaoPublicar) {
-    botaoPublicar.disabled = true;
-    botaoPublicar.textContent = editando ? "Salvando..." : "Publicando...";
-  }
-
-  const dadosAviso = {
+  const payload = {
+    user_id: usuarioAtual.id,
     titulo,
     turma: turma || null,
     mensagem,
-    tipo,
-    prioridade,
-    data_inicio: dataInicio,
-    data_fim: dataFim,
+    tipo: "comunicado",
+    prioridade: "normal",
     ativo: true
   };
 
-  const resultado = editando
-    ? await supabaseClient
-        .from("avisos")
-        .update(dadosAviso)
-        .eq("id", avisoEmEdicaoId)
-        .eq("user_id", usuarioAtual.id)
-    : await supabaseClient
-        .from("avisos")
-        .insert({
-          user_id: usuarioAtual.id,
-          ...dadosAviso
-        });
+  let error;
 
-  const { error } = resultado;
-
-  if (botaoPublicar) {
-    botaoPublicar.disabled = false;
-    botaoPublicar.textContent = editando ? "Salvar alterações" : "Publicar aviso";
+  if (editandoId) {
+    // Modo edição — atualiza o registro existente
+    ({ error } = await supabaseClient
+      .from("avisos")
+      .update({ titulo, turma: turma || null, mensagem })
+      .eq("id", editandoId)
+      .eq("user_id", usuarioAtual.id));
+  } else {
+    // Modo criação — insere novo registro
+    ({ error } = await supabaseClient.from("avisos").insert(payload));
   }
 
   if (error) {
-    if (msgAviso) {
-      msgAviso.textContent = editando ? "Erro ao atualizar aviso." : "Erro ao publicar aviso.";
-      msgAviso.classList.add("erro");
-    }
+    if (msgAviso) msgAviso.textContent = "Erro ao salvar aviso.";
     console.error(error);
     return;
   }
 
-  if (formAviso) formAviso.reset();
-  avisoEmEdicaoId = null;
-  atualizarModoFormularioAviso();
-
-  if (msgAviso) {
-    msgAviso.textContent = editando ? "Aviso atualizado com sucesso." : "Aviso publicado com sucesso.";
-    msgAviso.classList.remove("erro");
+  // Resetar form e fechar painel
+  if (formAviso) {
+    formAviso.reset();
+    delete formAviso.dataset.editandoId;
   }
-  fecharFormularioAvisoProfessor();
-  mostrarToast(editando ? "Aviso atualizado com sucesso." : "Aviso publicado com sucesso.");
+
+  const tituloPainel = document.getElementById("painelNovoAviso")?.querySelector("h3");
+  if (tituloPainel) tituloPainel.textContent = "Publicar aviso";
+
+  const painelNovoAviso = document.getElementById("painelNovoAviso");
+  if (painelNovoAviso) painelNovoAviso.classList.add("escondido");
+
+  if (msgAviso) msgAviso.textContent = "";
+  mostrarToast(editandoId ? "Aviso atualizado." : "Aviso publicado.");
   await carregarAvisos();
 }
 
@@ -1653,8 +1519,69 @@ if (btnAtualizarChamada) btnAtualizarChamada.addEventListener("click", prepararT
 if (btnMarcarTodosPresentes) btnMarcarTodosPresentes.addEventListener("click", () => marcarTodosPresencas(true));
 if (btnLimparChamada) btnLimparChamada.addEventListener("click", () => marcarTodosPresencas(false));
 if (btnSalvarChamada) btnSalvarChamada.addEventListener("click", salvarChamadaPresenca);
-configurarCentralAvisosProfessor();
 if (formAviso) formAviso.addEventListener("submit", salvarAviso);
+
+// Botão Novo Aviso — abre/fecha painel
+const btnNovoAviso = document.getElementById("btnNovoAviso");
+const painelNovoAviso = document.getElementById("painelNovoAviso");
+const btnCancelarAviso = document.getElementById("btnCancelarAviso");
+
+if (btnNovoAviso && painelNovoAviso) {
+  btnNovoAviso.addEventListener("click", () => {
+    const estaAberto = !painelNovoAviso.classList.contains("escondido");
+    if (estaAberto) {
+      painelNovoAviso.classList.add("escondido");
+      if (formAviso) { formAviso.reset(); delete formAviso.dataset.editandoId; }
+      const tituloPainel = painelNovoAviso.querySelector("h3");
+      if (tituloPainel) tituloPainel.textContent = "Publicar aviso";
+    } else {
+      painelNovoAviso.classList.remove("escondido");
+      painelNovoAviso.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+}
+
+if (btnCancelarAviso && painelNovoAviso) {
+  btnCancelarAviso.addEventListener("click", () => {
+    painelNovoAviso.classList.add("escondido");
+    if (formAviso) { formAviso.reset(); delete formAviso.dataset.editandoId; }
+    const tituloPainel = painelNovoAviso.querySelector("h3");
+    if (tituloPainel) tituloPainel.textContent = "Publicar aviso";
+  });
+}
+
+// Histórico de chamadas — toggle abrir/fechar
+function toggleHistoricoChamadas() {
+  const conteudo = document.getElementById("historicoChamadas");
+  const btn = document.getElementById("btnToggleHistoricoChamadas");
+  if (!conteudo) return;
+  const vaiAbrir = conteudo.classList.contains("escondido");
+  conteudo.classList.toggle("escondido", !vaiAbrir);
+  if (btn) {
+    btn.textContent = vaiAbrir ? "Fechar histórico" : "Ver histórico";
+    btn.setAttribute("aria-expanded", vaiAbrir ? "true" : "false");
+  }
+}
+
+// Inicializar abas de configuração do Perfil
+function inicializarConfigAbas() {
+  document.querySelectorAll(".config-aba").forEach(aba => {
+    aba.addEventListener("click", () => {
+      const alvo = aba.dataset.configAba;
+
+      document.querySelectorAll(".config-aba").forEach(b => {
+        b.classList.remove("ativa");
+        b.setAttribute("aria-selected", "false");
+      });
+      document.querySelectorAll(".config-painel").forEach(p => p.classList.remove("ativo"));
+
+      aba.classList.add("ativa");
+      aba.setAttribute("aria-selected", "true");
+      const painel = document.getElementById(`configAba-${alvo}`);
+      if (painel) painel.classList.add("ativo");
+    });
+  });
+}
 
 
 // inicializarNavegacaoPrincipal() agora é chamado em js/99-app.js.
@@ -1727,7 +1654,8 @@ function preencherSelectDesafioPontosRapidos() {
   lista.forEach(aluno => {
     const option = document.createElement("option");
     option.value = aluno.id;
-    option.textContent = `${aluno.nome}${aluno.turma ? ` • ${aluno.turma}` : ""}`;
+    const turmasTexto = typeof textoTurmasAluno === "function" ? textoTurmasAluno(aluno, "") : (aluno.turma || "");
+    option.textContent = `${aluno.nome}${turmasTexto ? ` • ${turmasTexto}` : ""}`;
     select.appendChild(option);
   });
 
@@ -1812,10 +1740,8 @@ async function registrarPontoRapidoDesafio(botao) {
   if (observacaoInput) observacaoInput.value = "";
 
   desafioPontosMesProfessorCarregado = false;
-  await carregarPresencasDesafioMesProfessor(true);
-  await carregarPontosDesafioMesProfessor(true);
-  renderizarHistoricoPontosDesafioProfessor();
-  await renderizarDesafioPresencaProfessor();
+  await carregarPontosDesafioMesProfessor();
+  renderizarDesafioPresencaProfessor();
   await carregarRankingDashboard();
 
   const minimoAulas = obterMinimoAulasRankingDesafioProfessor();
@@ -1842,8 +1768,6 @@ function configurarDesafioPontosRapidos() {
 
 let desafioPontosMesProfessor = [];
 let desafioPontosMesProfessorCarregado = false;
-let desafioPresencasMesProfessor = [];
-let desafioPresencasMesProfessorCarregado = false;
 
 function obterPeriodoRankingMesAtualProfessor() {
   const hoje = new Date();
@@ -1864,45 +1788,6 @@ function dataDateParaISOProfessor(data) {
 function dataISOProfessor(dataValor) {
   if (!dataValor) return "";
   return String(dataValor).split("T")[0];
-}
-
-async function carregarPresencasDesafioMesProfessor(forcar = false) {
-  if (!usuarioAtual || !supabaseClient) {
-    desafioPresencasMesProfessor = [];
-    desafioPresencasMesProfessorCarregado = true;
-    return desafioPresencasMesProfessor;
-  }
-
-  if (!forcar && desafioPresencasMesProfessorCarregado) {
-    return desafioPresencasMesProfessor;
-  }
-
-  const periodo = obterPeriodoRankingMesAtualProfessor();
-  const inicio = dataDateParaISOProfessor(periodo.inicio);
-  const fim = dataDateParaISOProfessor(periodo.fim);
-
-  const { data, error } = await supabaseClient
-    .from("presencas")
-    .select("id,aluno_id,turma,turma_id,data_aula,presente")
-    .eq("user_id", usuarioAtual.id)
-    .gte("data_aula", inicio)
-    .lte("data_aula", fim);
-
-  if (error) {
-    console.log("Erro ao carregar presenças mensais do desafio:", error.message);
-    desafioPresencasMesProfessor = [];
-    desafioPresencasMesProfessorCarregado = false;
-    return desafioPresencasMesProfessor;
-  }
-
-  desafioPresencasMesProfessor = data || [];
-  desafioPresencasMesProfessorCarregado = true;
-  return desafioPresencasMesProfessor;
-}
-
-function invalidarCacheDesafioProfessor() {
-  desafioPresencasMesProfessorCarregado = false;
-  desafioPontosMesProfessorCarregado = false;
 }
 
 function desafioPontosExtrasAtivoProfessor() {
@@ -1960,270 +1845,6 @@ async function carregarPontosDesafioMesProfessor(forcar = false) {
   return desafioPontosMesProfessor;
 }
 
-
-// ===============================
-// DESAFIO PROFESSOR — CARDS RECOLHÍVEIS E HISTÓRICO DE PONTOS
-// ===============================
-
-function configurarTogglePontosDesafioProfessor() {
-  const botao = document.getElementById("btnTogglePontosDesafio");
-  const conteudo = document.getElementById("desafioPontosConteudo");
-  const card = document.querySelector(".desafio-pontos-card");
-
-  if (!botao || !conteudo || botao.dataset.inicializado === "true") return;
-
-  botao.dataset.inicializado = "true";
-
-  const aplicarEstado = (aberto) => {
-    conteudo.classList.toggle("escondido", !aberto);
-    conteudo.setAttribute("aria-hidden", aberto ? "false" : "true");
-    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
-    botao.textContent = aberto ? "Fechar" : "Abrir pontuações";
-    if (card) card.classList.toggle("desafio-pontos-card-recolhido", !aberto);
-
-    if (aberto) {
-      preencherSelectDesafioPontosRapidos();
-      setTimeout(() => document.getElementById("desafioPontosAluno")?.focus(), 80);
-    }
-  };
-
-  aplicarEstado(false);
-
-  botao.addEventListener("click", () => {
-    const aberto = botao.getAttribute("aria-expanded") === "true";
-    aplicarEstado(!aberto);
-  });
-}
-
-function configurarToggleHistoricoDesafioProfessor() {
-  const botao = document.getElementById("btnToggleHistoricoDesafio");
-  const conteudo = document.getElementById("desafioHistoricoConteudo");
-  const card = document.querySelector(".desafio-historico-card");
-
-  if (!botao || !conteudo || botao.dataset.inicializado === "true") return;
-
-  botao.dataset.inicializado = "true";
-
-  const aplicarEstado = async (aberto) => {
-    conteudo.classList.toggle("escondido", !aberto);
-    conteudo.setAttribute("aria-hidden", aberto ? "false" : "true");
-    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
-    botao.textContent = aberto ? "Ocultar" : "Ver pontos lançados";
-    if (card) card.classList.toggle("desafio-historico-card-recolhido", !aberto);
-
-    if (aberto) {
-      if (!desafioPontosMesProfessorCarregado) {
-        await carregarPontosDesafioMesProfessor();
-      }
-      renderizarHistoricoPontosDesafioProfessor();
-    }
-  };
-
-  aplicarEstado(false);
-
-  botao.addEventListener("click", () => {
-    const aberto = botao.getAttribute("aria-expanded") === "true";
-    aplicarEstado(!aberto);
-  });
-}
-
-function labelTipoPontoDesafioProfessor(tipo) {
-  const mapa = {
-    tecnica: "Técnica",
-    atitude: "Atitude",
-    desafio_aula: "Desafio da aula",
-    competicao: "Competição"
-  };
-
-  return mapa[String(tipo || "")] || "Ponto";
-}
-
-function labelSubtipoPontoDesafioProfessor(tipo, subtipo) {
-  const config = obterConfigPontoDesafio(tipo, subtipo);
-  if (config && config.label) return config.label;
-
-  return String(subtipo || "")
-    .replaceAll("_", " ")
-    .replace(/\b\w/g, letra => letra.toUpperCase()) || "Ponto extra";
-}
-
-function obterAlunoHistoricoDesafioProfessor(alunoId) {
-  return (alunos || []).find(aluno => String(aluno.id) === String(alunoId)) || null;
-}
-
-function obterNomeAlunoHistoricoDesafioProfessor(ponto) {
-  const aluno = obterAlunoHistoricoDesafioProfessor(ponto?.aluno_id);
-  return aluno?.nome || "Aluno removido";
-}
-
-function obterTurmaHistoricoDesafioProfessor(ponto) {
-  const aluno = obterAlunoHistoricoDesafioProfessor(ponto?.aluno_id);
-  const turmaAluno = aluno?.turma || "";
-
-  if (turmaAluno) return turmaAluno;
-
-  if (ponto?.turma_id && Array.isArray(turmasCadastradas)) {
-    const turma = turmasCadastradas.find(item => String(item.id) === String(ponto.turma_id));
-    if (turma?.nome) return turma.nome;
-  }
-
-  return "Sem turma";
-}
-
-function formatarDataPontoDesafioProfessor(dataValor) {
-  const dataISO = dataISOProfessor(dataValor);
-  if (!dataISO) return "Sem data";
-
-  if (typeof formatarData === "function") {
-    return formatarData(dataISO);
-  }
-
-  const partes = dataISO.split("-");
-  if (partes.length !== 3) return dataISO;
-  return `${partes[2]}/${partes[1]}/${partes[0]}`;
-}
-
-function renderizarItemHistoricoPontoDesafioProfessor(ponto) {
-  const nomeAluno = obterNomeAlunoHistoricoDesafioProfessor(ponto);
-  const turma = obterTurmaHistoricoDesafioProfessor(ponto);
-  const tipo = labelTipoPontoDesafioProfessor(ponto.tipo);
-  const subtipo = labelSubtipoPontoDesafioProfessor(ponto.tipo, ponto.subtipo);
-  const pontos = normalizarPontosInteiroProfessor(ponto.pontos);
-  const data = formatarDataPontoDesafioProfessor(ponto.data_ponto);
-  const observacao = String(ponto.observacao || "").trim();
-
-  return `
-    <div class="desafio-historico-item" data-ponto-id="${ponto.id}">
-      <div class="desafio-historico-info">
-        <strong>${nomeAluno}</strong>
-        <span>${tipo} • ${subtipo} • ${turma} • ${data}</span>
-        ${observacao ? `<small>Obs: ${observacao}</small>` : ""}
-        <span class="desafio-historico-pontos">+${pontos} ponto${pontos === 1 ? "" : "s"}</span>
-      </div>
-
-      <div class="desafio-historico-acoes">
-        <button
-          type="button"
-          class="btn-excluir-ponto-desafio"
-          data-excluir-ponto-desafio="${ponto.id}"
-        >
-          Excluir
-        </button>
-
-        <div class="desafio-confirmacao-excluir" aria-live="polite">
-          <span>Excluir este ponto?</span>
-          <button
-            type="button"
-            class="btn-confirmar-exclusao-ponto"
-            data-confirmar-exclusao-ponto="${ponto.id}"
-          >
-            Sim, excluir
-          </button>
-          <button
-            type="button"
-            class="btn-cancelar-exclusao-ponto"
-            data-cancelar-exclusao-ponto
-          >
-            Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function renderizarHistoricoPontosDesafioProfessor() {
-  const container = document.getElementById("desafioPontosHistorico");
-  if (!container) return;
-
-  if (!desafioPontosExtrasAtivoProfessor()) {
-    container.innerHTML = `<div class="empty-state-mini">Pontos extras não estão ativos neste plano.</div>`;
-    return;
-  }
-
-  const pontos = (desafioPontosMesProfessor || []).slice(0, 40);
-
-  if (!pontos.length) {
-    container.innerHTML = `<div class="empty-state-mini">Nenhum ponto extra lançado neste mês ainda.</div>`;
-    return;
-  }
-
-  container.innerHTML = pontos.map(renderizarItemHistoricoPontoDesafioProfessor).join("");
-}
-
-async function excluirPontoDesafioProfessor(pontoId) {
-  if (!usuarioAtual || !pontoId) return;
-
-  const ponto = (desafioPontosMesProfessor || []).find(item => String(item.id) === String(pontoId));
-  const nomeAluno = ponto ? obterNomeAlunoHistoricoDesafioProfessor(ponto) : "este aluno";
-
-  const { error } = await supabaseClient
-    .from("desafio_pontos")
-    .delete()
-    .eq("id", pontoId)
-    .eq("user_id", usuarioAtual.id);
-
-  if (error) {
-    console.log("Erro ao excluir ponto do desafio:", error.message);
-    mostrarToast("Erro ao excluir ponto.", "erro");
-    return;
-  }
-
-  desafioPontosMesProfessorCarregado = false;
-  await carregarPontosDesafioMesProfessor(true);
-  renderizarHistoricoPontosDesafioProfessor();
-  await renderizarDesafioPresencaProfessor();
-  await carregarRankingDashboard();
-
-  mostrarToast(`Ponto removido de ${nomeAluno}.`);
-}
-
-function configurarHistoricoDesafioPontos() {
-  const botaoAtualizar = document.getElementById("btnAtualizarHistoricoDesafio");
-  const lista = document.getElementById("desafioPontosHistorico");
-
-  if (botaoAtualizar && botaoAtualizar.dataset.inicializado !== "true") {
-    botaoAtualizar.dataset.inicializado = "true";
-    botaoAtualizar.addEventListener("click", async () => {
-      await carregarPontosDesafioMesProfessor(true);
-      renderizarHistoricoPontosDesafioProfessor();
-      await renderizarDesafioPresencaProfessor();
-      await carregarRankingDashboard();
-    });
-  }
-
-  if (lista && lista.dataset.inicializado !== "true") {
-    lista.dataset.inicializado = "true";
-    lista.addEventListener("click", async (evento) => {
-      const botaoExcluir = evento.target.closest("[data-excluir-ponto-desafio]");
-      const botaoConfirmar = evento.target.closest("[data-confirmar-exclusao-ponto]");
-      const botaoCancelar = evento.target.closest("[data-cancelar-exclusao-ponto]");
-      const item = evento.target.closest(".desafio-historico-item");
-
-      if (botaoExcluir) {
-        document.querySelectorAll(".desafio-historico-item.confirmando-exclusao").forEach(outroItem => {
-          if (outroItem !== item) outroItem.classList.remove("confirmando-exclusao");
-        });
-
-        if (item) item.classList.add("confirmando-exclusao");
-        return;
-      }
-
-      if (botaoCancelar) {
-        if (item) item.classList.remove("confirmando-exclusao");
-        return;
-      }
-
-      if (botaoConfirmar) {
-        const pontoId = botaoConfirmar.dataset.confirmarExclusaoPonto;
-        botaoConfirmar.disabled = true;
-        botaoConfirmar.textContent = "Excluindo...";
-        await excluirPontoDesafioProfessor(pontoId);
-      }
-    });
-  }
-}
-
 function presencaPertenceMesAtualProfessor(presenca) {
   const dataTexto = dataISOProfessor(presenca?.data_aula);
   if (!dataTexto) return false;
@@ -2239,11 +1860,7 @@ function presencaPertenceMesAtualProfessor(presenca) {
 }
 
 function obterPresencasMesAtualProfessor() {
-  const fonte = desafioPresencasMesProfessorCarregado
-    ? desafioPresencasMesProfessor
-    : (presencasPeriodo || []);
-
-  return (fonte || []).filter(presenca =>
+  return (presencasPeriodo || []).filter(presenca =>
     presenca &&
     presenca.presente === true &&
     presencaPertenceMesAtualProfessor(presenca)
@@ -2607,24 +2224,11 @@ function obterListaRankingProfessorAtual() {
   return obterRankingGeralProfessor();
 }
 
-async function renderizarDesafioPresencaProfessor() {
+function renderizarDesafioPresencaProfessor() {
   configurarDesafioPontosRapidos();
-  configurarTogglePontosDesafioProfessor();
-  configurarToggleHistoricoDesafioProfessor();
-  configurarHistoricoDesafioPontos();
 
   const container = document.getElementById("listaRankingDesafioProfessor");
   if (!container) return;
-
-  if (!desafioPresencasMesProfessorCarregado) {
-    await carregarPresencasDesafioMesProfessor();
-  }
-
-  if (!desafioPontosMesProfessorCarregado) {
-    await carregarPontosDesafioMesProfessor();
-  }
-
-  renderizarHistoricoPontosDesafioProfessor();
 
   document.querySelectorAll("[data-ranking-professor]").forEach(btn => {
     btn.classList.toggle("ativo", btn.dataset.rankingProfessor === rankingProfessorAtual);
@@ -2654,17 +2258,13 @@ async function renderizarDesafioPresencaProfessor() {
 
 async function atualizarDesafioPresencaProfessor() {
   configurarDesafioPontosRapidos();
-  configurarTogglePontosDesafioProfessor();
-  configurarToggleHistoricoDesafioProfessor();
-  configurarHistoricoDesafioPontos();
 
   if (typeof carregarDadosFrequencia === "function") {
     await carregarDadosFrequencia();
   }
 
-  await carregarPresencasDesafioMesProfessor(true);
   await carregarPontosDesafioMesProfessor(true);
-  await renderizarDesafioPresencaProfessor();
+  renderizarDesafioPresencaProfessor();
   await carregarRankingDashboard();
 }
 
@@ -2675,10 +2275,6 @@ function renderizarPodioDashboardProfessor(lista) {
 async function carregarRankingDashboard() {
   const container = document.getElementById("dashboardRankingPresenca");
   if (!container) return;
-
-  if (!desafioPresencasMesProfessorCarregado) {
-    await carregarPresencasDesafioMesProfessor();
-  }
 
   if (!desafioPontosMesProfessorCarregado) {
     await carregarPontosDesafioMesProfessor();
@@ -2739,6 +2335,3 @@ if (botaoAtualizarDesafio) {
 }
 
 configurarDesafioPontosRapidos();
-configurarTogglePontosDesafioProfessor();
-configurarToggleHistoricoDesafioProfessor();
-configurarHistoricoDesafioPontos();

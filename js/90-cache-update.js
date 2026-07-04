@@ -1,5 +1,5 @@
 // js/90-cache-update.js — atualização, cache e novidades do Mensalize
-const MENSALIZE_APP_VERSION = 'Mensalize Beta-1.4';
+const MENSALIZE_APP_VERSION = 'Mensalize 2.4';
 window.MENSALIZE_APP_VERSION = MENSALIZE_APP_VERSION;
 
 /*
@@ -7,56 +7,106 @@ window.MENSALIZE_APP_VERSION = MENSALIZE_APP_VERSION;
  * Ao trocar `version`, o aviso será mostrado uma vez novamente para cada usuário.
  */
 const MENSALIZE_RELEASE = {
-  version: 'Beta 1.4',
-  date: 'Junho de 2026',
-  eyebrow: 'Atualização disponível',
-  title: 'O Mensalize ficou mais profissional',
-  summary: 'Esta versão consolida melhorias importantes no painel do professor, portal do aluno, financeiro, solicitações, avisos, configurações, Admin e Desafio da Aula.',
+  version: 'Versão 2.4',
+  date: 'Julho de 2026',
+  eyebrow: 'Lançamento oficial',
+  title: 'Mensalize 2.4 chegou',
+  summary: 'Esta versão reúne tudo que construímos para o lançamento do Mensalize: financeiro, alunos, cobranças, relatórios, turmas, presenças, evolução, portal do aluno e uma operação muito mais organizada para o professor.',
   highlights: [
     {
-      icon: '🏆',
-      title: 'Desafio da Aula unificado',
-      description: 'O ranking do professor e do aluno agora seguem a mesma regra, com presenças e pontos extras batendo corretamente.'
-    },
-    {
-      icon: '👤',
-      title: 'Alunos com visão mais completa',
-      description: 'A lista de alunos ficou mais executiva e ganhou acesso ao perfil completo com dados, financeiro, graduação e ações rápidas.'
+      icon: '📊',
+      title: 'Dashboard executivo e Central de Ação',
+      description: 'A tela inicial agora resume financeiro, atrasos, alunos e prioridades do dia, além de recomendar a próxima melhor ação para o professor.'
     },
     {
       icon: '💰',
-      title: 'Financeiro mais operacional',
-      description: 'O financeiro recebeu filtros melhores, visão mensal mais clara e cobranças em massa recolhidas para reduzir poluição visual.'
+      title: 'Financeiro mais claro e operacional',
+      description: 'Recebido, a receber, previsão, pagos, pendentes e atrasados ficam organizados por mês, com filtros e pagamentos por aluno recolhidos para abrir somente quando necessário.'
     },
     {
-      icon: '📩',
-      title: 'Solicitações organizadas por status',
-      description: 'As solicitações agora ficam separadas entre pendentes, aprovadas e recusadas, com detalhes recolhidos e confirmação nas ações.'
+      icon: '📲',
+      title: 'Cobranças pelo WhatsApp',
+      description: 'O professor pode organizar alunos em aberto e acionar cobranças com mais contexto, sem precisar montar cada mensagem do zero.'
+    },
+    {
+      icon: '💳',
+      title: 'Pix e dados de recebimento',
+      description: 'A academia pode configurar seus dados de pagamento e facilitar o acesso do aluno ao Pix e às informações de cobrança.'
+    },
+    {
+      icon: '📄',
+      title: 'Central de Relatórios em CSV e PDF',
+      description: 'Financeiro, alunos e frequência podem ser exportados com filtros, resumo executivo e privacidade de contatos por padrão.'
+    },
+    {
+      icon: '👥',
+      title: 'Gestão completa de alunos',
+      description: 'Cadastro, edição, status, mensalidade, vencimento, contato, responsável, dados internos, perfil completo e ações rápidas ficam centralizados.'
+    },
+    {
+      icon: '📚',
+      title: 'Turmas e multi-turma',
+      description: 'O professor organiza horários, dias, responsáveis e alunos vinculados, e o mesmo aluno pode participar de uma ou mais turmas.'
+    },
+    {
+      icon: '✅',
+      title: 'Presenças e frequência inteligente',
+      description: 'Chamadas por turma e data, histórico, aulas canceladas e cálculo de frequência ajudam a acompanhar consistência com mais precisão.'
+    },
+    {
+      icon: '🏆',
+      title: 'Desafio da Aula e ranking',
+      description: 'Presenças e pontos extras alimentam o desafio mensal, com ranking para acompanhar participação, consistência e destaque dos alunos.'
+    },
+    {
+      icon: '🥋',
+      title: 'Evolução e graduação',
+      description: 'Faixa, grau, tempo mínimo, frequência, previsão de avaliação e histórico de graduação passam a fazer parte da gestão do aluno.'
+    },
+    {
+      icon: '📘',
+      title: 'Programa Fight',
+      description: 'O conteúdo de graduação pode ser organizado dentro do sistema para apoiar o acompanhamento técnico e a progressão dos alunos.'
     },
     {
       icon: '📢',
-      title: 'Avisos mais profissionais',
-      description: 'A central de avisos ficou recolhível, mais limpa, com cards refinados e opção de editar comunicados já publicados.'
+      title: 'Central de avisos',
+      description: 'Comunicados ficam organizados para publicação, edição e acompanhamento, sem deixar a tela principal poluída.'
     },
     {
-      icon: '📊',
-      title: 'Dashboard como Central do Dia',
-      description: 'A tela inicial agora destaca solicitações, atrasos, chamadas, graduação e pontos importantes da operação.'
+      icon: '📩',
+      title: 'Solicitações organizadas',
+      description: 'Pedidos do aluno ficam separados por pendentes, aprovados e recusados, com fluxo mais claro para resposta do professor.'
     },
     {
-      icon: '⚙️',
-      title: 'Configurações do professor refinadas',
-      description: 'A área de configurações foi reorganizada com dados da academia, Pix, critérios de graduação e recursos ativos.'
+      icon: '🎂',
+      title: 'Aniversariantes e relacionamento',
+      description: 'O professor acompanha aniversários de hoje, da semana e do mês e pode agir rapidamente pelo WhatsApp.'
     },
     {
       icon: '📱',
-      title: 'Portal do aluno e visual geral polidos',
-      description: 'O portal do aluno, estados vazios, cards, botões e espaçamentos receberam ajustes para uma experiência mais consistente.'
+      title: 'Portal individual do aluno',
+      description: 'Cada aluno pode acessar sua própria área com informações financeiras, Pix, histórico, avisos, evolução, ranking e dados da academia.'
+    },
+    {
+      icon: '✨',
+      title: 'Onboarding para novos professores',
+      description: 'Primeiros passos guiados ajudam a configurar a academia, cadastrar o primeiro aluno, preparar o Pix, compartilhar o portal e registrar o primeiro pagamento.'
+    },
+    {
+      icon: '🔒',
+      title: 'Planos, trial e upgrade mais profissionais',
+      description: 'O sistema mostra plano atual, controla período de teste e apresenta recursos bloqueados com uma experiência clara de upgrade para o Mensalize Pro.'
+    },
+    {
+      icon: '🔔',
+      title: 'Notificações mais inteligentes',
+      description: 'A operação ganha alertas e prioridades para atrasos, solicitações, chamadas, evolução e outros pontos que exigem atenção.'
     },
     {
       icon: '🛡️',
-      title: 'Admin e login mais maduros',
-      description: 'O Admin ganhou visão mais executiva e o login do professor ficou mais seguro, salvando apenas o e-mail e sem entrar automaticamente.'
+      title: 'Admin, login, PWA e atualização refinados',
+      description: 'A gestão administrativa, o acesso do professor, a instalação como app e o fluxo de atualização/cache ficaram mais maduros para o lançamento.'
     }
   ]
 };

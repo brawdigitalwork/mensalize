@@ -641,24 +641,188 @@ window.abrirTelaPresencaTurma = abrirTelaPresencaTurma;
 
 
 // ================================================================
-// DASHBOARD — CENTRAL DO DIA PROFISSIONAL
+// DASHBOARD — CENTRAL DE AÇÃO PROFISSIONAL
 // ================================================================
+
+let dashboardAcaoPrincipalAtual = "";
 
 function dashboardDiaDefinirTexto(id, valor) {
   const el = document.getElementById(id);
   if (el) el.textContent = String(valor);
 }
 
+function dashboardDiaTextoPlural(total, singular, plural = `${singular}s`) {
+  return `${total} ${total === 1 ? singular : plural}`;
+}
+
+
+function dashboardDiaDefinirAcaoCard(acao, texto, contexto = "") {
+  const card = document.querySelector(`[data-dashboard-dia-acao="${acao}"]`);
+  if (!card) return;
+
+  const acaoVisual = card.querySelector("em");
+  if (acaoVisual) acaoVisual.textContent = texto;
+
+  const label = card.querySelector(".dashboard-executivo-label")?.textContent?.trim() || "Ação";
+  const numero = card.querySelector("strong")?.textContent?.trim() || "0";
+  const detalhe = contexto || card.querySelector("small")?.textContent?.trim() || "";
+  card.setAttribute("aria-label", `${label}: ${numero}. ${detalhe}. ${texto}.`);
+}
+
+function dashboardExecutivoNumeroInteiro(id) {
+  const el = document.getElementById(id);
+  const valor = Number(String(el?.textContent || "0").replace(/[^0-9-]/g, ""));
+  return Number.isFinite(valor) ? valor : 0;
+}
+
+function dashboardExecutivoAbrirFinanceiro(status = "todos") {
+  if (typeof abrirViewPrincipal === "function") {
+    abrirViewPrincipal("financeiro");
+  }
+
+  window.setTimeout(() => {
+    const seletor = document.getElementById("financeiroStatus");
+    if (!seletor) return;
+
+    const statusPermitidos = new Set(["todos", "atrasado", "pendente", "pago"]);
+    seletor.value = statusPermitidos.has(status) ? status : "todos";
+    seletor.dispatchEvent(new Event("change", { bubbles: true }));
+  }, 80);
+}
+
+function dashboardExecutivoExecutarMetrica(acao) {
+  if (acao === "financeiro-pago") {
+    dashboardExecutivoAbrirFinanceiro("pago");
+    return;
+  }
+
+  if (acao === "financeiro-atrasado") {
+    dashboardExecutivoAbrirFinanceiro("atrasado");
+    return;
+  }
+
+  if (acao === "financeiro-aberto") {
+    dashboardExecutivoAbrirFinanceiro("todos");
+    return;
+  }
+
+  if (acao === "alunos" && typeof abrirViewPrincipal === "function") {
+    abrirViewPrincipal("alunos");
+  }
+}
+
+function dashboardExecutivoConfigurarAcoesMetricas() {
+  const configuracoes = [
+    { id: "totalRecebido", acao: "financeiro-pago", rotulo: "Abrir pagamentos recebidos no mês" },
+    { id: "totalAReceber", acao: "financeiro-aberto", rotulo: "Abrir valores em aberto no financeiro" },
+    { id: "totalAtrasados", acao: "financeiro-atrasado", rotulo: "Abrir alunos em atraso no financeiro" },
+    { id: "totalAlunos", acao: "alunos", rotulo: "Abrir lista de alunos" }
+  ];
+
+  configuracoes.forEach(config => {
+    const valor = document.getElementById(config.id);
+    const card = valor?.closest(".card");
+    if (!card || card.dataset.metricaExecutivaConfigurada === "true") return;
+
+    card.dataset.metricaExecutivaConfigurada = "true";
+    card.dataset.metricaExecutivaAcao = config.acao;
+    card.classList.add("dashboard-metrica-interativa");
+
+    if (!card.querySelector(".dashboard-metrica-atalho")) {
+      const atalho = document.createElement("span");
+      atalho.className = "dashboard-metrica-atalho";
+      atalho.setAttribute("aria-hidden", "true");
+      atalho.textContent = "↗";
+      card.appendChild(atalho);
+    }
+
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("aria-label", config.rotulo);
+
+    const executar = () => dashboardExecutivoExecutarMetrica(config.acao);
+    card.addEventListener("click", executar);
+    card.addEventListener("keydown", event => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      executar();
+    });
+  });
+}
+
+function dashboardExecutivoAtualizarContextoMetricas() {
+  dashboardExecutivoConfigurarAcoesMetricas();
+
+  const total = dashboardExecutivoNumeroInteiro("totalAlunos");
+  const pagos = dashboardExecutivoNumeroInteiro("totalPagos");
+  const pendentes = dashboardExecutivoNumeroInteiro("totalPendentes");
+  const atrasados = dashboardExecutivoNumeroInteiro("totalAtrasados");
+  const emAberto = pendentes + atrasados;
+  const percentualPago = total > 0 ? Math.round((pagos / total) * 100) : 0;
+
+  const recebido = document.getElementById("totalRecebido")?.closest(".card");
+  const receber = document.getElementById("totalAReceber")?.closest(".card");
+  const atraso = document.getElementById("totalAtrasados")?.closest(".card");
+  const alunosCard = document.getElementById("totalAlunos")?.closest(".card");
+
+  [recebido, receber, atraso, alunosCard].forEach(card => {
+    card?.classList.remove("metrica-saudavel", "metrica-atencao", "metrica-critica");
+  });
+
+  const recebidoTexto = recebido?.querySelector("span");
+  if (recebidoTexto) {
+    recebidoTexto.textContent = total > 0
+      ? `${pagos} de ${total} aluno${total === 1 ? "" : "s"} quitaram o mês • ${percentualPago}% da base.`
+      : "Receita confirmada assim que os primeiros pagamentos entrarem.";
+  }
+  recebido?.classList.add(pagos > 0 ? "metrica-saudavel" : "metrica-atencao");
+
+  const receberTexto = receber?.querySelector("span");
+  if (receberTexto) {
+    receberTexto.textContent = emAberto > 0
+      ? `${pendentes} pendente${pendentes === 1 ? "" : "s"} • ${atrasados} em atraso.`
+      : "Nenhum valor em aberto no momento.";
+  }
+  receber?.classList.add(emAberto > 0 ? "metrica-atencao" : "metrica-saudavel");
+
+  const atrasoTexto = atraso?.querySelector("span");
+  if (atrasoTexto) {
+    atrasoTexto.textContent = atrasados > 0
+      ? `Prioridade: regularizar ${dashboardDiaTextoPlural(atrasados, "aluno", "alunos")}.`
+      : "Nenhum aluno com vencimento passado.";
+  }
+  atraso?.classList.add(atrasados > 0 ? "metrica-critica" : "metrica-saudavel");
+
+  const alunosTexto = alunosCard?.querySelector("span");
+  if (alunosTexto) {
+    alunosTexto.textContent = total > 0
+      ? `${pagos} pago${pagos === 1 ? "" : "s"} no mês • ${emAberto} em aberto.`
+      : "Cadastre o primeiro aluno para começar a operação.";
+  }
+  alunosCard?.classList.add(total > 0 ? "metrica-saudavel" : "metrica-atencao");
+
+  if (recebido) recebido.setAttribute("aria-label", `Recebido no mês. ${recebidoTexto?.textContent || ""} Abrir financeiro.`);
+  if (receber) receber.setAttribute("aria-label", `A receber. ${receberTexto?.textContent || ""} Abrir financeiro.`);
+  if (atraso) atraso.setAttribute("aria-label", `Atrasados. ${atrasoTexto?.textContent || ""} Abrir atrasados no financeiro.`);
+  if (alunosCard) alunosCard.setAttribute("aria-label", `Total de alunos. ${alunosTexto?.textContent || ""} Abrir lista de alunos.`);
+}
+
 function dashboardDiaAtualizarCard(acao, valor, status = "neutro") {
   const card = document.querySelector(`[data-dashboard-dia-acao="${acao}"]`);
   if (!card) return;
 
-  card.classList.remove("tem-alerta", "status-ok");
+  card.classList.remove("tem-alerta", "status-ok", "status-neutro", "status-critico", "status-info");
 
-  if (status === "alerta" || Number(valor) > 0) {
+  if (status === "critico") {
+    card.classList.add("tem-alerta", "status-critico");
+  } else if (status === "alerta" || Number(valor) > 0) {
     card.classList.add("tem-alerta");
+  } else if (status === "info") {
+    card.classList.add("status-info");
   } else if (status === "ok" || Number(valor) === 0) {
     card.classList.add("status-ok");
+  } else {
+    card.classList.add("status-neutro");
   }
 }
 
@@ -667,25 +831,34 @@ function dashboardDiaAlunoAtivo(aluno) {
   return status !== "inativo" && status !== "pausado";
 }
 
-function dashboardDiaContarAtrasados() {
+function dashboardDiaFinanceiroHoje() {
   const hoje = typeof dataHojeSemHora === "function" ? dataHojeSemHora() : new Date();
+  const resumo = { atrasados: 0, vencemHoje: 0, total: 0, primeiroAtrasadoId: "" };
 
-  return (alunos || []).filter(dashboardDiaAlunoAtivo).filter(aluno => {
-    if (!aluno || !aluno.vencimento) return false;
-    if (typeof alunosPagosMes !== "undefined" && alunosPagosMes instanceof Set && alunosPagosMes.has(String(aluno.id))) return false;
+  (alunos || []).filter(dashboardDiaAlunoAtivo).forEach(aluno => {
+    if (!aluno || !aluno.vencimento) return;
+    if (typeof alunosPagosMes !== "undefined" && alunosPagosMes instanceof Set && alunosPagosMes.has(String(aluno.id))) return;
 
     const vencimento = typeof notificacoesDataLocal === "function"
       ? notificacoesDataLocal(aluno.vencimento)
       : new Date(aluno.vencimento);
 
-    if (!vencimento || Number.isNaN(vencimento.getTime())) return false;
+    if (!vencimento || Number.isNaN(vencimento.getTime())) return;
 
     const dias = typeof notificacoesDiasEntre === "function"
       ? notificacoesDiasEntre(vencimento, hoje)
       : Math.round((vencimento - hoje) / (1000 * 60 * 60 * 24));
 
-    return dias < 0;
-  }).length;
+    if (dias < 0) {
+      resumo.atrasados++;
+      if (!resumo.primeiroAtrasadoId) resumo.primeiroAtrasadoId = aluno.id;
+    } else if (dias === 0) {
+      resumo.vencemHoje++;
+    }
+  });
+
+  resumo.total = resumo.atrasados + resumo.vencemHoje;
+  return resumo;
 }
 
 function dashboardDiaContarChamadasPendentes() {
@@ -710,90 +883,386 @@ function dashboardDiaContarAptosGraduacao() {
     .length;
 }
 
+function dashboardDiaContarAniversariantesHoje() {
+  if (typeof obterAniversariantesOrdenados !== "function") return 0;
+  return obterAniversariantesOrdenados().filter(aluno => aluno.aniversario_hoje).length;
+}
+
+function dashboardDiaContarAlunosRetencao() {
+  if (typeof moduloPresencaAtivo !== "undefined" && moduloPresencaAtivo === false) return 0;
+  if (typeof notificacoesAlunosSumindo !== "function") return 0;
+  return notificacoesAlunosSumindo().length;
+}
+
+function dashboardDiaExecutarAcao(acao) {
+  if (acao === "alunos") {
+    if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("alunos");
+    return;
+  }
+
+  if (acao === "cobrancas" || acao === "atrasados") {
+    const botaoCobrar = document.getElementById("btnCobrarAtrasados");
+    const financeiro = dashboardDiaFinanceiroHoje();
+
+    if (financeiro.atrasados > 0 && botaoCobrar) {
+      botaoCobrar.click();
+      return;
+    }
+
+    if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("alunos");
+    if (typeof setFiltro === "function") setFiltro(financeiro.vencemHoje > 0 ? "hoje" : "atrasado");
+    return;
+  }
+
+  if (acao === "solicitacoes") {
+    if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("solicitacoes");
+    return;
+  }
+
+  if (acao === "presencas") {
+    if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("presencas");
+    return;
+  }
+
+  if (acao === "graduacao") {
+    if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("evolucao");
+    return;
+  }
+
+  if (acao === "aniversariantes") {
+    if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("aniversariantes");
+    return;
+  }
+
+  if (acao === "retencao") {
+    const alunoSumindo = typeof notificacoesAlunosSumindo === "function" ? notificacoesAlunosSumindo()[0] : null;
+    if (alunoSumindo && alunoSumindo.aluno && typeof notificacoesAbrirWhatsAppAluno === "function") {
+      notificacoesAbrirWhatsAppAluno(alunoSumindo.aluno.id, "sumindo");
+      return;
+    }
+
+    if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("alunos");
+  }
+}
+
 function dashboardDiaConfigurarAcoes() {
   document.querySelectorAll("[data-dashboard-dia-acao]").forEach(card => {
     if (card.dataset.dashboardAcaoConfigurada === "true") return;
     card.dataset.dashboardAcaoConfigurada = "true";
 
     card.addEventListener("click", () => {
-      const acao = card.dataset.dashboardDiaAcao;
-
-      if (acao === "solicitacoes") {
-        if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("solicitacoes");
-        return;
-      }
-
-      if (acao === "atrasados") {
-        if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("alunos");
-        if (typeof setFiltro === "function") setFiltro("atrasado");
-        return;
-      }
-
-      if (acao === "presencas") {
-        if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("presencas");
-        return;
-      }
-
-      if (acao === "graduacao") {
-        if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("evolucao");
-      }
+      dashboardDiaExecutarAcao(card.dataset.dashboardDiaAcao || "");
     });
   });
+
+  const botaoPrincipal = document.getElementById("dashboardAcaoPrincipalBotao");
+  const cardPrincipal = document.getElementById("dashboardAcaoPrincipalCard");
+
+  if (botaoPrincipal && botaoPrincipal.dataset.dashboardAcaoConfigurada !== "true") {
+    botaoPrincipal.dataset.dashboardAcaoConfigurada = "true";
+    botaoPrincipal.addEventListener("click", event => {
+      event.stopPropagation();
+      dashboardDiaExecutarAcao(dashboardAcaoPrincipalAtual || cardPrincipal?.dataset.dashboardPrioridadeAcao || "");
+    });
+  }
+
+  if (cardPrincipal && cardPrincipal.dataset.dashboardCardConfigurado !== "true") {
+    cardPrincipal.dataset.dashboardCardConfigurado = "true";
+    cardPrincipal.addEventListener("click", event => {
+      if (event.target && event.target.closest && event.target.closest("button")) return;
+      dashboardDiaExecutarAcao(dashboardAcaoPrincipalAtual || cardPrincipal.dataset.dashboardPrioridadeAcao || "");
+    });
+  }
+}
+
+function dashboardDiaMontarPrioridades({ financeiro, solicitacoes, chamadasPendentes, aptosGraduacao, retencao, aniversariantes }) {
+  const prioridades = [];
+
+  if (financeiro.atrasados > 0) {
+    prioridades.push({
+      peso: 10,
+      acao: "cobrancas",
+      icone: "🚨",
+      titulo: financeiro.atrasados === 1 ? "Cobrar 1 aluno em atraso" : `Cobrar ${financeiro.atrasados} alunos em atraso`,
+      descricao: "A inadimplência é a ação mais importante de hoje. Abra a cobrança em massa e envie as mensagens pelo WhatsApp.",
+      botao: "Cobrar agora",
+      meta: financeiro.vencemHoje > 0 ? `${financeiro.vencemHoje} também vence hoje` : "Prioridade financeira"
+    });
+  }
+
+  if ((solicitacoes.pagamentos || 0) > 0) {
+    prioridades.push({
+      peso: 9,
+      acao: "solicitacoes",
+      icone: "💸",
+      titulo: "Conferir pagamentos enviados pelos alunos",
+      descricao: "Existem comprovantes ou solicitações de pagamento esperando sua análise. Resolver rápido reduz dúvida do aluno.",
+      botao: "Resolver pagamentos",
+      meta: dashboardDiaTextoPlural(solicitacoes.pagamentos, "pagamento pendente", "pagamentos pendentes")
+    });
+  } else if ((solicitacoes.total || 0) > 0) {
+    prioridades.push({
+      peso: 8,
+      acao: "solicitacoes",
+      icone: "📝",
+      titulo: "Responder solicitações pendentes",
+      descricao: "Os alunos enviaram pedidos que precisam de decisão. Resolva para manter a operação fluida.",
+      botao: "Ver solicitações",
+      meta: dashboardDiaTextoPlural(solicitacoes.total, "solicitação", "solicitações")
+    });
+  }
+
+  if (chamadasPendentes > 0) {
+    prioridades.push({
+      peso: 7,
+      acao: "presencas",
+      icone: "✅",
+      titulo: chamadasPendentes === 1 ? "Fazer a chamada de hoje" : `Fazer ${chamadasPendentes} chamadas de hoje`,
+      descricao: "Manter presença registrada melhora retenção, evolução e histórico do aluno.",
+      botao: "Fazer chamada",
+      meta: "Rotina operacional"
+    });
+  }
+
+  if (aptosGraduacao > 0) {
+    prioridades.push({
+      peso: 6,
+      acao: "graduacao",
+      icone: "🥋",
+      titulo: aptosGraduacao === 1 ? "1 aluno apto para avaliação" : `${aptosGraduacao} alunos aptos para avaliação`,
+      descricao: "Graduação é valor percebido alto. Use isso para gerar progresso, engajamento e retenção.",
+      botao: "Ver graduação",
+      meta: "Oportunidade de valor Pro"
+    });
+  }
+
+  if (retencao > 0) {
+    prioridades.push({
+      peso: 5,
+      acao: "retencao",
+      icone: "👀",
+      titulo: retencao === 1 ? "1 aluno pode estar sumindo" : `${retencao} alunos podem estar sumindo`,
+      descricao: "Chamar o aluno antes de ele abandonar é uma das ações mais baratas para proteger receita recorrente.",
+      botao: "Chamar aluno",
+      meta: "Retenção"
+    });
+  }
+
+  if (financeiro.vencemHoje > 0) {
+    prioridades.push({
+      peso: 4,
+      acao: "cobrancas",
+      icone: "📅",
+      titulo: financeiro.vencemHoje === 1 ? "1 mensalidade vence hoje" : `${financeiro.vencemHoje} mensalidades vencem hoje`,
+      descricao: "Enviar lembrete no dia do vencimento evita atraso e reduz cobrança manual depois.",
+      botao: "Ver vencimentos",
+      meta: "Prevenção de atraso"
+    });
+  }
+
+  if (aniversariantes > 0) {
+    prioridades.push({
+      peso: 3,
+      acao: "aniversariantes",
+      icone: "🎂",
+      titulo: aniversariantes === 1 ? "1 aniversariante hoje" : `${aniversariantes} aniversariantes hoje`,
+      descricao: "Relacionamento simples que aumenta proximidade com alunos e responsáveis.",
+      botao: "Enviar parabéns",
+      meta: "Relacionamento"
+    });
+  }
+
+  return prioridades.sort((a, b) => b.peso - a.peso);
+}
+
+function dashboardDiaAtualizarAcaoPrincipal(prioridades) {
+  const card = document.getElementById("dashboardAcaoPrincipalCard");
+  const icone = document.getElementById("dashboardAcaoPrincipalIcone");
+  const titulo = document.getElementById("dashboardAcaoPrincipalTitulo");
+  const descricao = document.getElementById("dashboardAcaoPrincipalDescricao");
+  const meta = document.getElementById("dashboardAcaoPrincipalMeta");
+  const botao = document.getElementById("dashboardAcaoPrincipalBotao");
+
+  if (!card) return;
+
+  const prioridade = prioridades[0] || {
+    acao: "alunos",
+    icone: "✨",
+    titulo: "Operação em dia",
+    descricao: "Nenhuma ação urgente agora. Bom momento para cadastrar alunos, revisar financeiro ou melhorar a comunicação da academia.",
+    botao: "Ver alunos",
+    meta: "Sem pendências críticas"
+  };
+
+  dashboardAcaoPrincipalAtual = prioridade.acao;
+  card.dataset.dashboardPrioridadeAcao = prioridade.acao;
+  card.classList.toggle("central-acao-principal-ok", prioridades.length === 0);
+
+  if (icone) icone.textContent = prioridade.icone;
+  if (titulo) titulo.textContent = prioridade.titulo;
+  if (descricao) descricao.textContent = prioridade.descricao;
+  if (meta) meta.textContent = prioridade.meta;
+  if (botao) botao.textContent = prioridade.botao;
 }
 
 async function atualizarDashboardExecutivoMensalize() {
-  const container = document.querySelector(".dashboard-executivo-pro");
+  const container = document.getElementById("centralAcaoDashboard") || document.querySelector(".dashboard-executivo-pro");
   if (!container) return;
 
   dashboardDiaConfigurarAcoes();
 
   const statusOperacao = document.getElementById("dashboardStatusOperacao");
+  const descricaoCentral = document.getElementById("dashboardCentralDescricao");
 
-  let solicitacoesPendentes = 0;
+  let solicitacoes = { total: 0, pagamentos: 0, alteracoes: 0 };
   try {
     if (typeof notificacoesContarSolicitacoesPendentes === "function") {
-      const solicitacoes = await notificacoesContarSolicitacoesPendentes();
-      solicitacoesPendentes = solicitacoes.total || 0;
+      solicitacoes = await notificacoesContarSolicitacoesPendentes();
     }
   } catch (erro) {
-    console.warn("[Mensalize] Não foi possível atualizar solicitações da central do dia:", erro);
+    console.warn("[Mensalize] Não foi possível atualizar solicitações da central de ação:", erro);
   }
 
-  const atrasados = dashboardDiaContarAtrasados();
+  const financeiro = dashboardDiaFinanceiroHoje();
   const chamadasPendentes = dashboardDiaContarChamadasPendentes();
   const aptosGraduacao = dashboardDiaContarAptosGraduacao();
+  const aniversariantes = dashboardDiaContarAniversariantesHoje();
+  const retencao = dashboardDiaContarAlunosRetencao();
 
-  dashboardDiaDefinirTexto("dashboardDiaSolicitacoes", solicitacoesPendentes);
-  dashboardDiaDefinirTexto("dashboardDiaAtrasados", atrasados);
+  dashboardDiaDefinirTexto("dashboardDiaAtrasados", financeiro.total);
+  dashboardDiaDefinirTexto("dashboardDiaSolicitacoes", solicitacoes.total || 0);
   dashboardDiaDefinirTexto("dashboardDiaChamadas", chamadasPendentes);
   dashboardDiaDefinirTexto("dashboardDiaGraduacao", aptosGraduacao);
+  dashboardDiaDefinirTexto("dashboardDiaAniversariantes", aniversariantes);
+  dashboardDiaDefinirTexto("dashboardDiaRetencao", retencao);
 
-  dashboardDiaAtualizarCard("solicitacoes", solicitacoesPendentes, solicitacoesPendentes > 0 ? "alerta" : "ok");
-  dashboardDiaAtualizarCard("atrasados", atrasados, atrasados > 0 ? "alerta" : "ok");
+  dashboardDiaDefinirTexto(
+    "dashboardDiaCobrancasDetalhe",
+    financeiro.atrasados > 0
+      ? dashboardDiaTextoPlural(financeiro.atrasados, "aluno em atraso", "alunos em atraso")
+      : financeiro.vencemHoje > 0
+        ? dashboardDiaTextoPlural(financeiro.vencemHoje, "vence hoje", "vencem hoje")
+        : "Nenhuma cobrança crítica"
+  );
+
+  dashboardDiaDefinirTexto(
+    "dashboardDiaSolicitacoesDetalhe",
+    solicitacoes.total > 0
+      ? `${solicitacoes.pagamentos || 0} pagamento${(solicitacoes.pagamentos || 0) === 1 ? "" : "s"} • ${solicitacoes.alteracoes || 0} alteração${(solicitacoes.alteracoes || 0) === 1 ? "" : "ões"}`
+      : "Nada pendente agora"
+  );
+
+  dashboardDiaDefinirTexto(
+    "dashboardDiaChamadasDetalhe",
+    chamadasPendentes > 0
+      ? dashboardDiaTextoPlural(chamadasPendentes, "aula pendente", "aulas pendentes")
+      : "Chamadas em dia"
+  );
+
+  dashboardDiaDefinirTexto(
+    "dashboardDiaGraduacaoDetalhe",
+    aptosGraduacao > 0
+      ? dashboardDiaTextoPlural(aptosGraduacao, "aluno apto", "alunos aptos")
+      : "Sem alunos aptos agora"
+  );
+
+  dashboardDiaDefinirTexto(
+    "dashboardDiaRetencaoDetalhe",
+    retencao > 0
+      ? dashboardDiaTextoPlural(retencao, "aluno com risco", "alunos com risco")
+      : "Sem risco detectado"
+  );
+
+  dashboardDiaDefinirTexto(
+    "dashboardDiaAniversariantesDetalhe",
+    aniversariantes > 0
+      ? dashboardDiaTextoPlural(aniversariantes, "aniversariante hoje", "aniversariantes hoje")
+      : "Nenhum hoje"
+  );
+
+  dashboardDiaAtualizarCard("cobrancas", financeiro.total, financeiro.atrasados > 0 ? "critico" : financeiro.vencemHoje > 0 ? "alerta" : "ok");
+  dashboardDiaAtualizarCard("solicitacoes", solicitacoes.total || 0, (solicitacoes.pagamentos || 0) > 0 ? "critico" : (solicitacoes.total || 0) > 0 ? "alerta" : "ok");
   dashboardDiaAtualizarCard("presencas", chamadasPendentes, chamadasPendentes > 0 ? "alerta" : "ok");
-  dashboardDiaAtualizarCard("graduacao", aptosGraduacao, aptosGraduacao > 0 ? "alerta" : "ok");
+  dashboardDiaAtualizarCard("graduacao", aptosGraduacao, aptosGraduacao > 0 ? "info" : "ok");
+  dashboardDiaAtualizarCard("retencao", retencao, retencao > 0 ? "alerta" : "ok");
+  dashboardDiaAtualizarCard("aniversariantes", aniversariantes, aniversariantes > 0 ? "info" : "ok");
 
-  const totalAcoes = solicitacoesPendentes + atrasados + chamadasPendentes + aptosGraduacao;
+  dashboardDiaDefinirAcaoCard(
+    "cobrancas",
+    financeiro.atrasados > 0 ? "Cobrar agora" : financeiro.vencemHoje > 0 ? "Ver vencimentos" : "Em dia",
+    document.getElementById("dashboardDiaCobrancasDetalhe")?.textContent || ""
+  );
+  dashboardDiaDefinirAcaoCard(
+    "solicitacoes",
+    (solicitacoes.total || 0) > 0 ? "Resolver" : "Sem pendências",
+    document.getElementById("dashboardDiaSolicitacoesDetalhe")?.textContent || ""
+  );
+  dashboardDiaDefinirAcaoCard(
+    "presencas",
+    chamadasPendentes > 0 ? "Fazer chamada" : "Em dia",
+    document.getElementById("dashboardDiaChamadasDetalhe")?.textContent || ""
+  );
+  dashboardDiaDefinirAcaoCard(
+    "graduacao",
+    aptosGraduacao > 0 ? "Ver alunos" : "Acompanhar",
+    document.getElementById("dashboardDiaGraduacaoDetalhe")?.textContent || ""
+  );
+  dashboardDiaDefinirAcaoCard(
+    "retencao",
+    retencao > 0 ? "Chamar aluno" : "Saudável",
+    document.getElementById("dashboardDiaRetencaoDetalhe")?.textContent || ""
+  );
+  dashboardDiaDefinirAcaoCard(
+    "aniversariantes",
+    aniversariantes > 0 ? "Enviar parabéns" : "Sem ações",
+    document.getElementById("dashboardDiaAniversariantesDetalhe")?.textContent || ""
+  );
+
+  dashboardExecutivoAtualizarContextoMetricas();
+
+  const prioridades = dashboardDiaMontarPrioridades({
+    financeiro,
+    solicitacoes,
+    chamadasPendentes,
+    aptosGraduacao,
+    retencao,
+    aniversariantes
+  });
+
+  dashboardDiaAtualizarAcaoPrincipal(prioridades);
+
+  const totalAcoes = financeiro.total + (solicitacoes.total || 0) + chamadasPendentes + aptosGraduacao + retencao + aniversariantes;
+  const totalCritico = financeiro.atrasados + (solicitacoes.pagamentos || 0);
 
   if (statusOperacao) {
-    statusOperacao.classList.remove("status-ok", "status-alerta");
+    statusOperacao.classList.remove("status-ok", "status-alerta", "status-critico");
 
-    if (totalAcoes > 0) {
-      statusOperacao.textContent =
-        totalAcoes === 1
-          ? "1 ação pendente hoje"
-          : `${totalAcoes} ações pendentes hoje`;
-    
+    if (totalCritico > 0) {
+      statusOperacao.textContent = totalCritico === 1 ? "1 prioridade crítica" : `${totalCritico} prioridades críticas`;
+      statusOperacao.classList.add("status-critico");
+    } else if (totalAçõesNormalize(totalAcoes) > 0) {
+      statusOperacao.textContent = totalAcoes === 1 ? "1 ação recomendada" : `${totalAcoes} ações recomendadas`;
       statusOperacao.classList.add("status-alerta");
     } else {
       statusOperacao.textContent = "Operação em dia";
       statusOperacao.classList.add("status-ok");
     }
   }
+
+  if (descricaoCentral) {
+    descricaoCentral.textContent = totalAcoes > 0
+      ? "Priorize o que protege receita, reduz abandono e melhora a experiência dos alunos."
+      : "Nenhuma urgência agora. Use este momento para crescer base, revisar processos ou nutrir relacionamento.";
+  }
+}
+
+function totalAçõesNormalize(valor) {
+  const numero = Number(valor);
+  return Number.isFinite(numero) ? numero : 0;
 }
 
 window.atualizarDashboardExecutivoMensalize = atualizarDashboardExecutivoMensalize;
-
+window.dashboardDiaExecutarAcao = dashboardDiaExecutarAcao;
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {

@@ -1,6 +1,6 @@
 // sw.js — Service Worker Mensalize
 // Atualização e cache
-const APP_VERSION = 'Mensalize Beta-1.4';
+const APP_VERSION = 'Mensalize 2.4';
 const CACHE_PREFIX = 'mensalize-';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}`;
 
@@ -24,6 +24,7 @@ const ASSETS = [
   '/js/30-financeiro-pagamentos.js',
   '/js/40-admin.js',
   '/js/50-ui-relatorios-tema.js',
+  '/js/55-central-relatorios.js',
   '/js/60-solicitacoes-navegacao.js',
   '/js/70-evolucao-presencas-avisos.js',
   '/js/75-aniversariantes.js',
@@ -31,6 +32,7 @@ const ASSETS = [
   '/js/77-programa-fight.js',
   '/js/80-realtime.js',
   '/js/85-notificacoes-inteligentes.js',
+  '/js/86-onboarding-professor.js',
   '/js/90-cache-update.js',
   '/js/99-app.js',
   '/script.js'

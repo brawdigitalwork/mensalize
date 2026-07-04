@@ -2,6 +2,315 @@
 // ===============================
 const DIAS_SEMANA = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
+
+// ===============================
+// 33.1 MULTI-TURMA — VÍNCULOS ALUNO ↔ TURMAS
+// Fonte oficial: public.aluno_turmas.
+// Compatibilidade: turma/turma_id continuam como turma principal.
+// ===============================
+let alunoTurmasVinculos = new Map();
+
+function idsTurmasVinculadasAluno(alunoOuId) {
+  const aluno = typeof alunoOuId === "object"
+    ? alunoOuId
+    : (alunos || []).find(item => String(item.id) === String(alunoOuId));
+
+  if (!aluno) return [];
+
+  const ids = new Set(
+    (alunoTurmasVinculos.get(String(aluno.id)) || [])
+      .map(id => String(id))
+      .filter(Boolean)
+  );
+
+  // Fallback legado: garante que clientes antigos continuem funcionando
+  // mesmo antes de gravar o primeiro vínculo em aluno_turmas.
+  if (aluno.turma_id) ids.add(String(aluno.turma_id));
+
+  return [...ids];
+}
+
+function turmasVinculadasAluno(aluno) {
+  const ids = new Set(idsTurmasVinculadasAluno(aluno));
+
+  const lista = (turmasCadastradas || [])
+    .filter(turma => ids.has(String(turma.id)));
+
+  // Compatibilidade para registros antigos que só possuem nome da turma.
+  if (lista.length === 0 && aluno && aluno.turma) {
+    const legado = encontrarTurmaPorNome(aluno.turma);
+    if (legado) lista.push(legado);
+  }
+
+  return lista;
+}
+
+function nomesTurmasAluno(aluno) {
+  const nomes = turmasVinculadasAluno(aluno)
+    .map(turma => String(turma.nome || "").trim())
+    .filter(Boolean);
+
+  if (nomes.length === 0 && aluno && aluno.turma) {
+    nomes.push(String(aluno.turma).trim());
+  }
+
+  return [...new Set(nomes)];
+}
+
+function textoTurmasAluno(aluno, fallback = "Sem turma") {
+  const nomes = nomesTurmasAluno(aluno);
+  return nomes.length ? nomes.join(" • ") : fallback;
+}
+
+function alunoVinculadoTurmaId(aluno, turmaId) {
+  if (!aluno || !turmaId) return false;
+  return idsTurmasVinculadasAluno(aluno).includes(String(turmaId));
+}
+
+async function carregarVinculosAlunoTurmas() {
+  alunoTurmasVinculos = new Map();
+
+  if (!usuarioAtual || !(alunos || []).length) return;
+
+  const { data, error } = await supabaseClient
+    .from("aluno_turmas")
+    .select("aluno_id,turma_id")
+    .eq("user_id", usuarioAtual.id);
+
+  if (error) {
+    console.warn("[Mensalize] Não foi possível carregar vínculos multi-turma:", error.message);
+    return;
+  }
+
+  (data || []).forEach(vinculo => {
+    const alunoId = String(vinculo.aluno_id || "");
+    const turmaId = String(vinculo.turma_id || "");
+    if (!alunoId || !turmaId) return;
+
+    const atual = alunoTurmasVinculos.get(alunoId) || [];
+    if (!atual.includes(turmaId)) atual.push(turmaId);
+    alunoTurmasVinculos.set(alunoId, atual);
+  });
+}
+
+function obterIdsTurmasSelecionadasFormulario() {
+  const container = document.getElementById("turmasAlunoMultiLista");
+  const ids = new Set();
+
+  if (container) {
+    container.querySelectorAll('input[data-turma-aluno-id]:checked').forEach(input => {
+      if (input.dataset.turmaAlunoId) ids.add(String(input.dataset.turmaAlunoId));
+    });
+  }
+
+  // A turma principal nunca pode ficar fora dos vínculos.
+  if (turmaAluno && turmaAluno.value) {
+    const principal = encontrarTurmaPorNome(turmaAluno.value);
+    if (principal && principal.id) ids.add(String(principal.id));
+  }
+
+  return [...ids];
+}
+
+function escaparHtmlMultiTurma(valor) {
+  return String(valor ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function atualizarResumoSeletorMultiTurmasAluno() {
+  const resumo = document.getElementById("turmasAlunoMultiResumo");
+  if (!resumo) return;
+
+  const total = obterIdsTurmasSelecionadasFormulario().length;
+  resumo.textContent = total === 0
+    ? "Nenhuma selecionada"
+    : `${total} turma${total === 1 ? "" : "s"} selecionada${total === 1 ? "" : "s"}`;
+}
+
+function renderizarSeletorMultiTurmasAluno(idsSelecionados = null) {
+  const container = document.getElementById("turmasAlunoMultiLista");
+  if (!container) return;
+
+  const ativas = (turmasCadastradas || [])
+    .filter(turma => turma.ativa !== false)
+    .slice()
+    .sort((a, b) => String(a.nome || "").localeCompare(String(b.nome || ""), "pt-BR"));
+
+  if (!ativas.length) {
+    container.innerHTML = '<div class="empty-state-mini">Cadastre uma turma primeiro para vincular alunos.</div>';
+    atualizarResumoSeletorMultiTurmasAluno();
+    return;
+  }
+
+  const selecionados = idsSelecionados instanceof Set
+    ? new Set([...idsSelecionados].map(String))
+    : new Set(
+        Array.isArray(idsSelecionados)
+          ? idsSelecionados.map(String)
+          : obterIdsTurmasSelecionadasFormulario()
+      );
+
+  container.innerHTML = ativas.map(turma => {
+    const id = String(turma.id);
+    const checked = selecionados.has(id) ? "checked" : "";
+    const detalhe = [turma.horario, turma.professor].filter(Boolean).join(" • ");
+
+    return `
+      <label class="aluno-turma-chip">
+        <input
+          type="checkbox"
+          data-turma-aluno-id="${id}"
+          ${checked}
+        >
+        <span class="aluno-turma-chip-texto">
+          <strong>${escaparHtmlMultiTurma(turma.nome || "Turma")}</strong>
+          ${detalhe ? `<small>${escaparHtmlMultiTurma(detalhe)}</small>` : ""}
+        </span>
+      </label>
+    `;
+  }).join("");
+
+  atualizarResumoSeletorMultiTurmasAluno();
+}
+
+function aplicarVinculosAlunoNoFormulario(aluno) {
+  const selecionados = new Set(idsTurmasVinculadasAluno(aluno));
+  renderizarSeletorMultiTurmasAluno(selecionados);
+}
+
+function resetarSeletorMultiTurmasAluno() {
+  renderizarSeletorMultiTurmasAluno(new Set());
+  atualizarResumoSeletorMultiTurmasAluno();
+}
+
+async function sincronizarVinculosAlunoTurmas(alunoId, turmaIds = []) {
+  if (!usuarioAtual || !alunoId) {
+    return { ok: false, error: new Error("Usuário ou aluno inválido.") };
+  }
+
+  const desejados = [...new Set((turmaIds || []).map(String).filter(Boolean))];
+  const atuais = (alunoTurmasVinculos.get(String(alunoId)) || []).map(String);
+
+  const adicionar = desejados.filter(id => !atuais.includes(id));
+  const remover = atuais.filter(id => !desejados.includes(id));
+
+  if (remover.length) {
+    const { error } = await supabaseClient
+      .from("aluno_turmas")
+      .delete()
+      .eq("user_id", usuarioAtual.id)
+      .eq("aluno_id", alunoId)
+      .in("turma_id", remover);
+
+    if (error) return { ok: false, error };
+  }
+
+  if (adicionar.length) {
+    const registros = adicionar.map(turmaId => ({
+      user_id: usuarioAtual.id,
+      aluno_id: alunoId,
+      turma_id: turmaId
+    }));
+
+    const { error } = await supabaseClient
+      .from("aluno_turmas")
+      .upsert(registros, { onConflict: "aluno_id,turma_id" });
+
+    if (error) return { ok: false, error };
+  }
+
+  alunoTurmasVinculos.set(String(alunoId), desejados);
+  return { ok: true };
+}
+
+function configurarSeletorMultiTurmasAluno() {
+  const container = document.getElementById("turmasAlunoMultiLista");
+
+  if (container && !container.dataset.multiTurmaConfigurado) {
+    container.dataset.multiTurmaConfigurado = "true";
+    container.addEventListener("change", event => {
+      if (!event.target.matches('input[data-turma-aluno-id]')) return;
+
+      const input = event.target;
+      const turmaId = String(input.dataset.turmaAlunoId || "");
+
+      // Se a turma principal foi desmarcada, limpa o campo principal.
+      if (!input.checked && turmaAluno && turmaAluno.value) {
+        const principal = encontrarTurmaPorNome(turmaAluno.value);
+        if (principal && String(principal.id) === turmaId) {
+          turmaAluno.value = "";
+        }
+      }
+
+      // Se ainda não existe principal, a primeira marcada assume esse papel.
+      if (input.checked && turmaAluno && !turmaAluno.value) {
+        const turma = (turmasCadastradas || []).find(item => String(item.id) === turmaId);
+        if (turma) turmaAluno.value = turma.nome;
+      }
+
+      atualizarResumoSeletorMultiTurmasAluno();
+    });
+  }
+
+  if (turmaAluno && !turmaAluno.dataset.multiTurmaConfigurado) {
+    turmaAluno.dataset.multiTurmaConfigurado = "true";
+    turmaAluno.addEventListener("change", () => {
+      if (!turmaAluno.value) {
+        atualizarResumoSeletorMultiTurmasAluno();
+        return;
+      }
+
+      const principal = encontrarTurmaPorNome(turmaAluno.value);
+      if (principal) {
+        const input = document.querySelector(
+          `#turmasAlunoMultiLista input[data-turma-aluno-id="${String(principal.id)}"]`
+        );
+        if (input) input.checked = true;
+      }
+
+      atualizarResumoSeletorMultiTurmasAluno();
+    });
+  }
+
+  if (formAluno && !formAluno.dataset.multiTurmaResetConfigurado) {
+    formAluno.dataset.multiTurmaResetConfigurado = "true";
+    formAluno.addEventListener("reset", () => {
+      setTimeout(resetarSeletorMultiTurmasAluno, 0);
+    });
+  }
+
+  if (btnMostrarForm && !btnMostrarForm.dataset.multiTurmaNovoConfigurado) {
+    btnMostrarForm.dataset.multiTurmaNovoConfigurado = "true";
+    btnMostrarForm.addEventListener("click", () => {
+      setTimeout(resetarSeletorMultiTurmasAluno, 0);
+    });
+  }
+
+  // editarAluno é declarado em 30-financeiro-pagamentos.js, que já foi
+  // carregado quando este arquivo (76) executa.
+  if (typeof window.editarAluno === "function" && !window.editarAluno.__multiTurma) {
+    const editarAlunoOriginal = window.editarAluno;
+
+    const editarAlunoComMultiTurma = function(id) {
+      const retorno = editarAlunoOriginal.apply(this, arguments);
+      const aluno = (alunos || []).find(item => String(item.id) === String(id));
+
+      setTimeout(() => {
+        if (aluno) aplicarVinculosAlunoNoFormulario(aluno);
+      }, 0);
+
+      return retorno;
+    };
+
+    editarAlunoComMultiTurma.__multiTurma = true;
+    window.editarAluno = editarAlunoComMultiTurma;
+  }
+}
+
 function normalizarTextoTurma(texto) {
   return String(texto || "").trim().toLowerCase();
 }
@@ -73,7 +382,9 @@ async function carregarTurmasSistema() {
   }
 
   await carregarAulasCanceladas();
+  await carregarVinculosAlunoTurmas();
   preencherSelectsTurmas();
+  configurarSeletorMultiTurmasAluno();
   sincronizarEstado();
 }
 
@@ -127,7 +438,7 @@ function preencherSelectsTurmas() {
   if (turmaAluno) {
     const valorAtual = turmaAluno.value || turmaAluno.getAttribute("data-valor-atual") || "";
 
-    turmaAluno.innerHTML = `<option value="">Turma / horário</option>${opcoes}`;
+    turmaAluno.innerHTML = `<option value="">Selecione a turma principal</option>${opcoes}`;
 
     if (valorAtual && ![...turmaAluno.options].some(opt => opt.value === valorAtual)) {
       turmaAluno.insertAdjacentHTML("beforeend", `<option value="" disabled>Turma antiga: ${valorAtual} — selecione uma turma cadastrada</option>`);
@@ -163,6 +474,9 @@ function preencherSelectsTurmas() {
       avisoTurma.value = valorAtual;
     }
   }
+
+  renderizarSeletorMultiTurmasAluno();
+  configurarSeletorMultiTurmasAluno();
 
   if (presencaTurma) preencherTurmasPresenca();
 }
@@ -213,8 +527,53 @@ function contarAulasValidasTurma(turma, inicioISO, fimISO) {
   return total;
 }
 
+function obterSessoesValidasTurma(turma, inicioISO, fimISO) {
+  const sessoes = new Set();
+
+  if (!turma || !Array.isArray(turma.dias_semana) || turma.dias_semana.length === 0) {
+    return sessoes;
+  }
+
+  const inicio = parseDataISO(inicioISO);
+  const fim = parseDataISO(fimISO);
+  if (!inicio || !fim) return sessoes;
+
+  const diasSet = new Set(
+    turma.dias_semana
+      .map(normalizarDiaSemanaParaNumero)
+      .filter(dia => dia !== null)
+  );
+
+  const cursor = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
+
+  while (cursor <= fim) {
+    const iso = `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, "0")}-${String(cursor.getDate()).padStart(2, "0")}`;
+
+    if (diasSet.has(cursor.getDay()) && !aulaCanceladaPara(turma.nome, iso)) {
+      sessoes.add(`${String(turma.id)}|${iso}`);
+    }
+
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  return sessoes;
+}
+
 function calcularFrequenciaAluno(aluno) {
-  if (!aluno || !aluno.turma) {
+  if (!aluno) {
+    return {
+      percentual: null,
+      presencas: 0,
+      aulasValidas: 0,
+      minimo: presencaMinimaPercentual || 70,
+      periodo: frequenciaPeriodoMeses || 6,
+      texto: "Aluno inválido"
+    };
+  }
+
+  const turmasAluno = turmasVinculadasAluno(aluno);
+
+  if (!turmasAluno.length) {
     return {
       percentual: null,
       presencas: 0,
@@ -225,71 +584,54 @@ function calcularFrequenciaAluno(aluno) {
     };
   }
 
-  const turma = aluno.turma_id
-    ? (turmasCadastradas || []).find(t => String(t.id) === String(aluno.turma_id))
-    : encontrarTurmaPorNome(aluno.turma);
-
-  if (!turma) {
-    return {
-      percentual: null,
-      presencas: 0,
-      aulasValidas: 0,
-      minimo: presencaMinimaPercentual || 70,
-      periodo: frequenciaPeriodoMeses || 6,
-      texto: "Turma sem calendário"
-    };
-  }
-
   const inicioPeriodo = dataMenosMesesISO(frequenciaPeriodoMeses || 6);
-
   const inicio = aluno.data_inicio_academia && aluno.data_inicio_academia > inicioPeriodo
     ? aluno.data_inicio_academia
     : inicioPeriodo;
-
   const fim = dataLocalISO();
-  const aulasValidas = contarAulasValidasTurma(turma, inicio, fim);
 
-  const diasPermitidos = new Set(
-    Array.isArray(turma.dias_semana)
-      ? turma.dias_semana
-        .map(normalizarDiaSemanaParaNumero)
-        .filter(dia => dia !== null && Number.isInteger(dia))
-      : []
-  );
+  const sessoesValidas = new Set();
 
-  const datasPresencaValidas = new Set();
+  turmasAluno.forEach(turma => {
+    obterSessoesValidasTurma(turma, inicio, fim).forEach(chave => sessoesValidas.add(chave));
+  });
+
+  const idsTurmasAluno = new Set(turmasAluno.map(turma => String(turma.id)));
+  const sessoesPresentes = new Set();
 
   (presencasPeriodo || []).forEach(p => {
     if (String(p.aluno_id) !== String(aluno.id)) return;
     if (p.presente !== true) return;
     if (!p.data_aula || p.data_aula < inicio || p.data_aula > fim) return;
 
-    const mesmaTurma =
-      (p.turma_id && String(p.turma_id) === String(turma.id)) ||
-      normalizarTextoTurma(p.turma) === normalizarTextoTurma(turma.nome);
+    let turma = null;
 
-    if (!mesmaTurma) return;
+    if (p.turma_id) {
+      turma = turmasAluno.find(item => String(item.id) === String(p.turma_id)) || null;
+    }
+
+    if (!turma && p.turma) {
+      turma = turmasAluno.find(
+        item => normalizarTextoTurma(item.nome) === normalizarTextoTurma(p.turma)
+      ) || null;
+    }
+
+    if (!turma || !idsTurmasAluno.has(String(turma.id))) return;
     if (aulaCanceladaPara(turma.nome, p.data_aula)) return;
 
-    const diaPresenca = diaDaSemanaDataISO(p.data_aula);
+    const chaveSessao = `${String(turma.id)}|${p.data_aula}`;
+    if (!sessoesValidas.has(chaveSessao)) return;
 
-    // Importante: se a turma hoje só tem aula em certos dias,
-    // presenças antigas marcadas fora desses dias não entram mais
-    // no cálculo de frequência para graduação.
-    if (!diasPermitidos.has(diaPresenca)) return;
-
-    // Conta apenas uma presença por data.
-    // Isso evita frequência acima de 100% por registros duplicados.
-    datasPresencaValidas.add(p.data_aula);
+    sessoesPresentes.add(chaveSessao);
   });
 
-  const presencas = Math.min(datasPresencaValidas.size, aulasValidas);
+  const aulasValidas = sessoesValidas.size;
+  const presencas = Math.min(sessoesPresentes.size, aulasValidas);
   const percentual = aulasValidas > 0
     ? Math.min(100, Math.round((presencas / aulasValidas) * 100))
     : null;
 
   const minimo = Number(presencaMinimaPercentual || 70);
-
   const texto = percentual === null
     ? "Sem aulas válidas no período"
     : `Presença ${percentual}% (${presencas}/${aulasValidas})`;
@@ -306,15 +648,13 @@ function calcularFrequenciaAluno(aluno) {
 }
 
 function alunosVinculadosTurma(turma) {
-  const nomeTurma = normalizarTextoTurma(turma && turma.nome);
-  if (!nomeTurma) return [];
+  if (!turma || !turma.id) return [];
 
   return (alunos || []).filter(aluno => {
     const status = String(aluno.status_aluno || "ativo").toLowerCase();
     if (status === "inativo") return false;
 
-    if (turma.id && aluno.turma_id && String(aluno.turma_id) === String(turma.id)) return true;
-    return normalizarTextoTurma(aluno.turma) === nomeTurma;
+    return alunoVinculadoTurmaId(aluno, turma.id);
   });
 }
 
@@ -699,3 +1039,7 @@ async function removerAulaCancelada(id) {
 
 if (formTurma) formTurma.addEventListener("submit", salvarTurma);
 if (formCancelarAula) formCancelarAula.addEventListener("submit", salvarAulaCancelada);
+
+// Inicializa a interface multi-turma sem alterar a ordem atual dos módulos.
+configurarSeletorMultiTurmasAluno();
+

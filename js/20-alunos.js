@@ -85,6 +85,10 @@ async function carregarAlunos() {
   if (typeof atualizarCentralNotificacoesInteligentes === "function") {
     await atualizarCentralNotificacoesInteligentes();
   }
+
+  if (typeof atualizarOnboardingProfessor === "function") {
+    await atualizarOnboardingProfessor();
+  }
 }
 
 // ===============================
@@ -102,12 +106,30 @@ formAluno.addEventListener("submit", async function(event) {
   // Novo campo: link de pagamento
   const linkPagamento = document.getElementById("linkPagamento").value.trim();
 
-  const turmaSelecionadaNome = turmaAluno ? turmaAluno.value.trim() : "";
-  const turmaSelecionadaObj = typeof encontrarTurmaPorNome === "function" ? encontrarTurmaPorNome(turmaSelecionadaNome) : null;
+  let idsTurmasSelecionadas = typeof obterIdsTurmasSelecionadasFormulario === "function"
+    ? obterIdsTurmasSelecionadasFormulario()
+    : [];
+
+  let turmaSelecionadaNome = turmaAluno ? turmaAluno.value.trim() : "";
+  let turmaSelecionadaObj = typeof encontrarTurmaPorNome === "function"
+    ? encontrarTurmaPorNome(turmaSelecionadaNome)
+    : null;
+
+  // Se marcou turmas mas não escolheu uma principal, usa a primeira como principal.
+  if (!turmaSelecionadaObj && idsTurmasSelecionadas.length) {
+    turmaSelecionadaObj = (turmasCadastradas || []).find(
+      turma => String(turma.id) === String(idsTurmasSelecionadas[0])
+    ) || null;
+    turmaSelecionadaNome = turmaSelecionadaObj ? turmaSelecionadaObj.nome : "";
+  }
 
   if (turmaSelecionadaNome && !turmaSelecionadaObj) {
     mostrarToast("Selecione uma turma cadastrada em Turmas.", "erro");
     return;
+  }
+
+  if (turmaSelecionadaObj && !idsTurmasSelecionadas.includes(String(turmaSelecionadaObj.id))) {
+    idsTurmasSelecionadas.unshift(String(turmaSelecionadaObj.id));
   }
 
   const dadosExtrasAluno = {
@@ -132,6 +154,8 @@ formAluno.addEventListener("submit", async function(event) {
   }
 
   if (alunoEditandoId) {
+    const alunoIdSalvo = String(alunoEditandoId);
+
     const { error } = await supabaseClient
       .from("alunos")
       .update({
@@ -143,11 +167,21 @@ formAluno.addEventListener("submit", async function(event) {
         link_pagamento: linkPagamento,
         ...dadosExtrasAluno
       })
-      .eq("id", alunoEditandoId);
+      .eq("id", alunoIdSalvo);
 
     if (error) {
       mostrarToast("Erro ao atualizar aluno.", "erro");
       return;
+    }
+
+    if (typeof sincronizarVinculosAlunoTurmas === "function") {
+      const resultadoVinculos = await sincronizarVinculosAlunoTurmas(alunoIdSalvo, idsTurmasSelecionadas);
+
+      if (!resultadoVinculos.ok) {
+        console.error("Erro ao salvar vínculos multi-turma:", resultadoVinculos.error);
+        mostrarToast("Aluno atualizado, mas houve erro ao salvar as turmas.", "erro");
+        return;
+      }
     }
 
     sairModoEdicao();
@@ -158,7 +192,7 @@ formAluno.addEventListener("submit", async function(event) {
       return;
     }
 
-    const { error } = await supabaseClient
+    const { data: alunoCriado, error } = await supabaseClient
       .from("alunos")
       .insert({
         user_id: usuarioAtual.id,
@@ -170,11 +204,23 @@ formAluno.addEventListener("submit", async function(event) {
         link_pagamento: linkPagamento,
         status_pagamento: "pendente",
         ...dadosExtrasAluno
-      });
+      })
+      .select("id")
+      .single();
 
-    if (error) {
+    if (error || !alunoCriado) {
       mostrarToast("Erro ao cadastrar aluno.", "erro");
       return;
+    }
+
+    if (typeof sincronizarVinculosAlunoTurmas === "function") {
+      const resultadoVinculos = await sincronizarVinculosAlunoTurmas(alunoCriado.id, idsTurmasSelecionadas);
+
+      if (!resultadoVinculos.ok) {
+        console.error("Erro ao salvar vínculos multi-turma:", resultadoVinculos.error);
+        mostrarToast("Aluno cadastrado, mas houve erro ao salvar as turmas.", "erro");
+        return;
+      }
     }
 
     mostrarToast("Aluno cadastrado com sucesso!");
@@ -433,7 +479,9 @@ function mostrarAlunos() {
   let lista = alunos.filter(function(aluno) {
     const nomeAluno = String(aluno.nome || "").toLowerCase();
     const telefoneAluno = String(aluno.telefone || "").toLowerCase();
-    const turmaAlunoTexto = String(aluno.turma || "").toLowerCase();
+    const turmaAlunoTexto = String(
+      typeof textoTurmasAluno === "function" ? textoTurmasAluno(aluno, "") : (aluno.turma || "")
+    ).toLowerCase();
     const faixaAlunoTexto = String(aluno.faixa || "").toLowerCase();
 
     if (
@@ -506,7 +554,11 @@ function mostrarAlunos() {
     const classeStatus = obterClasseStatusAluno(aluno, jaPagou, status, dias);
     const nomeAlunoSeguro = escaparHtmlAluno(obterTextoSeguroAluno(aluno.nome, "Aluno"));
     const telefoneAlunoSeguro = escaparHtmlAluno(obterTextoSeguroAluno(aluno.telefone, "Sem telefone"));
-    const turmaAlunoSeguro = escaparHtmlAluno(obterTextoSeguroAluno(aluno.turma, "Sem turma"));
+    const turmaAlunoSeguro = escaparHtmlAluno(
+      typeof textoTurmasAluno === "function"
+        ? textoTurmasAluno(aluno, "Sem turma")
+        : obterTextoSeguroAluno(aluno.turma, "Sem turma")
+    );
     const faixaResumo = moduloEvolucaoAtivo && resumoEvolucaoAluno(aluno) ? escaparHtmlAluno(resumoEvolucaoAluno(aluno)) : "Graduação não informada";
     const statusAlunoTexto = String(aluno.status_aluno || "ativo").toLowerCase() === "inativo" ? "Inativo" : "Ativo";
 
@@ -714,7 +766,11 @@ function abrirPerfilCompletoAluno(alunoId) {
   const financeiro = calcularResumoFinanceiroPerfil(aluno);
   const nome = escaparHtmlAluno(obterTextoSeguroAluno(aluno.nome, "Aluno"));
   const telefone = valorPerfilAluno(aluno.telefone, "Sem telefone");
-  const turma = valorPerfilAluno(aluno.turma, "Sem turma");
+  const turma = escaparHtmlAluno(
+    typeof textoTurmasAluno === "function"
+      ? textoTurmasAluno(aluno, "Sem turma")
+      : valorPerfilAluno(aluno.turma, "Sem turma")
+  );
   const statusAluno = String(aluno.status_aluno || "ativo").toLowerCase() === "inativo" ? "Inativo" : "Ativo";
   const faixa = moduloEvolucaoAtivo && resumoEvolucaoAluno(aluno) ? escaparHtmlAluno(resumoEvolucaoAluno(aluno)) : "Graduação não informada";
   const observacoes = valorPerfilAluno(aluno.observacoes_internas, "Nenhuma observação interna cadastrada.");

@@ -894,8 +894,38 @@ function inicializarAcoesListaFinanceira() {
   }
 }
 
+function inicializarToggleFinanceiroAlunos() {
+  const botao = document.getElementById("btnToggleFinanceiroAlunos");
+  const conteudo = document.getElementById("financeiroOperacaoConteudo");
+
+  if (!botao || !conteudo || botao.dataset.inicializadoFinanceiroToggle) return;
+
+  botao.dataset.inicializadoFinanceiroToggle = "true";
+
+  function aplicarEstado(aberto) {
+    const estaAberto = Boolean(aberto);
+    conteudo.hidden = !estaAberto;
+    botao.setAttribute("aria-expanded", String(estaAberto));
+
+    const texto = botao.querySelector(".financeiro-toggle-texto");
+    if (texto) {
+      texto.textContent = estaAberto
+        ? "Ocultar pagamentos por aluno"
+        : "Ver pagamentos por aluno";
+    }
+  }
+
+  aplicarEstado(false);
+
+  botao.addEventListener("click", () => {
+    const estaAberto = botao.getAttribute("aria-expanded") === "true";
+    aplicarEstado(!estaAberto);
+  });
+}
+
 function inicializarFinanceiroMensal() {
   inicializarAcoesListaFinanceira();
+  inicializarToggleFinanceiroAlunos();
   criarPainelCobrancaMassaFinanceiro();
   if (financeiroMes && !financeiroMes.value) {
     financeiroMes.value = obterMesAtualFinanceiro();

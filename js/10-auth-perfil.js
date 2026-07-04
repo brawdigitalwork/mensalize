@@ -125,9 +125,406 @@ async function mostrarApp() {
   return await carregarPerfil();
 }
 
+
+// ===============================
+// 08.2 PLANO, TRIAL E UPGRADE
+// ===============================
+const MENSALIZE_UPGRADE_WHATSAPP = "5531983334284";
+const MENSALIZE_TRIAL_TOTAL_DIAS = 30;
+const MENSALIZE_TRIAL_BANNER_KEY_PREFIX = "mensalize:trial-banner-fechado";
+
+const MENSALIZE_PLANOS_INTERFACE = {
+  trial: {
+    nome: "Teste Gratuito",
+    descricao: "Teste com recursos liberados por tempo limitado.",
+    tag: "Teste"
+  },
+  basic: {
+    nome: "Mensalize",
+    descricao: "Gestão de alunos, financeiro, cobranças e avisos.",
+    tag: "Plano ativo"
+  },
+  pro: {
+    nome: "Mensalize Pro",
+    descricao: "Gestão completa com turmas, presenças, graduação, desafio e Programa Fight.",
+    tag: "Completo"
+  }
+};
+
+const MENSALIZE_UPGRADE_MODULOS = {
+  desafio: {
+    nome: "Desafio da Aula",
+    texto: "Ranking mensal com presença, técnica, atitude e pontos extras para aumentar engajamento dos alunos.",
+    beneficios: [
+      "Ranking mensal por aluno e turma.",
+      "Pontos extras por técnica, atitude e participação.",
+      "Mais motivação e retenção dentro da academia."
+    ]
+  },
+  evolucao: {
+    nome: "Graduação / Evolução",
+    texto: "Acompanhe faixa, grau, frequência e alunos aptos para avaliação sem controle manual em planilha.",
+    beneficios: [
+      "Alunos aptos para avaliação no dashboard.",
+      "Critérios de frequência e tempo por aluno.",
+      "Histórico de graduação mais organizado."
+    ]
+  },
+  programaFight: {
+    nome: "Programa de Graduação",
+    texto: "Organize técnicas, categorias e vídeos por faixa para entregar uma experiência mais profissional ao aluno.",
+    beneficios: [
+      "Conteúdos por faixa e categoria.",
+      "Links de vídeo para estudo do aluno.",
+      "Mais valor percebido no portal do aluno."
+    ]
+  },
+  turmas: {
+    nome: "Turmas",
+    texto: "Organize horários, professores, dias de aula e alunos vinculados sem improviso.",
+    beneficios: [
+      "Cadastro de turmas e horários.",
+      "Alunos separados por turma.",
+      "Base pronta para frequência e relatórios."
+    ]
+  },
+  presencas: {
+    nome: "Presenças",
+    texto: "Faça chamadas por turma e use a frequência para acompanhar presença, evolução e retenção.",
+    beneficios: [
+      "Chamada do dia por turma.",
+      "Histórico de presenças e faltas.",
+      "Frequência usada nos critérios de graduação."
+    ]
+  },
+  avisos: {
+    nome: "Avisos",
+    texto: "Publique comunicados para os alunos diretamente no portal, sem depender só de grupos de WhatsApp.",
+    beneficios: [
+      "Avisos ativos, agendados e expirados.",
+      "Comunicação mais organizada com alunos.",
+      "Mais profissionalismo no portal do aluno."
+    ]
+  },
+  pro: {
+    nome: "Mensalize Pro",
+    texto: "Libere os recursos avançados do Mensalize para profissionalizar a operação da academia.",
+    beneficios: [
+      "Turmas, presenças e frequência inteligente.",
+      "Graduação, evolução e alunos aptos para avaliação.",
+      "Desafio da Aula, Programa Fight e recursos avançados."
+    ]
+  }
+};
+
+function normalizarPlanoInterface(plano) {
+  if (plano === "fight" || plano === "premium") return "pro";
+  if (plano === "basic") return "basic";
+  if (plano === "pro") return "pro";
+  return "trial";
+}
+
+function obterPlanoInterface(plano) {
+  const chave = normalizarPlanoInterface(plano);
+  return MENSALIZE_PLANOS_INTERFACE[chave] || MENSALIZE_PLANOS_INTERFACE.trial;
+}
+
+function dataLocalISOUpgrade(data = new Date()) {
+  return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
+}
+
+function normalizarDataTrial(valor) {
+  if (!valor) return null;
+
+  const texto = String(valor).split("T")[0];
+  const partes = texto.split("-");
+  if (partes.length !== 3) return null;
+
+  const data = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+  return Number.isNaN(data.getTime()) ? null : data;
+}
+
+function obterPeriodoTrialConta() {
+  if (normalizarPlanoInterface(planoAtual) !== "trial") {
+    return { inicio: null, fim: null };
+  }
+
+  const inicio = normalizarDataTrial(
+    trialInicioConta || usuarioAtual?.created_at || usuarioAtual?.confirmed_at || usuarioAtual?.last_sign_in_at
+  );
+
+  if (!inicio) return { inicio: null, fim: null };
+
+  const fimInformado = normalizarDataTrial(trialFimConta);
+  const fim = fimInformado || new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate() + Number(trialDiasTotal || MENSALIZE_TRIAL_TOTAL_DIAS));
+
+  return { inicio, fim };
+}
+
+function calcularDiasRestantesTrial() {
+  const { fim } = obterPeriodoTrialConta();
+  if (!fim) return null;
+
+  const hoje = new Date();
+  const hojeLocal = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+  return Math.ceil((fim - hojeLocal) / (1000 * 60 * 60 * 24));
+}
+
+function textoDiasTrial(dias) {
+  if (dias === null || dias === undefined) return "dias restantes não disponíveis";
+  if (dias <= 0) return "teste encerrado";
+  if (dias === 1) return "1 dia restante";
+  return `${dias} dias restantes`;
+}
+
+function obterChaveBannerTrialFechado() {
+  const userId = usuarioAtual?.id || "anonimo";
+  return `${MENSALIZE_TRIAL_BANNER_KEY_PREFIX}:${userId}`;
+}
+
+function bannerTrialFechadoHoje() {
+  try {
+    return localStorage.getItem(obterChaveBannerTrialFechado()) === dataLocalISOUpgrade();
+  } catch (erro) {
+    console.warn("Erro ao ler preferência do banner de trial:", erro);
+    return false;
+  }
+}
+
+function registrarBannerTrialFechadoHoje() {
+  try {
+    localStorage.setItem(obterChaveBannerTrialFechado(), dataLocalISOUpgrade());
+  } catch (erro) {
+    console.warn("Erro ao salvar preferência do banner de trial:", erro);
+  }
+}
+
+function atualizarPerfilPlano() {
+  const card = document.getElementById("perfilPlanoCard");
+  const nomeEl = document.getElementById("perfilPlanoNome");
+  const detalheEl = document.getElementById("perfilPlanoDetalhe");
+  const botaoUpgrade = document.getElementById("btnPerfilVerUpgrade");
+
+  if (!card || !nomeEl || !detalheEl) return;
+
+  const planoNormalizado = normalizarPlanoInterface(planoAtual);
+  const config = obterPlanoInterface(planoAtual);
+  const diasTrial = calcularDiasRestantesTrial();
+
+  card.classList.remove("perfil-plano-trial", "perfil-plano-basic", "perfil-plano-pro", "perfil-plano-expirado");
+  card.classList.add(`perfil-plano-${planoNormalizado}`);
+
+  if (planoNormalizado === "trial") {
+    const periodoTrial = obterPeriodoTrialConta();
+    const fimTexto = periodoTrial.fim ? periodoTrial.fim.toLocaleDateString("pt-BR") : "data final não definida";
+
+    nomeEl.textContent = `Teste Gratuito — ${textoDiasTrial(diasTrial)}`;
+    detalheEl.textContent = diasTrial !== null && diasTrial <= 0
+      ? `Seu teste gratuito terminou em ${fimTexto}. Escolha um plano para evitar interrupções.`
+      : `Você está experimentando o Mensalize. Trial válido até ${fimTexto}.`;
+    if (diasTrial !== null && diasTrial <= 0) card.classList.add("perfil-plano-expirado");
+  } else {
+    nomeEl.textContent = config.nome;
+    detalheEl.textContent = config.descricao;
+  }
+
+  if (botaoUpgrade) {
+    botaoUpgrade.classList.toggle("escondido", planoNormalizado === "pro");
+  }
+}
+
+function atualizarBannerTrialPlano() {
+  const banner = document.getElementById("bannerTrialPlano");
+  const titulo = document.getElementById("bannerTrialTitulo");
+  const texto = document.getElementById("bannerTrialTexto");
+
+  if (!banner || !titulo || !texto) return;
+
+  const planoNormalizado = normalizarPlanoInterface(planoAtual);
+  const diasTrial = calcularDiasRestantesTrial();
+  const deveMostrar = planoNormalizado === "trial" && diasTrial !== null && diasTrial <= 7 && !bannerTrialFechadoHoje();
+
+  if (!deveMostrar) {
+    banner.classList.add("escondido");
+    return;
+  }
+
+  banner.classList.toggle("banner-trial-expirado", diasTrial <= 0);
+
+  if (diasTrial <= 0) {
+    titulo.textContent = "Seu teste gratuito terminou";
+    texto.textContent = "Escolha um plano para continuar usando o Mensalize sem interrupções.";
+  } else if (diasTrial === 1) {
+    titulo.textContent = "Seu teste gratuito termina amanhã";
+    texto.textContent = "Ative um plano agora para continuar usando o Mensalize sem risco de pausa.";
+  } else {
+    titulo.textContent = `Seu teste termina em ${diasTrial} dias`;
+    texto.textContent = "Esse é o melhor momento para escolher um plano e manter a academia organizada.";
+  }
+
+  banner.classList.remove("escondido");
+}
+
+function atualizarInterfacePlanoConta() {
+  atualizarPerfilPlano();
+  atualizarBannerTrialPlano();
+}
+
+function montarMensagemUpgradeWhatsApp(moduloNome) {
+  const academia = nomeEmpresa || "minha academia";
+  const email = usuarioAtual?.email || "";
+  const planoTexto = obterPlanoInterface(planoAtual).nome;
+
+  return [
+    `Olá, quero conhecer o Mensalize Pro.`,
+    `Academia: ${academia}.`,
+    email ? `E-mail: ${email}.` : "",
+    `Plano atual: ${planoTexto}.`,
+    `Tenho interesse no recurso: ${moduloNome}.`
+  ].filter(Boolean).join("\n");
+}
+
+function abrirModalUpgradePlano(modulo = "pro") {
+  const config = MENSALIZE_UPGRADE_MODULOS[modulo] || MENSALIZE_UPGRADE_MODULOS.pro;
+  const modal = document.getElementById("modalUpgradePlano");
+  const titulo = document.getElementById("modalUpgradeTitulo");
+  const descricao = document.getElementById("modalUpgradeDescricao");
+  const nomeModulo = document.getElementById("modalUpgradeModuloNome");
+  const textoModulo = document.getElementById("modalUpgradeModuloTexto");
+  const lista = document.getElementById("modalUpgradeBeneficiosLista");
+  const btnWhatsApp = document.getElementById("btnUpgradeWhatsApp");
+
+  if (!modal) {
+    mostrarToast("Este recurso faz parte do Mensalize Pro.", "erro");
+    return;
+  }
+
+  if (titulo) titulo.textContent = `Desbloqueie ${config.nome}`;
+  if (descricao) descricao.textContent = "Seu plano atual não inclui este recurso. Veja o que o Mensalize Pro libera para sua academia.";
+  if (nomeModulo) nomeModulo.textContent = config.nome;
+  if (textoModulo) textoModulo.textContent = config.texto;
+  if (lista) lista.innerHTML = config.beneficios.map(item => `<li>${item}</li>`).join("");
+
+  if (btnWhatsApp) {
+    const mensagem = montarMensagemUpgradeWhatsApp(config.nome);
+    btnWhatsApp.href = `https://wa.me/${MENSALIZE_UPGRADE_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+  }
+
+  document.body.classList.remove("menu-aberto");
+  modal.classList.remove("escondido");
+}
+
+function fecharModalUpgradePlano() {
+  const modal = document.getElementById("modalUpgradePlano");
+  if (modal) modal.classList.add("escondido");
+}
+
+function inicializarUpgradePlano() {
+  const modal = document.getElementById("modalUpgradePlano");
+  const btnFechar = document.getElementById("btnFecharModalUpgrade");
+  const btnDepois = document.getElementById("btnUpgradeDepois");
+  const btnPerfil = document.getElementById("btnPerfilVerUpgrade");
+  const btnBanner = document.getElementById("btnBannerTrialUpgrade");
+  const btnFecharBanner = document.getElementById("btnFecharBannerTrial");
+
+  if (btnFechar && btnFechar.dataset.upgradeConfigurado !== "true") {
+    btnFechar.dataset.upgradeConfigurado = "true";
+    btnFechar.addEventListener("click", fecharModalUpgradePlano);
+  }
+
+  if (btnDepois && btnDepois.dataset.upgradeConfigurado !== "true") {
+    btnDepois.dataset.upgradeConfigurado = "true";
+    btnDepois.addEventListener("click", fecharModalUpgradePlano);
+  }
+
+  if (modal && modal.dataset.upgradeConfigurado !== "true") {
+    modal.dataset.upgradeConfigurado = "true";
+    modal.addEventListener("click", event => {
+      if (event.target === modal) fecharModalUpgradePlano();
+    });
+  }
+
+  if (btnPerfil && btnPerfil.dataset.upgradeConfigurado !== "true") {
+    btnPerfil.dataset.upgradeConfigurado = "true";
+    btnPerfil.addEventListener("click", () => abrirModalUpgradePlano("pro"));
+  }
+
+  if (btnBanner && btnBanner.dataset.upgradeConfigurado !== "true") {
+    btnBanner.dataset.upgradeConfigurado = "true";
+    btnBanner.addEventListener("click", () => abrirModalUpgradePlano("pro"));
+  }
+
+  if (btnFecharBanner && btnFecharBanner.dataset.upgradeConfigurado !== "true") {
+    btnFecharBanner.dataset.upgradeConfigurado = "true";
+    btnFecharBanner.addEventListener("click", () => {
+      registrarBannerTrialFechadoHoje();
+      const banner = document.getElementById("bannerTrialPlano");
+      if (banner) banner.classList.add("escondido");
+    });
+  }
+}
+
 // ===============================
 // 09. PERFIL DO USUÁRIO / ADMIN
 // ===============================
+
+const CAMPOS_PERFIL_BASE = `
+      is_admin,
+      limite_alunos,
+      nome_empresa,
+      whatsapp_professor,
+      pix_copia_cola,
+      modulo_fight,
+      modulo_evolucao,
+      modulo_presenca,
+      modulo_avisos,
+      modulo_ranking,
+      modulo_desafio,
+      modulo_turmas,
+      plano,
+      status,
+      pode_usar,
+      presenca_minima_percentual,
+      frequencia_periodo_meses,
+      ranking_geral_ativo,
+      ranking_turma_ativo,
+      ranking_turmas_ativo,
+      ranking_minimo_aulas
+    `;
+
+const CAMPOS_PERFIL_COM_TRIAL = `${CAMPOS_PERFIL_BASE},
+      trial_inicio,
+      trial_fim`;
+
+async function buscarPerfilUsuarioAtual() {
+  let resultado = await supabaseClient
+    .from("profiles")
+    .select(CAMPOS_PERFIL_COM_TRIAL)
+    .eq("id", usuarioAtual.id)
+    .single();
+
+  if (!resultado.error) return resultado;
+
+  const mensagem = String(resultado.error?.message || "").toLowerCase();
+  const erroColunaTrial = mensagem.includes("trial_inicio") || mensagem.includes("trial_fim") || mensagem.includes("column");
+
+  if (!erroColunaTrial) return resultado;
+
+  console.warn("Campos trial_inicio/trial_fim ainda não existem em profiles. Usando fallback temporário pelo created_at do usuário.");
+
+  resultado = await supabaseClient
+    .from("profiles")
+    .select(CAMPOS_PERFIL_BASE)
+    .eq("id", usuarioAtual.id)
+    .single();
+
+  if (resultado.data) {
+    resultado.data.trial_inicio = null;
+    resultado.data.trial_fim = null;
+  }
+
+  return resultado;
+}
 
 /** Carrega perfil do usuário logado para saber limite e permissão de admin. */
 async function carregarPerfil() {
@@ -135,48 +532,16 @@ async function carregarPerfil() {
   usuarioEhAdmin = false;
   limiteAlunos = 30;
 
-const { data, error } = await supabaseClient
-  .from("profiles")
-  .select(`
-    is_admin,
-    limite_alunos,
-    nome_empresa,
-    whatsapp_professor,
-    pix_copia_cola,
-    modulo_fight,
+  const { data, error } = await buscarPerfilUsuarioAtual();
 
-    modulo_evolucao,
-    modulo_presenca,
-    modulo_avisos,
-
-    modulo_ranking,
-    modulo_desafio,
-    modulo_turmas,
-    modulo_fight,
-
-    plano,
-    status,
-    pode_usar,
-
-    presenca_minima_percentual,
-    frequencia_periodo_meses,
-
-    ranking_geral_ativo,
-    ranking_turma_ativo,
-    ranking_turmas_ativo,
-    ranking_minimo_aulas
-  `)
-  .eq("id", usuarioAtual.id)
-  .single();
-
-if (error) {
-  console.log("Erro ao carregar perfil:", error.message);
-  return false;
-}
+  if (error) {
+    console.log("Erro ao carregar perfil:", error.message);
+    return false;
+  }
 
   usuarioEhAdmin = data.is_admin === true;
   limiteAlunos = data.limite_alunos || 30;
-  
+
   nomeEmpresa = data.nome_empresa || "Mensalize";
 
   if (nomeClienteDashboard) {
@@ -208,24 +573,26 @@ if (error) {
   rankingTurmasAtivo = data.ranking_turmas_ativo !== false;
   rankingMinimoAulas = Number(data.ranking_minimo_aulas || 4);
 
-planoAtual = data.plano || "trial";
-statusConta = data.status || "ativo";
-podeUsarSistema = data.pode_usar !== false && statusConta !== "bloqueado";
+  planoAtual = data.plano || "trial";
+  statusConta = data.status || "ativo";
+  podeUsarSistema = data.pode_usar !== false && statusConta !== "bloqueado";
+  trialInicioConta = data.trial_inicio || usuarioAtual?.created_at || usuarioAtual?.confirmed_at || null;
+  trialFimConta = data.trial_fim || null;
+  trialDiasTotal = MENSALIZE_TRIAL_TOTAL_DIAS;
 
-if (!usuarioEhAdmin && !podeUsarSistema) {
-  await bloquearAcessoCliente("Sua conta está bloqueada. Fale com o administrador do Mensalize para regularizar o acesso.");
-  return false;
-}
+  if (!usuarioEhAdmin && !podeUsarSistema) {
+    await bloquearAcessoCliente("Sua conta está bloqueada. Fale com o administrador do Mensalize para regularizar o acesso.");
+    return false;
+  }
 
-moduloRankingAtivo = data.modulo_ranking !== false;
-moduloDesafioAtivo = data.modulo_desafio !== false;
-moduloTurmasAtivo = data.modulo_turmas !== false;
-window.moduloFightAtivo = data.modulo_fight === true;
+  moduloRankingAtivo = data.modulo_ranking !== false;
+  moduloDesafioAtivo = data.modulo_desafio !== false;
+  moduloTurmasAtivo = data.modulo_turmas !== false;
+  window.moduloFightAtivo = data.modulo_fight === true;
 
-document.querySelectorAll(".modulo-fight").forEach(el => {
-  el.classList.toggle("escondido", !window.moduloFightAtivo);
-});
-
+  document.querySelectorAll(".modulo-fight").forEach(el => {
+    el.classList.toggle("escondido", !window.moduloFightAtivo);
+  });
 
   if (perfilModuloEvolucao) perfilModuloEvolucao.checked = moduloEvolucaoAtivo;
   if (perfilModuloPresenca) perfilModuloPresenca.checked = moduloPresencaAtivo;
@@ -236,26 +603,30 @@ document.querySelectorAll(".modulo-fight").forEach(el => {
   if (perfilRankingTurma) perfilRankingTurma.checked = rankingTurmaAtivo;
   if (perfilRankingTurmas) perfilRankingTurmas.checked = rankingTurmasAtivo;
   if (perfilRankingMinimoAulas) perfilRankingMinimoAulas.value = rankingMinimoAulas;
+
   aplicarModulosInterface();
   if (typeof aplicarModuloFightInterface === "function") aplicarModuloFightInterface();
+  inicializarUpgradePlano();
+  atualizarInterfacePlanoConta();
   sincronizarEstado();
 
-    const btnDesafio = document.getElementById("btnNavDesafio");
+  const btnDesafio = document.getElementById("btnNavDesafio");
   const btnTurmas = document.getElementById("btnNavTurmas");
 
-if (btnDesafio) {
-  btnDesafio.classList.toggle(
-    "escondido",
-    !moduloDesafioAtivo
-  );
-}
+  if (btnDesafio) {
+    btnDesafio.classList.remove("escondido");
+    btnDesafio.classList.toggle("modulo-bloqueado", !moduloDesafioAtivo);
+  }
 
-if (btnTurmas) {
-  btnTurmas.classList.toggle(
-    "escondido",
-    !moduloTurmasAtivo
-  );
-}
+  if (btnTurmas) {
+    btnTurmas.classList.remove("escondido");
+    btnTurmas.classList.toggle("modulo-bloqueado", !moduloTurmasAtivo);
+  }
+
+  const btnSolicitacoes = document.getElementById("btnNavSolicitacoes");
+  if (btnSolicitacoes) {
+    btnSolicitacoes.classList.remove("modulo-bloqueado");
+  }
 
   if (usuarioEhAdmin) {
     btnAdmin.classList.remove("escondido");

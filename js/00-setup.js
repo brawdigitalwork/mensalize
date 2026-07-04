@@ -67,6 +67,9 @@ let rankingMinimoAulas = 4;
 let planoAtual = "trial";
 let statusConta = "ativo";
 let podeUsarSistema = true;
+let trialInicioConta = null;
+let trialFimConta = null;
+let trialDiasTotal = 30;
 
 let moduloRankingAtivo = true;
 let moduloDesafioAtivo = true;
@@ -90,7 +93,10 @@ const estado = window.estado = {
   rankingGeral: true,
   rankingTurma: true,
   rankingTurmas: true,
-  rankingMinimoAulas: 4
+  rankingMinimoAulas: 4,
+  trialInicioConta: null,
+  trialFimConta: null,
+  trialDiasTotal: 30
 };
 
 function sincronizarEstado() {
@@ -111,6 +117,9 @@ function sincronizarEstado() {
   estado.rankingTurma = rankingTurmaAtivo;
   estado.rankingTurmas = rankingTurmasAtivo;
   estado.rankingMinimoAulas = rankingMinimoAulas;
+  estado.trialInicioConta = trialInicioConta;
+  estado.trialFimConta = trialFimConta;
+  estado.trialDiasTotal = trialDiasTotal;
 }
 
 // ===============================

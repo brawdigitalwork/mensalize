@@ -161,40 +161,15 @@
             </div>
           </section>
 
-          <section class="dashboard-executivo-pro" aria-label="Central do dia">
-            <div class="dashboard-executivo-topo">
-              <div>
-                <span class="page-eyebrow">Operação de hoje</span>
-                <h3>Central do dia</h3>
-                <p>Priorize as ações que mais impactam a rotina da academia.</p>
-              </div>
-              <span id="dashboardStatusOperacao" class="dashboard-status-operacao">Carregando...</span>
+          <section id="bannerTrialPlano" class="banner-trial-plano escondido" aria-live="polite">
+            <div>
+              <span class="page-eyebrow">Teste gratuito</span>
+              <strong id="bannerTrialTitulo">Seu teste termina em breve</strong>
+              <p id="bannerTrialTexto">Escolha um plano para continuar usando o Mensalize sem interrupções.</p>
             </div>
-
-            <div class="dashboard-executivo-grid">
-              <button type="button" class="dashboard-executivo-item" data-dashboard-dia-acao="solicitacoes">
-                <span class="dashboard-executivo-label">Solicitações</span>
-                <strong id="dashboardDiaSolicitacoes">0</strong>
-                <small>Pendentes de análise</small>
-              </button>
-
-              <button type="button" class="dashboard-executivo-item" data-dashboard-dia-acao="atrasados">
-                <span class="dashboard-executivo-label">Atrasados</span>
-                <strong id="dashboardDiaAtrasados">0</strong>
-                <small>Alunos para regularizar</small>
-              </button>
-
-              <button type="button" class="dashboard-executivo-item" data-dashboard-dia-acao="presencas">
-                <span class="dashboard-executivo-label">Chamadas</span>
-                <strong id="dashboardDiaChamadas">0</strong>
-                <small>Aulas pendentes hoje</small>
-              </button>
-
-              <button type="button" class="dashboard-executivo-item" data-dashboard-dia-acao="graduacao">
-                <span class="dashboard-executivo-label">Graduação</span>
-                <strong id="dashboardDiaGraduacao">0</strong>
-                <small>Alunos aptos</small>
-              </button>
+            <div class="banner-trial-acoes">
+              <button type="button" id="btnBannerTrialUpgrade" class="acao-principal">Ver Mensalize Pro</button>
+              <button type="button" id="btnFecharBannerTrial" class="btn-fechar-banner" aria-label="Fechar aviso de teste gratuito">×</button>
             </div>
           </section>
 
@@ -227,6 +202,107 @@
               <span id="totalPagos">0</span>
               <span id="totalPendentes">0</span>
               <span id="totalPrevisao">R$ 0,00</span>
+            </div>
+          </section>
+
+          <section id="onboardingProfessorCard" class="onboarding-professor-card escondido" aria-label="Primeiros passos no Mensalize">
+            <div class="onboarding-professor-topo">
+              <div>
+                <span class="page-eyebrow">Primeiros passos</span>
+                <h3>Configure sua academia para começar a receber</h3>
+                <p id="onboardingProfessorResumo">Complete os passos essenciais para tirar valor do Mensalize nos primeiros minutos.</p>
+              </div>
+              <div class="onboarding-professor-status">
+                <strong id="onboardingProfessorPercentual">0%</strong>
+                <span id="onboardingProfessorProgressoTexto">0 de 5 concluídos</span>
+              </div>
+            </div>
+
+            <div class="onboarding-progress-track" aria-hidden="true">
+              <span id="onboardingProfessorBarra"></span>
+            </div>
+
+            <div id="onboardingProfessorLista" class="onboarding-professor-lista">
+              <div class="empty-state-mini">Carregando primeiros passos...</div>
+            </div>
+
+            <div class="onboarding-professor-rodape">
+              <p id="onboardingProfessorInsight">O foco é chegar rápido ao primeiro aluno cadastrado e à primeira cobrança registrada.</p>
+              <button type="button" id="btnOnboardingOcultarHoje" class="acao-secundaria">Ocultar hoje</button>
+            </div>
+          </section>
+
+          <section id="centralAcaoDashboard" class="dashboard-executivo-pro central-acao-dashboard" aria-label="Central de ação do professor">
+            <div class="dashboard-executivo-topo central-acao-topo">
+              <div>
+                <span class="page-eyebrow">Radar operacional</span>
+                <h3>Próxima ação do dia</h3>
+                <p id="dashboardCentralDescricao">Uma recomendação principal e atalhos rápidos para o que precisa de atenção.</p>
+              </div>
+              <span id="dashboardStatusOperacao" class="dashboard-status-operacao">Carregando...</span>
+            </div>
+
+            <div class="central-acao-layout">
+              <article id="dashboardAcaoPrincipalCard" class="central-acao-principal" data-dashboard-prioridade-acao="">
+                <div class="central-acao-principal-icone" id="dashboardAcaoPrincipalIcone">✨</div>
+                <div class="central-acao-principal-conteudo">
+                  <span class="central-acao-principal-label">Próxima melhor ação</span>
+                  <h4 id="dashboardAcaoPrincipalTitulo">Carregando operação...</h4>
+                  <p id="dashboardAcaoPrincipalDescricao">Estamos analisando cobranças, solicitações, chamadas, graduação e relacionamento.</p>
+                  <div class="central-acao-principal-meta" id="dashboardAcaoPrincipalMeta">Atualizando dados em tempo real</div>
+                </div>
+                <button type="button" id="dashboardAcaoPrincipalBotao" class="acao-principal central-acao-principal-botao">Ver ação</button>
+              </article>
+
+              <div class="dashboard-executivo-grid central-acao-grid">
+                <button type="button" class="dashboard-executivo-item central-acao-item" data-dashboard-dia-acao="cobrancas">
+                  <span class="central-acao-item-icone">💰</span>
+                  <span class="dashboard-executivo-label">Cobranças</span>
+                  <strong id="dashboardDiaAtrasados">0</strong>
+                  <small id="dashboardDiaCobrancasDetalhe">Alunos em atraso</small>
+                  <em>Cobrar agora</em>
+                </button>
+
+                <button type="button" class="dashboard-executivo-item central-acao-item" data-dashboard-dia-acao="solicitacoes">
+                  <span class="central-acao-item-icone">📝</span>
+                  <span class="dashboard-executivo-label">Solicitações</span>
+                  <strong id="dashboardDiaSolicitacoes">0</strong>
+                  <small id="dashboardDiaSolicitacoesDetalhe">Pendentes de análise</small>
+                  <em>Resolver</em>
+                </button>
+
+                <button type="button" class="dashboard-executivo-item central-acao-item" data-dashboard-dia-acao="presencas">
+                  <span class="central-acao-item-icone">✅</span>
+                  <span class="dashboard-executivo-label">Chamadas</span>
+                  <strong id="dashboardDiaChamadas">0</strong>
+                  <small id="dashboardDiaChamadasDetalhe">Aulas pendentes hoje</small>
+                  <em>Fazer chamada</em>
+                </button>
+
+                <button type="button" class="dashboard-executivo-item central-acao-item" data-dashboard-dia-acao="graduacao">
+                  <span class="central-acao-item-icone">🥋</span>
+                  <span class="dashboard-executivo-label">Graduação</span>
+                  <strong id="dashboardDiaGraduacao">0</strong>
+                  <small id="dashboardDiaGraduacaoDetalhe">Alunos aptos</small>
+                  <em>Ver alunos</em>
+                </button>
+
+                <button type="button" class="dashboard-executivo-item central-acao-item" data-dashboard-dia-acao="retencao">
+                  <span class="central-acao-item-icone">👀</span>
+                  <span class="dashboard-executivo-label">Retenção</span>
+                  <strong id="dashboardDiaRetencao">0</strong>
+                  <small id="dashboardDiaRetencaoDetalhe">Alunos sumindo</small>
+                  <em>Chamar aluno</em>
+                </button>
+
+                <button type="button" class="dashboard-executivo-item central-acao-item" data-dashboard-dia-acao="aniversariantes">
+                  <span class="central-acao-item-icone">🎂</span>
+                  <span class="dashboard-executivo-label">Relacionamento</span>
+                  <strong id="dashboardDiaAniversariantes">0</strong>
+                  <small id="dashboardDiaAniversariantesDetalhe">Aniversariantes hoje</small>
+                  <em>Enviar parabéns</em>
+                </button>
+              </div>
             </div>
           </section>
 
@@ -394,7 +470,7 @@
                 <h2>Gestão financeira</h2>
                 <p>Acompanhe recebimentos, inadimplência e cobranças do mês em uma visão mais operacional.</p>
               </div>
-              <button type="button" id="btnExportar" class="btn-exportar">📥 Exportar relatório</button>
+              <button type="button" id="btnExportar" class="btn-exportar">📊 Relatórios</button>
             </div>
 
             <div class="financeiro-resumo-grid financeiro-resumo-grid-v2 financeiro-resumo-pro">
@@ -431,39 +507,53 @@
             </div>
 
             <div class="financeiro-operacao-card">
-              <div class="financeiro-operacao-topo">
+              <div class="financeiro-operacao-topo financeiro-operacao-topo-retratil">
                 <div>
                   <span class="page-eyebrow">Operação mensal</span>
                   <h3>Pagamentos por aluno</h3>
-                  <p>Filtre por mês e status para cobrar, conferir ou marcar pagamento rapidamente.</p>
+                  <p>Abra somente quando quiser conferir, cobrar ou marcar pagamentos individualmente.</p>
                 </div>
-                <span id="financeiroListaContador" class="financeiro-lista-contador">0 alunos</span>
-              </div>
 
-              <div class="financeiro-filtros-mes financeiro-filtros-pro">
-                <label class="campo-filtro-financeiro">
-                  <span>Mês</span>
-                  <input type="month" id="financeiroMes">
-                </label>
-
-                <label class="campo-filtro-financeiro">
-                  <span>Status</span>
-                  <select id="financeiroStatus">
-                    <option value="todos">Todos</option>
-                    <option value="atrasado">Atrasados</option>
-                    <option value="pendente">Pendentes</option>
-                    <option value="pago">Pagos</option>
-                  </select>
-                </label>
-
-                <div class="financeiro-acoes-pro">
-                  <button type="button" id="btnAtualizarFinanceiroMes" class="acao-secundaria">Atualizar</button>
-                  <button type="button" id="btnFinanceiroCopiarResumo" class="acao-secundaria">Copiar resumo</button>
+                <div class="financeiro-operacao-controles">
+                  <span id="financeiroListaContador" class="financeiro-lista-contador">0 alunos</span>
+                  <button
+                    type="button"
+                    id="btnToggleFinanceiroAlunos"
+                    class="acao-secundaria financeiro-toggle-alunos"
+                    aria-expanded="false"
+                    aria-controls="financeiroOperacaoConteudo"
+                  >
+                    <span class="financeiro-toggle-texto">Ver pagamentos por aluno</span>
+                  </button>
                 </div>
               </div>
 
-              <div id="listaFinanceiroMensal" class="financeiro-lista-mensal financeiro-lista-pro">
-                <div class="empty-state-mini">Carregando financeiro...</div>
+              <div id="financeiroOperacaoConteudo" class="financeiro-operacao-conteudo" hidden>
+                <div class="financeiro-filtros-mes financeiro-filtros-pro">
+                  <label class="campo-filtro-financeiro">
+                    <span>Mês</span>
+                    <input type="month" id="financeiroMes">
+                  </label>
+
+                  <label class="campo-filtro-financeiro">
+                    <span>Status</span>
+                    <select id="financeiroStatus">
+                      <option value="todos">Todos</option>
+                      <option value="atrasado">Atrasados</option>
+                      <option value="pendente">Pendentes</option>
+                      <option value="pago">Pagos</option>
+                    </select>
+                  </label>
+
+                  <div class="financeiro-acoes-pro">
+                    <button type="button" id="btnAtualizarFinanceiroMes" class="acao-secundaria">Atualizar</button>
+                    <button type="button" id="btnFinanceiroCopiarResumo" class="acao-secundaria">Copiar resumo</button>
+                  </div>
+                </div>
+
+                <div id="listaFinanceiroMensal" class="financeiro-lista-mensal financeiro-lista-pro">
+                  <div class="empty-state-mini">Carregando financeiro...</div>
+                </div>
               </div>
             </div>
           </section>
@@ -745,15 +835,18 @@
               </section>
 
               <section class="presenca-card-presenca historico-chamadas-card">
-                <div class="section-title-row">
+                <div class="section-title-row historico-chamadas-topo" id="historicoToggleTopo" onclick="toggleHistoricoChamadas()" style="cursor:pointer;">
                   <div>
                     <span class="page-eyebrow">Histórico</span>
                     <h2>Últimas chamadas</h2>
                     <p>Veja as chamadas já salvas no período e abra rapidamente uma data anterior.</p>
                   </div>
-                  <span id="historicoChamadasContador" class="mini-badge">0 chamadas</span>
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <span id="historicoChamadasContador" class="mini-badge">0 chamadas</span>
+                    <button type="button" class="acao-secundaria" id="btnToggleHistoricoChamadas" aria-expanded="false">Ver histórico</button>
+                  </div>
                 </div>
-                <div id="historicoChamadas" class="historico-chamadas-list">
+                <div id="historicoChamadas" class="historico-chamadas-list escondido">
                   <div class="empty-state-mini">Carregando histórico de chamadas...</div>
                 </div>
               </section>
@@ -1229,126 +1322,119 @@
               <div>
                 <span class="page-eyebrow">Configurações</span>
                 <h2>Central da academia</h2>
-                <p>Organize os dados públicos, pagamento, graduação e módulos que aparecem para o professor e para o aluno.</p>
+                <p>Dados da academia, pagamento, critérios e módulos ativos.</p>
+              </div>
+
+              <div id="perfilPlanoCard" class="perfil-plano-card">
+                <span class="page-eyebrow">Plano atual</span>
+                <strong id="perfilPlanoNome">Carregando plano...</strong>
+                <small id="perfilPlanoDetalhe">Verificando informações da conta.</small>
+                <button type="button" id="btnPerfilVerUpgrade" class="acao-secundaria">Ver opções de upgrade</button>
               </div>
             </div>
 
-            <form id="formPerfil" class="perfil-form perfil-configuracoes-form">
-              <section class="config-bloco campo-cheio">
-                <div class="config-bloco-topo">
-                  <div>
-                    <span class="config-etiqueta">Dados públicos</span>
-                    <h3>Academia e contato</h3>
-                    <p>Essas informações aparecem no portal do aluno e nas mensagens de cobrança.</p>
-                  </div>
-                </div>
+            <nav class="config-abas" role="tablist" aria-label="Seções de configuração">
+              <button type="button" class="config-aba ativa" data-config-aba="academia" role="tab" aria-selected="true">Academia</button>
+              <button type="button" class="config-aba" data-config-aba="financeiro" role="tab" aria-selected="false">Financeiro</button>
+              <button type="button" class="config-aba" data-config-aba="criterios" role="tab" aria-selected="false">Critérios</button>
+              <button type="button" class="config-aba" data-config-aba="modulos" role="tab" aria-selected="false">Módulos</button>
+            </nav>
 
+            <form id="formPerfil" class="perfil-form perfil-configuracoes-form">
+
+              <div class="config-painel ativo" id="configAba-academia">
+                <div class="config-painel-header">
+                  <strong>Academia e contato</strong>
+                  <span>Essas informações aparecem no portal do aluno e nas cobranças.</span>
+                </div>
                 <div class="config-grid-duplo">
                   <label class="campo-perfil">
                     <span>Nome da academia</span>
                     <input type="text" id="perfilNomeEmpresa" placeholder="Ex: CT Mensalize">
                   </label>
-
                   <label class="campo-perfil">
                     <span>WhatsApp do professor</span>
                     <input type="tel" id="perfilWhatsApp" placeholder="Ex: 31999999999">
                   </label>
                 </div>
-              </section>
-
-              <section class="config-bloco campo-cheio">
-                <div class="config-bloco-topo">
-                  <div>
-                    <span class="config-etiqueta">Financeiro</span>
-                    <h3>Pagamento do aluno</h3>
-                    <p>Configure o Pix exibido no portal do aluno para facilitar o pagamento das mensalidades.</p>
-                  </div>
+                <div class="config-acoes">
+                  <button type="submit" class="btn-salvar-perfil">Salvar</button>
+                  <p id="msgPerfil" class="msg-perfil"></p>
                 </div>
+              </div>
 
+              <div class="config-painel" id="configAba-financeiro">
+                <div class="config-painel-header">
+                  <strong>Pagamento do aluno</strong>
+                  <span>Configure o Pix exibido no portal do aluno.</span>
+                </div>
                 <label class="campo-perfil campo-cheio campo-pix-simples">
                   <span>Pix copia e cola</span>
                   <textarea id="perfilPixCopiaCola" rows="3" placeholder="Cole aqui o Pix copia e cola da academia"></textarea>
                 </label>
-              </section>
-
-              <section class="config-bloco campo-cheio">
-                <div class="config-bloco-topo">
-                  <div>
-                    <span class="config-etiqueta">Graduação e frequência</span>
-                    <h3>Critérios de avaliação</h3>
-                    <p>Defina como o Mensalize deve analisar frequência e aptidão para avaliação.</p>
-                  </div>
+                <div class="config-acoes">
+                  <button type="submit" class="btn-salvar-perfil">Salvar</button>
                 </div>
+              </div>
 
+              <div class="config-painel" id="configAba-criterios">
+                <div class="config-painel-header">
+                  <strong>Critérios de avaliação</strong>
+                  <span>Defina frequência mínima e aptidão para graduação.</span>
+                </div>
                 <div class="config-grid-tres">
                   <label class="campo-perfil">
                     <span>Frequência mínima (%)</span>
                     <input type="number" id="perfilPresencaMinima" min="0" max="100" step="1" placeholder="70">
                   </label>
-
                   <label class="campo-perfil">
                     <span>Período analisado (meses)</span>
                     <input type="number" id="perfilPeriodoFrequencia" min="1" max="24" step="1" placeholder="6">
                   </label>
-
                   <label class="campo-perfil">
                     <span>Mínimo de aulas no ranking</span>
                     <input type="number" id="perfilRankingMinimoAulas" min="0" max="100" step="1" placeholder="4">
                   </label>
                 </div>
-              </section>
-
-              <section class="config-bloco campo-cheio">
-                <div class="config-bloco-topo">
-                  <div>
-                    <span class="config-etiqueta">Módulos</span>
-                    <h3>Recursos ativos</h3>
-                    <p>Visualização dos módulos liberados para esta academia. A liberação continua sendo controlada pelo Admin.</p>
-                  </div>
+                <div class="config-acoes">
+                  <button type="submit" class="btn-salvar-perfil">Salvar</button>
                 </div>
+              </div>
 
+              <div class="config-painel" id="configAba-modulos">
+                <div class="config-painel-header">
+                  <strong>Módulos ativos</strong>
+                  <span>Recursos liberados para esta academia. Gerenciados pelo Admin.</span>
+                </div>
                 <div class="config-modulos-grid" aria-label="Módulos ativos da academia">
                   <label class="config-modulo-item">
                     <input type="checkbox" id="perfilModuloPresenca" disabled>
                     <span>Presenças</span>
                   </label>
-
                   <label class="config-modulo-item">
                     <input type="checkbox" id="perfilModuloEvolucao" disabled>
                     <span>Evolução</span>
                   </label>
-
                   <label class="config-modulo-item">
                     <input type="checkbox" id="perfilModuloAvisos" disabled>
                     <span>Avisos</span>
                   </label>
-
                   <label class="config-modulo-item">
                     <input type="checkbox" id="perfilRankingGeral" disabled>
                     <span>Ranking geral</span>
                   </label>
-
                   <label class="config-modulo-item">
                     <input type="checkbox" id="perfilRankingTurma" disabled>
                     <span>Ranking por turma</span>
                   </label>
-
                   <label class="config-modulo-item">
                     <input type="checkbox" id="perfilRankingTurmas" disabled>
                     <span>Ranking entre turmas</span>
                   </label>
                 </div>
-              </section>
-
-              <div class="config-acoes campo-cheio">
-                <p class="perfil-aviso-admin">
-                  Plano, status, limite de alunos e liberação de módulos continuam protegidos no Painel Admin.
-                </p>
-
-                <button type="submit" class="btn-salvar-perfil">Salvar configurações</button>
+                <p class="perfil-aviso-admin">Plano, limite de alunos e módulos são gerenciados pelo Painel Admin.</p>
               </div>
 
-              <p id="msgPerfil" class="msg-perfil campo-cheio"></p>
             </form>
           </section>
         </section>
@@ -1438,11 +1524,22 @@
           </div>
 
           <div class="admin-planos-resumo-exec">
-            <span><strong>Trial</strong> Validação inicial</span>
-            <span><strong>Basic</strong> Mensalidades e avisos</span>
-            <span><strong>Pro</strong> Turmas, presença e ranking</span>
-            <span><strong>Fight</strong> Graduação e artes marciais</span>
-            <span><strong>Premium</strong> Operação completa</span>
+
+            <span>
+              <strong>🟢 Teste Gratuito</strong>
+              Experimente todos os recursos por 30 dias.
+            </span>
+
+            <span>
+              <strong>🔵 Mensalize</strong>
+              Gestão de alunos, financeiro, cobranças e avisos.
+            </span>
+
+            <span>
+              <strong>🟣 Mensalize Pro</strong>
+              Gestão completa com turmas, presenças, graduação e evolução.
+            </span>
+
           </div>
         </div>
 
@@ -1464,9 +1561,9 @@
             <button type="button" class="admin-filtro-cliente ativo" data-admin-filtro-clientes="todos">Todos</button>
             <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="ativo">Ativos</button>
             <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="bloqueado">Bloqueados</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="trial">Trial</button>
+            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="trial">Teste</button>
+            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="basic">Padrão</button>
             <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="pro">Pro</button>
-            <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="fight">Fight</button>
             <button type="button" class="admin-filtro-cliente" data-admin-filtro-clientes="limite">No limite</button>
           </div>
         </div>
@@ -1759,6 +1856,165 @@
     </div>
   </div>
 
+
+  <div id="modalCentralRelatorios" class="modal escondido" role="dialog" aria-modal="true" aria-labelledby="tituloCentralRelatorios">
+    <div class="modal-card relatorios-modal-card">
+      <header class="relatorios-modal-topo">
+        <div class="relatorios-modal-titulo">
+          <span class="page-eyebrow">Relatórios</span>
+          <h2 id="tituloCentralRelatorios">Exportar dados</h2>
+          <p>Escolha o relatório, ajuste os filtros e exporte em CSV ou PDF.</p>
+        </div>
+        <button type="button" id="btnFecharCentralRelatorios" class="btn-fechar" aria-label="Fechar central de relatórios">×</button>
+      </header>
+
+      <div class="relatorios-modal-corpo">
+        <nav class="relatorios-tipos" role="tablist" aria-label="Tipos de relatório">
+          <button type="button" class="relatorio-tipo-card ativo" data-relatorio-tipo="financeiro" role="tab" aria-selected="true">
+            <span class="relatorio-tipo-icone" aria-hidden="true">💰</span>
+            <strong>Financeiro</strong>
+          </button>
+          <button type="button" class="relatorio-tipo-card" data-relatorio-tipo="alunos" role="tab" aria-selected="false">
+            <span class="relatorio-tipo-icone" aria-hidden="true">👥</span>
+            <strong>Alunos</strong>
+          </button>
+          <button type="button" class="relatorio-tipo-card" data-relatorio-tipo="frequencia" role="tab" aria-selected="false">
+            <span class="relatorio-tipo-icone" aria-hidden="true">✓</span>
+            <strong>Frequência</strong>
+          </button>
+        </nav>
+
+        <section class="relatorios-config">
+          <div class="relatorios-config-head">
+            <div>
+              <h3 id="relatorioConfigTitulo">Financeiro</h3>
+              <p id="relatorioConfigDescricao">Recebimentos, pendências, atrasos e visão mensal por aluno.</p>
+            </div>
+            <span id="relatorioPreviewContador" class="mini-badge">0 registros</span>
+          </div>
+
+          <div class="relatorios-filtros" data-relatorio-filtros="financeiro">
+            <label class="campo-perfil">
+              <span>Mês de referência</span>
+              <input type="month" id="relatorioFinanceiroMes">
+            </label>
+            <label class="campo-perfil">
+              <span>Status</span>
+              <select id="relatorioFinanceiroStatus">
+                <option value="todos">Todos</option>
+                <option value="pago">Pagos</option>
+                <option value="pendente">Pendentes</option>
+                <option value="atrasado">Atrasados</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="relatorios-filtros escondido" data-relatorio-filtros="alunos">
+            <label class="campo-perfil">
+              <span>Status do aluno</span>
+              <select id="relatorioAlunosStatus">
+                <option value="todos">Todos</option>
+                <option value="ativo">Ativos</option>
+                <option value="pausado">Pausados</option>
+                <option value="inativo">Inativos</option>
+                <option value="experimental">Experimentais</option>
+              </select>
+            </label>
+            <label class="campo-perfil">
+              <span>Turma</span>
+              <select id="relatorioAlunosTurma">
+                <option value="todas">Todas as turmas</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="relatorios-filtros escondido" data-relatorio-filtros="frequencia">
+            <label class="campo-perfil">
+              <span>Período</span>
+              <select id="relatorioFrequenciaPeriodo">
+                <option value="1">Último mês</option>
+                <option value="3">Últimos 3 meses</option>
+                <option value="6" selected>Últimos 6 meses</option>
+                <option value="12">Últimos 12 meses</option>
+              </select>
+            </label>
+            <label class="campo-perfil">
+              <span>Turma</span>
+              <select id="relatorioFrequenciaTurma">
+                <option value="todas">Todas as turmas</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="relatorio-privacidade-opcao">
+            <input type="checkbox" id="relatorioIncluirContatos">
+            <span>
+              <strong>Incluir contatos pessoais</strong>
+              <small>Adiciona WhatsApp e responsável quando disponível.</small>
+            </span>
+          </label>
+
+          <div class="relatorio-preview-card" aria-live="polite">
+            <span class="relatorio-preview-label">Resumo da exportação</span>
+            <strong id="relatorioPreviewTitulo">Financeiro</strong>
+            <p id="relatorioPreviewTexto">Visão consolidada com resumo executivo e detalhamento por aluno.</p>
+          </div>
+        </section>
+      </div>
+
+      <footer class="relatorios-modal-rodape">
+        <p><strong>CSV</strong> para planilhas · <strong>PDF</strong> para apresentação e impressão.</p>
+        <div class="relatorios-export-acoes">
+          <button type="button" id="btnCancelarCentralRelatorios" class="acao-secundaria relatorios-btn-cancelar">Fechar</button>
+          <button type="button" id="btnGerarRelatorioCsv" class="acao-secundaria">Baixar CSV</button>
+          <button type="button" id="btnGerarRelatorioPdf" class="acao-principal">Gerar PDF</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <div id="modalUpgradePlano" class="modal escondido" role="dialog" aria-modal="true" aria-labelledby="modalUpgradeTitulo">
+    <div class="modal-card modal-upgrade-plano">
+      <div class="modal-topo">
+        <div>
+          <span class="page-eyebrow">Mensalize Pro</span>
+          <h2 id="modalUpgradeTitulo">Desbloqueie este recurso</h2>
+          <p id="modalUpgradeDescricao">O Mensalize Pro libera recursos avançados para profissionalizar a gestão da academia.</p>
+        </div>
+        <button type="button" id="btnFecharModalUpgrade" class="btn-fechar" aria-label="Fechar modal de upgrade">×</button>
+      </div>
+
+      <div class="upgrade-recurso-card">
+        <span>Recurso bloqueado</span>
+        <strong id="modalUpgradeModuloNome">Módulo Pro</strong>
+        <small id="modalUpgradeModuloTexto">Este módulo faz parte dos recursos avançados do Mensalize.</small>
+      </div>
+
+      <div class="upgrade-beneficios">
+        <h3>O Mensalize Pro libera:</h3>
+        <ul id="modalUpgradeBeneficiosLista">
+          <li>Gestão de turmas e chamadas de presença.</li>
+          <li>Graduação, evolução e alunos aptos para avaliação.</li>
+          <li>Programa Fight com conteúdos por faixa.</li>
+          <li>Dashboard mais inteligente para tomada de decisão.</li>
+        </ul>
+      </div>
+
+      <div class="modal-acoes modal-upgrade-acoes">
+        <a
+          id="btnUpgradeWhatsApp"
+          class="acao-principal"
+          href="https://wa.me/5531983334284?text=Olá, quero conhecer o Mensalize Pro"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Falar no WhatsApp
+        </a>
+        <button type="button" id="btnUpgradeDepois" class="acao-secundaria">Agora não</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast escondido"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
@@ -1770,12 +2026,14 @@
   <script src="js/30-financeiro-pagamentos.js"></script>
   <script src="js/40-admin.js"></script>
   <script src="js/50-ui-relatorios-tema.js"></script>
+  <script src="js/55-central-relatorios.js"></script>
   <script src="js/60-solicitacoes-navegacao.js"></script>
   <script src="js/70-evolucao-presencas-avisos.js"></script>
   <script src="js/75-aniversariantes.js"></script>
   <script src="js/76-turmas-frequencia.js"></script>
   <script src="js/77-programa-fight.js"></script>
   <script src="js/85-notificacoes-inteligentes.js"></script>
+  <script src="js/86-onboarding-professor.js"></script>
   <script src="js/80-realtime.js"></script>
   <script src="js/90-cache-update.js"></script>
   <script src="js/99-app.js"></script>

@@ -14,8 +14,18 @@ function programaFightAtivo() {
 }
 
 function aplicarModuloFightInterface() {
+  const ativo = programaFightAtivo();
   document.querySelectorAll('.modulo-fight').forEach(el => {
-    el.classList.toggle('escondido', !programaFightAtivo());
+    const ehItemMenu = el.classList.contains('menu-item');
+
+    if (ehItemMenu) {
+      el.classList.remove('escondido');
+      el.classList.toggle('modulo-bloqueado', !ativo);
+      return;
+    }
+
+    el.classList.toggle('escondido', !ativo);
+    el.classList.remove('modulo-bloqueado');
   });
 }
 

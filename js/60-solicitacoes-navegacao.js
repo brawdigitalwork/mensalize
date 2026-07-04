@@ -557,8 +557,8 @@ async function aprovarSolicitacaoPagamento(id) {
   }
 
   const resultado = await registrarPagamentoAluno(aluno, {
-  dataPagamento: solicitacao.data_pagamento || new Date().toISOString().split("T")[0],
-  valorPagamento: solicitacao.valor_informado || aluno.valor
+    dataPagamento: solicitacao.data_pagamento || new Date().toISOString().split("T")[0],
+    valorPagamento: solicitacao.valor_informado || aluno.valor
   });
 
   if (!resultado.ok && !resultado.jaExiste) {
@@ -602,28 +602,40 @@ async function recusarSolicitacaoPagamento(id) {
 function abrirViewPrincipal(view) {
 
   // =====================================================
-// PROTEÇÃO SaaS — MÓDULOS
-// =====================================================
+  // PROTEÇÃO SaaS — MÓDULOS
+  // Mensagens alinhadas com os nomes de planos atuais.
+  // Verificações por flag de módulo (booleano), nunca por nome de plano.
+  // =====================================================
 
-if (view === "desafio" && !moduloDesafioAtivo) {
-  mostrarToast("Seu plano não possui acesso ao módulo Desafio.", "erro");
-  return;
-}
+  if (view === "desafio" && !moduloDesafioAtivo) {
+    abrirModalUpgradePlano("desafio");
+    return;
+  }
 
-if (view === "evolucao" && !moduloEvolucaoAtivo) {
-  mostrarToast("Seu plano não possui acesso ao módulo Graduação / Mensalize Fight.", "erro");
-  return;
-}
+  if (view === "evolucao" && !moduloEvolucaoAtivo) {
+    abrirModalUpgradePlano("evolucao");
+    return;
+  }
 
-if (view === "programaFight" && !window.moduloFightAtivo) {
-  mostrarToast("Seu plano não possui acesso ao Programa Fight.", "erro");
-  return;
-}
+  if (view === "programaFight" && !window.moduloFightAtivo) {
+    abrirModalUpgradePlano("programaFight");
+    return;
+  }
 
-if (view === "turmas" && !moduloTurmasAtivo) {
-  mostrarToast("Seu plano não possui acesso ao módulo Turmas.", "erro");
-  return;
-}
+  if (view === "turmas" && !moduloTurmasAtivo) {
+    abrirModalUpgradePlano("turmas");
+    return;
+  }
+
+  if (view === "presencas" && !moduloPresencaAtivo) {
+    abrirModalUpgradePlano("presencas");
+    return;
+  }
+
+  if (view === "avisos" && !moduloAvisosAtivo) {
+    abrirModalUpgradePlano("avisos");
+    return;
+  }
 
   const views = {
     dashboard: viewDashboard,
@@ -697,7 +709,6 @@ if (view === "turmas" && !moduloTurmasAtivo) {
   if (view === "aniversariantes" && typeof renderizarAniversariantes === "function") {
     renderizarAniversariantes();
   }
-
   if (view === "programaFight" && typeof prepararProgramaFight === "function") {
     prepararProgramaFight();
   }
@@ -753,22 +764,23 @@ function inicializarNavegacaoPrincipal() {
   if (btnNavDashboard) btnNavDashboard.addEventListener("click", () => abrirViewPrincipal("dashboard"));
   if (btnNavAlunos) btnNavAlunos.addEventListener("click", () => abrirViewPrincipal("alunos"));
   if (btnNavFinanceiro) btnNavFinanceiro.addEventListener("click", () => abrirViewPrincipal("financeiro"));
+
   const botaoNavDesafio = document.getElementById("btnNavDesafio");
   if (botaoNavDesafio) botaoNavDesafio.addEventListener("click", () => abrirViewPrincipal("desafio"));
+
   if (btnNavEvolucao) btnNavEvolucao.addEventListener("click", () => abrirViewPrincipal("evolucao"));
   if (btnNavPresencas) btnNavPresencas.addEventListener("click", () => abrirViewPrincipal("presencas"));
   if (btnNavTurmas) btnNavTurmas.addEventListener("click", () => abrirViewPrincipal("turmas"));
   if (btnNavAniversariantes) btnNavAniversariantes.addEventListener("click", () => abrirViewPrincipal("aniversariantes"));
   if (btnNavAvisos) btnNavAvisos.addEventListener("click", () => abrirViewPrincipal("avisos"));
   if (btnNavSolicitacoes) btnNavSolicitacoes.addEventListener("click", () => abrirViewPrincipal("solicitacoes"));
-  
+
   const btnNavProgramaFight = document.getElementById("btnNavProgramaFight");
   if (btnNavProgramaFight) {
     btnNavProgramaFight.addEventListener("click", () => abrirViewPrincipal("programaFight"));
   }
-  
+
   if (btnNavPerfil) btnNavPerfil.addEventListener("click", () => abrirViewPrincipal("perfil"));
-  
 
   if (btnNavCadastrar) {
     btnNavCadastrar.addEventListener("click", () => {
@@ -884,6 +896,10 @@ async function salvarPerfilProfessor(event) {
   }
 
   mostrarToast("Configurações salvas com sucesso!");
+
+  if (typeof atualizarOnboardingProfessor === "function") {
+    atualizarOnboardingProfessor();
+  }
 }
 
 if (formPerfil) {

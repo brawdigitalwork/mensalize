@@ -448,9 +448,8 @@ async function exportarRelatorioFinanceiroPlanilha() {
   }
 }
 
-if (btnExportar) {
-  btnExportar.addEventListener("click", exportarRelatorioFinanceiroPlanilha);
-}
+// O botão #btnExportar agora é controlado por js/55-central-relatorios.js.
+// A função legada acima é mantida por compatibilidade, mas não é ligada ao clique.
 
 // ===============================
 // 29. HISTÓRICO — DELETAR PAGAMENTO

@@ -108,6 +108,88 @@ function normalizarAdminTexto(valor) {
   return String(valor || "").trim().toLowerCase();
 }
 
+function adminDataISOHoje() {
+  const hoje = new Date();
+  return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-${String(hoje.getDate()).padStart(2, "0")}`;
+}
+
+function adminSomarDiasDataISO(dataISO, dias) {
+  const partes = String(dataISO || adminDataISOHoje()).split("-");
+  const data = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+  data.setDate(data.getDate() + Number(dias || 0));
+  return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
+}
+
+function adminDataInputTrial(valor) {
+  return valor ? String(valor).split("T")[0] : "";
+}
+
+function adminCalcularDiasTrial(cliente) {
+  if (normalizarPlano(cliente?.plano) !== "trial") return null;
+
+  const fim = adminDataInputTrial(cliente?.trial_fim);
+  if (!fim) return null;
+
+  const partes = fim.split("-");
+  const dataFim = new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+  const hoje = new Date();
+  const hojeLocal = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+
+  if (Number.isNaN(dataFim.getTime())) return null;
+  return Math.ceil((dataFim - hojeLocal) / (1000 * 60 * 60 * 24));
+}
+
+function adminResumoTrialCliente(cliente) {
+  if (normalizarPlano(cliente?.plano) !== "trial") return "Controle disponível apenas para clientes em Teste Gratuito.";
+
+  const dias = adminCalcularDiasTrial(cliente);
+  const fim = adminDataInputTrial(cliente?.trial_fim);
+
+  if (!fim) return "Defina uma data final para controlar o trial pelo Admin.";
+  if (dias === null) return "Data final do trial inválida.";
+  if (dias < 0) return `Trial encerrado há ${Math.abs(dias)} dia${Math.abs(dias) === 1 ? "" : "s"}.`;
+  if (dias === 0) return "Trial termina hoje.";
+  if (dias === 1) return "Trial termina amanhã.";
+  return `Faltam ${dias} dias para o fim do trial.`;
+}
+
+function adminPrepararTrialAoSelecionarPlano(clienteId, plano) {
+  const inicioInput = document.getElementById(`trial-inicio-${clienteId}`);
+  const fimInput = document.getElementById(`trial-fim-${clienteId}`);
+  const resumoEl = document.getElementById(`trial-resumo-${clienteId}`);
+
+  if (!inicioInput || !fimInput) return;
+
+  if (plano === "trial") {
+    if (!inicioInput.value) inicioInput.value = adminDataISOHoje();
+    if (!fimInput.value) fimInput.value = adminSomarDiasDataISO(inicioInput.value, 30);
+  }
+
+  if (resumoEl) {
+    if (plano !== "trial") {
+      resumoEl.textContent = "Trial não é usado neste plano.";
+    } else {
+      resumoEl.textContent = `Trial configurado de ${inicioInput.value || "--/--/----"} até ${fimInput.value || "--/--/----"}.`;
+    }
+  }
+}
+
+// ---------------------------------------------------------------
+// NORMALIZAÇÃO DE PLANOS LEGADOS
+// Converte planos descontinuados para seus equivalentes atuais.
+// fight   → pro   (mesmo conjunto de módulos)
+// premium → pro   (mesmo conjunto de módulos)
+// O valor original permanece no banco; esta função é usada apenas
+// para resolução de configurações e exibição no admin.
+// ---------------------------------------------------------------
+function normalizarPlano(plano) {
+  if (plano === "fight" || plano === "premium") return "pro";
+  if (plano === "basic") return "basic";
+  if (plano === "trial") return "trial";
+  if (plano === "pro") return "pro";
+  return "trial"; // fallback seguro
+}
+
 function inicializarFiltrosClientesAdmin() {
   const inputBusca = document.getElementById("adminBuscaClientes");
   const botoesFiltro = document.querySelectorAll("[data-admin-filtro-clientes]");
@@ -132,12 +214,14 @@ function inicializarFiltrosClientesAdmin() {
 }
 
 let clientesAdminUltimosAlunos = [];
+let adminTrialColunasDisponiveis = true;
 
 function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
   const total = alunosDoCliente.length;
   const limite = Number(cliente.limite_alunos || 30);
   const texto = `${cliente.email || ""} ${cliente.nome_empresa || ""}`.toLowerCase();
   const plano = cliente.plano || "trial";
+  const planoNormalizado = normalizarPlano(plano);
   const status = cliente.status || "ativo";
   const podeUsar = cliente.pode_usar !== false;
 
@@ -146,7 +230,13 @@ function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
   if (adminFiltroClientesAtual === "todos") return true;
   if (adminFiltroClientesAtual === "ativo") return status !== "bloqueado" && podeUsar;
   if (adminFiltroClientesAtual === "bloqueado") return status === "bloqueado" || !podeUsar;
-  if (["trial", "basic", "pro", "fight", "premium"].includes(adminFiltroClientesAtual)) return plano === adminFiltroClientesAtual;
+
+  // Filtros por plano: compara pelo valor normalizado para incluir legados
+  // Ex: filtro "pro" captura clientes com plano "fight" ou "premium" no banco
+  if (["trial", "basic", "pro"].includes(adminFiltroClientesAtual)) {
+    return planoNormalizado === adminFiltroClientesAtual;
+  }
+
   if (adminFiltroClientesAtual === "limite") return total >= limite;
 
   return true;
@@ -189,6 +279,29 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
   const statusBloqueado = cliente.status === "bloqueado" || cliente.pode_usar === false;
   const statusTexto = statusBloqueado ? "Bloqueado" : "Ativo";
   const progressoClasse = porcentagem >= 100 ? "danger" : porcentagem >= 80 ? "warn" : "ok";
+  const trialInicio = adminDataInputTrial(cliente.trial_inicio);
+  const trialFim = adminDataInputTrial(cliente.trial_fim);
+  const resumoTrial = adminResumoTrialCliente(cliente);
+  const diasTrial = adminCalcularDiasTrial(cliente);
+  const trialChip = normalizarPlano(cliente.plano) === "trial" && diasTrial !== null
+    ? `<span class="admin-chip ${diasTrial <= 0 ? "bloqueado" : "plano"}">${diasTrial <= 0 ? "Trial encerrado" : `${diasTrial}d trial`}</span>`
+    : "";
+
+  // Detecta se o cliente usa plano legado para exibir aviso informativo
+  const planoLegado = ["fight", "premium"].includes(cliente.plano);
+  const avisoLegado = planoLegado
+    ? `<p class="admin-plano-legado-aviso">Este cliente usa um plano legado (${cliente.plano}) — equivalente ao Mensalize Pro.</p>`
+    : "";
+
+  // Monta select apenas com planos comerciais ativos
+  // Planos legados não aparecem como opção para novos clientes
+  const selectPlano = `
+    <select id="plano-${cliente.id}" onchange="aplicarPresetPlanoCliente('${cliente.id}', this.value)">
+      <option value="trial" ${normalizarPlano(cliente.plano) === "trial" ? "selected" : ""}>Teste Gratuito</option>
+      <option value="basic" ${normalizarPlano(cliente.plano) === "basic" ? "selected" : ""}>Mensalize</option>
+      <option value="pro" ${normalizarPlano(cliente.plano) === "pro" ? "selected" : ""}>Mensalize Pro</option>
+    </select>
+  `;
 
   const div = document.createElement("div");
   div.classList.add("admin-simple-card");
@@ -206,6 +319,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
 
       <div class="admin-simple-actions">
         <span class="admin-chip plano">${resumoPlano.nome}</span>
+        ${trialChip}
         <span class="admin-chip ${statusBloqueado ? "bloqueado" : "ativo"}">${statusTexto}</span>
         <button type="button" class="admin-simple-manage" onclick="toggleClienteAlunos('${cliente.id}')">
           Gerenciar
@@ -228,16 +342,17 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
     </div>
 
     <div class="admin-simple-panel escondido" id="detalhes-cliente-${cliente.id}" onclick="event.stopPropagation()">
+      ${!adminTrialColunasDisponiveis ? `
+        <div class="admin-simple-warning">
+          <strong>SQL do trial ainda não foi aplicado</strong>
+          <span>As datas aparecem na tela, mas não serão salvas enquanto as colunas trial_inicio e trial_fim não existirem em profiles.</span>
+        </div>
+      ` : ""}
       <div class="admin-simple-grid">
         <label class="admin-simple-field">
           <span>Plano</span>
-          <select id="plano-${cliente.id}" onchange="aplicarPresetPlanoCliente('${cliente.id}', this.value)">
-            <option value="trial" ${cliente.plano === "trial" ? "selected" : ""}>Trial</option>
-            <option value="basic" ${cliente.plano === "basic" ? "selected" : ""}>Basic</option>
-            <option value="pro" ${cliente.plano === "pro" ? "selected" : ""}>Pro</option>
-            <option value="fight" ${cliente.plano === "fight" ? "selected" : ""}>Mensalize Fight</option>
-            <option value="premium" ${cliente.plano === "premium" ? "selected" : ""}>Premium</option>
-          </select>
+          ${selectPlano}
+          ${avisoLegado}
           <small id="plano-resumo-${cliente.id}">${resumoPlano.descricao}</small>
         </label>
 
@@ -248,6 +363,18 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
             <option value="bloqueado" ${cliente.status === "bloqueado" ? "selected" : ""}>Bloqueado</option>
           </select>
           <small>Bloqueado impede o cliente de usar o app.</small>
+        </label>
+
+        <label class="admin-simple-field">
+          <span>Início do trial</span>
+          <input type="date" id="trial-inicio-${cliente.id}" value="${trialInicio}">
+          <small>Data usada para contar o Teste Gratuito.</small>
+        </label>
+
+        <label class="admin-simple-field">
+          <span>Fim do trial</span>
+          <input type="date" id="trial-fim-${cliente.id}" value="${trialFim}">
+          <small id="trial-resumo-${cliente.id}">${resumoTrial}</small>
         </label>
 
         <label class="admin-simple-field">
@@ -307,92 +434,22 @@ function sincronizarAcessoClienteAdmin(clienteId) {
   }
 }
 
-
+// ---------------------------------------------------------------
+// CONFIGURAÇÃO DOS PLANOS COMERCIAIS
+//
+// Apenas trial, basic e pro são planos comerciais ativos.
+// fight e premium são aliases de retrocompatibilidade — apontam
+// diretamente para a config do pro via normalizarPlano(), sem
+// duplicar módulos ou recursos.
+// ---------------------------------------------------------------
 const PLANOS_MENSALIZE_ADMIN = {
   trial: {
-    nome: "Trial",
+    nome: "Teste Gratuito",
     tag: "Teste",
-    preco: "R$ 0,00 / 30 dias",
+    preco: "Grátis por 30 dias",
     limite: 30,
-    descricao: "Teste gratuito para o professor conhecer o Mensalize com as funções essenciais.",
-    destaque: "Para demonstração, parceria e validação inicial.",
-    modulos: {
-      modulo_fight: false,
-      modulo_evolucao: false,
-      modulo_presenca: false,
-      modulo_avisos: false,
-      modulo_ranking: false,
-      modulo_desafio: false,
-      modulo_turmas: false,
-    },
-    recursos: [
-      "Até 30 alunos",
-      "Cadastro de alunos",
-      "Controle de mensalidades",
-      "Página do aluno",
-      "Pix copia e cola",
-      "Cobrança via WhatsApp",
-      "Solicitação de confirmação de pagamento"
-    ]
-  },
-  basic: {
-    nome: "Basic",
-    tag: "Entrada",
-    preco: "R$ 29,90/mês",
-    limite: 50,
-    descricao: "Plano de entrada para professor pequeno ou turma única.",
-    destaque: "Para organizar alunos, mensalidades, avisos e aniversários.",
-    modulos: {
-      modulo_fight: false,
-      modulo_evolucao: false,
-      modulo_presenca: false,
-      modulo_avisos: true,
-      modulo_ranking: false,
-      modulo_desafio: false,
-      modulo_turmas: false,
-    },
-    recursos: [
-      "Até 50 alunos",
-      "Tudo do Trial",
-      "Avisos",
-      "Aniversariantes",
-      "Financeiro mensal",
-      "Página individual do aluno"
-    ]
-  },
-  pro: {
-    nome: "Pro",
-    tag: "Mais vendido",
-    preco: "R$ 49,90/mês",
-    limite: 150,
-    descricao: "Plano principal para academias, estúdios, escolas e profissionais que precisam controlar alunos, mensalidades, turmas e presença.",
-    destaque: "Para vender como pacote principal do Mensalize, sem graduação de luta.",
-    modulos: {
-      modulo_fight: false,
-      modulo_evolucao: false,
-      modulo_presenca: true,
-      modulo_avisos: true,
-      modulo_ranking: true,
-      modulo_desafio: true,
-      modulo_turmas: true,
-    },
-    recursos: [
-      "Até 150 alunos",
-      "Tudo do Basic",
-      "Turmas",
-      "Presenças",
-      "Ranking de presença",
-      "Desafio de presença",
-      "Aulas canceladas"
-    ]
-  },
-  fight: {
-    nome: "Mensalize Fight",
-    tag: "Artes marciais",
-    preco: "R$ 59,90/mês",
-    limite: 150,
-    descricao: "Plano para academias de luta que precisam controlar mensalidades, presenças, ranking e graduação por faixa e grau.",
-    destaque: "Para jiu-jitsu, muay thai, boxe, judô, karatê e CTs de luta.",
+    descricao: "Experimente o Mensalize com todos os recursos liberados durante o período de teste.",
+    destaque: "Conheça o sistema completo sem compromisso.",
     modulos: {
       modulo_fight: true,
       modulo_evolucao: true,
@@ -403,24 +460,56 @@ const PLANOS_MENSALIZE_ADMIN = {
       modulo_turmas: true,
     },
     recursos: [
-      "Até 150 alunos",
-      "Tudo do Pro",
-      "Graduação por faixa e grau",
-      "Tempo mínimo para avaliação",
-      "Frequência mínima para graduação",
-      "Alunos aptos para avaliação",
-      "Solicitação de correção de graduação",
-      "Programa de Graduação por faixa",
-      "Links de vídeo por técnica"
+      "Todos os recursos liberados",
+      "Até 30 alunos",
+      "Cadastro de alunos",
+      "Financeiro",
+      "Turmas",
+      "Presenças",
+      "Ranking",
+      "Desafio da Aula",
+      "Graduação",
+      "Solicitações",
+      "Área do aluno"
     ]
   },
-  premium: {
-    nome: "Premium",
-    tag: "Academia",
-    preco: "R$ 79,90/mês",
+
+  basic: {
+    nome: "Mensalize",
+    tag: "⭐ Mais escolhido",
+    preco: "R$ 49,90/mês",
+    limite: 100,
+    descricao: "Ideal para academias que querem organizar alunos, mensalidades e a rotina administrativa.",
+    destaque: "Gestão simples, rápida e profissional.",
+    modulos: {
+      modulo_fight: false,
+      modulo_evolucao: false,
+      modulo_presenca: false,
+      modulo_avisos: true,
+      modulo_ranking: false,
+      modulo_desafio: false,
+      modulo_turmas: false,
+    },
+    recursos: [
+      "Até 100 alunos",
+      "Cadastro de alunos",
+      "Controle financeiro",
+      "Mensalidades",
+      "Cobranças via WhatsApp",
+      "Avisos",
+      "Dashboard",
+      "Área do aluno",
+      "Perfil completo do aluno"
+    ]
+  },
+
+  pro: {
+    nome: "Mensalize Pro",
+    tag: "Completo",
+    preco: "R$ 89,90/mês",
     limite: 300,
-    descricao: "Plano completo para academia maior ou cliente com operação mais avançada.",
-    destaque: "Para clientes com mais alunos, suporte mais próximo e tudo liberado.",
+    descricao: "Gestão completa da academia com acompanhamento da evolução dos alunos.",
+    destaque: "Todos os recursos do Mensalize liberados.",
     modulos: {
       modulo_fight: true,
       modulo_evolucao: true,
@@ -432,19 +521,29 @@ const PLANOS_MENSALIZE_ADMIN = {
     },
     recursos: [
       "Até 300 alunos",
-      "Tudo do Pro",
-      "Mensalize Fight incluso",
-      "Todos os módulos liberados",
-      "Programa de Graduação por faixa",
-      "Suporte prioritário",
-      "Configuração inicial assistida",
-      "Ajustes simples sob demanda"
+      "Tudo do Mensalize",
+      "Turmas",
+      "Presenças",
+      "Ranking",
+      "Desafio da Aula",
+      "Graduação",
+      "Solicitações",
+      "Frequência inteligente",
+      "Programa de graduação",
+      "Links de técnicas",
+      "Todos os recursos futuros"
     ]
   }
 };
 
+/**
+ * Retorna a configuração de um plano.
+ * Planos legados (fight, premium) são normalizados para pro.
+ * Plano desconhecido cai em trial como fallback seguro.
+ */
 function obterConfigPlanoAdmin(plano) {
-  return PLANOS_MENSALIZE_ADMIN[plano] || PLANOS_MENSALIZE_ADMIN.trial;
+  const planoNormalizado = normalizarPlano(plano);
+  return PLANOS_MENSALIZE_ADMIN[planoNormalizado] || PLANOS_MENSALIZE_ADMIN.trial;
 }
 
 function obterResumoPlanoAdmin(plano) {
@@ -458,8 +557,9 @@ function obterResumoPlanoAdmin(plano) {
 
 function renderizarRecursosPlanoAdmin(plano) {
   const config = obterConfigPlanoAdmin(plano);
+  const chave = normalizarPlano(plano);
   return `
-    <div class="admin-plano-resumo-card" id="plano-card-${plano}">
+    <div class="admin-plano-resumo-card" id="plano-card-${chave}">
       <div class="admin-plano-resumo-topo">
         <span class="admin-plano-badge-mini">${config.tag}</span>
         <strong>${config.nome}</strong>
@@ -502,11 +602,64 @@ function aplicarPresetPlanoCliente(clienteId, planoSelecionado) {
   if (resumoEl) resumoEl.textContent = resumo.descricao;
   if (badgeEl) badgeEl.textContent = resumo.tag;
   if (limiteSugeridoEl) limiteSugeridoEl.textContent = `${config.limite} alunos sugeridos`;
+  adminPrepararTrialAoSelecionarPlano(clienteId, plano);
 }
 
 function obterPermissoesDoPlanoAdmin(plano) {
   const config = obterConfigPlanoAdmin(plano);
   return { ...config.modulos };
+}
+
+const CAMPOS_CLIENTES_ADMIN_BASE = `
+  id,
+  email,
+  nome_empresa,
+  limite_alunos,
+  is_admin,
+  whatsapp_professor,
+  modulo_fight,
+  modulo_evolucao,
+  modulo_presenca,
+  modulo_avisos,
+  modulo_ranking,
+  modulo_desafio,
+  modulo_turmas,
+  plano,
+  status,
+  pode_usar
+`;
+
+const CAMPOS_CLIENTES_ADMIN_COM_TRIAL = `${CAMPOS_CLIENTES_ADMIN_BASE},
+  trial_inicio,
+  trial_fim`;
+
+function erroAdminColunaTrial(error) {
+  const mensagem = String(error?.message || "").toLowerCase();
+  return mensagem.includes("trial_inicio") || mensagem.includes("trial_fim") || mensagem.includes("column");
+}
+
+async function buscarClientesAdminComFallback() {
+  let resultado = await supabaseClient.from("profiles").select(CAMPOS_CLIENTES_ADMIN_COM_TRIAL);
+
+  if (!resultado.error) {
+    adminTrialColunasDisponiveis = true;
+    return resultado;
+  }
+  if (!erroAdminColunaTrial(resultado.error)) return resultado;
+
+  adminTrialColunasDisponiveis = false;
+  console.warn("Campos trial_inicio/trial_fim ainda não existem em profiles. Admin usando fallback temporário sem controle profissional de trial.");
+
+  resultado = await supabaseClient.from("profiles").select(CAMPOS_CLIENTES_ADMIN_BASE);
+  if (resultado.data) {
+    resultado.data = resultado.data.map(cliente => ({
+      ...cliente,
+      trial_inicio: null,
+      trial_fim: null
+    }));
+  }
+
+  return resultado;
 }
 
 /** Admin: carrega clientes e lista alunos de cada cliente. */
@@ -515,28 +668,7 @@ async function carregarClientes() {
   inicializarFiltrosClientesAdmin();
 
   const [{ data: clientes, error }, { data: todosAlunosAdmin }] = await Promise.all([
-    supabaseClient.from("profiles").select(`
-  id,
-  email,
-  nome_empresa,
-  limite_alunos,
-  is_admin,
-  whatsapp_professor,
-  modulo_fight,
-
-  modulo_evolucao,
-  modulo_presenca,
-  modulo_avisos,
-
-  modulo_ranking,
-  modulo_desafio,
-  modulo_turmas,
-  modulo_fight,
-
-  plano,
-  status,
-  pode_usar
-`),
+    buscarClientesAdminComFallback(),
     supabaseClient.from("alunos").select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,created_at").order("created_at", { ascending: false })
   ]);
 
@@ -631,20 +763,14 @@ async function alterarLimite(id) {
 
 /** Admin: atualiza números gerais do painel administrativo. */
 async function carregarDashboard() {
-  const { data: clientes, error: erroClientes } = await supabaseClient
-    .from("profiles")
-    .select("id,email,nome_empresa,limite_alunos,is_admin,whatsapp_professor,modulo_fight,modulo_evolucao,modulo_presenca,modulo_avisos,plano,status,pode_usar");
+  const { data: clientes, error: erroClientes } = await buscarClientesAdminComFallback();
 
   const { data: todosAlunos, error: erroAlunos } = await supabaseClient
     .from("alunos")
     .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,status_aluno,data_nascimento,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
 
   if (erroClientes || erroAlunos) {
-    console.error("Erro ao carregar dashboard admin:", {
-      erroClientes,
-      erroAlunos
-    });
-
+    console.error("Erro ao carregar dashboard admin:", { erroClientes, erroAlunos });
     mostrarToast("Erro ao carregar dashboard.", "erro");
     return;
   }
@@ -660,10 +786,7 @@ async function carregarDashboard() {
   clientesBase.forEach(cliente => {
     const limite = Number(cliente.limite_alunos || 30);
     const alunosDoCliente = alunosBase.filter(a => String(a.user_id) === String(cliente.id));
-
-    if (alunosDoCliente.length >= limite) {
-      noLimite++;
-    }
+    if (alunosDoCliente.length >= limite) noLimite++;
   });
 
   const elTotalClientes = document.getElementById("totalClientes");
@@ -692,7 +815,7 @@ function removerCliente(userId) {
   modalRemoverCliente.classList.remove("escondido");
 }
 
-/** Define filtro atual da lista e atualiza botão ativo. */
+/** Define filtro atual da lista de alunos e atualiza botão ativo. */
 function setFiltro(filtro) {
   const filtroSeguro = FILTROS_ALUNOS_VALIDOS.includes(filtro) ? filtro : "todos";
   filtroAtual = filtroSeguro;
@@ -723,8 +846,6 @@ function setFiltro(filtro) {
 
   mostrarAlunos();
 }
-
-// Histórico de pagamentos fica na versão com botão de deletar, definida mais abaixo.
 
 campoBusca.addEventListener("input", function() {
   textoBusca = campoBusca.value.toLowerCase().trim();
@@ -851,38 +972,102 @@ modalRemoverCliente.addEventListener("click", function(event) {
 
 // ===============================
 
-
 async function salvarPermissoesCliente(clienteId) {
   const plano = document.getElementById(`plano-${clienteId}`)?.value || "trial";
   const status = document.getElementById(`status-${clienteId}`)?.value || "ativo";
   const podeUsarCheckbox = document.getElementById(`pode-usar-${clienteId}`);
   const podeUsar = status !== "bloqueado" && podeUsarCheckbox?.checked !== false;
   const limiteInput = document.getElementById(`limite-input-${clienteId}`);
+  const botaoSalvar = document.querySelector(`[onclick="salvarPermissoesCliente('${clienteId}')"]`);
 
   if (status === "bloqueado" && podeUsarCheckbox) {
     podeUsarCheckbox.checked = false;
   }
+
   const limite = Number(limiteInput?.value || obterConfigPlanoAdmin(plano).limite);
   const permissoes = obterPermissoesDoPlanoAdmin(plano);
+  const trialInicioInput = document.getElementById(`trial-inicio-${clienteId}`);
+  const trialFimInput = document.getElementById(`trial-fim-${clienteId}`);
 
-  const { error } = await supabaseClient
-    .from("profiles")
-    .update({
-      plano: plano,
-      status: status,
-      pode_usar: podeUsar,
-      limite_alunos: limite,
-      ...permissoes
-    })
-    .eq("id", clienteId);
+  // Mantém as datas informadas mesmo quando o plano não é trial.
+  // Isso evita o efeito ruim de o Admin preencher a data, salvar e o campo voltar vazio.
+  let trialInicio = trialInicioInput?.value || null;
+  let trialFim = trialFimInput?.value || null;
 
-  if (error) {
-    console.log(error);
-    mostrarToast("Erro ao salvar plano.", "erro");
+  if (plano === "trial") {
+    trialInicio = trialInicio || adminDataISOHoje();
+    trialFim = trialFim || adminSomarDiasDataISO(trialInicio, 30);
+  }
+
+  if (trialInicioInput && trialInicio) trialInicioInput.value = trialInicio;
+  if (trialFimInput && trialFim) trialFimInput.value = trialFim;
+
+  if (trialInicio && trialFim && trialFim < trialInicio) {
+    mostrarToast("A data final do trial não pode ser menor que a data inicial.", "erro");
     return;
   }
 
-  mostrarToast(status === "bloqueado" ? "🔒 Cliente bloqueado com sucesso." : "✅ Plano salvo e permissões aplicadas!");
+  if (!adminTrialColunasDisponiveis) {
+    mostrarToast("Rode primeiro o SQL do trial no Supabase. As colunas trial_inicio/trial_fim ainda não existem.", "erro");
+    return;
+  }
+
+  const payloadPermissoes = {
+    plano: plano,
+    status: status,
+    pode_usar: podeUsar,
+    limite_alunos: limite,
+    trial_inicio: trialInicio,
+    trial_fim: trialFim,
+    ...permissoes
+  };
+
+  const textoOriginalBotao = botaoSalvar?.textContent || "Salvar alterações";
+  if (botaoSalvar) {
+    botaoSalvar.disabled = true;
+    botaoSalvar.textContent = "Salvando...";
+  }
+
+  const { data: perfilSalvo, error } = await supabaseClient
+    .from("profiles")
+    .update(payloadPermissoes)
+    .eq("id", clienteId)
+    .select("id,plano,status,pode_usar,limite_alunos,trial_inicio,trial_fim")
+    .single();
+
+  if (botaoSalvar) {
+    botaoSalvar.disabled = false;
+    botaoSalvar.textContent = textoOriginalBotao;
+  }
+
+  if (error) {
+    console.log(error);
+
+    if (erroAdminColunaTrial(error)) {
+      adminTrialColunasDisponiveis = false;
+      mostrarToast("Não salvou: falta rodar o SQL do trial no Supabase.", "erro");
+      return;
+    }
+
+    mostrarToast("Erro ao salvar plano. Veja o Console.", "erro");
+    return;
+  }
+
+  const inicioSalvo = adminDataInputTrial(perfilSalvo?.trial_inicio);
+  const fimSalvo = adminDataInputTrial(perfilSalvo?.trial_fim);
+
+  if ((trialInicio || "") !== inicioSalvo || (trialFim || "") !== fimSalvo) {
+    console.warn("Datas do trial não bateram após salvar:", {
+      esperado: { trialInicio, trialFim },
+      salvo: { inicioSalvo, fimSalvo }
+    });
+    mostrarToast("Plano salvo, mas as datas do trial não confirmaram no banco. Confira RLS/SQL.", "erro");
+    await carregarClientes();
+    await carregarDashboard();
+    return;
+  }
+
+  mostrarToast(status === "bloqueado" ? "🔒 Cliente bloqueado com sucesso." : "✅ Plano e datas do trial salvos!");
   await carregarClientes();
   await carregarDashboard();
 }

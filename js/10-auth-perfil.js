@@ -661,6 +661,143 @@ async function carregarPerfil() {
 // 10. AUTENTICAÇÃO — ENTRAR
 // ===============================
 
+const modalAceiteLegal = document.getElementById("modalAceiteLegal");
+const checkAceiteLegal = document.getElementById("checkAceiteLegal");
+const btnConfirmarAceiteLegal = document.getElementById("btnConfirmarAceiteLegal");
+const btnSairAceiteLegal = document.getElementById("btnSairAceiteLegal");
+const msgAceiteLegal = document.getElementById("msgAceiteLegal");
+
+let resolverFluxoAceiteLegal = null;
+
+function fecharModalAceiteLegal() {
+  if (modalAceiteLegal) modalAceiteLegal.classList.add("escondido");
+  document.body.classList.remove("aceite-legal-aberto");
+}
+
+function concluirFluxoAceiteLegal(resultado) {
+  const resolver = resolverFluxoAceiteLegal;
+  resolverFluxoAceiteLegal = null;
+  fecharModalAceiteLegal();
+  if (typeof resolver === "function") resolver(resultado);
+}
+
+function abrirModalAceiteLegal() {
+  if (!modalAceiteLegal || !checkAceiteLegal || !btnConfirmarAceiteLegal) {
+    return Promise.resolve(false);
+  }
+
+  checkAceiteLegal.checked = false;
+  checkAceiteLegal.disabled = false;
+  btnConfirmarAceiteLegal.disabled = true;
+  btnConfirmarAceiteLegal.textContent = "Concordar e continuar";
+  if (btnSairAceiteLegal) btnSairAceiteLegal.disabled = false;
+  if (msgAceiteLegal) {
+    msgAceiteLegal.textContent = "";
+    msgAceiteLegal.classList.remove("erro", "sucesso");
+  }
+
+  modalAceiteLegal.classList.remove("escondido");
+  document.body.classList.add("aceite-legal-aberto");
+  window.setTimeout(() => checkAceiteLegal.focus(), 0);
+
+  return new Promise(resolve => {
+    resolverFluxoAceiteLegal = resolve;
+  });
+}
+
+async function voltarAoLoginPorFalhaNoAceite(mensagem) {
+  try {
+    await supabaseClient.auth.signOut();
+  } catch (erro) {
+    console.warn("Não foi possível encerrar a sessão após falha no aceite:", erro);
+  }
+
+  usuarioAtual = null;
+  sincronizarEstado();
+  fecharModalAceiteLegal();
+  mostrarLogin();
+
+  mensagemLogin.textContent = mensagem;
+  mensagemLogin.classList.add("erro");
+  mensagemLogin.classList.remove("sucesso");
+}
+
+async function garantirAceiteLegalAtual() {
+  const { data, error } = await supabaseClient.rpc("buscar_status_aceite_legal_atual");
+
+  if (error) {
+    console.error("Erro ao verificar aceite legal:", error);
+    await voltarAoLoginPorFalhaNoAceite("Não foi possível verificar os Termos agora. Tente entrar novamente.");
+    return false;
+  }
+
+  const statusAceite = Array.isArray(data) ? data[0] : data;
+  if (!statusAceite?.aceite_pendente) return true;
+
+  return await abrirModalAceiteLegal();
+}
+
+if (checkAceiteLegal && btnConfirmarAceiteLegal) {
+  checkAceiteLegal.addEventListener("change", function() {
+    btnConfirmarAceiteLegal.disabled = !checkAceiteLegal.checked;
+  });
+
+  btnConfirmarAceiteLegal.addEventListener("click", async function() {
+    if (!checkAceiteLegal.checked) return;
+
+    checkAceiteLegal.disabled = true;
+    btnConfirmarAceiteLegal.disabled = true;
+    btnConfirmarAceiteLegal.textContent = "Registrando...";
+    if (btnSairAceiteLegal) btnSairAceiteLegal.disabled = true;
+    if (msgAceiteLegal) {
+      msgAceiteLegal.textContent = "";
+      msgAceiteLegal.classList.remove("erro", "sucesso");
+    }
+
+    const { data, error } = await supabaseClient.rpc("registrar_aceite_legal_atual");
+    const aceiteRegistrado = Array.isArray(data) ? data[0] : data;
+
+    if (error || !aceiteRegistrado?.aceite_id) {
+      console.error("Erro ao registrar aceite legal:", error || "Resposta inválida");
+      checkAceiteLegal.disabled = false;
+      btnConfirmarAceiteLegal.disabled = !checkAceiteLegal.checked;
+      btnConfirmarAceiteLegal.textContent = "Concordar e continuar";
+      if (btnSairAceiteLegal) btnSairAceiteLegal.disabled = false;
+      if (msgAceiteLegal) {
+        msgAceiteLegal.textContent = "Não foi possível registrar agora. Confira sua conexão e tente novamente.";
+        msgAceiteLegal.classList.add("erro");
+      }
+      return;
+    }
+
+    if (msgAceiteLegal) {
+      msgAceiteLegal.textContent = "Aceite registrado com segurança.";
+      msgAceiteLegal.classList.add("sucesso");
+    }
+
+    concluirFluxoAceiteLegal(true);
+  });
+}
+
+if (btnSairAceiteLegal) {
+  btnSairAceiteLegal.addEventListener("click", async function() {
+    btnSairAceiteLegal.disabled = true;
+    if (btnConfirmarAceiteLegal) btnConfirmarAceiteLegal.disabled = true;
+
+    try {
+      await supabaseClient.auth.signOut();
+    } catch (erro) {
+      console.warn("Não foi possível encerrar a sessão do aceite:", erro);
+    }
+
+    usuarioAtual = null;
+    alunos = [];
+    sincronizarEstado();
+    mostrarLogin();
+    concluirFluxoAceiteLegal(false);
+  });
+}
+
 btnEntrar.addEventListener("click", async function() {
   const email = emailLogin.value.trim();
   const senha = senhaLogin.value.trim();
@@ -708,6 +845,9 @@ btnEntrar.addEventListener("click", async function() {
   btnEntrar.textContent = "Entrar";
 
   if (!acessoLiberado) return;
+
+  const aceiteLegalLiberado = await garantirAceiteLegalAtual();
+  if (!aceiteLegalLiberado) return;
 
   await carregarAlunos();
 });

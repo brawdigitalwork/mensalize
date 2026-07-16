@@ -18746,3 +18746,191 @@ body.relatorios-aberto { overflow: hidden; }
   outline: 2px solid rgba(167, 139, 250, 0.9) !important;
   outline-offset: 3px;
 }
+
+/* Documentos legais — login do professor */
+.login-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 14px;
+  color: var(--texto-terciario);
+  font-size: 11px;
+}
+
+.login-legal-links a {
+  color: var(--texto-secundario);
+  text-decoration: none;
+}
+
+.login-legal-links a:hover,
+.login-legal-links a:focus-visible {
+  color: var(--roxo-claro, #c4b5fd);
+  text-decoration: underline;
+}
+
+/* ================================================================
+   ACEITE LEGAL — PROFESSOR
+================================================================ */
+body.aceite-legal-aberto {
+  overflow: hidden;
+}
+
+.aceite-legal-modal {
+  z-index: 5000 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  background: rgba(4, 3, 10, 0.86) !important;
+}
+
+.aceite-legal-card {
+  position: static !important;
+  width: min(560px, calc(100vw - 28px)) !important;
+  max-width: 560px !important;
+  max-height: min(90dvh, 720px) !important;
+  padding: clamp(24px, 5vw, 36px) !important;
+  border: 1px solid rgba(167, 139, 250, 0.24) !important;
+  border-radius: 24px !important;
+  background: linear-gradient(180deg, #171326, #0f0d18) !important;
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.58) !important;
+  overflow-y: auto !important;
+}
+
+.aceite-legal-card::before {
+  display: none !important;
+}
+
+.aceite-legal-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #c4b5fd;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.aceite-legal-card h2 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: clamp(25px, 5vw, 34px);
+  letter-spacing: -0.04em;
+}
+
+.aceite-legal-card > p {
+  margin: 0;
+  color: var(--texto-secundario);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.aceite-legal-documentos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.aceite-legal-documentos a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid rgba(167, 139, 250, 0.24);
+  border-radius: 13px;
+  background: rgba(124, 58, 237, 0.09);
+  color: #ddd6fe;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.aceite-legal-documentos a:hover,
+.aceite-legal-documentos a:focus-visible {
+  border-color: rgba(167, 139, 250, 0.58);
+  background: rgba(124, 58, 237, 0.16);
+  color: #fff;
+}
+
+.aceite-legal-confirmacao {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+}
+
+.aceite-legal-confirmacao input[type="checkbox"] {
+  appearance: auto !important;
+  -webkit-appearance: checkbox !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  margin: 2px 0 0 !important;
+  padding: 0 !important;
+  accent-color: #8b5cf6;
+}
+
+.aceite-legal-confirmacao span {
+  color: var(--texto-primario);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.aceite-legal-mensagem {
+  min-height: 20px;
+  margin: 12px 0 0 !important;
+  font-size: 12px !important;
+}
+
+.aceite-legal-mensagem.erro {
+  color: #fca5a5 !important;
+}
+
+.aceite-legal-mensagem.sucesso {
+  color: #86efac !important;
+}
+
+.aceite-legal-acoes {
+  display: grid;
+  grid-template-columns: 0.75fr 1.4fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.aceite-legal-acoes button {
+  min-height: 48px;
+  border-radius: 14px;
+}
+
+@media (max-width: 520px) {
+  .aceite-legal-modal {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .aceite-legal-card {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 92dvh !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-radius: 24px 24px 0 0 !important;
+    padding-bottom: calc(24px + var(--safe-bottom)) !important;
+  }
+
+  .aceite-legal-documentos,
+  .aceite-legal-acoes {
+    grid-template-columns: 1fr;
+  }
+}

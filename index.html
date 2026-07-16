@@ -82,6 +82,12 @@
 </a>
 
       <p id="mensagemLogin"></p>
+
+      <nav class="login-legal-links" aria-label="Documentos legais do Mensalize">
+        <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
+        <span aria-hidden="true">•</span>
+        <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+      </nav>
     </div>
   </section>
 
@@ -2486,6 +2492,42 @@
           Falar no WhatsApp
         </a>
         <button type="button" id="btnUpgradeDepois" class="acao-secundaria">Agora não</button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    id="modalAceiteLegal"
+    class="modal aceite-legal-modal escondido"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalAceiteLegalTitulo"
+    aria-describedby="modalAceiteLegalDescricao"
+  >
+    <div class="modal-card aceite-legal-card">
+      <span class="aceite-legal-eyebrow">Transparência e proteção de dados</span>
+      <h2 id="modalAceiteLegalTitulo">Antes de continuar</h2>
+      <p id="modalAceiteLegalDescricao">
+        A academia precisa ler e aceitar os Termos de Uso e confirmar que tomou conhecimento da Política de Privacidade.
+      </p>
+
+      <nav class="aceite-legal-documentos" aria-label="Documentos para leitura">
+        <a href="termos.html" target="_blank" rel="noopener noreferrer">Abrir Termos de Uso</a>
+        <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Abrir Política de Privacidade</a>
+      </nav>
+
+      <label class="aceite-legal-confirmacao" for="checkAceiteLegal">
+        <input type="checkbox" id="checkAceiteLegal">
+        <span>Li e concordo com os Termos de Uso e declaro que li a Política de Privacidade.</span>
+      </label>
+
+      <p id="msgAceiteLegal" class="aceite-legal-mensagem" aria-live="polite"></p>
+
+      <div class="aceite-legal-acoes">
+        <button type="button" id="btnSairAceiteLegal" class="acao-secundaria">Sair</button>
+        <button type="button" id="btnConfirmarAceiteLegal" class="acao-principal" disabled>
+          Concordar e continuar
+        </button>
       </div>
     </div>
   </div>

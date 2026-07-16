@@ -1,0 +1,627 @@
+/* ============================================================================
+   MENSALIZE PROFESSOR — CENTRAL DE RELATÓRIOS MOBILE
+   Camada visual exclusiva para celular.
+   Reutiliza integralmente tipos, filtros, preview, CSV, PDF e privacidade
+   já existentes no js/55-central-relatorios.js.
+============================================================================ */
+
+@media (max-width: 760px) {
+  /* --------------------------------------------------------------------------
+     Bloqueio correto do fundo enquanto a Central está aberta
+  -------------------------------------------------------------------------- */
+  body.relatorios-aberto .conteudo-app {
+    overflow: hidden !important;
+    touch-action: none !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Overlay e sheet principal
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios.modal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 280 !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    padding:
+      max(8px, env(safe-area-inset-top, 0px))
+      8px
+      0 !important;
+    overflow: hidden !important;
+    background: rgba(2, 2, 10, 0.78) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+
+  #modalCentralRelatorios.modal.escondido {
+    display: none !important;
+  }
+
+  #modalCentralRelatorios .relatorios-modal-card {
+    width: min(100%, 620px) !important;
+    height: min(94dvh, 900px) !important;
+    max-height: calc(100dvh - max(8px, env(safe-area-inset-top, 0px))) !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.18) !important;
+    border-bottom: 0 !important;
+    border-radius: 26px 26px 0 0 !important;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.18), transparent 30%),
+      radial-gradient(circle at 100% 12%, rgba(84, 40, 190, 0.10), transparent 28%),
+      linear-gradient(180deg, rgba(16, 13, 43, 0.995), rgba(7, 7, 21, 0.998)) !important;
+    box-shadow: 0 -28px 90px rgba(0, 0, 0, 0.56) !important;
+  }
+
+  #modalCentralRelatorios .relatorios-modal-card::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Header do sheet
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios .relatorios-modal-topo {
+    position: relative !important;
+    z-index: 3 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 40px !important;
+    align-items: start !important;
+    gap: 12px !important;
+    margin: 0 !important;
+    padding: 16px 15px 13px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.075) !important;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.14), transparent 44%),
+      rgba(11, 9, 31, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+
+  #modalCentralRelatorios .relatorios-modal-topo::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    width: 38px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.13);
+    transform: translateX(-50%);
+  }
+
+  #modalCentralRelatorios .relatorios-modal-titulo {
+    min-width: 0 !important;
+    padding-top: 3px !important;
+  }
+
+  #modalCentralRelatorios .relatorios-modal-titulo .page-eyebrow {
+    margin: 0 0 7px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #a982ff !important;
+    font-size: 8.5px !important;
+    font-weight: 820 !important;
+    letter-spacing: 0.10em !important;
+  }
+
+  #modalCentralRelatorios .relatorios-modal-topo h2 {
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 20px !important;
+    font-weight: 780 !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  #modalCentralRelatorios .relatorios-modal-topo p {
+    margin: 5px 0 0 !important;
+    max-width: 38ch !important;
+    color: var(--mobile-muted) !important;
+    font-size: 10.5px !important;
+    line-height: 1.4 !important;
+  }
+
+  #modalCentralRelatorios #btnFecharCentralRelatorios {
+    align-self: start !important;
+    margin-top: 4px !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Corpo rolável
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios .relatorios-modal-corpo {
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    scrollbar-width: none !important;
+    background: transparent !important;
+  }
+
+  #modalCentralRelatorios .relatorios-modal-corpo::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Tipos de relatório — controle segmentado oficial
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios .relatorios-tipos {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    width: auto !important;
+    margin: 12px 14px 0 !important;
+    padding: 4px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.13) !important;
+    border-radius: 16px !important;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.08), transparent 70%),
+      rgba(4, 4, 16, 0.42) !important;
+  }
+
+  #modalCentralRelatorios .relatorio-tipo-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 8px 5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    overflow: hidden !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: #8f89a7 !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  #modalCentralRelatorios .relatorio-tipo-card:hover,
+  #modalCentralRelatorios .relatorio-tipo-card:active {
+    transform: none !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+  }
+
+  #modalCentralRelatorios .relatorio-tipo-card.ativo {
+    color: #f5f1ff !important;
+    background:
+      linear-gradient(135deg, rgba(124, 58, 237, 0.32), rgba(84, 40, 190, 0.20)) !important;
+    box-shadow: inset 0 0 0 1px rgba(177, 137, 255, 0.16) !important;
+  }
+
+  #modalCentralRelatorios .relatorio-tipo-icone {
+    display: none !important;
+  }
+
+  #modalCentralRelatorios .relatorio-tipo-card strong {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    color: inherit !important;
+    font-size: 10px !important;
+    font-weight: 780 !important;
+    line-height: 1 !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Configuração
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios .relatorios-config {
+    min-width: 0 !important;
+    padding: 15px 14px 22px !important;
+  }
+
+  #modalCentralRelatorios .relatorios-config-head {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: start !important;
+    gap: 10px !important;
+    margin: 0 0 14px !important;
+    padding: 0 1px !important;
+  }
+
+  #modalCentralRelatorios .relatorios-config-head > div {
+    min-width: 0 !important;
+  }
+
+  #modalCentralRelatorios .relatorios-config-head h3 {
+    margin: 0 0 4px !important;
+    color: #fff !important;
+    font-size: 17px !important;
+    font-weight: 760 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  #modalCentralRelatorios .relatorios-config-head p {
+    margin: 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 10.5px !important;
+    line-height: 1.4 !important;
+  }
+
+  #modalCentralRelatorios #relatorioPreviewContador {
+    align-self: start !important;
+    max-width: 112px !important;
+    min-height: 29px !important;
+    margin: 0 !important;
+    padding: 6px 9px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    border: 1px solid rgba(172, 139, 255, 0.16) !important;
+    border-radius: 999px !important;
+    background: rgba(124, 58, 237, 0.09) !important;
+    color: #b994ff !important;
+    font-size: 8.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Filtros
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios .relatorios-filtros {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 11px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  #modalCentralRelatorios .relatorios-filtros.escondido {
+    display: none !important;
+  }
+
+  #modalCentralRelatorios .relatorios-filtros .campo-perfil {
+    display: grid !important;
+    gap: 6px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  #modalCentralRelatorios .relatorios-filtros .campo-perfil > span {
+    margin: 0 !important;
+    color: #c4bdd8 !important;
+    font-size: 9.5px !important;
+    font-weight: 750 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.025em !important;
+  }
+
+  #modalCentralRelatorios .relatorios-filtros input,
+  #modalCentralRelatorios .relatorios-filtros select {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    padding: 0 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.085) !important;
+    border-radius: 15px !important;
+    background: rgba(4, 4, 16, 0.62) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-size: 14px !important;
+    font-weight: 650 !important;
+  }
+
+  #modalCentralRelatorios .relatorios-filtros input:focus,
+  #modalCentralRelatorios .relatorios-filtros select:focus {
+    border-color: rgba(155, 92, 255, 0.56) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.11) !important;
+  }
+
+  #modalCentralRelatorios #relatorioFinanceiroMes {
+    color-scheme: dark !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Privacidade — toggle próprio
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios .relatorio-privacidade-opcao {
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 11px !important;
+    width: 100% !important;
+    margin: 13px 0 0 !important;
+    padding: 12px !important;
+    border: 1px solid rgba(172, 139, 255, 0.12) !important;
+    border-radius: 16px !important;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.08), transparent 48%),
+      rgba(255, 255, 255, 0.025) !important;
+    cursor: pointer !important;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao:hover {
+    background: rgba(124, 58, 237, 0.055) !important;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao input[type="checkbox"] {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    position: relative !important;
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 24px !important;
+    min-height: 24px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.11) !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.075) !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: background 0.18s ease, border-color 0.18s ease !important;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao input[type="checkbox"]::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #d8d4e5;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.28);
+    transition: transform 0.18s ease, background 0.18s ease;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao input[type="checkbox"]:checked {
+    border-color: rgba(168, 119, 255, 0.48) !important;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao input[type="checkbox"]:checked::after {
+    transform: translateX(18px);
+    background: #fff;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao input[type="checkbox"]:focus-visible {
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18) !important;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao span,
+  #modalCentralRelatorios .relatorio-privacidade-opcao strong,
+  #modalCentralRelatorios .relatorio-privacidade-opcao small {
+    min-width: 0 !important;
+    display: block !important;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao strong {
+    color: #f4f0ff !important;
+    font-size: 11px !important;
+    font-weight: 760 !important;
+    line-height: 1.25 !important;
+  }
+
+  #modalCentralRelatorios .relatorio-privacidade-opcao small {
+    margin-top: 3px !important;
+    color: var(--mobile-muted) !important;
+    font-size: 9.5px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Preview
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios .relatorio-preview-card {
+    position: relative !important;
+    width: 100% !important;
+    margin: 13px 0 0 !important;
+    padding: 14px 14px 14px 17px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.13) !important;
+    border-left: 0 !important;
+    border-radius: 17px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.13), transparent 42%),
+      linear-gradient(150deg, rgba(20, 16, 52, 0.98), rgba(9, 9, 27, 0.99)) !important;
+    box-shadow: none !important;
+  }
+
+  #modalCentralRelatorios .relatorio-preview-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 3px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #9b5cff, #7c3aed);
+  }
+
+  #modalCentralRelatorios .relatorio-preview-label {
+    display: block !important;
+    margin: 0 0 6px !important;
+    color: #8f85a9 !important;
+    font-size: 8px !important;
+    font-weight: 820 !important;
+    letter-spacing: 0.10em !important;
+    text-transform: uppercase !important;
+  }
+
+  #modalCentralRelatorios .relatorio-preview-card strong {
+    display: block !important;
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 13.5px !important;
+    font-weight: 760 !important;
+    line-height: 1.22 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #modalCentralRelatorios .relatorio-preview-card p {
+    margin: 5px 0 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 10px !important;
+    line-height: 1.42 !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Footer de exportação — sempre acessível
+  -------------------------------------------------------------------------- */
+  #modalCentralRelatorios .relatorios-modal-rodape {
+    position: relative !important;
+    z-index: 4 !important;
+    display: block !important;
+    margin: 0 !important;
+    padding:
+      11px
+      12px
+      calc(11px + env(safe-area-inset-bottom, 0px)) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.075) !important;
+    background:
+      linear-gradient(180deg, rgba(9, 8, 26, 0.96), rgba(6, 6, 18, 0.995)) !important;
+    box-shadow: 0 -16px 40px rgba(0, 0, 0, 0.20) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+
+  #modalCentralRelatorios .relatorios-modal-rodape > p {
+    display: none !important;
+  }
+
+  #modalCentralRelatorios .relatorios-export-acoes {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  #modalCentralRelatorios .relatorios-export-acoes button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 46px !important;
+    margin: 0 !important;
+    padding: 10px 9px !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 780 !important;
+    line-height: 1.15 !important;
+  }
+
+  #modalCentralRelatorios #btnGerarRelatorioCsv {
+    order: 1 !important;
+    border: 1px solid rgba(172, 139, 255, 0.17) !important;
+    background: rgba(124, 58, 237, 0.10) !important;
+    color: #d3c0ff !important;
+  }
+
+  #modalCentralRelatorios #btnGerarRelatorioPdf {
+    order: 2 !important;
+    border: 1px solid rgba(172, 116, 255, 0.28) !important;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+    color: #fff !important;
+  }
+
+  #modalCentralRelatorios #btnCancelarCentralRelatorios {
+    order: 3 !important;
+    grid-column: 1 / -1 !important;
+    min-height: 36px !important;
+    padding: 7px 10px !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #837c99 !important;
+    font-size: 9.5px !important;
+  }
+
+  #modalCentralRelatorios #btnGerarRelatorioCsv:active,
+  #modalCentralRelatorios #btnGerarRelatorioPdf:active {
+    transform: scale(0.985) !important;
+  }
+
+  #modalCentralRelatorios #btnGerarRelatorioCsv:disabled,
+  #modalCentralRelatorios #btnGerarRelatorioPdf:disabled {
+    opacity: 0.58 !important;
+    cursor: wait !important;
+    transform: none !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     iPhones e telas estreitas
+  -------------------------------------------------------------------------- */
+  @media (max-width: 390px) {
+    #modalCentralRelatorios .relatorios-modal-card {
+      height: 95dvh !important;
+    }
+
+    #modalCentralRelatorios .relatorios-modal-topo {
+      padding-inline: 13px !important;
+    }
+
+    #modalCentralRelatorios .relatorios-tipos {
+      margin-inline: 12px !important;
+    }
+
+    #modalCentralRelatorios .relatorios-config {
+      padding-inline: 12px !important;
+    }
+
+    #modalCentralRelatorios .relatorio-tipo-card {
+      min-height: 42px !important;
+      padding-inline: 3px !important;
+    }
+
+    #modalCentralRelatorios .relatorio-tipo-card strong {
+      font-size: 9px !important;
+    }
+
+    #modalCentralRelatorios .relatorios-config-head {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    #modalCentralRelatorios #relatorioPreviewContador {
+      width: fit-content !important;
+      max-width: 100% !important;
+    }
+  }
+
+  @media (max-width: 340px) {
+    #modalCentralRelatorios .relatorios-tipos {
+      grid-template-columns: 1fr !important;
+      gap: 3px !important;
+    }
+
+    #modalCentralRelatorios .relatorio-tipo-card {
+      min-height: 36px !important;
+    }
+
+    #modalCentralRelatorios .relatorios-export-acoes {
+      grid-template-columns: 1fr !important;
+    }
+
+    #modalCentralRelatorios #btnCancelarCentralRelatorios {
+      grid-column: auto !important;
+    }
+  }
+}

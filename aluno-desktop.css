@@ -1,0 +1,1721 @@
+/* ============================================================================
+   MENSALIZE ALUNO — DESKTOP REFINO
+   Camada exclusiva para desktop (>= 761px).
+   Usa a identidade visual aprovada no mobile sem alterar a lógica dos módulos.
+============================================================================ */
+
+@media (min-width: 761px) {
+  :root {
+    --desktop-aluno-bg: #070712;
+    --desktop-aluno-bg-deep: #05050d;
+    --desktop-aluno-surface: #0e0d24;
+    --desktop-aluno-surface-2: #141135;
+    --desktop-aluno-surface-3: #191441;
+    --desktop-aluno-border: rgba(172, 139, 255, 0.14);
+    --desktop-aluno-border-strong: rgba(172, 139, 255, 0.24);
+    --desktop-aluno-border-soft: rgba(255, 255, 255, 0.075);
+    --desktop-aluno-purple: #7c3aed;
+    --desktop-aluno-purple-bright: #9b5cff;
+    --desktop-aluno-purple-soft: #b89cff;
+    --desktop-aluno-text: #f8f7ff;
+    --desktop-aluno-muted: #aaa5c2;
+    --desktop-aluno-muted-2: #7f789c;
+    --desktop-aluno-green: #36d07f;
+    --desktop-aluno-orange: #ff9418;
+    --desktop-aluno-red: #ff565f;
+    --desktop-aluno-sidebar: 276px;
+    --desktop-aluno-radius-sm: 12px;
+    --desktop-aluno-radius-md: 16px;
+    --desktop-aluno-radius-lg: 22px;
+    --desktop-aluno-radius-xl: 28px;
+    --desktop-aluno-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  }
+
+  /* ------------------------------------------------------------------------
+     Shell desktop
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo.student-app {
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    display: block !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    color: var(--desktop-aluno-text) !important;
+    font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    background:
+      radial-gradient(circle at 24% -8%, rgba(124, 58, 237, 0.20), transparent 30%),
+      radial-gradient(circle at 92% 7%, rgba(91, 44, 210, 0.10), transparent 24%),
+      linear-gradient(145deg, var(--desktop-aluno-bg) 0%, var(--desktop-aluno-bg-deep) 62%, #080716 100%) !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+  }
+
+  #portalConteudo.student-app.escondido {
+    display: none !important;
+  }
+
+  #portalConteudo .escondido {
+    display: none !important;
+  }
+
+  #portalConteudo .menu-overlay {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.62) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    z-index: 80 !important;
+    transition: opacity 180ms ease, visibility 180ms ease !important;
+  }
+
+  body.menu-aberto #portalConteudo .menu-overlay {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  body.menu-aberto {
+    overflow: hidden !important;
+  }
+
+  #portalConteudo .student-sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    top: 0 !important;
+    right: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: min(310px, 86vw) !important;
+    max-width: 310px !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    padding: 22px 18px 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    transform: translateX(-112%) !important;
+    transition: transform 220ms ease !important;
+    background:
+      linear-gradient(180deg, rgba(14, 13, 36, 0.99) 0%, rgba(7, 7, 18, 0.995) 74%),
+      var(--desktop-aluno-surface) !important;
+    border: 0 !important;
+    border-right: 1px solid var(--desktop-aluno-border-soft) !important;
+    box-shadow: 24px 0 64px rgba(0, 0, 0, 0.34) !important;
+    z-index: 90 !important;
+  }
+
+  body.menu-aberto #portalConteudo .student-sidebar,
+  #portalConteudo .student-sidebar.aberta {
+    transform: translateX(0) !important;
+  }
+
+  #portalConteudo .student-sidebar::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 220px;
+    pointer-events: none;
+    background: radial-gradient(circle at 25% 0%, rgba(155, 92, 255, 0.16), transparent 70%);
+  }
+
+  #portalConteudo .student-brand.student-brand-portal {
+    position: relative;
+    z-index: 1;
+    display: grid !important;
+    grid-template-columns: 46px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-height: 70px !important;
+    padding: 11px 10px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .student-brand-logo-main {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 15px !important;
+    object-fit: cover !important;
+    border: 1px solid rgba(184, 156, 255, 0.16) !important;
+    box-shadow: 0 12px 28px rgba(124, 58, 237, 0.20) !important;
+  }
+
+  #portalConteudo .student-brand strong {
+    margin: 0 !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: 16px !important;
+    font-weight: 720 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  #portalConteudo .student-brand span {
+    margin-top: 1px !important;
+    color: var(--desktop-aluno-purple-soft) !important;
+    font-size: 11px !important;
+    font-weight: 650 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  #portalConteudo .student-brand small {
+    display: block !important;
+    max-width: 150px !important;
+    margin-top: 4px !important;
+    overflow: hidden !important;
+    color: var(--desktop-aluno-muted-2) !important;
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo .student-menu {
+    position: relative;
+    z-index: 1;
+    min-height: 0 !important;
+    display: grid !important;
+    align-content: start !important;
+    gap: 6px !important;
+    padding: 4px 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(184, 156, 255, 0.18) transparent !important;
+  }
+
+  #portalConteudo .student-menu::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  #portalConteudo .student-menu::-webkit-scrollbar-thumb {
+    background: rgba(184, 156, 255, 0.18);
+    border-radius: 999px;
+  }
+
+  #portalConteudo .student-menu-item {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    padding: 7px 10px !important;
+    display: flex;
+    align-items: center !important;
+    gap: 11px !important;
+    overflow: hidden !important;
+    color: var(--desktop-aluno-muted) !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 14px !important;
+    text-align: left !important;
+    font-size: 13px !important;
+    font-weight: 620 !important;
+    letter-spacing: -0.005em !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease,
+      transform 160ms ease !important;
+  }
+
+  #portalConteudo .student-menu-item::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: 11px;
+    bottom: 11px;
+    width: 3px;
+    border-radius: 0 999px 999px 0;
+    background: var(--desktop-aluno-purple-bright);
+    opacity: 0;
+    transform: scaleY(0.45);
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  #portalConteudo .student-menu-icon {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: grid;
+    place-items: center;
+    color: var(--desktop-aluno-muted-2);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  }
+
+  #portalConteudo .student-menu-icon svg,
+  #portalConteudo .student-footer-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  #portalConteudo .student-menu-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #portalConteudo .student-menu-item.ativo {
+    color: var(--desktop-aluno-text) !important;
+    background:
+      linear-gradient(90deg, rgba(124, 58, 237, 0.20), rgba(124, 58, 237, 0.07)) !important;
+    border-color: rgba(172, 139, 255, 0.16) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025) !important;
+  }
+
+  #portalConteudo .student-menu-item.ativo::before {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  #portalConteudo .student-menu-item.ativo .student-menu-icon {
+    color: var(--desktop-aluno-purple-soft);
+    background: rgba(124, 58, 237, 0.18);
+    border-color: rgba(172, 139, 255, 0.19);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo .student-menu-item:not(.ativo):hover {
+      color: var(--desktop-aluno-text) !important;
+      background: rgba(255, 255, 255, 0.045) !important;
+      border-color: rgba(255, 255, 255, 0.055) !important;
+      transform: translateX(2px) !important;
+    }
+
+    #portalConteudo .student-menu-item:not(.ativo):hover .student-menu-icon {
+      color: var(--desktop-aluno-purple-soft);
+      background: rgba(124, 58, 237, 0.10);
+      border-color: rgba(172, 139, 255, 0.12);
+    }
+  }
+
+  #portalConteudo .student-nav-logout {
+    width: 100% !important;
+    min-height: 46px !important;
+    margin-top: 10px !important;
+    padding: 9px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    color: #ff9aa0 !important;
+    background: rgba(255, 86, 95, 0.055) !important;
+    border: 1px solid rgba(255, 86, 95, 0.15) !important;
+    border-radius: 13px !important;
+    font-size: 12px !important;
+    font-weight: 760 !important;
+    letter-spacing: 0.055em !important;
+    text-align: left !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, transform 160ms ease !important;
+  }
+
+  #portalConteudo .student-nav-logout svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 18px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.9 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo .student-nav-logout:hover {
+      color: #ffc0c4 !important;
+      background: rgba(255, 86, 95, 0.10) !important;
+      border-color: rgba(255, 86, 95, 0.25) !important;
+      transform: translateX(2px) !important;
+    }
+  }
+
+  #portalConteudo .student-sidebar-footer {
+    position: relative;
+    z-index: 1;
+    margin-top: auto !important;
+    padding: 14px 0 0 !important;
+    display: grid !important;
+    gap: 8px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
+
+  #portalConteudo .student-footer-button {
+    width: 100% !important;
+    min-height: 44px !important;
+    padding: 9px 11px !important;
+    display: flex;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    color: var(--desktop-aluno-muted) !important;
+    background: rgba(255, 255, 255, 0.028) !important;
+    border: 1px solid rgba(255, 255, 255, 0.055) !important;
+    border-radius: 13px !important;
+    font-size: 12px !important;
+    font-weight: 620 !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .student-footer-icon {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    color: var(--desktop-aluno-purple-soft);
+    background: rgba(124, 58, 237, 0.11);
+    border-radius: 9px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo .student-footer-button:hover {
+      color: var(--desktop-aluno-text) !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(172, 139, 255, 0.13) !important;
+    }
+  }
+
+  #portalConteudo .student-main {
+    min-width: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    background: transparent !important;
+  }
+
+  #portalConteudo .student-topbar {
+    position: sticky !important;
+    inset: auto !important;
+    top: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: 35 !important;
+    min-height: 76px !important;
+    padding: 13px clamp(24px, 3vw, 44px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 14px !important;
+    background: rgba(7, 7, 18, 0.76) !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.055) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.10) !important;
+    max-width: none !important;
+    overflow: visible !important;
+    backdrop-filter: blur(18px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+  }
+
+  #portalConteudo #btnAbrirMenuAluno {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    flex: 0 0 44px !important;
+    color: var(--desktop-aluno-text) !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+    border: 1px solid rgba(255, 255, 255, 0.075) !important;
+    border-radius: 13px !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
+  }
+
+  body.menu-aberto #portalConteudo .student-topbar {
+    z-index: 130 !important;
+    pointer-events: none !important;
+    background: transparent !important;
+    border-bottom-color: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body.menu-aberto #portalConteudo #btnAbrirMenuAluno {
+    position: fixed !important;
+    top: calc(14px + var(--safe-top)) !important;
+    left: min(324px, calc(86vw + 14px)) !important;
+    z-index: 131 !important;
+    pointer-events: auto !important;
+    background: rgba(14, 13, 36, 0.96) !important;
+    border-color: rgba(184, 156, 255, 0.22) !important;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  #portalConteudo .student-small-profile {
+    margin: 0 0 0 auto !important;
+    min-width: 0 !important;
+    max-width: min(360px, 48vw) !important;
+    padding: 7px 10px 7px 7px !important;
+    display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    background: rgba(255, 255, 255, 0.034) !important;
+    border: 1px solid rgba(255, 255, 255, 0.065) !important;
+    border-radius: 15px !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.022) !important;
+  }
+
+  #portalConteudo .student-top-avatar,
+  #portalConteudo .student-top-photo {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(184, 156, 255, 0.16) !important;
+    box-shadow: 0 8px 18px rgba(124, 58, 237, 0.14) !important;
+  }
+
+  #portalConteudo .student-top-avatar {
+    color: #fff !important;
+    background: linear-gradient(145deg, var(--desktop-aluno-purple-bright), #5b2dd1) !important;
+    font-size: 14px !important;
+    font-weight: 750 !important;
+  }
+
+  #portalConteudo .student-small-profile strong {
+    max-width: 100% !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: 13px !important;
+    font-weight: 680 !important;
+  }
+
+  #portalConteudo .student-small-profile span {
+    display: block !important;
+    margin-top: 2px !important;
+    color: var(--desktop-aluno-muted-2) !important;
+    font-size: 10px !important;
+  }
+
+  #portalConteudo .student-content {
+    width: 100% !important;
+    max-width: 1320px !important;
+    margin: 0 auto !important;
+    padding: 34px clamp(24px, 3vw, 44px) 54px !important;
+    overflow-x: visible !important;
+  }
+
+  #portalConteudo .student-view {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
+
+  #portalConteudo .student-view.ativa {
+    display: grid !important;
+    gap: 20px !important;
+    animation: desktopAlunoViewIn 220ms ease both !important;
+  }
+
+  #portalConteudo .student-view.ativa > * {
+    margin-top: 0 !important;
+  }
+
+  @keyframes desktopAlunoViewIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ------------------------------------------------------------------------
+     Superfícies e hierarquia visual
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo .welcome-card,
+  #portalConteudo .panel-card,
+  #portalConteudo .quick-card,
+  #portalConteudo .error-card {
+    position: relative !important;
+    overflow: hidden !important;
+    padding: 22px !important;
+    color: var(--desktop-aluno-text) !important;
+    background:
+      linear-gradient(145deg, rgba(20, 17, 53, 0.78), rgba(14, 13, 36, 0.86)) !important;
+    border: 1px solid var(--desktop-aluno-border) !important;
+    border-radius: var(--desktop-aluno-radius-lg) !important;
+    box-shadow: var(--desktop-aluno-shadow) !important;
+  }
+
+  #portalConteudo .welcome-card::before,
+  #portalConteudo .panel-card::before,
+  #portalConteudo .quick-card::before,
+  #portalConteudo .error-card::before {
+    content: none !important;
+  }
+
+  #portalConteudo .welcome-card {
+    min-height: 172px !important;
+    padding: clamp(26px, 3vw, 38px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    background:
+      radial-gradient(circle at 88% 16%, rgba(155, 92, 255, 0.22), transparent 28%),
+      radial-gradient(circle at 15% 110%, rgba(124, 58, 237, 0.18), transparent 34%),
+      linear-gradient(135deg, rgba(25, 20, 65, 0.94), rgba(12, 11, 31, 0.94)) !important;
+    border-color: rgba(172, 139, 255, 0.20) !important;
+  }
+
+  #portalConteudo .welcome-card::after {
+    content: '';
+    position: absolute;
+    right: -48px;
+    top: -62px;
+    width: 230px;
+    height: 230px;
+    border: 1px solid rgba(184, 156, 255, 0.09);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 28px rgba(184, 156, 255, 0.025),
+      0 0 0 58px rgba(184, 156, 255, 0.018);
+    pointer-events: none;
+  }
+
+  #portalConteudo .welcome-card > * {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  #portalConteudo .welcome-card h1 {
+    max-width: 720px !important;
+    margin: 2px 0 9px !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: clamp(26px, 2.4vw, 36px) !important;
+    line-height: 1.05 !important;
+    font-weight: 740 !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  #portalConteudo .welcome-card p {
+    max-width: 720px !important;
+    margin: 0 !important;
+    color: var(--desktop-aluno-muted) !important;
+    font-size: 14px !important;
+    line-height: 1.58 !important;
+  }
+
+  #portalConteudo .eyebrow {
+    margin: 0 0 7px !important;
+    color: var(--desktop-aluno-purple-soft) !important;
+    font-size: 10px !important;
+    font-weight: 740 !important;
+    letter-spacing: 0.11em !important;
+    text-transform: uppercase !important;
+  }
+
+  #portalConteudo .section-title-row {
+    margin: 0 0 18px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+  }
+
+  #portalConteudo .section-title-row h2,
+  #portalConteudo .panel-card > h2,
+  #portalConteudo .status-hero h2 {
+    margin: 0 !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: clamp(18px, 1.5vw, 22px) !important;
+    line-height: 1.16 !important;
+    font-weight: 690 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  #portalConteudo .helper-text,
+  #portalConteudo .soft-message,
+  #portalConteudo .empty-message,
+  #portalConteudo .status-message,
+  #portalConteudo .panel-card p,
+  #portalConteudo .photo-box p {
+    color: var(--desktop-aluno-muted) !important;
+  }
+
+  #portalConteudo .helper-text {
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+  }
+
+  #portalConteudo .quick-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  #portalConteudo .quick-card {
+    min-height: 132px !important;
+    padding: 21px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    background:
+      linear-gradient(145deg, rgba(20, 17, 53, 0.66), rgba(14, 13, 36, 0.80)) !important;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.20) !important;
+  }
+
+  #portalConteudo .quick-card::after {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--desktop-aluno-purple-bright), rgba(124, 58, 237, 0.12));
+    opacity: 0.75;
+  }
+
+  #portalConteudo .quick-card span,
+  #portalConteudo .summary-box span,
+  #portalConteudo .evolution-info span,
+  #portalConteudo .student-form label > span {
+    margin: 0 0 7px !important;
+    color: var(--desktop-aluno-muted-2) !important;
+    font-size: 10px !important;
+    font-weight: 720 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+  }
+
+  #portalConteudo .quick-card strong {
+    margin: 0 0 5px !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: clamp(19px, 1.6vw, 24px) !important;
+    line-height: 1.08 !important;
+    font-weight: 720 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  #portalConteudo .quick-card small {
+    color: var(--desktop-aluno-muted) !important;
+    font-size: 12px !important;
+  }
+
+  #portalConteudo .mini-badge,
+  #portalConteudo .status-badge {
+    min-height: 27px !important;
+    padding: 5px 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--desktop-aluno-purple-soft) !important;
+    background: rgba(124, 58, 237, 0.12) !important;
+    border: 1px solid rgba(172, 139, 255, 0.18) !important;
+    border-radius: 999px !important;
+    font-size: 10px !important;
+    font-weight: 720 !important;
+    letter-spacing: 0.01em !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo .status-pago,
+  #portalConteudo .status-ok {
+    color: #72e8a8 !important;
+    background: rgba(54, 208, 127, 0.10) !important;
+    border-color: rgba(54, 208, 127, 0.22) !important;
+  }
+
+  #portalConteudo .status-atrasado {
+    color: #ff8a90 !important;
+    background: rgba(255, 86, 95, 0.10) !important;
+    border-color: rgba(255, 86, 95, 0.22) !important;
+  }
+
+  #portalConteudo .status-pendente {
+    color: #ffb252 !important;
+    background: rgba(255, 148, 24, 0.10) !important;
+    border-color: rgba(255, 148, 24, 0.22) !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Ações e formulários
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo .action-row,
+  #portalConteudo .payment-actions,
+  #portalConteudo .contact-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+
+  #portalConteudo .primary-action,
+  #portalConteudo .secondary-action,
+  #portalConteudo .pay-button,
+  #portalConteudo .whatsapp-button,
+  #portalConteudo .share-button,
+  #portalConteudo .link-button,
+  #portalConteudo .programa-video-button {
+    width: auto !important;
+    max-width: none !important;
+    min-height: 44px !important;
+    padding: 10px 15px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    border-radius: 13px !important;
+    font-size: 12px !important;
+    font-weight: 680 !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition:
+      transform 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease !important;
+  }
+
+  #portalConteudo .primary-action,
+  #portalConteudo .pay-button {
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--desktop-aluno-purple), #8f4bff) !important;
+    border: 1px solid rgba(184, 156, 255, 0.18) !important;
+    box-shadow: 0 12px 28px rgba(124, 58, 237, 0.20) !important;
+  }
+
+  #portalConteudo .secondary-action,
+  #portalConteudo .share-button,
+  #portalConteudo .link-button {
+    color: var(--desktop-aluno-text) !important;
+    background: rgba(255, 255, 255, 0.045) !important;
+    border: 1px solid rgba(255, 255, 255, 0.075) !important;
+  }
+
+  #portalConteudo .whatsapp-button,
+  #portalConteudo .whatsapp-primary {
+    color: #74e5a6 !important;
+    background: rgba(54, 208, 127, 0.10) !important;
+    border: 1px solid rgba(54, 208, 127, 0.20) !important;
+  }
+
+  #portalConteudo .link-button {
+    min-height: 34px !important;
+    padding: 7px 11px !important;
+  }
+
+  #portalConteudo .share-button {
+    width: auto !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo .primary-action:hover,
+    #portalConteudo .pay-button:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 16px 34px rgba(124, 58, 237, 0.28) !important;
+    }
+
+    #portalConteudo .secondary-action:hover,
+    #portalConteudo .share-button:hover,
+    #portalConteudo .link-button:hover {
+      transform: translateY(-1px) !important;
+      background: rgba(255, 255, 255, 0.072) !important;
+      border-color: rgba(172, 139, 255, 0.16) !important;
+    }
+  }
+
+  #portalConteudo button:focus-visible,
+  #portalConteudo a:focus-visible,
+  #portalConteudo input:focus-visible,
+  #portalConteudo textarea:focus-visible,
+  #portalConteudo select:focus-visible {
+    outline: 2px solid rgba(184, 156, 255, 0.86) !important;
+    outline-offset: 3px !important;
+  }
+
+  #portalConteudo button:disabled {
+    opacity: 0.56 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+  }
+
+  #portalConteudo .student-form {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 15px !important;
+    margin-top: 20px !important;
+  }
+
+  #portalConteudo .student-form .full-line {
+    grid-column: 1 / -1 !important;
+  }
+
+  #portalConteudo .student-form input,
+  #portalConteudo .student-form textarea,
+  #portalConteudo .student-form select,
+  #portalConteudo .photo-box input,
+  #portalConteudo .pix-aluno-textarea {
+    width: 100% !important;
+    min-height: 46px !important;
+    padding: 11px 13px !important;
+    color: var(--desktop-aluno-text) !important;
+    background: rgba(5, 5, 13, 0.64) !important;
+    border: 1px solid rgba(255, 255, 255, 0.085) !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.016) !important;
+    transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease !important;
+  }
+
+  #portalConteudo .student-form textarea,
+  #portalConteudo .pix-aluno-textarea {
+    min-height: 104px !important;
+    resize: vertical !important;
+  }
+
+  #portalConteudo .student-form input::placeholder,
+  #portalConteudo .student-form textarea::placeholder,
+  #portalConteudo .pix-aluno-textarea::placeholder {
+    color: var(--desktop-aluno-muted-2) !important;
+  }
+
+  #portalConteudo .student-form input:focus,
+  #portalConteudo .student-form textarea:focus,
+  #portalConteudo .student-form select:focus,
+  #portalConteudo .pix-aluno-textarea:focus {
+    background: rgba(8, 7, 20, 0.82) !important;
+    border-color: rgba(155, 92, 255, 0.56) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.10) !important;
+    outline: 0 !important;
+  }
+
+  #portalConteudo .student-form select option {
+    color: var(--desktop-aluno-text) !important;
+    background: var(--desktop-aluno-surface) !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Perfil
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo .photo-box {
+    margin: 20px 0 0 !important;
+    padding: 18px !important;
+    display: grid !important;
+    grid-template-columns: 156px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 20px !important;
+    background: rgba(255, 255, 255, 0.028) !important;
+    border: 1px solid rgba(255, 255, 255, 0.065) !important;
+    border-radius: 17px !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .photo-preview-wrap {
+    width: 136px !important;
+    height: 136px !important;
+    margin: 0 auto !important;
+    padding: 4px !important;
+    border-radius: 36px !important;
+    background: linear-gradient(145deg, rgba(155, 92, 255, 0.85), rgba(124, 58, 237, 0.18)) !important;
+    box-shadow: 0 18px 42px rgba(124, 58, 237, 0.17) !important;
+  }
+
+  #portalConteudo .photo-preview,
+  #portalConteudo .photo-avatar {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 32px !important;
+    object-fit: cover !important;
+  }
+
+  #portalConteudo .photo-avatar {
+    color: #fff !important;
+    background: linear-gradient(145deg, #8f4bff, #5b2dd1) !important;
+    font-size: 34px !important;
+    font-weight: 760 !important;
+  }
+
+  #portalConteudo .photo-box > div:last-child {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo .photo-box > div:last-child > strong {
+    color: var(--desktop-aluno-text) !important;
+    font-size: 16px !important;
+    font-weight: 690 !important;
+  }
+
+  #portalConteudo .photo-box input[type='file'] {
+    display: none !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Financeiro
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo #statusHero.status-hero {
+    margin: 0 0 18px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 18px !important;
+  }
+
+  #portalConteudo .status-message {
+    margin-top: 10px !important;
+    padding: 10px 12px !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 12px !important;
+    font-size: 12px !important;
+  }
+
+  #portalConteudo .finance-summary-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    margin: 18px 0 !important;
+  }
+
+  #portalConteudo .summary-box,
+  #portalConteudo .evolution-info {
+    min-width: 0 !important;
+    padding: 17px !important;
+    color: var(--desktop-aluno-text) !important;
+    background: rgba(255, 255, 255, 0.032) !important;
+    border: 1px solid rgba(255, 255, 255, 0.065) !important;
+    border-radius: 15px !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .summary-box strong,
+  #portalConteudo .evolution-info strong {
+    margin: 0 !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: 15px !important;
+    line-height: 1.18 !important;
+    font-weight: 690 !important;
+  }
+
+  #portalConteudo .summary-price strong {
+    color: #fff !important;
+    font-size: clamp(24px, 2vw, 31px) !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  #portalConteudo .payment-actions {
+    align-items: stretch !important;
+  }
+
+  #portalConteudo .payment-actions > * {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo .payments-list,
+  #portalConteudo .student-notices-list,
+  #portalConteudo .ranking-list,
+  #portalConteudo .programa-faixa-list {
+    display: grid !important;
+    gap: 10px !important;
+  }
+
+  #portalConteudo .payment-item {
+    min-height: 66px !important;
+    padding: 13px 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    background: rgba(255, 255, 255, 0.026) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .payment-left {
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo .payment-icon {
+    width: 34px !important;
+    height: 34px !important;
+    flex: 0 0 34px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #72e8a8 !important;
+    background: rgba(54, 208, 127, 0.10) !important;
+    border: 1px solid rgba(54, 208, 127, 0.18) !important;
+    border-radius: 11px !important;
+  }
+
+  #portalConteudo .payment-left strong {
+    color: var(--desktop-aluno-text) !important;
+    font-size: 12px !important;
+  }
+
+  #portalConteudo .payment-left span:not(.payment-icon) {
+    color: var(--desktop-aluno-muted-2) !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo .payment-value {
+    color: var(--desktop-aluno-text) !important;
+    font-size: 14px !important;
+    font-weight: 720 !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo .pix-aluno-card,
+  #portalConteudo .pix-aluno-card-clean {
+    width: 100% !important;
+    padding: 18px !important;
+    background:
+      linear-gradient(145deg, rgba(20, 17, 53, 0.72), rgba(8, 7, 20, 0.78)) !important;
+    border: 1px solid rgba(172, 139, 255, 0.16) !important;
+    border-radius: 17px !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .pix-code-clean {
+    margin-top: 14px !important;
+    padding: 13px !important;
+    background: rgba(5, 5, 13, 0.54) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 14px !important;
+  }
+
+  #portalConteudo .pix-code-actions {
+    margin-bottom: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo .pix-code-actions > span {
+    color: var(--desktop-aluno-muted) !important;
+    font-size: 11px !important;
+    font-weight: 680 !important;
+  }
+
+  #portalConteudo .btn-confirm-pix-clean {
+    margin-top: 12px !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Evolução e solicitações
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo .student-evolution-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin: 0 !important;
+  }
+
+  #portalConteudo .student-request-card {
+    transition: border-color 180ms ease, background-color 180ms ease !important;
+  }
+
+  #portalConteudo .student-request-card.request-open {
+    border-color: rgba(172, 139, 255, 0.25) !important;
+    background:
+      linear-gradient(145deg, rgba(25, 20, 65, 0.78), rgba(14, 13, 36, 0.90)) !important;
+  }
+
+  #portalConteudo .student-request-body {
+    margin-top: 16px !important;
+    padding-top: 16px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Programa da faixa
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo .programa-faixa-list {
+    gap: 14px !important;
+  }
+
+  #portalConteudo .programa-faixa-jornada {
+    padding: 20px !important;
+    background:
+      radial-gradient(circle at 92% 0%, rgba(155, 92, 255, 0.18), transparent 34%),
+      rgba(124, 58, 237, 0.075) !important;
+    border: 1px solid rgba(172, 139, 255, 0.16) !important;
+    border-radius: 17px !important;
+  }
+
+  #portalConteudo .programa-faixa-jornada strong {
+    display: block !important;
+    margin: 0 0 6px !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: 19px !important;
+    font-weight: 720 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  #portalConteudo .programa-faixa-jornada p {
+    margin: 0 !important;
+    color: var(--desktop-aluno-muted) !important;
+    font-size: 12px !important;
+  }
+
+  #portalConteudo .programa-faixa-bloco-titulo {
+    margin: 6px 0 0 !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: 13px !important;
+    font-weight: 680 !important;
+  }
+
+  #portalConteudo .programa-faixa-categoria {
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: rgba(255, 255, 255, 0.026) !important;
+    border: 1px solid rgba(255, 255, 255, 0.065) !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .programa-faixa-categoria.aberta {
+    border-color: rgba(172, 139, 255, 0.18) !important;
+    background: rgba(124, 58, 237, 0.045) !important;
+  }
+
+  #portalConteudo .programa-faixa-toggle {
+    width: 100% !important;
+    min-height: 68px !important;
+    padding: 14px 16px !important;
+    display: grid !important;
+    grid-template-columns: 28px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    color: var(--desktop-aluno-text) !important;
+    background: transparent !important;
+    border: 0 !important;
+    text-align: left !important;
+  }
+
+  #portalConteudo .programa-faixa-toggle-icon {
+    width: 28px !important;
+    height: 28px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: var(--desktop-aluno-purple-soft) !important;
+    background: rgba(124, 58, 237, 0.12) !important;
+    border-radius: 9px !important;
+    font-size: 12px !important;
+  }
+
+  #portalConteudo .programa-faixa-toggle-text {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo .programa-faixa-toggle-text strong {
+    display: block !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: 13px !important;
+    font-weight: 680 !important;
+  }
+
+  #portalConteudo .programa-faixa-toggle-text small {
+    display: block !important;
+    margin-top: 3px !important;
+    color: var(--desktop-aluno-muted-2) !important;
+    font-size: 10px !important;
+  }
+
+  #portalConteudo .programa-faixa-tecnicas {
+    padding: 0 14px 14px !important;
+    display: grid !important;
+    gap: 9px !important;
+  }
+
+  #portalConteudo .programa-faixa-tecnicas.escondido {
+    display: none !important;
+  }
+
+  #portalConteudo .programa-faixa-tecnica {
+    min-width: 0 !important;
+    padding: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    background: rgba(5, 5, 13, 0.44) !important;
+    border: 1px solid rgba(255, 255, 255, 0.055) !important;
+    border-radius: 13px !important;
+  }
+
+  #portalConteudo .programa-faixa-tecnica > div {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo .programa-faixa-tecnica strong {
+    color: var(--desktop-aluno-text) !important;
+    font-size: 12px !important;
+    font-weight: 680 !important;
+  }
+
+  #portalConteudo .programa-faixa-tecnica p {
+    margin: 4px 0 0 !important;
+    color: var(--desktop-aluno-muted) !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo .programa-video-button {
+    flex: 0 0 auto !important;
+    min-height: 36px !important;
+    padding: 8px 11px !important;
+    color: var(--desktop-aluno-purple-soft) !important;
+    background: rgba(124, 58, 237, 0.11) !important;
+    border: 1px solid rgba(172, 139, 255, 0.16) !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Desafio
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo .ranking-tabs {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 16px 0 !important;
+    padding: 4px !important;
+    display: flex !important;
+    gap: 5px !important;
+    overflow-x: auto !important;
+    background: rgba(5, 5, 13, 0.48) !important;
+    border: 1px solid rgba(255, 255, 255, 0.055) !important;
+    border-radius: 14px !important;
+    scrollbar-width: none !important;
+  }
+
+  #portalConteudo .ranking-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  #portalConteudo .ranking-tab {
+    min-height: 36px !important;
+    padding: 8px 13px !important;
+    flex: 0 0 auto !important;
+    color: var(--desktop-aluno-muted) !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 10px !important;
+    font-size: 11px !important;
+    font-weight: 680 !important;
+  }
+
+  #portalConteudo .ranking-tab.ativo,
+  #portalConteudo .ranking-tab.active {
+    color: var(--desktop-aluno-text) !important;
+    background: rgba(124, 58, 237, 0.16) !important;
+    border-color: rgba(172, 139, 255, 0.16) !important;
+  }
+
+  #portalConteudo .ranking-list {
+    gap: 8px !important;
+  }
+
+  #portalConteudo .ranking-row {
+    min-height: 68px !important;
+    padding: 11px 13px !important;
+    display: grid !important;
+    grid-template-columns: 42px 40px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 11px !important;
+    background: rgba(255, 255, 255, 0.025) !important;
+    border: 1px solid rgba(255, 255, 255, 0.055) !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .ranking-row.is-you {
+    background:
+      linear-gradient(90deg, rgba(124, 58, 237, 0.14), rgba(124, 58, 237, 0.045)) !important;
+    border-color: rgba(172, 139, 255, 0.20) !important;
+  }
+
+  #portalConteudo .ranking-position {
+    color: var(--desktop-aluno-purple-soft) !important;
+    font-size: 13px !important;
+    font-weight: 760 !important;
+    text-align: center !important;
+  }
+
+  #portalConteudo .ranking-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    display: grid !important;
+    place-items: center !important;
+    overflow: hidden !important;
+    color: #fff !important;
+    background: linear-gradient(145deg, #8f4bff, #5b2dd1) !important;
+    border: 1px solid rgba(184, 156, 255, 0.16) !important;
+    border-radius: 12px !important;
+    font-size: 12px !important;
+    font-weight: 740 !important;
+  }
+
+  #portalConteudo .ranking-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  #portalConteudo .ranking-row-info {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo .ranking-row-info strong {
+    display: block !important;
+    overflow: hidden !important;
+    color: var(--desktop-aluno-text) !important;
+    font-size: 12px !important;
+    font-weight: 680 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo .ranking-score-line {
+    margin-top: 3px !important;
+    color: var(--desktop-aluno-muted) !important;
+    font-size: 11px !important;
+    font-weight: 620 !important;
+  }
+
+  #portalConteudo .ranking-detail-line {
+    margin-top: 2px !important;
+    color: var(--desktop-aluno-muted-2) !important;
+    font-size: 10px !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Avisos e contato
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo .student-notice-item {
+    min-height: 66px !important;
+    padding: 13px 15px !important;
+    background: rgba(255, 255, 255, 0.026) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .student-notice-item.is-important {
+    background:
+      linear-gradient(90deg, rgba(255, 148, 24, 0.075), rgba(255, 255, 255, 0.022)) !important;
+    border-color: rgba(255, 148, 24, 0.17) !important;
+  }
+
+  #portalConteudo .notice-kind {
+    color: var(--desktop-aluno-purple-soft) !important;
+  }
+
+  #portalConteudo #viewContatoAluno > article.panel-card {
+    max-width: 860px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .contact-actions {
+    margin-top: 18px !important;
+  }
+
+  #portalConteudo #viewContatoAluno #btnCompartilhar {
+    margin-top: 10px !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Ajustes de largura para desktop intermediário
+  ------------------------------------------------------------------------ */
+
+  @media (max-width: 1080px) {
+    :root {
+      --desktop-aluno-sidebar: 238px;
+    }
+
+    #portalConteudo .student-sidebar {
+      padding-left: 14px !important;
+      padding-right: 14px !important;
+    }
+
+    #portalConteudo .student-brand.student-brand-portal {
+      grid-template-columns: 42px minmax(0, 1fr) !important;
+    }
+
+    #portalConteudo .student-brand-logo-main {
+      width: 42px !important;
+      height: 42px !important;
+    }
+
+    #portalConteudo .student-content {
+      padding-left: 26px !important;
+      padding-right: 26px !important;
+    }
+
+    #portalConteudo .student-evolution-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+  }
+
+  @media (max-width: 860px) {
+    :root {
+      --desktop-aluno-sidebar: 218px;
+    }
+
+    #portalConteudo .student-sidebar {
+      padding-left: 11px !important;
+      padding-right: 11px !important;
+    }
+
+    #portalConteudo .student-menu-item {
+      gap: 9px !important;
+      padding-left: 8px !important;
+      padding-right: 8px !important;
+      font-size: 12px !important;
+    }
+
+    #portalConteudo .student-menu-icon {
+      width: 30px;
+      height: 30px;
+      flex-basis: 30px;
+    }
+
+    #portalConteudo .student-content {
+      padding: 26px 20px 44px !important;
+    }
+
+    #portalConteudo .student-topbar {
+      padding-left: 20px !important;
+      padding-right: 20px !important;
+    }
+
+    #portalConteudo .photo-box {
+      grid-template-columns: 130px minmax(0, 1fr) !important;
+    }
+
+    #portalConteudo .photo-preview-wrap {
+      width: 116px !important;
+      height: 116px !important;
+      border-radius: 31px !important;
+    }
+
+    #portalConteudo .photo-preview,
+    #portalConteudo .photo-avatar {
+      border-radius: 27px !important;
+    }
+
+    #portalConteudo .programa-faixa-tecnica {
+      align-items: flex-start !important;
+      flex-direction: column !important;
+    }
+  }
+
+
+  /* ------------------------------------------------------------------------
+     Refino v2 — saída exposta + pagamento Pix
+  ------------------------------------------------------------------------ */
+
+  #portalConteudo .student-logout-button {
+    min-height: 42px !important;
+    padding: 9px 13px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #d8d3e8 !important;
+    background: rgba(255, 255, 255, 0.032) !important;
+    border: 1px solid rgba(255, 255, 255, 0.075) !important;
+    border-radius: 13px !important;
+    font-size: 12px !important;
+    font-weight: 680 !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, transform 160ms ease !important;
+  }
+
+  #portalConteudo .student-logout-button svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.9 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo .student-logout-button:hover {
+      color: #ff969c !important;
+      background: rgba(255, 86, 95, 0.075) !important;
+      border-color: rgba(255, 86, 95, 0.18) !important;
+      transform: translateY(-1px) !important;
+    }
+  }
+
+  #portalConteudo #areaPagamento.payment-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, max-content)) !important;
+    align-items: start !important;
+    justify-content: start !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo #areaPagamento > .pix-aluno-card,
+  #portalConteudo #areaPagamento > .pix-aluno-card-clean {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    padding: 20px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas:
+      "pix-header pix-header"
+      "pix-code pix-confirm"
+      "pix-feedback pix-feedback" !important;
+    align-items: end !important;
+    gap: 16px !important;
+    background:
+      radial-gradient(circle at 92% 10%, rgba(124, 58, 237, 0.12), transparent 34%),
+      linear-gradient(145deg, rgba(20, 17, 53, 0.66), rgba(8, 7, 20, 0.90)) !important;
+    border-color: rgba(172, 139, 255, 0.18) !important;
+    border-radius: 18px !important;
+  }
+
+  #portalConteudo .pix-aluno-header-clean {
+    grid-area: pix-header !important;
+    margin: 0 !important;
+  }
+
+  #portalConteudo .pix-aluno-header-clean h2 {
+    margin: 5px 0 0 !important;
+    font-size: clamp(20px, 1.7vw, 25px) !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  #portalConteudo .pix-aluno-header-clean p {
+    max-width: 680px !important;
+    margin: 7px 0 0 !important;
+    color: var(--desktop-aluno-muted) !important;
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+  }
+
+  #portalConteudo .pix-code-clean {
+    grid-area: pix-code !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    background: rgba(5, 5, 13, 0.58) !important;
+    border-color: rgba(255, 255, 255, 0.075) !important;
+  }
+
+  #portalConteudo .pix-code-actions {
+    margin-bottom: 8px !important;
+  }
+
+  #portalConteudo .btn-copy-pix-clean {
+    min-height: 34px !important;
+    padding: 7px 11px !important;
+    color: var(--desktop-aluno-purple-soft) !important;
+    background: rgba(124, 58, 237, 0.11) !important;
+    border-color: rgba(155, 92, 255, 0.26) !important;
+    border-radius: 11px !important;
+  }
+
+  #portalConteudo .pix-aluno-textarea {
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+    padding: 11px 12px !important;
+    resize: none !important;
+    overflow: auto !important;
+    color: #ece9f7 !important;
+    background: rgba(7, 7, 18, 0.74) !important;
+    border-radius: 11px !important;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+
+  #portalConteudo .btn-confirm-pix-clean {
+    grid-area: pix-confirm !important;
+    width: auto !important;
+    min-width: 218px !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding-inline: 18px !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo .pix-feedback-message {
+    grid-area: pix-feedback !important;
+    margin: -4px 0 0 !important;
+  }
+
+  #portalConteudo #areaPagamento > .pay-button,
+  #portalConteudo #areaPagamento > .whatsapp-button {
+    align-self: start !important;
+    justify-self: start !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 9px 14px !important;
+  }
+
+  @media (max-width: 1080px) {
+    #portalConteudo #areaPagamento > .pix-aluno-card,
+    #portalConteudo #areaPagamento > .pix-aluno-card-clean {
+      grid-template-columns: minmax(0, 1fr) !important;
+      grid-template-areas:
+        "pix-header"
+        "pix-code"
+        "pix-confirm"
+        "pix-feedback" !important;
+      align-items: stretch !important;
+    }
+
+    #portalConteudo .btn-confirm-pix-clean {
+      justify-self: start !important;
+      min-width: 220px !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #portalConteudo .student-view.ativa,
+    #portalConteudo .student-menu-item,
+    #portalConteudo .primary-action,
+    #portalConteudo .secondary-action,
+    #portalConteudo .pay-button,
+    #portalConteudo .share-button,
+    #portalConteudo .link-button {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

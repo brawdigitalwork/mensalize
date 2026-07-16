@@ -1,0 +1,727 @@
+/* ============================================================================
+   MENSALIZE PROFESSOR — GRADUAÇÃO / EVOLUÇÃO MOBILE
+   Camada visual exclusiva para celular.
+   Reutiliza filtros, cálculos de aptidão, frequência e modal já existentes.
+============================================================================ */
+
+@media (max-width: 760px) {
+  /* --------------------------------------------------------------------------
+     Página
+  -------------------------------------------------------------------------- */
+  body.mobile-professor-interna #viewEvolucao.ativa {
+    width: min(100%, 620px);
+    margin-inline: auto;
+    padding-bottom: calc(112px + var(--mobile-safe-bottom));
+  }
+
+  body.mobile-professor-interna #viewEvolucao.ativa > .painel-card.evolucao-page {
+    display: grid !important;
+    gap: 14px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  /* O header mobile já informa a tela; este cabeçalho vira contexto compacto. */
+  #viewEvolucao .painel-topo {
+    display: block !important;
+    margin: 0 !important;
+    padding: 4px 2px 1px !important;
+  }
+
+  #viewEvolucao .painel-topo .page-eyebrow {
+    margin: 0 0 8px !important;
+    padding: 6px 8px !important;
+    border-color: rgba(172, 139, 255, 0.16) !important;
+    background: rgba(124, 58, 237, 0.1) !important;
+    color: #a982ff !important;
+    font-size: 9px !important;
+  }
+
+  #viewEvolucao .painel-topo h2 {
+    margin: 0 0 4px !important;
+    color: #fff !important;
+    font-size: 20px !important;
+    font-weight: 780 !important;
+    letter-spacing: -0.045em !important;
+    line-height: 1.08 !important;
+  }
+
+  #viewEvolucao .painel-topo p {
+    max-width: 36rem;
+    margin: 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Resumo: três KPIs em uma faixa compacta
+  -------------------------------------------------------------------------- */
+  #viewEvolucao .evolucao-resumo-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box {
+    position: relative;
+    min-width: 0;
+    min-height: 92px;
+    display: grid !important;
+    align-content: center;
+    justify-items: center;
+    gap: 5px !important;
+    margin: 0 !important;
+    padding: 13px 7px !important;
+    border: 1px solid rgba(172, 139, 255, 0.13) !important;
+    border-radius: 18px !important;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.09), transparent 54%),
+      linear-gradient(155deg, rgba(20, 17, 51, 0.98), rgba(10, 9, 29, 0.99)) !important;
+    box-shadow: none !important;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box::before {
+    content: "";
+    position: absolute;
+    inset: 0 14px auto;
+    height: 2px;
+    border-radius: 999px;
+    opacity: 0.9;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .receita::before {
+    background: linear-gradient(90deg, transparent, #36d07f, transparent);
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .receber::before {
+    background: linear-gradient(90deg, transparent, #ffb23f, transparent);
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .previsao::before {
+    background: linear-gradient(90deg, transparent, #9b5cff, transparent);
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box span {
+    display: block !important;
+    min-height: 26px;
+    margin: 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box strong {
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: clamp(24px, 7vw, 30px) !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.06em !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .receita strong {
+    color: var(--mobile-green) !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .receber strong {
+    color: #ffb23f !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .previsao strong {
+    color: #aa77ff !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Filtros em chips horizontais
+  -------------------------------------------------------------------------- */
+  #viewEvolucao .filtros-evolucao {
+    display: flex !important;
+    align-items: center;
+    gap: 8px !important;
+    width: calc(100% + 28px);
+    margin: 0 -14px !important;
+    padding: 2px 14px 5px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+
+  #viewEvolucao .filtros-evolucao::-webkit-scrollbar {
+    display: none;
+  }
+
+  #viewEvolucao .filtro-evolucao {
+    flex: 0 0 auto;
+    min-height: 39px;
+    padding: 9px 13px !important;
+    border: 1px solid rgba(255, 255, 255, 0.075) !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+    color: #aaa5c2 !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 720 !important;
+    line-height: 1 !important;
+    white-space: nowrap;
+    scroll-snap-align: start;
+  }
+
+  #viewEvolucao .filtro-evolucao:hover,
+  #viewEvolucao .filtro-evolucao:active {
+    transform: none !important;
+  }
+
+  #viewEvolucao .filtro-evolucao.ativo {
+    border-color: rgba(168, 119, 255, 0.38) !important;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.28), rgba(80, 38, 174, 0.2)) !important;
+    color: #efe9ff !important;
+    box-shadow: inset 0 0 0 1px rgba(168, 119, 255, 0.08) !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Lista de evolução
+  -------------------------------------------------------------------------- */
+  #viewEvolucao #listaEvolucao {
+    display: grid !important;
+    gap: 10px !important;
+    margin: 0 !important;
+  }
+
+  #viewEvolucao .evolucao-item {
+    position: relative;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    min-width: 0;
+    min-height: 0;
+    margin: 0 !important;
+    padding: 17px 15px 14px !important;
+    border: 1px solid rgba(172, 139, 255, 0.14) !important;
+    border-radius: 20px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.08), transparent 38%),
+      linear-gradient(150deg, rgba(19, 16, 48, 0.99), rgba(9, 9, 27, 0.99)) !important;
+    box-shadow: none !important;
+    overflow: hidden;
+  }
+
+  #viewEvolucao .evolucao-item::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: #7c3aed;
+    opacity: 0.9;
+  }
+
+  #viewEvolucao .evolucao-item::before {
+    content: "Status";
+    position: absolute;
+    top: 13px;
+    right: 13px;
+    max-width: 45%;
+    padding: 5px 8px;
+    border: 1px solid rgba(172, 139, 255, 0.15);
+    border-radius: 999px;
+    background: rgba(124, 58, 237, 0.11);
+    color: #b89cff;
+    font-size: 8px;
+    font-weight: 850;
+    line-height: 1;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #viewEvolucao .evolucao-apto::after {
+    background: var(--mobile-green);
+  }
+
+  #viewEvolucao .evolucao-apto::before {
+    content: "Apto";
+    border-color: rgba(54, 208, 127, 0.22);
+    background: rgba(54, 208, 127, 0.1);
+    color: #68e7a2;
+  }
+
+  #viewEvolucao .evolucao-proximo::after {
+    background: #ffb23f;
+  }
+
+  #viewEvolucao .evolucao-proximo::before {
+    content: "Próximo";
+    border-color: rgba(255, 178, 63, 0.23);
+    background: rgba(255, 178, 63, 0.1);
+    color: #ffc66d;
+  }
+
+  #viewEvolucao .evolucao-evolucao::after {
+    background: #9b5cff;
+  }
+
+  #viewEvolucao .evolucao-evolucao::before {
+    content: "Em evolução";
+  }
+
+  #viewEvolucao .evolucao-frequencia-baixa::after {
+    background: #ff565f;
+  }
+
+  #viewEvolucao .evolucao-frequencia-baixa::before {
+    content: "Freq. baixa";
+    border-color: rgba(255, 86, 95, 0.22);
+    background: rgba(255, 86, 95, 0.1);
+    color: #ff8389;
+  }
+
+  #viewEvolucao .evolucao-sem-dados::after {
+    background: #77718f;
+  }
+
+  #viewEvolucao .evolucao-sem-dados::before {
+    content: "Sem previsão";
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.045);
+    color: #aaa5c2;
+  }
+
+  #viewEvolucao .evolucao-item > div:first-child {
+    min-width: 0;
+    display: grid;
+    gap: 6px;
+    padding-top: 23px;
+  }
+
+  #viewEvolucao .evolucao-item strong {
+    display: block;
+    max-width: 100%;
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 16px !important;
+    font-weight: 780 !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.035em !important;
+    overflow-wrap: anywhere;
+  }
+
+  #viewEvolucao .evolucao-item span {
+    display: block !important;
+    margin: 0 !important;
+    color: #c6c0d7 !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+
+  #viewEvolucao .evolucao-item small {
+    position: relative;
+    display: block !important;
+    margin: 0 !important;
+    padding: 8px 10px 8px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #9e98b4 !important;
+    font-size: 10px !important;
+    line-height: 1.42 !important;
+  }
+
+  #viewEvolucao .evolucao-item small::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #8d5eff;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 3px rgba(141, 94, 255, 0.1);
+  }
+
+  #viewEvolucao .evolucao-acoes {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+
+  #viewEvolucao .evolucao-acoes .acao-secundaria {
+    width: 100% !important;
+    min-height: 45px;
+    margin: 0 !important;
+    padding: 10px 13px !important;
+    border: 1px solid rgba(168, 119, 255, 0.24) !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.17), rgba(80, 38, 174, 0.11)) !important;
+    color: #e8deff !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 760 !important;
+    line-height: 1.2 !important;
+  }
+
+  #viewEvolucao .evolucao-acoes .acao-secundaria:hover,
+  #viewEvolucao .evolucao-acoes .acao-secundaria:active {
+    transform: none !important;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.24), rgba(80, 38, 174, 0.16)) !important;
+  }
+
+  #viewEvolucao #listaEvolucao > .empty-state-mini {
+    min-height: 118px;
+    display: grid !important;
+    place-items: center;
+    margin: 0 !important;
+    padding: 20px !important;
+    border: 1px dashed rgba(172, 139, 255, 0.18);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.025);
+    color: var(--mobile-muted) !important;
+    text-align: center;
+  }
+
+  /* --------------------------------------------------------------------------
+     Modal Registrar graduação
+  -------------------------------------------------------------------------- */
+  #modalGraduacao {
+    padding:
+      calc(14px + env(safe-area-inset-top, 0px))
+      14px
+      calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+    align-items: flex-end !important;
+    background: rgba(2, 2, 10, 0.78) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  #modalGraduacao .modal-card {
+    width: min(100%, 540px) !important;
+    max-width: none !important;
+    max-height: min(86dvh, 760px) !important;
+    margin: 0 auto !important;
+    padding: 18px !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    border: 1px solid rgba(172, 139, 255, 0.18) !important;
+    border-radius: 24px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.17), transparent 38%),
+      linear-gradient(165deg, rgba(20, 16, 51, 0.995), rgba(7, 7, 22, 0.995)) !important;
+    box-shadow: 0 -22px 70px rgba(0, 0, 0, 0.46) !important;
+  }
+
+  #modalGraduacao .modal-topo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin: 0 0 14px !important;
+  }
+
+  #modalGraduacao .modal-topo h2 {
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 18px !important;
+    font-weight: 780 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  #modalGraduacao #graduacaoAlunoNome {
+    display: block;
+    margin: 0 0 14px !important;
+    padding: 12px 13px !important;
+    border: 1px solid rgba(172, 139, 255, 0.14);
+    border-radius: 15px;
+    background: rgba(124, 58, 237, 0.08);
+    color: #e6dcff !important;
+    font-size: 14px !important;
+    font-weight: 740 !important;
+  }
+
+  #modalGraduacao .label-campo {
+    display: block !important;
+    margin: 12px 0 6px !important;
+    color: #aaa5c2 !important;
+    font-size: 10px !important;
+    font-weight: 740 !important;
+  }
+
+  #modalGraduacao select,
+  #modalGraduacao input[type="date"],
+  #modalGraduacao textarea {
+    width: 100% !important;
+    min-height: 49px;
+    margin: 0 !important;
+    padding: 12px 13px !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    border-radius: 14px !important;
+    background: rgba(5, 5, 18, 0.7) !important;
+    color: #f8f7ff !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-size: 13px !important;
+  }
+
+  #modalGraduacao textarea {
+    min-height: 92px;
+    margin-top: 12px !important;
+    resize: vertical;
+  }
+
+  #modalGraduacao select:focus,
+  #modalGraduacao input[type="date"]:focus,
+  #modalGraduacao textarea:focus {
+    border-color: rgba(155, 92, 255, 0.55) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12) !important;
+  }
+
+  #modalGraduacao .modal-acoes {
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr) !important;
+    gap: 9px !important;
+    margin: 16px 0 0 !important;
+  }
+
+  #modalGraduacao .modal-acoes button {
+    width: 100% !important;
+    min-height: 47px;
+    margin: 0 !important;
+    padding: 10px 12px !important;
+    border-radius: 14px !important;
+    font-size: 11px !important;
+    font-weight: 780 !important;
+  }
+
+  #modalGraduacao #btnSalvarGraduacao {
+    border-color: rgba(155, 92, 255, 0.32) !important;
+    background: linear-gradient(135deg, #7c3aed, #5b21b6) !important;
+    color: #fff !important;
+  }
+
+  /* --------------------------------------------------------------------------
+     Telas muito estreitas
+  -------------------------------------------------------------------------- */
+  @media (max-width: 350px) {
+    #viewEvolucao .evolucao-resumo-grid {
+      gap: 6px !important;
+    }
+
+    #viewEvolucao .evolucao-resumo-grid > .financeiro-box {
+      min-height: 88px;
+      padding-inline: 5px !important;
+      border-radius: 16px !important;
+    }
+
+    #viewEvolucao .evolucao-resumo-grid > .financeiro-box span {
+      font-size: 8px !important;
+    }
+
+    #viewEvolucao .evolucao-resumo-grid > .financeiro-box strong {
+      font-size: 23px !important;
+    }
+
+    #viewEvolucao .evolucao-item::before {
+      max-width: 50%;
+      font-size: 7px;
+    }
+
+    #modalGraduacao .modal-acoes {
+      grid-template-columns: 1fr !important;
+    }
+  }
+}
+/* ============================================================================
+   POLIMENTO 2026 — RESUMO MOBILE COMPACTO
+   Corrige spans herdados do desktop e reduz o peso visual acima da lista.
+============================================================================ */
+@media (max-width: 760px) {
+  #viewEvolucao .painel-topo {
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-flow: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 6px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.14) !important;
+    border-radius: 20px !important;
+    background:
+      radial-gradient(circle at 14% 0%, rgba(124, 58, 237, 0.14), transparent 44%),
+      linear-gradient(145deg, rgba(18, 15, 48, 0.98), rgba(8, 8, 24, 0.99)) !important;
+    box-shadow: none !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 74px !important;
+    margin: 0 !important;
+    padding: 9px 5px !important;
+    display: grid !important;
+    align-content: center !important;
+    justify-items: center !important;
+    gap: 5px !important;
+    border: 0 !important;
+    border-radius: 13px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    overflow: visible !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box + .financeiro-box {
+    border-left: 1px solid rgba(255, 255, 255, 0.075) !important;
+    border-radius: 0 !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box span {
+    display: block !important;
+    min-height: 20px !important;
+    margin: 0 !important;
+    color: #9690aa !important;
+    font-size: 8px !important;
+    font-weight: 760 !important;
+    line-height: 1.18 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    text-wrap: balance;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box strong {
+    margin: 0 !important;
+    font-size: clamp(22px, 6vw, 26px) !important;
+    font-weight: 820 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+  }
+
+  #viewEvolucao .filtros-evolucao {
+    margin-top: -2px !important;
+  }
+}
+
+@media (max-width: 355px) {
+  #viewEvolucao .evolucao-resumo-grid {
+    padding: 5px !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box {
+    min-height: 70px !important;
+    padding-inline: 3px !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box span {
+    font-size: 7px !important;
+  }
+}
+
+
+/* ============================================================================
+   MENSALIZE MOBILE — KPI STRIP PADRÃO OFICIAL
+   Faixa compacta e contínua para indicadores equivalentes.
+   Mantém cores semânticas por módulo, mas unifica proporção, altura e ritmo.
+============================================================================ */
+@media (max-width: 760px) {
+  #viewEvolucao .evolucao-resumo-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 4px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.14) !important;
+    border-radius: 18px !important;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.10), transparent 62%),
+      linear-gradient(155deg, rgba(18, 15, 47, 0.98), rgba(9, 8, 26, 0.99)) !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    min-width: 0 !important;
+    min-height: 72px !important;
+    margin: 0 !important;
+    padding: 9px 6px !important;
+    display: grid !important;
+    align-content: center !important;
+    justify-items: center !important;
+    gap: 5px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    overflow: visible !important;
+    position: relative !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box + .financeiro-box::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.075);
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box span {
+    order: 1;
+    min-height: 0 !important;
+    margin: 0 !important;
+    color: #918aa9 !important;
+    font-size: 8.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: none !important;
+  }
+
+  #viewEvolucao .evolucao-resumo-grid > .financeiro-box strong {
+    order: 2;
+    margin: 0 !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+  }
+}

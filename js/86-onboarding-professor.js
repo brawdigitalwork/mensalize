@@ -279,7 +279,7 @@ function onboardingProfessorExecutarAcao(acao) {
       return;
     }
 
-    mostrarToast("O aluno ainda não tem link público ou WhatsApp válido.", "erro");
+    mostrarToast("Cadastre um WhatsApp válido para enviar o acesso.", "erro");
     if (typeof abrirViewPrincipal === "function") abrirViewPrincipal("alunos");
     return;
   }

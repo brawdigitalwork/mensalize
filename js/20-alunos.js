@@ -643,7 +643,7 @@ function mostrarAlunos() {
             }
 
             <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">WhatsApp</button>
-            <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">Enviar página</button>
+            <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">Enviar acesso</button>
           </div>
 
           <div class="aluno-acoes-bloco aluno-acoes-gestao">

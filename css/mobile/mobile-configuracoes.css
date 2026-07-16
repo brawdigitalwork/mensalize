@@ -1,0 +1,396 @@
+/* ============================================================================
+   MENSALIZE PROFESSOR — CONFIGURAÇÕES MOBILE
+   Experiência exclusiva para celular sobre a mesma view e a mesma lógica real.
+============================================================================ */
+
+@media (max-width: 760px) {
+  body.mobile-professor-interna #viewPerfil.ativa {
+    width: min(100%, 620px);
+    margin-inline: auto;
+    padding-bottom: calc(116px + var(--mobile-safe-bottom));
+  }
+
+  #viewPerfil .perfil-configuracoes-page {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-shell {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Sidebar desktop vira cabeçalho operacional mobile
+  ------------------------------------------------------------------------ */
+  #viewPerfil .perfil-configuracoes-sidebar {
+    position: static !important;
+    display: grid !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-brand {
+    display: none !important;
+  }
+
+  /* Plano primeiro no mobile */
+  #viewPerfil .perfil-plano-card {
+    order: 1 !important;
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px 12px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 14px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.14) !important;
+    border-radius: 20px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.14), transparent 42%),
+      linear-gradient(145deg, rgba(23, 17, 58, 0.98), rgba(10, 9, 29, 0.99)) !important;
+    box-shadow: none !important;
+  }
+
+  #viewPerfil .perfil-plano-card-topo {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  #viewPerfil .perfil-plano-icone {
+    width: 31px !important;
+    height: 31px !important;
+    flex-basis: 31px !important;
+  }
+
+  #viewPerfil .perfil-plano-card > strong {
+    min-width: 0 !important;
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #viewPerfil .perfil-plano-card > small {
+    grid-column: 1 / -1 !important;
+    margin: 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 9.5px !important;
+    line-height: 1.4 !important;
+  }
+
+  #viewPerfil .perfil-plano-card #btnPerfilVerUpgrade {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 36px !important;
+    margin: 0 !important;
+    padding: 7px 10px !important;
+    border-radius: 12px !important;
+    font-size: 9px !important;
+    white-space: nowrap !important;
+  }
+
+  #viewPerfil .perfil-plano-card #btnPerfilVerUpgrade.escondido {
+    display: none !important;
+  }
+
+  /* Navegação 2x2, compacta e consistente */
+  #viewPerfil .config-abas {
+    order: 2 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  #viewPerfil .config-aba {
+    display: grid !important;
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    min-height: 53px !important;
+    margin: 0 !important;
+    padding: 8px 9px !important;
+    text-align: left !important;
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border-radius: 15px !important;
+    background: rgba(255, 255, 255, 0.028) !important;
+    color: #8f89a6 !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  #viewPerfil .config-aba:hover,
+  #viewPerfil .config-aba:active {
+    transform: none !important;
+  }
+
+  #viewPerfil .config-aba.ativa {
+    border-color: rgba(168, 119, 255, 0.30) !important;
+    background:
+      radial-gradient(circle at 0% 50%, rgba(124, 58, 237, 0.20), transparent 62%),
+      linear-gradient(135deg, rgba(124, 58, 237, 0.18), rgba(82, 39, 176, 0.08)) !important;
+    color: #f3edff !important;
+    box-shadow: inset 0 0 0 1px rgba(168, 119, 255, 0.07) !important;
+  }
+
+  #viewPerfil .config-aba-icone {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 11px !important;
+  }
+
+  #viewPerfil .config-aba-icone svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  #viewPerfil .config-aba-copy {
+    min-width: 0 !important;
+    gap: 1px !important;
+  }
+
+  #viewPerfil .config-aba-copy strong {
+    font-size: 10.5px !important;
+  }
+
+  #viewPerfil .config-aba-copy small {
+    font-size: 7.8px !important;
+  }
+
+  #viewPerfil .config-aba-seta {
+    display: none !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Conteúdo
+  ------------------------------------------------------------------------ */
+  #viewPerfil .perfil-configuracoes-conteudo {
+    display: grid !important;
+    gap: 11px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-hero {
+    display: block !important;
+    margin: 0 !important;
+    padding: 4px 2px 1px !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-hero::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-hero .page-eyebrow {
+    margin: 0 0 7px !important;
+    padding: 6px 9px !important;
+    border: 1px solid rgba(172, 139, 255, 0.16) !important;
+    background: rgba(124, 58, 237, 0.10) !important;
+    color: #a982ff !important;
+    font-size: 8.5px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-hero h2 {
+    margin: 0 0 4px !important;
+    color: #fff !important;
+    font-size: 20px !important;
+    line-height: 1.08 !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-hero p {
+    margin: 0 !important;
+    max-width: 40ch !important;
+    color: var(--mobile-muted) !important;
+    font-size: 10.5px !important;
+    line-height: 1.42 !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-status {
+    display: none !important;
+  }
+
+  /* Painel ativo */
+  #viewPerfil .config-painel {
+    display: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.13) !important;
+    border-radius: 21px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.09), transparent 38%),
+      linear-gradient(155deg, rgba(18, 15, 47, 0.98), rgba(9, 8, 26, 0.99)) !important;
+    box-shadow: none !important;
+  }
+
+  #viewPerfil .config-painel.ativo {
+    display: grid !important;
+    grid-template-rows: auto auto auto !important;
+  }
+
+  #viewPerfil .config-painel-header {
+    grid-template-columns: 42px minmax(0, 1fr) !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 14px !important;
+  }
+
+  #viewPerfil .config-painel-icone {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 13px !important;
+  }
+
+  #viewPerfil .config-painel-icone svg {
+    width: 19px !important;
+    height: 19px !important;
+  }
+
+  #viewPerfil .config-painel-etiqueta {
+    font-size: 7.5px !important;
+  }
+
+  #viewPerfil .config-painel-header strong {
+    font-size: 15px !important;
+  }
+
+  #viewPerfil .config-painel-header small {
+    font-size: 9.5px !important;
+    line-height: 1.35 !important;
+  }
+
+  #viewPerfil .config-painel-corpo {
+    padding: 14px !important;
+  }
+
+  #viewPerfil .config-grid-duplo,
+  #viewPerfil .config-grid-tres {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  #viewPerfil .campo-perfil {
+    gap: 6px !important;
+  }
+
+  #viewPerfil .campo-perfil > span {
+    color: #c5bed7 !important;
+    font-size: 9.5px !important;
+  }
+
+  #viewPerfil .campo-perfil input,
+  #viewPerfil .campo-perfil textarea {
+    min-height: 50px !important;
+    padding: 11px 12px !important;
+    border-radius: 15px !important;
+    font-size: 16px !important;
+  }
+
+  #viewPerfil .campo-perfil textarea {
+    min-height: 116px !important;
+  }
+
+  #viewPerfil .config-campo-ajuda {
+    color: #6f687f !important;
+    font-size: 8.5px !important;
+  }
+
+  #viewPerfil .config-acoes {
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+    padding: 11px 14px 14px !important;
+  }
+
+  #viewPerfil .config-acoes .msg-perfil,
+  #viewPerfil .config-acao-contexto {
+    order: 2 !important;
+    margin: 0 !important;
+    text-align: center !important;
+    font-size: 8.5px !important;
+  }
+
+  #viewPerfil .config-acoes .btn-salvar-perfil {
+    order: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 47px !important;
+    margin: 0 !important;
+    border-radius: 15px !important;
+    font-size: 11px !important;
+  }
+
+  /* Módulos em duas colunas no iPhone 12 */
+  #viewPerfil .config-modulos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  #viewPerfil .config-modulo-item {
+    min-height: 52px !important;
+    padding: 9px 10px !important;
+    border-radius: 14px !important;
+  }
+
+  #viewPerfil .config-modulo-item > span:last-child {
+    font-size: 9.5px !important;
+  }
+
+  #viewPerfil .perfil-aviso-admin {
+    margin-top: 11px !important;
+    font-size: 8.8px !important;
+  }
+
+  /* iPhones compactos */
+  @media (max-width: 355px) {
+    #viewPerfil .perfil-plano-card {
+      grid-template-columns: 1fr !important;
+    }
+
+    #viewPerfil .perfil-plano-card #btnPerfilVerUpgrade {
+      grid-column: 1 !important;
+      grid-row: auto !important;
+      width: 100% !important;
+    }
+
+    #viewPerfil .config-abas,
+    #viewPerfil .config-modulos-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    #viewPerfil .config-aba {
+      min-height: 50px !important;
+    }
+  }
+}

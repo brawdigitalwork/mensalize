@@ -1,13 +1,13 @@
 // 30.1 LINK DA PÁGINA DO ALUNO + SOLICITAÇÕES
 // ===============================
 
-function montarUrlPaginaAluno(codigoPublico) {
-  if (!codigoPublico) return "";
+function montarUrlAcessoAluno(token) {
+  if (!token) return "";
   const base = window.location.origin || "";
-  return `${base}/aluno.html?codigo=${encodeURIComponent(codigoPublico)}`;
+  return `${base}/aluno.html?acesso=${encodeURIComponent(token)}`;
 }
 
-function enviarLinkPaginaAluno(id) {
+async function enviarLinkPaginaAluno(id) {
   const aluno = alunos.find(a => String(a.id) === String(id));
 
   if (!aluno) {
@@ -15,21 +15,68 @@ function enviarLinkPaginaAluno(id) {
     return;
   }
 
-  const numero = limparNumeroWhatsApp(aluno.telefone);
+  const numeroAluno = limparNumeroWhatsApp(aluno.telefone);
+  const numeroResponsavel = limparNumeroWhatsApp(aluno.responsavel_whatsapp);
+  const numero = numeroAluno && numeroAluno.length >= 10
+    ? numeroAluno
+    : numeroResponsavel;
+
   if (!numero || numero.length < 10) {
-    mostrarToast("Esse aluno ainda não tem WhatsApp cadastrado.", "erro");
+    mostrarToast("Cadastre o WhatsApp do aluno ou responsável.", "erro");
     return;
   }
 
-  if (!aluno.codigo_publico) {
-    mostrarToast("Esse aluno ainda não tem link público.", "erro");
-    return;
-  }
+  const janelaWhatsApp = window.open("about:blank", "_blank");
 
-  const linkPagina = montarUrlPaginaAluno(aluno.codigo_publico);
-  const mensagem = `Olá, ${aluno.nome}. Segue sua página do aluno no ${nomeEmpresa || "Mensalize"}:\n\n${linkPagina}\n\nPor ela você consegue acompanhar sua mensalidade, pagamentos e dados da academia.`;
-  const url = `https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`;
-  window.open(url, "_blank");
+  try {
+    mostrarToast("Gerando link seguro do aluno...");
+
+    const { data, error } = await supabaseClient.functions.invoke(
+      "professor-acesso-aluno",
+      {
+        body: { aluno_id: aluno.id }
+      }
+    );
+
+    if (error || !data?.ok || !data?.token) {
+      throw error || new Error(data?.mensagem || "Falha ao gerar link");
+    }
+
+    const link = montarUrlAcessoAluno(data.token);
+    const ehRecuperacao = data.tipo === "recuperacao";
+
+    const mensagem = ehRecuperacao
+      ? `Olá, ${aluno.nome}. A ${nomeEmpresa || "academia"} enviou um link para recuperar seu acesso ao Mensalize Aluno.\n\nPor ele você pode escolher um novo usuário e uma nova senha:\n\n${link}\n\nEste link é pessoal, funciona uma única vez e expira em 24 horas.`
+      : `Olá, ${aluno.nome}. A ${nomeEmpresa || "academia"} enviou seu link para criar o acesso ao Mensalize Aluno.\n\nVocê poderá escolher seu próprio usuário e criar uma senha:\n\n${link}\n\nEste link é pessoal, funciona uma única vez e expira em 24 horas.`;
+
+    const urlWhatsApp = `https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`;
+
+    if (janelaWhatsApp) {
+      janelaWhatsApp.location.href = urlWhatsApp;
+    } else {
+      const copiado = await navigator.clipboard?.writeText(link)
+        .then(() => true)
+        .catch(() => false);
+
+      mostrarToast(
+        copiado
+          ? "Link seguro copiado. Envie ao aluno pelo WhatsApp."
+          : "Link gerado, mas o navegador bloqueou a nova aba.",
+        copiado ? "sucesso" : "erro"
+      );
+    }
+
+    mostrarToast(
+      ehRecuperacao
+        ? "Link de recuperação gerado."
+        : "Link de primeiro acesso gerado.",
+      "sucesso"
+    );
+  } catch (erro) {
+    if (janelaWhatsApp) janelaWhatsApp.close();
+    console.error("Erro ao gerar acesso do aluno:", erro);
+    mostrarToast("Não foi possível gerar o link de acesso agora.", "erro");
+  }
 }
 
 let filtroSolicitacoesAtual = "pendente";
@@ -275,6 +322,131 @@ function copiarTextoSolicitacaoFallback(texto) {
   mostrarToast("Resposta copiada.");
 }
 
+let solicitacaoConfirmacaoPendenteMensalize = null;
+let solicitacaoConfirmacaoFocoAnteriorMensalize = null;
+
+function executarRespostaSolicitacaoConfirmada(registro, acao) {
+  if (!registro?.solicitacao) return;
+
+  const { solicitacao } = registro;
+  const vaiAprovar = acao === "aprovar";
+
+  if (solicitacao.categoria_solicitacao === "pagamento") {
+    return vaiAprovar
+      ? aprovarSolicitacaoPagamento(solicitacao.id)
+      : recusarSolicitacaoPagamento(solicitacao.id);
+  }
+
+  return vaiAprovar
+    ? aprovarSolicitacaoAlteracao(solicitacao.id)
+    : recusarSolicitacaoAlteracao(solicitacao.id);
+}
+
+function fecharConfirmacaoSolicitacaoMobile() {
+  const modal = document.getElementById("modalConfirmarSolicitacao");
+  if (!modal) return;
+
+  modal.classList.remove("aberta", "is-approve", "is-reject");
+  modal.setAttribute("aria-hidden", "true");
+  solicitacaoConfirmacaoPendenteMensalize = null;
+
+  if (solicitacaoConfirmacaoFocoAnteriorMensalize?.focus) {
+    try {
+      solicitacaoConfirmacaoFocoAnteriorMensalize.focus({ preventScroll: true });
+    } catch (_) {
+      solicitacaoConfirmacaoFocoAnteriorMensalize.focus();
+    }
+  }
+
+  solicitacaoConfirmacaoFocoAnteriorMensalize = null;
+}
+
+function inicializarConfirmacaoSolicitacaoMobile() {
+  const modal = document.getElementById("modalConfirmarSolicitacao");
+  const btnCancelar = document.getElementById("btnCancelarConfirmacaoSolicitacao");
+  const btnConfirmar = document.getElementById("btnConfirmarAcaoSolicitacao");
+
+  if (!modal || !btnCancelar || !btnConfirmar || modal.dataset.inicializado === "true") return;
+
+  modal.dataset.inicializado = "true";
+
+  modal.querySelectorAll("[data-solicitacao-confirm-cancel]").forEach(botao => {
+    botao.addEventListener("click", fecharConfirmacaoSolicitacaoMobile);
+  });
+
+  btnCancelar.addEventListener("click", fecharConfirmacaoSolicitacaoMobile);
+
+  btnConfirmar.addEventListener("click", async () => {
+    const pendente = solicitacaoConfirmacaoPendenteMensalize;
+    if (!pendente) return;
+
+    btnConfirmar.disabled = true;
+    const textoOriginal = btnConfirmar.textContent;
+    btnConfirmar.textContent = pendente.acao === "aprovar" ? "Confirmando..." : "Recusando...";
+
+    fecharConfirmacaoSolicitacaoMobile();
+
+    try {
+      await executarRespostaSolicitacaoConfirmada(pendente.registro, pendente.acao);
+    } finally {
+      btnConfirmar.disabled = false;
+      btnConfirmar.textContent = textoOriginal;
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && modal.classList.contains("aberta")) {
+      fecharConfirmacaoSolicitacaoMobile();
+    }
+  });
+}
+
+function abrirConfirmacaoSolicitacaoMobile(registro, acao) {
+  const modal = document.getElementById("modalConfirmarSolicitacao");
+  const eyebrow = document.getElementById("solicitacaoConfirmEyebrow");
+  const titulo = document.getElementById("solicitacaoConfirmTitulo");
+  const descricao = document.getElementById("solicitacaoConfirmDescricao");
+  const alunoEl = document.getElementById("solicitacaoConfirmAluno");
+  const btnConfirmar = document.getElementById("btnConfirmarAcaoSolicitacao");
+
+  if (!modal || !eyebrow || !titulo || !descricao || !alunoEl || !btnConfirmar) return false;
+
+  inicializarConfirmacaoSolicitacaoMobile();
+
+  const { solicitacao, aluno } = registro;
+  const nome = aluno?.nome || "Aluno";
+  const tipo = rotuloTipoSolicitacao(solicitacao).toLowerCase();
+  const vaiAprovar = acao === "aprovar";
+  const ehPagamento = solicitacao.categoria_solicitacao === "pagamento";
+
+  solicitacaoConfirmacaoPendenteMensalize = { registro, acao };
+  solicitacaoConfirmacaoFocoAnteriorMensalize = document.activeElement;
+
+  modal.classList.toggle("is-approve", vaiAprovar);
+  modal.classList.toggle("is-reject", !vaiAprovar);
+
+  if (vaiAprovar) {
+    eyebrow.textContent = ehPagamento ? "Confirmação de pagamento" : "Aprovar pedido";
+    titulo.textContent = ehPagamento ? "Confirmar pagamento?" : "Aprovar solicitação?";
+    descricao.textContent = ehPagamento
+      ? `Ao continuar, o Mensalize pode registrar o pagamento informado e atualizar a situação financeira do aluno.`
+      : `Ao continuar, os dados do aluno serão atualizados conforme a solicitação de ${tipo}.`;
+    btnConfirmar.textContent = ehPagamento ? "Confirmar pagamento" : "Aprovar solicitação";
+  } else {
+    eyebrow.textContent = "Recusar pedido";
+    titulo.textContent = "Recusar solicitação?";
+    descricao.textContent = `A solicitação de ${tipo} será movida para Recusadas. Nenhum dado do aluno será alterado por esta ação.`;
+    btnConfirmar.textContent = "Recusar solicitação";
+  }
+
+  alunoEl.textContent = nome;
+  modal.setAttribute("aria-hidden", "false");
+  modal.classList.add("aberta");
+
+  window.setTimeout(() => btnConfirmar.focus({ preventScroll: true }), 30);
+  return true;
+}
+
 function confirmarRespostaSolicitacao(chave, acao) {
   const registro = solicitacoesRenderizadasMensalize.get(chave);
 
@@ -283,22 +455,13 @@ function confirmarRespostaSolicitacao(chave, acao) {
     return;
   }
 
-  const { solicitacao, aluno } = registro;
-  const nome = aluno?.nome || "Aluno";
-  const tipo = rotuloTipoSolicitacao(solicitacao).toLowerCase();
-  const vaiAprovar = acao === "aprovar";
+  // Usa o modal próprio do Mensalize em qualquer largura de tela.
+  // No mobile ele se comporta como bottom sheet; no desktop, como modal centralizado.
+  // Assim eliminamos o confirm() nativo ("a página diz...") em todo o produto.
+  if (abrirConfirmacaoSolicitacaoMobile(registro, acao)) return;
 
-  const mensagem = vaiAprovar
-    ? `Aprovar solicitação de ${tipo} de ${nome}?${solicitacao.categoria_solicitacao === "pagamento" ? "\n\nIsso pode registrar o pagamento do aluno." : "\n\nOs dados do aluno serão atualizados."}`
-    : `Recusar solicitação de ${tipo} de ${nome}?\n\nEla será movida para a aba Recusadas.`;
-
-  if (!confirm(mensagem)) return;
-
-  if (solicitacao.categoria_solicitacao === "pagamento") {
-    return vaiAprovar ? aprovarSolicitacaoPagamento(solicitacao.id) : recusarSolicitacaoPagamento(solicitacao.id);
-  }
-
-  return vaiAprovar ? aprovarSolicitacaoAlteracao(solicitacao.id) : recusarSolicitacaoAlteracao(solicitacao.id);
+  console.error("[Mensalize] Modal de confirmação de solicitação indisponível.");
+  mostrarToast("Não foi possível abrir a confirmação. Recarregue a página e tente novamente.", "erro");
 }
 
 async function carregarSolicitacoesAlteracao() {
@@ -662,6 +825,13 @@ function abrirViewPrincipal(view) {
     botao.classList.toggle("ativo", botao.dataset.view === view);
   });
 
+  document.querySelectorAll(".mobile-bottom-item[data-view-target]").forEach(botao => {
+    const ativo = botao.dataset.viewTarget === view;
+    botao.classList.toggle("ativo", ativo);
+    if (ativo) botao.setAttribute("aria-current", "page");
+    else botao.removeAttribute("aria-current");
+  });
+
   const textos = {
     dashboard: ["Início", "Tudo que você precisa acompanhar hoje em um só lugar."],
     alunos: ["Alunos", "Consulte, filtre e gerencie todos os alunos cadastrados."],
@@ -738,6 +908,15 @@ function inicializarNavegacaoPrincipal() {
   if (menuOverlay) {
     menuOverlay.addEventListener("click", fecharMenuLateral);
   }
+
+  document.querySelectorAll("[data-mobile-menu-open]").forEach(botao => {
+    if (botao.dataset.mobileMenuConfigurado === "true") return;
+    botao.dataset.mobileMenuConfigurado = "true";
+    botao.addEventListener("click", event => {
+      event.preventDefault();
+      abrirMenuLateral();
+    });
+  });
 
   document.addEventListener("keydown", function(event) {
     if (event.key === "Escape") {

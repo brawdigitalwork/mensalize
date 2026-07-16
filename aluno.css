@@ -6142,3 +6142,195 @@ button {
     font-size: 13px !important;
   }
 }
+
+
+/* ============================================================================
+   MENSALIZE ALUNO — ACESSO SEGURO
+   Login por usuário + senha e ativação/recuperação por link do professor.
+============================================================================ */
+
+.student-auth-screen {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding:
+    calc(24px + env(safe-area-inset-top, 0px))
+    max(18px, env(safe-area-inset-right, 0px))
+    calc(24px + env(safe-area-inset-bottom, 0px))
+    max(18px, env(safe-area-inset-left, 0px));
+  background:
+    radial-gradient(circle at 12% -5%, rgba(124, 58, 237, 0.30), transparent 32%),
+    radial-gradient(circle at 92% 15%, rgba(67, 56, 202, 0.15), transparent 28%),
+    linear-gradient(180deg, #080713 0%, #05050d 100%);
+}
+
+.student-auth-screen.escondido {
+  display: none !important;
+}
+
+.student-auth-card {
+  width: min(100%, 440px);
+  overflow: hidden;
+  border: 1px solid rgba(176, 139, 255, 0.15);
+  border-radius: 28px;
+  padding: clamp(20px, 5vw, 30px);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.14), transparent 36%),
+    linear-gradient(155deg, rgba(20, 17, 50, 0.98), rgba(9, 8, 26, 0.99));
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.40);
+}
+
+.student-auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+}
+
+.student-auth-brand img {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 14px 34px rgba(124, 58, 237, 0.24);
+}
+
+.student-auth-brand > div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.student-auth-brand strong {
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.student-auth-brand span {
+  color: #8f88a6;
+  font-size: 11px;
+}
+
+.student-auth-view h1 {
+  margin: 8px 0 8px;
+  color: #fff;
+  font-size: clamp(25px, 8vw, 34px);
+  line-height: 1.02;
+  letter-spacing: -0.06em;
+}
+
+.student-auth-description {
+  margin: 0 0 22px;
+  color: #a9a3ba;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.student-auth-form {
+  display: grid;
+  gap: 14px;
+}
+
+.student-auth-form label {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.student-auth-form label > span {
+  color: #c8c2d8;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.student-auth-form input {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
+  outline: none;
+  background: rgba(4, 4, 16, 0.58);
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.student-auth-form input:focus {
+  border-color: rgba(167, 139, 250, 0.62);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+}
+
+.student-auth-form .primary-action {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 2px;
+  border-radius: 16px;
+}
+
+.student-auth-form .primary-action:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.student-auth-message {
+  min-height: 18px;
+  margin: 0;
+  text-align: center;
+}
+
+.student-auth-message.is-error,
+.student-auth-field-message.is-error {
+  color: #ff7b82;
+}
+
+.student-auth-message.is-success,
+.student-auth-field-message.is-success {
+  color: #62dda0;
+}
+
+.student-auth-field-message {
+  display: block;
+  color: #777088;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.student-auth-help {
+  display: grid;
+  gap: 4px;
+  margin-top: 20px;
+  padding: 13px 14px;
+  border: 1px solid rgba(172, 139, 255, 0.10);
+  border-radius: 16px;
+  background: rgba(124, 58, 237, 0.055);
+}
+
+.student-auth-help strong {
+  color: #cdbaff;
+  font-size: 10px;
+}
+
+.student-auth-help span {
+  color: #827b94;
+  font-size: 9.5px;
+  line-height: 1.45;
+}
+
+@media (max-width: 360px) {
+  .student-auth-screen {
+    padding-inline: 12px;
+  }
+
+  .student-auth-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+}

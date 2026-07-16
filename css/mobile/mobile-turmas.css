@@ -1,0 +1,765 @@
+/* ============================================================================
+   MENSALIZE PROFESSOR — TURMAS MOBILE
+   Experiência exclusiva para celular sobre o mesmo CRUD e a mesma lista real.
+   Não duplica turmas, multi-turma, cancelamentos, frequência ou Supabase.
+============================================================================ */
+
+@media (max-width: 760px) {
+  body.mobile-professor-interna #viewTurmas.ativa {
+    width: min(100%, 620px);
+    margin-inline: auto;
+    padding-bottom: calc(118px + var(--mobile-safe-bottom));
+  }
+
+  /* ------------------------------------------------------------------------
+     Estrutura geral: remove os grandes cards desktop externos.
+  ------------------------------------------------------------------------ */
+  #viewTurmas.ativa > .painel-card,
+  #viewTurmas.ativa > .turmas-page {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  #viewTurmas .turmas-premium-page,
+  #viewTurmas .turmas-cancelamentos-page {
+    display: grid !important;
+    gap: 14px !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-page {
+    margin-top: 18px !important;
+    padding-top: 18px !important;
+    border-top: 1px solid rgba(172, 139, 255, 0.10) !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Ações rápidas da tela.
+     O cadastro principal fica no botão + contextual do header mobile.
+  ------------------------------------------------------------------------ */
+  #viewTurmas .turmas-premium-hero {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #viewTurmas .turmas-premium-page > .turmas-premium-hero > div:first-child {
+    display: none !important;
+  }
+
+  #viewTurmas .turmas-premium-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    gap: 9px !important;
+    margin: 0 !important;
+  }
+
+  #viewTurmas #btnAbrirFormTurma {
+    display: none !important;
+  }
+
+  #viewTurmas #btnAbrirFormCancelarAula {
+    width: 100% !important;
+    min-height: 50px !important;
+    padding: 12px 15px !important;
+    justify-content: center !important;
+    border-radius: 17px !important;
+    border: 1px solid rgba(245, 158, 11, 0.18) !important;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(245, 158, 11, 0.12), transparent 42%),
+      linear-gradient(145deg, rgba(34, 24, 31, 0.98), rgba(14, 12, 28, 0.99)) !important;
+    color: #ffc36d !important;
+    box-shadow: none !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Resumo operacional.
+  ------------------------------------------------------------------------ */
+  #viewTurmas .turmas-premium-resumo {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box {
+    min-width: 0 !important;
+    min-height: 92px !important;
+    padding: 12px 8px !important;
+    display: grid !important;
+    align-content: center !important;
+    justify-items: center !important;
+    gap: 5px !important;
+    text-align: center !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(172, 139, 255, 0.13) !important;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.10), transparent 50%),
+      linear-gradient(155deg, rgba(20, 17, 51, 0.98), rgba(10, 9, 28, 0.99)) !important;
+    box-shadow: none !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box span {
+    margin: 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 9px !important;
+    font-weight: 750 !important;
+    line-height: 1.2 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.045em !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box strong {
+    color: #fff !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .receita strong {
+    color: var(--mobile-green) !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .alerta strong {
+    color: var(--mobile-orange) !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Formulários recolhíveis.
+  ------------------------------------------------------------------------ */
+  #viewTurmas .turmas-premium-form-card {
+    width: 100% !important;
+    scroll-margin-top: 86px;
+    padding: 15px !important;
+    border-radius: 21px !important;
+    border: 1px solid rgba(172, 139, 255, 0.16) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.16), transparent 38%),
+      linear-gradient(155deg, rgba(20, 16, 52, 0.99), rgba(9, 9, 27, 0.99)) !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  #viewTurmas .turmas-premium-form-card.cancelamento {
+    border-color: rgba(245, 158, 11, 0.17) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.10), transparent 38%),
+      linear-gradient(155deg, rgba(30, 21, 35, 0.99), rgba(10, 9, 27, 0.99)) !important;
+  }
+
+  #viewTurmas .turmas-premium-form-head {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 40px !important;
+    align-items: start !important;
+    gap: 10px !important;
+    margin: 0 0 13px !important;
+  }
+
+  #viewTurmas .turmas-premium-form-head > div {
+    min-width: 0 !important;
+  }
+
+  #viewTurmas .turmas-premium-form-head .page-eyebrow {
+    margin-bottom: 7px !important;
+  }
+
+  #viewTurmas .turmas-premium-form-head h3 {
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 19px !important;
+    font-weight: 780 !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  #viewTurmas .turmas-premium-form-head p {
+    margin: 5px 0 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  #viewTurmas .turmas-premium-form {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  #viewTurmas .campo-perfil,
+  #viewTurmas .campo-cheio {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  #viewTurmas .campo-perfil > span,
+  #viewTurmas .campo-cheio > span {
+    display: block !important;
+    margin: 0 0 6px !important;
+    color: #c9c3dc !important;
+    font-size: 10px !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.025em !important;
+  }
+
+  #viewTurmas input[type="text"],
+  #viewTurmas input[type="date"],
+  #viewTurmas select,
+  #viewTurmas textarea {
+    width: 100% !important;
+    min-height: 51px !important;
+    padding: 12px 13px !important;
+    border-radius: 15px !important;
+    border: 1px solid rgba(255, 255, 255, 0.085) !important;
+    background: rgba(4, 4, 16, 0.60) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-size: 14px !important;
+  }
+
+  #viewTurmas textarea {
+    min-height: 94px !important;
+    resize: vertical !important;
+  }
+
+  #viewTurmas input:focus,
+  #viewTurmas select:focus,
+  #viewTurmas textarea:focus {
+    border-color: rgba(155, 92, 255, 0.56) !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12) !important;
+  }
+
+  #viewTurmas input[type="date"] {
+    color-scheme: dark;
+  }
+
+  /* Dias da semana: toque grande e sem checkbox visual nativo. */
+  #viewTurmas .dias-semana-grid,
+  #viewTurmas .dias-semana-chips {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+  }
+
+  #viewTurmas .dia-chip {
+    position: relative !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  #viewTurmas .dia-chip input {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  #viewTurmas .dia-chip span {
+    display: grid !important;
+    place-items: center !important;
+    width: 100% !important;
+    min-height: 42px !important;
+    padding: 8px 5px !important;
+    border-radius: 13px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    color: var(--mobile-muted) !important;
+    font-size: 11px !important;
+    font-weight: 780 !important;
+  }
+
+  #viewTurmas .dia-chip input:checked + span {
+    border-color: rgba(155, 92, 255, 0.42) !important;
+    background: rgba(124, 58, 237, 0.19) !important;
+    color: #e9ddff !important;
+  }
+
+  #viewTurmas .turma-status-chip {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-height: 49px !important;
+    padding: 11px 13px !important;
+    border-radius: 15px !important;
+    border: 1px solid rgba(54, 208, 127, 0.15) !important;
+    background: rgba(54, 208, 127, 0.055) !important;
+    color: #d9f9e8 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
+
+  #viewTurmas .turma-status-chip input {
+    width: 19px !important;
+    height: 19px !important;
+    accent-color: var(--mobile-green);
+  }
+
+  #viewTurmas .acoes-form-turma {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin: 2px 0 0 !important;
+  }
+
+  #viewTurmas .acoes-form-turma button {
+    width: 100% !important;
+    min-height: 50px !important;
+    border-radius: 15px !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Cabeçalhos das listas.
+  ------------------------------------------------------------------------ */
+  #viewTurmas .turmas-premium-list-head {
+    display: block !important;
+    margin: 2px 0 0 !important;
+    padding: 2px 2px 0 !important;
+  }
+
+  #viewTurmas .turmas-premium-list-head .page-eyebrow {
+    margin-bottom: 7px !important;
+  }
+
+  #viewTurmas .turmas-premium-list-head h2 {
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 19px !important;
+    font-weight: 780 !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  #viewTurmas .turmas-premium-list-head p {
+    margin: 4px 0 0 !important;
+    max-width: 36rem;
+    color: var(--mobile-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Cards reais das turmas.
+  ------------------------------------------------------------------------ */
+  #viewTurmas .turmas-premium-lista {
+    display: grid !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  #viewTurmas .turmas-premium-lista .turma-item {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 13px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 15px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(172, 139, 255, 0.14) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.11), transparent 38%),
+      linear-gradient(155deg, rgba(20, 17, 51, 0.98), rgba(9, 9, 27, 0.99)) !important;
+    box-shadow: none !important;
+    transform: none !important;
+    overflow: hidden !important;
+  }
+
+  #viewTurmas .turmas-premium-lista .turma-item.inativa {
+    opacity: 0.72 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  #viewTurmas .turmas-premium-lista .turma-item > div:first-child {
+    min-width: 0 !important;
+  }
+
+  #viewTurmas .turmas-premium-lista .turma-item strong {
+    display: block !important;
+    margin: 0 0 5px !important;
+    overflow-wrap: anywhere;
+    color: #fff !important;
+    font-size: 17px !important;
+    font-weight: 790 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  #viewTurmas .turmas-premium-lista .turma-item > div:first-child > span {
+    display: block !important;
+    margin: 0 !important;
+    color: #c3bdd4 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+  }
+
+  #viewTurmas .turmas-premium-lista .turma-item small {
+    display: block !important;
+    margin: 6px 0 0 !important;
+    color: var(--mobile-muted-2) !important;
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+  }
+
+  #viewTurmas .turma-meta-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin: 11px 0 0 !important;
+  }
+
+  #viewTurmas .turma-meta-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    width: auto !important;
+    min-height: 29px !important;
+    margin: 0 !important;
+    padding: 6px 9px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    color: var(--mobile-muted) !important;
+    font-size: 9px !important;
+    font-weight: 780 !important;
+    line-height: 1 !important;
+  }
+
+  #viewTurmas .turma-meta-pill.alunos {
+    color: #cbb9ff !important;
+    border-color: rgba(155, 92, 255, 0.18) !important;
+    background: rgba(124, 58, 237, 0.075) !important;
+  }
+
+  #viewTurmas .turma-meta-pill.ativa {
+    color: #8ce6b6 !important;
+    border-color: rgba(54, 208, 127, 0.18) !important;
+    background: rgba(54, 208, 127, 0.07) !important;
+  }
+
+  #viewTurmas .turma-meta-pill.inativa {
+    color: #aaa5c2 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+  }
+
+  #viewTurmas .turma-item-acoes {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  #viewTurmas .turma-item-acoes button {
+    width: 100% !important;
+    min-height: 43px !important;
+    margin: 0 !important;
+    padding: 9px 10px !important;
+    border-radius: 13px !important;
+    font-size: 11px !important;
+    font-weight: 780 !important;
+    box-shadow: none !important;
+  }
+
+  #viewTurmas .turma-item-acoes .acao-secundaria {
+    border-color: rgba(155, 92, 255, 0.20) !important;
+    background: rgba(124, 58, 237, 0.08) !important;
+    color: #cbb5ff !important;
+  }
+
+  #viewTurmas .turma-item-acoes .acao-perigo {
+    border-color: rgba(255, 86, 95, 0.15) !important;
+    background: rgba(255, 86, 95, 0.055) !important;
+    color: #ff9ca2 !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     Cancelamentos.
+  ------------------------------------------------------------------------ */
+  #viewTurmas .turmas-cancelamentos-page > .turmas-premium-hero.compacta {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-page > .turmas-premium-hero.compacta > div {
+    display: block !important;
+    min-width: 0 !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-page .turmas-premium-hero h2 {
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 19px !important;
+    font-weight: 780 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-page .turmas-premium-hero p {
+    margin: 4px 0 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  #viewTurmas #btnAbrirFormCancelarAulaSecundario {
+    width: 100% !important;
+    min-height: 47px !important;
+    padding: 11px 14px !important;
+    border-radius: 15px !important;
+    border: 1px solid rgba(245, 158, 11, 0.16) !important;
+    background: rgba(245, 158, 11, 0.055) !important;
+    color: #ffc36d !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 780 !important;
+  }
+
+  #viewTurmas .aula-cancelada-item {
+    border-color: rgba(245, 158, 11, 0.15) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.10), transparent 38%),
+      linear-gradient(155deg, rgba(28, 21, 39, 0.98), rgba(10, 9, 27, 0.99)) !important;
+  }
+
+  #viewTurmas .aula-cancelada-item > button {
+    width: 100% !important;
+    min-height: 43px !important;
+    border-radius: 13px !important;
+    border-color: rgba(54, 208, 127, 0.16) !important;
+    background: rgba(54, 208, 127, 0.055) !important;
+    color: #8ce6b6 !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 780 !important;
+  }
+
+  /* Estados vazios. */
+  #viewTurmas .empty-state-mini {
+    min-height: 88px !important;
+    padding: 18px 14px !important;
+    border-radius: 18px !important;
+    border: 1px dashed rgba(172, 139, 255, 0.16) !important;
+    background: rgba(255, 255, 255, 0.025) !important;
+    color: var(--mobile-muted) !important;
+    text-align: center !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Feedback de formulário. */
+  #viewTurmas .msg-perfil {
+    margin: 0 !important;
+    color: var(--mobile-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+}
+
+@media (max-width: 360px) {
+  #viewTurmas .turmas-premium-resumo > .financeiro-box {
+    min-height: 84px !important;
+    padding-inline: 5px !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box span {
+    font-size: 8px !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box strong {
+    font-size: 22px !important;
+  }
+
+  #viewTurmas .dias-semana-grid,
+  #viewTurmas .dias-semana-chips {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+/* ============================================================================
+   POLIMENTO 2026 — RESUMO MOBILE COMPACTO
+   Corrige spans herdados do desktop e transforma os KPIs em uma faixa única.
+============================================================================ */
+@media (max-width: 760px) {
+  #viewTurmas .turmas-premium-resumo {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-flow: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 6px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.14) !important;
+    border-radius: 20px !important;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(124, 58, 237, 0.14), transparent 42%),
+      linear-gradient(145deg, rgba(18, 15, 48, 0.98), rgba(8, 8, 24, 0.99)) !important;
+    box-shadow: none !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 68px !important;
+    margin: 0 !important;
+    padding: 9px 5px !important;
+    display: grid !important;
+    align-content: center !important;
+    justify-items: center !important;
+    gap: 4px !important;
+    border: 0 !important;
+    border-radius: 13px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box + .financeiro-box {
+    border-left: 1px solid rgba(255, 255, 255, 0.075) !important;
+    border-radius: 0 !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box span {
+    min-height: 0 !important;
+    margin: 0 !important;
+    color: #9690aa !important;
+    font-size: 8px !important;
+    font-weight: 780 !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0.055em !important;
+    text-transform: uppercase !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box strong {
+    margin: 0 !important;
+    font-size: clamp(21px, 6vw, 25px) !important;
+    font-weight: 820 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+  }
+
+  #viewTurmas #btnAbrirFormCancelarAula {
+    min-height: 44px !important;
+    padding: 10px 14px !important;
+    border-radius: 15px !important;
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 355px) {
+  #viewTurmas .turmas-premium-resumo {
+    padding: 5px !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box {
+    min-height: 64px !important;
+    padding-inline: 3px !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box span {
+    font-size: 7px !important;
+    letter-spacing: 0.035em !important;
+  }
+}
+
+
+/* ============================================================================
+   MENSALIZE MOBILE — KPI STRIP PADRÃO OFICIAL
+   Faixa compacta e contínua para indicadores equivalentes.
+   Mantém cores semânticas por módulo, mas unifica proporção, altura e ritmo.
+============================================================================ */
+@media (max-width: 760px) {
+  #viewTurmas .turmas-premium-resumo {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 4px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(172, 139, 255, 0.14) !important;
+    border-radius: 18px !important;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.10), transparent 62%),
+      linear-gradient(155deg, rgba(18, 15, 47, 0.98), rgba(9, 8, 26, 0.99)) !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    min-width: 0 !important;
+    min-height: 72px !important;
+    margin: 0 !important;
+    padding: 9px 6px !important;
+    display: grid !important;
+    align-content: center !important;
+    justify-items: center !important;
+    gap: 5px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    position: relative !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box + .financeiro-box::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.075);
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box span {
+    order: 1;
+    margin: 0 !important;
+    color: #918aa9 !important;
+    font-size: 8.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box strong {
+    order: 2;
+    margin: 0 !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.055em !important;
+  }
+
+  #viewTurmas #btnAbrirFormCancelarAula {
+    min-height: 44px !important;
+    padding: 10px 14px !important;
+    border-radius: 15px !important;
+  }
+}

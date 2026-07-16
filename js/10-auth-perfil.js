@@ -129,7 +129,7 @@ async function mostrarApp() {
 // ===============================
 // 08.2 PLANO, TRIAL E UPGRADE
 // ===============================
-const MENSALIZE_UPGRADE_WHATSAPP = "5531983334284";
+const MENSALIZE_UPGRADE_WHATSAPP = "5531982924913";
 const MENSALIZE_TRIAL_TOTAL_DIAS = 30;
 const MENSALIZE_TRIAL_BANNER_KEY_PREFIX = "mensalize:trial-banner-fechado";
 
@@ -245,7 +245,7 @@ function normalizarDataTrial(valor) {
 }
 
 function obterPeriodoTrialConta() {
-  if (normalizarPlanoInterface(planoAtual) !== "trial") {
+  if (usuarioEhAdmin || normalizarPlanoInterface(planoAtual) !== "trial") {
     return { inicio: null, fim: null };
   }
 
@@ -312,6 +312,15 @@ function atualizarPerfilPlano() {
   const diasTrial = calcularDiasRestantesTrial();
 
   card.classList.remove("perfil-plano-trial", "perfil-plano-basic", "perfil-plano-pro", "perfil-plano-expirado");
+
+  if (usuarioEhAdmin) {
+    card.classList.add("perfil-plano-pro");
+    nomeEl.textContent = "Administrador do Mensalize";
+    detalheEl.textContent = "Acesso administrativo. Planos comerciais e período de teste não se aplicam a esta conta.";
+    if (botaoUpgrade) botaoUpgrade.classList.add("escondido");
+    return;
+  }
+
   card.classList.add(`perfil-plano-${planoNormalizado}`);
 
   if (planoNormalizado === "trial") {
@@ -339,6 +348,12 @@ function atualizarBannerTrialPlano() {
   const texto = document.getElementById("bannerTrialTexto");
 
   if (!banner || !titulo || !texto) return;
+
+  if (usuarioEhAdmin) {
+    banner.classList.add("escondido");
+    banner.classList.remove("banner-trial-expirado");
+    return;
+  }
 
   const planoNormalizado = normalizarPlanoInterface(planoAtual);
   const diasTrial = calcularDiasRestantesTrial();

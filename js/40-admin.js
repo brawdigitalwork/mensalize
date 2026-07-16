@@ -46,6 +46,38 @@ if (btnVoltar) {
   });
 }
 
+/** Chama uma Edge Function administrativa usando a sessão real do Admin. */
+async function executarEdgeAdmin(nomeFuncao, payload) {
+  if (!usuarioEhAdmin) {
+    throw new Error("Acesso permitido somente ao Administrador do Mensalize.");
+  }
+
+  const { data: sessaoData, error: sessaoError } = await supabaseClient.auth.getSession();
+  const accessToken = sessaoData?.session?.access_token;
+
+  if (sessaoError || !accessToken) {
+    throw new Error("Sua sessão expirou. Entre novamente para continuar.");
+  }
+
+  const resposta = await fetch(`${CONFIG.supabaseUrl}/functions/v1/${nomeFuncao}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": CONFIG.supabaseAnonKey,
+      "Authorization": `Bearer ${accessToken}`
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const resultado = await resposta.json().catch(() => ({}));
+
+  if (!resposta.ok || resultado.error) {
+    throw new Error(resultado.error || "Não foi possível concluir a operação administrativa.");
+  }
+
+  return resultado;
+}
+
 btnCriarUsuario.addEventListener("click", async function() {
   const email = novoEmail.value.trim();
   const senha = novaSenha.value.trim();
@@ -61,27 +93,12 @@ btnCriarUsuario.addEventListener("click", async function() {
   msgAdmin.textContent = "Criando usuário...";
 
   try {
-    const res = await fetch("https://wdeyorkcrenibtkbgsjw.supabase.co/functions/v1/smart-function", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": CONFIG.supabaseAnonKey,
-        "Authorization": `Bearer ${CONFIG.supabaseAnonKey}`
-      },
-      body: JSON.stringify({
-        email: email,
-        senha: senha
-      })
+    const data = await executarEdgeAdmin("smart-function", {
+      email: email,
+      senha: senha
     });
 
-    const data = await res.json();
-
     console.log("Resposta criar usuário:", data);
-
-    if (data.error) {
-      msgAdmin.textContent = "Erro: " + data.error;
-      return;
-    }
 
     msgAdmin.textContent = "Usuário criado com sucesso!";
 
@@ -93,7 +110,7 @@ btnCriarUsuario.addEventListener("click", async function() {
 
   } catch (err) {
     console.log("Erro completo ao criar usuário:", err);
-    msgAdmin.textContent = "Erro ao criar usuário.";
+    msgAdmin.textContent = "Erro: " + (err?.message || "Não foi possível criar o usuário.");
   } finally {
     btnCriarUsuario.disabled = false;
     btnCriarUsuario.textContent = textoBotaoOriginal;
@@ -106,6 +123,16 @@ let adminBuscaClientesTexto = "";
 
 function normalizarAdminTexto(valor) {
   return String(valor || "").trim().toLowerCase();
+}
+
+/** Escapa textos externos antes de inseri-los em innerHTML do painel Admin. */
+function escaparHtmlAdmin(valor) {
+  return String(valor ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function adminDataISOHoje() {
@@ -283,6 +310,14 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
   const trialFim = adminDataInputTrial(cliente.trial_fim);
   const resumoTrial = adminResumoTrialCliente(cliente);
   const diasTrial = adminCalcularDiasTrial(cliente);
+  const nomeClienteRaw = cliente.nome_empresa || cliente.email || "Cliente Mensalize";
+  const nomeClienteSeguro = escaparHtmlAdmin(nomeClienteRaw);
+  const emailClienteSeguro = escaparHtmlAdmin(cliente.email || "");
+  const inicialClienteSegura = escaparHtmlAdmin(String(nomeClienteRaw).charAt(0).toUpperCase() || "C");
+  const planoLegadoSeguro = escaparHtmlAdmin(cliente.plano || "");
+  const trialInicioSeguro = escaparHtmlAdmin(trialInicio);
+  const trialFimSeguro = escaparHtmlAdmin(trialFim);
+  const resumoTrialSeguro = escaparHtmlAdmin(resumoTrial);
   const trialChip = normalizarPlano(cliente.plano) === "trial" && diasTrial !== null
     ? `<span class="admin-chip ${diasTrial <= 0 ? "bloqueado" : "plano"}">${diasTrial <= 0 ? "Trial encerrado" : `${diasTrial}d trial`}</span>`
     : "";
@@ -290,7 +325,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
   // Detecta se o cliente usa plano legado para exibir aviso informativo
   const planoLegado = ["fight", "premium"].includes(cliente.plano);
   const avisoLegado = planoLegado
-    ? `<p class="admin-plano-legado-aviso">Este cliente usa um plano legado (${cliente.plano}) — equivalente ao Mensalize Pro.</p>`
+    ? `<p class="admin-plano-legado-aviso">Este cliente usa um plano legado (${planoLegadoSeguro}) — equivalente ao Mensalize Pro.</p>`
     : "";
 
   // Monta select apenas com planos comerciais ativos
@@ -310,10 +345,10 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
   div.innerHTML = `
     <div class="admin-simple-head">
       <button type="button" class="admin-simple-main" onclick="toggleClienteAlunos('${cliente.id}')">
-        <span class="admin-simple-avatar">${(cliente.nome_empresa || cliente.email || "C").charAt(0).toUpperCase()}</span>
+        <span class="admin-simple-avatar">${inicialClienteSegura}</span>
         <span class="admin-simple-title-wrap">
-          <strong>${cliente.nome_empresa || cliente.email}</strong>
-          ${cliente.nome_empresa ? `<small>${cliente.email}</small>` : `<small>Cliente Mensalize</small>`}
+          <strong>${nomeClienteSeguro}</strong>
+          ${cliente.nome_empresa ? `<small>${emailClienteSeguro}</small>` : `<small>Cliente Mensalize</small>`}
         </span>
       </button>
 
@@ -367,14 +402,14 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
 
         <label class="admin-simple-field">
           <span>Início do trial</span>
-          <input type="date" id="trial-inicio-${cliente.id}" value="${trialInicio}">
+          <input type="date" id="trial-inicio-${cliente.id}" value="${trialInicioSeguro}">
           <small>Data usada para contar o Teste Gratuito.</small>
         </label>
 
         <label class="admin-simple-field">
           <span>Fim do trial</span>
-          <input type="date" id="trial-fim-${cliente.id}" value="${trialFim}">
-          <small id="trial-resumo-${cliente.id}">${resumoTrial}</small>
+          <input type="date" id="trial-fim-${cliente.id}" value="${trialFimSeguro}">
+          <small id="trial-resumo-${cliente.id}">${resumoTrialSeguro}</small>
         </label>
 
         <label class="admin-simple-field">
@@ -711,12 +746,14 @@ function renderizarAlunosDoCliente(alunosDoCliente) {
     const p = aluno.vencimento.split("-");
     const dataFmt = `${p[2]}/${p[1]}/${p[0]}`;
     const valor = valorParaNumero(aluno.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    const nomeAlunoSeguro = escaparHtmlAdmin(aluno.nome || "Aluno");
+    const telefoneAlunoSeguro = escaparHtmlAdmin(aluno.telefone || "Não informado");
 
     return `
       <div class="admin-aluno-row">
         <div class="admin-aluno-info">
-          <span class="admin-aluno-nome">${aluno.nome}</span>
-          <span class="admin-aluno-detalhe">📱 ${aluno.telefone} · 💰 ${valor} · 📅 ${dataFmt}</span>
+          <span class="admin-aluno-nome">${nomeAlunoSeguro}</span>
+          <span class="admin-aluno-detalhe">📱 ${telefoneAlunoSeguro} · 💰 ${valor} · 📅 ${dataFmt}</span>
         </div>
         <span class="admin-badge-status ${st.classe}">${st.label}</span>
       </div>
@@ -920,22 +957,7 @@ async function confirmarRemocaoCliente() {
   if (!clienteParaRemoverId) return;
 
   try {
-    const res = await fetch("https://wdeyorkcrenibtkbgsjw.supabase.co/functions/v1/deletar-usuario", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": CONFIG.supabaseAnonKey,
-        "Authorization": `Bearer ${CONFIG.supabaseAnonKey}`
-      },
-      body: JSON.stringify({ user_id: clienteParaRemoverId })
-    });
-
-    const data = await res.json();
-
-    if (data.error) {
-      mostrarToast(data.error, "erro");
-      return;
-    }
+    await executarEdgeAdmin("deletar-usuario", { user_id: clienteParaRemoverId });
 
     modalRemoverCliente.classList.add("escondido");
 
@@ -950,7 +972,7 @@ async function confirmarRemocaoCliente() {
 
   } catch (err) {
     console.log("Erro completo:", err);
-    mostrarToast("Erro ao remover cliente.", "erro");
+    mostrarToast(err?.message || "Erro ao remover cliente.", "erro");
   }
 }
 

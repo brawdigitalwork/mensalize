@@ -432,7 +432,11 @@ async function carregarDadosFrequencia() {
 function preencherSelectsTurmas() {
   const opcoes = turmasCadastradas
     .filter(turma => turma.ativa !== false)
-    .map(turma => `<option value="${turma.nome}">${turma.nome}${turma.horario ? " • " + turma.horario : ""}</option>`)
+    .map(turma => {
+      const nomeSeguro = escaparHtmlMultiTurma(turma.nome || "");
+      const horarioSeguro = escaparHtmlMultiTurma(turma.horario || "");
+      return `<option value="${nomeSeguro}">${nomeSeguro}${horarioSeguro ? " • " + horarioSeguro : ""}</option>`;
+    })
     .join("");
 
   if (turmaAluno) {
@@ -441,7 +445,7 @@ function preencherSelectsTurmas() {
     turmaAluno.innerHTML = `<option value="">Selecione a turma principal</option>${opcoes}`;
 
     if (valorAtual && ![...turmaAluno.options].some(opt => opt.value === valorAtual)) {
-      turmaAluno.insertAdjacentHTML("beforeend", `<option value="" disabled>Turma antiga: ${valorAtual} — selecione uma turma cadastrada</option>`);
+      turmaAluno.insertAdjacentHTML("beforeend", `<option value="" disabled>Turma antiga: ${escaparHtmlMultiTurma(valorAtual)} — selecione uma turma cadastrada</option>`);
       turmaAluno.value = "";
     } else {
       turmaAluno.value = valorAtual;
@@ -455,9 +459,12 @@ function preencherSelectsTurmas() {
 
     cancelarTurma.innerHTML = `
       <option value="">Selecione uma turma</option>
-      ${turmasCadastradas.map(turma => `
-        <option value="${turma.id}">${turma.nome}${turma.horario ? " • " + turma.horario : ""}</option>
-      `).join("")}
+      ${turmasCadastradas.map(turma => {
+        const idSeguro = escaparHtmlMultiTurma(turma.id || "");
+        const nomeSeguro = escaparHtmlMultiTurma(turma.nome || "Turma");
+        const horarioSeguro = escaparHtmlMultiTurma(turma.horario || "");
+        return `<option value="${idSeguro}">${nomeSeguro}${horarioSeguro ? " • " + horarioSeguro : ""}</option>`;
+      }).join("")}
     `;
 
     if ([...cancelarTurma.options].some(opt => opt.value === valorAtual)) {
@@ -760,24 +767,31 @@ function renderizarTurmas() {
     if (!turmasCadastradas.length) {
       listaTurmas.innerHTML = `<div class="empty-state-mini">Nenhuma turma cadastrada ainda.</div>`;
     } else {
-      listaTurmas.innerHTML = turmasCadastradas.map(turma => `
-        <article class="turma-item ${turma.ativa === false ? "inativa" : ""}">
-          <div>
-            <strong>${turma.nome}</strong>
-            <span>${diasSemanaTexto(turma.dias_semana)}${turma.horario ? " • " + turma.horario : ""}</span>
-            ${turma.professor ? `<small>Professor: ${turma.professor}</small>` : ""}
-            <div class="turma-meta-grid">
-              <span class="turma-meta-pill alunos">👥 ${textoQuantidadeAlunosTurma(turma)}</span>
-              <span class="turma-meta-pill ${turma.ativa === false ? "inativa" : "ativa"}">${turma.ativa === false ? "Turma inativa" : "Turma ativa"}</span>
-            </div>
-          </div>
+      listaTurmas.innerHTML = turmasCadastradas.map(turma => {
+        const idSeguro = escaparHtmlMultiTurma(turma.id || "");
+        const nomeSeguro = escaparHtmlMultiTurma(turma.nome || "Turma");
+        const horarioSeguro = escaparHtmlMultiTurma(turma.horario || "");
+        const professorSeguro = escaparHtmlMultiTurma(turma.professor || "");
 
-          <div class="turma-item-acoes">
-            <button type="button" class="acao-secundaria" onclick="editarTurma('${turma.id}')">Editar</button>
-            <button type="button" class="acao-perigo" onclick="removerTurma('${turma.id}')">Remover</button>
-          </div>
-        </article>
-      `).join("");
+        return `
+          <article class="turma-item ${turma.ativa === false ? "inativa" : ""}">
+            <div>
+              <strong>${nomeSeguro}</strong>
+              <span>${diasSemanaTexto(turma.dias_semana)}${horarioSeguro ? " • " + horarioSeguro : ""}</span>
+              ${professorSeguro ? `<small>Professor: ${professorSeguro}</small>` : ""}
+              <div class="turma-meta-grid">
+                <span class="turma-meta-pill alunos">👥 ${textoQuantidadeAlunosTurma(turma)}</span>
+                <span class="turma-meta-pill ${turma.ativa === false ? "inativa" : "ativa"}">${turma.ativa === false ? "Turma inativa" : "Turma ativa"}</span>
+              </div>
+            </div>
+
+            <div class="turma-item-acoes">
+              <button type="button" class="acao-secundaria" onclick="editarTurma('${idSeguro}')">Editar</button>
+              <button type="button" class="acao-perigo" onclick="removerTurma('${idSeguro}')">Remover</button>
+            </div>
+          </article>
+        `;
+      }).join("");
     }
   }
 
@@ -785,17 +799,24 @@ function renderizarTurmas() {
     if (!aulasCanceladas.length) {
       listaAulasCanceladas.innerHTML = `<div class="empty-state-mini">Nenhuma aula cancelada cadastrada.</div>`;
     } else {
-      listaAulasCanceladas.innerHTML = aulasCanceladas.slice(0, 20).map(aula => `
-        <article class="turma-item aula-cancelada-item">
-          <div>
-            <strong>${turmaDaAulaCancelada(aula) || "Turma"}</strong>
-            <span>${formatarData(aula.data_aula)}${aula.motivo ? " • " + aula.motivo : ""}</span>
-            ${aula.observacao ? `<small>${aula.observacao}</small>` : ""}
-          </div>
+      listaAulasCanceladas.innerHTML = aulasCanceladas.slice(0, 20).map(aula => {
+        const idSeguro = escaparHtmlMultiTurma(aula.id || "");
+        const turmaSegura = escaparHtmlMultiTurma(turmaDaAulaCancelada(aula) || "Turma");
+        const motivoSeguro = escaparHtmlMultiTurma(aula.motivo || "");
+        const observacaoSegura = escaparHtmlMultiTurma(aula.observacao || "");
 
-          <button type="button" class="acao-secundaria" onclick="removerAulaCancelada('${aula.id}')">Reativar</button>
-        </article>
-      `).join("");
+        return `
+          <article class="turma-item aula-cancelada-item">
+            <div>
+              <strong>${turmaSegura}</strong>
+              <span>${formatarData(aula.data_aula)}${motivoSeguro ? " • " + motivoSeguro : ""}</span>
+              ${observacaoSegura ? `<small>${observacaoSegura}</small>` : ""}
+            </div>
+
+            <button type="button" class="acao-secundaria" onclick="removerAulaCancelada('${idSeguro}')">Reativar</button>
+          </article>
+        `;
+      }).join("");
     }
   }
 }
@@ -1042,4 +1063,3 @@ if (formCancelarAula) formCancelarAula.addEventListener("submit", salvarAulaCanc
 
 // Inicializa a interface multi-turma sem alterar a ordem atual dos módulos.
 configurarSeletorMultiTurmasAluno();
-

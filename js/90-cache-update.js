@@ -7,11 +7,12 @@ window.MENSALIZE_APP_VERSION = MENSALIZE_APP_VERSION;
  * Ao trocar `version`, o aviso será mostrado uma vez novamente para cada usuário.
  */
 const MENSALIZE_RELEASE = {
+  id: '2.4-lancamento-2026-07-17',
   version: 'Versão 2.4',
   date: 'Julho de 2026',
   eyebrow: 'Lançamento oficial',
   title: 'Mensalize 2.4 chegou',
-  summary: 'Esta versão reúne tudo que construímos para o lançamento do Mensalize: financeiro, alunos, cobranças, relatórios, turmas, presenças, evolução, portal do aluno e uma operação muito mais organizada para o professor.',
+  summary: 'Esta versão reúne tudo que construímos para o lançamento do Mensalize: nova experiência mobile, acesso individual dos alunos, financeiro, cobranças, relatórios, turmas, presenças, evolução e uma operação muito mais organizada para o professor.',
   highlights: [
     {
       icon: '📊',
@@ -50,8 +51,8 @@ const MENSALIZE_RELEASE = {
     },
     {
       icon: '✅',
-      title: 'Presenças e frequência inteligente',
-      description: 'Chamadas por turma e data, histórico, aulas canceladas e cálculo de frequência ajudam a acompanhar consistência com mais precisão.'
+      title: 'Presença e check-in por QR Code',
+      description: 'Além das chamadas por turma e data, o check-in valida o acesso do aluno, confere a turma correta, funciona com multi-turma e evita registros repetidos.'
     },
     {
       icon: '🏆',
@@ -76,7 +77,7 @@ const MENSALIZE_RELEASE = {
     {
       icon: '📩',
       title: 'Solicitações organizadas',
-      description: 'Pedidos do aluno ficam separados por pendentes, aprovados e recusados, com fluxo mais claro para resposta do professor.'
+      description: 'Pedidos do aluno ficam separados por pendentes, aprovados e recusados, com fluxo mais claro para resposta do professor e bloqueio de solicitações pendentes duplicadas.'
     },
     {
       icon: '🎂',
@@ -85,8 +86,8 @@ const MENSALIZE_RELEASE = {
     },
     {
       icon: '📱',
-      title: 'Portal individual do aluno',
-      description: 'Cada aluno pode acessar sua própria área com informações financeiras, Pix, histórico, avisos, evolução, ranking e dados da academia.'
+      title: 'Portal do Aluno com acesso próprio',
+      description: 'Cada aluno recebe um link pessoal, escolhe seu usuário e senha e acessa uma experiência mobile com financeiro, Pix, avisos, evolução, programa, ranking e dados da academia.'
     },
     {
       icon: '✨',
@@ -105,13 +106,13 @@ const MENSALIZE_RELEASE = {
     },
     {
       icon: '🛡️',
-      title: 'Admin, login, PWA e atualização refinados',
-      description: 'A gestão administrativa, o acesso do professor, a instalação como app e o fluxo de atualização/cache ficaram mais maduros para o lançamento.'
+      title: 'Acesso ao Portal dos Alunos',
+      description: 'Uma nova área mostra quem ainda precisa criar login e permite ao professor enviar o acesso pelo WhatsApp de forma rápida e organizada.'
     }
   ]
 };
 
-const RELEASE_STORAGE_KEY = `mensalize:release-seen:${MENSALIZE_RELEASE.version}`;
+const RELEASE_STORAGE_KEY = `mensalize:release-seen:${MENSALIZE_RELEASE.id || MENSALIZE_RELEASE.version}`;
 let mensalizeNovaVersaoWorker = null;
 let mensalizeRecarregandoPorSW = false;
 let releaseLastFocusedElement = null;

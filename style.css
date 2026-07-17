@@ -20257,11 +20257,12 @@ body.aceite-legal-aberto {
 
 /* ALUNOS — FILA LIMPA DE ATIVAÇÃO DO PORTAL */
 #viewAlunos .acessos-pendentes {
-  margin: 2px 0 4px;
-  border: 1px solid rgba(139, 92, 246, 0.30);
-  border-radius: 18px;
-  background: linear-gradient(135deg, rgba(41, 27, 83, 0.72), rgba(15, 13, 35, 0.88));
-  box-shadow: 0 18px 44px rgba(5, 3, 18, 0.18);
+  margin: 4px 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid #7c3aed;
+  border-radius: 16px;
+  background: rgba(12, 11, 30, 0.72);
+  box-shadow: 0 14px 34px rgba(5, 3, 18, 0.12);
   overflow: hidden;
 }
 
@@ -20269,10 +20270,10 @@ body.aceite-legal-aberto {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
-  min-height: 76px;
-  padding: 14px 16px;
+  min-height: 94px;
+  padding: 16px 18px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -20282,33 +20283,40 @@ body.aceite-legal-aberto {
 }
 
 #viewAlunos .acessos-pendentes-resumo:hover {
-  background: rgba(139, 92, 246, 0.08);
+  background: rgba(255, 255, 255, 0.025);
 }
 
 #viewAlunos .acessos-pendentes-icone {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(167, 139, 250, 0.32);
-  border-radius: 12px;
-  background: rgba(124, 58, 237, 0.18);
-  color: #c4b5fd;
-  font-size: 19px;
-  font-weight: 800;
+  border-radius: 14px;
+  background: rgba(124, 58, 237, 0.14);
+  color: #b99cff;
+}
+
+#viewAlunos .acessos-pendentes-icone svg {
+  width: 21px;
+  height: 21px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 #viewAlunos .acessos-pendentes-titulo {
   display: grid;
-  gap: 3px;
+  gap: 4px;
   min-width: 0;
 }
 
 #viewAlunos .acessos-pendentes-titulo small {
-  color: #a78bfa;
-  font-size: 10px;
+  color: #9b7ee5;
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -20316,32 +20324,58 @@ body.aceite-legal-aberto {
   overflow: hidden;
   color: var(--texto-primario);
   font-size: 15px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#viewAlunos .acessos-pendentes-descricao {
+  overflow: hidden;
+  color: var(--texto-secundario);
+  font-size: 11px;
+  line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 #viewAlunos .acessos-pendentes-contador {
-  padding: 6px 10px;
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  border-radius: 999px;
-  background: rgba(245, 158, 11, 0.10);
-  color: #fbbf24;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(167, 139, 250, 0.24);
+  border-radius: 12px;
+  background: rgba(124, 58, 237, 0.12);
+  color: #c4b5fd;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+#viewAlunos .acessos-pendentes-acao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 39px;
+  padding: 9px 14px;
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 11px;
+  background: rgba(124, 58, 237, 0.15);
+  color: #d8ccff;
   font-size: 11px;
   font-weight: 800;
   white-space: nowrap;
 }
 
-#viewAlunos .acessos-pendentes-acao {
-  color: #c4b5fd;
-  font-size: 12px;
-  font-weight: 800;
-  white-space: nowrap;
+#viewAlunos .acessos-pendentes-resumo[aria-expanded="true"] .acessos-pendentes-acao {
+  border-color: #7c3aed;
+  background: #7c3aed;
+  color: #ffffff;
 }
 
 #viewAlunos .acessos-pendentes-conteudo {
-  padding: 10px;
+  padding: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(4, 3, 17, 0.20);
+  background: rgba(4, 3, 17, 0.16);
 }
 
 #viewAlunos .acessos-pendentes-lista {
@@ -20411,9 +20445,10 @@ body.aceite-legal-aberto {
 }
 
 [data-tema="claro"] #viewAlunos .acessos-pendentes {
-  border-color: rgba(109, 40, 217, 0.16);
-  background: linear-gradient(135deg, #faf7ff, #ffffff);
-  box-shadow: 0 16px 36px rgba(76, 29, 149, 0.08);
+  border-color: rgba(15, 23, 42, 0.08);
+  border-left-color: #7c3aed;
+  background: #ffffff;
+  box-shadow: 0 14px 30px rgba(76, 29, 149, 0.06);
 }
 
 [data-tema="claro"] #viewAlunos .acesso-pendente-item {

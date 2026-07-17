@@ -630,15 +630,24 @@
                 aria-expanded="false"
                 aria-controls="conteudoAcessosPendentes"
               >
-                <span class="acessos-pendentes-icone" aria-hidden="true">↗</span>
-
-                <span class="acessos-pendentes-titulo">
-                  <small>Portal do aluno</small>
-                  <strong id="tituloAcessosPendentes">Ativar Portal do Aluno</strong>
+                <span class="acessos-pendentes-icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                    <rect x="5" y="11" width="14" height="10" rx="3" />
+                    <path d="M12 15v2" />
+                  </svg>
                 </span>
 
-                <span id="contadorAcessosPendentes" class="acessos-pendentes-contador">0 aguardando</span>
-                <span id="acaoAcessosPendentes" class="acessos-pendentes-acao">Ver pendentes</span>
+                <span class="acessos-pendentes-titulo">
+                  <small>Ativação de contas</small>
+                  <strong id="tituloAcessosPendentes">Acesso ao Portal dos Alunos</strong>
+                  <span id="descricaoAcessosPendentes" class="acessos-pendentes-descricao">
+                    Alunos ainda precisam criar login e senha.
+                  </span>
+                </span>
+
+                <span id="contadorAcessosPendentes" class="acessos-pendentes-contador" aria-label="0 aguardando">0</span>
+                <span id="acaoAcessosPendentes" class="acessos-pendentes-acao">Ver alunos</span>
               </button>
 
               <div id="conteudoAcessosPendentes" class="acessos-pendentes-conteudo escondido">

@@ -460,9 +460,10 @@ function renderizarPainelAcessosPendentes() {
   const conteudo = document.getElementById("conteudoAcessosPendentes");
   const lista = document.getElementById("listaAcessosPendentes");
   const contador = document.getElementById("contadorAcessosPendentes");
+  const descricao = document.getElementById("descricaoAcessosPendentes");
   const acao = document.getElementById("acaoAcessosPendentes");
 
-  if (!painel || !botaoAlternar || !conteudo || !lista || !contador || !acao) return;
+  if (!painel || !botaoAlternar || !conteudo || !lista || !contador || !descricao || !acao) return;
 
   const pendentes = obterAlunosAguardandoAcesso();
   const total = pendentes.length;
@@ -477,8 +478,12 @@ function renderizarPainelAcessosPendentes() {
   }
 
   painel.classList.remove("escondido");
-  contador.textContent = `${total} aguardando`;
-  acao.textContent = painelAcessosPendentesAberto ? "Ocultar" : "Ver pendentes";
+  contador.textContent = String(total);
+  contador.setAttribute("aria-label", `${total} aguardando`);
+  descricao.textContent = total === 1
+    ? "1 aluno ainda precisa criar login e senha."
+    : `${total} alunos ainda precisam criar login e senha.`;
+  acao.textContent = painelAcessosPendentesAberto ? "Fechar lista" : "Ver alunos";
   botaoAlternar.setAttribute("aria-expanded", painelAcessosPendentesAberto ? "true" : "false");
   conteudo.classList.toggle("escondido", !painelAcessosPendentesAberto);
 

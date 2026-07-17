@@ -518,35 +518,44 @@
 @media (max-width: 760px) {
   #viewAlunos .acessos-pendentes {
     margin: 0 !important;
-    border-radius: 18px !important;
+    border-radius: 16px !important;
   }
 
   #viewAlunos .acessos-pendentes-resumo {
     grid-template-columns: auto minmax(0, 1fr) auto !important;
-    gap: 9px !important;
-    min-height: 72px !important;
-    padding: 12px !important;
+    gap: 10px !important;
+    min-height: 0 !important;
+    padding: 14px !important;
   }
 
   #viewAlunos .acessos-pendentes-icone {
-    width: 36px !important;
-    height: 36px !important;
-    border-radius: 11px !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
   }
 
   #viewAlunos .acessos-pendentes-titulo strong {
     font-size: 13px !important;
+    white-space: normal !important;
+  }
+
+  #viewAlunos .acessos-pendentes-descricao {
+    font-size: 10px !important;
+    white-space: normal !important;
   }
 
   #viewAlunos .acessos-pendentes-contador {
-    padding: 5px 8px !important;
-    font-size: 9px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    font-size: 11px !important;
   }
 
   #viewAlunos .acessos-pendentes-acao {
-    grid-column: 2 / -1;
-    justify-self: end;
-    margin-top: -7px;
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 38px !important;
+    margin-top: 3px;
     font-size: 10px !important;
   }
 

@@ -514,3 +514,79 @@
     }
   }
 }
+
+@media (max-width: 760px) {
+  #viewAlunos .acessos-pendentes {
+    margin: 0 !important;
+    border-radius: 18px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-resumo {
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+    gap: 9px !important;
+    min-height: 72px !important;
+    padding: 12px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-icone {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 11px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-titulo strong {
+    font-size: 13px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-contador {
+    padding: 5px 8px !important;
+    font-size: 9px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-acao {
+    grid-column: 2 / -1;
+    justify-self: end;
+    margin-top: -7px;
+    font-size: 10px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-conteudo {
+    padding: 8px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-lista {
+    max-height: 52vh;
+  }
+
+  #viewAlunos .acesso-pendente-item {
+    gap: 8px !important;
+    min-height: 58px !important;
+    padding: 9px !important;
+    border-radius: 13px !important;
+  }
+
+  #viewAlunos .acesso-pendente-identidade {
+    gap: 8px !important;
+  }
+
+  #viewAlunos .acesso-pendente-identidade strong {
+    font-size: 12px !important;
+  }
+
+  #viewAlunos .acesso-pendente-enviar {
+    min-height: 36px !important;
+    padding: 7px 10px !important;
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  #viewAlunos .acesso-pendente-item {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  #viewAlunos .acesso-pendente-enviar {
+    width: 100% !important;
+  }
+}

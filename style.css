@@ -20254,3 +20254,169 @@ body.aceite-legal-aberto {
 [data-tema="claro"] #telaAdmin .admin-simple-panel .admin-simple-field > span {
   color: #111827;
 }
+
+/* ALUNOS — FILA LIMPA DE ATIVAÇÃO DO PORTAL */
+#viewAlunos .acessos-pendentes {
+  margin: 2px 0 4px;
+  border: 1px solid rgba(139, 92, 246, 0.30);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(41, 27, 83, 0.72), rgba(15, 13, 35, 0.88));
+  box-shadow: 0 18px 44px rgba(5, 3, 18, 0.18);
+  overflow: hidden;
+}
+
+#viewAlunos .acessos-pendentes-resumo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 76px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--texto-primario);
+  text-align: left;
+  cursor: pointer;
+}
+
+#viewAlunos .acessos-pendentes-resumo:hover {
+  background: rgba(139, 92, 246, 0.08);
+}
+
+#viewAlunos .acessos-pendentes-icone {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(167, 139, 250, 0.32);
+  border-radius: 12px;
+  background: rgba(124, 58, 237, 0.18);
+  color: #c4b5fd;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+#viewAlunos .acessos-pendentes-titulo {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+#viewAlunos .acessos-pendentes-titulo small {
+  color: #a78bfa;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+#viewAlunos .acessos-pendentes-titulo strong {
+  overflow: hidden;
+  color: var(--texto-primario);
+  font-size: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#viewAlunos .acessos-pendentes-contador {
+  padding: 6px 10px;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.10);
+  color: #fbbf24;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#viewAlunos .acessos-pendentes-acao {
+  color: #c4b5fd;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#viewAlunos .acessos-pendentes-conteudo {
+  padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(4, 3, 17, 0.20);
+}
+
+#viewAlunos .acessos-pendentes-lista {
+  display: grid;
+  gap: 8px;
+  max-height: 420px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#viewAlunos .acesso-pendente-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 62px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+#viewAlunos .acesso-pendente-identidade {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+#viewAlunos .acesso-pendente-identidade strong {
+  overflow: hidden;
+  color: var(--texto-primario);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#viewAlunos .acesso-pendente-avatar {
+  display: grid;
+  flex: 0 0 34px;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  border-radius: 11px;
+  background: rgba(124, 58, 237, 0.14);
+  color: #ddd6fe;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+#viewAlunos .acesso-pendente-enviar {
+  flex: 0 0 auto;
+  min-height: 38px;
+  margin: 0;
+  padding: 8px 13px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+#viewAlunos .acesso-pendente-enviar:disabled {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--texto-secundario);
+  cursor: not-allowed;
+  opacity: 0.66;
+}
+
+[data-tema="claro"] #viewAlunos .acessos-pendentes {
+  border-color: rgba(109, 40, 217, 0.16);
+  background: linear-gradient(135deg, #faf7ff, #ffffff);
+  box-shadow: 0 16px 36px rgba(76, 29, 149, 0.08);
+}
+
+[data-tema="claro"] #viewAlunos .acesso-pendente-item {
+  border-color: rgba(15, 23, 42, 0.08);
+  background: rgba(109, 40, 217, 0.035);
+}

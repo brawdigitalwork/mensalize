@@ -17,7 +17,7 @@ async function carregarAlunos() {
 
   let queryAlunos = supabaseClient
     .from("alunos")
-    .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
+    .select("id,user_id,auth_user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
 
   queryAlunos = aplicarFiltroUsuario(queryAlunos);
 
@@ -48,6 +48,7 @@ async function carregarAlunos() {
   alunos = data || [];
   alunosPagosMes = new Set((pagamentosMes || []).map(p => String(p.aluno_id)));
   sincronizarEstado();
+  renderizarPainelAcessosPendentes();
 
   // Turmas e frequência também podem carregar em paralelo; a renderização vem depois.
   await Promise.all([
@@ -376,6 +377,7 @@ function calcularMensalidadesParaRegistrar(vencimentoAtual) {
 // ===============================
 
 const FILTROS_ALUNOS_VALIDOS = ["todos", "pendente", "atrasado", "hoje", "pago"];
+let painelAcessosPendentesAberto = false;
 
 function obterFiltroSalvoAlunos() {
   try {
@@ -427,6 +429,89 @@ function escaparHtmlAluno(valor) {
 function obterTextoSeguroAluno(valor, fallback = "Não informado") {
   const texto = String(valor ?? "").trim();
   return texto ? texto : fallback;
+}
+
+function obterAlunosAguardandoAcesso() {
+  return alunos
+    .filter(function(aluno) {
+      return !String(aluno.auth_user_id || "").trim();
+    })
+    .sort(function(a, b) {
+      return String(a.nome || "").localeCompare(String(b.nome || ""), "pt-BR", {
+        sensitivity: "base"
+      });
+    });
+}
+
+function alunoTemWhatsAppParaAcesso(aluno) {
+  const limparNumero = typeof limparNumeroWhatsApp === "function"
+    ? limparNumeroWhatsApp
+    : function(valor) { return String(valor || "").replace(/\D/g, ""); };
+
+  const telefoneAluno = limparNumero(aluno.telefone);
+  const telefoneResponsavel = limparNumero(aluno.responsavel_whatsapp);
+
+  return telefoneAluno.length >= 10 || telefoneResponsavel.length >= 10;
+}
+
+function renderizarPainelAcessosPendentes() {
+  const painel = document.getElementById("painelAcessosPendentes");
+  const botaoAlternar = document.getElementById("btnAlternarAcessosPendentes");
+  const conteudo = document.getElementById("conteudoAcessosPendentes");
+  const lista = document.getElementById("listaAcessosPendentes");
+  const contador = document.getElementById("contadorAcessosPendentes");
+  const acao = document.getElementById("acaoAcessosPendentes");
+
+  if (!painel || !botaoAlternar || !conteudo || !lista || !contador || !acao) return;
+
+  const pendentes = obterAlunosAguardandoAcesso();
+  const total = pendentes.length;
+
+  if (total === 0) {
+    painelAcessosPendentesAberto = false;
+    painel.classList.add("escondido");
+    conteudo.classList.add("escondido");
+    botaoAlternar.setAttribute("aria-expanded", "false");
+    lista.innerHTML = "";
+    return;
+  }
+
+  painel.classList.remove("escondido");
+  contador.textContent = `${total} aguardando`;
+  acao.textContent = painelAcessosPendentesAberto ? "Ocultar" : "Ver pendentes";
+  botaoAlternar.setAttribute("aria-expanded", painelAcessosPendentesAberto ? "true" : "false");
+  conteudo.classList.toggle("escondido", !painelAcessosPendentesAberto);
+
+  lista.innerHTML = pendentes.map(function(aluno) {
+    const nome = obterTextoSeguroAluno(aluno.nome, "Aluno");
+    const nomeSeguro = escaparHtmlAluno(nome);
+    const inicialSegura = escaparHtmlAluno(nome.charAt(0).toUpperCase() || "A");
+    const idSeguro = escaparHtmlAluno(aluno.id);
+    const temWhatsApp = alunoTemWhatsAppParaAcesso(aluno);
+
+    return `
+      <div class="acesso-pendente-item">
+        <div class="acesso-pendente-identidade">
+          <span class="acesso-pendente-avatar" aria-hidden="true">${inicialSegura}</span>
+          <strong>${nomeSeguro}</strong>
+        </div>
+
+        <button
+          type="button"
+          class="acao-secundaria whatsapp acesso-pendente-enviar"
+          ${temWhatsApp ? `onclick="enviarLinkPaginaAluno('${idSeguro}')"` : "disabled"}
+          ${temWhatsApp ? "" : `title="Cadastre um WhatsApp para enviar o acesso"`}
+        >
+          ${temWhatsApp ? "Enviar acesso" : "Sem WhatsApp"}
+        </button>
+      </div>
+    `;
+  }).join("");
+}
+
+function alternarPainelAcessosPendentes() {
+  painelAcessosPendentesAberto = !painelAcessosPendentesAberto;
+  renderizarPainelAcessosPendentes();
 }
 
 function obterClasseStatusAluno(aluno, jaPagou, status, dias) {
@@ -873,4 +958,3 @@ document.addEventListener("keydown", function(event) {
     fecharPerfilCompletoAluno();
   }
 });
-

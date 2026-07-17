@@ -617,6 +617,35 @@
               <span id="contadorLista" class="contador-lista">0 alunos</span>
             </div>
 
+            <section
+              id="painelAcessosPendentes"
+              class="acessos-pendentes escondido"
+              aria-labelledby="tituloAcessosPendentes"
+            >
+              <button
+                type="button"
+                id="btnAlternarAcessosPendentes"
+                class="acessos-pendentes-resumo"
+                onclick="alternarPainelAcessosPendentes()"
+                aria-expanded="false"
+                aria-controls="conteudoAcessosPendentes"
+              >
+                <span class="acessos-pendentes-icone" aria-hidden="true">↗</span>
+
+                <span class="acessos-pendentes-titulo">
+                  <small>Portal do aluno</small>
+                  <strong id="tituloAcessosPendentes">Ativar Portal do Aluno</strong>
+                </span>
+
+                <span id="contadorAcessosPendentes" class="acessos-pendentes-contador">0 aguardando</span>
+                <span id="acaoAcessosPendentes" class="acessos-pendentes-acao">Ver pendentes</span>
+              </button>
+
+              <div id="conteudoAcessosPendentes" class="acessos-pendentes-conteudo escondido">
+                <div id="listaAcessosPendentes" class="acessos-pendentes-lista"></div>
+              </div>
+            </section>
+
             <input 
               type="text" 
               id="campoBusca" 

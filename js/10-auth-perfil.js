@@ -29,6 +29,8 @@ async function iniciarSistema() {
 
 /** Mostra a tela de login e limpa dados sensíveis dos campos. */
 function mostrarLogin() {
+  if (typeof pararMonitoramentoTrial === "function") pararMonitoramentoTrial();
+
   telaLogin.classList.remove("escondido");
   app.classList.add("escondido");
   telaAdmin.classList.add("escondido");
@@ -118,11 +120,26 @@ async function bloquearAcessoCliente(motivo = "Conta bloqueada pelo administrado
 async function mostrarApp() {
   telaLogin.classList.add("escondido");
   telaAdmin.classList.add("escondido");
-  app.classList.remove("escondido");
+  app.classList.add("escondido");
 
   emailUsuario.textContent = usuarioAtual.email;
 
-  return await carregarPerfil();
+  const acessoLiberado = await carregarPerfil();
+  if (!acessoLiberado) return false;
+
+  if (usuarioEhAdmin) {
+    if (typeof abrirPainelAdminMensalize !== "function") {
+      await bloquearAcessoCliente("Não foi possível abrir o painel administrativo agora.");
+      return false;
+    }
+
+    await abrirPainelAdminMensalize();
+    return true;
+  }
+
+  app.classList.remove("escondido");
+  iniciarMonitoramentoTrial();
+  return true;
 }
 
 
@@ -132,6 +149,10 @@ async function mostrarApp() {
 const MENSALIZE_UPGRADE_WHATSAPP = "5531982924913";
 const MENSALIZE_TRIAL_TOTAL_DIAS = 30;
 const MENSALIZE_TRIAL_BANNER_KEY_PREFIX = "mensalize:trial-banner-fechado";
+const MENSALIZE_TRIAL_VALIDACAO_INTERVALO_MS = 60 * 1000;
+
+let temporizadorValidacaoTrial = null;
+let bloqueioTrialEmAndamento = false;
 
 const MENSALIZE_PLANOS_INTERFACE = {
   trial: {
@@ -270,9 +291,45 @@ function calcularDiasRestantesTrial() {
   return Math.ceil((fim - hojeLocal) / (1000 * 60 * 60 * 24));
 }
 
+function pararMonitoramentoTrial() {
+  if (temporizadorValidacaoTrial) {
+    clearInterval(temporizadorValidacaoTrial);
+    temporizadorValidacaoTrial = null;
+  }
+  bloqueioTrialEmAndamento = false;
+}
+
+async function verificarExpiracaoTrialEmSessao() {
+  if (!usuarioAtual || usuarioEhAdmin || bloqueioTrialEmAndamento) return;
+  if (normalizarPlanoInterface(planoAtual) !== "trial") return;
+
+  const diasRestantes = calcularDiasRestantesTrial();
+  if (diasRestantes === null || diasRestantes >= 0) return;
+
+  bloqueioTrialEmAndamento = true;
+  const { fim } = obterPeriodoTrialConta();
+  const fimTexto = fim ? fim.toLocaleDateString("pt-BR") : "a data cadastrada";
+
+  await bloquearAcessoCliente(
+    `Seu teste gratuito terminou em ${fimTexto}. Fale com o Mensalize para ativar um plano e continuar.`
+  );
+}
+
+function iniciarMonitoramentoTrial() {
+  pararMonitoramentoTrial();
+
+  if (!usuarioAtual || usuarioEhAdmin || normalizarPlanoInterface(planoAtual) !== "trial") return;
+
+  temporizadorValidacaoTrial = setInterval(
+    verificarExpiracaoTrialEmSessao,
+    MENSALIZE_TRIAL_VALIDACAO_INTERVALO_MS
+  );
+}
+
 function textoDiasTrial(dias) {
   if (dias === null || dias === undefined) return "dias restantes não disponíveis";
-  if (dias <= 0) return "teste encerrado";
+  if (dias < 0) return "teste encerrado";
+  if (dias === 0) return "termina hoje";
   if (dias === 1) return "1 dia restante";
   return `${dias} dias restantes`;
 }
@@ -328,10 +385,10 @@ function atualizarPerfilPlano() {
     const fimTexto = periodoTrial.fim ? periodoTrial.fim.toLocaleDateString("pt-BR") : "data final não definida";
 
     nomeEl.textContent = `Teste Gratuito — ${textoDiasTrial(diasTrial)}`;
-    detalheEl.textContent = diasTrial !== null && diasTrial <= 0
+    detalheEl.textContent = diasTrial !== null && diasTrial < 0
       ? `Seu teste gratuito terminou em ${fimTexto}. Escolha um plano para evitar interrupções.`
       : `Você está experimentando o Mensalize. Trial válido até ${fimTexto}.`;
-    if (diasTrial !== null && diasTrial <= 0) card.classList.add("perfil-plano-expirado");
+    if (diasTrial !== null && diasTrial < 0) card.classList.add("perfil-plano-expirado");
   } else {
     nomeEl.textContent = config.nome;
     detalheEl.textContent = config.descricao;
@@ -364,11 +421,14 @@ function atualizarBannerTrialPlano() {
     return;
   }
 
-  banner.classList.toggle("banner-trial-expirado", diasTrial <= 0);
+  banner.classList.toggle("banner-trial-expirado", diasTrial < 0);
 
-  if (diasTrial <= 0) {
+  if (diasTrial < 0) {
     titulo.textContent = "Seu teste gratuito terminou";
     texto.textContent = "Escolha um plano para continuar usando o Mensalize sem interrupções.";
+  } else if (diasTrial === 0) {
+    titulo.textContent = "Seu teste gratuito termina hoje";
+    texto.textContent = "Ative um plano hoje para continuar usando o Mensalize amanhã.";
   } else if (diasTrial === 1) {
     titulo.textContent = "Seu teste gratuito termina amanhã";
     texto.textContent = "Ative um plano agora para continuar usando o Mensalize sem risco de pausa.";
@@ -597,6 +657,20 @@ async function carregarPerfil() {
 
   if (!usuarioEhAdmin && !podeUsarSistema) {
     await bloquearAcessoCliente("Sua conta está bloqueada. Fale com o administrador do Mensalize para regularizar o acesso.");
+    return false;
+  }
+
+  const diasRestantesTrial = calcularDiasRestantesTrial();
+  const trialExpirado = normalizarPlanoInterface(planoAtual) === "trial"
+    && diasRestantesTrial !== null
+    && diasRestantesTrial < 0;
+
+  if (!usuarioEhAdmin && trialExpirado) {
+    const { fim } = obterPeriodoTrialConta();
+    const fimTexto = fim ? fim.toLocaleDateString("pt-BR") : "a data cadastrada";
+    await bloquearAcessoCliente(
+      `Seu teste gratuito terminou em ${fimTexto}. Fale com o Mensalize para ativar um plano e continuar.`
+    );
     return false;
   }
 
@@ -845,6 +919,8 @@ btnEntrar.addEventListener("click", async function() {
   btnEntrar.textContent = "Entrar";
 
   if (!acessoLiberado) return;
+
+  if (usuarioEhAdmin) return;
 
   const aceiteLegalLiberado = await garantirAceiteLegalAtual();
   if (!aceiteLegalLiberado) return;

@@ -1,50 +1,107 @@
 // 22. ADMIN — CLIENTES, LIMITES E DASHBOARD
 // ===============================
 
+async function abrirPainelAdminMensalize() {
+  if (!usuarioEhAdmin) {
+    mostrarToast("Acesso admin não liberado para este usuário.", "erro");
+    return false;
+  }
+
+  try {
+    document.body.classList.remove("menu-aberto");
+    fecharPaineisAuxiliaresAdmin();
+
+    telaLogin.classList.add("escondido");
+    app.classList.add("escondido");
+    telaAdmin.classList.remove("escondido");
+
+    if (listaClientes) {
+      listaClientes.innerHTML = `
+        <div class="skeleton-wrapper">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      `;
+    }
+
+    await carregarClientes();
+    await carregarDashboard();
+    return true;
+  } catch (erro) {
+    console.error("Erro ao abrir painel admin:", erro);
+    mostrarToast("Erro ao abrir painel admin. Veja o console.", "erro");
+
+    telaLogin.classList.add("escondido");
+    app.classList.add("escondido");
+    telaAdmin.classList.remove("escondido");
+    return false;
+  }
+}
+
 if (btnAdmin) {
-  btnAdmin.addEventListener("click", async function() {
-    if (!usuarioEhAdmin) {
-      mostrarToast("Acesso admin não liberado para este usuário.", "erro");
-      return;
-    }
-
-    try {
-      document.body.classList.remove("menu-aberto");
-
-      telaLogin.classList.add("escondido");
-      app.classList.add("escondido");
-      telaAdmin.classList.remove("escondido");
-
-      if (listaClientes) {
-        listaClientes.innerHTML = `
-          <div class="skeleton-wrapper">
-            <div class="skeleton-card"></div>
-            <div class="skeleton-card"></div>
-          </div>
-        `;
-      }
-
-      await carregarClientes();
-      await carregarDashboard();
-
-    } catch (erro) {
-      console.error("Erro ao abrir painel admin:", erro);
-      mostrarToast("Erro ao abrir painel admin. Veja o console.", "erro");
-
-      telaLogin.classList.add("escondido");
-      app.classList.add("escondido");
-      telaAdmin.classList.remove("escondido");
-    }
-  });
+  btnAdmin.addEventListener("click", abrirPainelAdminMensalize);
 }
 
 if (btnVoltar) {
-  btnVoltar.addEventListener("click", function() {
-    telaAdmin.classList.add("escondido");
-    telaLogin.classList.add("escondido");
-    app.classList.remove("escondido");
+  btnVoltar.addEventListener("click", async function() {
+    try {
+      await supabaseClient.auth.signOut();
+    } catch (erro) {
+      console.warn("Erro ao encerrar sessão do Admin:", erro);
+    }
+
+    usuarioAtual = null;
+    usuarioEhAdmin = false;
+    alunos = [];
+    sincronizarEstado();
+    mostrarLogin();
   });
 }
+
+const btnAlternarNovoCliente = document.getElementById("btnAlternarNovoCliente");
+const btnAlternarGuiaPlanos = document.getElementById("btnAlternarGuiaPlanos");
+
+function definirPainelAuxiliarAdmin(painelId, aberto) {
+  const painel = document.getElementById(painelId);
+  if (!painel) return;
+
+  painel.classList.toggle("escondido", !aberto);
+
+  document.querySelectorAll(`[aria-controls="${painelId}"]`).forEach(botao => {
+    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
+    botao.classList.toggle("ativo", aberto);
+  });
+}
+
+function fecharPaineisAuxiliaresAdmin() {
+  definirPainelAuxiliarAdmin("painelNovoCliente", false);
+  definirPainelAuxiliarAdmin("painelGuiaPlanos", false);
+}
+
+function alternarPainelAuxiliarAdmin(painelId) {
+  const painel = document.getElementById(painelId);
+  if (!painel) return;
+
+  const deveAbrir = painel.classList.contains("escondido");
+  fecharPaineisAuxiliaresAdmin();
+  definirPainelAuxiliarAdmin(painelId, deveAbrir);
+
+  if (deveAbrir) {
+    painel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+if (btnAlternarNovoCliente) {
+  btnAlternarNovoCliente.addEventListener("click", () => alternarPainelAuxiliarAdmin("painelNovoCliente"));
+}
+
+if (btnAlternarGuiaPlanos) {
+  btnAlternarGuiaPlanos.addEventListener("click", () => alternarPainelAuxiliarAdmin("painelGuiaPlanos"));
+}
+
+document.querySelectorAll("[data-admin-fechar-painel]").forEach(botao => {
+  botao.addEventListener("click", () => definirPainelAuxiliarAdmin(botao.dataset.adminFecharPainel, false));
+});
 
 /** Chama uma Edge Function administrativa usando a sessão real do Admin. */
 async function executarEdgeAdmin(nomeFuncao, payload) {
@@ -104,6 +161,7 @@ btnCriarUsuario.addEventListener("click", async function() {
 
     novoEmail.value = "";
     novaSenha.value = "";
+    definirPainelAuxiliarAdmin("painelNovoCliente", false);
 
     await carregarClientes();
     await carregarDashboard();
@@ -164,6 +222,17 @@ function adminCalcularDiasTrial(cliente) {
 
   if (Number.isNaN(dataFim.getTime())) return null;
   return Math.ceil((dataFim - hojeLocal) / (1000 * 60 * 60 * 24));
+}
+
+function adminClienteAcessoEncerrado(cliente) {
+  const diasTrial = adminCalcularDiasTrial(cliente);
+  const trialExpirado = normalizarPlano(cliente?.plano) === "trial"
+    && diasTrial !== null
+    && diasTrial < 0;
+
+  return cliente?.status === "bloqueado"
+    || cliente?.pode_usar === false
+    || trialExpirado;
 }
 
 function adminResumoTrialCliente(cliente) {
@@ -249,14 +318,13 @@ function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
   const texto = `${cliente.email || ""} ${cliente.nome_empresa || ""}`.toLowerCase();
   const plano = cliente.plano || "trial";
   const planoNormalizado = normalizarPlano(plano);
-  const status = cliente.status || "ativo";
-  const podeUsar = cliente.pode_usar !== false;
+  const acessoEncerrado = adminClienteAcessoEncerrado(cliente);
 
   if (adminBuscaClientesTexto && !texto.includes(adminBuscaClientesTexto)) return false;
 
   if (adminFiltroClientesAtual === "todos") return true;
-  if (adminFiltroClientesAtual === "ativo") return status !== "bloqueado" && podeUsar;
-  if (adminFiltroClientesAtual === "bloqueado") return status === "bloqueado" || !podeUsar;
+  if (adminFiltroClientesAtual === "ativo") return !acessoEncerrado;
+  if (adminFiltroClientesAtual === "bloqueado") return acessoEncerrado;
 
   // Filtros por plano: compara pelo valor normalizado para incluir legados
   // Ex: filtro "pro" captura clientes com plano "fight" ou "premium" no banco
@@ -301,11 +369,9 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
 
   const total = alunosDoCliente.length;
   const limite = Math.max(Number(cliente.limite_alunos || 30), 1);
-  const porcentagem = Math.min(Math.round((total / limite) * 100), 100);
   const resumoPlano = obterResumoPlanoAdmin(cliente.plano || "trial");
-  const statusBloqueado = cliente.status === "bloqueado" || cliente.pode_usar === false;
+  const statusBloqueado = adminClienteAcessoEncerrado(cliente);
   const statusTexto = statusBloqueado ? "Bloqueado" : "Ativo";
-  const progressoClasse = porcentagem >= 100 ? "danger" : porcentagem >= 80 ? "warn" : "ok";
   const trialInicio = adminDataInputTrial(cliente.trial_inicio);
   const trialFim = adminDataInputTrial(cliente.trial_fim);
   const resumoTrial = adminResumoTrialCliente(cliente);
@@ -319,7 +385,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
   const trialFimSeguro = escaparHtmlAdmin(trialFim);
   const resumoTrialSeguro = escaparHtmlAdmin(resumoTrial);
   const trialChip = normalizarPlano(cliente.plano) === "trial" && diasTrial !== null
-    ? `<span class="admin-chip ${diasTrial <= 0 ? "bloqueado" : "plano"}">${diasTrial <= 0 ? "Trial encerrado" : `${diasTrial}d trial`}</span>`
+    ? `<span class="admin-chip ${diasTrial < 0 ? "bloqueado" : "plano"}">${diasTrial < 0 ? "Trial encerrado" : diasTrial === 0 ? "Trial termina hoje" : `${diasTrial}d trial`}</span>`
     : "";
 
   // Detecta se o cliente usa plano legado para exibir aviso informativo
@@ -344,7 +410,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
 
   div.innerHTML = `
     <div class="admin-simple-head">
-      <button type="button" class="admin-simple-main" onclick="toggleClienteAlunos('${cliente.id}')">
+      <button type="button" class="admin-simple-main" data-admin-toggle-cliente="${cliente.id}" aria-expanded="false" aria-controls="detalhes-cliente-${cliente.id}" onclick="toggleClienteAlunos('${cliente.id}')">
         <span class="admin-simple-avatar">${inicialClienteSegura}</span>
         <span class="admin-simple-title-wrap">
           <strong>${nomeClienteSeguro}</strong>
@@ -353,30 +419,18 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
       </button>
 
       <div class="admin-simple-actions">
+        <span class="admin-simple-count"><strong>${total}</strong><small>/ ${limite} alunos</small></span>
         <span class="admin-chip plano">${resumoPlano.nome}</span>
         ${trialChip}
         <span class="admin-chip ${statusBloqueado ? "bloqueado" : "ativo"}">${statusTexto}</span>
-        <button type="button" class="admin-simple-manage" onclick="toggleClienteAlunos('${cliente.id}')">
-          Gerenciar
-        </button>
-        <button type="button" class="admin-simple-delete" onclick="event.stopPropagation(); removerCliente('${cliente.id}')" title="Remover cliente">
-          🗑
+        <button type="button" class="admin-simple-manage" data-admin-toggle-cliente="${cliente.id}" aria-expanded="false" aria-controls="detalhes-cliente-${cliente.id}" onclick="toggleClienteAlunos('${cliente.id}')">
+          <span class="admin-manage-label">Gerenciar</span>
+          <span class="admin-manage-chevron" id="seta-${cliente.id}" aria-hidden="true">⌄</span>
         </button>
       </div>
     </div>
 
-    <div class="admin-simple-usage">
-      <div>
-        <strong>${total} / ${limite}</strong>
-        <span>alunos usados</span>
-      </div>
-      <div class="admin-simple-progress">
-        <i class="${progressoClasse}" style="width:${porcentagem}%"></i>
-      </div>
-      <small>${porcentagem}% do limite</small>
-    </div>
-
-    <div class="admin-simple-panel escondido" id="detalhes-cliente-${cliente.id}" onclick="event.stopPropagation()">
+    <div class="admin-simple-panel escondido" id="detalhes-cliente-${cliente.id}" aria-hidden="true" onclick="event.stopPropagation()">
       ${!adminTrialColunasDisponiveis ? `
         <div class="admin-simple-warning">
           <strong>SQL do trial ainda não foi aplicado</strong>
@@ -440,6 +494,9 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
       <div class="admin-simple-footer">
         <button type="button" class="admin-simple-save" onclick="salvarPermissoesCliente('${cliente.id}')">
           Salvar alterações
+        </button>
+        <button type="button" class="admin-simple-delete admin-simple-delete-danger" onclick="event.stopPropagation(); removerCliente('${cliente.id}')">
+          Remover cliente
         </button>
       </div>
 
@@ -762,14 +819,36 @@ function renderizarAlunosDoCliente(alunosDoCliente) {
 }
 
 /** Admin: expande/recolhe lista de alunos de um cliente. */
+function atualizarEstadoGerenciamentoCliente(card, aberto) {
+  if (!card) return;
+
+  card.classList.toggle("admin-cliente-aberto", aberto);
+  card.querySelectorAll("[data-admin-toggle-cliente]").forEach(botao => {
+    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
+  });
+
+  const rotulo = card.querySelector(".admin-manage-label");
+  const seta = card.querySelector(".admin-manage-chevron");
+  if (rotulo) rotulo.textContent = aberto ? "Fechar" : "Gerenciar";
+  if (seta) seta.textContent = aberto ? "⌃" : "⌄";
+}
+
 function toggleClienteAlunos(clienteId) {
   const detalhes = document.getElementById(`detalhes-cliente-${clienteId}`);
-  const seta = document.getElementById(`seta-${clienteId}`);
   if (!detalhes) return;
 
-  const aberto = !detalhes.classList.contains("escondido");
-  detalhes.classList.toggle("escondido", aberto);
-  if (seta) seta.textContent = aberto ? "▼" : "▲";
+  const deveAbrir = detalhes.classList.contains("escondido");
+
+  document.querySelectorAll(".admin-simple-panel:not(.escondido)").forEach(painelAberto => {
+    if (painelAberto === detalhes) return;
+    painelAberto.classList.add("escondido");
+    painelAberto.setAttribute("aria-hidden", "true");
+    atualizarEstadoGerenciamentoCliente(painelAberto.closest(".admin-simple-card"), false);
+  });
+
+  detalhes.classList.toggle("escondido", !deveAbrir);
+  detalhes.setAttribute("aria-hidden", deveAbrir ? "false" : "true");
+  atualizarEstadoGerenciamentoCliente(detalhes.closest(".admin-simple-card"), deveAbrir);
 }
 
 /** Admin: altera limite de alunos do cliente. */
@@ -815,8 +894,8 @@ async function carregarDashboard() {
   const clientesBase = (clientes || []).filter(cliente => !cliente.is_admin);
   const alunosBase = todosAlunos || [];
 
-  const ativos = clientesBase.filter(cliente => cliente.status !== "bloqueado" && cliente.pode_usar !== false).length;
-  const bloqueados = clientesBase.filter(cliente => cliente.status === "bloqueado" || cliente.pode_usar === false).length;
+  const ativos = clientesBase.filter(cliente => !adminClienteAcessoEncerrado(cliente)).length;
+  const bloqueados = clientesBase.filter(adminClienteAcessoEncerrado).length;
 
   let noLimite = 0;
 

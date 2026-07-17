@@ -58,8 +58,17 @@ function mostrarBannerVencimentos() {
 }
 
 btnFecharBanner.addEventListener("click", () => bannerVencimentos.classList.add("escondido"));
-btnBannerAtrasados.addEventListener("click", () => { setFiltro("atrasado"); bannerVencimentos.classList.add("escondido"); });
-btnBannerHoje.addEventListener("click", () => { setFiltro("hoje"); bannerVencimentos.classList.add("escondido"); });
+btnBannerAtrasados.addEventListener("click", () => {
+  setFiltro("atrasado");
+  abrirViewPrincipal("alunos");
+  bannerVencimentos.classList.add("escondido");
+});
+
+btnBannerHoje.addEventListener("click", () => {
+  setFiltro("hoje");
+  abrirViewPrincipal("alunos");
+  bannerVencimentos.classList.add("escondido");
+});
 
 // ===============================
 // 26. COBRANÇA EM MASSA — ALUNOS ATRASADOS

@@ -1914,9 +1914,17 @@
         <div>
           <span class="page-eyebrow">Área do dono</span>
           <h2>Painel Admin</h2>
-          <p>Gerencie clientes, planos, limites e acesso ao Mensalize com visão executiva.</p>
+          <p>Acompanhe clientes e abra somente o que precisar gerenciar.</p>
         </div>
-        <button id="btnVoltar" class="btn-voltar">Voltar ao app</button>
+        <div class="admin-topo-acoes">
+          <button type="button" id="btnAlternarGuiaPlanos" class="admin-acao-secundaria" aria-expanded="false" aria-controls="painelGuiaPlanos">
+            Ver planos
+          </button>
+          <button type="button" id="btnAlternarNovoCliente" class="acao-principal" aria-expanded="false" aria-controls="painelNovoCliente">
+            + Novo cliente
+          </button>
+          <button id="btnVoltar" class="btn-voltar">Sair</button>
+        </div>
       </div>
 
       <div class="admin-resumo-grid admin-exec-metricas">
@@ -1951,15 +1959,16 @@
         </div>
       </div>
 
-      <div class="admin-grid admin-operacao-grid">
+      <div class="admin-acoes-paineis">
 
-        <div class="admin-card admin-criar-cliente-card">
+        <div id="painelNovoCliente" class="admin-card admin-criar-cliente-card admin-painel-auxiliar escondido">
           <div class="admin-card-header">
             <div>
               <span class="page-eyebrow">Novo cliente</span>
               <h3>Criar acesso</h3>
               <p>Crie uma conta para um professor e depois configure o plano na lista de clientes.</p>
             </div>
+            <button type="button" class="admin-fechar-painel" data-admin-fechar-painel="painelNovoCliente" aria-label="Fechar cadastro de cliente">Fechar</button>
           </div>
 
           <div class="admin-form-mini">
@@ -1973,18 +1982,19 @@
               <input type="password" id="novaSenha" placeholder="Crie uma senha inicial" autocomplete="new-password">
             </label>
 
-            <button id="btnCriarUsuario" class="acao-principal">Criar usuário</button>
+            <button type="button" id="btnCriarUsuario" class="acao-principal">Criar usuário</button>
             <p id="msgAdmin" class="admin-msg"></p>
           </div>
         </div>
 
-        <div class="admin-card admin-decisao-card">
+        <div id="painelGuiaPlanos" class="admin-card admin-decisao-card admin-painel-auxiliar escondido">
           <div class="admin-card-header">
             <div>
               <span class="page-eyebrow">Gestão comercial</span>
               <h3>Planos do Mensalize</h3>
               <p>Use os planos para liberar recursos sem editar módulo por módulo.</p>
             </div>
+            <button type="button" class="admin-fechar-painel" data-admin-fechar-painel="painelGuiaPlanos" aria-label="Fechar guia de planos">Fechar</button>
           </div>
 
           <div class="admin-planos-resumo-exec">
@@ -2014,7 +2024,7 @@
           <div>
             <span class="page-eyebrow">Clientes</span>
             <h3>Contas cadastradas</h3>
-            <p>Busque, filtre, gerencie planos, limites e acesso de cada cliente.</p>
+            <p>Localize uma conta e clique em Gerenciar para ver os controles.</p>
           </div>
         </div>
 

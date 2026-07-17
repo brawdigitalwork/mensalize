@@ -18934,3 +18934,344 @@ body.aceite-legal-aberto {
     grid-template-columns: 1fr;
   }
 }
+
+/* ================================================================
+   ADMIN DESKTOP — HIERARQUIA LIMPA E CONTROLES SOB DEMANDA
+   Mantém todas as operações existentes, mas recolhe ações secundárias.
+================================================================ */
+
+.admin-topo-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-topo-acoes button,
+.admin-fechar-painel {
+  min-height: 42px;
+  padding: 9px 14px;
+  border-radius: 13px;
+  white-space: nowrap;
+}
+
+.admin-acao-secundaria,
+.admin-fechar-painel {
+  border: 1px solid var(--borda);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--texto-secundario);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-acao-secundaria:hover,
+.admin-acao-secundaria.ativo,
+.admin-fechar-painel:hover {
+  border-color: var(--cor-roxo-borda);
+  background: var(--cor-roxo-bg);
+  color: var(--texto-primario);
+}
+
+.admin-acoes-paineis {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.admin-painel-auxiliar {
+  animation: adminPainelEntrada 160ms ease-out;
+}
+
+@keyframes adminPainelEntrada {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-simple-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  min-width: max-content;
+  color: var(--texto-primario);
+}
+
+.admin-simple-count strong {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.admin-simple-count small {
+  color: var(--texto-terciario);
+  font-size: 11px;
+}
+
+.admin-manage-chevron {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.admin-simple-delete-danger {
+  border: 1px solid rgba(239, 68, 68, 0.28) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+  color: #fca5a5 !important;
+}
+
+.admin-simple-delete-danger:hover {
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  background: rgba(239, 68, 68, 0.14) !important;
+}
+
+@media (min-width: 761px) {
+  .admin-executivo-page {
+    max-width: 1240px !important;
+    padding-top: 20px !important;
+  }
+
+  .admin-executivo-page .admin-exec-hero {
+    padding: 4px 0 16px !important;
+    margin-bottom: 14px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--borda) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .admin-executivo-page .admin-exec-hero h2 {
+    font-size: 28px !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  .admin-executivo-page .admin-exec-metricas.admin-resumo-grid {
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .admin-executivo-page .admin-exec-metricas .admin-metrica-card {
+    min-height: 62px !important;
+    padding: 10px 12px !important;
+    border-radius: 14px !important;
+    grid-template-areas: "label valor" !important;
+    background: rgba(255, 255, 255, 0.028) !important;
+  }
+
+  .admin-executivo-page .admin-exec-metricas .admin-metrica-card::before {
+    opacity: 0.42 !important;
+  }
+
+  .admin-executivo-page .admin-exec-metricas .admin-metrica-card small {
+    display: none !important;
+  }
+
+  .admin-painel-auxiliar {
+    padding: 18px !important;
+  }
+
+  .admin-criar-cliente-card .admin-form-mini {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto !important;
+    align-items: end;
+    gap: 10px !important;
+  }
+
+  .admin-criar-cliente-card .admin-form-mini .input-group input {
+    margin-bottom: 0 !important;
+  }
+
+  .admin-criar-cliente-card .admin-form-mini .acao-principal {
+    min-height: 45px;
+    margin: 0;
+  }
+
+  .admin-criar-cliente-card .admin-msg {
+    grid-column: 1 / -1;
+  }
+
+  .admin-planos-resumo-exec {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .admin-planos-resumo-exec span {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .admin-clientes-exec-card {
+    padding: 18px !important;
+  }
+
+  .admin-clientes-exec-card > .admin-card-header {
+    margin-bottom: 12px;
+  }
+
+  .admin-clientes-toolbar {
+    display: grid !important;
+    grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.4fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .admin-filtros-clientes {
+    justify-content: flex-end !important;
+    gap: 6px !important;
+  }
+
+  .admin-filtro-cliente {
+    min-height: 34px !important;
+    padding: 7px 10px !important;
+    font-size: 11px !important;
+  }
+
+  .admin-lista-clientes {
+    gap: 8px !important;
+  }
+
+  .admin-simple-card {
+    display: block !important;
+    padding: 0 !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.025) !important;
+    transition: border-color 160ms ease, background 160ms ease !important;
+  }
+
+  .admin-simple-card:hover,
+  .admin-simple-card.admin-cliente-aberto {
+    border-color: rgba(139, 92, 246, 0.34) !important;
+    background: rgba(139, 92, 246, 0.035) !important;
+  }
+
+  .admin-simple-head {
+    display: grid !important;
+    grid-template-columns: minmax(250px, 1fr) auto !important;
+    align-items: center !important;
+    gap: 16px !important;
+    padding: 12px 14px !important;
+  }
+
+  .admin-simple-main {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    cursor: pointer;
+  }
+
+  .admin-simple-avatar {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border: 1px solid var(--cor-roxo-borda);
+    border-radius: 12px;
+    background: var(--cor-roxo-bg);
+    color: var(--cor-roxo-claro);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .admin-simple-title-wrap {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .admin-simple-title-wrap strong,
+  .admin-simple-title-wrap small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .admin-simple-title-wrap strong {
+    color: var(--texto-primario);
+    font-size: 14px;
+  }
+
+  .admin-simple-title-wrap small {
+    color: var(--texto-terciario);
+    font-size: 11px;
+  }
+
+  .admin-simple-actions {
+    justify-content: flex-end !important;
+    flex-wrap: nowrap !important;
+    gap: 7px !important;
+  }
+
+  .admin-simple-actions .admin-chip {
+    min-width: max-content;
+    padding: 6px 9px !important;
+    font-size: 10px !important;
+  }
+
+  .admin-simple-manage {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    min-height: 34px !important;
+    padding: 7px 10px !important;
+  }
+
+  .admin-simple-panel {
+    padding: 16px !important;
+    border-top: 1px solid var(--borda);
+    background: rgba(3, 5, 16, 0.28);
+  }
+
+  .admin-simple-panel .admin-simple-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .admin-simple-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  .admin-simple-save {
+    min-width: 170px;
+  }
+}
+
+[data-tema="claro"] .admin-acao-secundaria,
+[data-tema="claro"] .admin-fechar-painel,
+[data-tema="claro"] .admin-simple-card {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+[data-tema="claro"] .admin-simple-panel {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+@media (max-width: 760px) {
+  .admin-topo-acoes {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .admin-topo-acoes button {
+    flex: 1 1 140px;
+  }
+
+  .admin-criar-cliente-card .admin-form-mini,
+  .admin-planos-resumo-exec {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-simple-count {
+    justify-content: center;
+  }
+}

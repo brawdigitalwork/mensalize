@@ -58,8 +58,17 @@ function mostrarBannerVencimentos() {
 }
 
 btnFecharBanner.addEventListener("click", () => bannerVencimentos.classList.add("escondido"));
-btnBannerAtrasados.addEventListener("click", () => { setFiltro("atrasado"); bannerVencimentos.classList.add("escondido"); });
-btnBannerHoje.addEventListener("click", () => { setFiltro("hoje"); bannerVencimentos.classList.add("escondido"); });
+btnBannerAtrasados.addEventListener("click", () => {
+  setFiltro("atrasado");
+  abrirViewPrincipal("alunos");
+  bannerVencimentos.classList.add("escondido");
+});
+
+btnBannerHoje.addEventListener("click", () => {
+  setFiltro("hoje");
+  abrirViewPrincipal("alunos");
+  bannerVencimentos.classList.add("escondido");
+});
 
 // ===============================
 // 26. COBRANÇA EM MASSA — ALUNOS ATRASADOS
@@ -90,12 +99,13 @@ btnCobrarAtrasados.addEventListener("click", function() {
     const telefone = aluno.telefone.replace(/\D/g, "");
     const telefoneValido = telefone.length >= 10;
     const link = telefoneValido ? `https://wa.me/55${telefone}?text=${msg}` : "#";
+    const nomeAlunoSeguro = escaparHTMLRelatorio(aluno.nome || "Aluno");
 
     const div = document.createElement("div");
     div.classList.add("cobrar-item");
     div.innerHTML = `
       <div class="cobrar-info">
-        <span class="cobrar-nome">${aluno.nome}</span>
+        <span class="cobrar-nome">${nomeAlunoSeguro}</span>
         <span class="cobrar-detalhe">${valor} · ${dias}d atrasado</span>
       </div>
       <a href="${link}" target="_blank" class="btn-cobrar-item" onclick="${telefoneValido ? "" : "event.preventDefault(); mostrarToast('Telefone inválido. Cadastre com DDD.', 'erro');"}">💬 Cobrar</a>
@@ -490,8 +500,9 @@ async function abrirHistorico(alunoId) {
   else if (dias <= 3) { textoStatus = `Vence em ${dias}d`; classeStatus = "status-pendente"; }
 
   modalNomeAluno.textContent = aluno.nome;
+  const telefoneAlunoSeguro = escaparHTMLRelatorio(aluno.telefone || "Não informado");
   modalInfoAluno.innerHTML = `
-    <p><strong>WhatsApp:</strong> ${aluno.telefone}</p>
+    <p><strong>WhatsApp:</strong> ${telefoneAlunoSeguro}</p>
     <p><strong>Mensalidade:</strong> ${formatarMoeda(aluno.valor)}</p>
     <p><strong>Vencimento atual:</strong> ${formatarData(aluno.vencimento)}</p>
     <p><strong>Status:</strong> <span class="${classeStatus}">${textoStatus}</span></p>

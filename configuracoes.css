@@ -1,0 +1,734 @@
+/* ============================================================================
+   MENSALIZE — CONFIGURAÇÕES PC / TABLET
+   Revisão estrutural da Central da Academia.
+   Mantém os IDs e a lógica existente de abas, plano e salvamento.
+============================================================================ */
+
+#viewPerfil {
+  width: 100%;
+  min-width: 0;
+}
+
+#viewPerfil .perfil-configuracoes-page {
+  width: min(100%, 1280px);
+  max-width: 1280px;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#viewPerfil .perfil-configuracoes-page::before {
+  content: none !important;
+  display: none !important;
+}
+
+#viewPerfil .perfil-configuracoes-shell {
+  display: grid;
+  grid-template-columns: minmax(250px, 286px) minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Navegação lateral interna
+---------------------------------------------------------------------------- */
+#viewPerfil .perfil-configuracoes-sidebar {
+  position: sticky;
+  top: 98px;
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(17, 16, 36, 0.96), rgba(10, 10, 24, 0.98));
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.24);
+}
+
+#viewPerfil .perfil-configuracoes-brand {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 4px 3px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+}
+
+#viewPerfil .perfil-configuracoes-brand-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(172, 139, 255, 0.18);
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(172, 119, 255, 0.22), transparent 48%),
+    rgba(124, 58, 237, 0.11);
+  color: #b994ff;
+}
+
+#viewPerfil .perfil-configuracoes-brand-icon svg,
+#viewPerfil .config-aba-icone svg,
+#viewPerfil .config-aba-seta svg,
+#viewPerfil .perfil-plano-icone svg,
+#viewPerfil .config-painel-icone svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#viewPerfil .perfil-configuracoes-brand > div {
+  min-width: 0;
+}
+
+#viewPerfil .perfil-configuracoes-brand .page-eyebrow {
+  margin: 0 0 5px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #9571e7 !important;
+  font-size: 8px !important;
+}
+
+#viewPerfil .perfil-configuracoes-brand strong {
+  display: block;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 760;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+#viewPerfil .perfil-configuracoes-brand small {
+  display: block;
+  margin-top: 2px;
+  color: var(--texto-terciario);
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+/* Tabs verticais no PC */
+#viewPerfil .config-abas {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 5px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+#viewPerfil .config-aba {
+  display: grid !important;
+  grid-template-columns: 38px minmax(0, 1fr) 18px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 58px !important;
+  margin: 0 !important;
+  padding: 8px 9px !important;
+  text-align: left !important;
+  border: 1px solid transparent !important;
+  border-radius: 16px !important;
+  background: transparent !important;
+  color: #8f89a6 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#viewPerfil .config-aba:hover {
+  border-color: rgba(255, 255, 255, 0.075) !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  color: #d7d1e8 !important;
+  transform: none !important;
+}
+
+#viewPerfil .config-aba.ativa {
+  border-color: rgba(172, 119, 255, 0.22) !important;
+  background:
+    radial-gradient(circle at 0% 50%, rgba(124, 58, 237, 0.18), transparent 58%),
+    linear-gradient(135deg, rgba(124, 58, 237, 0.16), rgba(82, 39, 176, 0.08)) !important;
+  color: #f3edff !important;
+  box-shadow: inset 3px 0 0 #8b5cf6 !important;
+}
+
+#viewPerfil .config-aba-icone {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #8c83a8;
+}
+
+#viewPerfil .config-aba.ativa .config-aba-icone {
+  border-color: rgba(172, 119, 255, 0.20);
+  background: rgba(124, 58, 237, 0.14);
+  color: #b994ff;
+}
+
+#viewPerfil .config-aba-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+#viewPerfil .config-aba-copy strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.15;
+}
+
+#viewPerfil .config-aba-copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #77718d;
+  font-size: 9px;
+  font-weight: 550;
+  line-height: 1.2;
+}
+
+#viewPerfil .config-aba.ativa .config-aba-copy small {
+  color: #9f94bb;
+}
+
+#viewPerfil .config-aba-seta {
+  display: grid;
+  place-items: center;
+  color: #5f5875;
+}
+
+#viewPerfil .config-aba-seta svg {
+  width: 16px;
+  height: 16px;
+}
+
+#viewPerfil .config-aba.ativa .config-aba-seta {
+  color: #a978ff;
+}
+
+/* Plano integrado à navegação */
+#viewPerfil .perfil-plano-card {
+  min-width: 0 !important;
+  width: 100%;
+  display: grid;
+  gap: 8px;
+  margin: 1px 0 0;
+  padding: 13px !important;
+  border: 1px solid rgba(255, 255, 255, 0.085) !important;
+  border-radius: 18px !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.11), transparent 48%),
+    rgba(255, 255, 255, 0.032) !important;
+  box-shadow: none !important;
+}
+
+#viewPerfil .perfil-plano-card-topo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#viewPerfil .perfil-plano-icone {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 10px;
+  background: rgba(124, 58, 237, 0.12);
+  color: #a978ff;
+}
+
+#viewPerfil .perfil-plano-icone svg {
+  width: 17px;
+  height: 17px;
+}
+
+#viewPerfil .perfil-plano-card .page-eyebrow {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #8f83ad !important;
+  font-size: 8px !important;
+}
+
+#viewPerfil .perfil-plano-card > strong {
+  margin: 2px 0 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 760;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+#viewPerfil .perfil-plano-card > small {
+  color: #858096;
+  font-size: 9.5px;
+  line-height: 1.42;
+}
+
+#viewPerfil .perfil-plano-card #btnPerfilVerUpgrade {
+  width: 100%;
+  min-height: 38px;
+  margin-top: 2px;
+  padding: 8px 10px !important;
+  border-radius: 12px !important;
+  color: #cbb7ff !important;
+  font-size: 10px !important;
+}
+
+/* Estados reais de plano continuam vindo do JS */
+#viewPerfil .perfil-plano-card.perfil-plano-trial {
+  border-color: rgba(245, 158, 11, 0.20) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.10), transparent 48%),
+    rgba(255, 255, 255, 0.03) !important;
+}
+
+#viewPerfil .perfil-plano-card.perfil-plano-pro {
+  border-color: rgba(167, 139, 250, 0.26) !important;
+}
+
+#viewPerfil .perfil-plano-card.perfil-plano-expirado {
+  border-color: rgba(239, 68, 68, 0.25) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(239, 68, 68, 0.10), transparent 48%),
+    rgba(255, 255, 255, 0.03) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Conteúdo principal
+---------------------------------------------------------------------------- */
+#viewPerfil .perfil-configuracoes-conteudo {
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+}
+
+#viewPerfil .perfil-configuracoes-hero {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 18px !important;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 20px 22px !important;
+  overflow: hidden;
+  border: 1px solid rgba(172, 139, 255, 0.13) !important;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.19), transparent 34%),
+    radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.06), transparent 32%),
+    linear-gradient(145deg, rgba(24, 18, 61, 0.97), rgba(11, 10, 31, 0.99)) !important;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.18) !important;
+}
+
+#viewPerfil .perfil-configuracoes-hero::after {
+  content: "";
+  position: absolute;
+  right: -46px;
+  top: -56px;
+  width: 170px;
+  height: 170px;
+  border: 1px solid rgba(172, 119, 255, 0.10);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 28px rgba(124, 58, 237, 0.035),
+    0 0 0 58px rgba(124, 58, 237, 0.018);
+  pointer-events: none;
+}
+
+#viewPerfil .perfil-configuracoes-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+#viewPerfil .perfil-configuracoes-hero .page-eyebrow {
+  margin-bottom: 8px !important;
+  color: #b994ff !important;
+}
+
+#viewPerfil .perfil-configuracoes-hero h2 {
+  margin: 0 0 6px !important;
+  color: #fff !important;
+  font-size: clamp(23px, 3vw, 32px) !important;
+  font-weight: 780 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.055em !important;
+}
+
+#viewPerfil .perfil-configuracoes-hero p {
+  max-width: 56ch;
+  margin: 0 !important;
+  color: #aaa4bd !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+}
+
+#viewPerfil .perfil-configuracoes-status {
+  min-width: 184px;
+  display: grid;
+  grid-template-columns: 9px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 1px;
+  padding: 11px 12px;
+  border: 1px solid rgba(54, 208, 127, 0.13);
+  border-radius: 16px;
+  background: rgba(54, 208, 127, 0.055);
+}
+
+#viewPerfil .perfil-configuracoes-status > span {
+  grid-row: 1 / span 2;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #36d07f;
+  box-shadow: 0 0 0 4px rgba(54, 208, 127, 0.10);
+}
+
+#viewPerfil .perfil-configuracoes-status strong {
+  color: #c8f6dc;
+  font-size: 10px;
+  font-weight: 760;
+  line-height: 1.2;
+}
+
+#viewPerfil .perfil-configuracoes-status small {
+  color: #779987;
+  font-size: 8.5px;
+  line-height: 1.2;
+}
+
+/* Form e painéis */
+#viewPerfil .perfil-configuracoes-form {
+  display: block !important;
+  width: 100%;
+  min-width: 0;
+  margin: 0 !important;
+}
+
+#viewPerfil .config-painel {
+  display: none !important;
+  width: 100%;
+  min-width: 0;
+  min-height: 410px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.075), transparent 34%),
+    linear-gradient(180deg, rgba(17, 16, 36, 0.94), rgba(10, 10, 25, 0.98));
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.17);
+}
+
+#viewPerfil .config-painel.ativo {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+#viewPerfil .config-painel-header {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin: 0 !important;
+  padding: 18px 20px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075) !important;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+#viewPerfil .config-painel-icone {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(172, 139, 255, 0.15);
+  border-radius: 14px;
+  background: rgba(124, 58, 237, 0.10);
+  color: #aa7cff;
+}
+
+#viewPerfil .config-painel-header > div {
+  min-width: 0;
+}
+
+#viewPerfil .config-painel-etiqueta {
+  display: block;
+  margin: 0 0 4px;
+  color: #8f71d7;
+  font-size: 8px;
+  font-weight: 820;
+  line-height: 1;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+#viewPerfil .config-painel-header strong {
+  display: block;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 17px !important;
+  font-weight: 760 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.035em;
+}
+
+#viewPerfil .config-painel-header small {
+  display: block;
+  margin-top: 4px;
+  color: #8e889f;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+#viewPerfil .config-painel-corpo {
+  min-width: 0;
+  padding: 22px 20px;
+}
+
+#viewPerfil .config-grid-duplo,
+#viewPerfil .config-grid-tres {
+  display: grid;
+  gap: 13px;
+}
+
+#viewPerfil .config-grid-duplo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#viewPerfil .config-grid-tres {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#viewPerfil .campo-perfil {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  margin: 0 !important;
+}
+
+#viewPerfil .campo-perfil > span {
+  margin: 0 !important;
+  color: #c8c2d8;
+  font-size: 10px;
+  font-weight: 740;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+#viewPerfil .campo-perfil input,
+#viewPerfil .campo-perfil textarea {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 50px !important;
+  margin: 0 !important;
+  padding: 12px 13px !important;
+  border: 1px solid rgba(255, 255, 255, 0.085) !important;
+  border-radius: 15px !important;
+  background: rgba(4, 4, 16, 0.58) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+}
+
+#viewPerfil .campo-perfil textarea {
+  min-height: 132px !important;
+  resize: vertical;
+}
+
+#viewPerfil .campo-perfil input:focus,
+#viewPerfil .campo-perfil textarea:focus {
+  border-color: rgba(155, 92, 255, 0.56) !important;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.11) !important;
+}
+
+#viewPerfil .config-campo-ajuda {
+  display: block;
+  color: #6f697f;
+  font-size: 8.5px;
+  line-height: 1.35;
+}
+
+#viewPerfil .config-acoes {
+  min-height: 70px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 12px 20px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.075) !important;
+  background: rgba(3, 3, 12, 0.20);
+}
+
+#viewPerfil .config-acoes .msg-perfil,
+#viewPerfil .config-acao-contexto {
+  min-width: 0;
+  margin: 0 auto 0 0 !important;
+  color: #777087;
+  font-size: 9.5px;
+  line-height: 1.4;
+}
+
+#viewPerfil .config-acoes .msg-perfil:not(:empty) {
+  color: #62dda0;
+}
+
+#viewPerfil .config-acoes .btn-salvar-perfil {
+  flex: 0 0 auto;
+  width: auto !important;
+  min-width: 170px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 10px 15px !important;
+  border-radius: 14px !important;
+  font-size: 11px !important;
+  font-weight: 780 !important;
+}
+
+/* Módulos */
+#viewPerfil .config-modulos-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+#viewPerfil .config-modulo-item {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 10px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 9px !important;
+  min-width: 0;
+  min-height: 56px !important;
+  margin: 0 !important;
+  padding: 11px 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.075) !important;
+  border-radius: 15px !important;
+  background: rgba(255, 255, 255, 0.026) !important;
+  color: #847e93 !important;
+  cursor: default !important;
+  transform: none !important;
+}
+
+#viewPerfil .config-modulo-item input {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+#viewPerfil .config-modulo-estado {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #544e62;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.025);
+}
+
+#viewPerfil .config-modulo-item > span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  font-size: 10.5px;
+  font-weight: 720;
+}
+
+#viewPerfil .config-modulo-item:has(input:checked) {
+  border-color: rgba(54, 208, 127, 0.13) !important;
+  background: rgba(54, 208, 127, 0.045) !important;
+  color: #bdebd2 !important;
+}
+
+#viewPerfil .config-modulo-item:has(input:checked) .config-modulo-estado {
+  background: #36d07f;
+  box-shadow: 0 0 0 4px rgba(54, 208, 127, 0.09);
+}
+
+#viewPerfil .perfil-aviso-admin {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  margin: 14px 0 0 !important;
+  padding: 11px 12px !important;
+  border: 1px solid rgba(172, 139, 255, 0.10) !important;
+  border-radius: 14px !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  color: #817a92 !important;
+  font-size: 9.5px !important;
+  line-height: 1.4 !important;
+}
+
+#viewPerfil .perfil-aviso-admin > span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: rgba(124, 58, 237, 0.10);
+  color: #9f78ef;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* Tablet intermediário */
+@media (max-width: 1080px) and (min-width: 761px) {
+  #viewPerfil .perfil-configuracoes-shell {
+    grid-template-columns: 238px minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  #viewPerfil .perfil-configuracoes-sidebar {
+    padding: 11px;
+  }
+
+  #viewPerfil .config-aba {
+    grid-template-columns: 36px minmax(0, 1fr) !important;
+  }
+
+  #viewPerfil .config-aba-seta {
+    display: none;
+  }
+
+  #viewPerfil .config-grid-tres,
+  #viewPerfil .config-modulos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-status {
+    display: none;
+  }
+}

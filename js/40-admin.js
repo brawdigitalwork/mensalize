@@ -1,49 +1,147 @@
 // 22. ADMIN — CLIENTES, LIMITES E DASHBOARD
 // ===============================
 
+async function abrirPainelAdminMensalize() {
+  if (!usuarioEhAdmin) {
+    mostrarToast("Acesso admin não liberado para este usuário.", "erro");
+    return false;
+  }
+
+  try {
+    document.body.classList.remove("menu-aberto");
+    fecharPaineisAuxiliaresAdmin();
+
+    telaLogin.classList.add("escondido");
+    app.classList.add("escondido");
+    telaAdmin.classList.remove("escondido");
+
+    if (listaClientes) {
+      listaClientes.innerHTML = `
+        <div class="skeleton-wrapper">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      `;
+    }
+
+    await carregarClientes();
+    await carregarDashboard();
+    return true;
+  } catch (erro) {
+    console.error("Erro ao abrir painel admin:", erro);
+    mostrarToast("Erro ao abrir painel admin. Veja o console.", "erro");
+
+    telaLogin.classList.add("escondido");
+    app.classList.add("escondido");
+    telaAdmin.classList.remove("escondido");
+    return false;
+  }
+}
+
 if (btnAdmin) {
-  btnAdmin.addEventListener("click", async function() {
-    if (!usuarioEhAdmin) {
-      mostrarToast("Acesso admin não liberado para este usuário.", "erro");
-      return;
-    }
+  btnAdmin.addEventListener("click", abrirPainelAdminMensalize);
+}
 
-    try {
-      document.body.classList.remove("menu-aberto");
+const btnSairAdminMobile = document.getElementById("btnSairAdminMobile");
 
-      telaLogin.classList.add("escondido");
-      app.classList.add("escondido");
-      telaAdmin.classList.remove("escondido");
+async function sairPainelAdminMensalize() {
+  try {
+    await supabaseClient.auth.signOut();
+  } catch (erro) {
+    console.warn("Erro ao encerrar sessão do Admin:", erro);
+  }
 
-      if (listaClientes) {
-        listaClientes.innerHTML = `
-          <div class="skeleton-wrapper">
-            <div class="skeleton-card"></div>
-            <div class="skeleton-card"></div>
-          </div>
-        `;
-      }
-
-      await carregarClientes();
-      await carregarDashboard();
-
-    } catch (erro) {
-      console.error("Erro ao abrir painel admin:", erro);
-      mostrarToast("Erro ao abrir painel admin. Veja o console.", "erro");
-
-      telaLogin.classList.add("escondido");
-      app.classList.add("escondido");
-      telaAdmin.classList.remove("escondido");
-    }
-  });
+  usuarioAtual = null;
+  usuarioEhAdmin = false;
+  alunos = [];
+  document.body.classList.remove("admin-mobile-gerenciamento-aberto");
+  sincronizarEstado();
+  mostrarLogin();
 }
 
 if (btnVoltar) {
-  btnVoltar.addEventListener("click", function() {
-    telaAdmin.classList.add("escondido");
-    telaLogin.classList.add("escondido");
-    app.classList.remove("escondido");
+  btnVoltar.addEventListener("click", sairPainelAdminMensalize);
+}
+
+if (btnSairAdminMobile) {
+  btnSairAdminMobile.addEventListener("click", sairPainelAdminMensalize);
+}
+
+const btnAlternarNovoCliente = document.getElementById("btnAlternarNovoCliente");
+const btnAlternarGuiaPlanos = document.getElementById("btnAlternarGuiaPlanos");
+
+function definirPainelAuxiliarAdmin(painelId, aberto) {
+  const painel = document.getElementById(painelId);
+  if (!painel) return;
+
+  painel.classList.toggle("escondido", !aberto);
+
+  document.querySelectorAll(`[aria-controls="${painelId}"]`).forEach(botao => {
+    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
+    botao.classList.toggle("ativo", aberto);
   });
+}
+
+function fecharPaineisAuxiliaresAdmin() {
+  definirPainelAuxiliarAdmin("painelNovoCliente", false);
+  definirPainelAuxiliarAdmin("painelGuiaPlanos", false);
+}
+
+function alternarPainelAuxiliarAdmin(painelId) {
+  const painel = document.getElementById(painelId);
+  if (!painel) return;
+
+  const deveAbrir = painel.classList.contains("escondido");
+  fecharPaineisAuxiliaresAdmin();
+  definirPainelAuxiliarAdmin(painelId, deveAbrir);
+
+  if (deveAbrir) {
+    painel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+if (btnAlternarNovoCliente) {
+  btnAlternarNovoCliente.addEventListener("click", () => alternarPainelAuxiliarAdmin("painelNovoCliente"));
+}
+
+if (btnAlternarGuiaPlanos) {
+  btnAlternarGuiaPlanos.addEventListener("click", () => alternarPainelAuxiliarAdmin("painelGuiaPlanos"));
+}
+
+document.querySelectorAll("[data-admin-fechar-painel]").forEach(botao => {
+  botao.addEventListener("click", () => definirPainelAuxiliarAdmin(botao.dataset.adminFecharPainel, false));
+});
+
+/** Chama uma Edge Function administrativa usando a sessão real do Admin. */
+async function executarEdgeAdmin(nomeFuncao, payload) {
+  if (!usuarioEhAdmin) {
+    throw new Error("Acesso permitido somente ao Administrador do Mensalize.");
+  }
+
+  const { data: sessaoData, error: sessaoError } = await supabaseClient.auth.getSession();
+  const accessToken = sessaoData?.session?.access_token;
+
+  if (sessaoError || !accessToken) {
+    throw new Error("Sua sessão expirou. Entre novamente para continuar.");
+  }
+
+  const resposta = await fetch(`${CONFIG.supabaseUrl}/functions/v1/${nomeFuncao}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": CONFIG.supabaseAnonKey,
+      "Authorization": `Bearer ${accessToken}`
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const resultado = await resposta.json().catch(() => ({}));
+
+  if (!resposta.ok || resultado.error) {
+    throw new Error(resultado.error || "Não foi possível concluir a operação administrativa.");
+  }
+
+  return resultado;
 }
 
 btnCriarUsuario.addEventListener("click", async function() {
@@ -61,39 +159,25 @@ btnCriarUsuario.addEventListener("click", async function() {
   msgAdmin.textContent = "Criando usuário...";
 
   try {
-    const res = await fetch("https://wdeyorkcrenibtkbgsjw.supabase.co/functions/v1/smart-function", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": CONFIG.supabaseAnonKey,
-        "Authorization": `Bearer ${CONFIG.supabaseAnonKey}`
-      },
-      body: JSON.stringify({
-        email: email,
-        senha: senha
-      })
+    const data = await executarEdgeAdmin("smart-function", {
+      email: email,
+      senha: senha
     });
 
-    const data = await res.json();
-
     console.log("Resposta criar usuário:", data);
-
-    if (data.error) {
-      msgAdmin.textContent = "Erro: " + data.error;
-      return;
-    }
 
     msgAdmin.textContent = "Usuário criado com sucesso!";
 
     novoEmail.value = "";
     novaSenha.value = "";
+    definirPainelAuxiliarAdmin("painelNovoCliente", false);
 
     await carregarClientes();
     await carregarDashboard();
 
   } catch (err) {
     console.log("Erro completo ao criar usuário:", err);
-    msgAdmin.textContent = "Erro ao criar usuário.";
+    msgAdmin.textContent = "Erro: " + (err?.message || "Não foi possível criar o usuário.");
   } finally {
     btnCriarUsuario.disabled = false;
     btnCriarUsuario.textContent = textoBotaoOriginal;
@@ -106,6 +190,16 @@ let adminBuscaClientesTexto = "";
 
 function normalizarAdminTexto(valor) {
   return String(valor || "").trim().toLowerCase();
+}
+
+/** Escapa textos externos antes de inseri-los em innerHTML do painel Admin. */
+function escaparHtmlAdmin(valor) {
+  return String(valor ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function adminDataISOHoje() {
@@ -137,6 +231,17 @@ function adminCalcularDiasTrial(cliente) {
 
   if (Number.isNaN(dataFim.getTime())) return null;
   return Math.ceil((dataFim - hojeLocal) / (1000 * 60 * 60 * 24));
+}
+
+function adminClienteAcessoEncerrado(cliente) {
+  const diasTrial = adminCalcularDiasTrial(cliente);
+  const trialExpirado = normalizarPlano(cliente?.plano) === "trial"
+    && diasTrial !== null
+    && diasTrial < 0;
+
+  return cliente?.status === "bloqueado"
+    || cliente?.pode_usar === false
+    || trialExpirado;
 }
 
 function adminResumoTrialCliente(cliente) {
@@ -222,14 +327,13 @@ function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
   const texto = `${cliente.email || ""} ${cliente.nome_empresa || ""}`.toLowerCase();
   const plano = cliente.plano || "trial";
   const planoNormalizado = normalizarPlano(plano);
-  const status = cliente.status || "ativo";
-  const podeUsar = cliente.pode_usar !== false;
+  const acessoEncerrado = adminClienteAcessoEncerrado(cliente);
 
   if (adminBuscaClientesTexto && !texto.includes(adminBuscaClientesTexto)) return false;
 
   if (adminFiltroClientesAtual === "todos") return true;
-  if (adminFiltroClientesAtual === "ativo") return status !== "bloqueado" && podeUsar;
-  if (adminFiltroClientesAtual === "bloqueado") return status === "bloqueado" || !podeUsar;
+  if (adminFiltroClientesAtual === "ativo") return !acessoEncerrado;
+  if (adminFiltroClientesAtual === "bloqueado") return acessoEncerrado;
 
   // Filtros por plano: compara pelo valor normalizado para incluir legados
   // Ex: filtro "pro" captura clientes com plano "fight" ou "premium" no banco
@@ -244,6 +348,8 @@ function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
 
 function renderizarClientesAdminCache() {
   if (!listaClientes) return;
+
+  document.body.classList.remove("admin-mobile-gerenciamento-aberto");
 
   const clientesBase = (clientesCache || []).filter(c => !c.is_admin);
   const todosAlunosAdmin = clientesAdminUltimosAlunos || [];
@@ -274,23 +380,29 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
 
   const total = alunosDoCliente.length;
   const limite = Math.max(Number(cliente.limite_alunos || 30), 1);
-  const porcentagem = Math.min(Math.round((total / limite) * 100), 100);
   const resumoPlano = obterResumoPlanoAdmin(cliente.plano || "trial");
-  const statusBloqueado = cliente.status === "bloqueado" || cliente.pode_usar === false;
+  const statusBloqueado = adminClienteAcessoEncerrado(cliente);
   const statusTexto = statusBloqueado ? "Bloqueado" : "Ativo";
-  const progressoClasse = porcentagem >= 100 ? "danger" : porcentagem >= 80 ? "warn" : "ok";
   const trialInicio = adminDataInputTrial(cliente.trial_inicio);
   const trialFim = adminDataInputTrial(cliente.trial_fim);
   const resumoTrial = adminResumoTrialCliente(cliente);
   const diasTrial = adminCalcularDiasTrial(cliente);
+  const nomeClienteRaw = cliente.nome_empresa || cliente.email || "Cliente Mensalize";
+  const nomeClienteSeguro = escaparHtmlAdmin(nomeClienteRaw);
+  const emailClienteSeguro = escaparHtmlAdmin(cliente.email || "");
+  const inicialClienteSegura = escaparHtmlAdmin(String(nomeClienteRaw).charAt(0).toUpperCase() || "C");
+  const planoLegadoSeguro = escaparHtmlAdmin(cliente.plano || "");
+  const trialInicioSeguro = escaparHtmlAdmin(trialInicio);
+  const trialFimSeguro = escaparHtmlAdmin(trialFim);
+  const resumoTrialSeguro = escaparHtmlAdmin(resumoTrial);
   const trialChip = normalizarPlano(cliente.plano) === "trial" && diasTrial !== null
-    ? `<span class="admin-chip ${diasTrial <= 0 ? "bloqueado" : "plano"}">${diasTrial <= 0 ? "Trial encerrado" : `${diasTrial}d trial`}</span>`
+    ? `<span class="admin-chip ${diasTrial < 0 ? "bloqueado" : "plano"}">${diasTrial < 0 ? "Trial encerrado" : diasTrial === 0 ? "Trial termina hoje" : `${diasTrial}d trial`}</span>`
     : "";
 
   // Detecta se o cliente usa plano legado para exibir aviso informativo
   const planoLegado = ["fight", "premium"].includes(cliente.plano);
   const avisoLegado = planoLegado
-    ? `<p class="admin-plano-legado-aviso">Este cliente usa um plano legado (${cliente.plano}) — equivalente ao Mensalize Pro.</p>`
+    ? `<p class="admin-plano-legado-aviso">Este cliente usa um plano legado (${planoLegadoSeguro}) — equivalente ao Mensalize Pro.</p>`
     : "";
 
   // Monta select apenas com planos comerciais ativos
@@ -309,54 +421,63 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
 
   div.innerHTML = `
     <div class="admin-simple-head">
-      <button type="button" class="admin-simple-main" onclick="toggleClienteAlunos('${cliente.id}')">
-        <span class="admin-simple-avatar">${(cliente.nome_empresa || cliente.email || "C").charAt(0).toUpperCase()}</span>
+      <button type="button" class="admin-simple-main" data-admin-toggle-cliente="${cliente.id}" aria-expanded="false" aria-controls="detalhes-cliente-${cliente.id}" onclick="toggleClienteAlunos('${cliente.id}')">
+        <span class="admin-simple-avatar">${inicialClienteSegura}</span>
         <span class="admin-simple-title-wrap">
-          <strong>${cliente.nome_empresa || cliente.email}</strong>
-          ${cliente.nome_empresa ? `<small>${cliente.email}</small>` : `<small>Cliente Mensalize</small>`}
+          <strong>${nomeClienteSeguro}</strong>
+          ${cliente.nome_empresa ? `<small>${emailClienteSeguro}</small>` : `<small>Cliente Mensalize</small>`}
+          <span class="admin-mobile-card-summary" aria-hidden="true">
+            <span>${escaparHtmlAdmin(resumoPlano.nome)}</span>
+            <span class="${statusBloqueado ? "bloqueado" : "ativo"}">${statusTexto}</span>
+            <span>${total}/${limite} alunos</span>
+          </span>
         </span>
       </button>
 
       <div class="admin-simple-actions">
+        <span class="admin-simple-count"><strong>${total}</strong><small>/ ${limite} alunos</small></span>
         <span class="admin-chip plano">${resumoPlano.nome}</span>
         ${trialChip}
         <span class="admin-chip ${statusBloqueado ? "bloqueado" : "ativo"}">${statusTexto}</span>
-        <button type="button" class="admin-simple-manage" onclick="toggleClienteAlunos('${cliente.id}')">
-          Gerenciar
-        </button>
-        <button type="button" class="admin-simple-delete" onclick="event.stopPropagation(); removerCliente('${cliente.id}')" title="Remover cliente">
-          🗑
+        <button type="button" class="admin-simple-manage" data-admin-toggle-cliente="${cliente.id}" aria-expanded="false" aria-controls="detalhes-cliente-${cliente.id}" onclick="toggleClienteAlunos('${cliente.id}')">
+          <span class="admin-manage-label">Gerenciar</span>
+          <span class="admin-manage-chevron" id="seta-${cliente.id}" aria-hidden="true">⌄</span>
         </button>
       </div>
     </div>
 
-    <div class="admin-simple-usage">
-      <div>
-        <strong>${total} / ${limite}</strong>
-        <span>alunos usados</span>
-      </div>
-      <div class="admin-simple-progress">
-        <i class="${progressoClasse}" style="width:${porcentagem}%"></i>
-      </div>
-      <small>${porcentagem}% do limite</small>
-    </div>
+    <div class="admin-simple-panel escondido" id="detalhes-cliente-${cliente.id}" aria-hidden="true" onclick="event.stopPropagation()">
+      <div class="admin-mobile-client-shell-head">
+        <div class="admin-mobile-client-header">
+          <button type="button" class="admin-mobile-client-back" onclick="toggleClienteAlunos('${cliente.id}')" aria-label="Voltar para a lista de clientes">←</button>
+          <span>
+            <small>Gerenciar cliente</small>
+            <strong>${nomeClienteSeguro}</strong>
+          </span>
+        </div>
 
-    <div class="admin-simple-panel escondido" id="detalhes-cliente-${cliente.id}" onclick="event.stopPropagation()">
+        <div class="admin-mobile-client-tabs" role="tablist" aria-label="Áreas de gerenciamento do cliente">
+          <button type="button" class="ativo" data-admin-mobile-tab="plano" role="tab" aria-selected="true" onclick="selecionarAbaClienteAdmin('${cliente.id}', 'plano')">Plano</button>
+          <button type="button" data-admin-mobile-tab="acesso" role="tab" aria-selected="false" onclick="selecionarAbaClienteAdmin('${cliente.id}', 'acesso')">Acesso</button>
+          <button type="button" data-admin-mobile-tab="alunos" role="tab" aria-selected="false" onclick="selecionarAbaClienteAdmin('${cliente.id}', 'alunos')">Alunos</button>
+        </div>
+      </div>
+
       ${!adminTrialColunasDisponiveis ? `
-        <div class="admin-simple-warning">
+        <div class="admin-simple-warning" data-admin-mobile-secao="plano">
           <strong>SQL do trial ainda não foi aplicado</strong>
           <span>As datas aparecem na tela, mas não serão salvas enquanto as colunas trial_inicio e trial_fim não existirem em profiles.</span>
         </div>
       ` : ""}
       <div class="admin-simple-grid">
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="plano">
           <span>Plano</span>
           ${selectPlano}
           ${avisoLegado}
           <small id="plano-resumo-${cliente.id}">${resumoPlano.descricao}</small>
         </label>
 
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="acesso">
           <span>Status</span>
           <select id="status-${cliente.id}" onchange="sincronizarAcessoClienteAdmin('${cliente.id}')">
             <option value="ativo" ${cliente.status === "ativo" ? "selected" : ""}>Ativo</option>
@@ -365,25 +486,25 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
           <small>Bloqueado impede o cliente de usar o app.</small>
         </label>
 
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="plano">
           <span>Início do trial</span>
-          <input type="date" id="trial-inicio-${cliente.id}" value="${trialInicio}">
+          <input type="date" id="trial-inicio-${cliente.id}" value="${trialInicioSeguro}">
           <small>Data usada para contar o Teste Gratuito.</small>
         </label>
 
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="plano">
           <span>Fim do trial</span>
-          <input type="date" id="trial-fim-${cliente.id}" value="${trialFim}">
-          <small id="trial-resumo-${cliente.id}">${resumoTrial}</small>
+          <input type="date" id="trial-fim-${cliente.id}" value="${trialFimSeguro}">
+          <small id="trial-resumo-${cliente.id}">${resumoTrialSeguro}</small>
         </label>
 
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="plano">
           <span>Limite de alunos</span>
           <input type="number" id="limite-input-${cliente.id}" value="${limite}" min="1">
           <small id="plano-limite-sugerido-${cliente.id}">Sugestão do plano: ${obterConfigPlanoAdmin(cliente.plano || "trial").limite} alunos</small>
         </label>
 
-        <label class="admin-simple-access">
+        <label class="admin-simple-access" data-admin-mobile-secao="acesso">
           <span>
             <strong>Acesso ao sistema</strong>
             <small>Controle direto do login do cliente.</small>
@@ -392,7 +513,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
         </label>
       </div>
 
-      <div class="admin-simple-modules">
+      <div class="admin-simple-modules" data-admin-mobile-secao="plano">
         <div>
           <strong>Módulos liberados</strong>
           <small>Definidos automaticamente pelo plano escolhido.</small>
@@ -403,12 +524,15 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
       </div>
 
       <div class="admin-simple-footer">
-        <button type="button" class="admin-simple-save" onclick="salvarPermissoesCliente('${cliente.id}')">
+        <button type="button" class="admin-simple-save" data-admin-mobile-secao="plano acesso" onclick="salvarPermissoesCliente('${cliente.id}')">
           Salvar alterações
+        </button>
+        <button type="button" class="admin-simple-delete admin-simple-delete-danger" data-admin-mobile-secao="acesso" onclick="event.stopPropagation(); removerCliente('${cliente.id}')">
+          Remover cliente
         </button>
       </div>
 
-      <details class="admin-simple-students">
+      <details class="admin-simple-students" data-admin-mobile-secao="alunos">
         <summary>Ver alunos desse cliente (${total})</summary>
         <div class="cliente-alunos-lista" id="alunos-cliente-${cliente.id}">
           ${renderizarAlunosDoCliente(alunosDoCliente)}
@@ -711,12 +835,14 @@ function renderizarAlunosDoCliente(alunosDoCliente) {
     const p = aluno.vencimento.split("-");
     const dataFmt = `${p[2]}/${p[1]}/${p[0]}`;
     const valor = valorParaNumero(aluno.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    const nomeAlunoSeguro = escaparHtmlAdmin(aluno.nome || "Aluno");
+    const telefoneAlunoSeguro = escaparHtmlAdmin(aluno.telefone || "Não informado");
 
     return `
       <div class="admin-aluno-row">
         <div class="admin-aluno-info">
-          <span class="admin-aluno-nome">${aluno.nome}</span>
-          <span class="admin-aluno-detalhe">📱 ${aluno.telefone} · 💰 ${valor} · 📅 ${dataFmt}</span>
+          <span class="admin-aluno-nome">${nomeAlunoSeguro}</span>
+          <span class="admin-aluno-detalhe">📱 ${telefoneAlunoSeguro} · 💰 ${valor} · 📅 ${dataFmt}</span>
         </div>
         <span class="admin-badge-status ${st.classe}">${st.label}</span>
       </div>
@@ -725,15 +851,70 @@ function renderizarAlunosDoCliente(alunosDoCliente) {
 }
 
 /** Admin: expande/recolhe lista de alunos de um cliente. */
+function atualizarEstadoGerenciamentoCliente(card, aberto) {
+  if (!card) return;
+
+  card.classList.toggle("admin-cliente-aberto", aberto);
+  card.querySelectorAll("[data-admin-toggle-cliente]").forEach(botao => {
+    botao.setAttribute("aria-expanded", aberto ? "true" : "false");
+  });
+
+  const rotulo = card.querySelector(".admin-manage-label");
+  const seta = card.querySelector(".admin-manage-chevron");
+  if (rotulo) rotulo.textContent = aberto ? "Fechar" : "Gerenciar";
+  if (seta) seta.textContent = aberto ? "⌃" : "⌄";
+}
+
+function selecionarAbaClienteAdmin(clienteId, aba) {
+  const abaSegura = ["plano", "acesso", "alunos"].includes(aba) ? aba : "plano";
+  const card = document.querySelector(`.admin-simple-card[data-cliente-id="${clienteId}"]`);
+  if (!card) return;
+
+  card.dataset.adminMobileTab = abaSegura;
+  card.querySelectorAll("[data-admin-mobile-tab]").forEach(botao => {
+    const selecionado = botao.dataset.adminMobileTab === abaSegura;
+    botao.classList.toggle("ativo", selecionado);
+    botao.setAttribute("aria-selected", selecionado ? "true" : "false");
+  });
+
+  const listaAlunos = card.querySelector(".admin-simple-students");
+  if (listaAlunos && abaSegura === "alunos") listaAlunos.open = true;
+
+  const painel = card.querySelector(".admin-simple-panel");
+  if (painel && window.matchMedia("(max-width: 760px)").matches) painel.scrollTop = 0;
+}
+
 function toggleClienteAlunos(clienteId) {
   const detalhes = document.getElementById(`detalhes-cliente-${clienteId}`);
-  const seta = document.getElementById(`seta-${clienteId}`);
   if (!detalhes) return;
 
-  const aberto = !detalhes.classList.contains("escondido");
-  detalhes.classList.toggle("escondido", aberto);
-  if (seta) seta.textContent = aberto ? "▼" : "▲";
+  const deveAbrir = detalhes.classList.contains("escondido");
+
+  document.querySelectorAll(".admin-simple-panel:not(.escondido)").forEach(painelAberto => {
+    if (painelAberto === detalhes) return;
+    painelAberto.classList.add("escondido");
+    painelAberto.setAttribute("aria-hidden", "true");
+    atualizarEstadoGerenciamentoCliente(painelAberto.closest(".admin-simple-card"), false);
+  });
+
+  detalhes.classList.toggle("escondido", !deveAbrir);
+  detalhes.setAttribute("aria-hidden", deveAbrir ? "false" : "true");
+  const cardAtual = detalhes.closest(".admin-simple-card");
+  atualizarEstadoGerenciamentoCliente(cardAtual, deveAbrir);
+
+  const mobile = window.matchMedia("(max-width: 760px)").matches;
+  document.body.classList.toggle("admin-mobile-gerenciamento-aberto", deveAbrir && mobile);
+
+  if (deveAbrir && mobile) {
+    selecionarAbaClienteAdmin(clienteId, "plano");
+  }
 }
+
+window.addEventListener("resize", () => {
+  const painelMobileAberto = window.matchMedia("(max-width: 760px)").matches
+    && Boolean(document.querySelector(".admin-simple-panel:not(.escondido)"));
+  document.body.classList.toggle("admin-mobile-gerenciamento-aberto", painelMobileAberto);
+});
 
 /** Admin: altera limite de alunos do cliente. */
 async function alterarLimite(id) {
@@ -778,8 +959,8 @@ async function carregarDashboard() {
   const clientesBase = (clientes || []).filter(cliente => !cliente.is_admin);
   const alunosBase = todosAlunos || [];
 
-  const ativos = clientesBase.filter(cliente => cliente.status !== "bloqueado" && cliente.pode_usar !== false).length;
-  const bloqueados = clientesBase.filter(cliente => cliente.status === "bloqueado" || cliente.pode_usar === false).length;
+  const ativos = clientesBase.filter(cliente => !adminClienteAcessoEncerrado(cliente)).length;
+  const bloqueados = clientesBase.filter(adminClienteAcessoEncerrado).length;
 
   let noLimite = 0;
 
@@ -920,22 +1101,7 @@ async function confirmarRemocaoCliente() {
   if (!clienteParaRemoverId) return;
 
   try {
-    const res = await fetch("https://wdeyorkcrenibtkbgsjw.supabase.co/functions/v1/deletar-usuario", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": CONFIG.supabaseAnonKey,
-        "Authorization": `Bearer ${CONFIG.supabaseAnonKey}`
-      },
-      body: JSON.stringify({ user_id: clienteParaRemoverId })
-    });
-
-    const data = await res.json();
-
-    if (data.error) {
-      mostrarToast(data.error, "erro");
-      return;
-    }
+    await executarEdgeAdmin("deletar-usuario", { user_id: clienteParaRemoverId });
 
     modalRemoverCliente.classList.add("escondido");
 
@@ -950,7 +1116,7 @@ async function confirmarRemocaoCliente() {
 
   } catch (err) {
     console.log("Erro completo:", err);
-    mostrarToast("Erro ao remover cliente.", "erro");
+    mostrarToast(err?.message || "Erro ao remover cliente.", "erro");
   }
 }
 

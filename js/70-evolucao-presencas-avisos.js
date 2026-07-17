@@ -128,19 +128,24 @@ function renderizarEvolucao() {
     listaEvolucao.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado para este filtro.</div>`;
     return;
   }
-  listaEvolucao.innerHTML = lista.map(({ aluno, evolucao }) => `
-    <div class="evolucao-item evolucao-${evolucao.status}">
-      <div>
-        <strong>${aluno.nome}</strong>
-        <span>${resumoEvolucaoAluno(aluno) || "Sem dados de evolução cadastrados"}</span>
-        ${evolucao.data ? `<small>Previsão para avaliação: ${formatarData(evolucao.data)}</small>` : ""}
-        ${evolucao.frequencia && evolucao.frequencia.percentual !== null ? `<small>Frequência analisada: ${evolucao.frequencia.percentual}% • mínimo ${evolucao.frequencia.minimo}% • ${evolucao.frequencia.presencas}/${evolucao.frequencia.aulasValidas} aulas válidas</small>` : ""}
+  listaEvolucao.innerHTML = lista.map(({ aluno, evolucao }) => {
+    const nomeAlunoSeguro = escaparTextoSeguro(aluno.nome || "Aluno");
+    const resumoAlunoSeguro = escaparTextoSeguro(resumoEvolucaoAluno(aluno) || "Sem dados de evolução cadastrados");
+
+    return `
+      <div class="evolucao-item evolucao-${evolucao.status}">
+        <div>
+          <strong>${nomeAlunoSeguro}</strong>
+          <span>${resumoAlunoSeguro}</span>
+          ${evolucao.data ? `<small>Previsão para avaliação: ${formatarData(evolucao.data)}</small>` : ""}
+          ${evolucao.frequencia && evolucao.frequencia.percentual !== null ? `<small>Frequência analisada: ${evolucao.frequencia.percentual}% • mínimo ${evolucao.frequencia.minimo}% • ${evolucao.frequencia.presencas}/${evolucao.frequencia.aulasValidas} aulas válidas</small>` : ""}
+        </div>
+        <div class="evolucao-acoes">
+          <button type="button" class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Registrar graduação</button>
+        </div>
       </div>
-      <div class="evolucao-acoes">
-        <button type="button" class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Registrar graduação</button>
-      </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 }
 
 function abrirModalGraduacao(id) {
@@ -219,7 +224,7 @@ function preencherTurmasPresenca() {
     .sort((a, b) => String(a.nome || "").localeCompare(String(b.nome || ""), "pt-BR"));
 
   presencaTurma.innerHTML = `<option value="todas">Todas as turmas</option>` +
-    turmas.map(turma => `<option value="${turma.nome}">${turma.nome}</option>`).join("");
+    turmas.map(turma => `<option value="${escaparTextoSeguro(turma.nome)}">${escaparTextoSeguro(turma.nome)}</option>`).join("");
 
   if (turmaAtual === "todas" || turmas.some(turma => turma.nome === turmaAtual)) {
     presencaTurma.value = turmaAtual;
@@ -840,9 +845,10 @@ async function carregarMarcacoesPresenca() {
 
 function resumoFrequenciaParaChamada(aluno) {
   const turma = typeof nomeTurmaAluno === "function" ? nomeTurmaAluno(aluno) : (aluno && aluno.turma ? aluno.turma : "Sem turma");
+  const turmaSegura = escaparTextoSeguro(turma);
 
   if (typeof calcularFrequenciaAluno !== "function") {
-    return `<div class="presenca-aluno-detalhes"><span class="presenca-aluno-meta">${turma}</span></div>`;
+    return `<div class="presenca-aluno-detalhes"><span class="presenca-aluno-meta">${turmaSegura}</span></div>`;
   }
 
   const frequencia = calcularFrequenciaAluno(aluno);
@@ -854,7 +860,7 @@ function resumoFrequenciaParaChamada(aluno) {
   if (percentual === null || !Number.isFinite(percentual)) {
     return `
       <div class="presenca-aluno-detalhes">
-        <span class="presenca-aluno-meta">${turma}</span>
+        <span class="presenca-aluno-meta">${turmaSegura}</span>
         <span class="frequencia-chamada-badge neutra">Sem frequência calculada</span>
       </div>
     `;
@@ -872,7 +878,7 @@ function resumoFrequenciaParaChamada(aluno) {
 
   return `
     <div class="presenca-aluno-detalhes">
-      <span class="presenca-aluno-meta">${turma}</span>
+      <span class="presenca-aluno-meta">${turmaSegura}</span>
       <span class="frequencia-chamada-badge ${classe}">${textoBadge}</span>
       <span class="presenca-aluno-frequencia-detalhe">${frequencia.presencas}/${frequencia.aulasValidas} aulas válidas • mínimo ${minimo}%</span>
     </div>
@@ -898,7 +904,7 @@ function renderizarListaPresencas() {
       if (presencaTotalPresentes) presencaTotalPresentes.textContent = "0";
       if (presencaTotalFaltas) presencaTotalFaltas.textContent = "0";
       if (presencaTotalAlunos) presencaTotalAlunos.textContent = "0";
-      listaPresencas.innerHTML = `<div class="empty-state-mini aula-cancelada-box"><strong>Aula cancelada em ${formatarData(data)}</strong><br>${aulaCancelada.motivo || "Aula cancelada"}. Esta aula não entra no cálculo de frequência para evolução.</div>`;
+      listaPresencas.innerHTML = `<div class="empty-state-mini aula-cancelada-box"><strong>Aula cancelada em ${formatarData(data)}</strong><br>${escaparTextoSeguro(aulaCancelada.motivo || "Aula cancelada")}. Esta aula não entra no cálculo de frequência para evolução.</div>`;
       return;
     }
   }
@@ -942,7 +948,7 @@ function renderizarListaPresencas() {
     avisosTopo.push(`
       <div class="presenca-status-chamada ${validacaoDia.valida ? "info" : "aviso"}">
         <strong>${validacaoDia.valida ? "Calendário da turma" : "Atenção ao dia da aula"}</strong>
-        <span>${validacaoDia.mensagem}</span>
+        <span>${escaparTextoSeguro(validacaoDia.mensagem)}</span>
       </div>
     `);
   }
@@ -960,7 +966,7 @@ function renderizarListaPresencas() {
     ${Object.entries(grupos).map(([turma, alunosTurma]) => `
       <div class="presenca-turma-card">
         <div class="presenca-turma-topo">
-          <strong>${turma}</strong>
+          <strong>${escaparTextoSeguro(turma)}</strong>
           <span>${alunosTurma.length} aluno${alunosTurma.length === 1 ? "" : "s"}</span>
         </div>
         <div class="presenca-alunos">
@@ -972,7 +978,7 @@ function renderizarListaPresencas() {
               <label class="presenca-aluno-item ${marcado ? "presente" : "faltou"} ${statusFrequencia.classe}">
                 <input type="checkbox" data-presenca-aluno="${aluno.id}" ${marcado ? "checked" : ""}>
                 <div>
-                  <strong>${aluno.nome}</strong>
+                  <strong>${escaparTextoSeguro(aluno.nome || "Aluno")}</strong>
                   ${resumoFrequenciaParaChamada(aluno)}
                 </div>
                 <em>${marcado ? "Presente" : "Faltou"}</em>
@@ -1132,9 +1138,9 @@ function renderizarHistoricoChamadas() {
     ${visiveis.map(grupo => `
       <article class="historico-chamada-item ${grupo.cancelada ? "cancelada" : ""}">
         <div class="historico-chamada-info">
-          <strong>${grupo.turma || "Turma"}</strong>
+          <strong>${escaparTextoSeguro(grupo.turma || "Turma")}</strong>
           <span>${formatarData(grupo.data)}</span>
-          <small>${criarResumoHistoricoChamada(grupo)}</small>
+          <small>${escaparTextoSeguro(criarResumoHistoricoChamada(grupo))}</small>
         </div>
         <div class="historico-chamada-meta">
           ${grupo.cancelada
@@ -1741,6 +1747,7 @@ async function registrarPontoRapidoDesafio(botao) {
 
   desafioPontosMesProfessorCarregado = false;
   await carregarPontosDesafioMesProfessor();
+  renderizarHistoricoPontosDesafio();
   renderizarDesafioPresencaProfessor();
   await carregarRankingDashboard();
 
@@ -1768,6 +1775,281 @@ function configurarDesafioPontosRapidos() {
 
 let desafioPontosMesProfessor = [];
 let desafioPontosMesProfessorCarregado = false;
+
+
+// ===============================
+// 37.2 DESAFIO DA AULA — PAINÉIS RECOLHÍVEIS + HISTÓRICO
+// ===============================
+
+function escaparHtmlDesafio(valor) {
+  return String(valor ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function formatarDataPontoDesafio(valor) {
+  const dataIso = String(valor || "").split("T")[0];
+  if (!dataIso) return "Data não informada";
+  if (typeof formatarData === "function") return formatarData(dataIso);
+
+  const partes = dataIso.split("-");
+  if (partes.length !== 3) return dataIso;
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
+function obterLabelPontoDesafio(item) {
+  const config = obterConfigPontoDesafio(item?.tipo || "", item?.subtipo || "");
+  if (config?.label) return config.label;
+
+  const subtipo = String(item?.subtipo || item?.tipo || "Ponto extra")
+    .replaceAll("_", " ")
+    .trim();
+
+  return subtipo
+    ? subtipo.charAt(0).toUpperCase() + subtipo.slice(1)
+    : "Ponto extra";
+}
+
+function obterNomeAlunoPontoDesafio(alunoId) {
+  const aluno = (alunos || []).find(item => String(item.id) === String(alunoId));
+  return aluno?.nome || "Aluno não encontrado";
+}
+
+function renderizarHistoricoPontosDesafio() {
+  const lista = document.getElementById("desafioPontosHistorico");
+  if (!lista) return;
+
+  const pontos = Array.isArray(desafioPontosMesProfessor)
+    ? desafioPontosMesProfessor.slice()
+    : [];
+
+  if (!pontos.length) {
+    lista.innerHTML = '<div class="empty-state-mini">Nenhum ponto extra lançado neste mês.</div>';
+    return;
+  }
+
+  pontos.sort((a, b) => {
+    const dataA = new Date(a?.created_at || a?.data_ponto || 0).getTime();
+    const dataB = new Date(b?.created_at || b?.data_ponto || 0).getTime();
+    return dataB - dataA;
+  });
+
+  lista.innerHTML = pontos.map(item => {
+    const id = escaparHtmlDesafio(item.id || "");
+    const nome = escaparHtmlDesafio(obterNomeAlunoPontoDesafio(item.aluno_id));
+    const label = escaparHtmlDesafio(obterLabelPontoDesafio(item));
+    const observacao = String(item.observacao || "").trim();
+    const observacaoHtml = observacao
+      ? `<small>${escaparHtmlDesafio(observacao)}</small>`
+      : "";
+    const pontosValor = Number(item.pontos || 0);
+    const textoPontos = `${pontosValor >= 0 ? "+" : ""}${pontosValor} ponto${Math.abs(pontosValor) === 1 ? "" : "s"}`;
+
+    return `
+      <article class="desafio-historico-item" data-desafio-historico-item="${id}">
+        <div class="desafio-historico-info">
+          <strong>${nome}</strong>
+          <span>${label} · ${formatarDataPontoDesafio(item.data_ponto || item.created_at)}</span>
+          ${observacaoHtml}
+          <em class="desafio-historico-pontos">${escaparHtmlDesafio(textoPontos)}</em>
+        </div>
+
+        <div class="desafio-historico-acoes">
+          <button
+            type="button"
+            class="btn-excluir-ponto-desafio"
+            data-desafio-excluir-ponto="${id}"
+          >
+            Excluir lançamento
+          </button>
+
+          <div class="desafio-confirmacao-excluir" aria-live="polite">
+            <span>Excluir este lançamento?</span>
+            <button
+              type="button"
+              class="btn-cancelar-exclusao-ponto"
+              data-desafio-cancelar-exclusao="${id}"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn-confirmar-exclusao-ponto"
+              data-desafio-confirmar-exclusao="${id}"
+            >
+              Excluir
+            </button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+async function carregarHistoricoPontosDesafio(forcar = false) {
+  const lista = document.getElementById("desafioPontosHistorico");
+  if (lista) {
+    lista.innerHTML = '<div class="empty-state-mini">Carregando histórico de pontos...</div>';
+  }
+
+  await carregarPontosDesafioMesProfessor(forcar);
+  renderizarHistoricoPontosDesafio();
+}
+
+function aplicarEstadoPainelDesafio({
+  botao,
+  conteudo,
+  card,
+  aberto,
+  classeRecolhido,
+  textoFechado,
+  textoAberto
+}) {
+  if (!botao || !conteudo) return;
+
+  const estaAberto = Boolean(aberto);
+  botao.setAttribute("aria-expanded", String(estaAberto));
+  botao.textContent = estaAberto ? textoAberto : textoFechado;
+  conteudo.classList.toggle("escondido", !estaAberto);
+  conteudo.setAttribute("aria-hidden", String(!estaAberto));
+
+  if (card && classeRecolhido) {
+    card.classList.toggle(classeRecolhido, !estaAberto);
+  }
+}
+
+function configurarPaineisDesafio() {
+  const btnPontos = document.getElementById("btnTogglePontosDesafio");
+  const conteudoPontos = document.getElementById("desafioPontosConteudo");
+  const cardPontos = btnPontos?.closest(".desafio-pontos-card") || null;
+
+  if (btnPontos && conteudoPontos && !btnPontos.dataset.toggleDesafioInicializado) {
+    btnPontos.dataset.toggleDesafioInicializado = "true";
+
+    btnPontos.addEventListener("click", () => {
+      const abrir = btnPontos.getAttribute("aria-expanded") !== "true";
+      aplicarEstadoPainelDesafio({
+        botao: btnPontos,
+        conteudo: conteudoPontos,
+        card: cardPontos,
+        aberto: abrir,
+        classeRecolhido: "desafio-pontos-card-recolhido",
+        textoFechado: "Abrir pontuações",
+        textoAberto: "Fechar pontuações"
+      });
+
+      if (abrir) preencherSelectDesafioPontosRapidos();
+    });
+  }
+
+  const btnHistorico = document.getElementById("btnToggleHistoricoDesafio");
+  const conteudoHistorico = document.getElementById("desafioHistoricoConteudo");
+  const cardHistorico = btnHistorico?.closest(".desafio-historico-card") || null;
+
+  if (btnHistorico && conteudoHistorico && !btnHistorico.dataset.toggleDesafioInicializado) {
+    btnHistorico.dataset.toggleDesafioInicializado = "true";
+
+    btnHistorico.addEventListener("click", async () => {
+      const abrir = btnHistorico.getAttribute("aria-expanded") !== "true";
+      aplicarEstadoPainelDesafio({
+        botao: btnHistorico,
+        conteudo: conteudoHistorico,
+        card: cardHistorico,
+        aberto: abrir,
+        classeRecolhido: "desafio-historico-card-recolhido",
+        textoFechado: "Ver pontos lançados",
+        textoAberto: "Ocultar pontos lançados"
+      });
+
+      if (abrir) await carregarHistoricoPontosDesafio(false);
+    });
+  }
+
+  const btnAtualizarHistorico = document.getElementById("btnAtualizarHistoricoDesafio");
+  if (btnAtualizarHistorico && !btnAtualizarHistorico.dataset.desafioInicializado) {
+    btnAtualizarHistorico.dataset.desafioInicializado = "true";
+    btnAtualizarHistorico.addEventListener("click", () => carregarHistoricoPontosDesafio(true));
+  }
+
+  const listaHistorico = document.getElementById("desafioPontosHistorico");
+  if (listaHistorico && !listaHistorico.dataset.acoesDesafioInicializadas) {
+    listaHistorico.dataset.acoesDesafioInicializadas = "true";
+
+    listaHistorico.addEventListener("click", async event => {
+      const botaoExcluir = event.target.closest("[data-desafio-excluir-ponto]");
+      if (botaoExcluir) {
+        const item = botaoExcluir.closest(".desafio-historico-item");
+        item?.classList.add("confirmando-exclusao");
+        return;
+      }
+
+      const botaoCancelar = event.target.closest("[data-desafio-cancelar-exclusao]");
+      if (botaoCancelar) {
+        const item = botaoCancelar.closest(".desafio-historico-item");
+        item?.classList.remove("confirmando-exclusao");
+        return;
+      }
+
+      const botaoConfirmar = event.target.closest("[data-desafio-confirmar-exclusao]");
+      if (!botaoConfirmar) return;
+
+      const pontoId = botaoConfirmar.getAttribute("data-desafio-confirmar-exclusao");
+      if (!pontoId || !usuarioAtual) return;
+
+      botaoConfirmar.disabled = true;
+      botaoConfirmar.textContent = "Excluindo...";
+
+      const { error } = await supabaseClient
+        .from("desafio_pontos")
+        .delete()
+        .eq("id", pontoId)
+        .eq("user_id", usuarioAtual.id);
+
+      if (error) {
+        console.log("Erro ao excluir ponto do desafio:", error.message);
+        botaoConfirmar.disabled = false;
+        botaoConfirmar.textContent = "Excluir";
+        mostrarToast("Erro ao excluir lançamento.", "erro");
+        return;
+      }
+
+      desafioPontosMesProfessor = desafioPontosMesProfessor.filter(item => String(item.id) !== String(pontoId));
+      desafioPontosMesProfessorCarregado = true;
+      renderizarHistoricoPontosDesafio();
+      renderizarDesafioPresencaProfessor();
+      await carregarRankingDashboard();
+      mostrarToast("Lançamento excluído.");
+    });
+  }
+
+  // Garante estado inicial coerente mesmo após cache/restauração do navegador.
+  if (btnPontos && conteudoPontos) {
+    aplicarEstadoPainelDesafio({
+      botao: btnPontos,
+      conteudo: conteudoPontos,
+      card: cardPontos,
+      aberto: btnPontos.getAttribute("aria-expanded") === "true",
+      classeRecolhido: "desafio-pontos-card-recolhido",
+      textoFechado: "Abrir pontuações",
+      textoAberto: "Fechar pontuações"
+    });
+  }
+
+  if (btnHistorico && conteudoHistorico) {
+    aplicarEstadoPainelDesafio({
+      botao: btnHistorico,
+      conteudo: conteudoHistorico,
+      card: cardHistorico,
+      aberto: btnHistorico.getAttribute("aria-expanded") === "true",
+      classeRecolhido: "desafio-historico-card-recolhido",
+      textoFechado: "Ver pontos lançados",
+      textoAberto: "Ocultar pontos lançados"
+    });
+  }
+}
 
 function obterPeriodoRankingMesAtualProfessor() {
   const hoje = new Date();
@@ -2099,12 +2381,15 @@ function primeiraLetraRankingProfessor(texto) {
 function criarAvatarRankingProfessor(item, grande = false) {
   const foto = item.foto_url || "";
   const nome = item.nome || item.nome_turma || "T";
+  const fotoSegura = escaparHtmlDesafio(foto);
+  const nomeSeguro = escaparHtmlDesafio(nome);
+  const inicialSegura = escaparHtmlDesafio(primeiraLetraRankingProfessor(nome));
 
   if (foto) {
-    return `<img src="${foto}" alt="${nome}" class="ranking-photo ${grande ? "ranking-photo-big" : ""}">`;
+    return `<img src="${fotoSegura}" alt="${nomeSeguro}" class="ranking-photo ${grande ? "ranking-photo-big" : ""}">`;
   }
 
-  return `<div class="ranking-avatar ${grande ? "ranking-avatar-big" : ""}">${primeiraLetraRankingProfessor(nome)}</div>`;
+  return `<div class="ranking-avatar ${grande ? "ranking-avatar-big" : ""}">${inicialSegura}</div>`;
 }
 
 function renderizarLinhaRankingProfessor(item, tipo = "aluno") {
@@ -2115,14 +2400,17 @@ function renderizarLinhaRankingProfessor(item, tipo = "aluno") {
       ? `${String(Number(item.percentual || 0)).replace(".", ",")}% média • ${item.totalAlunos || 0} alunos no ranking`
       : `${item.turma || "Sem turma"} • ${item.presencas || 0}/${item.aulas_validas || 0} aulas`
   );
+  const nomeSeguro = escaparHtmlDesafio(nome || "Aluno");
+  const detalheSeguro = escaparHtmlDesafio(detalhe);
+  const inicialSegura = escaparHtmlDesafio(primeiraLetraRankingProfessor(nome));
 
   return `
     <div class="ranking-row desafio-ranking-item">
       <span class="ranking-position">${textoPosicaoRankingProfessor(item.posicao)}</span>
-      ${ehTurma ? `<div class="ranking-avatar">${primeiraLetraRankingProfessor(nome)}</div>` : criarAvatarRankingProfessor(item)}
+      ${ehTurma ? `<div class="ranking-avatar">${inicialSegura}</div>` : criarAvatarRankingProfessor(item)}
       <div class="ranking-row-info">
-        <strong>${nome}</strong>
-        <small>${detalhe}</small>
+        <strong>${nomeSeguro}</strong>
+        <small>${detalheSeguro}</small>
       </div>
     </div>
   `;
@@ -2167,13 +2455,16 @@ function renderizarPodioRankingProfessor(lista, tipo = rankingProfessorAtual) {
             ? `${String(Number(item.percentual || 0)).replace(".", ",")}% média`
             : `${item.turma || "Sem turma"} • ${item.presencas || 0}/${item.aulas_validas || 0} aulas`
         );
+        const nomeSeguro = escaparHtmlDesafio(nome || "Aluno");
+        const detalheSeguro = escaparHtmlDesafio(detalhe);
+        const inicialSegura = escaparHtmlDesafio(primeiraLetraRankingProfessor(nome));
 
         return `
           <div class="podium-card ${primeiro ? "podium-first" : ""}">
             <span class="podium-medal">${textoPosicaoRankingProfessor(item.posicao || pos)}</span>
-            ${ehTurma ? `<div class="ranking-avatar ${primeiro ? "ranking-avatar-big" : ""}">${primeiraLetraRankingProfessor(nome)}</div>` : criarAvatarRankingProfessor(item, primeiro)}
-            <strong>${nome}</strong>
-            <small>${detalhe}</small>
+            ${ehTurma ? `<div class="ranking-avatar ${primeiro ? "ranking-avatar-big" : ""}">${inicialSegura}</div>` : criarAvatarRankingProfessor(item, primeiro)}
+            <strong>${nomeSeguro}</strong>
+            <small>${detalheSeguro}</small>
           </div>
         `;
       }).join("")}
@@ -2207,7 +2498,7 @@ function renderizarRankingAgrupadoPorTurmaProfessor() {
         <section class="ranking-turma-card">
           <div class="ranking-turma-topo">
             <div>
-              <strong>${grupo.turma}</strong>
+              <strong>${escaparHtmlDesafio(grupo.turma)}</strong>
               <span>${grupo.itens.length} aluno${grupo.itens.length === 1 ? "" : "s"} no ranking</span>
             </div>
           </div>
@@ -2258,12 +2549,14 @@ function renderizarDesafioPresencaProfessor() {
 
 async function atualizarDesafioPresencaProfessor() {
   configurarDesafioPontosRapidos();
+configurarPaineisDesafio();
 
   if (typeof carregarDadosFrequencia === "function") {
     await carregarDadosFrequencia();
   }
 
   await carregarPontosDesafioMesProfessor(true);
+  renderizarHistoricoPontosDesafio();
   renderizarDesafioPresencaProfessor();
   await carregarRankingDashboard();
 }

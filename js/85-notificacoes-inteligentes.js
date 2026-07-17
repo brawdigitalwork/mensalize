@@ -16,6 +16,36 @@ const NOTIFICACOES_MVP_LIMITES_POR_TIPO = {
 let notificacoesUltimosCortesPorTipo = {};
 
 let centralNotificacoesAberta = false;
+let acoesCentralNotificacoesConfiguradas = false;
+
+/** Escapa todo conteúdo externo antes de renderizar notificações via innerHTML. */
+function escaparHtmlNotificacao(valor) {
+  return String(valor ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+/**
+ * Usa delegação em data-attributes em vez de onclick inline.
+ * Isso preserva as ações também quando a lista é clonada para o sheet mobile.
+ */
+function configurarAcoesCentralNotificacoes() {
+  if (acoesCentralNotificacoesConfiguradas) return;
+  acoesCentralNotificacoesConfiguradas = true;
+
+  document.addEventListener("click", event => {
+    const botao = event.target.closest?.("[data-notificacao-acao-tipo]");
+    if (!botao) return;
+
+    notificacoesExecutarAcao(
+      botao.dataset.notificacaoAcaoTipo || "",
+      botao.dataset.notificacaoAlvo || ""
+    );
+  });
+}
 
 function notificacoesEhAtencaoReal(item) {
   return item && (item.prioridade === "urgente" || item.prioridade === "importante");
@@ -539,6 +569,8 @@ async function gerarNotificacoesInteligentes() {
 }
 
 function renderizarCentralNotificacoes(notificacoes) {
+  configurarAcoesCentralNotificacoes();
+
   const card = document.getElementById("centralNotificacoesCard");
   const lista = document.getElementById("centralNotificacoesLista");
   const contador = document.getElementById("centralNotificacoesContador");
@@ -594,22 +626,39 @@ function renderizarCentralNotificacoes(notificacoes) {
     return `
       <div class="notificacoes-grupo">
         <div class="notificacoes-grupo-titulo">${titulo}</div>
-        ${itens.map(item => `
-          <div class="notificacao-item prioridade-${item.prioridade}">
-            <div class="notificacao-icone">${item.icone}</div>
-            <div class="notificacao-conteudo">
-              <strong>${item.titulo}</strong>
-              <p>${item.descricao}</p>
-              <div class="notificacao-meta">
-                <span class="notificacao-tag">${item.modulo}</span>
-                <span class="notificacao-tag">${item.prioridade}</span>
+        ${itens.map(item => {
+          const prioridadeClasse = String(item.prioridade || "informativa").replace(/[^a-z0-9_-]/gi, "");
+          const iconeSeguro = escaparHtmlNotificacao(item.icone || "🔔");
+          const tituloSeguro = escaparHtmlNotificacao(item.titulo || "Notificação");
+          const descricaoSegura = escaparHtmlNotificacao(item.descricao || "");
+          const moduloSeguro = escaparHtmlNotificacao(item.modulo || "Mensalize");
+          const prioridadeSegura = escaparHtmlNotificacao(item.prioridade || "informativa");
+          const acaoTipoSegura = escaparHtmlNotificacao(item.acaoTipo || "");
+          const alvoSeguro = escaparHtmlNotificacao(item.alvo || "");
+          const acaoTextoSeguro = escaparHtmlNotificacao(item.acaoTexto || "Abrir");
+
+          return `
+            <div class="notificacao-item prioridade-${prioridadeClasse}">
+              <div class="notificacao-icone">${iconeSeguro}</div>
+              <div class="notificacao-conteudo">
+                <strong>${tituloSeguro}</strong>
+                <p>${descricaoSegura}</p>
+                <div class="notificacao-meta">
+                  <span class="notificacao-tag">${moduloSeguro}</span>
+                  <span class="notificacao-tag">${prioridadeSegura}</span>
+                </div>
               </div>
+              <button
+                type="button"
+                class="acao-secundaria notificacao-acao"
+                data-notificacao-acao-tipo="${acaoTipoSegura}"
+                data-notificacao-alvo="${alvoSeguro}"
+              >
+                ${acaoTextoSeguro}
+              </button>
             </div>
-            <button type="button" class="acao-secundaria notificacao-acao" onclick="notificacoesExecutarAcao('${item.acaoTipo}', '${String(item.alvo || "").replace(/'/g, "\\'")}')">
-              ${item.acaoTexto}
-            </button>
-          </div>
-        `).join("")}
+          `;
+        }).join("")}
         ${notificacoesRodapeGrupo(prioridade)}
       </div>
     `;

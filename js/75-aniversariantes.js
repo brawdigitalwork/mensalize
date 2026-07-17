@@ -2,6 +2,30 @@
 // 36. ANIVERSARIANTES — RELACIONAMENTO COM ALUNOS
 // ===============================
 
+/** Escapa dados do aluno antes de compor os cards via innerHTML. */
+function escaparHtmlAniversariante(valor) {
+  return String(valor ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+let acoesAniversariantesConfiguradas = false;
+
+/** Delegação evita handlers inline e também funciona após rerender da lista. */
+function configurarAcoesAniversariantes() {
+  if (acoesAniversariantesConfiguradas) return;
+  acoesAniversariantesConfiguradas = true;
+
+  document.addEventListener("click", event => {
+    const botao = event.target.closest?.("[data-aniversario-parabens]");
+    if (!botao) return;
+    enviarParabensWhatsApp(botao.dataset.aniversarioParabens || "");
+  });
+}
+
 function dataNascimentoParaProximoAniversario(dataNascimento) {
   if (!dataNascimento) return null;
 
@@ -139,20 +163,25 @@ function atualizarResumoAniversariantes() {
 function criarItemAniversariante(aluno) {
   const telefone = obterTelefoneAniversariante(aluno);
   const telefoneValido = telefone && telefone.length >= 10;
+  const nomeRaw = String(aluno.nome || "Aluno").trim() || "Aluno";
+  const nomeSeguro = escaparHtmlAniversariante(nomeRaw);
+  const inicialSegura = escaparHtmlAniversariante(nomeRaw.charAt(0).toUpperCase() || "A");
+  const fotoUrlSegura = escaparHtmlAniversariante(aluno.foto_url || "");
+  const alunoIdSeguro = escaparHtmlAniversariante(aluno.id || "");
   const foto = aluno.foto_url
-    ? `<img src="${aluno.foto_url}" alt="Foto de ${aluno.nome}" class="aniversariante-foto">`
-    : `<div class="aniversariante-avatar">${String(aluno.nome || "A").trim().charAt(0).toUpperCase() || "A"}</div>`;
+    ? `<img src="${fotoUrlSegura}" alt="Foto de ${nomeSeguro}" class="aniversariante-foto">`
+    : `<div class="aniversariante-avatar">${inicialSegura}</div>`;
 
   return `
     <div class="aniversariante-item">
       <div class="aniversariante-identidade">
         ${foto}
         <div>
-          <strong>${aluno.nome || "Aluno"}</strong>
+          <strong>${nomeSeguro}</strong>
           <span>${formatarDiaMes(aluno.data_nascimento)} • ${resumoTextoAniversariante(aluno)}</span>
         </div>
       </div>
-      <button type="button" class="btn-parabens" ${telefoneValido ? `onclick="enviarParabensWhatsApp('${aluno.id}')"` : "disabled"}>
+      <button type="button" class="btn-parabens" ${telefoneValido ? `data-aniversario-parabens="${alunoIdSeguro}"` : "disabled"}>
         Parabenizar
       </button>
     </div>
@@ -178,6 +207,7 @@ function blocoAniversariantes(titulo, descricao, lista) {
 }
 
 function renderizarAniversariantes() {
+  configurarAcoesAniversariantes();
   atualizarResumoAniversariantes();
 
   const container = document.getElementById("listaAniversariantes");

@@ -18541,3 +18541,1917 @@ body.relatorios-aberto { overflow: hidden; }
   }
 }
 
+
+
+/* ================================================================
+   ALUNOS — SELETOR MULTI-TURMA
+   O JS oficial usa #turmasAlunoMultiLista / #turmasAlunoMultiResumo.
+================================================================ */
+.aluno-multiturma-field {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 16px;
+  background: rgba(8, 7, 24, 0.34);
+}
+
+.aluno-multiturma-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.aluno-multiturma-topo > div {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.aluno-multiturma-titulo {
+  color: var(--cor-roxo-claro);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.aluno-multiturma-topo small {
+  color: var(--texto-secundario);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.aluno-multiturma-resumo {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border: 1px solid rgba(167, 139, 250, 0.20);
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0.10);
+  color: var(--cor-roxo-claro);
+  font-size: 10px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.aluno-multiturma-lista {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.aluno-multiturma-lista .empty-state-mini {
+  grid-column: 1 / -1;
+  padding: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.10);
+  border-radius: 13px;
+  color: var(--texto-secundario);
+  font-size: 11px;
+  text-align: center;
+}
+
+.form-section .aluno-turma-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 11px 12px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.form-section .aluno-turma-chip:hover {
+  border-color: rgba(167, 139, 250, 0.32);
+  background: rgba(124, 58, 237, 0.075);
+}
+
+.form-section .aluno-turma-chip:active {
+  transform: scale(0.99);
+}
+
+.form-section .aluno-turma-chip input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-height: auto;
+  flex: 0 0 18px;
+  margin: 0;
+  accent-color: var(--cor-roxo);
+}
+
+.form-section .aluno-turma-chip-texto {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.form-section .aluno-turma-chip-texto strong {
+  overflow: hidden;
+  color: var(--texto-primario);
+  font-size: 12px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form-section .aluno-turma-chip-texto small {
+  overflow: hidden;
+  color: var(--texto-secundario);
+  font-size: 10px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form-section .aluno-turma-chip:has(input:checked) {
+  border-color: rgba(167, 139, 250, 0.46);
+  background: rgba(124, 58, 237, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.08);
+}
+
+[data-tema="claro"] .aluno-multiturma-field {
+  border-color: rgba(17, 24, 39, 0.10);
+  background: rgba(17, 24, 39, 0.025);
+}
+
+[data-tema="claro"] .form-section .aluno-turma-chip {
+  border-color: rgba(17, 24, 39, 0.10);
+  background: rgba(17, 24, 39, 0.025);
+}
+
+[data-tema="claro"] .form-section .aluno-turma-chip:has(input:checked) {
+  border-color: rgba(109, 40, 217, 0.30);
+  background: rgba(124, 58, 237, 0.08);
+}
+
+@media (max-width: 760px) {
+  .aluno-multiturma-topo {
+    display: grid;
+    gap: 9px;
+  }
+
+  .aluno-multiturma-resumo {
+    width: fit-content;
+  }
+
+  .aluno-multiturma-lista {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================================================
+   PRESENÇAS — CHECKBOX ESTÁVEL NO HOVER
+   Isola o checkbox nativo dos estilos globais aplicados aos inputs.
+================================================================ */
+#viewPresencas .presenca-aluno-item > input[type="checkbox"] {
+  appearance: auto !important;
+  -webkit-appearance: checkbox !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  max-width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  max-height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  outline: none;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+  accent-color: var(--verde);
+  cursor: pointer;
+}
+
+#viewPresencas .presenca-aluno-item > input[type="checkbox"]:hover,
+#viewPresencas .presenca-aluno-item > input[type="checkbox"]:focus,
+#viewPresencas .presenca-aluno-item > input[type="checkbox"]:active {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+#viewPresencas .presenca-aluno-item > input[type="checkbox"]:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.9) !important;
+  outline-offset: 3px;
+}
+
+/* Documentos legais — login do professor */
+.login-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 14px;
+  color: var(--texto-terciario);
+  font-size: 11px;
+}
+
+.login-legal-links a {
+  color: var(--texto-secundario);
+  text-decoration: none;
+}
+
+.login-legal-links a:hover,
+.login-legal-links a:focus-visible {
+  color: var(--roxo-claro, #c4b5fd);
+  text-decoration: underline;
+}
+
+/* ================================================================
+   ACEITE LEGAL — PROFESSOR
+================================================================ */
+body.aceite-legal-aberto {
+  overflow: hidden;
+}
+
+.aceite-legal-modal {
+  z-index: 5000 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  background: rgba(4, 3, 10, 0.86) !important;
+}
+
+.aceite-legal-card {
+  position: static !important;
+  width: min(560px, calc(100vw - 28px)) !important;
+  max-width: 560px !important;
+  max-height: min(90dvh, 720px) !important;
+  padding: clamp(24px, 5vw, 36px) !important;
+  border: 1px solid rgba(167, 139, 250, 0.24) !important;
+  border-radius: 24px !important;
+  background: linear-gradient(180deg, #171326, #0f0d18) !important;
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.58) !important;
+  overflow-y: auto !important;
+}
+
+.aceite-legal-card::before {
+  display: none !important;
+}
+
+.aceite-legal-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #c4b5fd;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.aceite-legal-card h2 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: clamp(25px, 5vw, 34px);
+  letter-spacing: -0.04em;
+}
+
+.aceite-legal-card > p {
+  margin: 0;
+  color: var(--texto-secundario);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.aceite-legal-documentos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.aceite-legal-documentos a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid rgba(167, 139, 250, 0.24);
+  border-radius: 13px;
+  background: rgba(124, 58, 237, 0.09);
+  color: #ddd6fe;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.aceite-legal-documentos a:hover,
+.aceite-legal-documentos a:focus-visible {
+  border-color: rgba(167, 139, 250, 0.58);
+  background: rgba(124, 58, 237, 0.16);
+  color: #fff;
+}
+
+.aceite-legal-confirmacao {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+}
+
+.aceite-legal-confirmacao input[type="checkbox"] {
+  appearance: auto !important;
+  -webkit-appearance: checkbox !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  margin: 2px 0 0 !important;
+  padding: 0 !important;
+  accent-color: #8b5cf6;
+}
+
+.aceite-legal-confirmacao span {
+  color: var(--texto-primario);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.aceite-legal-mensagem {
+  min-height: 20px;
+  margin: 12px 0 0 !important;
+  font-size: 12px !important;
+}
+
+.aceite-legal-mensagem.erro {
+  color: #fca5a5 !important;
+}
+
+.aceite-legal-mensagem.sucesso {
+  color: #86efac !important;
+}
+
+.aceite-legal-acoes {
+  display: grid;
+  grid-template-columns: 0.75fr 1.4fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.aceite-legal-acoes button {
+  min-height: 48px;
+  border-radius: 14px;
+}
+
+@media (max-width: 520px) {
+  .aceite-legal-modal {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .aceite-legal-card {
+    width: 100% !important;
+    max-width: none !important;
+    max-height: 92dvh !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-radius: 24px 24px 0 0 !important;
+    padding-bottom: calc(24px + var(--safe-bottom)) !important;
+  }
+
+  .aceite-legal-documentos,
+  .aceite-legal-acoes {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================================================
+   ADMIN DESKTOP — HIERARQUIA LIMPA E CONTROLES SOB DEMANDA
+   Mantém todas as operações existentes, mas recolhe ações secundárias.
+================================================================ */
+
+.admin-topo-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-topo-acoes button,
+.admin-fechar-painel {
+  min-height: 42px;
+  padding: 9px 14px;
+  border-radius: 13px;
+  white-space: nowrap;
+}
+
+.admin-acao-secundaria,
+.admin-fechar-painel {
+  border: 1px solid var(--borda);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--texto-secundario);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-acao-secundaria:hover,
+.admin-acao-secundaria.ativo,
+.admin-fechar-painel:hover {
+  border-color: var(--cor-roxo-borda);
+  background: var(--cor-roxo-bg);
+  color: var(--texto-primario);
+}
+
+.admin-acoes-paineis {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.admin-painel-auxiliar {
+  animation: adminPainelEntrada 160ms ease-out;
+}
+
+@keyframes adminPainelEntrada {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-simple-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  min-width: max-content;
+  color: var(--texto-primario);
+}
+
+.admin-simple-count strong {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.admin-simple-count small {
+  color: var(--texto-terciario);
+  font-size: 11px;
+}
+
+.admin-manage-chevron {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.admin-simple-delete-danger {
+  border: 1px solid rgba(239, 68, 68, 0.28) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+  color: #fca5a5 !important;
+}
+
+.admin-simple-delete-danger:hover {
+  border-color: rgba(239, 68, 68, 0.5) !important;
+  background: rgba(239, 68, 68, 0.14) !important;
+}
+
+@media (min-width: 761px) {
+  .admin-executivo-page {
+    max-width: 1240px !important;
+    padding-top: 20px !important;
+  }
+
+  .admin-executivo-page .admin-exec-hero {
+    padding: 4px 0 16px !important;
+    margin-bottom: 14px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--borda) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .admin-executivo-page .admin-exec-hero h2 {
+    font-size: 28px !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  .admin-executivo-page .admin-exec-metricas.admin-resumo-grid {
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .admin-executivo-page .admin-exec-metricas .admin-metrica-card {
+    min-height: 62px !important;
+    padding: 10px 12px !important;
+    border-radius: 14px !important;
+    grid-template-areas: "label valor" !important;
+    background: rgba(255, 255, 255, 0.028) !important;
+  }
+
+  .admin-executivo-page .admin-exec-metricas .admin-metrica-card::before {
+    opacity: 0.42 !important;
+  }
+
+  .admin-executivo-page .admin-exec-metricas .admin-metrica-card small {
+    display: none !important;
+  }
+
+  .admin-painel-auxiliar {
+    padding: 18px !important;
+  }
+
+  .admin-criar-cliente-card .admin-form-mini {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto !important;
+    align-items: end;
+    gap: 10px !important;
+  }
+
+  .admin-criar-cliente-card .admin-form-mini .input-group input {
+    margin-bottom: 0 !important;
+  }
+
+  .admin-criar-cliente-card .admin-form-mini .acao-principal {
+    min-height: 45px;
+    margin: 0;
+  }
+
+  .admin-criar-cliente-card .admin-msg {
+    grid-column: 1 / -1;
+  }
+
+  .admin-planos-resumo-exec {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .admin-planos-resumo-exec span {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .admin-clientes-exec-card {
+    padding: 18px !important;
+  }
+
+  .admin-clientes-exec-card > .admin-card-header {
+    margin-bottom: 12px;
+  }
+
+  .admin-clientes-toolbar {
+    display: grid !important;
+    grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.4fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .admin-filtros-clientes {
+    justify-content: flex-end !important;
+    gap: 6px !important;
+  }
+
+  .admin-filtro-cliente {
+    min-height: 34px !important;
+    padding: 7px 10px !important;
+    font-size: 11px !important;
+  }
+
+  .admin-lista-clientes {
+    gap: 8px !important;
+  }
+
+  .admin-simple-card {
+    display: block !important;
+    padding: 0 !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.025) !important;
+    transition: border-color 160ms ease, background 160ms ease !important;
+  }
+
+  .admin-simple-card:hover,
+  .admin-simple-card.admin-cliente-aberto {
+    border-color: rgba(139, 92, 246, 0.34) !important;
+    background: rgba(139, 92, 246, 0.035) !important;
+  }
+
+  .admin-simple-head {
+    display: grid !important;
+    grid-template-columns: minmax(250px, 1fr) auto !important;
+    align-items: center !important;
+    gap: 16px !important;
+    padding: 12px 14px !important;
+  }
+
+  .admin-simple-main {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    cursor: pointer;
+  }
+
+  .admin-simple-avatar {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border: 1px solid var(--cor-roxo-borda);
+    border-radius: 12px;
+    background: var(--cor-roxo-bg);
+    color: var(--cor-roxo-claro);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .admin-simple-title-wrap {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .admin-simple-title-wrap strong,
+  .admin-simple-title-wrap small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .admin-simple-title-wrap strong {
+    color: var(--texto-primario);
+    font-size: 14px;
+  }
+
+  .admin-simple-title-wrap small {
+    color: var(--texto-terciario);
+    font-size: 11px;
+  }
+
+  .admin-simple-actions {
+    justify-content: flex-end !important;
+    flex-wrap: nowrap !important;
+    gap: 7px !important;
+  }
+
+  .admin-simple-actions .admin-chip {
+    min-width: max-content;
+    padding: 6px 9px !important;
+    font-size: 10px !important;
+  }
+
+  .admin-simple-manage {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    min-height: 34px !important;
+    padding: 7px 10px !important;
+  }
+
+  .admin-simple-panel {
+    padding: 16px !important;
+    border-top: 1px solid var(--borda);
+    background: rgba(3, 5, 16, 0.28);
+  }
+
+  .admin-simple-panel .admin-simple-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .admin-simple-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+
+  .admin-simple-save {
+    min-width: 170px;
+  }
+}
+
+[data-tema="claro"] .admin-acao-secundaria,
+[data-tema="claro"] .admin-fechar-painel,
+[data-tema="claro"] .admin-simple-card {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+[data-tema="claro"] .admin-simple-panel {
+  background: rgba(248, 250, 252, 0.92);
+}
+
+@media (max-width: 760px) {
+  .admin-topo-acoes {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .admin-topo-acoes button {
+    flex: 1 1 140px;
+  }
+
+  .admin-criar-cliente-card .admin-form-mini,
+  .admin-planos-resumo-exec {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-simple-count {
+    justify-content: center;
+  }
+}
+
+/* ================================================================
+   ADMIN MOBILE — EXPERIÊNCIA EXCLUSIVA ATÉ 760PX
+   Reaproveita os mesmos dados e ações seguras do Admin desktop.
+================================================================ */
+
+.admin-mobile-appbar,
+.admin-mobile-intro {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  #telaAdmin {
+    min-height: 100dvh;
+    background:
+      radial-gradient(circle at 12% -8%, rgba(109, 40, 217, 0.24), transparent 32%),
+      linear-gradient(180deg, #070712 0%, #090b18 48%, #070812 100%);
+  }
+
+  #telaAdmin:not(.escondido) {
+    display: block !important;
+  }
+
+  #telaAdmin .admin-mobile-appbar {
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 68px;
+    padding:
+      calc(10px + env(safe-area-inset-top))
+      max(14px, calc(14px + env(safe-area-inset-right)))
+      10px
+      max(14px, calc(14px + env(safe-area-inset-left)));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+    background: rgba(7, 7, 18, 0.88);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  #telaAdmin .admin-mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  #telaAdmin .admin-mobile-brand-mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border: 1px solid rgba(167, 139, 250, 0.32);
+    border-radius: 14px;
+    background:
+      linear-gradient(145deg, rgba(139, 92, 246, 0.34), rgba(76, 29, 149, 0.18));
+    color: #c4b5fd;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    font-size: 16px;
+    font-weight: 900;
+  }
+
+  #telaAdmin .admin-mobile-brand-copy {
+    display: grid;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  #telaAdmin .admin-mobile-brand-copy small {
+    color: #8b8fa5;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  #telaAdmin .admin-mobile-brand-copy strong {
+    overflow: hidden;
+    color: #f8fafc;
+    font-size: 15px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #telaAdmin .admin-mobile-sair {
+    min-width: 66px;
+    min-height: 40px;
+    padding: 8px 13px;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.045);
+    color: #d9dbea;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  #telaAdmin .admin-executivo-page {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: none !important;
+    margin: 0;
+    padding:
+      20px
+      max(14px, calc(14px + env(safe-area-inset-right)))
+      calc(36px + env(safe-area-inset-bottom))
+      max(14px, calc(14px + env(safe-area-inset-left))) !important;
+  }
+
+  #telaAdmin .admin-mobile-intro {
+    order: 1;
+    display: block;
+    padding: 0 2px;
+  }
+
+  #telaAdmin .admin-mobile-intro .page-eyebrow {
+    display: inline-flex;
+    margin: 0 0 8px;
+  }
+
+  #telaAdmin .admin-mobile-intro h1 {
+    margin: 0;
+    color: #f8fafc;
+    font-size: clamp(27px, 9vw, 34px);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  #telaAdmin .admin-mobile-intro p {
+    margin: 8px 0 0;
+    color: #969aaf;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  #telaAdmin .admin-exec-metricas.admin-resumo-grid {
+    order: 2;
+    display: grid !important;
+    grid-template-columns: none !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: minmax(146px, 44vw) !important;
+    gap: 9px !important;
+    width: calc(100% + 14px);
+    margin: 0 -14px 0 0 !important;
+    padding: 0 14px 7px 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #telaAdmin .admin-exec-metricas.admin-resumo-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  #telaAdmin .admin-exec-metricas .admin-metrica-card {
+    min-width: 0 !important;
+    min-height: 96px !important;
+    padding: 14px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
+    background: rgba(255, 255, 255, 0.045) !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas:
+      "label valor"
+      "desc desc" !important;
+    gap: 8px 10px !important;
+    scroll-snap-align: start;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  }
+
+  #telaAdmin .admin-exec-metricas .admin-metrica-card::before {
+    opacity: 0.72 !important;
+  }
+
+  #telaAdmin .admin-exec-metricas .admin-metrica-card span {
+    align-self: center;
+    font-size: 9px !important;
+  }
+
+  #telaAdmin .admin-exec-metricas .admin-metrica-card strong {
+    font-size: 27px !important;
+  }
+
+  #telaAdmin .admin-exec-metricas .admin-metrica-card small {
+    display: block !important;
+    white-space: normal !important;
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+  }
+
+  #telaAdmin .admin-exec-hero {
+    order: 3;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #telaAdmin .admin-exec-hero .admin-desktop-heading,
+  #telaAdmin .admin-exec-hero #btnVoltar {
+    display: none !important;
+  }
+
+  #telaAdmin .admin-topo-acoes {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+  }
+
+  #telaAdmin .admin-topo-acoes button {
+    width: 100% !important;
+    min-height: 52px;
+    padding: 10px 12px;
+    border-radius: 17px;
+    font-size: 12px;
+    font-weight: 850;
+    white-space: normal;
+  }
+
+  #telaAdmin #btnAlternarNovoCliente {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    box-shadow: 0 12px 28px rgba(109, 40, 217, 0.28);
+  }
+
+  #telaAdmin .admin-acoes-paineis {
+    order: 4;
+    gap: 10px;
+    margin: 0;
+  }
+
+  #telaAdmin .admin-painel-auxiliar {
+    width: 100%;
+    padding: 16px !important;
+    border: 1px solid rgba(139, 92, 246, 0.22) !important;
+    border-radius: 22px !important;
+    background:
+      linear-gradient(155deg, rgba(124, 58, 237, 0.1), rgba(255, 255, 255, 0.035)) !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+  }
+
+  #telaAdmin .admin-painel-auxiliar .admin-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 15px;
+  }
+
+  #telaAdmin .admin-painel-auxiliar .admin-card-header > div {
+    min-width: 0;
+  }
+
+  #telaAdmin .admin-painel-auxiliar .admin-card-header h3 {
+    margin: 4px 0;
+    font-size: 18px;
+  }
+
+  #telaAdmin .admin-painel-auxiliar .admin-card-header p {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  #telaAdmin .admin-fechar-painel {
+    min-width: 64px;
+    min-height: 38px;
+    padding: 7px 10px;
+  }
+
+  #telaAdmin .admin-criar-cliente-card .admin-form-mini,
+  #telaAdmin .admin-planos-resumo-exec {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  #telaAdmin .admin-criar-cliente-card .input-group {
+    display: grid;
+    gap: 7px;
+  }
+
+  #telaAdmin .admin-criar-cliente-card input,
+  #telaAdmin .admin-criar-cliente-card .acao-principal {
+    min-height: 50px;
+    margin: 0 !important;
+    border-radius: 15px !important;
+    font-size: 16px;
+  }
+
+  #telaAdmin .admin-planos-resumo-exec span {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 13px;
+    border-radius: 16px;
+    line-height: 1.4;
+  }
+
+  #telaAdmin .admin-clientes-exec-card {
+    order: 5;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #telaAdmin .admin-clientes-exec-card > .admin-card-header {
+    margin: 2px 2px 12px;
+  }
+
+  #telaAdmin .admin-clientes-exec-card > .admin-card-header h3 {
+    margin: 4px 0;
+    color: #f8fafc;
+    font-size: 20px;
+  }
+
+  #telaAdmin .admin-clientes-exec-card > .admin-card-header p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  #telaAdmin .admin-clientes-toolbar {
+    position: relative;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    width: 100%;
+    margin: 0 0 13px !important;
+  }
+
+  #telaAdmin .admin-busca-clientes {
+    width: 100% !important;
+    min-height: 50px;
+    margin: 0 !important;
+    padding: 0 15px !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.045) !important;
+    color: #f8fafc !important;
+    font-size: 16px !important;
+  }
+
+  #telaAdmin .admin-filtros-clientes {
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 7px !important;
+    width: calc(100% + 14px);
+    margin-right: -14px;
+    padding: 0 14px 5px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #telaAdmin .admin-filtros-clientes::-webkit-scrollbar {
+    display: none;
+  }
+
+  #telaAdmin .admin-filtro-cliente {
+    flex: 0 0 auto;
+    min-height: 38px !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+    font-size: 11px !important;
+  }
+
+  #telaAdmin .admin-lista-clientes {
+    display: grid;
+    gap: 11px;
+  }
+
+  #telaAdmin .admin-simple-card {
+    display: block !important;
+    width: 100%;
+    padding: 0 !important;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 21px !important;
+    background:
+      linear-gradient(150deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)) !important;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14);
+  }
+
+  #telaAdmin .admin-simple-card.admin-cliente-aberto {
+    border-color: rgba(139, 92, 246, 0.36) !important;
+    box-shadow: 0 18px 42px rgba(46, 16, 101, 0.2);
+  }
+
+  #telaAdmin .admin-simple-head {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    width: 100%;
+    padding: 14px !important;
+  }
+
+  #telaAdmin .admin-simple-main {
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+    width: 100% !important;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    text-align: left !important;
+  }
+
+  #telaAdmin .admin-simple-avatar {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border: 1px solid rgba(167, 139, 250, 0.28);
+    border-radius: 15px;
+    background: rgba(124, 58, 237, 0.14);
+    color: #c4b5fd;
+    font-size: 15px;
+    font-weight: 900;
+  }
+
+  #telaAdmin .admin-simple-title-wrap {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+    text-align: left;
+  }
+
+  #telaAdmin .admin-simple-title-wrap strong,
+  #telaAdmin .admin-simple-title-wrap small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #telaAdmin .admin-simple-title-wrap strong {
+    color: #f8fafc;
+    font-size: 14px;
+  }
+
+  #telaAdmin .admin-simple-title-wrap small {
+    color: #8f93a8;
+    font-size: 11px;
+  }
+
+  #telaAdmin .admin-simple-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 7px !important;
+    width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+
+  #telaAdmin .admin-simple-count {
+    justify-content: flex-start;
+    min-height: 28px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  #telaAdmin .admin-simple-actions .admin-chip {
+    min-height: 28px;
+    padding: 6px 9px !important;
+    font-size: 9px !important;
+  }
+
+  #telaAdmin .admin-simple-manage {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    width: 100% !important;
+    min-height: 44px !important;
+    margin-top: 2px;
+    padding: 9px 12px !important;
+    border-radius: 14px !important;
+  }
+
+  #telaAdmin .admin-simple-panel {
+    padding: 15px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.075);
+    background: rgba(3, 5, 16, 0.34);
+  }
+
+  #telaAdmin .admin-simple-panel .admin-simple-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  #telaAdmin .admin-simple-field,
+  #telaAdmin .admin-simple-access {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #telaAdmin .admin-simple-field input,
+  #telaAdmin .admin-simple-field select {
+    min-height: 48px;
+    margin: 7px 0 5px !important;
+    border-radius: 14px !important;
+    font-size: 16px !important;
+  }
+
+  #telaAdmin .admin-simple-access {
+    min-height: 68px;
+    padding: 12px !important;
+    border-radius: 16px !important;
+  }
+
+  #telaAdmin .admin-simple-modules {
+    display: grid !important;
+    gap: 10px !important;
+    margin-top: 12px;
+    padding: 13px !important;
+    border-radius: 17px !important;
+  }
+
+  #telaAdmin .admin-simple-module-list {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  #telaAdmin .admin-simple-footer {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+    margin-top: 13px;
+  }
+
+  #telaAdmin .admin-simple-save,
+  #telaAdmin .admin-simple-delete-danger {
+    width: 100% !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    border-radius: 15px !important;
+  }
+
+  #telaAdmin .admin-simple-students {
+    margin-top: 13px;
+    border-radius: 16px;
+  }
+
+  #telaAdmin .admin-simple-students summary {
+    min-height: 48px;
+    padding: 14px;
+    cursor: pointer;
+  }
+
+  #telaAdmin .admin-aluno-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 8px !important;
+    padding: 11px !important;
+    border-radius: 14px !important;
+  }
+
+  #telaAdmin .admin-aluno-detalhe {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  #telaAdmin .admin-empty-state {
+    min-height: 120px;
+    padding: 28px 18px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 390px) {
+  #telaAdmin .admin-executivo-page {
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+  }
+
+  #telaAdmin .admin-exec-metricas.admin-resumo-grid,
+  #telaAdmin .admin-filtros-clientes {
+    width: calc(100% + 12px);
+    margin-right: -12px !important;
+    padding-right: 12px !important;
+  }
+
+  #telaAdmin .admin-topo-acoes {
+    gap: 8px;
+  }
+
+  #telaAdmin .admin-simple-head,
+  #telaAdmin .admin-simple-panel {
+    padding: 13px !important;
+  }
+}
+
+[data-tema="claro"] #telaAdmin .admin-mobile-appbar {
+  border-color: rgba(15, 23, 42, 0.09);
+  background: rgba(248, 250, 252, 0.9);
+}
+
+[data-tema="claro"] #telaAdmin .admin-mobile-brand-copy strong,
+[data-tema="claro"] #telaAdmin .admin-mobile-intro h1,
+[data-tema="claro"] #telaAdmin .admin-clientes-exec-card > .admin-card-header h3,
+[data-tema="claro"] #telaAdmin .admin-simple-title-wrap strong {
+  color: #111827;
+}
+
+/* ================================================================
+   ADMIN MOBILE COMPACTO — LISTA LIMPA E GERENCIAMENTO EM TELA CHEIA
+================================================================ */
+
+.admin-mobile-card-summary,
+.admin-mobile-client-shell-head {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  body.admin-mobile-gerenciamento-aberto {
+    overflow: hidden !important;
+    overscroll-behavior: none;
+  }
+
+  #telaAdmin .admin-simple-card {
+    overflow: hidden;
+  }
+
+  #telaAdmin .admin-simple-card.admin-cliente-aberto {
+    overflow: visible;
+  }
+
+  #telaAdmin .admin-simple-head {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 44px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-height: 76px;
+    padding: 12px !important;
+  }
+
+  #telaAdmin .admin-simple-main {
+    min-height: 50px;
+  }
+
+  #telaAdmin .admin-simple-title-wrap {
+    gap: 2px;
+  }
+
+  #telaAdmin .admin-mobile-card-summary {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+    margin-top: 3px;
+    overflow: hidden;
+    color: #8f93a8;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  #telaAdmin .admin-mobile-card-summary > span {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  #telaAdmin .admin-mobile-card-summary > span + span::before {
+    content: "•";
+    margin-right: 5px;
+    color: #555a70;
+  }
+
+  #telaAdmin .admin-mobile-card-summary .ativo {
+    color: #86efac;
+  }
+
+  #telaAdmin .admin-mobile-card-summary .bloqueado {
+    color: #fca5a5;
+  }
+
+  #telaAdmin .admin-simple-actions {
+    display: grid !important;
+    place-items: center !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    gap: 0 !important;
+  }
+
+  #telaAdmin .admin-simple-actions > .admin-simple-count,
+  #telaAdmin .admin-simple-actions > .admin-chip {
+    display: none !important;
+  }
+
+  #telaAdmin .admin-simple-manage {
+    display: grid !important;
+    place-items: center !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(139, 92, 246, 0.24) !important;
+    border-radius: 14px !important;
+    background: rgba(124, 58, 237, 0.1) !important;
+    color: #c4b5fd !important;
+  }
+
+  #telaAdmin .admin-simple-manage .admin-manage-label {
+    display: none !important;
+  }
+
+  #telaAdmin .admin-simple-manage .admin-manage-chevron {
+    font-size: 19px;
+  }
+
+  #telaAdmin .admin-simple-panel:not(.escondido) {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 300 !important;
+    display: block !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding:
+      0
+      max(14px, calc(14px + env(safe-area-inset-right)))
+      calc(32px + env(safe-area-inset-bottom))
+      max(14px, calc(14px + env(safe-area-inset-left))) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background:
+      radial-gradient(circle at 90% -8%, rgba(109, 40, 217, 0.22), transparent 30%),
+      linear-gradient(180deg, #080816, #090b18 52%, #070812) !important;
+    box-shadow: none !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #telaAdmin .admin-mobile-client-shell-head {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    display: block;
+    margin: 0 -14px 16px;
+    padding:
+      calc(10px + env(safe-area-inset-top))
+      14px
+      10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+    background: rgba(8, 8, 22, 0.92);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  #telaAdmin .admin-mobile-client-header {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 48px;
+  }
+
+  #telaAdmin .admin-mobile-client-back {
+    display: grid !important;
+    place-items: center !important;
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    padding: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.045) !important;
+    color: #f8fafc !important;
+    font: inherit;
+    font-size: 20px !important;
+    cursor: pointer;
+  }
+
+  #telaAdmin .admin-mobile-client-header > span {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  #telaAdmin .admin-mobile-client-header small {
+    color: #85899f;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  #telaAdmin .admin-mobile-client-header strong {
+    overflow: hidden;
+    color: #f8fafc;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #telaAdmin .admin-mobile-client-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    margin-top: 10px;
+    padding: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  #telaAdmin .admin-mobile-client-tabs button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    padding: 7px 8px !important;
+    border: 0 !important;
+    border-radius: 11px !important;
+    background: transparent !important;
+    color: #85899f !important;
+    font: inherit;
+    font-size: 11px !important;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  #telaAdmin .admin-mobile-client-tabs button.ativo {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.38), rgba(91, 33, 182, 0.28)) !important;
+    color: #f5f3ff !important;
+    box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.18);
+  }
+
+  #telaAdmin .admin-simple-card[data-admin-mobile-tab="plano"] [data-admin-mobile-secao]:not([data-admin-mobile-secao~="plano"]),
+  #telaAdmin .admin-simple-card[data-admin-mobile-tab="acesso"] [data-admin-mobile-secao]:not([data-admin-mobile-secao~="acesso"]),
+  #telaAdmin .admin-simple-card[data-admin-mobile-tab="alunos"] [data-admin-mobile-secao]:not([data-admin-mobile-secao~="alunos"]) {
+    display: none !important;
+  }
+
+  #telaAdmin .admin-simple-card[data-admin-mobile-tab="alunos"] .admin-simple-grid,
+  #telaAdmin .admin-simple-card[data-admin-mobile-tab="alunos"] .admin-simple-footer {
+    display: none !important;
+  }
+
+  #telaAdmin .admin-simple-card[data-admin-mobile-tab="plano"] .admin-simple-students,
+  #telaAdmin .admin-simple-card[data-admin-mobile-tab="acesso"] .admin-simple-students {
+    display: none !important;
+  }
+
+  #telaAdmin .admin-simple-warning {
+    margin: 0 0 12px;
+  }
+
+  #telaAdmin .admin-simple-panel .admin-simple-grid {
+    gap: 11px !important;
+  }
+
+  #telaAdmin .admin-simple-panel .admin-simple-field,
+  #telaAdmin .admin-simple-panel .admin-simple-access,
+  #telaAdmin .admin-simple-panel .admin-simple-modules {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+  }
+
+  #telaAdmin .admin-simple-panel .admin-simple-field {
+    padding: 13px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 17px;
+  }
+
+  #telaAdmin .admin-simple-panel .admin-simple-field > span {
+    color: #dfe2ef;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  #telaAdmin .admin-simple-panel .admin-simple-field > small,
+  #telaAdmin .admin-simple-panel .admin-simple-access small {
+    color: #7f8499;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  #telaAdmin .admin-simple-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin: 14px -14px 0;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(8, 9, 21, 0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  #telaAdmin .admin-simple-students {
+    display: block;
+    margin: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  #telaAdmin .admin-simple-students > summary {
+    display: none !important;
+  }
+
+  #telaAdmin .admin-simple-students .cliente-alunos-lista {
+    display: grid;
+    gap: 9px;
+  }
+
+  #telaAdmin .admin-simple-students .admin-aluno-row {
+    min-height: 66px;
+    border-color: rgba(255, 255, 255, 0.075);
+    background: rgba(255, 255, 255, 0.035);
+  }
+}
+
+@media (max-width: 390px) {
+  #telaAdmin .admin-mobile-client-shell-head {
+    margin-right: -12px;
+    margin-left: -12px;
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  #telaAdmin .admin-simple-panel:not(.escondido) {
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+  }
+
+  #telaAdmin .admin-simple-footer {
+    margin-right: -12px;
+    margin-left: -12px;
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}
+
+[data-tema="claro"] #telaAdmin .admin-simple-panel:not(.escondido) {
+  background: #f8fafc !important;
+}
+
+[data-tema="claro"] #telaAdmin .admin-mobile-client-shell-head,
+[data-tema="claro"] #telaAdmin .admin-simple-footer {
+  border-color: rgba(15, 23, 42, 0.09);
+  background: rgba(248, 250, 252, 0.92);
+}
+
+[data-tema="claro"] #telaAdmin .admin-mobile-client-header strong,
+[data-tema="claro"] #telaAdmin .admin-simple-panel .admin-simple-field > span {
+  color: #111827;
+}
+
+/* ALUNOS — FILA LIMPA DE ATIVAÇÃO DO PORTAL */
+#viewAlunos .acessos-pendentes {
+  margin: 4px 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid #7c3aed;
+  border-radius: 16px;
+  background: rgba(12, 11, 30, 0.72);
+  box-shadow: 0 14px 34px rgba(5, 3, 18, 0.12);
+  overflow: hidden;
+}
+
+#viewAlunos .acessos-pendentes-resumo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 94px;
+  padding: 16px 18px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--texto-primario);
+  text-align: left;
+  cursor: pointer;
+}
+
+#viewAlunos .acessos-pendentes-resumo:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+#viewAlunos .acessos-pendentes-icone {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(167, 139, 250, 0.32);
+  border-radius: 14px;
+  background: rgba(124, 58, 237, 0.14);
+  color: #b99cff;
+}
+
+#viewAlunos .acessos-pendentes-icone svg {
+  width: 21px;
+  height: 21px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#viewAlunos .acessos-pendentes-titulo {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+#viewAlunos .acessos-pendentes-titulo small {
+  color: #9b7ee5;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#viewAlunos .acessos-pendentes-titulo strong {
+  overflow: hidden;
+  color: var(--texto-primario);
+  font-size: 15px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#viewAlunos .acessos-pendentes-descricao {
+  overflow: hidden;
+  color: var(--texto-secundario);
+  font-size: 11px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#viewAlunos .acessos-pendentes-contador {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(167, 139, 250, 0.24);
+  border-radius: 12px;
+  background: rgba(124, 58, 237, 0.12);
+  color: #c4b5fd;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+#viewAlunos .acessos-pendentes-acao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 39px;
+  padding: 9px 14px;
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 11px;
+  background: rgba(124, 58, 237, 0.15);
+  color: #d8ccff;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#viewAlunos .acessos-pendentes-resumo[aria-expanded="true"] .acessos-pendentes-acao {
+  border-color: #7c3aed;
+  background: #7c3aed;
+  color: #ffffff;
+}
+
+#viewAlunos .acessos-pendentes-conteudo {
+  padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(4, 3, 17, 0.16);
+}
+
+#viewAlunos .acessos-pendentes-lista {
+  display: grid;
+  gap: 8px;
+  max-height: 420px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+#viewAlunos .acesso-pendente-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 62px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+#viewAlunos .acesso-pendente-identidade {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+#viewAlunos .acesso-pendente-identidade strong {
+  overflow: hidden;
+  color: var(--texto-primario);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#viewAlunos .acesso-pendente-avatar {
+  display: grid;
+  flex: 0 0 34px;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  border-radius: 11px;
+  background: rgba(124, 58, 237, 0.14);
+  color: #ddd6fe;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+#viewAlunos .acesso-pendente-enviar {
+  flex: 0 0 auto;
+  min-height: 38px;
+  margin: 0;
+  padding: 8px 13px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+#viewAlunos .acesso-pendente-enviar:disabled {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--texto-secundario);
+  cursor: not-allowed;
+  opacity: 0.66;
+}
+
+[data-tema="claro"] #viewAlunos .acessos-pendentes {
+  border-color: rgba(15, 23, 42, 0.08);
+  border-left-color: #7c3aed;
+  background: #ffffff;
+  box-shadow: 0 14px 30px rgba(76, 29, 149, 0.06);
+}
+
+[data-tema="claro"] #viewAlunos .acesso-pendente-item {
+  border-color: rgba(15, 23, 42, 0.08);
+  background: rgba(109, 40, 217, 0.035);
+}

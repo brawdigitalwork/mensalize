@@ -282,13 +282,14 @@ async function carregarUltimosPagamentos() {
   data.forEach(pagamento => {
     const aluno = alunos.find(a => String(a.id) === String(pagamento.aluno_id));
     const nomeAluno = aluno ? aluno.nome : "Aluno removido ou não encontrado";
+    const nomeAlunoSeguro = escaparHtmlFinanceiro(nomeAluno);
     const dataPagamento = pagamento.data_pagamento ? formatarData(String(pagamento.data_pagamento).split("T")[0]) : "Data não informada";
 
     const item = document.createElement("div");
     item.className = "pagamento-recente-item";
     item.innerHTML = `
       <div>
-        <strong>${nomeAluno}</strong>
+        <strong>${nomeAlunoSeguro}</strong>
         <span>Pago em ${dataPagamento}</span>
       </div>
       <span class="pagamento-recente-valor">${formatarMoeda(pagamento.valor)}</span>
@@ -1082,7 +1083,7 @@ function marcarComoPago(id) {
   const valorTotal = valorMensal * quantidade;
 
   textoConfirmarPagamento.innerHTML = `
-    Confirmar pagamento de <strong>${aluno.nome}</strong>?<br>
+    Confirmar pagamento de <strong>${escaparHtmlFinanceiro(aluno.nome || "Aluno")}</strong>?<br>
     <span style="color:#a1a1aa; font-size:13px;">
       ${quantidade} mensalidade${quantidade > 1 ? "s" : ""} · Total: ${formatarMoeda(valorTotal)} · Novo vencimento: ${formatarData(calculoPagamento.novoVencimento)}
     </span>

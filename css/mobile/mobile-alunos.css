@@ -523,9 +523,10 @@
 
   #viewAlunos .acessos-pendentes-resumo {
     grid-template-columns: auto minmax(0, 1fr) auto !important;
-    gap: 10px !important;
+    align-items: center !important;
+    gap: 9px !important;
     min-height: 0 !important;
-    padding: 14px !important;
+    padding: 12px !important;
   }
 
   #viewAlunos .acessos-pendentes-icone {
@@ -545,57 +546,79 @@
   }
 
   #viewAlunos .acessos-pendentes-contador {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 10px !important;
-    font-size: 11px !important;
+    display: none !important;
   }
 
   #viewAlunos .acessos-pendentes-acao {
-    grid-column: 1 / -1;
-    width: 100%;
-    min-height: 38px !important;
-    margin-top: 3px;
-    font-size: 10px !important;
+    grid-column: 3;
+    width: auto !important;
+    min-width: 74px !important;
+    min-height: 32px !important;
+    margin: 0 !important;
+    padding: 7px 9px !important;
+    border-radius: 9px !important;
+    font-size: 9px !important;
   }
 
   #viewAlunos .acessos-pendentes-conteudo {
-    padding: 8px !important;
+    padding: 7px !important;
   }
 
   #viewAlunos .acessos-pendentes-lista {
+    gap: 6px !important;
     max-height: 52vh;
   }
 
   #viewAlunos .acesso-pendente-item {
-    gap: 8px !important;
-    min-height: 58px !important;
-    padding: 9px !important;
-    border-radius: 13px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-height: 54px !important;
+    padding: 8px 9px !important;
+    border-radius: 12px !important;
   }
 
   #viewAlunos .acesso-pendente-identidade {
+    width: 100% !important;
+    min-width: 0 !important;
     gap: 8px !important;
   }
 
   #viewAlunos .acesso-pendente-identidade strong {
+    display: block !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
     font-size: 12px !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #viewAlunos .acesso-pendente-avatar {
+    flex: 0 0 32px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
   }
 
   #viewAlunos .acesso-pendente-enviar {
-    min-height: 36px !important;
-    padding: 7px 10px !important;
-    font-size: 10px !important;
+    width: auto !important;
+    min-width: 106px !important;
+    min-height: 34px !important;
+    margin: 0 !important;
+    padding: 7px 11px !important;
+    border-radius: 9px !important;
+    font-size: 9px !important;
   }
 }
 
 @media (max-width: 360px) {
-  #viewAlunos .acesso-pendente-item {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
+  #viewAlunos .acessos-pendentes-descricao {
+    display: none !important;
   }
 
   #viewAlunos .acesso-pendente-enviar {
-    width: 100% !important;
+    min-width: 94px !important;
+    padding-inline: 8px !important;
   }
 }

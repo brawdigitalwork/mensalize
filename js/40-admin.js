@@ -42,20 +42,29 @@ if (btnAdmin) {
   btnAdmin.addEventListener("click", abrirPainelAdminMensalize);
 }
 
-if (btnVoltar) {
-  btnVoltar.addEventListener("click", async function() {
-    try {
-      await supabaseClient.auth.signOut();
-    } catch (erro) {
-      console.warn("Erro ao encerrar sessão do Admin:", erro);
-    }
+const btnSairAdminMobile = document.getElementById("btnSairAdminMobile");
 
-    usuarioAtual = null;
-    usuarioEhAdmin = false;
-    alunos = [];
-    sincronizarEstado();
-    mostrarLogin();
-  });
+async function sairPainelAdminMensalize() {
+  try {
+    await supabaseClient.auth.signOut();
+  } catch (erro) {
+    console.warn("Erro ao encerrar sessão do Admin:", erro);
+  }
+
+  usuarioAtual = null;
+  usuarioEhAdmin = false;
+  alunos = [];
+  document.body.classList.remove("admin-mobile-gerenciamento-aberto");
+  sincronizarEstado();
+  mostrarLogin();
+}
+
+if (btnVoltar) {
+  btnVoltar.addEventListener("click", sairPainelAdminMensalize);
+}
+
+if (btnSairAdminMobile) {
+  btnSairAdminMobile.addEventListener("click", sairPainelAdminMensalize);
 }
 
 const btnAlternarNovoCliente = document.getElementById("btnAlternarNovoCliente");
@@ -340,6 +349,8 @@ function clientePassaFiltroAdmin(cliente, alunosDoCliente) {
 function renderizarClientesAdminCache() {
   if (!listaClientes) return;
 
+  document.body.classList.remove("admin-mobile-gerenciamento-aberto");
+
   const clientesBase = (clientesCache || []).filter(c => !c.is_admin);
   const todosAlunosAdmin = clientesAdminUltimosAlunos || [];
   const clientesFiltrados = clientesBase.filter(cliente => {
@@ -415,6 +426,11 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
         <span class="admin-simple-title-wrap">
           <strong>${nomeClienteSeguro}</strong>
           ${cliente.nome_empresa ? `<small>${emailClienteSeguro}</small>` : `<small>Cliente Mensalize</small>`}
+          <span class="admin-mobile-card-summary" aria-hidden="true">
+            <span>${escaparHtmlAdmin(resumoPlano.nome)}</span>
+            <span class="${statusBloqueado ? "bloqueado" : "ativo"}">${statusTexto}</span>
+            <span>${total}/${limite} alunos</span>
+          </span>
         </span>
       </button>
 
@@ -431,21 +447,37 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
     </div>
 
     <div class="admin-simple-panel escondido" id="detalhes-cliente-${cliente.id}" aria-hidden="true" onclick="event.stopPropagation()">
+      <div class="admin-mobile-client-shell-head">
+        <div class="admin-mobile-client-header">
+          <button type="button" class="admin-mobile-client-back" onclick="toggleClienteAlunos('${cliente.id}')" aria-label="Voltar para a lista de clientes">←</button>
+          <span>
+            <small>Gerenciar cliente</small>
+            <strong>${nomeClienteSeguro}</strong>
+          </span>
+        </div>
+
+        <div class="admin-mobile-client-tabs" role="tablist" aria-label="Áreas de gerenciamento do cliente">
+          <button type="button" class="ativo" data-admin-mobile-tab="plano" role="tab" aria-selected="true" onclick="selecionarAbaClienteAdmin('${cliente.id}', 'plano')">Plano</button>
+          <button type="button" data-admin-mobile-tab="acesso" role="tab" aria-selected="false" onclick="selecionarAbaClienteAdmin('${cliente.id}', 'acesso')">Acesso</button>
+          <button type="button" data-admin-mobile-tab="alunos" role="tab" aria-selected="false" onclick="selecionarAbaClienteAdmin('${cliente.id}', 'alunos')">Alunos</button>
+        </div>
+      </div>
+
       ${!adminTrialColunasDisponiveis ? `
-        <div class="admin-simple-warning">
+        <div class="admin-simple-warning" data-admin-mobile-secao="plano">
           <strong>SQL do trial ainda não foi aplicado</strong>
           <span>As datas aparecem na tela, mas não serão salvas enquanto as colunas trial_inicio e trial_fim não existirem em profiles.</span>
         </div>
       ` : ""}
       <div class="admin-simple-grid">
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="plano">
           <span>Plano</span>
           ${selectPlano}
           ${avisoLegado}
           <small id="plano-resumo-${cliente.id}">${resumoPlano.descricao}</small>
         </label>
 
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="acesso">
           <span>Status</span>
           <select id="status-${cliente.id}" onchange="sincronizarAcessoClienteAdmin('${cliente.id}')">
             <option value="ativo" ${cliente.status === "ativo" ? "selected" : ""}>Ativo</option>
@@ -454,25 +486,25 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
           <small>Bloqueado impede o cliente de usar o app.</small>
         </label>
 
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="plano">
           <span>Início do trial</span>
           <input type="date" id="trial-inicio-${cliente.id}" value="${trialInicioSeguro}">
           <small>Data usada para contar o Teste Gratuito.</small>
         </label>
 
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="plano">
           <span>Fim do trial</span>
           <input type="date" id="trial-fim-${cliente.id}" value="${trialFimSeguro}">
           <small id="trial-resumo-${cliente.id}">${resumoTrialSeguro}</small>
         </label>
 
-        <label class="admin-simple-field">
+        <label class="admin-simple-field" data-admin-mobile-secao="plano">
           <span>Limite de alunos</span>
           <input type="number" id="limite-input-${cliente.id}" value="${limite}" min="1">
           <small id="plano-limite-sugerido-${cliente.id}">Sugestão do plano: ${obterConfigPlanoAdmin(cliente.plano || "trial").limite} alunos</small>
         </label>
 
-        <label class="admin-simple-access">
+        <label class="admin-simple-access" data-admin-mobile-secao="acesso">
           <span>
             <strong>Acesso ao sistema</strong>
             <small>Controle direto do login do cliente.</small>
@@ -481,7 +513,7 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
         </label>
       </div>
 
-      <div class="admin-simple-modules">
+      <div class="admin-simple-modules" data-admin-mobile-secao="plano">
         <div>
           <strong>Módulos liberados</strong>
           <small>Definidos automaticamente pelo plano escolhido.</small>
@@ -492,15 +524,15 @@ function renderizarCardClienteAdmin(cliente, todosAlunosAdmin) {
       </div>
 
       <div class="admin-simple-footer">
-        <button type="button" class="admin-simple-save" onclick="salvarPermissoesCliente('${cliente.id}')">
+        <button type="button" class="admin-simple-save" data-admin-mobile-secao="plano acesso" onclick="salvarPermissoesCliente('${cliente.id}')">
           Salvar alterações
         </button>
-        <button type="button" class="admin-simple-delete admin-simple-delete-danger" onclick="event.stopPropagation(); removerCliente('${cliente.id}')">
+        <button type="button" class="admin-simple-delete admin-simple-delete-danger" data-admin-mobile-secao="acesso" onclick="event.stopPropagation(); removerCliente('${cliente.id}')">
           Remover cliente
         </button>
       </div>
 
-      <details class="admin-simple-students">
+      <details class="admin-simple-students" data-admin-mobile-secao="alunos">
         <summary>Ver alunos desse cliente (${total})</summary>
         <div class="cliente-alunos-lista" id="alunos-cliente-${cliente.id}">
           ${renderizarAlunosDoCliente(alunosDoCliente)}
@@ -833,6 +865,25 @@ function atualizarEstadoGerenciamentoCliente(card, aberto) {
   if (seta) seta.textContent = aberto ? "⌃" : "⌄";
 }
 
+function selecionarAbaClienteAdmin(clienteId, aba) {
+  const abaSegura = ["plano", "acesso", "alunos"].includes(aba) ? aba : "plano";
+  const card = document.querySelector(`.admin-simple-card[data-cliente-id="${clienteId}"]`);
+  if (!card) return;
+
+  card.dataset.adminMobileTab = abaSegura;
+  card.querySelectorAll("[data-admin-mobile-tab]").forEach(botao => {
+    const selecionado = botao.dataset.adminMobileTab === abaSegura;
+    botao.classList.toggle("ativo", selecionado);
+    botao.setAttribute("aria-selected", selecionado ? "true" : "false");
+  });
+
+  const listaAlunos = card.querySelector(".admin-simple-students");
+  if (listaAlunos && abaSegura === "alunos") listaAlunos.open = true;
+
+  const painel = card.querySelector(".admin-simple-panel");
+  if (painel && window.matchMedia("(max-width: 760px)").matches) painel.scrollTop = 0;
+}
+
 function toggleClienteAlunos(clienteId) {
   const detalhes = document.getElementById(`detalhes-cliente-${clienteId}`);
   if (!detalhes) return;
@@ -848,8 +899,22 @@ function toggleClienteAlunos(clienteId) {
 
   detalhes.classList.toggle("escondido", !deveAbrir);
   detalhes.setAttribute("aria-hidden", deveAbrir ? "false" : "true");
-  atualizarEstadoGerenciamentoCliente(detalhes.closest(".admin-simple-card"), deveAbrir);
+  const cardAtual = detalhes.closest(".admin-simple-card");
+  atualizarEstadoGerenciamentoCliente(cardAtual, deveAbrir);
+
+  const mobile = window.matchMedia("(max-width: 760px)").matches;
+  document.body.classList.toggle("admin-mobile-gerenciamento-aberto", deveAbrir && mobile);
+
+  if (deveAbrir && mobile) {
+    selecionarAbaClienteAdmin(clienteId, "plano");
+  }
 }
+
+window.addEventListener("resize", () => {
+  const painelMobileAberto = window.matchMedia("(max-width: 760px)").matches
+    && Boolean(document.querySelector(".admin-simple-panel:not(.escondido)"));
+  document.body.classList.toggle("admin-mobile-gerenciamento-aberto", painelMobileAberto);
+});
 
 /** Admin: altera limite de alunos do cliente. */
 async function alterarLimite(id) {

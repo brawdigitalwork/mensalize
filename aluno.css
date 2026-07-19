@@ -6414,3 +6414,8 @@ button {
   background: rgba(124, 58, 237, 0.15);
   color: #fff;
 }
+
+/* O portal autenticado nunca pode aparecer durante loading, login ou logout. */
+#portalConteudo.student-app.escondido {
+  display: none !important;
+}

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-pwa-app="aluno">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Mensalize Aluno</title>
   <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação." />
   <meta name="theme-color" content="#7c3aed" />
+  <meta name="mensalize-pwa-name" content="Mensalize Aluno" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Mensalize Aluno" />
   <meta property="og:title" content="Mensalize Aluno" />
@@ -18,48 +19,15 @@
   <link rel="stylesheet" href="aluno.css" />
   <link rel="stylesheet" href="aluno-mobile.css?v=11.1-contato-clean" />
   <link rel="stylesheet" href="aluno-desktop.css" />
+  <link rel="stylesheet" href="pwa-install.css" />
   <link rel="icon" href="logo-aluno.png" />
   <link rel="apple-touch-icon" href="icons/mensalize-aluno-icon-192.png" />
+  <link rel="manifest" href="manifest-aluno.json" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
   <script src="config.js"></script>
   <script src="aluno-auth.js"></script>
-
-  <script>
-    (function criarManifestDinamicoMensalizeAluno() {
-      try {
-        var startUrl = window.location.pathname + window.location.search;
-        if (!window.location.search && localStorage.getItem("mensalize_codigo_aluno_publico")) {
-          startUrl = window.location.pathname + "?codigo=" + encodeURIComponent(localStorage.getItem("mensalize_codigo_aluno_publico"));
-        }
-
-        var manifest = {
-          name: "Mensalize Aluno",
-          short_name: "Mensalize",
-          description: "Portal do aluno Mensalize.",
-          start_url: startUrl || "/aluno.html",
-          scope: "/",
-          display: "standalone",
-          background_color: "#09090f",
-          theme_color: "#7c3aed",
-          icons: [
-            { src: "icons/mensalize-aluno-icon-192.png", sizes: "192x192", type: "image/png", purpose: "any maskable" },
-            { src: "icons/mensalize-aluno-icon-512.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }
-          ]
-        };
-
-        var blob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
-        var url = URL.createObjectURL(blob);
-        var link = document.createElement("link");
-        link.rel = "manifest";
-        link.href = url;
-        document.head.appendChild(link);
-      } catch (erro) {
-        console.warn("[Mensalize Aluno] Manifest dinâmico indisponível:", erro);
-      }
-    })();
-  </script>
 
 </head>
 <body>
@@ -318,6 +286,28 @@
                 </svg>
               </span>
             </button>
+
+            <section
+              class="mobile-aluno-pwa-install mobile-aluno-pwa-install-home"
+              data-pwa-home-prompt
+              aria-labelledby="mobileAlunoPwaHomeTitulo"
+            >
+              <span class="mobile-aluno-pwa-install-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5" />
+                  <path d="M5 19h14" />
+                </svg>
+              </span>
+              <div>
+                <span class="mobile-aluno-perfil-kicker">Aplicativo</span>
+                <strong id="mobileAlunoPwaHomeTitulo">Instale o Mensalize Aluno</strong>
+                <p>Acesse seu portal mais rápido, direto pela tela inicial.</p>
+              </div>
+              <div class="mobile-aluno-pwa-install-actions">
+                <button type="button" class="mobile-aluno-pwa-install-dismiss" data-pwa-dismiss>Agora não</button>
+                <button type="button" data-pwa-install>Instalar</button>
+              </div>
+            </section>
 
             <section
               id="mobileAlunoCarousel"
@@ -699,6 +689,22 @@
             <p>Acompanhe seus principais dados, mensalidade, graduação, avisos e desempenho no desafio.</p>
           </div>
 
+          <article
+            class="panel-card aluno-pwa-install-desktop aluno-pwa-install-home-desktop"
+            data-pwa-home-prompt
+            aria-labelledby="alunoPwaHomeDesktopTitulo"
+          >
+            <div>
+              <span class="eyebrow">Aplicativo</span>
+              <h2 id="alunoPwaHomeDesktopTitulo">Instale o Mensalize Aluno</h2>
+              <p class="helper-text">Acesse seu portal mais rápido, direto pelo seu dispositivo.</p>
+            </div>
+            <div class="aluno-pwa-install-home-actions">
+              <button type="button" class="secondary-action" data-pwa-dismiss>Agora não</button>
+              <button type="button" class="primary-action" data-pwa-install>Instalar aplicativo</button>
+            </div>
+          </article>
+
           <div class="quick-grid">
             <article class="quick-card">
               <span>Mensalidade</span>
@@ -948,6 +954,21 @@
                 <p>Para mudar turma ou corrigir graduação, use a área de Solicitações.</p>
               </div>
             </section>
+
+            <section class="mobile-aluno-pwa-install" aria-labelledby="mobileAlunoPwaTitulo">
+              <span class="mobile-aluno-pwa-install-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5" />
+                  <path d="M5 19h14" />
+                </svg>
+              </span>
+              <div>
+                <span class="mobile-aluno-perfil-kicker">Aplicativo</span>
+                <strong id="mobileAlunoPwaTitulo">Instalar Mensalize Aluno</strong>
+                <p>Acesse seu portal pela tela inicial do celular.</p>
+              </div>
+              <button type="button" data-pwa-install>Instalar</button>
+            </section>
           </section>
 
           <article class="panel-card">
@@ -997,6 +1018,15 @@
               <button type="submit" class="primary-action">Salvar meus dados</button>
               <p id="msgPerfilAluno" class="soft-message"></p>
             </form>
+          </article>
+
+          <article class="panel-card aluno-pwa-install-desktop" aria-labelledby="alunoPwaDesktopTitulo">
+            <div>
+              <span class="eyebrow">Aplicativo</span>
+              <h2 id="alunoPwaDesktopTitulo">Instalar Mensalize Aluno</h2>
+              <p class="helper-text">Abra seu portal em uma janela própria e acesse diretamente pelo dispositivo.</p>
+            </div>
+            <button type="button" class="primary-action" data-pwa-install>Instalar aplicativo</button>
           </article>
         </section>
 
@@ -3968,6 +3998,7 @@ function renderizarAluno(aluno) {
   });
 </script>
 
+  <script src="js/pwa-install.js"></script>
   <script src="aluno-mobile.js?v=11-contato"></script>
 
 </body>

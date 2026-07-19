@@ -1,0 +1,321 @@
+/* Mensalize — instalação PWA compartilhada entre professor e aluno. */
+.pwa-install-hidden {
+  display: none !important;
+}
+
+body.pwa-install-open {
+  overflow: hidden;
+}
+
+.pwa-install-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(3, 3, 12, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.pwa-install-dialog {
+  position: relative;
+  width: min(100%, 470px);
+  max-height: 88dvh;
+  overflow-y: auto;
+  padding: 28px;
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  border-radius: 24px;
+  background: linear-gradient(145deg, #18152b, #0d0f19 66%);
+  color: #f8fafc;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.56);
+}
+
+.pwa-install-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e9e4ff;
+  font: 500 23px/1 sans-serif;
+  cursor: pointer;
+}
+
+.pwa-install-dialog-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(167, 139, 250, 0.24);
+  border-radius: 15px;
+  background: rgba(124, 58, 237, 0.15);
+  color: #c4b5fd;
+}
+
+.pwa-install-dialog-icon svg,
+.mobile-aluno-pwa-install-icon svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pwa-install-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: #a78bfa;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.pwa-install-dialog h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 25px;
+  letter-spacing: -0.035em;
+}
+
+.pwa-install-dialog ol {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding-left: 23px;
+  color: #d5d0e4;
+}
+
+.pwa-install-dialog li {
+  padding-left: 5px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.pwa-install-dialog li::marker {
+  color: #9f7aea;
+  font-weight: 800;
+}
+
+.pwa-install-note {
+  margin: 18px 0 0;
+  padding: 11px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #9fa7b8;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.pwa-install-understood {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 18px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#cardAtualizacaoSistema .cache-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+}
+
+#cardAtualizacaoSistema .cache-actions > span {
+  margin-left: auto;
+  color: var(--texto-secundario, #9ca3af);
+  font-size: 11px;
+}
+
+.mobile-aluno-pwa-install {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 14px;
+  border: 1px solid rgba(157, 99, 255, 0.14);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(25, 17, 57, 0.96), rgba(9, 8, 27, 0.98));
+}
+
+.mobile-aluno-pwa-install-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: rgba(124, 58, 237, 0.14);
+  color: #bca2ff;
+}
+
+.mobile-aluno-pwa-install > div {
+  min-width: 0;
+}
+
+.mobile-aluno-pwa-install strong {
+  display: block;
+  margin-top: 3px;
+  color: #f3efff;
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+.mobile-aluno-pwa-install p {
+  margin: 4px 0 0;
+  color: #8e88a4;
+  font-size: 8.5px;
+  line-height: 1.4;
+}
+
+.mobile-aluno-pwa-install button {
+  min-width: 72px;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid rgba(177, 141, 255, 0.24);
+  border-radius: 10px;
+  background: rgba(124, 58, 237, 0.18);
+  color: #d9ccff;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.mobile-aluno-pwa-install-home {
+  grid-template-columns: 42px minmax(0, 1fr);
+}
+
+.mobile-aluno-pwa-install-home .mobile-aluno-pwa-install-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mobile-aluno-pwa-install-home .mobile-aluno-pwa-install-actions button {
+  width: 100%;
+}
+
+.mobile-aluno-pwa-install-home .mobile-aluno-pwa-install-dismiss {
+  border-color: rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.035);
+  color: #aaa3bb;
+}
+
+.aluno-pwa-install-desktop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.aluno-pwa-install-desktop h2 {
+  margin: 4px 0 0;
+}
+
+.aluno-pwa-install-desktop .helper-text {
+  margin-bottom: 0;
+}
+
+.aluno-pwa-install-desktop > button {
+  width: auto;
+  white-space: nowrap;
+}
+
+.aluno-pwa-install-home-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+.aluno-pwa-install-home-actions > button {
+  width: auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .pwa-install-overlay {
+    place-items: end center;
+    padding: 0;
+  }
+
+  .pwa-install-dialog {
+    width: 100%;
+    max-height: 92dvh;
+    padding: 25px 21px calc(22px + env(safe-area-inset-bottom));
+    border-radius: 24px 24px 0 0;
+  }
+
+  .pwa-install-dialog h2 {
+    font-size: 23px;
+  }
+
+  .aluno-pwa-install-desktop {
+    display: none !important;
+  }
+
+  #cardAtualizacaoSistema .cache-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #cardAtualizacaoSistema .cache-actions > button {
+    width: 100%;
+  }
+
+  #cardAtualizacaoSistema .cache-actions > span {
+    grid-column: 1 / -1;
+    margin-left: 0;
+    text-align: center;
+  }
+}
+
+@media (min-width: 761px) {
+  .mobile-aluno-pwa-install {
+    display: none !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .mobile-aluno-pwa-install {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .mobile-aluno-pwa-install-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .mobile-aluno-pwa-install button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .mobile-aluno-pwa-install-home .mobile-aluno-pwa-install-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pwa-install-overlay,
+  .pwa-install-dialog {
+    scroll-behavior: auto;
+  }
+}

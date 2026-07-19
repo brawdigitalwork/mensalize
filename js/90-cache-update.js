@@ -392,6 +392,7 @@ function adicionarBotaoAtualizarSistema() {
       </div>
     </div>
     <div class="cache-actions">
+      <button type="button" id="btnInstalarMensalize" class="acao-secundaria" data-pwa-install>Instalar aplicativo</button>
       <button type="button" id="btnAtualizarSistema" class="acao-secundaria">Atualizar sistema</button>
       <button type="button" id="btnVerNovidades" class="acao-secundaria">Ver novidades</button>
       <span>Versão: <strong>${MENSALIZE_APP_VERSION}</strong></span>
@@ -401,6 +402,7 @@ function adicionarBotaoAtualizarSistema() {
 
   card.querySelector('#btnAtualizarSistema')?.addEventListener('click', limparCacheMensalize);
   card.querySelector('#btnVerNovidades')?.addEventListener('click', abrirModalNovidades);
+  window.MensalizePWA?.atualizarBotoes?.();
 }
 
 async function registrarServiceWorkerMensalize() {

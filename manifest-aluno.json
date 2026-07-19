@@ -1,6 +1,7 @@
 {
   "name": "Mensalize Aluno",
-  "short_name": "Mensalize",
+  "short_name": "M. Aluno",
+  "id": "/aluno.html",
   "description": "Portal do aluno Mensalize para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação.",
   "start_url": "/aluno.html",
   "scope": "/",

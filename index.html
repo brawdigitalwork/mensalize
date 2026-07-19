@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-pwa-app="professor">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="configuracoes.css">
   <link rel="stylesheet" href="mobile-app.css">
+  <link rel="stylesheet" href="pwa-install.css">
   <link rel="stylesheet" href="css/mobile/mobile-alunos.css">
   <link rel="stylesheet" href="css/mobile/mobile-financeiro.css">
   <link rel="stylesheet" href="css/mobile/mobile-presencas.css">
@@ -25,7 +26,10 @@
   <link rel="stylesheet" href="css/mobile/mobile-relatorios.css">
   <link rel="stylesheet" href="css/mobile/mobile-configuracoes.css">
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/mensalize-icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/mensalize-icon-192.png">
   <meta name="theme-color" content="#7c3aed">
+  <meta name="mensalize-pwa-name" content="Mensalize">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Mensalize">
@@ -2640,6 +2644,7 @@
   <div id="toast" class="toast escondido"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
+  <script src="js/pwa-install.js"></script>
 
   <!-- Arquivos principais do sistema — manter esta ordem -->
   <script src="js/00-setup.js"></script>

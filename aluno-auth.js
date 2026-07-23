@@ -13,7 +13,6 @@
 
   let clienteSupabase = null;
   let carregarAlunoComCodigo = null;
-  let obterCodigoLegado = null;
   let tokenAcessoAtual = "";
   let temporizadorUsername = null;
 
@@ -141,23 +140,6 @@
   async function abrirPortalAutenticado() {
     mostrarCarregando("Abrindo sua área segura...");
 
-    const { data: codigo, error } = await clienteSupabase.rpc(
-      "obter_codigo_portal_aluno_autenticado"
-    );
-
-    if (error || !codigo) {
-      console.warn("[Mensalize Aluno] Sessão sem vínculo de aluno:", error);
-      await clienteSupabase.auth.signOut({ scope: "local" }).catch(() => {});
-      global.MENSALIZE_ALUNO_AUTENTICADO = false;
-      mostrarTelaAuth("login");
-      definirMensagem(
-        "msgAuthAlunoLogin",
-        "Não foi possível vincular esta sessão ao aluno. Peça um novo link ao professor.",
-        "erro"
-      );
-      return;
-    }
-
     global.MENSALIZE_ALUNO_AUTENTICADO = true;
 
     const btnSair = $("btnEsquecerAcessoAluno");
@@ -170,7 +152,18 @@
     }
     if (btnCompartilhar) btnCompartilhar.textContent = "🔗 Compartilhar portal";
 
-    await carregarAlunoComCodigo(String(codigo));
+    const portalCarregado = await carregarAlunoComCodigo();
+    if (portalCarregado === false) {
+      console.warn("[Mensalize Aluno] Sessão sem vínculo de aluno ativo.");
+      await clienteSupabase.auth.signOut({ scope: "local" }).catch(() => {});
+      global.MENSALIZE_ALUNO_AUTENTICADO = false;
+      mostrarTelaAuth("login");
+      definirMensagem(
+        "msgAuthAlunoLogin",
+        "Não foi possível vincular esta sessão ao aluno. Peça um novo link ao professor.",
+        "erro"
+      );
+    }
   }
 
   async function tentarSessaoExistente() {
@@ -438,7 +431,6 @@
   async function inicializar(opcoes) {
     clienteSupabase = opcoes?.supabaseClient;
     carregarAlunoComCodigo = opcoes?.carregarAlunoComCodigo;
-    obterCodigoLegado = opcoes?.obterCodigoLegado;
 
     if (!clienteSupabase || typeof carregarAlunoComCodigo !== "function") {
       console.error("[Mensalize Aluno] Módulo de autenticação sem dependências.");
@@ -462,16 +454,6 @@
     }
 
     if (await tentarSessaoExistente()) return true;
-
-    const codigoLegado = typeof obterCodigoLegado === "function"
-      ? obterCodigoLegado()
-      : "";
-
-    if (codigoLegado) {
-      global.MENSALIZE_ALUNO_AUTENTICADO = false;
-      await carregarAlunoComCodigo(codigoLegado);
-      return true;
-    }
 
     mostrarTelaAuth("login");
     return true;

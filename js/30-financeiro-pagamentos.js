@@ -12,21 +12,34 @@ async function atualizarPainel() {
     .toISOString()
     .split("T")[0];
 
-  let queryPagamentos = supabaseClient
+  let queryPagamentosCaixa = supabaseClient
     .from("pagamentos")
-    .select("id,user_id,aluno_id,valor,data_pagamento,created_at");
+    .select("id,user_id,aluno_id,valor,data_pagamento,vencimento_referencia,created_at");
 
-  queryPagamentos = aplicarFiltroUsuario(queryPagamentos);
+  let queryCompetenciasMes = supabaseClient
+    .from("pagamentos")
+    .select("aluno_id,vencimento_referencia");
 
-  const { data: pagamentos, error } = await queryPagamentos
-    .gte("data_pagamento", primeiroDiaMes)
-    .lte("data_pagamento", ultimoDiaMes);
+  queryPagamentosCaixa = aplicarFiltroUsuario(queryPagamentosCaixa);
+  queryCompetenciasMes = aplicarFiltroUsuario(queryCompetenciasMes);
+
+  const [respostaCaixa, respostaCompetencias] = await Promise.all([
+    queryPagamentosCaixa
+      .gte("data_pagamento", primeiroDiaMes)
+      .lte("data_pagamento", ultimoDiaMes),
+    queryCompetenciasMes
+      .gte("vencimento_referencia", primeiroDiaMes)
+      .lte("vencimento_referencia", ultimoDiaMes)
+  ]);
+
+  const { data: pagamentos, error } = respostaCaixa;
+  const { data: pagamentosCompetencia, error: erroCompetencias } = respostaCompetencias;
 
   const pagamentosValidos = pagamentos || [];
 
-  // Conta alunos únicos pagos no mês, não a quantidade de linhas na tabela pagamentos.
+  // Situação financeira usa a competência; recebido continua usando a data real do caixa.
   const alunosQueJaPagaramIds = new Set(
-    pagamentosValidos.map(p => String(p.aluno_id))
+    (pagamentosCompetencia || []).map(p => String(p.aluno_id))
   );
 
   let pendentes = 0;
@@ -35,7 +48,8 @@ async function atualizarPainel() {
   let previsaoTotal = 0;
 
   alunos.forEach(function(aluno) {
-    const jaPagou = alunosQueJaPagaramIds.has(String(aluno.id));
+    const jaPagou = alunosQueJaPagaramIds.has(String(aluno.id))
+      && String(aluno.vencimento || "") > ultimoDiaMes;
     const valorAluno = valorParaNumero(aluno.valor);
 
     previsaoTotal += valorAluno;
@@ -56,8 +70,8 @@ async function atualizarPainel() {
     return total + valorParaNumero(pagamento.valor);
   }, 0);
 
-  if (error) {
-    console.log("Erro ao carregar pagamentos:", error.message);
+  if (error || erroCompetencias) {
+    console.log("Erro ao carregar pagamentos:", error?.message || erroCompetencias?.message);
     totalPagos.textContent = 0;
     totalRecebido.textContent = "R$ 0,00";
     totalPrevisao.textContent = formatarMoeda(previsaoTotal);
@@ -418,10 +432,13 @@ function dataFinanceiroParaDate(dataString) {
 
 function classificarFinanceiroAlunoMes(aluno, pagosSet, dataFimPeriodo) {
   if (!aluno) return "pendente";
-  if (pagosSet && pagosSet.has(String(aluno.id))) return "pago";
 
   const vencimento = dataFinanceiroParaDate(aluno.vencimento);
   const fimPeriodo = dataFinanceiroParaDate(dataFimPeriodo);
+  if (pagosSet && pagosSet.has(String(aluno.id)) && (!vencimento || !fimPeriodo || vencimento > fimPeriodo)) {
+    return "pago";
+  }
+
   const hoje = dataHojeSemHora ? dataHojeSemHora() : new Date();
   const dataComparacao = fimPeriodo && fimPeriodo < hoje ? fimPeriodo : hoje;
 
@@ -721,26 +738,40 @@ async function carregarResumoFinanceiroMensal(opcoes = {}) {
     listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Carregando financeiro...</div>`;
   }
 
-  let queryPagamentos = supabaseClient
+  let queryPagamentosCaixa = supabaseClient
     .from("pagamentos")
-    .select("id,user_id,aluno_id,valor,data_pagamento,created_at");
+    .select("id,user_id,aluno_id,valor,data_pagamento,vencimento_referencia,created_at");
 
-  queryPagamentos = aplicarFiltroUsuario(queryPagamentos);
+  let queryPagamentosCompetencia = supabaseClient
+    .from("pagamentos")
+    .select("id,user_id,aluno_id,valor,data_pagamento,vencimento_referencia,created_at");
 
-  const { data: pagamentos, error } = await queryPagamentos
-    .gte("data_pagamento", periodo.inicio)
-    .lte("data_pagamento", periodo.fim);
+  queryPagamentosCaixa = aplicarFiltroUsuario(queryPagamentosCaixa);
+  queryPagamentosCompetencia = aplicarFiltroUsuario(queryPagamentosCompetencia);
+
+  const [respostaCaixa, respostaCompetencia] = await Promise.all([
+    queryPagamentosCaixa
+      .gte("data_pagamento", periodo.inicio)
+      .lte("data_pagamento", periodo.fim),
+    queryPagamentosCompetencia
+      .gte("vencimento_referencia", periodo.inicio)
+      .lte("vencimento_referencia", periodo.fim)
+  ]);
+
+  const { data: pagamentosCaixa, error: erroCaixa } = respostaCaixa;
+  const { data: pagamentosCompetencia, error: erroCompetencia } = respostaCompetencia;
 
   carregandoFinanceiroMensal = false;
 
-  if (error) {
-    console.log("Erro ao carregar financeiro mensal:", error.message);
+  if (erroCaixa || erroCompetencia) {
+    console.log("Erro ao carregar financeiro mensal:", erroCaixa?.message || erroCompetencia?.message);
     listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Erro ao carregar o financeiro deste mês.</div>`;
     if (!opcoes.silencioso) mostrarToast("Erro ao carregar financeiro.", "erro");
     return;
   }
 
-  const pagamentosValidos = pagamentos || [];
+  const pagamentosValidos = pagamentosCompetencia || [];
+  const pagamentosRecebidosNoMes = pagamentosCaixa || [];
   const pagamentosPorAluno = new Map();
 
   pagamentosValidos.forEach(pagamento => {
@@ -755,7 +786,7 @@ async function carregarResumoFinanceiroMensal(opcoes = {}) {
   const pagosSet = new Set(pagamentosValidos.map(p => String(p.aluno_id)));
 
   const resumo = {
-    recebido: pagamentosValidos.reduce((total, pagamento) => total + valorParaNumero(pagamento.valor), 0),
+    recebido: pagamentosRecebidosNoMes.reduce((total, pagamento) => total + valorParaNumero(pagamento.valor), 0),
     aReceber: 0,
     previsao: 0,
     pagos: 0,
@@ -968,23 +999,16 @@ async function registrarPagamentoAluno(aluno, opcoes = {}) {
   }
 
   const dataPagamento = opcoes.dataPagamento || new Date().toISOString().split("T")[0];
-
-  const dataBase = dataPagamentoParaDateLocal(dataPagamento);
-  const primeiroDiaMes = new Date(dataBase.getFullYear(), dataBase.getMonth(), 1)
-    .toISOString()
-    .split("T")[0];
-
-  const ultimoDiaMes = new Date(dataBase.getFullYear(), dataBase.getMonth() + 1, 0)
-    .toISOString()
-    .split("T")[0];
+  const valorPagamento = valorParaNumero(opcoes.valorPagamento || aluno.valor);
+  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
+  const competencias = calculoPagamento.mensalidades;
 
   const { data: pagamentoJaExiste, error: erroVerificarPagamento } = await supabaseClient
     .from("pagamentos")
-    .select("id")
+    .select("id,vencimento_referencia")
     .eq("aluno_id", aluno.id)
     .eq("user_id", aluno.user_id)
-    .gte("data_pagamento", primeiroDiaMes)
-    .lte("data_pagamento", ultimoDiaMes)
+    .in("vencimento_referencia", competencias)
     .limit(1);
 
   if (erroVerificarPagamento) {
@@ -998,18 +1022,16 @@ async function registrarPagamentoAluno(aluno, opcoes = {}) {
     return {
       ok: true,
       jaExiste: true,
-      mensagem: "Esse aluno já tem pagamento registrado neste mês."
+      mensagem: "Esse aluno já tem pagamento registrado para esta mensalidade."
     };
   }
 
-  const valorPagamento = valorParaNumero(opcoes.valorPagamento || aluno.valor);
-  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
-
-  const pagamentosParaInserir = calculoPagamento.mensalidades.map(() => ({
+  const pagamentosParaInserir = competencias.map(vencimentoReferencia => ({
     aluno_id: aluno.id,
     user_id: aluno.user_id,
     valor: valorPagamento,
-    data_pagamento: dataPagamento
+    data_pagamento: dataPagamento,
+    vencimento_referencia: vencimentoReferencia
   }));
 
   const { error: erroPagamento } = await supabaseClient
@@ -1070,20 +1092,16 @@ function marcarComoPago(id) {
     return;
   }
 
-  if (alunosPagosMes.has(String(aluno.id))) {
-    mostrarToast("Este aluno já tem pagamento registrado neste mês.", "erro");
-    return;
-  }
-
   pagamentoConfirmandoId = id;
 
   const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
   const quantidade = calculoPagamento.mensalidades.length;
   const valorMensal = valorParaNumero(aluno.valor);
   const valorTotal = valorMensal * quantidade;
+  const adiantamento = alunosPagosMes.has(String(aluno.id));
 
   textoConfirmarPagamento.innerHTML = `
-    Confirmar pagamento de <strong>${escaparHtmlFinanceiro(aluno.nome || "Aluno")}</strong>?<br>
+    Confirmar ${adiantamento ? "adiantamento" : "pagamento"} de <strong>${escaparHtmlFinanceiro(aluno.nome || "Aluno")}</strong>?<br>
     <span style="color:#a1a1aa; font-size:13px;">
       ${quantidade} mensalidade${quantidade > 1 ? "s" : ""} · Total: ${formatarMoeda(valorTotal)} · Novo vencimento: ${formatarData(calculoPagamento.novoVencimento)}
     </span>
@@ -1118,22 +1136,15 @@ btnConfirmarPagamento.addEventListener("click", async function() {
   }
 
   btnConfirmarPagamento.disabled = true;
-
-  const hoje = new Date();
-  const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1)
-    .toISOString()
-    .split("T")[0];
-  const ultimoDiaMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0)
-    .toISOString()
-    .split("T")[0];
+  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
+  const competencias = calculoPagamento.mensalidades;
 
   const { data: pagamentoJaExiste, error: erroVerificarPagamento } = await supabaseClient
     .from("pagamentos")
-    .select("id")
+    .select("id,vencimento_referencia")
     .eq("aluno_id", aluno.id)
     .eq("user_id", aluno.user_id)
-    .gte("data_pagamento", primeiroDiaMes)
-    .lte("data_pagamento", ultimoDiaMes)
+    .in("vencimento_referencia", competencias)
     .limit(1);
 
   if (erroVerificarPagamento) {
@@ -1144,18 +1155,18 @@ btnConfirmarPagamento.addEventListener("click", async function() {
 
   if (pagamentoJaExiste && pagamentoJaExiste.length > 0) {
     btnConfirmarPagamento.disabled = false;
-    mostrarToast("Este aluno já tem pagamento registrado neste mês.", "erro");
+    mostrarToast("Esta mensalidade já tem pagamento registrado.", "erro");
     await carregarAlunos();
     return;
   }
 
   const valorPagamento = valorParaNumero(aluno.valor);
-  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
 
-  const pagamentosParaInserir = calculoPagamento.mensalidades.map(() => ({
+  const pagamentosParaInserir = competencias.map(vencimentoReferencia => ({
     aluno_id: aluno.id,
     user_id: aluno.user_id,
-    valor: valorPagamento
+    valor: valorPagamento,
+    vencimento_referencia: vencimentoReferencia
   }));
 
   const { error: erroPagamento } = await supabaseClient

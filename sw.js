@@ -2,7 +2,9 @@
 // Atualização e cache
 const APP_VERSION = 'Mensalize 2.4';
 const CACHE_PREFIX = 'mensalize-';
-const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}`;
+// Revisão técnica do cache. Não representa uma nova versão do produto.
+const CACHE_REVISION = '2026-07-22-financeiro-auth';
+const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}-${CACHE_REVISION}`;
 
 const ASSETS = [
   '/',

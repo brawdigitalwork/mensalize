@@ -948,7 +948,7 @@ async function carregarDashboard() {
 
   const { data: todosAlunos, error: erroAlunos } = await supabaseClient
     .from("alunos")
-    .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,status_aluno,data_nascimento,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
+    .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,created_at,foto_url,modalidade,faixa,grau,turma,status_aluno,data_nascimento,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
 
   if (erroClientes || erroAlunos) {
     console.error("Erro ao carregar dashboard admin:", { erroClientes, erroAlunos });

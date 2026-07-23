@@ -252,12 +252,13 @@ function fecharCentralRelatorios() {
   document.body.classList.remove("relatorios-aberto");
 }
 
-async function relatorioBuscarPagamentos(periodo) {
+async function relatorioBuscarPagamentos(periodo, porCompetencia = false) {
+  const campoPeriodo = porCompetencia ? "vencimento_referencia" : "data_pagamento";
   let query = supabaseClient
     .from("pagamentos")
-    .select("id,user_id,aluno_id,valor,data_pagamento,created_at")
-    .gte("data_pagamento", periodo.inicio)
-    .lte("data_pagamento", periodo.fim);
+    .select("id,user_id,aluno_id,valor,data_pagamento,vencimento_referencia,created_at")
+    .gte(campoPeriodo, periodo.inicio)
+    .lte(campoPeriodo, periodo.fim);
 
   if (usuarioAtual?.id) query = query.eq("user_id", usuarioAtual.id);
 
@@ -269,7 +270,10 @@ async function relatorioBuscarPagamentos(periodo) {
 async function relatorioDadosFinanceiro() {
   const periodo = relatorioPeriodoMes(document.getElementById("relatorioFinanceiroMes")?.value);
   const filtroStatus = document.getElementById("relatorioFinanceiroStatus")?.value || "todos";
-  const pagamentos = await relatorioBuscarPagamentos(periodo);
+  const [pagamentosCaixa, pagamentos] = await Promise.all([
+    relatorioBuscarPagamentos(periodo, false),
+    relatorioBuscarPagamentos(periodo, true)
+  ]);
   const pagamentosPorAluno = new Map();
 
   pagamentos.forEach(pagamento => {
@@ -304,7 +308,7 @@ async function relatorioDadosFinanceiro() {
     return { aluno, mensalidade, status, pagamento };
   });
 
-  resumo.recebido = pagamentos.reduce((total, item) => total + Number(typeof valorParaNumero === "function" ? valorParaNumero(item.valor) : item.valor || 0), 0);
+  resumo.recebido = pagamentosCaixa.reduce((total, item) => total + Number(typeof valorParaNumero === "function" ? valorParaNumero(item.valor) : item.valor || 0), 0);
 
   if (filtroStatus !== "todos") linhas = linhas.filter(item => item.status === filtroStatus);
 

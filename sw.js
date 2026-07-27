@@ -3,7 +3,7 @@
 const APP_VERSION = 'Mensalize 2.4';
 const CACHE_PREFIX = 'mensalize-';
 // Revisão técnica do cache. Não representa uma nova versão do produto.
-const CACHE_REVISION = '2026-07-22-financeiro-auth';
+const CACHE_REVISION = '2026-07-25-seguranca-consolidada';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}-${CACHE_REVISION}`;
 
 const ASSETS = [
@@ -15,6 +15,10 @@ const ASSETS = [
   '/mobile-app.css',
   '/pwa-install.css',
   '/config.js',
+  '/vendor/supabase-2.110.8.js',
+  '/vendor/cropper-1.6.2.min.js',
+  '/vendor/cropper-1.6.2.min.css',
+  '/vendor/qrcode-1.0.0.min.js',
   '/manifest.json',
   '/manifest-aluno.json',
   '/logo.png',
@@ -68,8 +72,7 @@ function deveIgnorar(request) {
   return (
     request.method !== 'GET' ||
     url.protocol !== 'http:' && url.protocol !== 'https:' ||
-    url.hostname.includes('supabase.co') ||
-    url.hostname.includes('cdn.jsdelivr.net')
+    url.hostname.includes('supabase.co')
   );
 }
 

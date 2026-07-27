@@ -153,6 +153,11 @@ btnCriarUsuario.addEventListener("click", async function() {
     return;
   }
 
+  if (senha.length < 12 || senha.length > 72) {
+    msgAdmin.textContent = "A senha precisa ter entre 12 e 72 caracteres.";
+    return;
+  }
+
   btnCriarUsuario.disabled = true;
   const textoBotaoOriginal = btnCriarUsuario.textContent;
   btnCriarUsuario.textContent = "Criando...";
@@ -1101,7 +1106,10 @@ async function confirmarRemocaoCliente() {
   if (!clienteParaRemoverId) return;
 
   try {
-    await executarEdgeAdmin("deletar-usuario", { user_id: clienteParaRemoverId });
+    await executarEdgeAdmin("deletar-usuario", {
+      user_id: clienteParaRemoverId,
+      confirmacao: "EXCLUIR"
+    });
 
     modalRemoverCliente.classList.add("escondido");
 

@@ -6,7 +6,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "base-uri 'self'; frame-ancestors 'none'; object-src 'none'"
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://wdeyorkcrenibtkbgsjw.supabase.co wss://wdeyorkcrenibtkbgsjw.supabase.co; img-src 'self' data: blob: https:; frame-src https://www.youtube.com https://youtube.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests"
         },
         {
           "key": "X-Frame-Options",
@@ -18,11 +18,23 @@
         },
         {
           "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
+          "value": "no-referrer"
         },
         {
           "key": "Permissions-Policy",
           "value": "camera=(self), geolocation=(), microphone=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin-allow-popups"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-site"
         }
       ]
     }

@@ -6268,6 +6268,51 @@ button {
   box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
 }
 
+.student-password-field {
+  position: relative;
+  width: 100%;
+}
+
+.student-password-field > input {
+  padding-right: 82px;
+}
+
+.student-auth-form .student-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: auto;
+  min-width: 58px;
+  min-height: 40px;
+  padding: 0 8px;
+  transform: translateY(-50%) !important;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  color: #a99fc0;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.student-auth-form .student-password-toggle:hover {
+  transform: translateY(-50%) !important;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+  color: #ffffff;
+}
+
+.student-auth-form .student-password-toggle:focus-visible {
+  transform: translateY(-50%) !important;
+  outline: 2px solid rgba(167, 139, 250, 0.82);
+  outline-offset: 1px;
+}
+
 .student-auth-form .primary-action {
   width: 100%;
   min-height: 50px;
@@ -6332,6 +6377,16 @@ button {
   .student-auth-card {
     padding: 18px;
     border-radius: 22px;
+  }
+
+  .student-password-field > input {
+    padding-right: 76px;
+  }
+
+  .student-auth-form .student-password-toggle {
+    right: 8px;
+    min-width: 54px;
+    padding-inline: 6px;
   }
 }
 

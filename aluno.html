@@ -65,18 +65,30 @@
               autocomplete="username"
               autocapitalize="none"
               spellcheck="false"
+              minlength="4"
+              maxlength="24"
               placeholder="seu.usuario"
             >
           </label>
 
           <label>
             <span>Senha</span>
-            <input
-              type="password"
-              id="authAlunoLoginSenha"
-              autocomplete="current-password"
-              placeholder="Sua senha"
-            >
+            <div class="student-password-field">
+              <input
+                type="password"
+                id="authAlunoLoginSenha"
+                autocomplete="current-password"
+                placeholder="Sua senha"
+              >
+              <button
+                type="button"
+                class="student-password-toggle"
+                data-password-target="authAlunoLoginSenha"
+                aria-controls="authAlunoLoginSenha"
+                aria-label="Mostrar senha"
+                aria-pressed="false"
+              >VER</button>
+            </div>
           </label>
 
           <button type="submit" id="btnEntrarAlunoAuth" class="primary-action">Entrar</button>
@@ -103,34 +115,56 @@
               autocomplete="off"
               autocapitalize="none"
               spellcheck="false"
+              minlength="4"
               maxlength="24"
               placeholder="seu.usuario"
             >
-            <small id="msgAuthAlunoUsername" class="student-auth-field-message">Use 4 a 24 caracteres.</small>
+            <small id="msgAuthAlunoUsername" class="student-auth-field-message">Use de 4 a 24 caracteres: letras minúsculas, números, ponto (.) ou sublinhado (_). Não comece nem termine com ponto ou sublinhado.</small>
           </label>
 
           <label>
             <span>Crie uma senha</span>
-            <input
-              type="password"
-              id="authAlunoSenhaNova"
-              autocomplete="new-password"
-              minlength="12"
-              maxlength="72"
-              placeholder="Mínimo de 12 caracteres"
-            >
+            <div class="student-password-field">
+              <input
+                type="password"
+                id="authAlunoSenhaNova"
+                autocomplete="new-password"
+                minlength="8"
+                maxlength="72"
+                placeholder="Mínimo de 8 caracteres"
+              >
+              <button
+                type="button"
+                class="student-password-toggle"
+                data-password-target="authAlunoSenhaNova"
+                aria-controls="authAlunoSenhaNova"
+                aria-label="Mostrar senha"
+                aria-pressed="false"
+              >VER</button>
+            </div>
+            <small class="student-auth-field-message">Use pelo menos 8 caracteres, combinando letras, números e um caractere especial. Não use sequências como 1234.</small>
           </label>
 
           <label>
             <span>Confirme a senha</span>
-            <input
-              type="password"
-              id="authAlunoSenhaConfirmar"
-              autocomplete="new-password"
-              minlength="12"
-              maxlength="72"
-              placeholder="Repita a senha"
-            >
+            <div class="student-password-field">
+              <input
+                type="password"
+                id="authAlunoSenhaConfirmar"
+                autocomplete="new-password"
+                minlength="8"
+                maxlength="72"
+                placeholder="Repita a senha"
+              >
+              <button
+                type="button"
+                class="student-password-toggle"
+                data-password-target="authAlunoSenhaConfirmar"
+                aria-controls="authAlunoSenhaConfirmar"
+                aria-label="Mostrar senha"
+                aria-pressed="false"
+              >VER</button>
+            </div>
           </label>
 
           <button type="submit" id="btnConcluirAcessoAluno" class="primary-action">Confirmar meu acesso</button>

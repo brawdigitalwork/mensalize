@@ -7,7 +7,6 @@
 (function inicializarModuloAuthAluno(global) {
   "use strict";
 
-  const TOKEN_SESSAO_KEY = "mensalize:aluno:token-acesso-temporario";
   const USERNAME_MIN = 4;
   const USERNAME_MAX = 24;
 
@@ -31,41 +30,35 @@
   }
 
   function usernameValido(valor) {
-    const username = normalizarUsername(valor);
+    const original = String(valor || "").trim();
+    const username = normalizarUsername(original);
+    if (original !== username) return false;
     if (username.length < USERNAME_MIN || username.length > USERNAME_MAX) return false;
     return /^[a-z0-9][a-z0-9._]*[a-z0-9]$/.test(username);
   }
 
-  function limparParametroUrl(nome) {
+  function limparTokenDoFragmento() {
     try {
       const url = new URL(window.location.href);
-      if (!url.searchParams.has(nome)) return;
-      url.searchParams.delete(nome);
-      window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      if (!url.hash) return;
+      const parametros = new URLSearchParams(url.hash.slice(1));
+      if (!parametros.has("acesso")) return;
+      parametros.delete("acesso");
+      const fragmento = parametros.toString();
+      window.history.replaceState(
+        null,
+        "",
+        `${url.pathname}${url.search}${fragmento ? `#${fragmento}` : ""}`,
+      );
     } catch (erro) {
-      console.warn("[Mensalize Aluno] Não foi possível limpar parâmetro da URL:", erro);
+      console.warn("[Mensalize Aluno] Não foi possível limpar o link temporário:", erro);
     }
   }
 
   function obterTokenAcessoDaUrl() {
     try {
-      const url = new URL(window.location.href);
-      return String(url.searchParams.get("acesso") || "").trim();
-    } catch (_) {
-      return "";
-    }
-  }
-
-  function salvarTokenTemporario(token) {
-    try {
-      if (token) sessionStorage.setItem(TOKEN_SESSAO_KEY, token);
-      else sessionStorage.removeItem(TOKEN_SESSAO_KEY);
-    } catch (_) {}
-  }
-
-  function obterTokenTemporarioSalvo() {
-    try {
-      return String(sessionStorage.getItem(TOKEN_SESSAO_KEY) || "").trim();
+      const parametros = new URLSearchParams(window.location.hash.slice(1));
+      return String(parametros.get("acesso") || "").trim();
     } catch (_) {
       return "";
     }
@@ -118,6 +111,10 @@
 
     if (error) {
       console.warn("[Mensalize Aluno] Falha ao chamar aluno-auth:", error);
+      try {
+        const detalhe = await error.context?.clone?.().json();
+        if (detalhe?.mensagem) return detalhe;
+      } catch (_) {}
       return { ok: false, mensagem: "Serviço de acesso indisponível no momento." };
     }
 
@@ -222,7 +219,6 @@
 
     const resultado = await invocarAlunoAuth("validar_link", { token });
     if (!resultado.ok) {
-      salvarTokenTemporario("");
       tokenAcessoAtual = "";
       mostrarTelaAuth("login");
       definirMensagem(
@@ -242,8 +238,7 @@
     const campo = $("authAlunoUsername");
     if (!campo || !tokenAcessoAtual) return;
 
-    const username = normalizarUsername(campo.value);
-    campo.value = username;
+    const username = String(campo.value || "").trim();
 
     if (!usernameValido(username)) {
       definirMensagem(
@@ -280,7 +275,7 @@
   async function concluirAcesso(event) {
     event.preventDefault();
 
-    const username = normalizarUsername($("authAlunoUsername")?.value);
+    const username = String($("authAlunoUsername")?.value || "").trim();
     const senha = String($("authAlunoSenhaNova")?.value || "");
     const confirmar = String($("authAlunoSenhaConfirmar")?.value || "");
     const botao = $("btnConcluirAcessoAluno");
@@ -297,8 +292,8 @@
       return;
     }
 
-    if (senha.length < 8) {
-      definirMensagem("msgAuthAlunoLink", "A senha precisa ter pelo menos 8 caracteres.", "erro");
+    if (senha.length < 12 || senha.length > 72) {
+      definirMensagem("msgAuthAlunoLink", "A senha precisa ter entre 12 e 72 caracteres.", "erro");
       return;
     }
 
@@ -332,7 +327,6 @@
       return;
     }
 
-    salvarTokenTemporario("");
     tokenAcessoAtual = "";
 
     if (resultado.sessao) {
@@ -359,14 +353,18 @@
   async function entrar(event) {
     event.preventDefault();
 
-    const username = normalizarUsername($("authAlunoLoginUsername")?.value);
+    const username = String($("authAlunoLoginUsername")?.value || "").trim();
     const senha = String($("authAlunoLoginSenha")?.value || "");
     const botao = $("btnEntrarAlunoAuth");
 
     definirMensagem("msgAuthAlunoLogin", "");
 
-    if (!username || !senha) {
-      definirMensagem("msgAuthAlunoLogin", "Preencha usuário e senha.", "erro");
+    if (!usernameValido(username) || !senha) {
+      definirMensagem(
+        "msgAuthAlunoLogin",
+        "Digite o usuário somente com letras minúsculas.",
+        "erro",
+      );
       return;
     }
 
@@ -409,9 +407,6 @@
     formLink?.addEventListener("submit", concluirAcesso);
 
     username?.addEventListener("input", () => {
-      const normalizado = normalizarUsername(username.value);
-      if (username.value !== normalizado) username.value = normalizado;
-
       clearTimeout(temporizadorUsername);
       temporizadorUsername = setTimeout(verificarDisponibilidadeUsername, 450);
     });
@@ -425,7 +420,7 @@
     } catch (_) {}
 
     global.MENSALIZE_ALUNO_AUTENTICADO = false;
-    salvarTokenTemporario("");
+    tokenAcessoAtual = "";
   }
 
   async function inicializar(opcoes) {
@@ -442,15 +437,8 @@
     const tokenUrl = obterTokenAcessoDaUrl();
     if (tokenUrl) {
       tokenAcessoAtual = tokenUrl;
-      salvarTokenTemporario(tokenUrl);
-      limparParametroUrl("acesso");
+      limparTokenDoFragmento();
       return validarLinkTemporario(tokenUrl);
-    }
-
-    const tokenSalvo = obterTokenTemporarioSalvo();
-    if (tokenSalvo) {
-      tokenAcessoAtual = tokenSalvo;
-      return validarLinkTemporario(tokenSalvo);
     }
 
     if (await tentarSessaoExistente()) return true;

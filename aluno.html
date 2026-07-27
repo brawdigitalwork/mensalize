@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Mensalize Aluno</title>
   <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação." />
+  <meta name="referrer" content="no-referrer" />
   <meta name="theme-color" content="#7c3aed" />
   <meta name="mensalize-pwa-name" content="Mensalize Aluno" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -23,9 +24,9 @@
   <link rel="icon" href="logo-aluno.png" />
   <link rel="apple-touch-icon" href="icons/mensalize-aluno-icon-192.png" />
   <link rel="manifest" href="manifest-aluno.json" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
+  <link rel="stylesheet" href="vendor/cropper-1.6.2.min.css" />
+  <script src="vendor/supabase-2.110.8.js"></script>
+  <script src="vendor/cropper-1.6.2.min.js"></script>
   <script src="config.js"></script>
   <script src="aluno-auth.js"></script>
 
@@ -114,9 +115,9 @@
               type="password"
               id="authAlunoSenhaNova"
               autocomplete="new-password"
-              minlength="8"
+              minlength="12"
               maxlength="72"
-              placeholder="Mínimo de 8 caracteres"
+              placeholder="Mínimo de 12 caracteres"
             >
           </label>
 
@@ -126,7 +127,7 @@
               type="password"
               id="authAlunoSenhaConfirmar"
               autocomplete="new-password"
-              minlength="8"
+              minlength="12"
               maxlength="72"
               placeholder="Repita a senha"
             >
@@ -2177,6 +2178,10 @@
       url.searchParams.delete("checkin");
       url.searchParams.delete("acesso");
       url.searchParams.delete("codigo");
+      const fragmento = new URLSearchParams(url.hash.slice(1));
+      fragmento.delete("checkin");
+      fragmento.delete("acesso");
+      url.hash = fragmento.toString();
       return url.toString();
     }
 
@@ -2200,11 +2205,15 @@
       url.searchParams.delete("codigo");
       url.searchParams.delete("acesso");
       url.searchParams.delete("checkin");
+      const fragmento = new URLSearchParams(url.hash.slice(1));
+      fragmento.delete("checkin");
+      fragmento.delete("acesso");
+      url.hash = fragmento.toString();
       window.location.replace(`${url.pathname}${url.search}${url.hash}`);
     }
 
     function obterCodigoCheckinUrl() {
-      const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(window.location.hash.slice(1));
       return String(params.get("checkin") || "").trim().toUpperCase();
     }
 

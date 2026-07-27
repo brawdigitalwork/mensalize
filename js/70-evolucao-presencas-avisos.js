@@ -432,11 +432,7 @@ function formatarHoraCheckin(valor) {
 
 function montarUrlCheckinAluno(codigo) {
   const base = window.location.origin || "";
-  return `${base}/aluno.html?checkin=${encodeURIComponent(codigo)}`;
-}
-
-function montarUrlQrCodeCheckin(url) {
-  return `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=12&data=${encodeURIComponent(url)}`;
+  return `${base}/aluno.html#checkin=${encodeURIComponent(codigo)}`;
 }
 
 function obterContextoCheckinPresenca() {
@@ -493,7 +489,6 @@ function renderizarCheckinPresenca() {
   const podeGerar = data === hoje && validacaoDia.valida;
   const sessaoAtiva = presencaCheckinAtual && presencaCheckinAtual.ativa === true && new Date(presencaCheckinAtual.expira_em) > new Date();
   const url = sessaoAtiva ? montarUrlCheckinAluno(presencaCheckinAtual.codigo) : "";
-  const qrUrl = url ? montarUrlQrCodeCheckin(url) : "";
 
   card.innerHTML = `
     <div class="presenca-checkin-topo">
@@ -520,8 +515,12 @@ function renderizarCheckinPresenca() {
 
     ${sessaoAtiva ? `
       <div class="presenca-checkin-qr-grid">
-        <div class="presenca-checkin-qr-box">
-          <img src="${qrUrl}" alt="QR Code do check-in da aula">
+        <div
+          id="presencaCheckinQrLocal"
+          class="presenca-checkin-qr-box"
+          role="img"
+          aria-label="QR Code do check-in da aula"
+        >
         </div>
         <div class="presenca-checkin-detalhes">
           <strong>${escaparTextoSeguro(turmaNome)}</strong>
@@ -536,6 +535,22 @@ function renderizarCheckinPresenca() {
       </div>
     ` : ""}
   `;
+
+  const qrContainer = document.getElementById("presencaCheckinQrLocal");
+  if (qrContainer && url) {
+    if (typeof QRCode === "function") {
+      new QRCode(qrContainer, {
+        text: url,
+        width: 196,
+        height: 196,
+        colorDark: "#111111",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } else {
+      qrContainer.textContent = "Não foi possível gerar o QR Code.";
+    }
+  }
 
   const btnGerar = document.getElementById("btnGerarCheckinPresenca");
   if (btnGerar && podeGerar) btnGerar.addEventListener("click", gerarCheckinPresenca);

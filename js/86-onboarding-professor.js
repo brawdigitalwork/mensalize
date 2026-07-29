@@ -68,7 +68,7 @@ function onboardingProfessorTemAluno() {
 }
 
 function onboardingProfessorTemPortalAluno() {
-  return Array.isArray(alunos) && alunos.some(aluno => Boolean(aluno && aluno.codigo_publico));
+  return Array.isArray(alunos) && alunos.some(aluno => Boolean(aluno && aluno.id));
 }
 
 async function onboardingProfessorTemPagamentoRegistrado({ forcar = false } = {}) {
@@ -265,8 +265,8 @@ function onboardingProfessorExecutarAcao(acao) {
   }
 
   if (acao === "portal-aluno") {
-    const alunoComPortal = (alunos || []).find(aluno => aluno && aluno.codigo_publico && onboardingProfessorNumeroWhatsApp(aluno.telefone).length >= 10)
-      || (alunos || []).find(aluno => aluno && aluno.codigo_publico);
+    const alunoComPortal = (alunos || []).find(aluno => aluno && aluno.id && onboardingProfessorNumeroWhatsApp(aluno.telefone).length >= 10)
+      || (alunos || []).find(aluno => aluno && aluno.id);
 
     if (alunoComPortal && typeof enviarLinkPaginaAluno === "function") {
       enviarLinkPaginaAluno(alunoComPortal.id);

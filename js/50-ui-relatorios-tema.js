@@ -213,21 +213,32 @@ async function obterDadosRelatorioFinanceiroSelecionado() {
 
   const filtroStatus = financeiroStatus ? financeiroStatus.value : "todos";
 
-  let queryPagamentos = supabaseClient
+  let queryPagamentosCaixa = supabaseClient
     .from("pagamentos")
-    .select("id,user_id,aluno_id,valor,data_pagamento,created_at");
+    .select("id,user_id,aluno_id,valor,data_pagamento,vencimento_referencia,created_at");
 
-  queryPagamentos = aplicarFiltroUsuario(queryPagamentos);
+  let queryPagamentosCompetencia = supabaseClient
+    .from("pagamentos")
+    .select("id,user_id,aluno_id,valor,data_pagamento,vencimento_referencia,created_at");
 
-  const { data: pagamentos, error } = await queryPagamentos
-    .gte("data_pagamento", periodo.inicio)
-    .lte("data_pagamento", periodo.fim);
+  queryPagamentosCaixa = aplicarFiltroUsuario(queryPagamentosCaixa);
+  queryPagamentosCompetencia = aplicarFiltroUsuario(queryPagamentosCompetencia);
 
-  if (error) {
-    throw error;
+  const [respostaCaixa, respostaCompetencia] = await Promise.all([
+    queryPagamentosCaixa
+      .gte("data_pagamento", periodo.inicio)
+      .lte("data_pagamento", periodo.fim),
+    queryPagamentosCompetencia
+      .gte("vencimento_referencia", periodo.inicio)
+      .lte("vencimento_referencia", periodo.fim)
+  ]);
+
+  if (respostaCaixa.error || respostaCompetencia.error) {
+    throw respostaCaixa.error || respostaCompetencia.error;
   }
 
-  const pagamentosValidos = pagamentos || [];
+  const pagamentosRecebidosNoMes = respostaCaixa.data || [];
+  const pagamentosValidos = respostaCompetencia.data || [];
   const pagamentosPorAluno = new Map();
 
   pagamentosValidos.forEach(pagamento => {
@@ -289,7 +300,7 @@ async function obterDadosRelatorioFinanceiroSelecionado() {
     };
   });
 
-  resumo.recebido = pagamentosValidos.reduce((total, pagamento) => total + valorParaNumero(pagamento.valor), 0);
+  resumo.recebido = pagamentosRecebidosNoMes.reduce((total, pagamento) => total + valorParaNumero(pagamento.valor), 0);
 
   if (filtroStatus !== "todos") {
     linhas = linhas.filter(item => item.status === filtroStatus);
@@ -467,14 +478,46 @@ async function exportarRelatorioFinanceiroPlanilha() {
 
 /** Remove um pagamento específico do histórico. */
 async function deletarPagamento(pagamentoId, alunoId) {
+  const { data: pagamento, error: erroBusca } = await supabaseClient
+    .from("pagamentos")
+    .select("id,aluno_id,vencimento_referencia")
+    .eq("id", pagamentoId)
+    .eq("aluno_id", alunoId)
+    .single();
+
+  if (erroBusca || !pagamento) {
+    mostrarToast("Pagamento não encontrado.", "erro");
+    return;
+  }
+
   const { error } = await supabaseClient
     .from("pagamentos")
     .delete()
-    .eq("id", pagamentoId);
+    .eq("id", pagamentoId)
+    .eq("aluno_id", alunoId);
 
   if (error) {
     mostrarToast("Erro ao remover pagamento.", "erro");
     return;
+  }
+
+  if (pagamento.vencimento_referencia) {
+    const aluno = alunos.find(item => String(item.id) === String(alunoId));
+    const proximoVencimento = !aluno?.vencimento || pagamento.vencimento_referencia < aluno.vencimento
+      ? pagamento.vencimento_referencia
+      : aluno.vencimento;
+
+    const { error: erroVencimento } = await supabaseClient
+      .from("alunos")
+      .update({ vencimento: proximoVencimento })
+      .eq("id", alunoId);
+
+    if (erroVencimento) {
+      mostrarToast("Pagamento removido, mas o vencimento precisa ser conferido.", "erro");
+      await carregarAlunos();
+      abrirHistorico(alunoId);
+      return;
+    }
   }
 
   mostrarToast("Pagamento removido.");
@@ -512,7 +555,7 @@ async function abrirHistorico(alunoId) {
 
   let queryHistorico = supabaseClient
     .from("pagamentos")
-    .select("id,user_id,aluno_id,valor,data_pagamento,created_at")
+    .select("id,user_id,aluno_id,valor,data_pagamento,vencimento_referencia,created_at")
     .eq("aluno_id", alunoId);
 
   queryHistorico = aplicarFiltroUsuario(queryHistorico);
@@ -528,8 +571,11 @@ async function abrirHistorico(alunoId) {
     const div = document.createElement("div");
     div.classList.add("pagamento-item");
     const valor = valorParaNumero(pagamento.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    const referencia = pagamento.vencimento_referencia
+      ? `Mensalidade ${formatarData(pagamento.vencimento_referencia)}`
+      : "Mensalidade sem referência";
     div.innerHTML = `
-      <span>${formatarData(pagamento.data_pagamento)}</span>
+      <span>${formatarData(pagamento.data_pagamento)} · ${referencia}</span>
       <strong>${valor}</strong>
       <button onclick="deletarPagamento('${pagamento.id}', '${alunoId}')" class="btn-deletar-pagamento" title="Remover pagamento">🗑</button>
     `;
@@ -707,19 +753,5 @@ function aplicarTema() {
 // Garante que qualquer tema claro salvo antigo seja removido.
 localStorage.setItem("mensalize-tema", "escuro");
 aplicarTema();
-
-//ABRIR PAGINA DO ALUNO
-
-function abrirPaginaAluno(codigo) {
-  if (!codigo) {
-    mostrarToast("Código público do aluno não encontrado.", "erro");
-    return;
-  }
-
-  const link = `${window.location.origin}/aluno.html?codigo=${codigo}`;
-
-  window.open(link, "_blank");
-}
-
 
 // ===============================

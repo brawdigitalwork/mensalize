@@ -1,0 +1,328 @@
+/* ==========================================================================
+   MENSALIZE 2.4 — MOVIMENTO DA HOME DO PROFESSOR
+   Camada visual isolada: não altera cores, dados, autenticação ou navegação.
+========================================================================== */
+
+:root {
+  --dashboard-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dashboard-motion-fast: 180ms;
+  --dashboard-motion-medium: 520ms;
+}
+
+/* Entrada da Home no desktop */
+@media (min-width: 761px) {
+  #viewDashboard.ativa > .dashboard-hero {
+    animation: dashboard-entrada-destaque 620ms var(--dashboard-motion-ease) both;
+  }
+
+  #viewDashboard.ativa > .cards-dashboard .card {
+    animation: dashboard-entrada-card var(--dashboard-motion-medium) var(--dashboard-motion-ease) both;
+  }
+
+  #viewDashboard.ativa > .cards-dashboard .card:nth-child(1) { animation-delay: 90ms; }
+  #viewDashboard.ativa > .cards-dashboard .card:nth-child(2) { animation-delay: 150ms; }
+  #viewDashboard.ativa > .cards-dashboard .card:nth-child(3) { animation-delay: 210ms; }
+  #viewDashboard.ativa > .cards-dashboard .card:nth-child(4) { animation-delay: 270ms; }
+
+  #viewDashboard.ativa > #centralAcaoDashboard,
+  #viewDashboard.ativa > #onboardingProfessorCard:not(.escondido),
+  #viewDashboard.ativa > .dashboard-grid > * {
+    animation: dashboard-entrada-painel 560ms var(--dashboard-motion-ease) both;
+  }
+
+  #viewDashboard.ativa > #centralAcaoDashboard { animation-delay: 320ms; }
+  #viewDashboard.ativa > #onboardingProfessorCard:not(.escondido) { animation-delay: 310ms; }
+  #viewDashboard.ativa > .dashboard-grid > :nth-child(1) { animation-delay: 370ms; }
+  #viewDashboard.ativa > .dashboard-grid > :nth-child(2) { animation-delay: 430ms; }
+  #viewDashboard.ativa > .dashboard-grid > :nth-child(3) { animation-delay: 490ms; }
+  #viewDashboard.ativa > .dashboard-grid > :nth-child(4) { animation-delay: 550ms; }
+
+  #viewDashboard .dashboard-hero::after {
+    animation: dashboard-orbe-flutua 8s ease-in-out infinite alternate;
+  }
+
+  #viewDashboard .card::before {
+    background-size: 180% 100% !important;
+    animation: dashboard-linha-viva 4.8s ease-in-out infinite;
+  }
+}
+
+/* Banner aparece sem deslocar visualmente a página de forma brusca */
+#viewDashboard.ativa #bannerTrialPlano:not(.escondido) {
+  animation: dashboard-banner-entrada 440ms var(--dashboard-motion-ease) both;
+}
+
+/* Feedback de interação — mouse, teclado e toque */
+#viewDashboard .hero-actions button,
+#viewDashboard .central-acao-principal-botao,
+#viewDashboard .dashboard-executivo-item,
+#viewDashboard .mobile-academia-card,
+#viewDashboard .mobile-resumo-metrica,
+#viewDashboard .mobile-resumo-link,
+#viewDashboard .mobile-action-card,
+#viewDashboard .mobile-proxima-acao button,
+#viewDashboard .mobile-module-card {
+  transition:
+    translate var(--dashboard-motion-fast) ease,
+    scale var(--dashboard-motion-fast) ease,
+    filter var(--dashboard-motion-fast) ease,
+    border-color var(--dashboard-motion-fast) ease,
+    box-shadow var(--dashboard-motion-fast) ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #viewDashboard .hero-actions button:hover,
+  #viewDashboard .central-acao-principal-botao:hover,
+  #viewDashboard .dashboard-executivo-item:hover,
+  #viewDashboard .mobile-academia-card:hover,
+  #viewDashboard .mobile-resumo-metrica:hover,
+  #viewDashboard .mobile-resumo-link:hover,
+  #viewDashboard .mobile-action-card:hover,
+  #viewDashboard .mobile-proxima-acao button:hover,
+  #viewDashboard .mobile-module-card:hover {
+    translate: 0 -3px;
+    filter: brightness(1.08);
+  }
+}
+
+#viewDashboard .hero-actions button:active,
+#viewDashboard .central-acao-principal-botao:active,
+#viewDashboard .dashboard-executivo-item:active,
+#viewDashboard .mobile-academia-card:active,
+#viewDashboard .mobile-resumo-metrica:active,
+#viewDashboard .mobile-resumo-link:active,
+#viewDashboard .mobile-action-card:active,
+#viewDashboard .mobile-proxima-acao button:active,
+#viewDashboard .mobile-module-card:active {
+  translate: 0 1px !important;
+  scale: 0.975 !important;
+  filter: brightness(0.96);
+}
+
+#viewDashboard :is(button, [tabindex]):focus-visible {
+  outline: 3px solid rgba(167, 120, 255, 0.42);
+  outline-offset: 3px;
+}
+
+/* Próxima ação continua perceptível, sem piscar o texto */
+#dashboardAcaoPrincipalIcone,
+#mobileProfessorProximaAcaoIcone {
+  animation: dashboard-icone-respira 3.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+#dashboardStatusOperacao {
+  position: relative;
+  overflow: hidden;
+}
+
+#dashboardStatusOperacao::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 22%,
+    rgba(255, 255, 255, 0.16) 46%,
+    transparent 70%
+  );
+  translate: -130% 0;
+  animation: dashboard-status-brilho 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Home mobile: entrada em blocos e resposta tátil */
+@media (max-width: 760px) {
+  body.mobile-professor-dashboard #viewDashboard.ativa .mobile-professor-home > * {
+    animation: dashboard-mobile-entrada 480ms var(--dashboard-motion-ease) both;
+  }
+
+  body.mobile-professor-dashboard #viewDashboard.ativa .mobile-professor-home > :nth-child(1) {
+    animation-delay: 40ms;
+  }
+
+  body.mobile-professor-dashboard #viewDashboard.ativa .mobile-professor-home > :nth-child(2) {
+    animation-delay: 100ms;
+  }
+
+  body.mobile-professor-dashboard #viewDashboard.ativa .mobile-professor-home > :nth-child(3) {
+    animation-delay: 160ms;
+  }
+
+  body.mobile-professor-dashboard #viewDashboard.ativa .mobile-professor-home > :nth-child(4) {
+    animation-delay: 220ms;
+  }
+
+  body.mobile-professor-dashboard #viewDashboard.ativa .mobile-professor-home > :nth-child(5) {
+    animation-delay: 280ms;
+  }
+
+  #viewDashboard .mobile-resumo-card {
+    position: relative;
+  }
+
+  #viewDashboard .mobile-resumo-card::after {
+    content: "";
+    position: absolute;
+    top: -70%;
+    left: -45%;
+    width: 44%;
+    height: 240%;
+    rotate: 18deg;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.07),
+      transparent
+    );
+    animation: dashboard-mobile-brilho 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  #viewDashboard .mobile-action-card,
+  #viewDashboard .mobile-module-card {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #viewDashboard .mobile-module-card:active,
+  #viewDashboard .mobile-action-card:active {
+    translate: 0 2px !important;
+    scale: 0.96 !important;
+  }
+
+  body.mobile-professor-dashboard .mobile-notification-badge:not(:empty) {
+    animation: dashboard-badge-pulso 2.6s ease-in-out infinite;
+  }
+}
+
+@keyframes dashboard-entrada-destaque {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dashboard-entrada-card {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dashboard-entrada-painel {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dashboard-banner-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dashboard-mobile-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dashboard-orbe-flutua {
+  from {
+    transform: translate3d(-8px, -4px, 0) scale(0.96);
+    opacity: 0.7;
+  }
+  to {
+    transform: translate3d(12px, 10px, 0) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes dashboard-linha-viva {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes dashboard-icone-respira {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.045);
+  }
+}
+
+@keyframes dashboard-status-brilho {
+  0%,
+  62% {
+    translate: -130% 0;
+  }
+  84%,
+  100% {
+    translate: 130% 0;
+  }
+}
+
+@keyframes dashboard-mobile-brilho {
+  0%,
+  68% {
+    translate: -160% 0;
+  }
+  88%,
+  100% {
+    translate: 430% 0;
+  }
+}
+
+@keyframes dashboard-badge-pulso {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 64, 84, 0);
+  }
+  45% {
+    box-shadow: 0 0 0 5px rgba(255, 64, 84, 0.14);
+  }
+}
+
+/* Acessibilidade e economia de bateria */
+@media (prefers-reduced-motion: reduce) {
+  #viewDashboard *,
+  #viewDashboard *::before,
+  #viewDashboard *::after,
+  #viewDashboard #bannerTrialPlano {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

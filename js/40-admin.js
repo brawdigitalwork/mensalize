@@ -153,6 +153,11 @@ btnCriarUsuario.addEventListener("click", async function() {
     return;
   }
 
+  if (senha.length < 12 || senha.length > 72) {
+    msgAdmin.textContent = "A senha precisa ter entre 12 e 72 caracteres.";
+    return;
+  }
+
   btnCriarUsuario.disabled = true;
   const textoBotaoOriginal = btnCriarUsuario.textContent;
   btnCriarUsuario.textContent = "Criando...";
@@ -948,7 +953,7 @@ async function carregarDashboard() {
 
   const { data: todosAlunos, error: erroAlunos } = await supabaseClient
     .from("alunos")
-    .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,status_aluno,data_nascimento,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
+    .select("id,user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,created_at,foto_url,modalidade,faixa,grau,turma,status_aluno,data_nascimento,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
 
   if (erroClientes || erroAlunos) {
     console.error("Erro ao carregar dashboard admin:", { erroClientes, erroAlunos });
@@ -1101,7 +1106,10 @@ async function confirmarRemocaoCliente() {
   if (!clienteParaRemoverId) return;
 
   try {
-    await executarEdgeAdmin("deletar-usuario", { user_id: clienteParaRemoverId });
+    await executarEdgeAdmin("deletar-usuario", {
+      user_id: clienteParaRemoverId,
+      confirmacao: "EXCLUIR"
+    });
 
     modalRemoverCliente.classList.add("escondido");
 

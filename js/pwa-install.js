@@ -5,6 +5,8 @@
   const nomeAplicativo = document.querySelector('meta[name="mensalize-pwa-name"]')?.content
     || "Mensalize";
 
+  const CHAVE_DISPENSA_HOME = "mensalize-pwa-home-dispensada";
+
   let eventoInstalacaoPendente = null;
   let ultimoFoco = null;
 
@@ -20,12 +22,36 @@
     return "desktop";
   }
 
+  function homeFoiDispensada() {
+    try {
+      return window.localStorage.getItem(CHAVE_DISPENSA_HOME) === "true";
+    } catch (erro) {
+      return false;
+    }
+  }
+
+  function dispensarAvisoHome() {
+    try {
+      window.localStorage.setItem(CHAVE_DISPENSA_HOME, "true");
+    } catch (erro) {
+      console.warn("[Mensalize PWA] Não foi possível salvar a preferência de instalação:", erro);
+    }
+
+    atualizarBotoes();
+  }
+
   function atualizarBotoes() {
     const instalado = estaInstalado();
 
     document.querySelectorAll("[data-pwa-install]").forEach(function(botao) {
       botao.classList.toggle("pwa-install-hidden", instalado);
       botao.setAttribute("aria-hidden", instalado ? "true" : "false");
+    });
+
+    const ocultarAvisoHome = instalado || homeFoiDispensada();
+    document.querySelectorAll("[data-pwa-home-prompt]").forEach(function(aviso) {
+      aviso.classList.toggle("pwa-install-hidden", ocultarAvisoHome);
+      aviso.setAttribute("aria-hidden", ocultarAvisoHome ? "true" : "false");
     });
   }
 
@@ -202,6 +228,13 @@
   });
 
   document.addEventListener("click", function(event) {
+    const botaoDispensar = event.target.closest("[data-pwa-dismiss]");
+    if (botaoDispensar) {
+      event.preventDefault();
+      dispensarAvisoHome();
+      return;
+    }
+
     const botao = event.target.closest("[data-pwa-install]");
     if (!botao) return;
     event.preventDefault();
@@ -228,6 +261,7 @@
     abrirInstrucoes,
     solicitarInstalacao,
     atualizarBotoes,
-    estaInstalado
+    estaInstalado,
+    dispensarAvisoHome
   };
 })();

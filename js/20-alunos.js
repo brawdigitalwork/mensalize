@@ -17,13 +17,13 @@ async function carregarAlunos() {
 
   let queryAlunos = supabaseClient
     .from("alunos")
-    .select("id,user_id,auth_user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,codigo_publico,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
+    .select("id,user_id,auth_user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
 
   queryAlunos = aplicarFiltroUsuario(queryAlunos);
 
   let queryPagamentosMes = supabaseClient
     .from("pagamentos")
-    .select("aluno_id");
+    .select("aluno_id,vencimento_referencia");
 
   queryPagamentosMes = aplicarFiltroUsuario(queryPagamentosMes);
 
@@ -31,8 +31,8 @@ async function carregarAlunos() {
   const [{ data, error }, { data: pagamentosMes, error: erroPagamentosMes }] = await Promise.all([
     queryAlunos.order("created_at", { ascending: false }),
     queryPagamentosMes
-      .gte("data_pagamento", primeiroDiaMes)
-      .lte("data_pagamento", ultimoDiaMes)
+      .gte("vencimento_referencia", primeiroDiaMes)
+      .lte("vencimento_referencia", ultimoDiaMes)
   ]);
 
   if (error) {
@@ -46,7 +46,12 @@ async function carregarAlunos() {
   }
 
   alunos = data || [];
-  alunosPagosMes = new Set((pagamentosMes || []).map(p => String(p.aluno_id)));
+  const idsComCompetenciaPaga = new Set((pagamentosMes || []).map(p => String(p.aluno_id)));
+  alunosPagosMes = new Set(
+    alunos
+      .filter(aluno => idsComCompetenciaPaga.has(String(aluno.id)) && String(aluno.vencimento || "") > ultimoDiaMes)
+      .map(aluno => String(aluno.id))
+  );
   sincronizarEstado();
   renderizarPainelAcessosPendentes();
 
@@ -728,7 +733,10 @@ function mostrarAlunos() {
           <div class="aluno-acoes-bloco aluno-acoes-principais">
             <span class="aluno-acoes-titulo">Ações principais</span>
             ${jaPagou
-              ? `<span class="badge-pago-confirmado">Mensalidade paga</span>`
+              ? `
+                <span class="badge-pago-confirmado">Mensalidade paga</span>
+                <button class="acao-secundaria" onclick="marcarComoPago('${aluno.id}')">Registrar adiantamento</button>
+              `
               : `<button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">Registrar pagamento</button>`
             }
 
@@ -739,7 +747,6 @@ function mostrarAlunos() {
           <div class="aluno-acoes-bloco aluno-acoes-gestao">
             <span class="aluno-acoes-titulo">Gestão do aluno</span>
             <button class="acao-principal btn-perfil-completo-aluno" onclick="abrirPerfilCompletoAluno('${aluno.id}')">Perfil completo</button>
-            <button class="acao-secundaria" onclick="abrirPaginaAluno('${aluno.codigo_publico}')">Página do aluno</button>
             <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">Histórico</button>
             ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">Graduação</button>` : ""}
             <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">Editar</button>

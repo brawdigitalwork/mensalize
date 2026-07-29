@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Mensalize Aluno</title>
   <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação." />
+  <meta name="referrer" content="no-referrer" />
   <meta name="theme-color" content="#7c3aed" />
   <meta name="mensalize-pwa-name" content="Mensalize Aluno" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -23,9 +24,9 @@
   <link rel="icon" href="logo-aluno.png" />
   <link rel="apple-touch-icon" href="icons/mensalize-aluno-icon-192.png" />
   <link rel="manifest" href="manifest-aluno.json" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
+  <link rel="stylesheet" href="vendor/cropper-1.6.2.min.css" />
+  <script src="vendor/supabase-2.110.8.js"></script>
+  <script src="vendor/cropper-1.6.2.min.js"></script>
   <script src="config.js"></script>
   <script src="aluno-auth.js"></script>
 
@@ -114,9 +115,9 @@
               type="password"
               id="authAlunoSenhaNova"
               autocomplete="new-password"
-              minlength="8"
+              minlength="12"
               maxlength="72"
-              placeholder="Mínimo de 8 caracteres"
+              placeholder="Mínimo de 12 caracteres"
             >
           </label>
 
@@ -126,7 +127,7 @@
               type="password"
               id="authAlunoSenhaConfirmar"
               autocomplete="new-password"
-              minlength="8"
+              minlength="12"
               maxlength="72"
               placeholder="Repita a senha"
             >
@@ -286,6 +287,28 @@
                 </svg>
               </span>
             </button>
+
+            <section
+              class="mobile-aluno-pwa-install mobile-aluno-pwa-install-home"
+              data-pwa-home-prompt
+              aria-labelledby="mobileAlunoPwaHomeTitulo"
+            >
+              <span class="mobile-aluno-pwa-install-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5" />
+                  <path d="M5 19h14" />
+                </svg>
+              </span>
+              <div>
+                <span class="mobile-aluno-perfil-kicker">Aplicativo</span>
+                <strong id="mobileAlunoPwaHomeTitulo">Instale o Mensalize Aluno</strong>
+                <p>Acesse seu portal mais rápido, direto pela tela inicial.</p>
+              </div>
+              <div class="mobile-aluno-pwa-install-actions">
+                <button type="button" class="mobile-aluno-pwa-install-dismiss" data-pwa-dismiss>Agora não</button>
+                <button type="button" data-pwa-install>Instalar</button>
+              </div>
+            </section>
 
             <section
               id="mobileAlunoCarousel"
@@ -666,6 +689,22 @@
             <h1>Minha área</h1>
             <p>Acompanhe seus principais dados, mensalidade, graduação, avisos e desempenho no desafio.</p>
           </div>
+
+          <article
+            class="panel-card aluno-pwa-install-desktop aluno-pwa-install-home-desktop"
+            data-pwa-home-prompt
+            aria-labelledby="alunoPwaHomeDesktopTitulo"
+          >
+            <div>
+              <span class="eyebrow">Aplicativo</span>
+              <h2 id="alunoPwaHomeDesktopTitulo">Instale o Mensalize Aluno</h2>
+              <p class="helper-text">Acesse seu portal mais rápido, direto pelo seu dispositivo.</p>
+            </div>
+            <div class="aluno-pwa-install-home-actions">
+              <button type="button" class="secondary-action" data-pwa-dismiss>Agora não</button>
+              <button type="button" class="primary-action" data-pwa-install>Instalar aplicativo</button>
+            </div>
+          </article>
 
           <div class="quick-grid">
             <article class="quick-card">
@@ -2114,14 +2153,7 @@
     const msgCheckinAluno = document.getElementById("msgCheckinAluno");
 
     let alunoAtual = null;
-    let codigoPublico = null;
     let turmasAlunoDisponiveis = [];
-    const STORAGE_CODIGO_ALUNO = "mensalize_codigo_aluno_publico";
-    const REGEX_CODIGO_PUBLICO = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-    function codigoPublicoValido(valor) {
-      return REGEX_CODIGO_PUBLICO.test(String(valor || "").trim());
-    }
 
     function alunoUsaSessaoAutenticada() {
       return window.MENSALIZE_ALUNO_AUTENTICADO === true;
@@ -2129,92 +2161,27 @@
 
     async function executarRpcPortalAluno({
       autenticada,
-      parametrosAutenticados = {},
-      publica,
-      parametrosPublicos = {}
+      parametrosAutenticados = {}
     }) {
-      if (alunoUsaSessaoAutenticada()) {
-        return supabaseClient.rpc(autenticada, parametrosAutenticados);
+      if (!alunoUsaSessaoAutenticada()) {
+        return {
+          data: null,
+          error: new Error("Entre com usuário e senha para acessar o portal do aluno.")
+        };
       }
 
-      return supabaseClient.rpc(publica, parametrosPublicos);
-    }
-
-    function limparCodigoPublicoDaUrl() {
-      try {
-        const url = new URL(window.location.href);
-        if (!url.searchParams.has("codigo")) return;
-
-        url.searchParams.delete("codigo");
-        const novaUrl = `${url.pathname}${url.search}${url.hash}`;
-        window.history.replaceState(null, "", novaUrl);
-      } catch (erro) {
-        console.warn("[Mensalize Aluno] Não foi possível limpar o código da URL:", erro);
-      }
-    }
-
-    function salvarCodigoPublicoNaSessao(codigo) {
-      if (!codigoPublicoValido(codigo)) return false;
-
-      try {
-        sessionStorage.setItem(STORAGE_CODIGO_ALUNO, codigo);
-        return true;
-      } catch (erro) {
-        console.warn("[Mensalize Aluno] Não foi possível salvar o acesso na sessão:", erro);
-        return false;
-      }
-    }
-
-    function obterCodigoPublicoAluno() {
-      const params = new URLSearchParams(window.location.search);
-      const codigoUrl = String(params.get("codigo") || "").trim();
-
-      if (codigoPublicoValido(codigoUrl)) {
-        salvarCodigoPublicoNaSessao(codigoUrl);
-
-        // Remove a credencial da barra de endereço e do próximo histórico da página.
-        limparCodigoPublicoDaUrl();
-
-        // Limpa a persistência antiga assim que o novo fluxo é usado.
-        try {
-          localStorage.removeItem(STORAGE_CODIGO_ALUNO);
-        } catch (_) {}
-
-        return codigoUrl;
-      }
-
-      try {
-        const codigoSessao = String(sessionStorage.getItem(STORAGE_CODIGO_ALUNO) || "").trim();
-        if (codigoPublicoValido(codigoSessao)) return codigoSessao;
-      } catch (_) {}
-
-      // Migração controlada de instalações antigas: usa uma única vez e remove.
-      try {
-        const codigoLegado = String(localStorage.getItem(STORAGE_CODIGO_ALUNO) || "").trim();
-        localStorage.removeItem(STORAGE_CODIGO_ALUNO);
-
-        if (codigoPublicoValido(codigoLegado)) {
-          salvarCodigoPublicoNaSessao(codigoLegado);
-          return codigoLegado;
-        }
-      } catch (_) {}
-
-      return "";
+      return supabaseClient.rpc(autenticada, parametrosAutenticados);
     }
 
     function construirLinkCompartilhamentoAluno() {
       const url = new URL(window.location.href);
       url.searchParams.delete("checkin");
       url.searchParams.delete("acesso");
-
-      if (window.MENSALIZE_ALUNO_AUTENTICADO === true) {
-        url.searchParams.delete("codigo");
-        return url.toString();
-      }
-
-      if (!codigoPublicoValido(codigoPublico)) return "";
-
-      url.searchParams.set("codigo", codigoPublico);
+      url.searchParams.delete("codigo");
+      const fragmento = new URLSearchParams(url.hash.slice(1));
+      fragmento.delete("checkin");
+      fragmento.delete("acesso");
+      url.hash = fragmento.toString();
       return url.toString();
     }
 
@@ -2224,14 +2191,13 @@
       } catch (_) {}
 
       try {
-        sessionStorage.removeItem(STORAGE_CODIGO_ALUNO);
+        sessionStorage.removeItem("mensalize_codigo_aluno_publico");
       } catch (_) {}
 
       try {
-        localStorage.removeItem(STORAGE_CODIGO_ALUNO);
+        localStorage.removeItem("mensalize_codigo_aluno_publico");
       } catch (_) {}
 
-      codigoPublico = null;
       alunoAtual = null;
       window.MENSALIZE_ALUNO_AUTENTICADO = false;
 
@@ -2239,11 +2205,15 @@
       url.searchParams.delete("codigo");
       url.searchParams.delete("acesso");
       url.searchParams.delete("checkin");
+      const fragmento = new URLSearchParams(url.hash.slice(1));
+      fragmento.delete("checkin");
+      fragmento.delete("acesso");
+      url.hash = fragmento.toString();
       window.location.replace(`${url.pathname}${url.search}${url.hash}`);
     }
 
     function obterCodigoCheckinUrl() {
-      const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(window.location.hash.slice(1));
       return String(params.get("checkin") || "").trim().toUpperCase();
     }
 
@@ -2497,7 +2467,8 @@
 
     function gerarStatus(aluno) {
       const dias = calcularDias(aluno.vencimento);
-      if (aluno.pago_mes === true) return { texto: "Pago", classe: "status-pago", titulo: "Mensalidade em dia", mensagem: "Seu pagamento deste mês já foi registrado." };
+      const statusPagamento = String(aluno.status_pagamento || "").trim().toLowerCase();
+      if (aluno.pago_mes === true || statusPagamento === "pago") return { texto: "Pago", classe: "status-pago", titulo: "Mensalidade em dia", mensagem: "Seu pagamento deste mês já foi registrado." };
       if (dias < 0) return { texto: "Atrasado", classe: "status-atrasado", titulo: `Atrasada há ${Math.abs(dias)} dia${Math.abs(dias) === 1 ? "" : "s"}`, mensagem: "Regularize sua mensalidade para manter tudo certo com o professor." };
       if (dias === 0) return { texto: "Vence hoje", classe: "status-hoje", titulo: "Sua mensalidade vence hoje", mensagem: "Evite atrasos: realize o pagamento ou fale com o professor." };
       return { texto: "Em aberto", classe: "status-pendente", titulo: `Faltam ${dias} dia${dias === 1 ? "" : "s"} para vencer`, mensagem: "Acompanhe seu vencimento e pague com tranquilidade." };
@@ -2595,12 +2566,10 @@
     }
 
     async function carregarAvisosAluno() {
-      if (!alunoUsaSessaoAutenticada() && !codigoPublico) return;
+      if (!alunoUsaSessaoAutenticada()) return;
       try {
         const { data, error } = await executarRpcPortalAluno({
-          autenticada: "buscar_avisos_aluno_autenticado",
-          publica: "buscar_avisos_publico",
-          parametrosPublicos: { codigo: codigoPublico }
+          autenticada: "buscar_avisos_aluno_autenticado"
         });
         if (error) throw error;
         renderizarAvisosAluno(data || []);
@@ -2774,7 +2743,7 @@
     });
 
     async function carregarProgramaFaixaAluno() {
-      if (!alunoUsaSessaoAutenticada() && !codigoPublico) return;
+      if (!alunoUsaSessaoAutenticada()) return;
 
       if (programaFaixaLista) {
         programaFaixaLista.innerHTML = `<p class="empty-message">Carregando sua trilha de graduação...</p>`;
@@ -2782,9 +2751,7 @@
 
       try {
         const { data, error } = await executarRpcPortalAluno({
-          autenticada: "buscar_programa_faixa_aluno_autenticado",
-          publica: "buscar_programa_faixa_aluno",
-          parametrosPublicos: { p_codigo_publico: codigoPublico }
+          autenticada: "buscar_programa_faixa_aluno_autenticado"
         });
 
         if (error) throw error;
@@ -2881,7 +2848,7 @@
     }
 
     async function solicitarConfirmacaoPagamentoAluno() {
-      if ((!alunoUsaSessaoAutenticada() && !codigoPublico) || !alunoAtual) return;
+      if (!alunoUsaSessaoAutenticada() || !alunoAtual) return;
 
       const botao = document.getElementById("btnSolicitarConfirmacaoPagamento");
       const msg = document.getElementById("msgSolicitarPagamentoAluno");
@@ -2896,12 +2863,6 @@
         const { data, error } = await executarRpcPortalAluno({
           autenticada: "solicitar_confirmacao_pagamento_autenticado",
           parametrosAutenticados: {
-            valor_pago: alunoAtual.valor || null,
-            observacao_aluno: "Aluno solicitou confirmação pela área do aluno."
-          },
-          publica: "solicitar_confirmacao_pagamento_publico",
-          parametrosPublicos: {
-            codigo: codigoPublico,
             valor_pago: alunoAtual.valor || null,
             observacao_aluno: "Aluno solicitou confirmação pela área do aluno."
           }
@@ -2961,15 +2922,13 @@
     }
 
     async function carregarTurmasSolicitacaoAluno(aluno) {
-      if (!solicitarTurma || (!alunoUsaSessaoAutenticada() && !codigoPublico)) return;
+      if (!solicitarTurma || !alunoUsaSessaoAutenticada()) return;
 
       try {
         let turmas = [];
 
         const respostaRpc = await executarRpcPortalAluno({
-          autenticada: "buscar_turmas_aluno_autenticado",
-          publica: "buscar_turmas_aluno_publico",
-          parametrosPublicos: { codigo: codigoPublico }
+          autenticada: "buscar_turmas_aluno_autenticado"
         });
 
         if (!respostaRpc.error && Array.isArray(respostaRpc.data)) {
@@ -3263,7 +3222,7 @@ function renderizarAluno(aluno) {
 
     async function carregarRankingsAluno(aluno) {
       const ativos = rankingsAtivos(aluno || {});
-      if (!ativos.length || (!alunoUsaSessaoAutenticada() && !codigoPublico)) {
+      if (!ativos.length || !alunoUsaSessaoAutenticada()) {
         renderizarRankingAluno(aluno);
         return;
       }
@@ -3272,24 +3231,18 @@ function renderizarAluno(aluno) {
         if (aluno.ranking_geral_ativo !== false) {
           tarefas.push(executarRpcPortalAluno({
             autenticada: "buscar_desafio_aluno_autenticado",
-            parametrosAutenticados: { tipo_ranking: "geral" },
-            publica: "buscar_desafio_aluno_publico",
-            parametrosPublicos: { codigo: codigoPublico, tipo_ranking: "geral" }
+            parametrosAutenticados: { tipo_ranking: "geral" }
           }).then(r => { rankingsAluno.geral = r.error ? [] : (r.data || []); }));
         }
         if (aluno.ranking_turma_ativo !== false) {
           tarefas.push(executarRpcPortalAluno({
             autenticada: "buscar_desafio_aluno_autenticado",
-            parametrosAutenticados: { tipo_ranking: "turma" },
-            publica: "buscar_desafio_aluno_publico",
-            parametrosPublicos: { codigo: codigoPublico, tipo_ranking: "turma" }
+            parametrosAutenticados: { tipo_ranking: "turma" }
           }).then(r => { rankingsAluno.turma = r.error ? [] : (r.data || []); }));
         }
         if (aluno.ranking_turmas_ativo !== false) {
           tarefas.push(executarRpcPortalAluno({
-            autenticada: "buscar_desafio_turmas_autenticado",
-            publica: "buscar_desafio_turmas_publico",
-            parametrosPublicos: { codigo: codigoPublico }
+            autenticada: "buscar_desafio_turmas_autenticado"
           }).then(r => { rankingsAluno.turmas = r.error ? [] : (r.data || []); }));
         }
         await Promise.all(tarefas);
@@ -3299,28 +3252,16 @@ function renderizarAluno(aluno) {
       renderizarRankingAluno(aluno);
     }
 
-    async function carregarAluno(codigoForcado = "") {
+    async function carregarAluno() {
       const autenticado = alunoUsaSessaoAutenticada();
 
       if (!autenticado) {
-        codigoPublico = String(codigoForcado || "").trim() || obterCodigoPublicoAluno();
-        if (!codigoPublico) {
-          const codigoCheckin = obterCodigoCheckinUrl();
-          mostrarErro(codigoCheckin
-            ? "Para confirmar presença, entre primeiro na sua Área do Aluno. Depois escaneie o QR Code novamente."
-            : "Acesso do aluno não encontrado. Abra novamente pelo link enviado pelo professor."
-          );
-          return false;
-        }
-      } else {
-        codigoPublico = null;
+        return false;
       }
 
       try {
         const { data, error } = await executarRpcPortalAluno({
-          autenticada: "buscar_aluno_autenticado",
-          publica: "buscar_aluno_publico",
-          parametrosPublicos: { codigo: codigoPublico }
+          autenticada: "buscar_aluno_autenticado"
         });
 
         if (error) {
@@ -3330,10 +3271,7 @@ function renderizarAluno(aluno) {
 
         const aluno = Array.isArray(data) ? data[0] : data;
         if (!aluno) {
-          mostrarErro(autenticado
-            ? "Sua sessão não está vinculada a um aluno ativo. Peça um novo link ao professor."
-            : "Aluno não encontrado. Verifique se o link está correto."
-          );
+          mostrarErro("Sua sessão não está vinculada a um aluno ativo. Peça um novo link ao professor.");
           return false;
         }
 
@@ -3347,7 +3285,7 @@ function renderizarAluno(aluno) {
     }
 
     async function carregarPagamentos() {
-      if (!alunoUsaSessaoAutenticada() && !codigoPublicoValido(codigoPublico)) {
+      if (!alunoUsaSessaoAutenticada()) {
         listaPagamentos.innerHTML = `<p class="empty-message">Histórico indisponível no momento.</p>`;
         contadorPagamentos.textContent = "0 registros";
         return;
@@ -3355,9 +3293,7 @@ function renderizarAluno(aluno) {
 
       try {
         const { data, error } = await executarRpcPortalAluno({
-          autenticada: "buscar_pagamentos_aluno_autenticado",
-          publica: "buscar_pagamentos_aluno_publico",
-          parametrosPublicos: { codigo: codigoPublico }
+          autenticada: "buscar_pagamentos_aluno_autenticado"
         });
 
         if (error) throw error;
@@ -3516,7 +3452,7 @@ function renderizarAluno(aluno) {
     async function salvarRecorteFotoAluno() {
       const autenticado = alunoUsaSessaoAutenticada();
 
-      if (!cropperFotoAluno || (!autenticado && !codigoPublico)) {
+      if (!cropperFotoAluno || !autenticado) {
         msgEditorFotoAluno.textContent = "Escolha e ajuste uma foto primeiro.";
         msgEditorFotoAluno.classList.add("is-error");
         return;
@@ -3528,7 +3464,7 @@ function renderizarAluno(aluno) {
 
       const fotoAntigaUrl = alunoAtual?.foto_url || "";
       const versaoFoto = Date.now();
-      let caminho = `${codigoPublico}/perfil.jpg`;
+      let caminho = "";
 
       try {
         if (autenticado) {
@@ -3573,12 +3509,7 @@ function renderizarAluno(aluno) {
 
         const { data, error } = await executarRpcPortalAluno({
           autenticada: "atualizar_foto_aluno_autenticado",
-          parametrosAutenticados: { nova_foto_url: fotoUrl },
-          publica: "atualizar_foto_aluno_publico",
-          parametrosPublicos: {
-            codigo: codigoPublico,
-            nova_foto_url: fotoUrl
-          }
+          parametrosAutenticados: { nova_foto_url: fotoUrl }
         });
 
         if (error || data === false) throw error || new Error("Falha ao salvar foto");
@@ -3624,7 +3555,7 @@ function renderizarAluno(aluno) {
 
     formPerfilAluno?.addEventListener("submit", async function(event) {
       event.preventDefault();
-      if (!alunoUsaSessaoAutenticada() && !codigoPublico) return;
+      if (!alunoUsaSessaoAutenticada()) return;
       msgPerfilAluno.textContent = "Salvando seus dados...";
       msgPerfilAluno.classList.remove("is-error");
       const nome = perfilAlunoNome.value.trim();
@@ -3644,9 +3575,7 @@ function renderizarAluno(aluno) {
 
       const { data, error } = await executarRpcPortalAluno({
         autenticada: "atualizar_dados_aluno_autenticado",
-        parametrosAutenticados: parametrosDados,
-        publica: "atualizar_dados_aluno_publico",
-        parametrosPublicos: { codigo: codigoPublico, ...parametrosDados }
+        parametrosAutenticados: parametrosDados
       });
       if (error || data === false) {
         msgPerfilAluno.textContent = "Não foi possível salvar seus dados agora.";
@@ -3659,7 +3588,7 @@ function renderizarAluno(aluno) {
 
     formSolicitarTurma?.addEventListener("submit", async function(event) {
       event.preventDefault();
-      if (!alunoUsaSessaoAutenticada() && !codigoPublico) return;
+      if (!alunoUsaSessaoAutenticada()) return;
       const turma = solicitarTurma.value.trim();
       if (!turma) {
         msgSolicitarTurma.textContent = "Selecione uma turma cadastrada pelo professor.";
@@ -3693,12 +3622,6 @@ function renderizarAluno(aluno) {
       const { data, error } = await executarRpcPortalAluno({
         autenticada: "solicitar_alteracao_aluno_autenticado",
         parametrosAutenticados: {
-          nova_turma: turma,
-          observacao_aluno: solicitarTurmaObs.value.trim() || null
-        },
-        publica: "solicitar_alteracao_aluno_publico",
-        parametrosPublicos: {
-          codigo: codigoPublico,
           nova_turma: turma,
           observacao_aluno: solicitarTurmaObs.value.trim() || null
         }
@@ -3741,7 +3664,7 @@ function renderizarAluno(aluno) {
 
     formSolicitarGraduacao?.addEventListener("submit", async function(event) {
       event.preventDefault();
-      if (!alunoUsaSessaoAutenticada() && !codigoPublico) return;
+      if (!alunoUsaSessaoAutenticada()) return;
       const faixa = solicitarFaixa.value.trim();
       const grau = solicitarGrau.value.trim();
       const dataGraduacao = solicitarDataGraduacao.value || null;
@@ -3776,9 +3699,7 @@ function renderizarAluno(aluno) {
 
       const { data, error } = await executarRpcPortalAluno({
         autenticada: "solicitar_correcao_graduacao_autenticado",
-        parametrosAutenticados: parametrosGraduacao,
-        publica: "solicitar_correcao_graduacao_publico",
-        parametrosPublicos: { codigo: codigoPublico, ...parametrosGraduacao }
+        parametrosAutenticados: parametrosGraduacao
       });
       if (error || data === false) {
         const jaExistePendente = error?.code === "23505";
@@ -3848,8 +3769,7 @@ function renderizarAluno(aluno) {
       window.MensalizeAlunoAuth.inicializar({
         supabaseClient,
         carregarAlunoAutenticado: () => carregarAluno(),
-        carregarAlunoComCodigo: carregarAluno,
-        obterCodigoLegado: obterCodigoPublicoAluno
+        carregarAlunoComCodigo: carregarAluno
       });
     } else {
       carregarAluno();

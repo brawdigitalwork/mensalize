@@ -4,7 +4,7 @@
 function montarUrlAcessoAluno(token) {
   if (!token) return "";
   const base = window.location.origin || "";
-  return `${base}/aluno.html?acesso=${encodeURIComponent(token)}`;
+  return `${base}/aluno.html#acesso=${encodeURIComponent(token)}`;
 }
 
 async function enviarLinkPaginaAluno(id) {
@@ -39,14 +39,21 @@ async function enviarLinkPaginaAluno(id) {
     );
 
     if (error || !data?.ok || !data?.token) {
-      throw error || new Error(data?.mensagem || "Falha ao gerar link");
+      let mensagem = data?.mensagem || "";
+      if (error?.context) {
+        try {
+          const detalhe = await error.context.clone().json();
+          mensagem = detalhe?.mensagem || mensagem;
+        } catch (_) {}
+      }
+      throw new Error(mensagem || "Falha ao gerar link");
     }
 
     const link = montarUrlAcessoAluno(data.token);
     const ehRecuperacao = data.tipo === "recuperacao";
 
     const mensagem = ehRecuperacao
-      ? `Olá, ${aluno.nome}. A ${nomeEmpresa || "academia"} enviou um link para recuperar seu acesso ao Mensalize Aluno.\n\nPor ele você pode escolher um novo usuário e uma nova senha:\n\n${link}\n\nEste link é pessoal, funciona uma única vez e expira em 24 horas.`
+      ? `Olá, ${aluno.nome}. A ${nomeEmpresa || "academia"} enviou um link para recuperar seu acesso ao Mensalize Aluno.\n\nPor ele você pode escolher um novo usuário e uma nova senha:\n\n${link}\n\nEste link é pessoal, funciona uma única vez e expira em 1 hora.`
       : `Olá, ${aluno.nome}. A ${nomeEmpresa || "academia"} enviou seu link para criar o acesso ao Mensalize Aluno.\n\nVocê poderá escolher seu próprio usuário e criar uma senha:\n\n${link}\n\nEste link é pessoal, funciona uma única vez e expira em 24 horas.`;
 
     const urlWhatsApp = `https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`;
@@ -75,7 +82,10 @@ async function enviarLinkPaginaAluno(id) {
   } catch (erro) {
     if (janelaWhatsApp) janelaWhatsApp.close();
     console.error("Erro ao gerar acesso do aluno:", erro);
-    mostrarToast("Não foi possível gerar o link de acesso agora.", "erro");
+    mostrarToast(
+      erro?.message || "Não foi possível gerar o link de acesso agora.",
+      "erro"
+    );
   }
 }
 

@@ -3,23 +3,6 @@
    Usa os tokens globais definidos em theme.css.
    Este arquivo controla telas, cards, botões, listas, modais e responsivo.
 ================================================================ */
-/* ================================================================
-   LEGADO — TEMA CLARO
-   Mantido temporariamente para evitar quebra visual.
-   O Mensalize opera em escuro fixo via theme.css.
-================================================================ */
-[data-tema="claro"] {
-  --bg-base:          #f5f6fb;
-  --bg-nivel-1:       rgba(255, 255, 255, 0.86);
-  --bg-nivel-2:       rgba(255, 255, 255, 0.92);
-  --bg-nivel-3:       #ffffff;
-  --bg-input:         rgba(255, 255, 255, 0.92);
-  --borda:            rgba(17, 24, 39, 0.10);
-  --borda-hover:      rgba(124, 58, 237, 0.40);
-  --texto-primario:   #141525;
-  --texto-secundario: #5c6075;
-  --texto-terciario:  #82879a;
-}
 
 /* ================================================================
    RESET
@@ -81,19 +64,6 @@ h2 {
   letter-spacing: -0.02em;
   color: var(--texto-primario);
 }
-
-/* ================================================================
-   TEMA CLARO — AJUSTES DE FUNDO
-================================================================ */
-[data-tema="claro"] body {
-  background:
-    radial-gradient(circle at 18% -10%, rgba(139, 92, 246, 0.14), transparent 34%),
-    radial-gradient(circle at 88%  10%, rgba(56,  189, 248, 0.10), transparent 30%),
-    #f5f6fb;
-  color: var(--texto-primario);
-}
-
-[data-tema="claro"] body::before { display: none; }
 
 /* ================================================================
    LAYOUT — SIDEBAR + CONTEÚDO
@@ -8689,11 +8659,6 @@ body,
   padding: 20px !important;
 }
 
-/* Melhor separação visual entre blocos da Home */
-#viewDashboard .cards-dashboard {
-  margin-bottom: 18px !important;
-}
-
 #viewDashboard .dashboard-grid {
   margin-top: 18px !important;
 }
@@ -9714,7 +9679,9 @@ body,
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
 }
 
-.presenca-checkin-qr-box img {
+.presenca-checkin-qr-box img,
+.presenca-checkin-qr-box canvas,
+.presenca-checkin-qr-box svg {
   width: 100%;
   max-width: 196px;
   height: auto;
@@ -9903,62 +9870,6 @@ body,
    Fase C0 · SaaS premium inspirado em Linear/Vercel/Raycast.
    Apenas CSS: não altera lógica, IDs ou estrutura funcional.
 ================================================================ */
-:root {
-  --cor-roxo: #7c3aed;
-  --cor-roxo-hover: #6d28d9;
-  --cor-roxo-claro: #a78bfa;
-  --cor-roxo-bg: rgba(124, 58, 237, 0.12);
-  --cor-roxo-borda: rgba(124, 58, 237, 0.32);
-  --verde: #10b981;
-  --verde-bg: rgba(16, 185, 129, 0.12);
-  --verde-borda: rgba(16, 185, 129, 0.30);
-  --amarelo: #f59e0b;
-  --amarelo-bg: rgba(245, 158, 11, 0.12);
-  --amarelo-borda: rgba(245, 158, 11, 0.30);
-  --vermelho: #ef4444;
-  --vermelho-bg: rgba(239, 68, 68, 0.12);
-  --vermelho-borda: rgba(239, 68, 68, 0.30);
-  --azul: #38bdf8;
-  --azul-bg: rgba(56, 189, 248, 0.12);
-  --azul-borda: rgba(56, 189, 248, 0.30);
-  --bg-base: #060712;
-  --bg-nivel-1: #0d0f1a;
-  --bg-nivel-2: #111321;
-  --bg-nivel-3: #171a2b;
-  --bg-input: #0a0c16;
-  --bg-hover: rgba(255, 255, 255, 0.05);
-  --borda: rgba(255, 255, 255, 0.12);
-  --borda-hover: rgba(167, 139, 250, 0.46);
-  --texto-primario: #f8fafc;
-  --texto-secundario: #b6bccd;
-  --texto-terciario: #7d8498;
-  --raio-sm: 6px;
-  --raio-md: 8px;
-  --raio-lg: 12px;
-  --raio-xl: 16px;
-  --raio-pill: 999px;
-  --fonte: 'Geist', 'DM Sans', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --tipo-xs: 12px;
-  --tipo-sm: 13px;
-  --tipo-base: 14px;
-  --tipo-md: 16px;
-  --tipo-lg: 22px;
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --trans: 150ms ease;
-  --sombra-sm: none;
-  --sombra-md: none;
-  --sombra-lg: 0 24px 70px rgba(0, 0, 0, 0.42);
-  --sombra-roxo: none;
-}
-
 html,
 body {
   background: var(--bg-base) !important;
@@ -11147,178 +11058,6 @@ textarea {
 }
 
 /* ================================================================
-   C4 — AJUSTE FINAL: CARDS DE ALUNOS COM MAIS RESPIRO
-   Foco específico: lista de alunos do professor.
-================================================================ */
-#listaAlunos {
-  display: grid !important;
-  gap: var(--space-5) !important;
-}
-
-#listaAlunos .aluno-card {
-  display: grid !important;
-  gap: var(--space-5) !important;
-  padding: var(--space-6) !important;
-  margin: 0 !important;
-  border-radius: 18px !important;
-  overflow: hidden !important;
-}
-
-#listaAlunos .aluno-premium-topo {
-  display: flex !important;
-  align-items: flex-start !important;
-  justify-content: space-between !important;
-  gap: var(--space-5) !important;
-  margin: 0 !important;
-  padding: 0 0 var(--space-5) 0 !important;
-  border-bottom: 1px solid var(--borda) !important;
-}
-
-#listaAlunos .aluno-topo-identidade {
-  display: flex !important;
-  align-items: flex-start !important;
-  gap: var(--space-4) !important;
-  min-width: 0 !important;
-}
-
-#listaAlunos .aluno-topo-identidade > div:last-child {
-  display: grid !important;
-  gap: var(--space-2) !important;
-  min-width: 0 !important;
-}
-
-#listaAlunos .aluno-card-foto,
-#listaAlunos .aluno-card-avatar {
-  width: 52px !important;
-  height: 52px !important;
-  min-width: 52px !important;
-}
-
-#listaAlunos .aluno-premium-topo h3 {
-  margin: 0 !important;
-  font-size: 16px !important;
-  line-height: 1.25 !important;
-  font-weight: 600 !important;
-}
-
-#listaAlunos .aluno-premium-topo p,
-#listaAlunos .aluno-evolucao-resumo {
-  margin: 0 !important;
-  line-height: 1.45 !important;
-  font-size: 13px !important;
-}
-
-#listaAlunos .aluno-premium-topo .badge-status {
-  align-self: flex-start !important;
-  margin-top: 2px !important;
-  max-width: 180px !important;
-  white-space: normal !important;
-  text-align: center !important;
-  line-height: 1.25 !important;
-}
-
-#listaAlunos .aluno-premium-grid {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(220px, 1fr)) !important;
-  gap: var(--space-4) !important;
-  margin: 0 !important;
-}
-
-#listaAlunos .info-premium {
-  min-height: 96px !important;
-  padding: var(--space-5) !important;
-  border-radius: 14px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: flex-start !important;
-  gap: var(--space-2) !important;
-}
-
-#listaAlunos .info-premium span {
-  margin: 0 !important;
-  line-height: 1.25 !important;
-  font-size: 11px !important;
-  letter-spacing: 0.08em !important;
-}
-
-#listaAlunos .info-premium strong {
-  display: block !important;
-  margin: 0 !important;
-  line-height: 1.2 !important;
-  font-size: 18px !important;
-  font-weight: 600 !important;
-}
-
-#listaAlunos .acoes-premium,
-#listaAlunos .acoes-premium-recolhidas {
-  display: grid !important;
-  gap: var(--space-4) !important;
-  margin: 0 !important;
-}
-
-#listaAlunos .acoes-primarias-card,
-#listaAlunos .acoes-secundarias-card {
-  gap: var(--space-3) !important;
-}
-
-#listaAlunos .acoes-primarias-card > button,
-#listaAlunos .acoes-primarias-card > span,
-#listaAlunos .acoes-secundarias-card > button {
-  min-height: 42px !important;
-  padding-left: var(--space-4) !important;
-  padding-right: var(--space-4) !important;
-}
-
-#listaAlunos .acoes-secundarias-card {
-  padding-top: var(--space-4) !important;
-  border-top: 1px solid var(--borda) !important;
-}
-
-@media (max-width: 767px) {
-  #listaAlunos {
-    gap: var(--space-4) !important;
-  }
-
-  #listaAlunos .aluno-card {
-    padding: var(--space-5) !important;
-    gap: var(--space-4) !important;
-  }
-
-  #listaAlunos .aluno-premium-topo {
-    flex-direction: column !important;
-    gap: var(--space-4) !important;
-    padding-bottom: var(--space-4) !important;
-  }
-
-  #listaAlunos .aluno-premium-topo .badge-status {
-    max-width: 100% !important;
-    align-self: flex-start !important;
-  }
-
-  #listaAlunos .aluno-premium-grid {
-    grid-template-columns: 1fr !important;
-    gap: var(--space-3) !important;
-  }
-
-  #listaAlunos .info-premium {
-    min-height: 82px !important;
-    padding: var(--space-4) !important;
-  }
-
-  #listaAlunos .acoes-primarias-card,
-  #listaAlunos .acoes-secundarias-card {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-  }
-
-  #listaAlunos .btn-mais-acoes {
-    max-width: none !important;
-    width: 100% !important;
-  }
-}
-
-/* ================================================================
    PROGRAMA FIGHT — ACCORDION REALMENTE FECHADO
    Remove o espaço/caixa vazia quando a categoria está fechada.
 ================================================================ */
@@ -11512,29 +11251,11 @@ textarea {
   min-height: 34px;
 }
 
-/* ================================================================
-   DASHBOARD — RESPIRO ENTRE HERO E CARDS DE MÉTRICAS
-================================================================ */
-
-#viewDashboard .dashboard-hero {
-  margin-bottom: 26px !important;
-}
-
+/* Dashboard — cards de métricas */
 #viewDashboard .cards-dashboard {
-  margin-top: 0 !important;
-  margin-bottom: 24px !important;
   gap: 18px !important;
-}
-
-@media (max-width: 720px) {
-  #viewDashboard .dashboard-hero {
-    margin-bottom: 20px !important;
-  }
-
-  #viewDashboard .cards-dashboard {
-    gap: 14px !important;
-    margin-bottom: 20px !important;
-  }
+  margin: 0 0 16px !important;
+  order: initial;
 }
 
 /* ================================================================
@@ -11640,10 +11361,7 @@ textarea {
 }
 
 /* ================================================================
-   FASE 3A — DASHBOARD PROFESSOR PREMIUM
-   Cole este bloco no final do style.css.
-   Não toca em JS, HTML, IDs ou classes existentes.
-   Remove-se inteiro se necessário, sem efeito colateral.
+   HOME DO PROFESSOR — ESTRUTURA PRINCIPAL
 ================================================================ */
 
 /* ----------------------------------------------------------------
@@ -11673,7 +11391,7 @@ textarea {
    2. HERO DA DASHBOARD — respiro inferior e separador
 ---------------------------------------------------------------- */
 #viewDashboard .dashboard-hero {
-  margin-bottom: 28px !important;
+  margin-bottom: 14px !important;
   padding-bottom: 28px !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
 }
@@ -11694,7 +11412,7 @@ textarea {
 #viewDashboard .acoes-rapidas-grid {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
-  gap: 10px !important;
+  gap: 12px !important;
 }
 
 #viewDashboard .acao-rapida {
@@ -11737,7 +11455,6 @@ textarea {
   /* Hero sem separador em mobile — economiza espaço */
   #viewDashboard .dashboard-hero {
     padding-bottom: 20px !important;
-    margin-bottom: 20px !important;
     border-bottom-color: rgba(255, 255, 255, 0.05) !important;
   }
 
@@ -11772,9 +11489,7 @@ textarea {
 }
 
 /* ================================================================
-   FASE 3B — DASHBOARD PROFESSOR COM CARA DE PRODUTO
-   Complementa a Fase 3A.
-   Apenas CSS. Não altera HTML, JS, IDs ou classes existentes.
+   HOME DO PROFESSOR — COMPONENTES E INTERAÇÕES
 ================================================================ */
 
 /* ----------------------------------------------------------------
@@ -11830,10 +11545,6 @@ textarea {
 /* ----------------------------------------------------------------
    3. CARDS DE MÉTRICAS — mais limpos e consistentes
 ---------------------------------------------------------------- */
-#viewDashboard .cards-dashboard {
-  margin-top: -4px !important;
-}
-
 #viewDashboard .cards-dashboard .card {
   min-height: 150px !important;
   padding: 20px 18px !important;
@@ -11938,10 +11649,6 @@ textarea {
 /* ----------------------------------------------------------------
    6. AÇÕES RÁPIDAS — botões com cara de atalhos reais
 ---------------------------------------------------------------- */
-#viewDashboard .acoes-rapidas-grid {
-  gap: 12px !important;
-}
-
 #viewDashboard .acao-rapida {
   position: relative;
   overflow: hidden;
@@ -12063,220 +11770,6 @@ textarea {
 
   #viewDashboard .cards-dashboard .card p {
     font-size: 28px !important;
-  }
-}
-
-/* ================================================================
-   FASE 4A FINAL — ABA ALUNOS LIMPA E PROFISSIONAL
-   Card recolhido com nome, telefone, graduação e status financeiro.
-   Apenas CSS para classes criadas no js/20-alunos.js.
-================================================================ */
-
-#viewAlunos .aluno-card {
-  padding: 16px 18px !important;
-  border-radius: 18px !important;
-  overflow: hidden !important;
-}
-
-#viewAlunos .aluno-card-resumo {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) auto !important;
-  align-items: center !important;
-  gap: 18px !important;
-  margin-bottom: 0 !important;
-}
-
-#viewAlunos .aluno-topo-identidade {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  min-width: 0 !important;
-}
-
-#viewAlunos .aluno-card-foto,
-#viewAlunos .aluno-card-avatar {
-  width: 48px !important;
-  height: 48px !important;
-  flex: 0 0 48px !important;
-}
-
-#viewAlunos .aluno-card-foto {
-  object-fit: cover !important;
-}
-
-#viewAlunos .aluno-resumo-texto {
-  min-width: 0 !important;
-}
-
-#viewAlunos .aluno-resumo-texto h3 {
-  margin: 0 0 4px !important;
-  color: var(--texto-primario) !important;
-  font-size: 16px !important;
-  font-weight: 700 !important;
-  line-height: 1.15 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-#viewAlunos .aluno-resumo-infos {
-  display: grid !important;
-  gap: 2px !important;
-  margin-top: 0 !important;
-}
-
-#viewAlunos .aluno-resumo-infos span {
-  display: block !important;
-  color: var(--texto-secundario) !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  line-height: 1.35 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-#viewAlunos .aluno-resumo-direita {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: 8px !important;
-  flex-wrap: wrap !important;
-  min-width: 190px !important;
-}
-
-#viewAlunos .aluno-resumo-direita .badge-status {
-  min-height: 30px !important;
-  padding: 0 12px !important;
-  border-radius: 999px !important;
-  font-size: 10px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.06em !important;
-  white-space: nowrap !important;
-}
-
-#viewAlunos .btn-opcoes-aluno {
-  min-height: 32px !important;
-  height: 32px !important;
-  padding: 0 12px !important;
-  border-radius: 999px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  white-space: nowrap !important;
-}
-
-/* Gaveta fechada por padrão */
-#viewAlunos .aluno-detalhes-recolhiveis {
-  max-height: 0 !important;
-  overflow: hidden !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transform: translateY(-4px) !important;
-  transition:
-    max-height 260ms ease,
-    opacity 180ms ease,
-    transform 180ms ease,
-    visibility 180ms ease !important;
-}
-
-/* Gaveta aberta */
-#viewAlunos .aluno-card.expandido .aluno-detalhes-recolhiveis {
-  max-height: 720px !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  transform: translateY(0) !important;
-  margin-top: 14px !important;
-  padding-top: 14px !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-}
-
-/* Mensalidade e vencimento compactos */
-#viewAlunos .aluno-premium-grid {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
-  margin-bottom: 12px !important;
-}
-
-#viewAlunos .info-premium {
-  flex: 0 1 150px !important;
-  padding: 9px 11px !important;
-  border-radius: 12px !important;
-}
-
-#viewAlunos .info-premium span {
-  font-size: 9px !important;
-  margin-bottom: 2px !important;
-}
-
-#viewAlunos .info-premium strong {
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  line-height: 1.15 !important;
-}
-
-/* Ações compactas */
-#viewAlunos .acoes-premium-recolhidas {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
-  width: 100% !important;
-}
-
-#viewAlunos .acoes-premium-recolhidas button,
-#viewAlunos .badge-pago-confirmado {
-  width: auto !important;
-  min-width: 128px !important;
-  min-height: 36px !important;
-  padding: 0 12px !important;
-  border-radius: 999px !important;
-  font-size: 12px !important;
-  justify-content: center !important;
-  text-align: center !important;
-}
-
-#viewAlunos .badge-pago-confirmado {
-  display: inline-flex !important;
-  align-items: center !important;
-  background: rgba(34, 197, 94, 0.13) !important;
-  color: #86efac !important;
-  border: 1px solid rgba(34, 197, 94, 0.24) !important;
-  font-weight: 600 !important;
-}
-
-/* Responsivo */
-@media (max-width: 900px) {
-  #viewAlunos .aluno-card-resumo {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-  }
-
-  #viewAlunos .aluno-resumo-direita {
-    justify-content: flex-start !important;
-    min-width: 0 !important;
-    padding-left: 60px !important;
-  }
-}
-
-@media (max-width: 520px) {
-  #viewAlunos .aluno-resumo-direita {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    padding-left: 0 !important;
-    width: 100% !important;
-  }
-
-  #viewAlunos .aluno-resumo-direita .badge-status,
-  #viewAlunos .btn-opcoes-aluno,
-  #viewAlunos .acoes-premium-recolhidas button,
-  #viewAlunos .badge-pago-confirmado {
-    width: 100% !important;
-  }
-
-  #viewAlunos .info-premium {
-    flex: 1 1 calc(50% - 8px) !important;
   }
 }
 
@@ -15148,15 +14641,6 @@ body[data-tema="claro"] .perfil-configuracoes-page .config-modulo-item:has(input
    Adicionado em Beta 1.02
 ================================================================ */
 
-:root {
-  --mensalize-card-radius-pro: 24px;
-  --mensalize-card-border-pro: rgba(148, 163, 184, 0.16);
-  --mensalize-card-bg-pro: rgba(15, 23, 42, 0.64);
-  --mensalize-soft-bg-pro: rgba(255, 255, 255, 0.045);
-  --mensalize-soft-bg-hover-pro: rgba(255, 255, 255, 0.075);
-  --mensalize-focus-pro: rgba(167, 139, 250, 0.44);
-}
-
 /* Base: cards com padrão mais consistente */
 .painel-card,
 .config-card,
@@ -15430,13 +14914,16 @@ textarea:focus {
 }
 
 #viewAlunos #listaAlunos {
-  display: grid;
-  gap: 14px;
+  display: grid !important;
+  gap: var(--space-5) !important;
 }
 
 #viewAlunos .aluno-card-executivo {
   position: relative;
-  overflow: hidden;
+  display: grid !important;
+  gap: var(--space-5) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
   padding: 0 !important;
   border-radius: 24px !important;
   border: 1px solid rgba(255, 255, 255, 0.09) !important;
@@ -15461,8 +14948,11 @@ textarea:focus {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) auto !important;
   align-items: center !important;
+  justify-content: space-between !important;
   gap: 16px !important;
+  margin: 0 !important;
   padding: 18px 18px 12px !important;
+  border-bottom: 1px solid var(--borda) !important;
   cursor: default;
 }
 
@@ -15473,12 +14963,20 @@ textarea:focus {
   min-width: 0 !important;
 }
 
+#viewAlunos .aluno-topo-identidade > div:last-child {
+  display: grid !important;
+  gap: var(--space-2) !important;
+  min-width: 0 !important;
+}
+
 #viewAlunos .aluno-card-foto,
 #viewAlunos .aluno-card-avatar {
   width: 50px !important;
   height: 50px !important;
+  min-width: 52px !important;
   flex: 0 0 50px !important;
   border-radius: 17px !important;
+  object-fit: cover !important;
 }
 
 #viewAlunos .aluno-card-avatar {
@@ -15503,14 +15001,15 @@ textarea:focus {
 }
 
 #viewAlunos .aluno-nome-linha h3 {
-  margin: 0;
-  color: var(--texto-primario, #fff);
-  font-size: 16px;
-  line-height: 1.2;
+  margin: 0 !important;
+  color: var(--texto-primario) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
   letter-spacing: -0.025em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 #viewAlunos .aluno-status-operacional {
@@ -15539,7 +15038,7 @@ textarea:focus {
 }
 
 #viewAlunos .aluno-resumo-infos {
-  margin-top: 6px;
+  margin-top: 0 !important;
   display: flex !important;
   align-items: center;
   flex-wrap: wrap;
@@ -15548,13 +15047,15 @@ textarea:focus {
 }
 
 #viewAlunos .aluno-resumo-infos span {
-  display: inline-flex;
+  display: block !important;
   align-items: center;
   max-width: 220px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
   font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
   color: var(--texto-secundario, #a1a1aa) !important;
 }
 
@@ -15572,18 +15073,26 @@ textarea:focus {
   align-items: center !important;
   justify-content: flex-end !important;
   gap: 10px !important;
+  flex-wrap: wrap !important;
+  min-width: 190px !important;
 }
 
 #viewAlunos .aluno-resumo-direita .badge-status {
-  min-height: 30px;
+  align-self: flex-start !important;
+  min-height: 30px !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 11px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 900;
-  white-space: nowrap;
+  max-width: 180px !important;
+  margin-top: 2px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.06em !important;
+  text-align: center !important;
+  white-space: nowrap !important;
 }
 
 #viewAlunos .badge-status.status-pago {
@@ -15618,9 +15127,12 @@ textarea:focus {
 
 #viewAlunos .btn-opcoes-aluno {
   min-height: 34px !important;
+  height: 32px !important;
   padding: 0 13px !important;
   border-radius: 999px !important;
-  white-space: nowrap;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
 }
 
 #viewAlunos .aluno-card-kpis {
@@ -15662,17 +15174,29 @@ textarea:focus {
 }
 
 #viewAlunos .aluno-detalhes-recolhiveis {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-4px) !important;
   border-top: 1px solid transparent;
-  transition: max-height .25s ease, opacity .2s ease, border-color .2s ease;
+  transition:
+    max-height 260ms ease,
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms ease !important;
 }
 
 #viewAlunos .aluno-card.expandido .aluno-detalhes-recolhiveis {
-  max-height: 720px;
-  opacity: 1;
-  border-top-color: rgba(255,255,255,.075);
+  max-height: 720px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+  margin-top: 14px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 #viewAlunos .aluno-detalhes-grid {
@@ -15694,6 +15218,8 @@ textarea:focus {
   display: grid !important;
   grid-template-columns: 1.1fr 1fr;
   gap: 12px !important;
+  width: 100% !important;
+  margin: 0 !important;
   padding: 14px 18px 18px !important;
 }
 
@@ -15719,19 +15245,24 @@ textarea:focus {
 
 #viewAlunos .aluno-acoes-bloco button,
 #viewAlunos .aluno-acoes-bloco .badge-pago-confirmado {
+  width: auto !important;
+  min-width: 128px !important;
   min-height: 36px !important;
   border-radius: 12px !important;
   padding: 0 12px !important;
   font-size: 12px !important;
   font-weight: 800 !important;
+  justify-content: center !important;
+  text-align: center !important;
 }
 
 #viewAlunos .badge-pago-confirmado {
-  display: inline-flex;
-  align-items: center;
-  color: #86efac;
-  background: rgba(34,197,94,.10);
-  border: 1px solid rgba(34,197,94,.16);
+  display: inline-flex !important;
+  align-items: center !important;
+  color: #86efac !important;
+  background: rgba(34, 197, 94, 0.13) !important;
+  border: 1px solid rgba(34, 197, 94, 0.24) !important;
+  font-weight: 600 !important;
 }
 
 #viewAlunos .alunos-empty-state {
@@ -15771,6 +15302,19 @@ textarea:focus {
   line-height: 1.5;
 }
 
+@media (max-width: 900px) {
+  #viewAlunos .aluno-card-resumo {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  #viewAlunos .aluno-resumo-direita {
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+    padding-left: 60px !important;
+  }
+}
+
 @media (max-width: 820px) {
   #viewAlunos .lista-topo {
     flex-direction: column;
@@ -15782,7 +15326,6 @@ textarea:focus {
   }
 
   #viewAlunos .aluno-card-resumo {
-    grid-template-columns: 1fr !important;
     align-items: stretch !important;
   }
 
@@ -15794,6 +15337,21 @@ textarea:focus {
   #viewAlunos .aluno-detalhes-grid,
   #viewAlunos .acoes-premium-recolhidas {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  #viewAlunos #listaAlunos {
+    gap: var(--space-4) !important;
+  }
+
+  #viewAlunos .aluno-card-executivo {
+    gap: var(--space-4) !important;
+  }
+
+  #viewAlunos .aluno-resumo-direita .badge-status {
+    align-self: flex-start !important;
+    max-width: 100% !important;
   }
 }
 
@@ -15838,8 +15396,10 @@ textarea:focus {
 
   #viewAlunos .aluno-resumo-direita {
     display: grid !important;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr !important;
     gap: 8px !important;
+    width: 100% !important;
+    padding-left: 0 !important;
   }
 
   #viewAlunos .aluno-resumo-direita .badge-status {
@@ -15864,8 +15424,15 @@ textarea:focus {
 
   #viewAlunos .aluno-acoes-bloco button,
   #viewAlunos .aluno-acoes-bloco .badge-pago-confirmado {
-    width: 100%;
+    width: 100% !important;
     justify-content: center;
+  }
+
+  #viewAlunos .aluno-resumo-direita .badge-status,
+  #viewAlunos .btn-opcoes-aluno,
+  #viewAlunos .acoes-premium-recolhidas button,
+  #viewAlunos .badge-pago-confirmado {
+    width: 100% !important;
   }
 }
 
@@ -17309,27 +16876,17 @@ body.perfil-aluno-aberto {
 #centralAcaoDashboard.central-acao-dashboard {
   position: relative;
   overflow: hidden;
-  margin: 18px 0 20px !important;
-  padding: clamp(18px, 3vw, 24px) !important;
-  border-radius: 30px !important;
-  border: 1px solid rgba(196, 181, 253, 0.16) !important;
+  margin: 16px 0 20px !important;
+  padding: clamp(16px, 2.2vw, 20px) !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
   background:
-    radial-gradient(circle at 92% -8%, rgba(124, 58, 237, 0.26), transparent 34%),
-    radial-gradient(circle at 18% 110%, rgba(56, 189, 248, 0.12), transparent 30%),
-    linear-gradient(135deg, rgba(13, 16, 30, 0.98), rgba(9, 11, 22, 0.94)) !important;
-  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.28) !important;
+    linear-gradient(180deg, rgba(18, 20, 36, 0.86), rgba(12, 14, 26, 0.92)) !important;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.20) !important;
 }
 
 #centralAcaoDashboard::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.030) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-  background-size: 34px 34px;
-  mask-image: radial-gradient(circle at 50% 0%, rgba(0,0,0,.72), transparent 68%);
+  display: none !important;
 }
 
 #centralAcaoDashboard > * {
@@ -17338,12 +16895,18 @@ body.perfil-aluno-aberto {
 }
 
 .central-acao-topo {
-  margin-bottom: 18px !important;
+  align-items: center !important;
+  margin-bottom: 12px !important;
 }
 
 .central-acao-topo h3 {
-  font-size: clamp(26px, 4vw, 38px) !important;
-  letter-spacing: -0.07em !important;
+  font-size: clamp(20px, 2.4vw, 26px) !important;
+  letter-spacing: -0.055em !important;
+}
+
+.central-acao-topo p {
+  max-width: 620px;
+  font-size: 13px !important;
 }
 
 .dashboard-status-operacao.status-critico {
@@ -17354,24 +16917,24 @@ body.perfil-aluno-aberto {
 
 .central-acao-layout {
   display: grid;
-  grid-template-columns: minmax(300px, 0.92fr) minmax(0, 1.55fr);
-  gap: 14px;
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
   align-items: stretch;
 }
 
 .central-acao-principal {
   position: relative;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
   gap: 15px;
   align-content: start;
-  min-height: 100%;
-  padding: 20px;
-  border-radius: 24px;
+  align-items: center !important;
+  min-height: unset !important;
+  padding: 15px 16px !important;
+  border-radius: 20px !important;
   border: 1px solid rgba(196, 181, 253, 0.18);
   background:
-    radial-gradient(circle at 100% 0%, rgba(167, 139, 250, 0.18), transparent 38%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.04));
+    linear-gradient(135deg, rgba(124, 58, 237, 0.14), rgba(255, 255, 255, 0.045)) !important;
   cursor: pointer;
   transition: transform var(--trans), border-color var(--trans), background var(--trans);
 }
@@ -17389,14 +16952,14 @@ body.perfil-aluno-aberto {
 }
 
 .central-acao-principal-icone {
-  width: 52px;
-  height: 52px;
+  width: 42px !important;
+  height: 42px !important;
   display: grid;
   place-items: center;
-  border-radius: 18px;
+  border-radius: 15px !important;
   background: rgba(124, 58, 237, 0.18);
   border: 1px solid rgba(196, 181, 253, 0.22);
-  font-size: 24px;
+  font-size: 20px !important;
 }
 
 .central-acao-principal-conteudo {
@@ -17406,22 +16969,22 @@ body.perfil-aluno-aberto {
 .central-acao-principal-label {
   display: inline-flex;
   width: fit-content;
-  margin-bottom: 8px;
-  padding: 5px 9px;
+  margin-bottom: 5px !important;
+  padding: 4px 8px !important;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.10);
   color: var(--cor-roxo-claro);
-  font-size: 10px;
+  font-size: 9px !important;
   font-weight: 800;
   letter-spacing: 0.10em;
   text-transform: uppercase;
 }
 
 .central-acao-principal h4 {
-  margin: 0 0 8px;
+  margin: 0 0 4px !important;
   color: #fff;
-  font-size: clamp(19px, 2.3vw, 27px);
+  font-size: clamp(17px, 2vw, 22px) !important;
   line-height: 1.04;
   letter-spacing: -0.055em;
 }
@@ -17429,43 +16992,45 @@ body.perfil-aluno-aberto {
 .central-acao-principal p {
   margin: 0;
   color: var(--texto-secundario);
-  font-size: 13px;
+  font-size: 12.5px !important;
   line-height: 1.45;
 }
 
 .central-acao-principal-meta {
-  margin-top: 12px;
+  margin-top: 7px !important;
   color: var(--texto-terciario);
-  font-size: 12px;
+  font-size: 11px !important;
   font-weight: 700;
 }
 
 .central-acao-principal-botao {
-  grid-column: 1 / -1;
-  width: 100%;
-  margin-top: 6px;
-  min-height: 46px !important;
-  border-radius: 16px !important;
+  grid-column: auto !important;
+  width: auto !important;
+  min-width: 138px !important;
+  margin-top: 0 !important;
+  min-height: 42px !important;
+  border-radius: 14px !important;
+  white-space: nowrap;
 }
 
 .central-acao-grid.dashboard-executivo-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 10px !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 8px !important;
 }
 
 .central-acao-item.dashboard-executivo-item {
-  min-height: 142px !important;
-  padding: 15px 15px 14px !important;
-  border-radius: 22px !important;
+  min-height: 96px !important;
+  padding: 12px !important;
+  border-radius: 18px !important;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto !important;
   grid-template-areas:
-    "icon icon"
     "label number"
-    "detail number"
-    "action action";
+    "detail detail"
+    "action action" !important;
   align-items: start;
   column-gap: 12px;
+  background: rgba(255, 255, 255, 0.045) !important;
 }
 
 .central-acao-item.dashboard-executivo-item::before {
@@ -17476,42 +17041,36 @@ body.perfil-aluno-aberto {
 }
 
 .central-acao-item-icone {
-  grid-area: icon;
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 10px;
-  border-radius: 13px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  font-size: 16px;
+  display: none !important;
 }
 
 .central-acao-item .dashboard-executivo-label {
   grid-area: label;
-  margin: 0 0 5px !important;
-  font-size: 10px !important;
+  margin: 0 !important;
+  font-size: 9px !important;
 }
 
 .central-acao-item strong {
   grid-area: number;
   margin: 0 !important;
-  font-size: clamp(30px, 4vw, 42px) !important;
+  font-size: clamp(20px, 2.5vw, 28px) !important;
+  line-height: 1 !important;
   text-align: right;
 }
 
 .central-acao-item small {
   grid-area: detail;
-  min-height: 34px;
+  min-height: 30px !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
 }
 
 .central-acao-item em {
   grid-area: action;
   align-self: end;
-  margin-top: 12px;
+  margin-top: 4px !important;
   color: var(--cor-roxo-claro);
-  font-size: 12px;
+  font-size: 10.5px !important;
   font-style: normal;
   font-weight: 800;
 }
@@ -17538,203 +17097,6 @@ body.perfil-aluno-aberto {
 
 .central-acao-item.status-ok::before {
   background: linear-gradient(90deg, #22c55e, #86efac);
-}
-
-@media (max-width: 1100px) {
-  .central-acao-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .central-acao-grid.dashboard-executivo-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-@media (max-width: 640px) {
-  #centralAcaoDashboard.central-acao-dashboard {
-    padding: 16px !important;
-    border-radius: 26px !important;
-  }
-
-  .central-acao-principal {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 16px;
-  }
-
-  .central-acao-principal-icone {
-    width: 46px;
-    height: 46px;
-    border-radius: 16px;
-  }
-
-  .central-acao-grid.dashboard-executivo-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .central-acao-item.dashboard-executivo-item {
-    min-height: 118px !important;
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas:
-      "icon label number"
-      "icon detail number"
-      "action action action";
-    align-items: center;
-  }
-
-  .central-acao-item-icone {
-    margin: 0;
-  }
-
-  .central-acao-item small {
-    min-height: 0;
-  }
-
-  .central-acao-item em {
-    margin-top: 8px;
-  }
-}
-
-
-/* ================================================================
-   DASHBOARD — AJUSTE DE HIERARQUIA VISUAL
-   Métricas financeiras no topo e Central de Ação mais limpa.
-================================================================ */
-
-#viewDashboard .dashboard-hero {
-  margin-bottom: 14px !important;
-}
-
-#viewDashboard .banner-trial-plano + .cards-dashboard,
-#viewDashboard .cards-dashboard {
-  margin: 0 0 16px !important;
-}
-
-#viewDashboard .cards-dashboard {
-  order: initial;
-}
-
-#centralAcaoDashboard.central-acao-dashboard {
-  margin: 16px 0 20px !important;
-  padding: clamp(16px, 2.2vw, 20px) !important;
-  border-radius: 24px !important;
-  border-color: rgba(255, 255, 255, 0.10) !important;
-  background:
-    linear-gradient(180deg, rgba(18, 20, 36, 0.86), rgba(12, 14, 26, 0.92)) !important;
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.20) !important;
-}
-
-#centralAcaoDashboard::after {
-  display: none !important;
-}
-
-.central-acao-topo {
-  align-items: center !important;
-  margin-bottom: 12px !important;
-}
-
-.central-acao-topo h3 {
-  font-size: clamp(20px, 2.4vw, 26px) !important;
-  letter-spacing: -0.055em !important;
-}
-
-.central-acao-topo p {
-  max-width: 620px;
-  font-size: 13px !important;
-}
-
-.central-acao-layout {
-  grid-template-columns: 1fr !important;
-  gap: 12px !important;
-}
-
-.central-acao-principal {
-  grid-template-columns: auto minmax(0, 1fr) auto !important;
-  align-items: center !important;
-  min-height: unset !important;
-  padding: 15px 16px !important;
-  border-radius: 20px !important;
-  background:
-    linear-gradient(135deg, rgba(124, 58, 237, 0.14), rgba(255, 255, 255, 0.045)) !important;
-}
-
-.central-acao-principal-icone {
-  width: 42px !important;
-  height: 42px !important;
-  border-radius: 15px !important;
-  font-size: 20px !important;
-}
-
-.central-acao-principal-label {
-  margin-bottom: 5px !important;
-  padding: 4px 8px !important;
-  font-size: 9px !important;
-}
-
-.central-acao-principal h4 {
-  margin-bottom: 4px !important;
-  font-size: clamp(17px, 2vw, 22px) !important;
-}
-
-.central-acao-principal p {
-  font-size: 12.5px !important;
-}
-
-.central-acao-principal-meta {
-  margin-top: 7px !important;
-  font-size: 11px !important;
-}
-
-.central-acao-principal-botao {
-  grid-column: auto !important;
-  width: auto !important;
-  min-width: 138px !important;
-  margin-top: 0 !important;
-  min-height: 42px !important;
-  border-radius: 14px !important;
-  white-space: nowrap;
-}
-
-.central-acao-grid.dashboard-executivo-grid {
-  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-  gap: 8px !important;
-}
-
-.central-acao-item.dashboard-executivo-item {
-  min-height: 96px !important;
-  padding: 12px !important;
-  border-radius: 18px !important;
-  grid-template-columns: 1fr auto !important;
-  grid-template-areas:
-    "label number"
-    "detail detail"
-    "action action" !important;
-  background: rgba(255, 255, 255, 0.045) !important;
-}
-
-.central-acao-item-icone {
-  display: none !important;
-}
-
-.central-acao-item .dashboard-executivo-label {
-  font-size: 9px !important;
-  margin-bottom: 0 !important;
-}
-
-.central-acao-item strong {
-  font-size: clamp(20px, 2.5vw, 28px) !important;
-  line-height: 1 !important;
-}
-
-.central-acao-item small {
-  min-height: 30px !important;
-  font-size: 11px !important;
-  line-height: 1.25 !important;
-}
-
-.central-acao-item em {
-  margin-top: 4px !important;
-  font-size: 10.5px !important;
 }
 
 @media (max-width: 1180px) {

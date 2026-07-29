@@ -73,23 +73,17 @@
   --sombra-lg: 0 24px 70px rgba(0, 0, 0, 0.42);
   --sombra-roxo: none;
 
+  /* Shared professional components */
+  --mensalize-card-radius-pro: 24px;
+  --mensalize-card-border-pro: rgba(148, 163, 184, 0.16);
+  --mensalize-card-bg-pro: rgba(15, 23, 42, 0.64);
+  --mensalize-soft-bg-pro: rgba(255, 255, 255, 0.045);
+  --mensalize-soft-bg-hover-pro: rgba(255, 255, 255, 0.075);
+  --mensalize-focus-pro: rgba(167, 139, 250, 0.44);
+
   /* Safe areas */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
-}
-
-html[data-tema="claro"],
-body[data-tema="claro"],
-[data-tema="claro"] {
-  --bg-base: #060712;
-  --bg-nivel-1: #0d0f1a;
-  --bg-nivel-2: #111321;
-  --bg-nivel-3: #171a2b;
-  --bg-input: #0a0c16;
-  --texto-primario: #f8fafc;
-  --texto-secundario: #b6bccd;
-  --texto-terciario: #7d8498;
-  --borda: rgba(255, 255, 255, 0.12);
 }

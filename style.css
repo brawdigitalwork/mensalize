@@ -4528,93 +4528,8 @@ textarea:focus-visible {
 }
 
 /* ================================================================
-   FASE 4 — FINANCEIRO POR MÊS + AVISOS COM PERÍODO
+   AVISOS COM PERÍODO
 ================================================================ */
-.financeiro-filtros-mes {
-  display: grid;
-  grid-template-columns: minmax(180px, 220px) minmax(160px, 200px) auto;
-  gap: 12px;
-  align-items: end;
-  margin: 18px 0;
-}
-
-.campo-filtro-financeiro {
-  display: grid;
-  gap: 7px;
-  margin: 0;
-}
-
-.campo-filtro-financeiro span {
-  color: var(--texto-secundario);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.financeiro-resumo-grid-v2 {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-}
-
-.financeiro-lista-mensal-wrap {
-  margin-top: 18px;
-  border-top: 1px solid var(--borda);
-  padding-top: 18px;
-}
-
-.financeiro-lista-topo {
-  margin-bottom: 12px;
-}
-
-.financeiro-lista-mensal {
-  display: grid;
-  gap: 10px;
-}
-
-.financeiro-linha-mensal {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 13px 14px;
-  border-radius: var(--raio-lg);
-  background: rgba(255,255,255,0.045);
-  border: 1px solid var(--borda);
-}
-
-.financeiro-linha-mensal > div:first-child {
-  min-width: 0;
-}
-
-.financeiro-linha-mensal strong {
-  display: block;
-  color: var(--texto-primario);
-}
-
-.financeiro-linha-mensal span {
-  display: block;
-  color: var(--texto-secundario);
-  font-size: 12px;
-}
-
-.financeiro-linha-dir {
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-  gap: 6px;
-  text-align: right;
-  flex-shrink: 0;
-}
-
-.financeiro-linha-mensal.status-atrasado {
-  border-color: rgba(239, 68, 68, 0.28);
-  background: rgba(239, 68, 68, 0.07);
-}
-
-.financeiro-linha-mensal.status-pago {
-  border-color: rgba(34, 197, 94, 0.25);
-  background: rgba(34, 197, 94, 0.06);
-}
 
 .aviso-badges-row {
   display: flex;
@@ -4641,32 +4556,7 @@ textarea:focus-visible {
   opacity: 0.72;
 }
 
-@media (max-width: 980px) {
-  .financeiro-resumo-grid-v2 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 720px) {
-  .financeiro-filtros-mes {
-    grid-template-columns: 1fr;
-  }
-
-  .financeiro-resumo-grid-v2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .financeiro-linha-mensal {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .financeiro-linha-dir {
-    width: 100%;
-    align-items: flex-start;
-    text-align: left;
-  }
-
   .aviso-acoes {
     justify-content: flex-start;
   }
@@ -14160,6 +14050,10 @@ body[data-tema="claro"] .solicitacao-observacao {
   align-items: flex-start;
 }
 
+.financeiro-resumo-pro {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 .financeiro-resumo-pro .financeiro-box {
   min-height: 116px;
 }
@@ -14231,9 +14125,26 @@ body[data-tema="claro"] .solicitacao-observacao {
   white-space: nowrap;
 }
 
+.campo-filtro-financeiro {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+}
+
+.campo-filtro-financeiro span {
+  color: var(--texto-secundario);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .financeiro-filtros-pro {
+  display: grid;
   grid-template-columns: minmax(180px, 220px) minmax(160px, 200px) minmax(240px, auto);
+  gap: 12px;
   align-items: end;
+  margin: 18px 0;
   padding: 14px;
   border: 1px solid var(--borda);
   border-radius: 20px;
@@ -14249,13 +14160,54 @@ body[data-tema="claro"] .solicitacao-observacao {
 }
 
 .financeiro-lista-pro {
+  display: grid;
+  gap: 10px;
   margin-top: 16px;
 }
 
 .financeiro-linha-pro {
+  display: flex;
   align-items: stretch !important;
+  justify-content: space-between;
+  gap: 12px;
   padding: 16px !important;
+  border: 1px solid var(--borda);
   border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.financeiro-linha-pro > div:first-child {
+  min-width: 0;
+}
+
+.financeiro-linha-pro strong {
+  display: block;
+  color: var(--texto-primario);
+}
+
+.financeiro-linha-pro span {
+  display: block;
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+.financeiro-linha-dir {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.financeiro-linha-pro.status-atrasado {
+  border-color: rgba(239, 68, 68, 0.28);
+  background: rgba(239, 68, 68, 0.07);
+}
+
+.financeiro-linha-pro.status-pago {
+  border-color: rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.06);
 }
 
 .financeiro-linha-info {
@@ -14647,7 +14599,6 @@ body[data-tema="claro"] .perfil-configuracoes-page .config-modulo-item:has(input
 /* Base: cards com padrão mais consistente */
 .painel-card,
 .config-card,
-.financeiro-card-mensal,
 .solicitacao-card,
 .solicitacao-card-v2,
 .aviso-card,
@@ -14665,7 +14616,6 @@ body[data-tema="claro"] .perfil-configuracoes-page .config-modulo-item:has(input
 .painel-topo,
 .page-header,
 .config-section-head,
-.financeiro-header-pro,
 .solicitacoes-topo,
 .avisos-topo-profissional {
   gap: 14px !important;
@@ -14712,7 +14662,6 @@ textarea:focus {
 .lista-vazia,
 .estado-vazio,
 .mensagem-vazia,
-.financeiro-empty,
 .ranking-empty,
 .solicitacoes-empty,
 .avisos-empty {
@@ -14738,7 +14687,6 @@ textarea:focus {
 .lista-vazia::before,
 .estado-vazio::before,
 .mensagem-vazia::before,
-.financeiro-empty::before,
 .ranking-empty::before,
 .solicitacoes-empty::before,
 .avisos-empty::before {
@@ -14792,7 +14740,6 @@ textarea:focus {
 .status-chip,
 .config-etiqueta,
 .solicitacao-status,
-.financeiro-status,
 .aviso-chip,
 .badge,
 .chip {
@@ -14813,7 +14760,6 @@ textarea:focus {
 /* Microinteração leve em cards clicáveis */
 .solicitacao-card-v2,
 .aviso-card-profissional,
-.financeiro-card-mensal,
 .ranking-item,
 .aluno-card {
   transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease !important;
@@ -14821,7 +14767,6 @@ textarea:focus {
 
 .solicitacao-card-v2:hover,
 .aviso-card-profissional:hover,
-.financeiro-card-mensal:hover,
 .ranking-item:hover,
 .aluno-card:hover {
   border-color: rgba(167, 139, 250, 0.28) !important;
@@ -14832,7 +14777,6 @@ textarea:focus {
 @media (max-width: 720px) {
   .painel-card,
   .config-card,
-  .financeiro-card-mensal,
   .solicitacao-card-v2,
   .aviso-card-profissional,
   .presenca-card-presenca,
@@ -14846,7 +14790,6 @@ textarea:focus {
   .lista-vazia,
   .estado-vazio,
   .mensagem-vazia,
-  .financeiro-empty,
   .ranking-empty,
   .solicitacoes-empty,
   .avisos-empty {
@@ -14859,7 +14802,6 @@ textarea:focus {
   .painel-topo,
   .page-header,
   .config-section-head,
-  .financeiro-header-pro,
   .solicitacoes-topo,
   .avisos-topo-profissional {
     align-items: flex-start !important;

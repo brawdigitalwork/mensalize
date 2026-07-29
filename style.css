@@ -946,18 +946,11 @@ button:active { transform: scale(0.97); }
   min-height: 38px;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: all var(--trans);
 }
 
 .filtros button:hover,
 .filtro-evolucao:hover,
 .ranking-tab:hover { background: var(--cor-roxo-bg) !important; border-color: var(--borda-hover) !important; color: var(--texto-primario) !important; transform: none; }
-
-.filtro-ativo,
-.filtros button.ativo,
-.filtro-evolucao.ativo,
-.ranking-tab.ativo,
-.ranking-tab.selecionado { background: rgba(139, 92, 246, 0.18) !important; border-color: rgba(196, 181, 253, 0.25) !important; color: #fff !important; }
 
 [data-tema="claro"] .filtros button { background: rgba(17, 24, 39, 0.04) !important; border-color: var(--borda) !important; color: var(--texto-secundario) !important; }
 [data-tema="claro"] .filtro-ativo,
@@ -1508,7 +1501,6 @@ position: relative;
 .evolucao-mini-grid,
 .evolucao-resumo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 
-.evolucao-mini-card,
 .evolucao-item {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.085);
@@ -1520,7 +1512,7 @@ position: relative;
 .evolucao-item span,
 .evolucao-item small { display: block; color: var(--texto-secundario); font-size: 12px; margin-top: 4px; }
 
-.evolucao-mini-card strong { display: block; margin-top: 6px; color: var(--texto-primario); font-size: 26px; }
+.evolucao-mini-card strong { color: var(--texto-primario); }
 
 .lista-evolucao { display: grid; gap: 10px; margin-top: 14px; }
 
@@ -1535,10 +1527,6 @@ position: relative;
 
 .evolucao-acoes { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
 
-.evolucao-apto     { border-color: var(--verde-borda);      background: var(--verde-bg); }
-.evolucao-proximo  { border-color: var(--amarelo-borda);    background: var(--amarelo-bg); }
-.evolucao-evolucao { border-color: var(--cor-roxo-borda);   background: var(--cor-roxo-bg); }
-
 .aluno-evolucao-resumo { margin-top: 5px !important; color: var(--cor-roxo-claro) !important; font-size: 12px !important; }
 
 [data-tema="claro"] .evolucao-mini-card,
@@ -1547,27 +1535,8 @@ position: relative;
 /* ================================================================
    PRESENÇAS
 ================================================================ */
-.presencas-page { overflow: hidden; display: grid; gap: 16px; }
-
-.presenca-controles {
-  display: grid;
-  grid-template-columns: minmax(180px, 0.7fr) minmax(220px, 1fr) auto;
-  gap: 12px;
-  align-items: end;
-  margin-bottom: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 22px;
-  padding: 14px;
-}
-
 .presenca-controles select,
 .presenca-controles input { min-height: 48px; }
-
-.presenca-resumo-grid { margin-bottom: 14px; }
-.presenca-acoes { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
-
-.lista-presencas { display: grid; gap: 14px; margin-top: 14px; }
 
 .presenca-turma-card {
   background: rgba(255, 255, 255, 0.045);
@@ -1592,7 +1561,6 @@ position: relative;
   border: 1px solid var(--borda);
   border-radius: var(--raio-md);
   cursor: pointer;
-  transition: border-color var(--trans), background var(--trans), transform var(--trans);
 }
 
 .presenca-aluno-item:hover { border-color: var(--borda-hover); transform: translateY(-1px); }
@@ -1609,7 +1577,6 @@ position: relative;
   white-space: nowrap;
 }
 
-.presenca-aluno-item.presente { border-color: var(--verde-borda); background: var(--verde-bg); }
 .presenca-aluno-item.presente em { color: var(--verde); background: rgba(34, 197, 94, 0.12); border: 1px solid var(--verde-borda); }
 .presenca-aluno-item.faltou em   { color: var(--texto-secundario); background: rgba(255, 255, 255, 0.04); border: 1px solid var(--borda); }
 
@@ -2071,7 +2038,6 @@ position: relative;
   .grafico-topo,
   .section-title-row,
   .aluno-premium-topo,
-  .turma-item-topo,
   .aviso-topo {
     flex-direction: column !important;
     align-items: stretch !important;
@@ -2358,16 +2324,6 @@ position: relative;
 .turma-card:hover,
 .turma-item:hover { border-color: var(--borda-hover); }
 
-.turma-item-topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 12px;
-  min-width: 0;
-}
-
-.turma-item-topo h3,
 .aviso-topo h3 { overflow-wrap: anywhere; }
 
 /* ================================================================
@@ -3093,7 +3049,6 @@ border-radius: 18px !important;
 .presenca-aluno-item.presente {
   border-color: rgba(34, 197, 94, 0.36) !important;
   background: rgba(34, 197, 94, 0.07) !important;
-  box-shadow: 0 0 0 1px rgba(34,197,94,0.14) inset, 0 4px 14px rgba(34,197,94,0.08) !important;
 }
 
 /* ================================================================
@@ -3339,18 +3294,7 @@ border-radius: 20px !important;
 
 /* Número grande da evolução */
 .evolucao-mini-card strong {
-  font-size: 28px !important;
-  letter-spacing: -0.06em !important;
   font-variant-numeric: tabular-nums !important;
-  background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.68) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-[data-tema="claro"] .evolucao-mini-card strong {
-  -webkit-text-fill-color: var(--texto-primario);
-  background: none;
 }
 
 /* ================================================================
@@ -3749,10 +3693,6 @@ textarea:focus-visible {
 /* ================================================================
    DESAFIO DE PRESENÇA — PÓDIO DO PROFESSOR
 ================================================================ */
-.desafio-page .ranking-tabs {
-  margin: 16px 0 8px;
-}
-
 #listaRankingDesafioProfessor {
   display: grid;
   gap: 18px;
@@ -3918,8 +3858,7 @@ textarea:focus-visible {
   white-space: nowrap !important;
 }
 
-.desafio-ranking-podium .podium-card small,
-.desafio-ranking-podium .ranking-subtext {
+.desafio-ranking-podium .podium-card small {
   display: block !important;
   width: 100% !important;
   color: var(--texto-secundario) !important;
@@ -3997,8 +3936,7 @@ textarea:focus-visible {
   }
 
   .desafio-ranking-podium .podium-card strong { font-size: 12px !important; }
-  .desafio-ranking-podium .podium-card small,
-  .desafio-ranking-podium .ranking-subtext { font-size: 10px !important; }
+  .desafio-ranking-podium .podium-card small { font-size: 10px !important; }
 }
 
 
@@ -4077,8 +4015,7 @@ textarea:focus-visible {
   font-size: 11px !important;
 }
 
-.dashboard-ranking-home .desafio-ranking-podium .podium-card small,
-.dashboard-ranking-home .desafio-ranking-podium .ranking-subtext {
+.dashboard-ranking-home .desafio-ranking-podium .podium-card small {
   font-size: 9px !important;
 }
 
@@ -5916,48 +5853,11 @@ textarea:focus {
   gap: 16px;
 }
 
-.ranking-professor-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 12px 14px;
-  border: 1px solid var(--borda);
-  border-radius: var(--raio-lg);
-  background: rgba(255,255,255,0.045);
-}
-
-.ranking-professor-summary p {
-  color: var(--texto-secundario);
-  font-size: 13px;
-  margin: 0;
-}
-
-.ranking-turma-professor-lista {
-  display: grid;
-  gap: 16px;
-}
-
-.ranking-turma-card {
-  display: grid;
-  gap: 14px;
-  padding: 16px;
-  border: 1px solid var(--borda);
-  border-radius: var(--raio-xl);
-  background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.032));
-}
-
 .ranking-turma-topo {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   align-items: flex-start;
-}
-
-.ranking-turma-topo strong {
-  display: block;
-  font-size: 16px;
-  color: var(--texto-primario);
 }
 
 .ranking-turma-topo span:not(.mini-badge) {
@@ -5978,44 +5878,12 @@ textarea:focus {
   background: rgba(255,255,255,0.04);
 }
 
-.ranking-position {
-  width: 36px;
-  text-align: center;
-  font-weight: 600;
-  color: var(--cor-roxo-claro);
-}
-
-.ranking-row-info {
-  min-width: 0;
-}
-
-.ranking-row-info strong {
-  display: block;
-  color: var(--texto-primario);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.ranking-row-info small {
-  display: block;
-  color: var(--texto-secundario);
-}
-
-.ranking-empty-compact {
-  color: var(--texto-terciario);
-  font-size: 13px;
-  text-align: center;
-  padding: 8px;
-}
-
 .dashboard-ranking-home .btn-ranking-home-inline {
   display: none !important;
 }
 
 @media (max-width: 720px) {
   .desafio-page .painel-topo,
-  .ranking-professor-summary,
   .ranking-turma-topo {
     flex-direction: column;
     align-items: stretch;
@@ -6034,14 +5902,12 @@ textarea:focus {
 /* ================================================================
    V45 — RANKING DO PROFESSOR IGUAL AO PORTAL DO ALUNO
 ================================================================ */
-.ranking-lista-igual-aluno,
-.ranking-lista-home {
+.ranking-lista-igual-aluno {
   display: grid;
   gap: 10px;
 }
 
-.ranking-lista-igual-aluno .ranking-row,
-.ranking-lista-home .ranking-row {
+.ranking-lista-igual-aluno .ranking-row {
   display: grid;
   grid-template-columns: 52px auto minmax(0, 1fr);
   align-items: center;
@@ -6050,10 +5916,6 @@ textarea:focus {
   border: 1px solid var(--borda);
   border-radius: var(--raio-lg);
   background: rgba(255,255,255,0.045);
-}
-
-.ranking-lista-home .ranking-row {
-  padding: 12px;
 }
 
 .ranking-position {
@@ -6111,13 +5973,8 @@ textarea:focus {
   margin-top: 2px;
 }
 
-.ranking-professor-summary {
-  display: none !important;
-}
-
 @media (max-width: 640px) {
-  .ranking-lista-igual-aluno .ranking-row,
-  .ranking-lista-home .ranking-row {
+  .ranking-lista-igual-aluno .ranking-row {
     grid-template-columns: 42px auto minmax(0, 1fr);
     padding: 12px;
   }
@@ -11790,7 +11647,10 @@ textarea {
 }
 
 #viewPresencas .presenca-controles {
+  display: grid;
   grid-template-columns: minmax(160px, 0.75fr) minmax(210px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
   margin-bottom: 0;
   padding: 0;
   border: 0;
@@ -11811,6 +11671,9 @@ textarea {
 }
 
 #viewPresencas .presenca-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 0;
   justify-content: flex-end;
 }
@@ -11823,6 +11686,8 @@ textarea {
 }
 
 #viewPresencas .lista-presencas {
+  display: grid;
+  gap: 14px;
   margin-top: 0;
 }
 
@@ -14604,7 +14469,6 @@ body[data-tema="claro"] .perfil-configuracoes-page .config-modulo-item:has(input
 .aviso-card,
 .aviso-card-profissional,
 .aluno-card,
-.ranking-card,
 .presenca-card-presenca,
 .desafio-pontos-card,
 .desafio-historico-card {
@@ -14662,7 +14526,6 @@ textarea:focus {
 .lista-vazia,
 .estado-vazio,
 .mensagem-vazia,
-.ranking-empty,
 .solicitacoes-empty,
 .avisos-empty {
   width: 100% !important;
@@ -14687,7 +14550,6 @@ textarea:focus {
 .lista-vazia::before,
 .estado-vazio::before,
 .mensagem-vazia::before,
-.ranking-empty::before,
 .solicitacoes-empty::before,
 .avisos-empty::before {
   content: "";
@@ -14790,7 +14652,6 @@ textarea:focus {
   .lista-vazia,
   .estado-vazio,
   .mensagem-vazia,
-  .ranking-empty,
   .solicitacoes-empty,
   .avisos-empty {
     min-height: 112px !important;

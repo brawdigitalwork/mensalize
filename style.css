@@ -13316,6 +13316,7 @@ body .tela-login .login-aviso-seguranca {
   overflow: visible !important;
   text-overflow: clip !important;
   display: -webkit-box !important;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
@@ -13331,6 +13332,7 @@ body .tela-login .login-aviso-seguranca {
 
 .aviso-preview {
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -13394,6 +13396,7 @@ body .tela-login .login-aviso-seguranca {
 
   .aviso-preview {
     font-size: 12.5px !important;
+    line-clamp: 2;
     -webkit-line-clamp: 2;
   }
 

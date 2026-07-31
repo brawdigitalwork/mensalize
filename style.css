@@ -81,73 +81,14 @@ h2 {
 .sidebar-app {
   position: fixed !important;
   inset: 0 auto 0 0;
-  width: min(310px, 86vw) !important;
   height: 100dvh !important;
-  padding: 18px !important;
   flex-direction: column !important;
   align-items: stretch !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  background: linear-gradient(180deg, rgba(15, 16, 30, 0.98), rgba(8, 9, 18, 0.98)) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.10) !important;
-  box-shadow: 28px 0 100px rgba(0, 0, 0, 0.52) !important;
   transform: translateX(-110%);
   transition: transform 0.24s ease;
   z-index: 120;
-}
-
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 72px;
-  padding: 12px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  min-width: 0 !important;
-}
-
-.sidebar-brand strong { color: #fff; font-size: 18px; letter-spacing: -0.04em; }
-.sidebar-brand span   { color: var(--texto-secundario); font-size: 11px; margin-top: 2px; display: block; }
-
-.sidebar-logo {
-  width: 46px;
-  height: 46px;
-  border-radius: 16px;
-  object-fit: cover;
-  box-shadow: 0 14px 32px rgba(124, 58, 237, 0.26);
-}
-
-.sidebar-menu {
-  display: flex;
-  flex-direction: column !important;
-  gap: 8px !important;
-  margin-top: 8px;
-  min-width: 0 !important;
-}
-
-.menu-item {
-  width: 100%;
-  min-height: 48px;
-  justify-content: flex-start;
-  text-align: left;
-  background: transparent !important;
-  color: var(--texto-secundario) !important;
-  border: 1px solid transparent !important;
-  border-radius: 16px !important;
-  box-shadow: none !important;
-  font-weight: 700 !important;
-  white-space: normal !important;
-  transition: background var(--trans), border-color var(--trans), color var(--trans), transform var(--trans);
-}
-
-.menu-item:hover,
-.menu-item.ativo {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(56, 189, 248, 0.06)) !important;
-  color: #fff !important;
-  border-color: rgba(196, 181, 253, 0.18) !important;
-  transform: translateX(3px);
 }
 
 .sidebar-footer {
@@ -179,9 +120,6 @@ body.menu-aberto { overflow: hidden; }
 body.menu-aberto .sidebar-app    { transform: translateX(0); }
 body.menu-aberto .menu-overlay   { opacity: 1; visibility: visible; pointer-events: auto; }
 
-[data-tema="claro"] .sidebar-app    { background: rgba(255, 255, 255, 0.96) !important; }
-[data-tema="claro"] .sidebar-brand  { background: rgba(124, 58, 237, 0.06) !important; border-color: rgba(124, 58, 237, 0.14) !important; }
-[data-tema="claro"] .menu-overlay   { background: rgba(17, 24, 39, 0.42) !important; }
 
 /* ================================================================
    BARRA SUPERIOR
@@ -192,12 +130,8 @@ body.menu-aberto .menu-overlay   { opacity: 1; visibility: visible; pointer-even
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  min-height: 78px;
   height: auto;
-  padding: calc(14px + var(--safe-top)) max(6%, calc(5% + var(--safe-right))) 14px max(6%, calc(5% + var(--safe-left)));
-  background: rgba(7, 8, 18, 0.68);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-position: sticky;
+  position: sticky;
   top: 0;
   z-index: 100;
   width: 100%;
@@ -228,32 +162,6 @@ position: sticky;
 
 #descricaoPagina { color: var(--texto-secundario); max-width: 680px; }
 
-.page-eyebrow {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--cor-roxo-claro);
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(196, 181, 253, 0.16);
-  border-radius: var(--raio-pill);
-  padding: 7px 9px;
-  margin-bottom: 8px;
-  line-height: 1;
-}
-
-[data-tema="claro"] .topo,
-[data-tema="claro"] .topo-dashboard {
-  background: rgba(255, 255, 255, 0.88) !important;
-  border-bottom-color: var(--borda) !important;
-}
-
-[data-tema="claro"] .topo-esquerda h1,
-[data-tema="claro"] #tituloPagina { color: #151525 !important; }
 
 /* ================================================================
    BOTÃO MENU
@@ -275,7 +183,6 @@ position: sticky;
 
 .btn-menu:hover { background: rgba(139, 92, 246, 0.16) !important; transform: translateY(-1px); }
 
-[data-tema="claro"] .btn-menu { background: rgba(255, 255, 255, 0.82) !important; color: var(--texto-primario) !important; }
 
 /* ================================================================
    CAIXA DO USUÁRIO
@@ -311,15 +218,6 @@ position: sticky;
 /* ================================================================
    CONTAINER
 ================================================================ */
-.container,
-.container-dashboard {
-  padding: 22px max(6%, calc(5% + var(--safe-right))) calc(28px + var(--safe-bottom)) max(6%, calc(5% + var(--safe-left)));
-  max-width: 1440px;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
 /* ================================================================
    CARDS DE RESUMO
 ================================================================ */
@@ -373,8 +271,6 @@ position: sticky;
 .cards-dashboard .receber,
 .cards-dashboard .previsao { grid-column: span 1; }
 
-[data-tema="claro"] .card { background: #ffffff !important; border-color: var(--borda) !important; box-shadow: 0 8px 22px rgba(17, 24, 39, 0.05); }
-[data-tema="claro"] .card p { color: #151525 !important; }
 
 /* ================================================================
    ÁREA FORMULÁRIO E LISTA
@@ -440,17 +336,6 @@ min-width: 0;
   padding: clamp(20px, 4vw, 34px);
 }
 
-[data-tema="claro"] .dashboard-hero,
-[data-tema="claro"] .painel-card,
-[data-tema="claro"] .area-formulario,
-[data-tema="claro"] .lista,
-[data-tema="claro"] .financeiro-page,
-[data-tema="claro"] .modal-card {
-  background: rgba(255, 255, 255, 0.82) !important;
-  border-color: var(--borda) !important;
-  color: var(--texto-primario) !important;
-  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.06) !important;
-}
 
 /* ================================================================
    FORMULÁRIO
@@ -465,23 +350,6 @@ form {
 /* ================================================================
    INPUTS, SELECT, TEXTAREA
 ================================================================ */
-input,
-select,
-textarea {
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.055);
-  color: var(--texto-primario);
-  border: 1px solid rgba(255, 255, 255, 0.105);
-  border-radius: 15px;
-  outline: none;
-  width: 100%;
-  min-width: 0;
-  font-family: var(--fonte);
-  font-size: 16px; /* evita zoom no iOS */
-  min-height: 48px;
-  transition: border-color var(--trans), box-shadow var(--trans);
-}
-
 input::placeholder { color: var(--texto-terciario); font-size: 14px; }
 textarea { resize: vertical; min-height: 110px; }
 
@@ -505,13 +373,6 @@ select {
 select option         { background-color: #111118; color: #f4f4f6; font-size: 15px; }
 select option:checked { background-color: #8b5cf6; color: #fff; }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: rgba(196, 181, 253, 0.50);
-  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
-}
-
 label,
 .label-campo {
   display: block;
@@ -525,13 +386,6 @@ label,
 .campo-perfil { display: grid; gap: 7px; }
 .campo-cheio  { grid-column: 1 / -1; }
 
-[data-tema="claro"] input,
-[data-tema="claro"] select,
-[data-tema="claro"] textarea {
-  background: rgba(255, 255, 255, 0.92);
-  color: #151525;
-  border-color: var(--borda);
-}
 
 /* ================================================================
    BOTÕES
@@ -741,15 +595,6 @@ button:active { transform: scale(0.97); }
 }
 .btn-salvar-limite:hover { transform: translateY(-1px); box-shadow: var(--sombra-roxo); }
 
-[data-tema="claro"] .btn-menu,
-[data-tema="claro"] .btn-tema,
-[data-tema="claro"] .btn-admin,
-[data-tema="claro"] .btn-secundario,
-[data-tema="claro"] .btn-texto {
-  background: rgba(255, 255, 255, 0.82) !important;
-  border-color: var(--borda) !important;
-  color: var(--texto-primario) !important;
-}
 
 /* ================================================================
    BADGES
@@ -779,9 +624,6 @@ button:active { transform: scale(0.97); }
 .admin-status-atrasado { background: var(--vermelho-bg); color: #f87171;       border: 1px solid var(--vermelho-borda); }
 .admin-status-hoje     { background: var(--azul-bg);     color: var(--azul);   border: 1px solid var(--azul-borda); }
 .admin-status-pendente { background: var(--amarelo-bg);  color: var(--amarelo);border: 1px solid var(--amarelo-borda); }
-
-.badge-admin   { background: var(--cor-roxo); padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 700; }
-.badge-cliente { background: var(--bg-nivel-3); padding: 3px 9px; border-radius: 6px; font-size: 11px; color: var(--texto-secundario); }
 
 /* ================================================================
    CARD DO ALUNO
@@ -858,9 +700,6 @@ button:active { transform: scale(0.97); }
 .info-premium span   { display: block; color: var(--texto-terciario); font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
 .info-premium strong { color: var(--texto-primario); font-size: 16px; font-weight: 700; }
 
-[data-tema="claro"] .aluno-card { background: #ffffff !important; border-color: var(--borda) !important; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); }
-[data-tema="claro"] .aluno-premium-topo h3 { color: #151525 !important; }
-[data-tema="claro"] .info-premium { background: rgba(17, 24, 39, 0.035) !important; border-color: var(--borda) !important; }
 
 /* Avatar e foto no card */
 .aluno-topo-identidade { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
@@ -952,9 +791,6 @@ button:active { transform: scale(0.97); }
 .filtro-evolucao:hover,
 .ranking-tab:hover { background: var(--cor-roxo-bg) !important; border-color: var(--borda-hover) !important; color: var(--texto-primario) !important; transform: none; }
 
-[data-tema="claro"] .filtros button { background: rgba(17, 24, 39, 0.04) !important; border-color: var(--borda) !important; color: var(--texto-secundario) !important; }
-[data-tema="claro"] .filtro-ativo,
-[data-tema="claro"] .filtros button.ativo { background: var(--cor-roxo) !important; border-color: var(--cor-roxo) !important; color: #fff !important; }
 
 /* ================================================================
    CAMPO DE BUSCA
@@ -1042,7 +878,6 @@ padding: 0 !important;
 
 #modalAluno form { grid-template-columns: 1fr; }
 
-[data-tema="claro"] .modal { background: rgba(0, 0, 0, 0.4) !important; }
 
 /* ================================================================
    TOAST
@@ -1266,8 +1101,6 @@ position: relative;
 ================================================================ */
 .admin-container { max-width: 1000px; margin: auto; padding: 24px 20px calc(24px + var(--safe-bottom)); }
 .admin-topo      { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.admin-grid      { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
 .admin-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.060), rgba(255, 255, 255, 0.035));
   border: 1px solid rgba(255, 255, 255, 0.090);
@@ -1286,7 +1119,6 @@ position: relative;
 .admin-aluno-nome    { font-size: 13px; font-weight: 700; color: var(--texto-primario); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .admin-aluno-detalhe { font-size: 11px; color: var(--texto-terciario); }
 
-[data-tema="claro"] .admin-card { background: #ffffff !important; border-color: var(--borda) !important; }
 
 /* ================================================================
    EDIÇÃO RÁPIDA
@@ -1337,7 +1169,6 @@ position: relative;
 .pagamento-recente-item span   { color: var(--texto-terciario); font-size: 12px; }
 .pagamento-recente-valor       { color: var(--verde) !important; font-size: 14px !important; font-weight: 600; white-space: nowrap; }
 
-[data-tema="claro"] .pagamento-recente-item { background: rgba(17, 24, 39, 0.035) !important; border-color: var(--borda) !important; }
 
 /* ================================================================
    EMPTY STATE / MINI LOADING
@@ -1353,7 +1184,6 @@ position: relative;
   text-align: center;
 }
 
-[data-tema="claro"] .empty-state-mini { background: rgba(17, 24, 39, 0.035) !important; border-color: var(--borda) !important; }
 
 /* ================================================================
    DASHBOARD LAYOUT
@@ -1366,9 +1196,7 @@ position: relative;
 
 .ultimos-pagamentos,
 .lista-evolucao,
-.lista-presencas,
-.avisos-lista,
-.lista-solicitacoes { display: grid; gap: 10px; }
+.lista-presencas { display: grid; gap: 10px; }
 
 .hero-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
 
@@ -1399,7 +1227,6 @@ position: relative;
 .financeiro-box.receber strong { color: var(--azul); }
 .financeiro-box.previsao strong { color: var(--cor-roxo-claro); }
 
-[data-tema="claro"] .financeiro-box { background: rgba(17, 24, 39, 0.035) !important; border-color: var(--borda) !important; }
 
 #viewFinanceiro .area-grafico { margin-top: 18px; }
 
@@ -1421,8 +1248,6 @@ position: relative;
   box-shadow: none;
 }
 
-[data-tema="claro"] .acao-rapida { background: rgba(17, 24, 39, 0.035) !important; border-color: var(--borda) !important; }
-[data-tema="claro"] .acao-rapida:hover { background: rgba(124, 58, 237, 0.10) !important; border-color: rgba(124, 58, 237, 0.25) !important; }
 
 /* ================================================================
    PERFIL
@@ -1441,35 +1266,8 @@ position: relative;
 .campo-perfil { display: grid; gap: 7px; }
 .campo-perfil span { color: var(--texto-secundario); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
 
-.perfil-ajuda {
-  color: var(--texto-secundario);
-  background: rgba(255, 255, 255, 0.035);
-  border: 1px solid var(--borda);
-  border-radius: var(--raio-md);
-  padding: 12px 14px;
-  font-size: 13px;
-}
-
-.perfil-ajuda strong { color: var(--texto-primario); }
-
 .btn-salvar-perfil { width: fit-content; min-width: 180px; }
 .msg-perfil { color: var(--verde); font-size: 13px; min-height: 20px; }
-
-.perfil-recursos {
-  display: grid;
-  gap: 10px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 22px;
-}
-
-.perfil-recursos-titulo { color: #fff; font-weight: 600; font-size: 13px; }
-.perfil-recursos label  { display: flex; align-items: center; gap: 10px; color: var(--texto-secundario); font-size: 14px; }
-.perfil-recursos input[type="checkbox"] { width: auto; min-height: auto; accent-color: var(--cor-roxo); }
-
-[data-tema="claro"] .perfil-ajuda      { background: rgba(0, 0, 0, 0.035) !important; }
-[data-tema="claro"] .perfil-recursos   { background: #ffffff !important; border-color: rgba(17, 24, 39, 0.10) !important; }
 
 /* ================================================================
    FORMULÁRIO SEÇÃO
@@ -1493,7 +1291,6 @@ position: relative;
 .form-section select,
 .form-section textarea { width: 100%; }
 
-[data-tema="claro"] .form-section { background: #ffffff; border-color: rgba(17, 24, 39, 0.10); }
 
 /* ================================================================
    EVOLUÇÃO / GRADUAÇÃO
@@ -1529,8 +1326,6 @@ position: relative;
 
 .aluno-evolucao-resumo { margin-top: 5px !important; color: var(--cor-roxo-claro) !important; font-size: 12px !important; }
 
-[data-tema="claro"] .evolucao-mini-card,
-[data-tema="claro"] .evolucao-item { background: #ffffff; border-color: rgba(17, 24, 39, 0.10); }
 
 /* ================================================================
    PRESENÇAS
@@ -1580,42 +1375,14 @@ position: relative;
 .presenca-aluno-item.presente em { color: var(--verde); background: rgba(34, 197, 94, 0.12); border: 1px solid var(--verde-borda); }
 .presenca-aluno-item.faltou em   { color: var(--texto-secundario); background: rgba(255, 255, 255, 0.04); border: 1px solid var(--borda); }
 
-[data-tema="claro"] .presenca-turma-card,
-[data-tema="claro"] .presenca-aluno-item { background: #ffffff; border-color: rgba(17, 24, 39, 0.10); }
-[data-tema="claro"] .presenca-aluno-item.presente { background: rgba(34, 197, 94, 0.10); border-color: rgba(34, 197, 94, 0.25); }
 
 /* ================================================================
    SOLICITAÇÕES DE ALTERAÇÃO
 ================================================================ */
-.lista-solicitacoes { display: grid; gap: 12px; margin-top: 16px; }
-
 .solicitacao-card {
-  display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 14px;
   align-items: center;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.085);
-  border-radius: var(--raio-lg);
-  padding: 16px;
 }
-
-.solicitacao-card h3  { font-size: 16px; margin-bottom: 8px; }
-.solicitacao-card p,
-.solicitacao-card small { color: var(--texto-secundario); font-size: 13px; display: block; margin-top: 4px; }
-
-.solicitacao-acoes { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
-.solicitacao-acoes button { min-width: 92px; }
-
-.solicitacao-card.status-aprovada { border-color: var(--verde-borda); }
-.solicitacao-card.status-recusada { opacity: 0.75; border-color: var(--vermelho-borda); }
-
-/* ================================================================
-   AVISOS
-================================================================ */
-.avisos-page   { display: grid; gap: 16px; }
-.aviso-topo    { min-width: 0; }
-.aviso-card    { min-width: 0; max-width: 100%; box-sizing: border-box; }
 
 /* ================================================================
    CHIPS — DIAS DA SEMANA
@@ -1751,7 +1518,7 @@ position: relative;
 .view-app, .dashboard-grid, .cards-dashboard, .cards,
 .lista, .area-formulario, .painel-card, .dashboard-hero,
 .financeiro-page, .financeiro-box, .aluno-card,
-.turma-card, .turma-item, .aviso-card, .solicitacao-card,
+.turma-card, .turma-item, .solicitacao-card,
 .presenca-turma-card {
   min-width: 0;
   max-width: 100%;
@@ -1764,9 +1531,7 @@ position: relative;
 
 /* Imagens nunca empurram a tela */
 .view-app img, .lista img, .painel-card img, .area-formulario img,
-.dashboard-hero img, .aniversariantes-container img, .aniversariantes-lista img,
-.lista-aniversariantes img, .card-aniversariante img, .aniversariante-card img,
-.birthday-card img, [class*="anivers"] img, [class*="birthday"] img {
+.dashboard-hero img, [class*="anivers"] img, [class*="birthday"] img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -1776,13 +1541,7 @@ position: relative;
 /* ================================================================
    ANIVERSARIANTES
 ================================================================ */
-#aniversariantes,
-#listaAniversariantes,
-#cardsAniversariantes,
-.aniversariantes,
-.aniversariantes-container,
-.aniversariantes-lista,
-.lista-aniversariantes {
+#listaAniversariantes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 220px));
   gap: 18px;
@@ -1792,9 +1551,7 @@ position: relative;
   max-width: 100%;
 }
 
-#aniversariantes > *, #listaAniversariantes > *, #cardsAniversariantes > *,
-.aniversariantes > *, .aniversariantes-container > *,
-.aniversariantes-lista > *, .lista-aniversariantes > * {
+#listaAniversariantes > * {
   width: 100%;
   max-width: 220px;
   min-height: 210px;
@@ -1811,9 +1568,7 @@ position: relative;
   border: 1px solid rgba(255, 255, 255, 0.075);
 }
 
-#aniversariantes img, #listaAniversariantes img, #cardsAniversariantes img,
-.aniversariantes img, .aniversariantes-container img,
-.aniversariantes-lista img, .lista-aniversariantes img {
+#listaAniversariantes img {
   width: 82px !important;
   height: 82px !important;
   max-width: 82px !important;
@@ -1828,13 +1583,9 @@ position: relative;
   flex-shrink: 0;
 }
 
-#aniversariantes p, #aniversariantes strong, #aniversariantes span,
-#listaAniversariantes p, #listaAniversariantes strong, #listaAniversariantes span,
-#cardsAniversariantes p, #cardsAniversariantes strong, #cardsAniversariantes span,
-.aniversariantes p, .aniversariantes strong, .aniversariantes span,
-.aniversariantes-container p, .aniversariantes-container strong, .aniversariantes-container span,
-.aniversariantes-lista p, .aniversariantes-lista strong, .aniversariantes-lista span,
-.lista-aniversariantes p, .lista-aniversariantes strong, .lista-aniversariantes span {
+#listaAniversariantes p,
+#listaAniversariantes strong,
+#listaAniversariantes span {
   text-align: center;
   width: 100%;
   max-width: 100%;
@@ -1844,9 +1595,7 @@ position: relative;
   overflow-wrap: break-word;
 }
 
-#aniversariantes button, #listaAniversariantes button, #cardsAniversariantes button,
-.aniversariantes button, .aniversariantes-container button,
-.aniversariantes-lista button, .lista-aniversariantes button {
+#listaAniversariantes button {
   width: 100% !important;
   max-width: 150px !important;
   min-height: 42px !important;
@@ -1928,7 +1677,6 @@ position: relative;
   .usuario-box  { width: 100%; justify-content: space-between; flex-wrap: wrap; }
   .container    { padding: 16px 5% calc(24px + var(--safe-bottom)); }
   .banner-vencimentos { margin: 10px 5% 0; }
-  .admin-grid   { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 800px) {
@@ -2026,7 +1774,7 @@ position: relative;
   .aluno-card,
   .presenca-controles,
   .turma-card, .turma-item,
-  .aviso-card, .solicitacao-card {
+  .solicitacao-card {
     border-radius: 22px !important;
     padding: 16px !important;
   }
@@ -2037,8 +1785,7 @@ position: relative;
   .topo-form,
   .grafico-topo,
   .section-title-row,
-  .aluno-premium-topo,
-  .aviso-topo {
+  .aluno-premium-topo {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 10px !important;
@@ -2064,7 +1811,7 @@ position: relative;
   .cards-dashboard, .cards, .dashboard-grid,
   .financeiro-resumo-grid, .evolucao-resumo-grid,
   .presenca-resumo-grid, .solicitacoes-resumo-grid,
-  .perfil-form, .admin-grid, form, .aluno-premium-grid {
+  .perfil-form, form, .aluno-premium-grid {
     grid-template-columns: 1fr !important;
   }
 
@@ -2112,32 +1859,25 @@ position: relative;
     max-width: none !important;
   }
 
-  .aniversariantes-container, .aniversariantes-lista, .lista-aniversariantes,
-  .card-aniversariante, .aniversariante-card, .birthday-card,
-  [class*="anivers"], [class*="birthday"] {
+  #listaAniversariantes,
+  [class*="anivers"] {
     max-width: 100% !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
   }
 
-  #aniversariantes, #listaAniversariantes, #cardsAniversariantes,
-  .aniversariantes, .aniversariantes-container,
-  .aniversariantes-lista, .lista-aniversariantes {
+  #listaAniversariantes {
     grid-template-columns: 1fr !important;
     gap: 14px !important;
   }
 
-  #aniversariantes > *, #listaAniversariantes > *, #cardsAniversariantes > *,
-  .aniversariantes > *, .aniversariantes-container > *,
-  .aniversariantes-lista > *, .lista-aniversariantes > * {
+  #listaAniversariantes > * {
     max-width: 100% !important;
     min-height: auto !important;
     padding: 16px !important;
   }
 
-  #aniversariantes img, #listaAniversariantes img, #cardsAniversariantes img,
-  .aniversariantes img, .aniversariantes-container img,
-  .aniversariantes-lista img, .lista-aniversariantes img {
+  #listaAniversariantes img {
     width: 88px !important;
     height: 88px !important;
     max-width: 88px !important;
@@ -2169,8 +1909,6 @@ position: relative;
 
   .financeiro-resumo-grid   { grid-template-columns: 1fr; }
   .solicitacao-card         { grid-template-columns: 1fr; }
-  .solicitacao-acoes        { justify-content: stretch; }
-  .solicitacao-acoes button { flex: 1; }
 }
 
 @media (max-width: 640px) {
@@ -2202,7 +1940,6 @@ position: relative;
   .receita, .receber, .previsao { grid-column: span 2; }
   .cobrar-item        { flex-direction: column; align-items: stretch; }
   .btn-cobrar-item    { justify-content: center; }
-  .cliente-email      { max-width: 150px; }
   .aluno-topo         { flex-direction: column; }
   .aluno-dados        { grid-template-columns: 1fr; }
   .modal-acoes        { flex-direction: column; }
@@ -2324,31 +2061,6 @@ position: relative;
 .turma-card:hover,
 .turma-item:hover { border-color: var(--borda-hover); }
 
-.aviso-topo h3 { overflow-wrap: anywhere; }
-
-/* ================================================================
-   AVISO CARD
-================================================================ */
-.aviso-card {
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.085);
-  border-radius: 18px;
-  padding: 16px;
-  min-width: 0;
-  max-width: 100%;
-  box-sizing: border-box;
-  transition: border-color var(--trans);
-}
-
-.aviso-topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 12px;
-  min-width: 0;
-}
-
 /* ================================================================
    RANKING TABS (alias já coberto em .filtros, mas garante o nome)
 ================================================================ */
@@ -2390,33 +2102,6 @@ position: relative;
   box-shadow: none;
 }
 
-/* ================================================================
-   TEMA CLARO — AJUSTES FINAIS
-================================================================ */
-[data-tema="claro"] .turma-card,
-[data-tema="claro"] .turma-item,
-[data-tema="claro"] .aviso-card,
-[data-tema="claro"] .payment-item,
-[data-tema="claro"] .ranking-row,
-[data-tema="claro"] .summary-box,
-[data-tema="claro"] .quick-card {
-  background: #ffffff;
-  border-color: var(--borda);
-  box-shadow: 0 4px 16px rgba(17, 24, 39, 0.05);
-}
-
-[data-tema="claro"] .ranking-tab {
-  background: rgba(17, 24, 39, 0.04) !important;
-  border-color: var(--borda) !important;
-  color: var(--texto-secundario) !important;
-}
-
-[data-tema="claro"] .ranking-tab.ativo,
-[data-tema="claro"] .ranking-tab.selecionado {
-  background: var(--cor-roxo) !important;
-  border-color: var(--cor-roxo) !important;
-  color: #fff !important;
-}
 
 /* ================================================================
    ██████╗ ██████╗ ███████╗███╗   ███╗██╗██╗   ██╗███╗   ███╗
@@ -2464,7 +2149,6 @@ body::before {
 .aluno-card,
 .turma-card,
 .turma-item,
-.aviso-card,
 .admin-card,
 .evolucao-mini-card,
 .evolucao-item,
@@ -2473,7 +2157,6 @@ body::before {
 .financeiro-box,
 .info-premium,
 .pagamento-recente-item,
-.cliente-card-v2,
 .modal-card {
   position: relative;
 box-shadow: var(--sombra-card);
@@ -2491,7 +2174,6 @@ box-shadow: var(--sombra-card);
 .aluno-card::after,
 .turma-card::after,
 .turma-item::after,
-.aviso-card::after,
 .admin-card::after,
 .presenca-turma-card::after {
   content: "";
@@ -2516,7 +2198,6 @@ box-shadow: var(--sombra-card);
 .aluno-card > *,
 .turma-card > *,
 .turma-item > *,
-.aviso-card > *,
 .admin-card > *,
 .presenca-turma-card > * { position: relative; z-index: 1; }
 
@@ -2525,30 +2206,11 @@ box-shadow: var(--sombra-card);
 .aluno-card:hover,
 .turma-card:hover,
 .turma-item:hover,
-.aviso-card:hover,
-.cliente-card-v2:hover,
 .pagamento-recente-item:hover,
 .evolucao-item:hover {
   transform: translateY(-4px);
   box-shadow: var(--sombra-hover);
   border-color: rgba(184, 164, 255, 0.18);
-}
-
-/* ================================================================
-   4. BARRA SUPERIOR — vidro sofisticado com borda luminosa
-================================================================ */
-.topo,
-.topo-dashboard {
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(8, 9, 20, 0.88),
-      rgba(6, 7, 16, 0.80)
-    );
-  border-bottom: 1px solid rgba(255, 255, 255, 0.072);
-  box-shadow:
-    0 1px 0   rgba(255, 255, 255, 0.042) inset,
-    0 12px 40px rgba(0, 0, 0, 0.32);
 }
 
 /* Linha decorativa arco-íris super fina no topo */
@@ -2568,8 +2230,6 @@ box-shadow: var(--sombra-card);
   );
   pointer-events: none;
 }
-
-.topo, .topo-dashboard { position: sticky; }
 
 /* ================================================================
    5. BOTÃO PRIMÁRIO — shimmer animado
@@ -2620,14 +2280,6 @@ box-shadow: var(--sombra-card);
 /* ================================================================
    6. INPUTS — linha de foco animada
 ================================================================ */
-input, select, textarea {
-  background: rgba(6, 7, 16, 0.72) !important;
-  border: 1px solid rgba(255, 255, 255, 0.088) !important;
-  color: var(--texto-primario) !important;
-  font-family: var(--fonte) !important;
-  transition: border-color var(--trans), box-shadow var(--trans), background var(--trans) !important;
-}
-
 input:hover:not(:focus),
 select:hover:not(:focus),
 textarea:hover:not(:focus) {
@@ -2635,51 +2287,11 @@ textarea:hover:not(:focus) {
   background: rgba(8, 9, 20, 0.80) !important;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  background: rgba(10, 11, 24, 0.90) !important;
-  border-color: rgba(124, 92, 252, 0.60) !important;
-  box-shadow:
-    0 0 0 3px rgba(124, 92, 252, 0.14),
-    0 0 0 1px rgba(124, 92, 252, 0.32),
-    0 4px 14px rgba(124, 92, 252, 0.10) !important;
-  outline: none !important;
-}
-
 /* Labels com transição de cor ao focar o campo */
 .campo-perfil:focus-within span,
 .input-group:focus-within label,
 .form-section label:focus-within span {
   color: var(--cor-roxo-vivo) !important;
-}
-
-/* ================================================================
-   7. SIDEBAR — gradiente lateral e item ativo marcante
-================================================================ */
-.sidebar-app {
-  background: linear-gradient(
-    180deg,
-    rgba(10, 11, 22, 0.98) 0%,
-    rgba(6,  7, 16, 0.98) 100%
-  ) !important;
-  border-right: 1px solid rgba(255,255,255,0.072) !important;
-  box-shadow:
-    1px 0 0 rgba(255,255,255,0.028) inset,
-    24px 0 80px rgba(0,0,0,0.54) !important;
-}
-
-.menu-item.ativo {
-  background: linear-gradient(
-    135deg,
-    rgba(124, 92, 252, 0.22) 0%,
-    rgba(56, 189, 248, 0.06) 100%
-  ) !important;
-  border-color: rgba(184, 164, 255, 0.22) !important;
-  color: #fff !important;
-  box-shadow:
-    0 0 0 1px rgba(124, 92, 252, 0.14) inset,
-    0 6px 20px rgba(124, 92, 252, 0.10) !important;
 }
 
 /* Indicador lateral no item ativo */
@@ -2692,8 +2304,6 @@ textarea:focus {
   background: linear-gradient(to bottom, #b8a4ff, #7c5cfc);
   box-shadow: 0 0 10px rgba(124,92,252,0.60);
 }
-
-.menu-item { position: relative; }
 
 /* ================================================================
    8. BADGES — mais contraste e peso
@@ -2932,32 +2542,6 @@ border-radius: 18px !important;
 }
 
 /* ================================================================
-   18. BARRA DE PROGRESSO / BARRA DO CLIENTE
-================================================================ */
-.cliente-barra-fill {
-  background: linear-gradient(90deg, #7c5cfc, #b8a4ff) !important;
-  box-shadow: 0 0 8px rgba(124,92,252,0.34) !important;
-}
-
-/* Quando barra > 80% usa vermelho */
-.cliente-barra-fill.critico {
-  background: linear-gradient(90deg, #ef4444, #f87171) !important;
-  box-shadow: 0 0 8px rgba(239,68,68,0.34) !important;
-}
-
-/* ================================================================
-   19. PAGE EYEBROW — pulse sutil
-================================================================ */
-.page-eyebrow {
-  animation: eyebrowPulse 3s ease-in-out infinite;
-}
-
-@keyframes eyebrowPulse {
-  0%, 100% { box-shadow: none; }
-  50%       { box-shadow: 0 0 14px rgba(124,92,252,0.18); }
-}
-
-/* ================================================================
    20. COUNTER / NÚMERO GRANDE — destaque premium
 ================================================================ */
 .card p,
@@ -3051,88 +2635,6 @@ border-radius: 18px !important;
   background: rgba(34, 197, 94, 0.07) !important;
 }
 
-/* ================================================================
-   25. TEMA CLARO — ajustes para manter qualidade premium
-================================================================ */
-[data-tema="claro"] body {
-  background:
-    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(124,92,252,0.10), transparent),
-    radial-gradient(ellipse 60% 40% at 95%  5%,  rgba(56,189,248,0.07), transparent),
-    #f2f2f8 !important;
-}
-
-[data-tema="claro"] .card,
-[data-tema="claro"] .aluno-card,
-[data-tema="claro"] .turma-card,
-[data-tema="claro"] .turma-item,
-[data-tema="claro"] .aviso-card,
-[data-tema="claro"] .admin-card,
-[data-tema="claro"] .painel-card,
-[data-tema="claro"] .area-formulario,
-[data-tema="claro"] .lista,
-[data-tema="claro"] .financeiro-box,
-[data-tema="claro"] .modal-card,
-[data-tema="claro"] .login-card {
-  background: rgba(255, 255, 255, 0.88) !important;
-  border-color: rgba(17, 24, 39, 0.088) !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06), 0 24px 56px rgba(0,0,0,0.04) !important;
-}
-
-[data-tema="claro"] .card::after,
-[data-tema="claro"] .aluno-card::after,
-[data-tema="claro"] .painel-card::after { background: none !important; }
-
-[data-tema="claro"] .topo,
-[data-tema="claro"] .topo-dashboard {
-  background: rgba(255,255,255,0.90) !important;
-  border-bottom-color: rgba(17,24,39,0.088) !important;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06) !important;
-}
-
-[data-tema="claro"] .topo::after,
-[data-tema="claro"] .topo-dashboard::after { opacity: 0.5; }
-
-[data-tema="claro"] .card p,
-[data-tema="claro"] .financeiro-box strong {
-  -webkit-text-fill-color: unset;
-  background: none;
-  background-clip: unset;
-  color: #151525;
-}
-
-[data-tema="claro"] .pago .card p,
-[data-tema="claro"] .receita .card p,
-[data-tema="claro"] .financeiro-box.receita strong { -webkit-text-fill-color: #16a34a; background: none; color: #16a34a; }
-[data-tema="claro"] .pendente .card p             { -webkit-text-fill-color: #d97706; background: none; color: #d97706; }
-[data-tema="claro"] .alerta .card p               { -webkit-text-fill-color: #dc2626; background: none; color: #dc2626; }
-[data-tema="claro"] .receber .card p,
-[data-tema="claro"] .financeiro-box.receber strong{ -webkit-text-fill-color: #0369a1; background: none; color: #0369a1; }
-[data-tema="claro"] .previsao .card p,
-[data-tema="claro"] .financeiro-box.previsao strong{ -webkit-text-fill-color: #6d28d9; background: none; color: #6d28d9; }
-
-[data-tema="claro"] input,
-[data-tema="claro"] select,
-[data-tema="claro"] textarea {
-  background: rgba(255,255,255,0.92) !important;
-  border-color: rgba(17,24,39,0.10) !important;
-  color: #151525 !important;
-}
-
-[data-tema="claro"] input:focus,
-[data-tema="claro"] select:focus,
-[data-tema="claro"] textarea:focus {
-  background: #fff !important;
-  border-color: rgba(124,92,252,0.50) !important;
-  box-shadow: 0 0 0 3px rgba(124,92,252,0.10), 0 0 0 1px rgba(124,92,252,0.28) !important;
-}
-
-[data-tema="claro"] .menu-item.ativo {
-  background: linear-gradient(135deg, rgba(124,92,252,0.12), rgba(56,189,248,0.04)) !important;
-  color: #4c1d95 !important;
-}
-
-[data-tema="claro"] ::-webkit-scrollbar-thumb     { background: rgba(124,92,252,0.18); }
-[data-tema="claro"] ::-webkit-scrollbar-thumb:hover{ background: rgba(124,92,252,0.36); }
 
 /* ================================================================
    26. REDUCE MOTION — respeita preferência do usuário
@@ -3176,11 +2678,6 @@ border-radius: 20px !important;
   border-radius: 3px 0 0 3px;
 }
 
-[data-tema="claro"] .banner-vencimentos {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border-color: rgba(245, 158, 11, 0.36) !important;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
-}
 
 /* ================================================================
    28. EMPTY STATE — mais expressivo
@@ -3210,10 +2707,6 @@ border-radius: 20px !important;
   color: var(--cor-roxo-claro);
 }
 
-[data-tema="claro"] .empty-state-mini {
-  background: rgba(17, 24, 39, 0.025) !important;
-  border-color: rgba(17, 24, 39, 0.10) !important;
-}
 
 /* ================================================================
    29. AÇÕES RÁPIDAS — ícone + hover elevado
@@ -3382,41 +2875,6 @@ border-radius: 20px !important;
   ) !important;
 }
 
-[data-tema="claro"] .area-grafico {
-  background: #fff !important;
-  border-color: var(--borda) !important;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.06) !important;
-}
-
-/* ================================================================
-   35. LOGO SIDEBAR — glow pulsante
-================================================================ */
-.sidebar-logo {
-  box-shadow:
-    0 0 0 1px rgba(184, 164, 255, 0.20),
-    0 10px 28px rgba(124, 92, 252, 0.30) !important;
-  animation: logoGlow 4s ease-in-out infinite;
-}
-
-@keyframes logoGlow {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(184,164,255,0.20), 0 10px 28px rgba(124,92,252,0.28); }
-  50%       { box-shadow: 0 0 0 1px rgba(184,164,255,0.34), 0 10px 38px rgba(124,92,252,0.44), 0 0 0 4px rgba(124,92,252,0.08); }
-}
-
-/* ================================================================
-   36. SIDEBAR BRAND — gradiente de título
-================================================================ */
-.sidebar-brand strong {
-  background: linear-gradient(135deg, #fff 30%, var(--cor-roxo-claro) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-[data-tema="claro"] .sidebar-brand strong {
-  -webkit-text-fill-color: #151525;
-  background: none;
-}
 
 /* ================================================================
    37. ALUNO CARD — chip de status flutuante
@@ -3444,10 +2902,6 @@ border-radius: 20px !important;
   transform: translateX(2px);
 }
 
-[data-tema="claro"] .cobrar-item:hover {
-  background: rgba(124, 92, 252, 0.05) !important;
-  border-color: rgba(124, 92, 252, 0.14) !important;
-}
 
 /* ================================================================
    39. CONTADOR DE LISTA — destaque em roxo
@@ -3488,60 +2942,6 @@ input[type="checkbox"]:focus-visible {
 }
 
 /* ================================================================
-   42. LOADING / SPINNER GLOBAL
-   Caso exista um elemento .loading ou .spinner no HTML
-================================================================ */
-@keyframes spinPremium {
-  to { transform: rotate(360deg); }
-}
-
-.loading,
-.spinner {
-  width: 24px;
-  height: 24px;
-  border: 2px solid rgba(124, 92, 252, 0.18);
-  border-top-color: var(--cor-roxo);
-  border-radius: 50%;
-  animation: spinPremium 0.7s linear infinite;
-  display: inline-block;
-}
-
-/* ================================================================
-   43. TOOLTIP NATIVO (title) — substituição via data-tip
-   Se o app usar [data-tip], este CSS exibe um tooltip elegante
-================================================================ */
-[data-tip] {
-  position: relative;
-  cursor: help;
-}
-
-[data-tip]::after {
-  content: attr(data-tip);
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) scale(0.90);
-  background: rgba(10, 11, 22, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  color: var(--texto-primario);
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-  padding: 6px 10px;
-  border-radius: 10px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--trans), transform var(--trans);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.30);
-  z-index: 500;
-}
-
-[data-tip]:hover::after {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-
-/* ================================================================
    44. TOPO — título com gradiente sutil
 ================================================================ */
 #tituloPagina,
@@ -3553,12 +2953,6 @@ input[type="checkbox"]:focus-visible {
   background-clip: text;
 }
 
-[data-tema="claro"] #tituloPagina,
-[data-tema="claro"] .topo-esquerda h1,
-[data-tema="claro"] .topo h1 {
-  -webkit-text-fill-color: #151525 !important;
-  background: none !important;
-}
 
 /* ================================================================
    45. LINK / BTN CONTATO — WhatsApp com glow verde
@@ -3615,21 +3009,12 @@ input[type="checkbox"]:focus-visible {
    premium com foto circular e nome em destaque
 ================================================================ */
 @media (min-width: 769px) {
-  #aniversariantes img,
-  #listaAniversariantes img,
-  #cardsAniversariantes img,
-  .aniversariantes img,
-  .aniversariantes-container img,
-  .aniversariantes-lista img,
-  .lista-aniversariantes img {
+  #listaAniversariantes img {
     box-shadow: 0 0 0 2px rgba(184, 164, 255, 0.18), 0 8px 22px rgba(124, 92, 252, 0.18) !important;
     transition: box-shadow var(--trans), transform var(--trans) !important;
   }
 
-  #aniversariantes > *:hover img,
-  .aniversariantes-container > *:hover img,
-  .aniversariantes-lista > *:hover img,
-  .lista-aniversariantes > *:hover img {
+  #listaAniversariantes > *:hover img {
     box-shadow:
       0 0 0 3px rgba(184, 164, 255, 0.36),
       0 12px 32px rgba(124, 92, 252, 0.28) !important;
@@ -3665,25 +3050,6 @@ textarea:focus-visible {
   outline: none !important;
 }
 
-/* ================================================================
-   51. TEMA CLARO — reforço nas últimas adições
-================================================================ */
-[data-tema="claro"] .acao-rapida::after      { color: var(--cor-roxo); }
-[data-tema="claro"] .evolucao-mini-card      { background: #fff !important; border-color: rgba(17,24,39,0.10) !important; }
-[data-tema="claro"] .solicitacao-card        { background: #fff !important; border-color: rgba(17,24,39,0.10) !important; }
-[data-tema="claro"] .solicitacao-card.status-aprovada {
-  background: rgba(34, 197, 94, 0.06) !important;
-  border-color: rgba(34, 197, 94, 0.22) !important;
-}
-[data-tema="claro"] .solicitacao-card.status-recusada {
-  background: rgba(239, 68, 68, 0.04) !important;
-  border-color: rgba(239, 68, 68, 0.20) !important;
-}
-[data-tema="claro"] .contador-lista          { background: rgba(124,92,252,0.08) !important; border-color: rgba(124,92,252,0.18) !important; }
-[data-tema="claro"] .banner-vencimentos      { background: rgba(255,255,255,0.95) !important; }
-[data-tema="claro"] .sidebar-brand strong    { -webkit-text-fill-color: #151525 !important; background: none !important; }
-[data-tema="claro"] [data-tip]::after        { background: #fff; border-color: rgba(17,24,39,0.12); color: #151525; box-shadow: 0 8px 24px rgba(0,0,0,0.10); }
-[data-tema="claro"] .sidebar-logo            { animation: none; box-shadow: 0 0 0 1px rgba(124,92,252,0.18), 0 8px 22px rgba(124,92,252,0.14) !important; }
 
 /* ================================================================
    FIM DAS MELHORIAS PREMIUM
@@ -3879,15 +3245,6 @@ textarea:focus-visible {
   border-color: rgba(255,255,255,0.09);
 }
 
-[data-tema="claro"] .desafio-ranking-podium .podium-card {
-  background: #ffffff !important;
-  border-color: rgba(17,24,39,0.10) !important;
-  box-shadow: 0 10px 28px rgba(17,24,39,0.06) !important;
-}
-
-[data-tema="claro"] .desafio-ranking-podium .podium-card strong {
-  color: #151525 !important;
-}
 
 @media (max-width: 760px) {
   .desafio-ranking-podium,
@@ -4020,59 +3377,8 @@ textarea:focus-visible {
 }
 
 /* ================================================================
-   AJUSTE 2026.05.24 — Admin compacto + Perfil limpo + Desafio alinhado
+   AJUSTE 2026.05.24 — Desafio alinhado
 ================================================================ */
-.perfil-page-clean {
-  max-width: 760px !important;
-}
-
-.perfil-page-clean .perfil-info-grid,
-.perfil-page-clean .perfil-admin-note,
-.perfil-page-clean .perfil-ajuda {
-  display: none !important;
-}
-
-.perfil-form-clean {
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 14px !important;
-}
-
-.perfil-pix-compacto {
-  grid-column: auto !important;
-}
-
-.perfil-pix-compacto textarea {
-  min-height: 52px !important;
-  max-height: 72px !important;
-  resize: vertical !important;
-  padding-top: 12px !important;
-}
-
-.cliente-detalhes-admin {
-  display: grid;
-  gap: 14px;
-  padding-top: 4px;
-}
-
-.cliente-detalhes-admin.escondido {
-  display: none !important;
-}
-
-.cliente-limite-row-clean {
-  flex-wrap: wrap !important;
-  padding-bottom: 16px !important;
-}
-
-.cliente-limite-hint {
-  color: var(--texto-terciario);
-  font-size: 12px;
-  line-height: 1.35;
-}
-
-.cliente-card-v2:not(:has(.cliente-detalhes-admin:not(.escondido))) .admin-planos-box,
-.cliente-card-v2:not(:has(.cliente-detalhes-admin:not(.escondido))) .cliente-alunos-lista {
-  display: none;
-}
 
 .painel-desafio {
   align-self: stretch !important;
@@ -4104,49 +3410,9 @@ textarea:focus-visible {
   justify-self: center !important;
 }
 
-@media (max-width: 760px) {
-  .perfil-form-clean {
-    grid-template-columns: 1fr !important;
-  }
-
-  .perfil-pix-compacto {
-    grid-column: 1 / -1 !important;
-  }
-
-  .cliente-limite-hint {
-    flex-basis: 100%;
-  }
-}
-
-
 /* ================================================================
-   FASE 2 — ADMIN E PERFIL MAIS PROFISSIONAIS
+   FASE 2 — ADMIN MAIS PROFISSIONAL
 ================================================================ */
-.perfil-page-clean {
-  max-width: 760px;
-  margin: 0 auto;
-}
-
-.perfil-topo-clean {
-  margin-bottom: 18px;
-}
-
-.perfil-form-clean {
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-.perfil-form-clean .campo-cheio {
-  grid-column: 1 / -1;
-}
-
-.perfil-form-clean textarea#perfilPixCopiaCola {
-  min-height: 86px !important;
-  max-height: 150px;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
 .admin-card-header {
   display: flex;
   align-items: flex-start;
@@ -4207,67 +3473,6 @@ textarea:focus-visible {
   background: rgba(255,255,255,0.035);
 }
 
-.cliente-card-admin-pro {
-  overflow: hidden;
-}
-
-.cliente-header-admin-pro {
-  align-items: center;
-}
-
-.cliente-email-secundario {
-  display: block;
-  margin-top: 4px;
-  color: var(--texto-terciario);
-  font-size: 12px;
-}
-
-.badge-ativo {
-  background: var(--verde-bg) !important;
-  color: #4ade80 !important;
-  border-color: var(--verde-borda) !important;
-}
-
-.badge-bloqueado {
-  background: var(--vermelho-bg) !important;
-  color: #f87171 !important;
-  border-color: var(--vermelho-borda) !important;
-}
-
-.btn-gerenciar-cliente {
-  min-height: 38px;
-  padding: 8px 12px;
-  border-radius: 999px !important;
-  background: rgba(255,255,255,0.065) !important;
-  color: var(--texto-primario) !important;
-  border: 1px solid var(--borda) !important;
-  box-shadow: none !important;
-}
-
-.btn-gerenciar-cliente:hover {
-  background: var(--cor-roxo-bg) !important;
-  border-color: var(--cor-roxo-borda) !important;
-}
-
-.cliente-limite-row-clean {
-  grid-template-columns: auto 120px auto;
-  justify-content: flex-start;
-}
-
-.cliente-limite-row-clean label {
-  margin: 0;
-  white-space: nowrap;
-}
-
-.admin-planos-box {
-  margin-top: 12px;
-}
-
-.admin-modulos-titulo-v2 span {
-  color: var(--texto-secundario);
-  font-size: 12px;
-}
-
 @media (max-width: 860px) {
   .admin-clientes-toolbar {
     grid-template-columns: 1fr;
@@ -4277,27 +3482,9 @@ textarea:focus-visible {
     justify-content: flex-start;
   }
 
-  .cliente-header-dir {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  .perfil-form-clean {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 560px) {
-  .cliente-limite-row-clean {
-    grid-template-columns: 1fr;
-    align-items: stretch;
-  }
-
-  .cliente-limite-row-clean input,
-  .cliente-limite-row-clean button {
-    width: 100%;
-  }
-
   .admin-filtro-cliente {
     flex: 1 1 auto;
   }
@@ -4306,13 +3493,6 @@ textarea:focus-visible {
 /* ================================================================
    AJUSTE 2026.05.24 — Fase 3 Planos definidos
 ================================================================ */
-.admin-planos-opcoes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
 .admin-plano-resumo-card {
   min-height: 168px;
   padding: 13px;
@@ -4346,11 +3526,6 @@ textarea:focus-visible {
   font-weight: 600 !important;
 }
 
-[data-tema="claro"] .admin-plano-preco {
-  background: rgba(34, 197, 94, 0.10);
-  border-color: rgba(34, 197, 94, 0.22);
-  color: #15803d;
-}
 
 .admin-plano-resumo-topo {
   display: flex;
@@ -4394,39 +3569,6 @@ textarea:focus-visible {
   line-height: 1.3;
 }
 
-.admin-plano-grid-v3 {
-  grid-template-columns: minmax(0, 1.2fr) minmax(140px, .55fr) minmax(210px, .8fr) !important;
-  align-items: stretch;
-}
-
-.admin-toggle-acesso-v3 {
-  margin: 0;
-  min-height: 100%;
-}
-
-.admin-plano-aplicado-box {
-  display: grid;
-  gap: 10px;
-  padding: 13px;
-  border-radius: 18px;
-  border: 1px solid rgba(34,197,94,0.18);
-  background: rgba(34,197,94,0.075);
-  margin-bottom: 14px;
-}
-
-.admin-plano-aplicado-box strong {
-  display: block;
-  color: var(--texto-primario);
-  font-size: 14px;
-}
-
-.admin-plano-aplicado-box small {
-  display: block;
-  color: var(--texto-secundario);
-  font-size: 12px;
-  margin-top: 2px;
-}
-
 .admin-recursos-plano-lista {
   display: flex;
   flex-wrap: wrap;
@@ -4446,23 +3588,6 @@ textarea:focus-visible {
   font-weight: 600;
 }
 
-[data-tema="claro"] .admin-plano-resumo-card,
-[data-tema="claro"] .admin-plano-aplicado-box {
-  background: #fff !important;
-  border-color: rgba(17,24,39,0.10) !important;
-}
-
-[data-tema="claro"] .admin-recursos-plano-lista span {
-  color: #15803d;
-  background: rgba(34,197,94,0.09);
-}
-
-@media (max-width: 980px) {
-  .admin-planos-opcoes-grid,
-  .admin-plano-grid-v3 {
-    grid-template-columns: 1fr !important;
-  }
-}
 
 /* ================================================================
    AVISOS COM PERÍODO
@@ -4473,12 +3598,6 @@ textarea:focus-visible {
   flex-wrap: wrap;
   gap: 7px;
   margin-bottom: 8px;
-}
-
-.aviso-periodo {
-  display: inline-block !important;
-  margin-top: 6px;
-  color: var(--texto-terciario) !important;
 }
 
 .aviso-acoes {
@@ -4628,10 +3747,6 @@ textarea:focus-visible {
 .admin-card,
 .admin-card-clientes,
 #listaClientes,
-.cliente-card-v2,
-.cliente-card-admin-pro,
-.cliente-detalhes-admin,
-.admin-planos-box,
 .cliente-alunos-lista {
   max-width: 100% !important;
   box-sizing: border-box !important;
@@ -4646,26 +3761,8 @@ textarea:focus-visible {
   overflow-x: hidden !important;
 }
 
-.admin-card,
-.cliente-card-v2 {
+.admin-card {
   overflow: hidden !important;
-}
-
-.cliente-header-esq,
-.cliente-header-dir,
-.cliente-email,
-.cliente-email-secundario,
-.cliente-meta,
-.cliente-contagem {
-  min-width: 0 !important;
-}
-
-.cliente-email,
-.cliente-email-secundario {
-  max-width: 100% !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
 }
 
 @media (max-width: 720px) {
@@ -4684,10 +3781,6 @@ textarea:focus-visible {
   .admin-topo button,
   .admin-card-header button {
     width: 100%;
-  }
-
-  .admin-grid {
-    grid-template-columns: 1fr !important;
   }
 
   .admin-card {
@@ -4730,107 +3823,6 @@ textarea:focus-visible {
     white-space: nowrap !important;
   }
 
-  .cliente-card-v2 {
-    border-radius: 24px !important;
-  }
-
-  .cliente-header-v2,
-  .cliente-header-admin-pro {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-    align-items: stretch !important;
-    padding: 16px !important;
-  }
-
-  .cliente-header-esq {
-    width: 100% !important;
-    align-items: center !important;
-  }
-
-  .cliente-header-esq > div {
-    min-width: 0 !important;
-    flex: 1 1 auto !important;
-  }
-
-  .cliente-header-dir {
-    width: 100% !important;
-    display: grid !important;
-    grid-template-columns: 48px minmax(0, 1fr) 30px !important;
-    gap: 8px !important;
-    align-items: center !important;
-  }
-
-  .btn-remover-cliente {
-    width: 48px !important;
-    min-width: 48px !important;
-    height: 44px !important;
-    min-height: 44px !important;
-    padding: 0 !important;
-  }
-
-  .btn-gerenciar-cliente {
-    width: 100% !important;
-    min-width: 0 !important;
-    justify-content: center !important;
-  }
-
-  .cliente-seta {
-    width: 30px !important;
-    min-width: 30px !important;
-  }
-
-  .cliente-meta {
-    gap: 6px !important;
-  }
-
-  .cliente-barra-wrapper {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 8px !important;
-    padding: 0 16px 14px !important;
-  }
-
-  .cliente-barra-label {
-    white-space: normal !important;
-    text-align: left !important;
-  }
-
-  .cliente-limite-row,
-  .cliente-limite-row-clean {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 10px !important;
-    align-items: stretch !important;
-    padding: 0 16px 16px !important;
-  }
-
-  .cliente-limite-row label,
-  .cliente-limite-row-clean label {
-    white-space: normal !important;
-  }
-
-  .cliente-limite-row input,
-  .cliente-limite-row-clean input,
-  .cliente-limite-row button,
-  .cliente-limite-row-clean button {
-    width: 100% !important;
-  }
-
-  .admin-planos-box {
-    padding: 16px !important;
-    margin: 12px 16px 16px !important;
-    border-radius: 22px !important;
-  }
-
-  .admin-plano-grid-v3,
-  .admin-planos-opcoes-grid,
-  .admin-modulos-grid,
-  .admin-config-grid,
-  .admin-modulos-box {
-    grid-template-columns: 1fr !important;
-  }
-
   .admin-plano-resumo-card {
     min-height: auto !important;
   }
@@ -4856,20 +3848,6 @@ textarea:focus-visible {
     padding: 14px !important;
   }
 
-  .cliente-header-v2,
-  .cliente-header-admin-pro {
-    padding: 14px !important;
-  }
-
-  .cliente-avatar {
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-  }
-
-  .cliente-header-dir {
-    grid-template-columns: 46px minmax(0, 1fr) 24px !important;
-  }
 }
 
 /* ================================================================
@@ -4882,32 +3860,6 @@ body {
     radial-gradient(ellipse 50% 60% at 75% 110%, rgba(34, 197, 94, 0.07), transparent 36%),
     linear-gradient(180deg, #06060f 0%, #08091a 50%, #060610 100%) !important;
 }
-
-/* ================================================================
-   CONTAINER PRINCIPAL — RESPIRO GENEROSO
-================================================================ */
-.container,
-.container-dashboard {
-  padding: var(--gap-lg) var(--gap-lg) calc(var(--gap-xl) + var(--safe-bottom)) var(--gap-lg) !important;
-  max-width: 1320px !important;
-  margin: 0 auto !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-/* ================================================================
-   HEADER SUPERIOR — REFINADO
-================================================================ */
-.topo,
-.topo-dashboard {
-  min-height: 72px !important;
-  padding: calc(12px + var(--safe-top)) 28px 12px 28px !important;
-  background: rgba(6, 6, 18, 0.78) !important;
-  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
-border-radius: 0 !important;
-}
-
-.topo-dashboard { border-radius: 0 !important; }
 
 /* ================================================================
    DASHBOARD HERO — REDESENHADO
@@ -5144,6 +4096,7 @@ position: relative !important;
    EYEBROW REFINADO
 ================================================================ */
 .page-eyebrow {
+  width: fit-content !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 5px !important;
@@ -5340,62 +4293,11 @@ position: relative !important;
 }
 
 /* ================================================================
-   SIDEBAR — REFINADA
-================================================================ */
-.sidebar-app {
-  background: linear-gradient(180deg, rgba(10,11,22,0.99), rgba(6,7,16,0.99)) !important;
-  border-right: 1px solid rgba(255,255,255,0.07) !important;
-  padding: var(--gap-md) !important;
-}
-
-.sidebar-brand {
-  padding: var(--gap-sm) var(--gap-md) !important;
-  border-radius: var(--raio-lg) !important;
-  background: rgba(255,255,255,0.042) !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
-  margin-bottom: var(--gap-xs) !important;
-}
-
-.sidebar-menu { gap: 4px !important; margin-top: 4px !important; }
-
-.menu-item {
-  border-radius: var(--raio-md) !important;
-  padding: 11px 14px !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  min-height: 44px !important;
-  letter-spacing: -0.01em !important;
-}
-
-.menu-item:hover,
-.menu-item.ativo {
-  background: linear-gradient(135deg, rgba(124,58,237,0.16), rgba(56,189,248,0.05)) !important;
-  border-color: rgba(196,181,253,0.16) !important;
-  color: #fff !important;
-  transform: translateX(2px) !important;
-}
-
-/* ================================================================
    INPUTS & FORMULÁRIOS — REFINADOS
 ================================================================ */
-input,
-select,
-textarea {
-  background: rgba(255,255,255,0.046) !important;
-  border: 1px solid rgba(255,255,255,0.09) !important;
-  border-radius: var(--raio-md) !important;
-  font-size: 14px !important;
-  padding: 12px 14px !important;
-  min-height: 48px !important;
-  color: var(--texto-primario) !important;
-  transition: border-color var(--trans), box-shadow var(--trans) !important;
-}
-
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: rgba(196,181,253,0.55) !important;
-  box-shadow: 0 0 0 4px rgba(124,58,237,0.12) !important;
   background: rgba(255,255,255,0.055) !important;
 }
 
@@ -5466,11 +4368,6 @@ textarea:focus {
 /* ================================================================
    MODAL — REFINADO
 ================================================================ */
-.modal-card {
-  border-radius: var(--raio-xl) var(--raio-xl) 0 0 !important;
-  padding: 10px var(--gap-lg) calc(var(--gap-lg) + var(--safe-bottom)) !important;
-}
-
 .modal-card h2 { font-weight: 600 !important; letter-spacing: -0.04em !important; }
 
 /* ================================================================
@@ -5545,18 +4442,12 @@ textarea:focus {
     min-width: 40px !important;
     font-size: 18px !important;
   }
-}
-
-/* --- Container mobile --- */
-@media (max-width: 640px) {
+  /* --- Container mobile --- */
   .container,
   .container-dashboard {
     padding: 14px 14px calc(28px + var(--safe-bottom)) 14px !important;
   }
-}
-
-/* --- Dashboard hero mobile --- */
-@media (max-width: 640px) {
+  /* --- Dashboard hero mobile --- */
   .dashboard-hero {
     flex-direction: column !important;
     align-items: flex-start !important;
@@ -5580,10 +4471,7 @@ textarea:focus {
     font-size: 12px !important;
     padding: 10px 12px !important;
   }
-}
-
-/* --- Cards dashboard mobile --- */
-@media (max-width: 640px) {
+  /* --- Cards dashboard mobile --- */
   .cards,
   .cards-dashboard {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -5643,10 +4531,7 @@ textarea:focus {
   input,
   select,
   textarea { font-size: 16px !important; }
-}
-
-/* --- Financeiro grid mobile --- */
-@media (max-width: 640px) {
+  /* --- Financeiro grid mobile --- */
   .financeiro-resumo-grid {
     grid-template-columns: 1fr !important;
     gap: var(--gap-sm) !important;
@@ -5655,10 +4540,7 @@ textarea:focus {
   .aniversariantes-resumo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
-}
-
-/* --- Aluno card mobile --- */
-@media (max-width: 640px) {
+  /* --- Aluno card mobile --- */
   .aluno-card {
     border-radius: var(--raio-lg) !important;
     padding: var(--gap-md) !important;
@@ -5672,10 +4554,7 @@ textarea:focus {
 
   .info-premium { border-radius: var(--raio-md) !important; padding: var(--gap-sm) !important; }
   .aluno-premium-topo h3 { font-size: 14px !important; }
-}
-
-/* --- Modal mobile --- */
-@media (max-width: 640px) {
+  /* --- Modal mobile --- */
   .modal-card {
     padding: 8px var(--gap-md) calc(var(--gap-lg) + var(--safe-bottom)) !important;
     max-height: 95dvh !important;
@@ -5687,10 +4566,7 @@ textarea:focus {
   }
 
   .modal-acoes button { width: 100% !important; min-width: unset !important; }
-}
-
-/* --- Banner mobile --- */
-@media (max-width: 640px) {
+  /* --- Banner mobile --- */
   .banner-vencimentos {
     margin: var(--gap-sm) 14px 0 !important;
     flex-direction: column !important;
@@ -5756,38 +4632,6 @@ textarea:focus {
   }
 }
 
-/* ================================================================
-   TEMA CLARO — AJUSTES DE QUALIDADE
-================================================================ */
-[data-tema="claro"] .card {
-  background: #ffffff !important;
-  box-shadow: 0 2px 8px rgba(17,24,39,0.06), 0 12px 32px rgba(17,24,39,0.05) !important;
-  border-color: rgba(17,24,39,0.09) !important;
-}
-
-[data-tema="claro"] .dashboard-hero {
-  background: linear-gradient(135deg, rgba(245,245,255,0.95), rgba(255,255,255,0.98)) !important;
-  border-color: rgba(17,24,39,0.09) !important;
-  box-shadow: 0 2px 8px rgba(17,24,39,0.06), 0 12px 32px rgba(17,24,39,0.05) !important;
-}
-
-[data-tema="claro"] .painel-card {
-  background: rgba(255,255,255,0.90) !important;
-  border-color: rgba(17,24,39,0.08) !important;
-  box-shadow: 0 2px 8px rgba(17,24,39,0.05), 0 10px 28px rgba(17,24,39,0.04) !important;
-}
-
-[data-tema="claro"] .evolucao-mini-card,
-[data-tema="claro"] .financeiro-box,
-[data-tema="claro"] .acao-rapida {
-  background: rgba(17,24,39,0.030) !important;
-  border-color: rgba(17,24,39,0.09) !important;
-}
-
-[data-tema="claro"] .evolucao-mini-card strong {
-  -webkit-text-fill-color: var(--texto-primario) !important;
-  background: none !important;
-}
 
 /* ================================================================
    OVERFLOW GLOBAL
@@ -6091,34 +4935,8 @@ textarea:focus {
 }
 
 /* ================================================================
-   V49 — PERFIL PIX NO PADRÃO DO SISTEMA
+   V49 — CAMPO PIX E AVISO DO PERFIL
 ================================================================ */
-.perfil-form-simples {
-  align-items: stretch;
-}
-
-.perfil-secao-pix {
-  display: grid;
-  gap: 12px;
-  padding: 16px;
-  border: 1px solid var(--borda);
-  border-radius: var(--raio-xl);
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.perfil-secao-topo h3 {
-  margin-top: 6px;
-  color: var(--texto-primario);
-  font-size: 18px;
-  letter-spacing: -0.03em;
-}
-
-.perfil-secao-topo p {
-  margin-top: 4px;
-  color: var(--texto-secundario);
-  font-size: 12px;
-}
-
 .campo-pix-simples {
   padding: 0 !important;
 }
@@ -6143,10 +4961,6 @@ textarea:focus {
 }
 
 @media (max-width: 720px) {
-  .perfil-secao-pix {
-    padding: 14px;
-  }
-
   .campo-pix-simples textarea {
     min-height: 78px;
   }
@@ -6256,101 +5070,12 @@ textarea:focus {
   }
 }
 
-/* ================================================================
-   CORREÇÃO — TEMA CLARO MENOS BRANCO E MAIS LEGÍVEL
-================================================================ */
-
-[data-tema="claro"] {
-  --bg-base: #eef0f8;
-  --bg-nivel-1: rgba(255, 255, 255, 0.78);
-  --bg-nivel-2: rgba(255, 255, 255, 0.88);
-  --bg-nivel-3: #ffffff;
-
-  --texto-primario: #171827;
-  --texto-secundario: #50566f;
-  --texto-terciario: #747a91;
-
-  --borda: rgba(30, 41, 59, 0.12);
-  --borda-hover: rgba(124, 58, 237, 0.34);
-}
-
-[data-tema="claro"] body {
-  background:
-    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
-    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
-    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
-  color: var(--texto-primario) !important;
-}
-
-[data-tema="claro"] .topo,
-[data-tema="claro"] .topo-dashboard {
-  background: rgba(246, 247, 251, 0.88) !important;
-  border-bottom-color: rgba(30, 41, 59, 0.10) !important;
-}
-
-[data-tema="claro"] .dashboard-hero,
-[data-tema="claro"] .painel-card,
-[data-tema="claro"] .area-formulario,
-[data-tema="claro"] .lista,
-[data-tema="claro"] .financeiro-page,
-[data-tema="claro"] .modal-card,
-[data-tema="claro"] .card,
-[data-tema="claro"] .aluno-card,
-[data-tema="claro"] .admin-simple-card,
-[data-tema="claro"] .admin-cliente-card {
-  background: rgba(255, 255, 255, 0.82) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-  color: var(--texto-primario) !important;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
-}
-
-[data-tema="claro"] input,
-[data-tema="claro"] select,
-[data-tema="claro"] textarea {
-  background: rgba(248, 250, 252, 0.92) !important;
-  color: var(--texto-primario) !important;
-  border-color: rgba(30, 41, 59, 0.14) !important;
-}
-
-[data-tema="claro"] input::placeholder,
-[data-tema="claro"] textarea::placeholder {
-  color: #8a90a3 !important;
-}
-
-[data-tema="claro"] .menu-item,
-[data-tema="claro"] .btn-tema,
-[data-tema="claro"] .btn-admin,
-[data-tema="claro"] .acao-secundaria {
-  color: var(--texto-primario) !important;
-}
-
-[data-tema="claro"] .page-eyebrow,
-[data-tema="claro"] .mini-badge,
-[data-tema="claro"] .status-badge {
-  background: rgba(124, 58, 237, 0.09) !important;
-  color: #6d28d9 !important;
-  border-color: rgba(124, 58, 237, 0.20) !important;
-} 
 
 /* ================================================================
-   CORREÇÃO — ADMIN MAIS LIMPO E CHECKBOXES MENORES
-   Ajusta visual do painel admin sem mexer na lógica
+   BASE DOS CARDS ATUAIS DO ADMIN
 ================================================================ */
 
-.admin-page,
-#viewAdmin,
-.admin-clientes,
-.admin-simple-list,
-.admin-clientes-lista {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-}
-
-/* Cards dos clientes no Admin */
-.admin-simple-card,
-.admin-cliente-card,
-.cliente-card-admin {
+.admin-simple-card {
   display: grid;
   gap: 14px;
   padding: 16px !important;
@@ -6362,9 +5087,7 @@ textarea:focus {
 }
 
 /* Cabeçalho do card */
-.admin-simple-head,
-.admin-cliente-topo,
-.admin-card-topo {
+.admin-simple-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -6372,81 +5095,15 @@ textarea:focus {
   min-width: 0;
 }
 
-/* Nome / email do cliente */
-.admin-simple-title,
-.admin-cliente-nome,
-.admin-card-titulo {
-  display: block;
-  color: var(--texto-primario);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.admin-simple-email,
-.admin-cliente-email,
-.admin-card-subtitulo {
-  display: block;
-  margin-top: 3px;
-  color: var(--texto-secundario);
-  font-size: 12px;
-  line-height: 1.35;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 /* Grade de informações do cliente */
-.admin-simple-grid,
-.admin-cliente-grid,
-.admin-info-grid {
+.admin-simple-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
 }
 
-/* Caixinhas internas: plano, status, limite etc */
-.admin-simple-info,
-.admin-info-box,
-.admin-cliente-info {
-  padding: 11px 12px !important;
-  border: 1px solid var(--borda);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.035);
-  min-width: 0;
-}
-
-.admin-simple-info span,
-.admin-info-box span,
-.admin-cliente-info span {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--texto-terciario);
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.admin-simple-info strong,
-.admin-info-box strong,
-.admin-cliente-info strong {
-  display: block;
-  color: var(--texto-primario);
-  font-size: 14px;
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 /* Área de ações do Admin */
-.admin-simple-actions,
-.admin-cliente-acoes,
-.admin-card-acoes {
+.admin-simple-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -6455,10 +5112,7 @@ textarea:focus {
 
 /* Botões menores e mais alinhados no Admin */
 .admin-simple-actions button,
-.admin-cliente-acoes button,
-.admin-card-acoes button,
-.admin-simple-card button,
-.admin-cliente-card button {
+.admin-simple-card button {
   min-height: 38px !important;
   padding: 9px 12px !important;
   border-radius: 13px !important;
@@ -6466,284 +5120,50 @@ textarea:focus {
   font-weight: 600 !important;
 }
 
-/* Área dos módulos/permissões */
-.admin-modulos,
-.admin-simple-modulos,
-.admin-permissoes,
-.admin-checkbox-grid,
-.admin-modulos-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 10px;
-  border: 1px solid var(--borda);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.028);
-}
-
-/* Labels dos checkboxes */
-.admin-modulos label,
-.admin-simple-modulos label,
-.admin-permissoes label,
-.admin-checkbox-grid label,
-.admin-modulos-grid label,
-.modulo-toggle,
-.admin-toggle {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 7px !important;
-  width: auto !important;
-  min-height: 34px !important;
-  padding: 7px 10px !important;
-  border: 1px solid var(--borda) !important;
-  border-radius: var(--raio-pill) !important;
-  background: rgba(255, 255, 255, 0.035) !important;
-  color: var(--texto-secundario) !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  line-height: 1 !important;
-  cursor: pointer;
-}
-
-/* Checkbox pequeno */
-.admin-modulos input[type="checkbox"],
-.admin-simple-modulos input[type="checkbox"],
-.admin-permissoes input[type="checkbox"],
-.admin-checkbox-grid input[type="checkbox"],
-.admin-modulos-grid input[type="checkbox"],
-.modulo-toggle input[type="checkbox"],
-.admin-toggle input[type="checkbox"] {
-  width: 15px !important;
-  height: 15px !important;
-  min-width: 15px !important;
-  min-height: 15px !important;
-  max-width: 15px !important;
-  max-height: 15px !important;
-  margin: 0 !important;
-  accent-color: var(--cor-roxo);
-  flex: 0 0 15px !important;
-}
-
-/* Quando o checkbox estiver marcado */
-.admin-modulos label:has(input[type="checkbox"]:checked),
-.admin-simple-modulos label:has(input[type="checkbox"]:checked),
-.admin-permissoes label:has(input[type="checkbox"]:checked),
-.admin-checkbox-grid label:has(input[type="checkbox"]:checked),
-.admin-modulos-grid label:has(input[type="checkbox"]:checked),
-.modulo-toggle:has(input[type="checkbox"]:checked),
-.admin-toggle:has(input[type="checkbox"]:checked) {
-  background: var(--cor-roxo-bg) !important;
-  border-color: var(--cor-roxo-borda) !important;
-  color: var(--texto-primario) !important;
-}
-
 /* Selects e inputs dentro do Admin */
 .admin-simple-card input,
-.admin-simple-card select,
-.admin-cliente-card input,
-.admin-cliente-card select {
+.admin-simple-card select {
   min-height: 42px !important;
   padding: 10px 12px !important;
   border-radius: 13px !important;
   font-size: 14px !important;
 }
 
-/* Tema claro no Admin */
-[data-tema="claro"] .admin-simple-card,
-[data-tema="claro"] .admin-cliente-card,
-[data-tema="claro"] .cliente-card-admin {
-  background: rgba(255, 255, 255, 0.84) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-}
-
-[data-tema="claro"] .admin-simple-info,
-[data-tema="claro"] .admin-info-box,
-[data-tema="claro"] .admin-cliente-info,
-[data-tema="claro"] .admin-modulos,
-[data-tema="claro"] .admin-simple-modulos,
-[data-tema="claro"] .admin-permissoes,
-[data-tema="claro"] .admin-checkbox-grid,
-[data-tema="claro"] .admin-modulos-grid {
-  background: rgba(248, 250, 252, 0.78) !important;
-  border-color: rgba(30, 41, 59, 0.10) !important;
-}
 
 /* Responsivo */
 @media (max-width: 900px) {
-  .admin-simple-grid,
-  .admin-cliente-grid,
-  .admin-info-grid {
+  .admin-simple-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 640px) {
-  .admin-simple-card,
-  .admin-cliente-card,
-  .cliente-card-admin {
+  .admin-simple-card {
     padding: 14px !important;
     border-radius: 20px !important;
   }
 
-  .admin-simple-head,
-  .admin-cliente-topo,
-  .admin-card-topo {
+  .admin-simple-head {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .admin-simple-grid,
-  .admin-cliente-grid,
-  .admin-info-grid {
+  .admin-simple-grid {
     grid-template-columns: 1fr;
   }
 
-  .admin-simple-actions,
-  .admin-cliente-acoes,
-  .admin-card-acoes {
+  .admin-simple-actions {
     flex-direction: column;
     align-items: stretch;
   }
 
   .admin-simple-actions button,
-  .admin-cliente-acoes button,
-  .admin-card-acoes button,
-  .admin-simple-card button,
-  .admin-cliente-card button {
+  .admin-simple-card button {
     width: 100%;
   }
 
-  .admin-modulos,
-  .admin-simple-modulos,
-  .admin-permissoes,
-  .admin-checkbox-grid,
-  .admin-modulos-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-
-  .admin-modulos label,
-  .admin-simple-modulos label,
-  .admin-permissoes label,
-  .admin-checkbox-grid label,
-  .admin-modulos-grid label,
-  .modulo-toggle,
-  .admin-toggle {
-    width: 100% !important;
-    justify-content: flex-start !important;
-  }
 }
 
-/* =========================================================
-   AJUSTE PONTUAL — CHECKBOX "ACESSO AO SISTEMA" NO ADMIN
-   Deixa a linha mais limpa e reduz o checkbox gigante
-========================================================= */
-
-.admin-permissoes > label,
-.admin-checkbox-grid > label,
-.admin-modulos-grid > label,
-.admin-simple-modulos > label,
-.admin-modulos > label,
-.admin-toggle,
-.modulo-toggle {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  width: 100% !important;
-  min-height: 56px !important;
-  padding: 14px 16px !important;
-  border: 1px solid var(--borda) !important;
-  border-radius: 16px !important;
-  background: rgba(255, 255, 255, 0.04) !important;
-  text-align: left !important;
-}
-
-/* Faz o texto ocupar o lado esquerdo corretamente */
-.admin-permissoes > label span,
-.admin-checkbox-grid > label span,
-.admin-modulos-grid > label span,
-.admin-simple-modulos > label span,
-.admin-modulos > label span,
-.admin-toggle span,
-.modulo-toggle span,
-.admin-permissoes > label strong,
-.admin-checkbox-grid > label strong,
-.admin-modulos-grid > label strong,
-.admin-simple-modulos > label strong,
-.admin-modulos > label strong,
-.admin-toggle strong,
-.modulo-toggle strong,
-.admin-permissoes > label small,
-.admin-checkbox-grid > label small,
-.admin-modulos-grid > label small,
-.admin-simple-modulos > label small,
-.admin-modulos > label small,
-.admin-toggle small,
-.modulo-toggle small {
-  flex: 1;
-}
-
-/* CHECKBOX pequeno e alinhado */
-.admin-permissoes input[type="checkbox"],
-.admin-checkbox-grid input[type="checkbox"],
-.admin-modulos-grid input[type="checkbox"],
-.admin-simple-modulos input[type="checkbox"],
-.admin-modulos input[type="checkbox"],
-.admin-toggle input[type="checkbox"],
-.modulo-toggle input[type="checkbox"] {
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
-  max-width: 18px !important;
-  max-height: 18px !important;
-  margin: 0 0 0 auto !important;
-  transform: none !important;
-  zoom: 1 !important;
-  flex: 0 0 18px !important;
-  accent-color: var(--cor-roxo);
-  cursor: pointer;
-}
-
-/* Quando estiver marcado */
-.admin-permissoes > label:has(input[type="checkbox"]:checked),
-.admin-checkbox-grid > label:has(input[type="checkbox"]:checked),
-.admin-modulos-grid > label:has(input[type="checkbox"]:checked),
-.admin-simple-modulos > label:has(input[type="checkbox"]:checked),
-.admin-modulos > label:has(input[type="checkbox"]:checked),
-.admin-toggle:has(input[type="checkbox"]:checked),
-.modulo-toggle:has(input[type="checkbox"]:checked) {
-  border-color: rgba(139, 92, 246, 0.45) !important;
-  background: rgba(124, 58, 237, 0.10) !important;
-}
-
-/* No celular continua bonito */
-@media (max-width: 640px) {
-  .admin-permissoes > label,
-  .admin-checkbox-grid > label,
-  .admin-modulos-grid > label,
-  .admin-simple-modulos > label,
-  .admin-modulos > label,
-  .admin-toggle,
-  .modulo-toggle {
-    padding: 12px 14px !important;
-    min-height: 52px !important;
-  }
-
-  .admin-permissoes input[type="checkbox"],
-  .admin-checkbox-grid input[type="checkbox"],
-  .admin-modulos-grid input[type="checkbox"],
-  .admin-simple-modulos input[type="checkbox"],
-  .admin-modulos input[type="checkbox"],
-  .admin-toggle input[type="checkbox"],
-  .modulo-toggle input[type="checkbox"] {
-    width: 17px !important;
-    height: 17px !important;
-    min-width: 17px !important;
-    min-height: 17px !important;
-  }
-}
 /* ================================================================
    CORREÇÃO REAL — ACESSO AO SISTEMA NO ADMIN
    Alvo certo: .admin-simple-access
@@ -6855,15 +5275,6 @@ textarea:focus {
   cursor: not-allowed !important;
 }
 
-/* Tema claro */
-[data-tema="claro"] .admin-simple-access {
-  background: rgba(34, 197, 94, 0.08) !important;
-  border-color: rgba(34, 197, 94, 0.24) !important;
-}
-
-[data-tema="claro"] .admin-simple-access input[type="checkbox"] {
-  background: rgba(15, 23, 42, 0.14) !important;
-}
 
 /* Celular */
 @media (max-width: 640px) {
@@ -6890,190 +5301,6 @@ textarea:focus {
   }
 }
 
-/* ================================================================
-   CORREÇÃO — TEMA CLARO COMPLETO
-   Corrige quando só os cards ficam claros e o fundo continua escuro
-================================================================ */
-
-/* Caso o tema esteja aplicado no HTML */
-html[data-tema="claro"],
-html[data-tema="claro"] body {
-  background:
-    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
-    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
-    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
-  color: #171827 !important;
-}
-
-/* Caso o tema esteja aplicado no BODY */
-body[data-tema="claro"] {
-  background:
-    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
-    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
-    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
-  color: #171827 !important;
-}
-
-/* Remove a grade escura no tema claro */
-html[data-tema="claro"] body::before,
-body[data-tema="claro"]::before {
-  display: none !important;
-}
-
-/* Variáveis do tema claro para os dois jeitos */
-html[data-tema="claro"],
-body[data-tema="claro"] {
-  --bg-base: #eef0f8;
-  --bg-nivel-1: rgba(255, 255, 255, 0.82);
-  --bg-nivel-2: rgba(255, 255, 255, 0.90);
-  --bg-nivel-3: #ffffff;
-  --bg-input: rgba(248, 250, 252, 0.94);
-
-  --texto-primario: #171827;
-  --texto-secundario: #50566f;
-  --texto-terciario: #747a91;
-
-  --borda: rgba(30, 41, 59, 0.12);
-  --borda-hover: rgba(124, 58, 237, 0.34);
-}
-
-/* Topo no tema claro */
-html[data-tema="claro"] .topo,
-html[data-tema="claro"] .topo-dashboard,
-body[data-tema="claro"] .topo,
-body[data-tema="claro"] .topo-dashboard {
-  background: rgba(246, 247, 251, 0.90) !important;
-  border-bottom-color: rgba(30, 41, 59, 0.10) !important;
-}
-
-/* Textos do topo */
-html[data-tema="claro"] .topo-esquerda h1,
-html[data-tema="claro"] #tituloPagina,
-body[data-tema="claro"] .topo-esquerda h1,
-body[data-tema="claro"] #tituloPagina {
-  color: #171827 !important;
-}
-
-html[data-tema="claro"] #descricaoPagina,
-body[data-tema="claro"] #descricaoPagina {
-  color: #50566f !important;
-}
-
-/* Sidebar no tema claro */
-html[data-tema="claro"] .sidebar-app,
-body[data-tema="claro"] .sidebar-app {
-  background: rgba(255, 255, 255, 0.96) !important;
-  border-right-color: rgba(30, 41, 59, 0.10) !important;
-}
-
-html[data-tema="claro"] .sidebar-brand,
-body[data-tema="claro"] .sidebar-brand {
-  background: rgba(124, 58, 237, 0.06) !important;
-  border-color: rgba(124, 58, 237, 0.14) !important;
-}
-
-html[data-tema="claro"] .sidebar-brand strong,
-body[data-tema="claro"] .sidebar-brand strong {
-  color: #171827 !important;
-}
-
-/* Cards e painéis principais */
-html[data-tema="claro"] .dashboard-hero,
-html[data-tema="claro"] .painel-card,
-html[data-tema="claro"] .area-formulario,
-html[data-tema="claro"] .lista,
-html[data-tema="claro"] .financeiro-page,
-html[data-tema="claro"] .modal-card,
-html[data-tema="claro"] .card,
-html[data-tema="claro"] .aluno-card,
-html[data-tema="claro"] .admin-simple-card,
-html[data-tema="claro"] .admin-cliente-card,
-html[data-tema="claro"] .solicitacao-card,
-html[data-tema="claro"] .ranking-turma-card,
-body[data-tema="claro"] .dashboard-hero,
-body[data-tema="claro"] .painel-card,
-body[data-tema="claro"] .area-formulario,
-body[data-tema="claro"] .lista,
-body[data-tema="claro"] .financeiro-page,
-body[data-tema="claro"] .modal-card,
-body[data-tema="claro"] .card,
-body[data-tema="claro"] .aluno-card,
-body[data-tema="claro"] .admin-simple-card,
-body[data-tema="claro"] .admin-cliente-card,
-body[data-tema="claro"] .solicitacao-card,
-body[data-tema="claro"] .ranking-turma-card {
-  background: rgba(255, 255, 255, 0.84) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-  color: #171827 !important;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
-}
-
-/* Títulos dentro dos cards */
-html[data-tema="claro"] .dashboard-hero h2,
-html[data-tema="claro"] .painel-card h2,
-html[data-tema="claro"] .lista h2,
-html[data-tema="claro"] .area-formulario h2,
-html[data-tema="claro"] .financeiro-page h2,
-html[data-tema="claro"] .aluno-premium-topo h3,
-body[data-tema="claro"] .dashboard-hero h2,
-body[data-tema="claro"] .painel-card h2,
-body[data-tema="claro"] .lista h2,
-body[data-tema="claro"] .area-formulario h2,
-body[data-tema="claro"] .financeiro-page h2,
-body[data-tema="claro"] .aluno-premium-topo h3 {
-  color: #171827 !important;
-}
-
-/* Textos secundários */
-html[data-tema="claro"] .dashboard-hero p,
-html[data-tema="claro"] .painel-card p,
-html[data-tema="claro"] .aluno-premium-topo p,
-body[data-tema="claro"] .dashboard-hero p,
-body[data-tema="claro"] .painel-card p,
-body[data-tema="claro"] .aluno-premium-topo p {
-  color: #50566f !important;
-}
-
-/* Inputs no tema claro */
-html[data-tema="claro"] input,
-html[data-tema="claro"] select,
-html[data-tema="claro"] textarea,
-body[data-tema="claro"] input,
-body[data-tema="claro"] select,
-body[data-tema="claro"] textarea {
-  background: rgba(248, 250, 252, 0.94) !important;
-  color: #171827 !important;
-  border-color: rgba(30, 41, 59, 0.14) !important;
-}
-
-/* Botões secundários no tema claro */
-html[data-tema="claro"] .acao-secundaria,
-html[data-tema="claro"] .btn-texto,
-html[data-tema="claro"] .btn-tema,
-html[data-tema="claro"] .btn-admin,
-body[data-tema="claro"] .acao-secundaria,
-body[data-tema="claro"] .btn-texto,
-body[data-tema="claro"] .btn-tema,
-body[data-tema="claro"] .btn-admin {
-  background: rgba(255, 255, 255, 0.78) !important;
-  color: #171827 !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-}
-
-/* Menu ativo no tema claro */
-html[data-tema="claro"] .menu-item,
-body[data-tema="claro"] .menu-item {
-  color: #50566f !important;
-}
-
-html[data-tema="claro"] .menu-item.ativo,
-html[data-tema="claro"] .menu-item:hover,
-body[data-tema="claro"] .menu-item.ativo,
-body[data-tema="claro"] .menu-item:hover {
-  background: rgba(124, 58, 237, 0.10) !important;
-  color: #171827 !important;
-  border-color: rgba(124, 58, 237, 0.18) !important;
-}
 
 /* ================================================================
    PAINEL PROFESSOR/CLIENTE — RESPONSIVIDADE MOBILE BASE
@@ -7443,10 +5670,7 @@ body,
     min-height: 46px !important;
     border-radius: 15px !important;
   }
-}
-
-/* Cards financeiros da Home */
-@media (max-width: 640px) {
+  /* Cards financeiros da Home */
   .cards-dashboard {
     gap: 12px !important;
   }
@@ -7476,10 +5700,7 @@ body,
     font-size: 11.5px !important;
     line-height: 1.35 !important;
   }
-}
-
-/* Mini gráficos dentro dos cards financeiros */
-@media (max-width: 640px) {
+  /* Mini gráficos dentro dos cards financeiros */
   .mini-card-chart {
     margin-top: 6px !important;
     min-height: 46px !important;
@@ -7494,10 +5715,7 @@ body,
     font-size: 10.5px !important;
     margin-top: 2px !important;
   }
-}
-
-/* Grid inferior da dashboard */
-@media (max-width: 640px) {
+  /* Grid inferior da dashboard */
   .dashboard-grid {
     gap: 12px !important;
   }
@@ -7526,10 +5744,7 @@ body,
     width: 100% !important;
     min-height: 42px !important;
   }
-}
-
-/* Pagamentos recentes */
-@media (max-width: 640px) {
+  /* Pagamentos recentes */
   .ultimos-pagamentos {
     gap: 9px !important;
   }
@@ -7557,10 +5772,7 @@ body,
     font-size: 12.5px !important;
     white-space: nowrap !important;
   }
-}
-
-/* Ações rápidas */
-@media (max-width: 640px) {
+  /* Ações rápidas */
   .acoes-rapidas-grid {
     display: grid !important;
     grid-template-columns: 1fr !important;
@@ -7574,10 +5786,7 @@ body,
     justify-content: flex-start !important;
     text-align: left !important;
   }
-}
-
-/* Cards pequenos de evolução/aniversariantes */
-@media (max-width: 640px) {
+  /* Cards pequenos de evolução/aniversariantes */
   .evolucao-mini-grid,
   .aniversariantes-resumo-grid,
   .financeiro-resumo-grid {
@@ -7600,54 +5809,12 @@ body,
     font-size: clamp(21px, 7vw, 28px) !important;
     line-height: 1.05 !important;
   }
-}
 
-/* Tema claro da dashboard mobile */
-@media (max-width: 640px) {
-  html[data-tema="claro"] .dashboard-hero,
-  body[data-tema="claro"] .dashboard-hero {
-    background:
-      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.08), transparent 38%),
-      rgba(255, 255, 255, 0.86) !important;
-    border-color: rgba(30, 41, 59, 0.12) !important;
-  }
 
-  html[data-tema="claro"] .cards-dashboard .card,
-  body[data-tema="claro"] .cards-dashboard .card,
-  html[data-tema="claro"] .painel-card,
-  body[data-tema="claro"] .painel-card,
-  html[data-tema="claro"] .pagamento-recente-item,
-  body[data-tema="claro"] .pagamento-recente-item,
-  html[data-tema="claro"] .financeiro-box,
-  body[data-tema="claro"] .financeiro-box,
-  html[data-tema="claro"] .evolucao-mini-card,
-  body[data-tema="claro"] .evolucao-mini-card {
-    background: rgba(255, 255, 255, 0.84) !important;
-    border-color: rgba(30, 41, 59, 0.12) !important;
-    color: var(--texto-primario) !important;
-  }
-
-  html[data-tema="claro"] .dashboard-hero h2,
-  body[data-tema="claro"] .dashboard-hero h2,
-  html[data-tema="claro"] .painel-card h2,
-  body[data-tema="claro"] .painel-card h2 {
-    color: var(--texto-primario) !important;
-  }
-
-  html[data-tema="claro"] .dashboard-hero p,
-  body[data-tema="claro"] .dashboard-hero p,
-  html[data-tema="claro"] .painel-card p,
-  body[data-tema="claro"] .painel-card p {
-    color: var(--texto-secundario) !important;
-  }
-}
-
-/* ================================================================
+  /* ================================================================
    CORREÇÃO — DASHBOARD MOBILE: CARDS FINANCEIROS E PAGAMENTOS
    Corrige cards altos demais e nomes escondidos nos pagamentos recentes
 ================================================================ */
-
-@media (max-width: 640px) {
   /* Cards financeiros da Home menos altos */
   .cards-dashboard .card {
     min-height: 0 !important;
@@ -7709,13 +5876,9 @@ body,
     display: none !important;
     content: none !important;
   }
-}
-
-/* ================================================================
+  /* ================================================================
    CORREÇÃO — PAGAMENTOS RECENTES NO MOBILE
 ================================================================ */
-
-@media (max-width: 640px) {
   .ultimos-pagamentos {
     display: grid !important;
     gap: 9px !important;
@@ -7803,25 +5966,8 @@ body,
   .pagamento-recente-item .mini-chart-svg {
     display: none !important;
   }
-}
 
-/* Tema claro dos pagamentos recentes */
-@media (max-width: 640px) {
-  html[data-tema="claro"] .pagamento-recente-item,
-  body[data-tema="claro"] .pagamento-recente-item {
-    background: rgba(255, 255, 255, 0.86) !important;
-    border-color: rgba(30, 41, 59, 0.12) !important;
-  }
 
-  html[data-tema="claro"] .pagamento-recente-item strong,
-  body[data-tema="claro"] .pagamento-recente-item strong {
-    color: var(--texto-primario) !important;
-  }
-
-  html[data-tema="claro"] .pagamento-recente-item span,
-  body[data-tema="claro"] .pagamento-recente-item span {
-    color: var(--texto-secundario) !important;
-  }
 }
 
 /* ================================================================
@@ -7977,19 +6123,6 @@ body,
   color: var(--texto-primario);
 }
 
-[data-tema="claro"] .notificacao-item {
-  background: rgba(255,255,255,0.84) !important;
-  border-color: rgba(17,24,39,0.10) !important;
-  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.045);
-}
-
-[data-tema="claro"] .notificacao-conteudo strong {
-  color: var(--texto-primario) !important;
-}
-
-[data-tema="claro"] .notificacao-conteudo p {
-  color: var(--texto-secundario) !important;
-}
 
 @media (max-width: 640px) {
   .notificacao-item {
@@ -8030,15 +6163,6 @@ body,
   color: var(--texto-secundario) !important;
   font-size: 12px !important;
   line-height: 1.35 !important;
-}
-
-[data-tema="claro"] .notificacoes-grupo-rodape {
-  background: rgba(248, 250, 252, 0.78) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-}
-
-[data-tema="claro"] .notificacoes-grupo-rodape p {
-  color: var(--texto-secundario) !important;
 }
 
 
@@ -8153,33 +6277,6 @@ body,
   color: #f87171;
 }
 
-[data-tema="claro"] .frequencia-chamada-badge.neutra,
-[data-tema="claro"] .turma-meta-pill {
-  background: rgba(255, 255, 255, 0.78);
-  border-color: rgba(17, 24, 39, 0.10);
-}
-
-[data-tema="claro"] .frequencia-chamada-badge.ok,
-[data-tema="claro"] .turma-meta-pill.ativa {
-  background: rgba(34, 197, 94, 0.10);
-  color: #15803d;
-}
-
-[data-tema="claro"] .frequencia-chamada-badge.limite {
-  background: rgba(245, 158, 11, 0.12);
-  color: #b45309;
-}
-
-[data-tema="claro"] .frequencia-chamada-badge.baixa,
-[data-tema="claro"] .turma-meta-pill.inativa {
-  background: rgba(239, 68, 68, 0.10);
-  color: #b91c1c;
-}
-
-[data-tema="claro"] .turma-meta-pill.alunos {
-  background: rgba(124, 58, 237, 0.09);
-  color: #6d28d9;
-}
 
 @media (max-width: 640px) {
   .presenca-aluno-detalhes,
@@ -8301,20 +6398,6 @@ body,
   text-align: center;
 }
 
-[data-tema="claro"] .historico-chamada-item {
-  background: rgba(255, 255, 255, 0.86) !important;
-  border-color: rgba(17, 24, 39, 0.10) !important;
-}
-
-[data-tema="claro"] .historico-chamada-item.cancelada {
-  background: rgba(245, 158, 11, 0.10) !important;
-  border-color: rgba(245, 158, 11, 0.24) !important;
-}
-
-[data-tema="claro"] .historico-chamadas-extra {
-  background: rgba(255, 255, 255, 0.76);
-  border-color: rgba(17, 24, 39, 0.12);
-}
 
 @media (max-width: 640px) {
   .historico-chamada-item {
@@ -8458,17 +6541,12 @@ body,
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px;
-  margin-bottom: 12px;
   border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.045);
 }
 
 .programa-fight-toolbar strong {
   display: block;
   color: var(--texto-primario);
-  font-size: 14px;
 }
 
 .programa-fight-toolbar span {
@@ -8485,29 +6563,12 @@ body,
   justify-content: flex-end;
 }
 
-.programa-fight-toolbar-actions button {
-  min-height: 38px;
-  padding: 8px 12px;
-  font-size: 12px;
-}
-
-.programa-fight-accordion {
-  overflow: hidden;
-}
-
-.programa-fight-accordion-head {
-  align-items: center;
-}
-
 .programa-fight-toggle {
   flex: 1;
   min-width: 0;
-  min-height: 58px;
   display: flex;
   align-items: center;
-  gap: 12px;
   text-align: left;
-  padding: 8px 0;
   border: 0 !important;
   background: transparent !important;
   color: inherit !important;
@@ -8519,14 +6580,10 @@ body,
 }
 
 .programa-fight-toggle-icon {
-  width: 32px;
-  height: 32px;
   flex-shrink: 0;
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: rgba(139, 92, 246, 0.13);
-  border: 1px solid rgba(196, 181, 253, 0.18);
   color: var(--cor-roxo-claro);
   font-weight: 600;
 }
@@ -8539,40 +6596,25 @@ body,
 
 .programa-fight-toggle-text strong {
   color: var(--texto-primario);
-  font-size: 16px;
   line-height: 1.2;
   overflow-wrap: anywhere;
 }
 
 .programa-fight-toggle-text small {
-  color: var(--texto-secundario);
   font-size: 12px;
 }
 
-.programa-fight-accordion .programa-fight-tecnicas {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.programa-fight-accordion.aberta {
-  border-color: rgba(196, 181, 253, 0.24) !important;
-}
-
 @media (max-width: 760px) {
-  .programa-fight-toolbar,
-  .programa-fight-accordion-head {
+  .programa-fight-toolbar {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .programa-fight-toolbar-actions,
-  .programa-fight-actions {
+  .programa-fight-toolbar-actions {
     justify-content: stretch;
   }
 
-  .programa-fight-toolbar-actions button,
-  .programa-fight-actions button {
+  .programa-fight-toolbar-actions button {
     flex: 1;
   }
 }
@@ -9236,10 +7278,6 @@ body,
     linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(127, 29, 29, 0.16)) !important;
 }
 
-[data-tema="claro"] .presenca-status-chamada.info {
-  background: rgba(255, 255, 255, 0.82);
-  border-color: rgba(17, 24, 39, 0.10);
-}
 
 @media (max-width: 640px) {
   .presenca-status-chamada {
@@ -9661,35 +7699,58 @@ p, span, small, label, input, select, textarea, button, a {
 }
 
 .sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   min-height: 56px;
+  min-width: 0 !important;
   padding: var(--space-3) !important;
   border-radius: var(--raio-lg) !important;
   background: transparent !important;
   border: 1px solid transparent !important;
+  margin-bottom: var(--gap-xs) !important;
 }
 
 .sidebar-logo {
   width: 36px;
   height: 36px;
   border-radius: var(--raio-md);
+  object-fit: cover;
   box-shadow: none !important;
 }
 
 .sidebar-brand strong {
+  color: #fff;
   font-size: var(--tipo-md) !important;
   font-weight: 500 !important;
   letter-spacing: -0.01em !important;
+  background: linear-gradient(135deg, #fff 30%, var(--cor-roxo-claro) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .sidebar-brand span {
+  display: block;
+  margin-top: 2px;
   font-size: var(--tipo-xs) !important;
   color: var(--texto-terciario) !important;
 }
 
-.sidebar-menu { gap: var(--space-1) !important; }
+.sidebar-menu {
+  display: flex;
+  flex-direction: column !important;
+  gap: var(--space-1) !important;
+  margin-top: 4px !important;
+  min-width: 0 !important;
+}
 
 .menu-item {
+  position: relative;
+  width: 100%;
   min-height: 40px !important;
   height: 40px !important;
+  justify-content: flex-start;
+  text-align: left;
   border-radius: var(--raio-md) !important;
   padding: 0 var(--space-3) !important;
   background: transparent !important;
@@ -9698,6 +7759,8 @@ p, span, small, label, input, select, textarea, button, a {
   border-left: 2px solid transparent !important;
   font-size: var(--tipo-base) !important;
   font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  white-space: normal !important;
   transform: none !important;
   box-shadow: none !important;
   transition: background var(--trans), color var(--trans), border-color var(--trans) !important;
@@ -9781,6 +7844,9 @@ p, span, small, label, input, select, textarea, button, a {
 .container-dashboard {
   padding: var(--space-6) max(var(--space-5), calc(var(--space-6) + var(--safe-right))) calc(var(--space-8) + var(--safe-bottom)) max(var(--space-5), calc(var(--space-6) + var(--safe-left))) !important;
   max-width: 1280px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
 }
 
 .card,
@@ -9951,23 +8017,24 @@ button:hover,
 input,
 select,
 textarea {
+  width: 100%;
+  min-width: 0;
   min-height: 40px !important;
-  padding: 0 var(--space-3) !important;
+  padding: 0 var(--space-4) !important;
   background: var(--bg-input) !important;
   color: var(--texto-primario) !important;
   border: 1px solid var(--borda) !important;
   border-radius: var(--raio-md) !important;
   font-size: var(--tipo-base) !important;
   font-weight: 400 !important;
+  font-family: var(--fonte) !important;
+  outline: none;
   box-shadow: none !important;
-  transition: border-color var(--trans), background var(--trans) !important;
 }
 
 textarea { padding-top: var(--space-3) !important; padding-bottom: var(--space-3) !important; min-height: 96px !important; }
 input::placeholder, textarea::placeholder { color: var(--texto-terciario) !important; }
 input:focus, select:focus, textarea:focus {
-  border-color: var(--cor-roxo) !important;
-  box-shadow: none !important;
   outline: none !important;
 }
 
@@ -10220,8 +8287,7 @@ label,
 .admin-cliente-card,
 .cliente-card,
 .cliente-card-admin,
-.cliente-card-admin-pro,
-.cliente-card-v2 {
+.cliente-card-admin-pro {
   padding: var(--space-6) !important;
   box-sizing: border-box;
 }
@@ -10371,13 +8437,6 @@ label,
   margin-bottom: var(--space-2) !important;
 }
 
-input,
-select,
-textarea {
-  padding-left: var(--space-4) !important;
-  padding-right: var(--space-4) !important;
-}
-
 @media (max-width: 767px) {
   .container,
   .container-dashboard {
@@ -10453,7 +8512,6 @@ textarea {
 .solicitacoes-resumo-grid,
 .programa-fight-info-grid,
 .admin-simple-grid,
-.admin-grid,
 .aluno-premium-grid,
 .turma-meta-grid {
   gap: var(--space-5) !important;
@@ -10509,7 +8567,6 @@ textarea {
 .solicitacoes-resumo-grid > *,
 .programa-fight-info-grid > *,
 .admin-simple-grid > *,
-.admin-grid > *,
 .aluno-premium-grid > *,
 .turma-meta-pill,
 .mini-card-chart,
@@ -10535,7 +8592,6 @@ textarea {
 .solicitacoes-resumo-grid > * span,
 .programa-fight-info-grid > * span,
 .admin-simple-grid > * span,
-.admin-grid > * span,
 .resumo-label,
 .turma-meta-pill span,
 .mini-card-chart span,
@@ -10559,7 +8615,6 @@ textarea {
 .solicitacoes-resumo-grid > * strong,
 .programa-fight-info-grid > * strong,
 .admin-simple-grid > * strong,
-.admin-grid > * strong,
 .resumo-valor,
 .turma-meta-pill strong,
 .summary-box strong,
@@ -10794,7 +8849,6 @@ textarea {
   .solicitacoes-resumo-grid > *,
   .programa-fight-info-grid > *,
   .admin-simple-grid > *,
-  .admin-grid > *,
   .aluno-premium-grid > *,
   .turma-meta-pill,
   .summary-box,
@@ -12136,7 +10190,6 @@ textarea {
 }
 
 
-
 /* ================================================================
    FASE 6A.5 — DESAFIO DA AULA: POLIMENTO VISUAL LEVE
    Não muda regra de ranking. Apenas melhora clareza e leitura.
@@ -12274,16 +10327,21 @@ textarea {
 
 
 /* ================================================================
-   LOGIN PROFESSOR — VISUAL FINAL LIMPO
-   - senha do mesmo tamanho do e-mail
-   - botão de olho pequeno dentro do campo
-   - lembrar e-mail discreto
+   LOGIN PROFESSOR — CAMPOS E BOTÃO VER/OCULTAR
 ================================================================ */
 
-/* Campos principais iguais */
-body .tela-login #emailLogin,
-body .tela-login #senhaLogin {
+body .tela-login .login-senha-wrap {
+  position: relative !important;
   width: 100% !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body .tela-login #emailLogin,
+body .tela-login .login-senha-wrap #senhaLogin {
+  width: 100% !important;
+  max-width: 100% !important;
   height: 58px !important;
   min-height: 58px !important;
   box-sizing: border-box !important;
@@ -12291,290 +10349,10 @@ body .tela-login #senhaLogin {
   font-size: 15px !important;
 }
 
-/* Campo de senha vira um campo normal com o olhinho dentro */
-body .tela-login .login-senha-wrap {
-  position: relative !important;
-  width: 100% !important;
-  display: block !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Senha ocupa a mesma largura do e-mail */
 body .tela-login .login-senha-wrap #senhaLogin {
-  width: 100% !important;
   min-width: 100% !important;
-  max-width: 100% !important;
-  padding-right: 58px !important;
-  margin: 0 !important;
-}
-
-/* Botão pequeno dentro do campo, sem aumentar a linha */
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha {
-  position: absolute !important;
-  top: 50% !important;
-  right: 10px !important;
-  left: auto !important;
-  bottom: auto !important;
-  transform: translateY(-50%) !important;
-
-  width: 38px !important;
-  min-width: 38px !important;
-  max-width: 38px !important;
-
-  height: 38px !important;
-  min-height: 38px !important;
-  max-height: 38px !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  border-radius: 12px !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  background: rgba(255, 255, 255, 0.055) !important;
-
-  color: #ffffff !important;
-  font-size: 16px !important;
-  line-height: 1 !important;
-  font-weight: 700 !important;
-
-  cursor: pointer !important;
-  box-shadow: none !important;
-  z-index: 3 !important;
-}
-
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
-}
-
-/* Lembrar e-mail: simples e discreto, sem cara de botão */
-body .tela-login .login-salvar-acesso {
-  width: 100% !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 9px !important;
-
-  margin: 8px 0 0 !important;
-  padding: 0 !important;
-
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-
-  color: rgba(255, 255, 255, 0.78) !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  text-align: left !important;
-
-  cursor: pointer !important;
-}
-
-/* Checkbox pequeno e alinhado */
-body .tela-login .login-salvar-acesso input#lembrarEmailProfessor {
-  width: 16px !important;
-  min-width: 16px !important;
-  max-width: 16px !important;
-
-  height: 16px !important;
-  min-height: 16px !important;
-  max-height: 16px !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  accent-color: #8b5cf6 !important;
-  cursor: pointer !important;
-  flex: 0 0 auto !important;
-}
-
-body .tela-login .login-salvar-acesso span {
-  line-height: 1.35 !important;
-}
-
-/* Aviso abaixo do lembrar e-mail */
-body .tela-login .login-aviso-seguranca {
-  width: 100% !important;
-  margin: 3px 0 10px !important;
-
-  color: rgba(255, 255, 255, 0.48) !important;
-  font-size: 11px !important;
-  line-height: 1.35 !important;
-  text-align: left !important;
-}
-
-#btnEntrar:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-#mensagemLogin.erro {
-  color: var(--vermelho, #fb7185) !important;
-}
-
-#mensagemLogin.sucesso {
-  color: var(--verde, #4ade80) !important;
-}
-
-@media (max-width: 420px) {
-  body .tela-login #emailLogin,
-  body .tela-login #senhaLogin {
-    height: 54px !important;
-    min-height: 54px !important;
-  }
-
-  body .tela-login .login-senha-wrap #senhaLogin {
-    padding-right: 54px !important;
-  }
-
-  body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha {
-    width: 36px !important;
-    min-width: 36px !important;
-    max-width: 36px !important;
-
-    height: 36px !important;
-    min-height: 36px !important;
-    max-height: 36px !important;
-
-    right: 9px !important;
-    font-size: 15px !important;
-  }
-}
-
-
-/* ================================================================
-   LOGIN PROFESSOR — ÍCONE PROFISSIONAL NO BOTÃO DE SENHA
-================================================================ */
-
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha {
-  font-size: 0 !important;
-  color: rgba(255, 255, 255, 0.82) !important;
-}
-
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha svg {
-  width: 19px !important;
-  height: 19px !important;
-  display: block !important;
-}
-
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha svg path,
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha svg circle {
-  fill: none !important;
-  stroke: currentColor !important;
-  stroke-width: 1.9 !important;
-  stroke-linecap: round !important;
-  stroke-linejoin: round !important;
-}
-
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha:hover {
-  color: #ffffff !important;
-}
-
-
-/* ================================================================
-   LOGIN PROFESSOR — BOTÃO VER/OCULTAR PROFISSIONAL
-   Remove SVG/emoji e usa texto pequeno e confiável.
-================================================================ */
-
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha {
-  position: absolute !important;
-  top: 50% !important;
-  right: 10px !important;
-  left: auto !important;
-  bottom: auto !important;
-  transform: translateY(-50%) !important;
-
-  width: 68px !important;
-  min-width: 68px !important;
-  max-width: 68px !important;
-
-  height: 36px !important;
-  min-height: 36px !important;
-  max-height: 36px !important;
-
-  margin: 0 !important;
-  padding: 0 10px !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  border-radius: 12px !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  background: rgba(255, 255, 255, 0.055) !important;
-
-  color: rgba(255, 255, 255, 0.82) !important;
-  font-size: 12px !important;
-  line-height: 1 !important;
-  font-weight: 800 !important;
-  letter-spacing: 0 !important;
-  text-transform: none !important;
-  white-space: nowrap !important;
-
-  cursor: pointer !important;
-  box-shadow: none !important;
-  z-index: 3 !important;
-}
-
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha:hover {
-  background: rgba(255, 255, 255, 0.11) !important;
-  color: #ffffff !important;
-}
-
-body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha svg {
-  display: none !important;
-}
-
-body .tela-login .login-senha-wrap #senhaLogin {
-  padding-right: 84px !important;
-}
-
-@media (max-width: 420px) {
-  body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha {
-    width: 62px !important;
-    min-width: 62px !important;
-    max-width: 62px !important;
-    height: 34px !important;
-    min-height: 34px !important;
-    max-height: 34px !important;
-    right: 9px !important;
-    font-size: 11px !important;
-  }
-
-  body .tela-login .login-senha-wrap #senhaLogin {
-    padding-right: 76px !important;
-  }
-}
-
-
-/* ================================================================
-   LOGIN PROFESSOR — AJUSTE DISCRETO FINAL DO BOTÃO VER/OCULTAR
-   Este bloco vence os estilos anteriores e deixa o botão sem cara de card.
-================================================================ */
-
-body .tela-login .login-senha-wrap {
-  position: relative !important;
-  width: 100% !important;
-  display: block !important;
-}
-
-body .tela-login #emailLogin,
-body .tela-login .login-senha-wrap #senhaLogin {
-  width: 100% !important;
-  max-width: 100% !important;
-  height: 58px !important;
-  min-height: 58px !important;
-  box-sizing: border-box !important;
-  border-radius: 16px !important;
-}
-
-body .tela-login .login-senha-wrap #senhaLogin {
   padding-right: 72px !important;
+  margin: 0 !important;
 }
 
 body .tela-login .login-senha-wrap #btnMostrarSenhaLogin.btn-mostrar-senha {
@@ -12639,11 +10417,13 @@ body .tela-login .login-salvar-acesso {
   margin: 4px 0 0 !important;
   padding: 0 !important;
   border: 0 !important;
+  border-radius: 0 !important;
   background: transparent !important;
   color: rgba(255, 255, 255, 0.66) !important;
   font-size: 12px !important;
   font-weight: 600 !important;
   line-height: 1.3 !important;
+  text-align: left !important;
   cursor: pointer !important;
 }
 
@@ -12658,6 +10438,11 @@ body .tela-login .login-salvar-acesso input#lembrarEmailProfessor {
   padding: 0 !important;
   accent-color: #8b5cf6 !important;
   cursor: pointer !important;
+  flex: 0 0 auto !important;
+}
+
+body .tela-login .login-salvar-acesso span {
+  line-height: 1.35 !important;
 }
 
 body .tela-login .login-aviso-seguranca {
@@ -12667,6 +10452,19 @@ body .tela-login .login-aviso-seguranca {
   font-size: 10.5px !important;
   line-height: 1.25 !important;
   text-align: left !important;
+}
+
+#btnEntrar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+#mensagemLogin.erro {
+  color: var(--vermelho, #fb7185) !important;
+}
+
+#mensagemLogin.sucesso {
+  color: var(--verde, #4ade80) !important;
 }
 
 @media (max-width: 420px) {
@@ -12814,130 +10612,7 @@ body .tela-login .login-aviso-seguranca {
 
 .avisos-lista-profissional {
   display: grid;
-  gap: 10px;
-}
-
-.aviso-compacto {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.035);
-  overflow: hidden;
-  transition: border-color .18s ease, background .18s ease, transform .18s ease;
-}
-
-.aviso-compacto:hover,
-.aviso-compacto.aberto {
-  border-color: rgba(139, 92, 246, 0.24);
-  background: rgba(255, 255, 255, 0.055);
-}
-
-.aviso-compacto-resumo {
-  width: 100%;
-  min-height: 64px;
-  display: grid;
-  grid-template-columns: 10px 1fr 28px;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.aviso-status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: #22c55e;
-  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
-}
-
-.aviso-status-dot.status-pendente {
-  background: #f59e0b;
-  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.14);
-}
-
-.aviso-status-dot.status-atrasado {
-  background: #ef4444;
-  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14);
-}
-
-.aviso-resumo-texto {
-  min-width: 0;
-  display: grid;
-  gap: 4px;
-}
-
-.aviso-resumo-texto strong {
-  color: var(--texto-primario, #fff);
-  font-size: 14px;
-  line-height: 1.25;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.aviso-resumo-texto small {
-  color: var(--texto-secundario, #cbd5e1);
-  font-size: 12px;
-  line-height: 1.25;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.aviso-chevron {
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  color: var(--texto-secundario, #cbd5e1);
-  background: rgba(255, 255, 255, 0.045);
-  transition: transform .18s ease;
-}
-
-.aviso-compacto.aberto .aviso-chevron {
-  transform: rotate(180deg);
-}
-
-.aviso-compacto-detalhes {
-  padding: 0 14px 14px 36px;
-}
-
-.aviso-compacto-detalhes.escondido {
-  display: none !important;
-}
-
-.aviso-compacto-detalhes p {
-  margin: 10px 0;
-  color: var(--texto-primario, #fff);
-  font-size: 14px;
-  line-height: 1.55;
-  white-space: pre-wrap;
-}
-
-.aviso-acoes-recolhivel {
-  margin-top: 12px;
-  justify-content: flex-start;
-}
-
-.avisos-empty-state {
-  display: grid;
-  gap: 4px;
-  text-align: center;
-  padding: 22px;
-}
-
-.avisos-empty-state strong {
-  color: var(--texto-primario, #fff);
-}
-
-.avisos-empty-state span {
-  color: var(--texto-secundario, #cbd5e1);
-  font-size: 13px;
+  gap: 14px;
 }
 
 @media (max-width: 720px) {
@@ -12976,238 +10651,8 @@ body .tela-login .login-aviso-seguranca {
     width: 100%;
   }
 
-  .aviso-compacto-resumo {
-    grid-template-columns: 9px 1fr 26px;
-    gap: 10px;
-    padding: 12px;
-  }
-
-  .aviso-compacto-detalhes {
-    padding: 0 12px 14px 31px;
-  }
 }
 
-
-/* ================================================================
-   CENTRAL DE AVISOS — CARDS RECOLHIDOS MAIS PROFISSIONAIS
-   Mantém os avisos fechados, mas com leitura melhor e menos aparência de linha apertada.
-================================================================ */
-
-.avisos-lista-profissional {
-  gap: 14px !important;
-}
-
-.aviso-compacto {
-  position: relative !important;
-  border-radius: 24px !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.060), rgba(255, 255, 255, 0.030)) !important;
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.18) !important;
-  overflow: hidden !important;
-}
-
-.aviso-compacto::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 4px;
-  background: linear-gradient(180deg, rgba(139, 92, 246, 0.95), rgba(34, 197, 94, 0.55));
-  opacity: 0.9;
-}
-
-.aviso-compacto:hover,
-.aviso-compacto.aberto {
-  transform: translateY(-1px) !important;
-  border-color: rgba(139, 92, 246, 0.28) !important;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.078), rgba(255, 255, 255, 0.040)) !important;
-}
-
-.aviso-compacto.aviso-importante::before {
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.98), rgba(139, 92, 246, 0.72));
-}
-
-.aviso-compacto.aviso-expirado {
-  opacity: 0.78;
-}
-
-.aviso-compacto-resumo {
-  min-height: 116px !important;
-  grid-template-columns: 14px minmax(0, 1fr) 34px !important;
-  align-items: flex-start !important;
-  gap: 15px !important;
-  padding: 18px 18px 18px 20px !important;
-}
-
-.aviso-status-dot {
-  margin-top: 9px !important;
-  width: 11px !important;
-  height: 11px !important;
-}
-
-.aviso-resumo-texto {
-  gap: 6px !important;
-}
-
-.aviso-card-meta-topo {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  flex-wrap: wrap;
-  margin-bottom: 2px;
-}
-
-.aviso-card-meta-topo .mini-badge {
-  margin: 0 !important;
-}
-
-.aviso-resumo-texto strong {
-  color: var(--texto-primario, #fff) !important;
-  font-size: 16px !important;
-  line-height: 1.28 !important;
-  letter-spacing: -0.025em !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  display: -webkit-box !important;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.aviso-resumo-texto small {
-  color: var(--texto-secundario, #cbd5e1) !important;
-  font-size: 12px !important;
-  line-height: 1.3 !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-}
-
-.aviso-preview {
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  color: rgba(203, 213, 225, 0.74);
-  font-size: 13px;
-  line-height: 1.45;
-  margin-top: 2px;
-}
-
-.aviso-chevron {
-  width: 34px !important;
-  height: 34px !important;
-  margin-top: 4px !important;
-  border-radius: 12px !important;
-  background: rgba(255, 255, 255, 0.060) !important;
-  font-size: 16px !important;
-}
-
-.aviso-compacto-detalhes {
-  margin: 0 18px 18px 49px !important;
-  padding: 16px !important;
-  border: 1px solid rgba(255, 255, 255, 0.075) !important;
-  border-radius: 18px !important;
-  background: rgba(0, 0, 0, 0.14) !important;
-}
-
-.aviso-compacto-detalhes p {
-  margin: 0 0 12px !important;
-  font-size: 14px !important;
-  line-height: 1.62 !important;
-}
-
-.aviso-periodo {
-  display: block;
-  color: var(--texto-secundario, #cbd5e1);
-  font-size: 12px;
-  margin-bottom: 12px;
-}
-
-.aviso-acoes-recolhivel {
-  display: flex !important;
-  gap: 10px !important;
-  flex-wrap: wrap !important;
-}
-
-@media (max-width: 720px) {
-  .avisos-lista-profissional {
-    gap: 12px !important;
-  }
-
-  .aviso-compacto-resumo {
-    min-height: 108px !important;
-    grid-template-columns: 12px minmax(0, 1fr) 32px !important;
-    gap: 12px !important;
-    padding: 16px 14px 16px 16px !important;
-  }
-
-  .aviso-resumo-texto strong {
-    font-size: 15px !important;
-  }
-
-  .aviso-preview {
-    font-size: 12.5px !important;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
-  }
-
-  .aviso-compacto-detalhes {
-    margin: 0 14px 16px 39px !important;
-    padding: 14px !important;
-  }
-
-  .aviso-acoes-recolhivel,
-  .aviso-acoes-recolhivel button {
-    width: 100% !important;
-  }
-}
-
-
-/* ================================================================
-   CENTRAL DE AVISOS — EDIÇÃO DE AVISO
-================================================================ */
-.avisos-form.modo-edicao {
-  border-color: rgba(139, 92, 246, 0.32) !important;
-  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.18), inset 0 0 0 1px rgba(139, 92, 246, 0.10) !important;
-}
-
-.avisos-form.modo-edicao .avisos-form-topo h3::after {
-  content: "Modo edição";
-  display: inline-flex;
-  align-items: center;
-  margin-left: 10px;
-  padding: 5px 9px;
-  border-radius: 999px;
-  background: rgba(139, 92, 246, 0.14);
-  color: #c4b5fd;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  vertical-align: middle;
-}
-
-.aviso-acoes-recolhivel .btn-editar-aviso {
-  border-color: rgba(139, 92, 246, 0.28) !important;
-  background: rgba(139, 92, 246, 0.10) !important;
-  color: #ddd6fe !important;
-}
-
-.aviso-acoes-recolhivel .btn-editar-aviso:hover {
-  background: rgba(139, 92, 246, 0.18) !important;
-  color: #ffffff !important;
-}
-
-@media (max-width: 720px) {
-  .avisos-form.modo-edicao .avisos-form-topo h3::after {
-    margin: 8px 0 0;
-    width: fit-content;
-    display: flex;
-  }
-}
 
 /* ================================================================
    CENTRAL DE SOLICITAÇÕES — SEPARAÇÃO POR STATUS
@@ -13303,37 +10748,6 @@ body .tela-login .login-aviso-seguranca {
   margin-top: 0 !important;
 }
 
-.solicitacao-card-v2 {
-  display: grid !important;
-  grid-template-columns: 1fr !important;
-  gap: 14px !important;
-  padding: 18px !important;
-  border-radius: 24px !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
-  background: rgba(255, 255, 255, 0.04) !important;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16) !important;
-  opacity: 1 !important;
-}
-
-.solicitacao-card-v2.status-pendente {
-  border-left: 4px solid #fbbf24 !important;
-}
-
-.solicitacao-card-v2.status-aprovada {
-  border-left: 4px solid #22c55e !important;
-}
-
-.solicitacao-card-v2.status-recusada {
-  border-left: 4px solid #ef4444 !important;
-}
-
-.solicitacao-card-cabecalho {
-  display: flex !important;
-  align-items: flex-start !important;
-  justify-content: space-between !important;
-  gap: 14px !important;
-}
-
 .solicitacao-card-tags {
   display: flex !important;
   flex-wrap: wrap !important;
@@ -13379,52 +10793,6 @@ body .tela-login .login-aviso-seguranca {
   border: 1px solid rgba(239, 68, 68, 0.24) !important;
 }
 
-.solicitacao-card-v2 h3 {
-  margin: 0 0 4px !important;
-  color: var(--texto-primario) !important;
-  font-size: 18px !important;
-  line-height: 1.25 !important;
-  letter-spacing: -.03em !important;
-}
-
-.solicitacao-card-v2 small {
-  color: var(--texto-terciario) !important;
-  font-size: 12px !important;
-  font-weight: 650 !important;
-}
-
-.solicitacao-conteudo-v2 {
-  display: grid !important;
-  gap: 6px !important;
-  padding: 14px !important;
-  border-radius: 18px !important;
-  background: rgba(0, 0, 0, 0.12) !important;
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
-}
-
-.solicitacao-conteudo-v2 p {
-  margin: 0 !important;
-  color: var(--texto-secundario) !important;
-  font-size: 13px !important;
-  line-height: 1.45 !important;
-}
-
-.solicitacao-conteudo-v2 strong {
-  color: var(--texto-primario) !important;
-}
-
-.solicitacao-acoes-v2 {
-  display: flex !important;
-  justify-content: flex-end !important;
-  flex-wrap: wrap !important;
-  gap: 9px !important;
-  margin-top: 0 !important;
-}
-
-.solicitacao-acoes-v2 button {
-  min-width: 132px !important;
-}
-
 @media (max-width: 760px) {
   .solicitacoes-status-grid {
     grid-template-columns: 1fr !important;
@@ -13445,46 +10813,8 @@ body .tela-login .login-aviso-seguranca {
     align-items: flex-start !important;
   }
 
-  .solicitacao-card-v2 {
-    padding: 16px !important;
-    border-radius: 22px !important;
-  }
-
-  .solicitacao-acoes-v2 {
-    justify-content: stretch !important;
-  }
-
-  .solicitacao-acoes-v2 button {
-    flex: 1 1 100% !important;
-    width: 100% !important;
-  }
 }
 
-html[data-tema="claro"] .solicitacoes-status-card,
-body[data-tema="claro"] .solicitacoes-status-card {
-  background: #ffffff !important;
-  border-color: rgba(15, 23, 42, 0.10) !important;
-  color: #0f172a !important;
-}
-
-html[data-tema="claro"] .solicitacoes-status-card.ativo,
-body[data-tema="claro"] .solicitacoes-status-card.ativo {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), #ffffff) !important;
-  border-color: rgba(139, 92, 246, 0.34) !important;
-}
-
-html[data-tema="claro"] .solicitacao-card-v2,
-body[data-tema="claro"] .solicitacao-card-v2 {
-  background: #ffffff !important;
-  border-color: rgba(15, 23, 42, 0.10) !important;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08) !important;
-}
-
-html[data-tema="claro"] .solicitacao-conteudo-v2,
-body[data-tema="claro"] .solicitacao-conteudo-v2 {
-  background: rgba(15, 23, 42, 0.035) !important;
-  border-color: rgba(15, 23, 42, 0.08) !important;
-}
 
 /* ================================================================
    SOLICITAÇÕES — FASE 2 PROFISSIONAL
@@ -13542,6 +10872,8 @@ body[data-tema="claro"] .solicitacao-conteudo-v2 {
 }
 
 .solicitacao-card-v3 small {
+  display: block;
+  margin-top: 4px;
   color: var(--texto-terciario) !important;
   font-size: 12px !important;
   font-weight: 700 !important;
@@ -13670,32 +11002,6 @@ body[data-tema="claro"] .solicitacao-conteudo-v2 {
     width: 100% !important;
     min-width: 0 !important;
   }
-}
-
-html[data-tema="claro"] .solicitacao-card-v3,
-body[data-tema="claro"] .solicitacao-card-v3 {
-  background: #ffffff !important;
-  border-color: rgba(15, 23, 42, 0.10) !important;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08) !important;
-}
-
-html[data-tema="claro"] .solicitacao-card-v3.aberta,
-body[data-tema="claro"] .solicitacao-card-v3.aberta {
-  border-color: rgba(139, 92, 246, .30) !important;
-}
-
-html[data-tema="claro"] .solicitacao-conteudo-v3,
-body[data-tema="claro"] .solicitacao-conteudo-v3 {
-  background: rgba(15, 23, 42, .035) !important;
-  border-color: rgba(15, 23, 42, .08) !important;
-}
-
-html[data-tema="claro"] .solicitacao-detalhe-grade > div,
-html[data-tema="claro"] .solicitacao-observacao,
-body[data-tema="claro"] .solicitacao-detalhe-grade > div,
-body[data-tema="claro"] .solicitacao-observacao {
-  background: rgba(15, 23, 42, .035) !important;
-  border-color: rgba(15, 23, 42, .07) !important;
 }
 
 
@@ -14137,15 +11443,6 @@ body[data-tema="claro"] .solicitacao-observacao {
   font-size: 12px !important;
 }
 
-[data-tema="claro"] .financeiro-operacao-card,
-[data-tema="claro"] .financeiro-filtros-pro {
-  background: #ffffff !important;
-}
-
-[data-tema="claro"] .financeiro-linha-meta span {
-  background: rgba(15, 23, 42, 0.035);
-  border-color: rgba(15, 23, 42, 0.08);
-}
 
 @media (max-width: 980px) {
   .financeiro-resumo-pro {
@@ -14190,178 +11487,6 @@ body[data-tema="claro"] .solicitacao-observacao {
   .financeiro-linha-dir-pro small {
     align-items: stretch !important;
     text-align: left !important;
-  }
-}
-
-/* ================================================================
-   CONFIGURAÇÕES DO PROFESSOR — CENTRAL DA ACADEMIA
-================================================================ */
-.perfil-configuracoes-page {
-  overflow: hidden;
-}
-
-.perfil-configuracoes-hero {
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.perfil-configuracoes-hero h2 {
-  letter-spacing: -0.045em;
-}
-
-.perfil-configuracoes-form {
-  display: grid;
-  gap: 16px;
-}
-
-.config-bloco {
-  width: 100%;
-  display: grid;
-  gap: 14px;
-  padding: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 22px;
-  background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.025));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
-}
-
-.config-bloco-topo {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.config-bloco-topo h3 {
-  margin: 4px 0 4px;
-  color: var(--texto-primario, #ffffff);
-  font-size: clamp(18px, 2.6vw, 22px);
-  line-height: 1.15;
-  letter-spacing: -0.035em;
-}
-
-.config-bloco-topo p {
-  margin: 0;
-  max-width: 720px;
-  color: var(--texto-secundario, #94a3b8);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.config-etiqueta {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  padding: 6px 9px;
-  border-radius: 999px;
-  background: rgba(124, 58, 237, 0.12);
-  border: 1px solid rgba(196, 181, 253, 0.14);
-  color: #c4b5fd;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-}
-
-.config-grid-duplo,
-.config-grid-tres {
-  display: grid;
-  gap: 12px;
-}
-
-.config-grid-duplo {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.config-grid-tres {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.config-modulos-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.config-modulo-item {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 46px;
-  padding: 11px 12px;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  background: rgba(255,255,255,.035);
-  color: var(--texto-secundario, #cbd5e1);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.config-modulo-item input {
-  width: 17px !important;
-  height: 17px !important;
-  margin: 0 !important;
-  accent-color: #8b5cf6;
-  opacity: .95;
-}
-
-.config-modulo-item input:checked + span {
-  color: var(--texto-primario, #ffffff);
-}
-
-.config-modulo-item:has(input:checked) {
-  border-color: rgba(139, 92, 246, .28);
-  background: rgba(139, 92, 246, .10);
-}
-
-.config-acoes {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  margin-top: 2px;
-}
-
-.config-acoes .perfil-aviso-admin {
-  margin: 0 !important;
-  flex: 1 1 auto;
-  color: var(--texto-terciario, #94a3b8);
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.config-acoes .btn-salvar-perfil {
-  flex: 0 0 auto;
-  min-width: 190px;
-}
-
-@media (max-width: 900px) {
-  .config-grid-tres,
-  .config-modulos-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 680px) {
-  .config-bloco {
-    padding: 15px;
-    border-radius: 20px;
-  }
-
-  .config-grid-duplo,
-  .config-grid-tres,
-  .config-modulos-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .config-acoes {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .config-acoes .btn-salvar-perfil {
-    width: 100%;
-    min-width: 0;
   }
 }
 
@@ -14443,17 +11568,6 @@ body[data-tema="claro"] .solicitacao-observacao {
   background: rgba(255, 255, 255, 0.035) !important;
 }
 
-html[data-tema="claro"] .perfil-configuracoes-page .config-modulo-item:has(input:not(:checked)),
-body[data-tema="claro"] .perfil-configuracoes-page .config-modulo-item:has(input:not(:checked)) {
-  border-color: rgba(15, 23, 42, 0.10) !important;
-  background: rgba(255, 255, 255, 0.86) !important;
-}
-
-html[data-tema="claro"] .perfil-configuracoes-page .config-modulo-item:has(input:checked),
-body[data-tema="claro"] .perfil-configuracoes-page .config-modulo-item:has(input:checked) {
-  border-color: rgba(124, 58, 237, 0.22) !important;
-  background: rgba(124, 58, 237, 0.08) !important;
-}
 
 /* ================================================================
    MENSALIZE — POLIMENTO SaaS 1A
@@ -14600,7 +11714,6 @@ textarea:focus {
 /* Badges/chips mais consistentes */
 .status-badge,
 .status-chip,
-.config-etiqueta,
 .solicitacao-status,
 .aviso-chip,
 .badge,
@@ -15834,11 +12947,6 @@ body.perfil-aluno-aberto {
   font-size: 12px;
 }
 
-.admin-operacao-grid {
-  grid-template-columns: minmax(0, 1fr) minmax(320px, .85fr) !important;
-  margin-bottom: 16px;
-}
-
 .admin-criar-cliente-card .admin-form-mini {
   display: grid;
   gap: 12px;
@@ -15908,9 +13016,6 @@ body.perfil-aluno-aberto {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
-  .admin-operacao-grid {
-    grid-template-columns: 1fr !important;
-  }
 }
 
 @media (max-width: 720px) {
@@ -15951,11 +13056,6 @@ body.perfil-aluno-aberto {
   }
 }
 
-[data-tema="claro"] .admin-exec-hero,
-[data-tema="claro"] .admin-planos-resumo-exec span {
-  background: #ffffff !important;
-  border-color: rgba(15, 23, 42, .09) !important;
-}
 
 /* ================================================================
    HOTFIX ADMIN — MÉTRICAS MAIS COMPACTAS
@@ -16136,85 +13236,6 @@ body.perfil-aluno-aberto {
 }
 
 /* ================================================================
-   CONFIGURAÇÕES — ABAS (Sistema de navegação por tabs)
-================================================================ */
-.config-abas {
-  display: flex;
-  gap: 4px;
-  padding: 4px;
-  background: var(--bg-nivel-2);
-  border: 1px solid var(--borda);
-  border-radius: var(--raio-lg);
-  margin-bottom: 24px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.config-abas::-webkit-scrollbar { display: none; }
-
-.config-aba {
-  flex: 1;
-  min-width: max-content;
-  padding: 8px 18px;
-  border-radius: var(--raio-md);
-  border: none;
-  background: transparent;
-  color: var(--texto-secundario);
-  font-size: var(--tipo-sm);
-  font-weight: 500;
-  font-family: var(--fonte);
-  cursor: pointer;
-  transition: all var(--trans);
-  white-space: nowrap;
-}
-.config-aba:hover {
-  background: var(--bg-hover);
-  color: var(--texto-primario);
-}
-.config-aba.ativa {
-  background: var(--bg-nivel-3);
-  color: var(--texto-primario);
-  font-weight: 600;
-  border: 1px solid var(--borda);
-}
-
-.config-painel { display: none; }
-.config-painel.ativo { display: block; }
-
-.config-painel-header {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--borda);
-}
-.config-painel-header strong {
-  display: block;
-  font-size: var(--tipo-md);
-  font-weight: 600;
-  color: var(--texto-primario);
-  margin-bottom: 4px;
-}
-.config-painel-header span {
-  font-size: var(--tipo-sm);
-  color: var(--texto-terciario);
-}
-
-.config-acoes {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid var(--borda);
-  flex-wrap: wrap;
-}
-.config-acoes .msg-perfil {
-  margin: 0;
-  font-size: var(--tipo-sm);
-  color: var(--verde);
-  flex: 1;
-}
-
-/* ================================================================
    HISTÓRICO DE CHAMADAS — TOGGLE
 ================================================================ */
 .historico-chamadas-topo {
@@ -16262,47 +13283,6 @@ body.perfil-aluno-aberto {
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
-}
-
-.perfil-configuracoes-hero {
-  align-items: stretch;
-}
-
-.perfil-plano-card {
-  min-width: min(100%, 320px);
-  display: grid;
-  gap: 8px;
-  align-content: start;
-  padding: 16px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-}
-
-.perfil-plano-card strong {
-  color: #fff;
-  font-size: 17px;
-  letter-spacing: -0.035em;
-}
-
-.perfil-plano-card small {
-  color: var(--texto-secundario);
-  line-height: 1.4;
-}
-
-.perfil-plano-trial {
-  border-color: rgba(245, 158, 11, 0.30);
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.10), rgba(255, 255, 255, 0.045));
-}
-
-.perfil-plano-pro {
-  border-color: rgba(167, 139, 250, 0.34);
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.16), rgba(255, 255, 255, 0.045));
-}
-
-.perfil-plano-expirado {
-  border-color: rgba(239, 68, 68, 0.34);
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.13), rgba(255, 255, 255, 0.045));
 }
 
 .menu-item.modulo-bloqueado {
@@ -16400,8 +13380,7 @@ body.perfil-aluno-aberto {
 }
 
 @media (max-width: 760px) {
-  .banner-trial-plano,
-  .perfil-configuracoes-hero {
+  .banner-trial-plano {
     flex-direction: column;
     align-items: stretch;
   }
@@ -16626,22 +13605,6 @@ body.perfil-aluno-aberto {
   white-space: nowrap;
 }
 
-[data-tema="claro"] .onboarding-professor-card {
-  background: #ffffff !important;
-  border-color: var(--borda) !important;
-  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.06) !important;
-}
-
-[data-tema="claro"] .onboarding-professor-topo h3,
-[data-tema="claro"] .onboarding-passo-card strong {
-  color: #151525 !important;
-}
-
-[data-tema="claro"] .onboarding-passo-card,
-[data-tema="claro"] .onboarding-professor-status {
-  background: rgba(17, 24, 39, 0.035) !important;
-  border-color: rgba(17, 24, 39, 0.10) !important;
-}
 
 @media (max-width: 1180px) {
   .onboarding-professor-lista {
@@ -17304,18 +14267,6 @@ body.relatorios-aberto { overflow: hidden; }
   min-width: 116px;
   min-height: 42px;
 }
-.relatorios-btn-cancelar {
-  min-width: auto !important;
-  padding-inline: 12px !important;
-  background: transparent !important;
-  border-color: transparent !important;
-  color: var(--texto-terciario) !important;
-}
-.relatorios-btn-cancelar:hover {
-  color: var(--texto-primario) !important;
-  background: rgba(255, 255, 255, 0.04) !important;
-}
-
 #btnGerarRelatorioCsv:disabled,
 #btnGerarRelatorioPdf:disabled {
   opacity: .58;
@@ -17323,31 +14274,6 @@ body.relatorios-aberto { overflow: hidden; }
   transform: none !important;
 }
 
-[data-tema="claro"] .relatorios-modal-card,
-[data-tema="claro"] .relatorios-modal-topo,
-[data-tema="claro"] .relatorios-modal-rodape {
-  background: #fff !important;
-}
-[data-tema="claro"] .relatorios-modal-card { border-color: var(--borda) !important; }
-[data-tema="claro"] .relatorios-modal-topo,
-[data-tema="claro"] .relatorios-modal-rodape,
-[data-tema="claro"] .relatorio-privacidade-opcao { border-color: var(--borda); }
-[data-tema="claro"] .relatorios-modal-topo h2,
-[data-tema="claro"] .relatorios-config-head h3,
-[data-tema="claro"] .relatorio-preview-card strong { color: #151525; }
-[data-tema="claro"] .relatorio-tipo-card { border-color: var(--borda) !important; }
-[data-tema="claro"] .relatorio-tipo-card.ativo {
-  color: #34176f !important;
-  background: rgba(124, 58, 237, 0.09) !important;
-  border-color: rgba(124, 58, 237, 0.24) !important;
-}
-[data-tema="claro"] .relatorios-filtros input,
-[data-tema="claro"] .relatorios-filtros select { background-color: #fff; }
-[data-tema="claro"] .relatorio-preview-card {
-  background: rgba(124, 58, 237, 0.035);
-  border-color: var(--borda);
-  border-left-color: rgba(124, 58, 237, 0.62);
-}
 
 @media (max-width: 720px) {
   .relatorios-modal-card {
@@ -17367,7 +14293,7 @@ body.relatorios-aberto { overflow: hidden; }
   }
   .relatorios-modal-rodape p { text-align: center; }
   .relatorios-export-acoes { display: grid; grid-template-columns: 1fr 1fr; }
-  .relatorios-btn-cancelar { grid-column: 1 / -1; order: 3; }
+  #modalCentralRelatorios .relatorios-btn-cancelar { grid-column: 1 / -1; order: 3; }
   .relatorios-export-acoes button { width: 100%; min-width: 0; }
 }
 
@@ -17384,13 +14310,12 @@ body.relatorios-aberto { overflow: hidden; }
     gap: 9px;
   }
   .relatorios-export-acoes { grid-template-columns: 1fr; }
-  .relatorios-btn-cancelar { grid-column: auto; }
+  #modalCentralRelatorios .relatorios-btn-cancelar { grid-column: auto; }
 }
 
 /* ================================================================
-   RELATÓRIOS 2.4 — POLIMENTO DE INTERAÇÃO
-   Isola o checkbox de privacidade dos estilos globais de inputs
-   e refina a ação secundária de fechamento do modal.
+   RELATÓRIOS 2.4 — CHECKBOX DE PRIVACIDADE
+   Isola o checkbox dos estilos globais de inputs.
 ================================================================ */
 .relatorio-privacidade-opcao {
   border-radius: 12px;
@@ -17439,75 +14364,6 @@ body.relatorios-aberto { overflow: hidden; }
   outline-offset: 3px;
 }
 
-.relatorios-btn-cancelar {
-  min-width: 92px !important;
-  min-height: 42px !important;
-  padding: 10px 14px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 7px !important;
-  background: rgba(255, 255, 255, 0.045) !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
-  border-radius: 13px !important;
-  color: var(--texto-secundario) !important;
-  font-weight: 600 !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-.relatorios-btn-cancelar::before {
-  content: "×";
-  display: inline-grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  color: var(--texto-terciario);
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1;
-  transition: color var(--trans), background var(--trans);
-}
-
-.relatorios-btn-cancelar:hover {
-  background: rgba(255, 255, 255, 0.075) !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
-  color: var(--texto-primario) !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-.relatorios-btn-cancelar:hover::before {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.07);
-}
-
-.relatorios-btn-cancelar:focus-visible {
-  outline: 2px solid var(--cor-roxo-claro);
-  outline-offset: 2px;
-}
-
-.relatorios-btn-cancelar:active {
-  background: rgba(255, 255, 255, 0.095) !important;
-  transform: scale(0.98) !important;
-}
-
-[data-tema="claro"] .relatorio-privacidade-opcao:hover {
-  background: rgba(124, 58, 237, 0.035);
-}
-
-[data-tema="claro"] .relatorios-btn-cancelar {
-  background: rgba(17, 24, 39, 0.035) !important;
-  border-color: rgba(17, 24, 39, 0.10) !important;
-  color: #5c6075 !important;
-}
-
-[data-tema="claro"] .relatorios-btn-cancelar:hover {
-  background: rgba(124, 58, 237, 0.07) !important;
-  border-color: rgba(124, 58, 237, 0.18) !important;
-  color: #2f2350 !important;
-}
 
 /* ================================================================
    RELATÓRIOS — CORREÇÃO DO BOTÃO FECHAR SUPERIOR
@@ -17564,20 +14420,9 @@ body.relatorios-aberto { overflow: hidden; }
   outline-offset: 3px !important;
 }
 
-[data-tema="claro"] #modalCentralRelatorios #btnFecharCentralRelatorios {
-  background: rgba(17, 24, 39, 0.035) !important;
-  border-color: rgba(17, 24, 39, 0.10) !important;
-  color: #6b7280 !important;
-}
-
-[data-tema="claro"] #modalCentralRelatorios #btnFecharCentralRelatorios:hover {
-  background: rgba(124, 58, 237, 0.08) !important;
-  border-color: rgba(124, 58, 237, 0.20) !important;
-  color: #4c1d95 !important;
-}
 
 /* ================================================================
-   RELATÓRIOS — CORREÇÃO DEFINITIVA DO BOTÃO FECHAR DO RODAPÉ
+   RELATÓRIOS — BOTÃO FECHAR DO RODAPÉ
    Evita quebra de texto, remove o X artificial e mantém altura estável.
 ================================================================ */
 #modalCentralRelatorios .relatorios-btn-cancelar {
@@ -17648,17 +14493,6 @@ body.relatorios-aberto { overflow: hidden; }
   }
 }
 
-[data-tema="claro"] #modalCentralRelatorios .relatorios-btn-cancelar {
-  background: rgba(17, 24, 39, 0.035) !important;
-  border-color: rgba(17, 24, 39, 0.10) !important;
-  color: #5c6075 !important;
-}
-
-[data-tema="claro"] #modalCentralRelatorios .relatorios-btn-cancelar:hover {
-  background: rgba(124, 58, 237, 0.07) !important;
-  border-color: rgba(124, 58, 237, 0.18) !important;
-  color: #2f2350 !important;
-}
 
 /* ================================================================
    FINANCEIRO — PAGAMENTOS POR ALUNO RETRÁTIL
@@ -17708,7 +14542,6 @@ body.relatorios-aberto { overflow: hidden; }
     width: 100%;
   }
 }
-
 
 
 /* ================================================================
@@ -17843,20 +14676,6 @@ body.relatorios-aberto { overflow: hidden; }
   box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.08);
 }
 
-[data-tema="claro"] .aluno-multiturma-field {
-  border-color: rgba(17, 24, 39, 0.10);
-  background: rgba(17, 24, 39, 0.025);
-}
-
-[data-tema="claro"] .form-section .aluno-turma-chip {
-  border-color: rgba(17, 24, 39, 0.10);
-  background: rgba(17, 24, 39, 0.025);
-}
-
-[data-tema="claro"] .form-section .aluno-turma-chip:has(input:checked) {
-  border-color: rgba(109, 40, 217, 0.30);
-  background: rgba(124, 58, 237, 0.08);
-}
 
 @media (max-width: 760px) {
   .aluno-multiturma-topo {
@@ -18413,16 +15232,6 @@ body.aceite-legal-aberto {
   }
 }
 
-[data-tema="claro"] .admin-acao-secundaria,
-[data-tema="claro"] .admin-fechar-painel,
-[data-tema="claro"] .admin-simple-card {
-  background: #ffffff !important;
-  border-color: rgba(15, 23, 42, 0.1) !important;
-}
-
-[data-tema="claro"] .admin-simple-panel {
-  background: rgba(248, 250, 252, 0.92);
-}
 
 @media (max-width: 760px) {
   .admin-topo-acoes {
@@ -19059,17 +15868,6 @@ body.aceite-legal-aberto {
   }
 }
 
-[data-tema="claro"] #telaAdmin .admin-mobile-appbar {
-  border-color: rgba(15, 23, 42, 0.09);
-  background: rgba(248, 250, 252, 0.9);
-}
-
-[data-tema="claro"] #telaAdmin .admin-mobile-brand-copy strong,
-[data-tema="claro"] #telaAdmin .admin-mobile-intro h1,
-[data-tema="claro"] #telaAdmin .admin-clientes-exec-card > .admin-card-header h3,
-[data-tema="claro"] #telaAdmin .admin-simple-title-wrap strong {
-  color: #111827;
-}
 
 /* ================================================================
    ADMIN MOBILE COMPACTO — LISTA LIMPA E GERENCIAMENTO EM TELA CHEIA
@@ -19408,20 +16206,6 @@ body.aceite-legal-aberto {
   }
 }
 
-[data-tema="claro"] #telaAdmin .admin-simple-panel:not(.escondido) {
-  background: #f8fafc !important;
-}
-
-[data-tema="claro"] #telaAdmin .admin-mobile-client-shell-head,
-[data-tema="claro"] #telaAdmin .admin-simple-footer {
-  border-color: rgba(15, 23, 42, 0.09);
-  background: rgba(248, 250, 252, 0.92);
-}
-
-[data-tema="claro"] #telaAdmin .admin-mobile-client-header strong,
-[data-tema="claro"] #telaAdmin .admin-simple-panel .admin-simple-field > span {
-  color: #111827;
-}
 
 /* ALUNOS — FILA LIMPA DE ATIVAÇÃO DO PORTAL */
 #viewAlunos .acessos-pendentes {
@@ -19612,14 +16396,187 @@ body.aceite-legal-aberto {
   opacity: 0.66;
 }
 
-[data-tema="claro"] #viewAlunos .acessos-pendentes {
-  border-color: rgba(15, 23, 42, 0.08);
-  border-left-color: #7c3aed;
-  background: #ffffff;
-  box-shadow: 0 14px 30px rgba(76, 29, 149, 0.06);
+/* ================================================================
+   ETAPA 11 — PILOTO VISUAL VIVO / PROFESSOR
+   Nova profundidade, entrada em sequência e movimento ambiental.
+================================================================ */
+
+.tela-login {
+  background:
+    radial-gradient(circle at 16% 4%, rgba(139, 92, 246, 0.38), transparent 34%),
+    radial-gradient(circle at 88% 82%, rgba(34, 211, 238, 0.18), transparent 32%),
+    linear-gradient(145deg, #0a1020 0%, #111a31 52%, #0d1428 100%) !important;
+  background-size: 130% 130%, 125% 125%, 100% 100% !important;
+  animation: mensalizeProfessorAmbiente 16s ease-in-out infinite alternate;
 }
 
-[data-tema="claro"] #viewAlunos .acesso-pendente-item {
-  border-color: rgba(15, 23, 42, 0.08);
-  background: rgba(109, 40, 217, 0.035);
+.tela-login:not(.escondido) .login-card {
+  background:
+    linear-gradient(155deg, rgba(29, 42, 71, 0.92), rgba(16, 24, 43, 0.96)) !important;
+  border-color: rgba(196, 181, 253, 0.20) !important;
+  box-shadow:
+    0 34px 100px rgba(2, 6, 23, 0.48),
+    0 0 0 1px rgba(139, 92, 246, 0.16) inset !important;
+  animation: mensalizeProfessorEntrada 680ms var(--ease-out) both;
+}
+
+.login-card::after {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.14) 0%, rgba(139, 92, 246, 0.12) 38%, transparent 70%) !important;
+  animation: mensalizeProfessorOrb 7s ease-in-out infinite !important;
+}
+
+#btnEntrar,
+#viewDashboard .hero-actions button:first-child,
+#dashboardAcaoPrincipalBotao {
+  background-image: linear-gradient(110deg, #7c3aed 0%, #a855f7 38%, #22d3ee 62%, #7c3aed 100%) !important;
+  background-size: 240% 100% !important;
+  box-shadow: 0 14px 34px rgba(124, 58, 237, 0.25) !important;
+  animation: mensalizeProfessorBotaoVivo 8s ease-in-out infinite;
+}
+
+#viewDashboard.ativa .dashboard-hero {
+  background:
+    radial-gradient(circle at 92% 12%, rgba(34, 211, 238, 0.18), transparent 34%),
+    radial-gradient(circle at 8% 0%, rgba(139, 92, 246, 0.28), transparent 42%),
+    linear-gradient(145deg, rgba(29, 42, 71, 0.96), rgba(16, 24, 43, 0.98)) !important;
+  border-color: rgba(196, 181, 253, 0.20) !important;
+  box-shadow: var(--sombra-lg) !important;
+  animation: mensalizeProfessorEntrada 560ms var(--ease-out) both;
+}
+
+#viewDashboard.ativa .dashboard-hero::after {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.17), rgba(139, 92, 246, 0.10) 45%, transparent 70%) !important;
+  animation: mensalizeProfessorOrbDashboard 9s ease-in-out infinite;
+}
+
+#viewDashboard.ativa .cards-dashboard .card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.09), transparent 38%),
+    linear-gradient(155deg, rgba(29, 42, 71, 0.90), rgba(18, 28, 50, 0.96)) !important;
+  border-color: rgba(196, 181, 253, 0.16) !important;
+  box-shadow: var(--sombra-md) !important;
+  animation: mensalizeProfessorEntrada 520ms var(--ease-out) both;
+}
+
+#viewDashboard.ativa .cards-dashboard .card:nth-child(1) { animation-delay: 70ms; }
+#viewDashboard.ativa .cards-dashboard .card:nth-child(2) { animation-delay: 130ms; }
+#viewDashboard.ativa .cards-dashboard .card:nth-child(3) { animation-delay: 190ms; }
+#viewDashboard.ativa .cards-dashboard .card:nth-child(4) { animation-delay: 250ms; }
+
+#viewDashboard.ativa .dashboard-executivo-pro,
+#viewDashboard.ativa .dashboard-grid > * {
+  animation: mensalizeProfessorEntrada 540ms var(--ease-out) both;
+  animation-delay: 280ms;
+}
+
+#viewDashboard .cards-dashboard .card::before {
+  background-size: 220% 100% !important;
+  animation: mensalizeProfessorLinha 6s ease-in-out infinite;
+}
+
+@media (hover: hover) {
+  #viewDashboard .cards-dashboard .card:hover,
+  #viewDashboard .dashboard-grid > .painel-card:hover,
+  #viewDashboard .dashboard-executivo-item:hover {
+    transform: translateY(-5px) scale(1.012) !important;
+    border-color: rgba(196, 181, 253, 0.32) !important;
+    box-shadow: 0 24px 62px rgba(2, 6, 23, 0.38), 0 0 34px rgba(124, 58, 237, 0.10) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  #viewDashboard.ativa .mobile-professor-home > * {
+    animation: mensalizeProfessorEntradaMobile 480ms var(--ease-out) both;
+  }
+
+  #viewDashboard.ativa .mobile-professor-home > :nth-child(1) { animation-delay: 40ms; }
+  #viewDashboard.ativa .mobile-professor-home > :nth-child(2) { animation-delay: 90ms; }
+  #viewDashboard.ativa .mobile-professor-home > :nth-child(3) { animation-delay: 140ms; }
+  #viewDashboard.ativa .mobile-professor-home > :nth-child(4) { animation-delay: 190ms; }
+  #viewDashboard.ativa .mobile-professor-home > :nth-child(5) { animation-delay: 240ms; }
+
+  #viewDashboard .mobile-resumo-card,
+  #viewDashboard .mobile-proxima-acao {
+    box-shadow: 0 18px 42px rgba(2, 6, 23, 0.26) !important;
+  }
+
+  html body #app #viewDashboard .mobile-academia-card,
+  html body #app #viewDashboard .mobile-resumo-card,
+  html body #app #viewDashboard .mobile-action-card,
+  html body #app #viewDashboard .mobile-proxima-acao,
+  html body #app #viewDashboard .mobile-module-card {
+    border-color: rgba(196, 181, 253, 0.18) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.13), transparent 38%),
+      linear-gradient(150deg, rgba(29, 42, 71, 0.96), rgba(16, 24, 43, 0.99)) !important;
+    box-shadow: 0 16px 38px rgba(2, 6, 23, 0.25) !important;
+  }
+
+  #viewDashboard .mobile-action-card:active,
+  #viewDashboard .mobile-module-card:active,
+  #viewDashboard .mobile-academia-card:active {
+    transform: scale(0.97) !important;
+    transition-duration: 90ms !important;
+  }
+
+  #mobileProfessorProximaAcaoIcone {
+    animation: mensalizeProfessorIcone 3.8s ease-in-out infinite;
+  }
+}
+
+@keyframes mensalizeProfessorEntrada {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mensalizeProfessorEntradaMobile {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mensalizeProfessorAmbiente {
+  0% { background-position: 0% 0%, 100% 100%, 50% 50%; }
+  100% { background-position: 16% 10%, 82% 72%, 50% 50%; }
+}
+
+@keyframes mensalizeProfessorOrb {
+  0%, 100% { transform: translateX(-50%) scale(0.94); opacity: 0.62; }
+  50% { transform: translateX(-50%) scale(1.16); opacity: 1; }
+}
+
+@keyframes mensalizeProfessorOrbDashboard {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.94); opacity: 0.60; }
+  50% { transform: translate3d(-18px, 14px, 0) scale(1.12); opacity: 1; }
+}
+
+@keyframes mensalizeProfessorBotaoVivo {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes mensalizeProfessorLinha {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes mensalizeProfessorIcone {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tela-login,
+  .tela-login .login-card,
+  .login-card::after,
+  #btnEntrar,
+  #viewDashboard.ativa .dashboard-hero,
+  #viewDashboard.ativa .dashboard-hero::after,
+  #viewDashboard.ativa .cards-dashboard .card,
+  #viewDashboard.ativa .dashboard-executivo-pro,
+  #viewDashboard.ativa .dashboard-grid > *,
+  #viewDashboard.ativa .mobile-professor-home > *,
+  #viewDashboard .cards-dashboard .card::before,
+  #mobileProfessorProximaAcaoIcone {
+    animation: none !important;
+  }
 }

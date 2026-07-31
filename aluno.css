@@ -3,28 +3,9 @@
    Mobile first · Sidebar · Portal limpo
 ================================================================ */
 :root {
-  --cor-roxo: #7c3aed;
-  --cor-roxo-hover: #6d28d9;
-  --cor-roxo-claro: #a78bfa;
-  --cor-roxo-bg: rgba(124, 58, 237, 0.12);
-  --cor-roxo-borda: rgba(124, 58, 237, 0.28);
-  --bg-base: #09090f;
-  --bg-card: rgba(17, 17, 24, 0.88);
-  --bg-card-strong: rgba(22, 22, 34, 0.96);
-  --bg-muted: rgba(255, 255, 255, 0.045);
-  --borda: rgba(255, 255, 255, 0.075);
-  --borda-hover: rgba(124, 58, 237, 0.45);
-  --texto-primario: #f4f4f6;
-  --texto-secundario: #a1a1b5;
-  --texto-terciario: #6f6f83;
-  --verde: #22c55e;
-  --verde-bg: rgba(34, 197, 94, 0.13);
-  --amarelo: #f59e0b;
-  --amarelo-bg: rgba(245, 158, 11, 0.14);
-  --vermelho: #ef4444;
-  --vermelho-bg: rgba(239, 68, 68, 0.13);
-  --azul: #38bdf8;
-  --azul-bg: rgba(56, 189, 248, 0.13);
+  --bg-card: rgba(22, 33, 58, 0.88);
+  --bg-card-strong: rgba(29, 42, 71, 0.94);
+  --bg-muted: var(--bg-hover);
   --raio-md: 14px;
   --raio-lg: 18px;
   --raio-xl: 22px;
@@ -698,20 +679,9 @@ body.menu-aberto {
    Layout limpo, premium e responsivo sem alterar IDs/funções.
 ================================================================ */
 :root {
-  --cor-roxo: #8b5cf6;
-  --cor-roxo-hover: #7c3aed;
-  --cor-roxo-claro: #c4b5fd;
-  --cor-roxo-bg: rgba(139, 92, 246, 0.14);
-  --cor-roxo-borda: rgba(196,181,253,0.22);
-  --bg-base: #060712;
-  --bg-card: rgba(17, 19, 34, 0.82);
-  --bg-card-strong: rgba(20, 22, 40, 0.92);
-  --bg-muted: rgba(255,255,255,0.052);
-  --borda: rgba(255,255,255,0.09);
-  --borda-hover: rgba(196,181,253,0.30);
-  --texto-primario: #f8f8fc;
-  --texto-secundario: #a8aabe;
-  --texto-terciario: #74778e;
+  --bg-card: rgba(22, 33, 58, 0.84);
+  --bg-card-strong: rgba(29, 42, 71, 0.92);
+  --bg-muted: var(--bg-hover);
   --raio-md: 14px;
   --raio-lg: 18px;
   --raio-xl: 26px;
@@ -3166,23 +3136,6 @@ body,
   border-radius: 15px;
 }
 
-/* ================================================================
-   LEGADO — TEMA CLARO DO PORTAL ALUNO
-   Mantido temporariamente para evitar quebra visual.
-   O portal opera em escuro fixo, mas esses blocos ainda serão auditados.
-================================================================ */
-
-[data-tema="claro"] .welcome-card,
-[data-tema="claro"] .quick-card {
-  background: rgba(255, 255, 255, 0.84) !important;
-  border-color: rgba(30, 41, 59, 0.10) !important;
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.055);
-}
-
-[data-tema="claro"] .welcome-card::before {
-  opacity: 0.35;
-}
-
 /* Celular */
 @media (max-width: 560px) {
   .welcome-card {
@@ -3247,328 +3200,6 @@ body,
 .student-footer-button:disabled {
   opacity: 0.7;
   cursor: wait;
-}
-
-[data-tema="claro"] .student-footer-button {
-  background: rgba(17, 24, 39, 0.045);
-  color: var(--texto-primario);
-  border-color: rgba(17, 24, 39, 0.10);
-}
-
-[data-tema="claro"] .student-footer-button:hover {
-  background: rgba(124, 58, 237, 0.10);
-  border-color: rgba(124, 58, 237, 0.22);
-}
-
-/* ================================================================
-   CORREÇÃO — TEMA CLARO COMPLETO NO PORTAL DO ALUNO
-   Usa as variáveis do theme.css e corrige fundo/cards no aluno
-================================================================ */
-
-/* Funciona se o tema estiver no HTML */
-html[data-tema="claro"],
-html[data-tema="claro"] body {
-  background:
-    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
-    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
-    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
-  color: var(--texto-primario) !important;
-}
-
-/* Funciona se o tema estiver no BODY */
-body[data-tema="claro"] {
-  background:
-    radial-gradient(circle at 12% -10%, rgba(124, 58, 237, 0.12), transparent 34%),
-    radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.08), transparent 30%),
-    linear-gradient(180deg, #eef0f8 0%, #f6f7fb 48%, #eceef7 100%) !important;
-  color: var(--texto-primario) !important;
-}
-
-/* Remove grade/fundo escuro antigo */
-html[data-tema="claro"] body::before,
-body[data-tema="claro"]::before {
-  display: none !important;
-}
-
-/* Estrutura principal do portal */
-html[data-tema="claro"] .student-app,
-html[data-tema="claro"] .student-main,
-html[data-tema="claro"] .student-content,
-body[data-tema="claro"] .student-app,
-body[data-tema="claro"] .student-main,
-body[data-tema="claro"] .student-content {
-  background: transparent !important;
-  color: var(--texto-primario) !important;
-}
-
-/* Topbar do aluno */
-html[data-tema="claro"] .student-topbar,
-body[data-tema="claro"] .student-topbar {
-  background: rgba(246, 247, 251, 0.90) !important;
-  border-bottom-color: rgba(30, 41, 59, 0.10) !important;
-}
-
-/* Sidebar/menu do aluno */
-html[data-tema="claro"] .student-sidebar,
-body[data-tema="claro"] .student-sidebar {
-  background: rgba(255, 255, 255, 0.96) !important;
-  border-color: rgba(30, 41, 59, 0.10) !important;
-}
-
-html[data-tema="claro"] .student-brand,
-body[data-tema="claro"] .student-brand {
-  background: rgba(124, 58, 237, 0.06) !important;
-  border-color: rgba(124, 58, 237, 0.14) !important;
-}
-
-html[data-tema="claro"] .student-brand strong,
-body[data-tema="claro"] .student-brand strong {
-  color: var(--texto-primario) !important;
-}
-
-/* Cards principais do aluno */
-html[data-tema="claro"] .welcome-card,
-html[data-tema="claro"] .panel-card,
-html[data-tema="claro"] .quick-card,
-html[data-tema="claro"] .summary-box,
-html[data-tema="claro"] .payment-item,
-html[data-tema="claro"] .ranking-row,
-html[data-tema="claro"] .pix-aluno-card,
-html[data-tema="claro"] .pix-aluno-card-clean,
-html[data-tema="claro"] .error-card,
-body[data-tema="claro"] .welcome-card,
-body[data-tema="claro"] .panel-card,
-body[data-tema="claro"] .quick-card,
-body[data-tema="claro"] .summary-box,
-body[data-tema="claro"] .payment-item,
-body[data-tema="claro"] .ranking-row,
-body[data-tema="claro"] .pix-aluno-card,
-body[data-tema="claro"] .pix-aluno-card-clean,
-body[data-tema="claro"] .error-card {
-  background: rgba(255, 255, 255, 0.84) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-  color: var(--texto-primario) !important;
-  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06) !important;
-}
-
-/* Textos principais */
-html[data-tema="claro"] .welcome-card h1,
-html[data-tema="claro"] .section-title-row h2,
-html[data-tema="claro"] .status-hero h2,
-html[data-tema="claro"] .quick-card strong,
-html[data-tema="claro"] .summary-box strong,
-html[data-tema="claro"] .ranking-row-info strong,
-body[data-tema="claro"] .welcome-card h1,
-body[data-tema="claro"] .section-title-row h2,
-body[data-tema="claro"] .status-hero h2,
-body[data-tema="claro"] .quick-card strong,
-body[data-tema="claro"] .summary-box strong,
-body[data-tema="claro"] .ranking-row-info strong {
-  color: var(--texto-primario) !important;
-}
-
-/* Textos secundários */
-html[data-tema="claro"] .welcome-card p,
-html[data-tema="claro"] .section-title-row p,
-html[data-tema="claro"] .quick-card small,
-html[data-tema="claro"] .summary-box span,
-html[data-tema="claro"] .ranking-row-info small,
-body[data-tema="claro"] .welcome-card p,
-body[data-tema="claro"] .section-title-row p,
-body[data-tema="claro"] .quick-card small,
-body[data-tema="claro"] .summary-box span,
-body[data-tema="claro"] .ranking-row-info small {
-  color: var(--texto-secundario) !important;
-}
-
-/* Inputs, textarea e Pix */
-html[data-tema="claro"] input,
-html[data-tema="claro"] textarea,
-html[data-tema="claro"] select,
-html[data-tema="claro"] .pix-aluno-textarea,
-html[data-tema="claro"] #pixCopiaColaAluno,
-body[data-tema="claro"] input,
-body[data-tema="claro"] textarea,
-body[data-tema="claro"] select,
-body[data-tema="claro"] .pix-aluno-textarea,
-body[data-tema="claro"] #pixCopiaColaAluno {
-  background: rgba(248, 250, 252, 0.94) !important;
-  color: var(--texto-primario) !important;
-  border-color: rgba(30, 41, 59, 0.14) !important;
-}
-
-/* Botões secundários */
-html[data-tema="claro"] .secondary-action,
-html[data-tema="claro"] .student-footer-button,
-html[data-tema="claro"] .menu-button,
-body[data-tema="claro"] .secondary-action,
-body[data-tema="claro"] .student-footer-button,
-body[data-tema="claro"] .menu-button {
-  background: rgba(255, 255, 255, 0.78) !important;
-  color: var(--texto-primario) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-}
-
-/* Menu do aluno */
-html[data-tema="claro"] .student-menu button,
-body[data-tema="claro"] .student-menu button {
-  color: var(--texto-secundario) !important;
-}
-
-html[data-tema="claro"] .student-menu button.ativo,
-html[data-tema="claro"] .student-menu button:hover,
-body[data-tema="claro"] .student-menu button.ativo,
-body[data-tema="claro"] .student-menu button:hover {
-  background: rgba(124, 58, 237, 0.10) !important;
-  color: var(--texto-primario) !important;
-  border-color: rgba(124, 58, 237, 0.18) !important;
-}
-
-/* ================================================================
-   CORREÇÃO COMPLEMENTAR — TEMA CLARO NO FINANCEIRO, EDITAR E GRADUAÇÃO
-   Corrige cards internos que ainda ficaram escuros no portal do aluno
-================================================================ */
-
-/* Caixas internas do Financeiro, Editar aluno e Graduação */
-html[data-tema="claro"] .finance-summary-grid .summary-box,
-html[data-tema="claro"] .student-evolution-grid .evolution-info,
-html[data-tema="claro"] .student-form,
-html[data-tema="claro"] .student-form label,
-html[data-tema="claro"] .photo-box,
-html[data-tema="claro"] .status-message,
-html[data-tema="claro"] .payment-item,
-html[data-tema="claro"] .pix-code-clean,
-html[data-tema="claro"] .center-message,
-html[data-tema="claro"] .empty-message,
-html[data-tema="claro"] .empty-state-mini,
-body[data-tema="claro"] .finance-summary-grid .summary-box,
-body[data-tema="claro"] .student-evolution-grid .evolution-info,
-body[data-tema="claro"] .student-form,
-body[data-tema="claro"] .student-form label,
-body[data-tema="claro"] .photo-box,
-body[data-tema="claro"] .status-message,
-body[data-tema="claro"] .payment-item,
-body[data-tema="claro"] .pix-code-clean,
-body[data-tema="claro"] .center-message,
-body[data-tema="claro"] .empty-message,
-body[data-tema="claro"] .empty-state-mini {
-  background: rgba(255, 255, 255, 0.78) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-  color: var(--texto-primario) !important;
-  box-shadow: none !important;
-}
-
-/* Caixas que precisam de fundo um pouco mais suave */
-html[data-tema="claro"] .summary-box,
-html[data-tema="claro"] .evolution-info,
-html[data-tema="claro"] .photo-box,
-html[data-tema="claro"] .status-message,
-body[data-tema="claro"] .summary-box,
-body[data-tema="claro"] .evolution-info,
-body[data-tema="claro"] .photo-box,
-body[data-tema="claro"] .status-message {
-  background: rgba(248, 250, 252, 0.86) !important;
-}
-
-/* Textos principais dentro desses cards */
-html[data-tema="claro"] .summary-box strong,
-html[data-tema="claro"] .evolution-info strong,
-html[data-tema="claro"] .student-form strong,
-html[data-tema="claro"] .payment-left strong,
-html[data-tema="claro"] .status-message strong,
-body[data-tema="claro"] .summary-box strong,
-body[data-tema="claro"] .evolution-info strong,
-body[data-tema="claro"] .student-form strong,
-body[data-tema="claro"] .payment-left strong,
-body[data-tema="claro"] .status-message strong {
-  color: var(--texto-primario) !important;
-}
-
-/* Textos secundários */
-html[data-tema="claro"] .summary-box span,
-html[data-tema="claro"] .evolution-info span,
-html[data-tema="claro"] .student-form label span,
-html[data-tema="claro"] .photo-box p,
-html[data-tema="claro"] .payment-left span,
-html[data-tema="claro"] .status-message,
-html[data-tema="claro"] .soft-message,
-html[data-tema="claro"] .empty-message,
-html[data-tema="claro"] .empty-state-mini,
-body[data-tema="claro"] .summary-box span,
-body[data-tema="claro"] .evolution-info span,
-body[data-tema="claro"] .student-form label span,
-body[data-tema="claro"] .photo-box p,
-body[data-tema="claro"] .payment-left span,
-body[data-tema="claro"] .status-message,
-body[data-tema="claro"] .soft-message,
-body[data-tema="claro"] .empty-message,
-body[data-tema="claro"] .empty-state-mini {
-  color: var(--texto-secundario) !important;
-}
-
-/* Inputs da tela Editar aluno */
-html[data-tema="claro"] .student-form input,
-html[data-tema="claro"] .student-form textarea,
-html[data-tema="claro"] .photo-box input,
-body[data-tema="claro"] .student-form input,
-body[data-tema="claro"] .student-form textarea,
-body[data-tema="claro"] .photo-box input {
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: var(--texto-primario) !important;
-  border-color: rgba(30, 41, 59, 0.14) !important;
-}
-
-/* Placeholder dos inputs */
-html[data-tema="claro"] .student-form input::placeholder,
-html[data-tema="claro"] .student-form textarea::placeholder,
-body[data-tema="claro"] .student-form input::placeholder,
-body[data-tema="claro"] .student-form textarea::placeholder {
-  color: #8a90a3 !important;
-}
-
-/* Área do histórico de pagamentos */
-html[data-tema="claro"] .payments-list,
-body[data-tema="claro"] .payments-list {
-  color: var(--texto-primario) !important;
-}
-
-/* Ícone do pagamento */
-html[data-tema="claro"] .payment-icon,
-body[data-tema="claro"] .payment-icon {
-  background: rgba(34, 197, 94, 0.12) !important;
-  color: #16a34a !important;
-}
-
-/* Badge/status continuam coloridos, mas sem parecer escuro */
-html[data-tema="claro"] .status-badge,
-html[data-tema="claro"] .mini-badge,
-body[data-tema="claro"] .status-badge,
-body[data-tema="claro"] .mini-badge {
-  background: rgba(124, 58, 237, 0.09) !important;
-  border-color: rgba(124, 58, 237, 0.20) !important;
-  color: #6d28d9 !important;
-}
-
-/* Status pago/atrasado/pendente no tema claro */
-html[data-tema="claro"] .status-pago,
-body[data-tema="claro"] .status-pago {
-  background: rgba(34, 197, 94, 0.12) !important;
-  color: #15803d !important;
-  border-color: rgba(34, 197, 94, 0.26) !important;
-}
-
-html[data-tema="claro"] .status-atrasado,
-body[data-tema="claro"] .status-atrasado {
-  background: rgba(239, 68, 68, 0.10) !important;
-  color: #b91c1c !important;
-  border-color: rgba(239, 68, 68, 0.24) !important;
-}
-
-html[data-tema="claro"] .status-pendente,
-body[data-tema="claro"] .status-pendente {
-  background: rgba(245, 158, 11, 0.12) !important;
-  color: #b45309 !important;
-  border-color: rgba(245, 158, 11, 0.26) !important;
 }
 
 /* ================================================================
@@ -3717,45 +3348,6 @@ body[data-tema="claro"] .status-pendente {
 .pix-feedback-message.is-error,
 #msgSolicitarPagamentoAluno.is-error {
   color: #f87171 !important;
-}
-
-/* Tema claro do Pix */
-html[data-tema="claro"] .pix-aluno-card,
-html[data-tema="claro"] .pix-aluno-card-clean,
-body[data-tema="claro"] .pix-aluno-card,
-body[data-tema="claro"] .pix-aluno-card-clean {
-  background:
-    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.08), transparent 36%),
-    rgba(255, 255, 255, 0.84) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-}
-
-html[data-tema="claro"] .pix-code-clean,
-html[data-tema="claro"] .pix-code-box,
-body[data-tema="claro"] .pix-code-clean,
-body[data-tema="claro"] .pix-code-box {
-  background: rgba(248, 250, 252, 0.86) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-}
-
-html[data-tema="claro"] .pix-aluno-textarea,
-html[data-tema="claro"] #pixCopiaColaAluno,
-body[data-tema="claro"] .pix-aluno-textarea,
-body[data-tema="claro"] #pixCopiaColaAluno {
-  background: rgba(255, 255, 255, 0.96) !important;
-  color: var(--texto-primario) !important;
-  border-color: rgba(30, 41, 59, 0.14) !important;
-}
-
-html[data-tema="claro"] .btn-copy-pix-clean,
-html[data-tema="claro"] .copy-pix-button,
-html[data-tema="claro"] #btnCopiarPixAluno,
-body[data-tema="claro"] .btn-copy-pix-clean,
-body[data-tema="claro"] .copy-pix-button,
-body[data-tema="claro"] #btnCopiarPixAluno {
-  background: rgba(124, 58, 237, 0.09) !important;
-  color: #6d28d9 !important;
-  border-color: rgba(124, 58, 237, 0.22) !important;
 }
 
 /* Celular */
@@ -3989,41 +3581,6 @@ body[data-tema="claro"] #btnCopiarPixAluno {
 .ranking-row.aluno-atual {
   border-color: var(--cor-roxo-borda);
   background: var(--cor-roxo-bg);
-}
-
-/* Tema claro */
-html[data-tema="claro"] .podium-card,
-body[data-tema="claro"] .podium-card,
-html[data-tema="claro"] .ranking-row,
-body[data-tema="claro"] .ranking-row,
-html[data-tema="claro"] .aluno-ranking-row,
-body[data-tema="claro"] .aluno-ranking-row {
-  background: rgba(255, 255, 255, 0.82) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-  color: var(--texto-primario) !important;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.045);
-}
-
-html[data-tema="claro"] .podium-first,
-body[data-tema="claro"] .podium-first {
-  background:
-    radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.10), transparent 44%),
-    rgba(255, 255, 255, 0.86) !important;
-  border-color: rgba(245, 158, 11, 0.24) !important;
-}
-
-html[data-tema="claro"] .podium-card strong,
-html[data-tema="claro"] .ranking-row-info strong,
-body[data-tema="claro"] .podium-card strong,
-body[data-tema="claro"] .ranking-row-info strong {
-  color: var(--texto-primario) !important;
-}
-
-html[data-tema="claro"] .podium-card small,
-html[data-tema="claro"] .ranking-row-info small,
-body[data-tema="claro"] .podium-card small,
-body[data-tema="claro"] .ranking-row-info small {
-  color: var(--texto-secundario) !important;
 }
 
 /* Celular */
@@ -4335,73 +3892,6 @@ body[data-tema="claro"] .ranking-row-info small {
   color: var(--texto-secundario);
   font-size: 11.5px;
   line-height: 1.35;
-}
-
-/* Tema claro */
-html[data-tema="claro"] .evolution-info,
-html[data-tema="claro"] .graduation-info,
-html[data-tema="claro"] .graduation-card,
-html[data-tema="claro"] .faixa-card,
-html[data-tema="claro"] .grau-card,
-body[data-tema="claro"] .evolution-info,
-body[data-tema="claro"] .graduation-info,
-body[data-tema="claro"] .graduation-card,
-body[data-tema="claro"] .faixa-card,
-body[data-tema="claro"] .grau-card {
-  background:
-    radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.06), transparent 36%),
-    rgba(255, 255, 255, 0.84) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.045);
-}
-
-html[data-tema="claro"] .graduation-history-item,
-html[data-tema="claro"] .evolution-history-item,
-html[data-tema="claro"] .historico-graduacao-item,
-html[data-tema="claro"] .item-historico-graduacao,
-body[data-tema="claro"] .graduation-history-item,
-body[data-tema="claro"] .evolution-history-item,
-body[data-tema="claro"] .historico-graduacao-item,
-body[data-tema="claro"] .item-historico-graduacao {
-  background: rgba(255, 255, 255, 0.82) !important;
-  border-color: rgba(30, 41, 59, 0.12) !important;
-}
-
-/* Textos no tema claro */
-html[data-tema="claro"] .evolution-info strong,
-html[data-tema="claro"] .graduation-info strong,
-html[data-tema="claro"] .graduation-card strong,
-html[data-tema="claro"] .faixa-card strong,
-html[data-tema="claro"] .grau-card strong,
-html[data-tema="claro"] .graduation-history-item strong,
-html[data-tema="claro"] .evolution-history-item strong,
-body[data-tema="claro"] .evolution-info strong,
-body[data-tema="claro"] .graduation-info strong,
-body[data-tema="claro"] .graduation-card strong,
-body[data-tema="claro"] .faixa-card strong,
-body[data-tema="claro"] .grau-card strong,
-body[data-tema="claro"] .graduation-history-item strong,
-body[data-tema="claro"] .evolution-history-item strong {
-  color: var(--texto-primario) !important;
-}
-
-html[data-tema="claro"] .evolution-info span,
-html[data-tema="claro"] .graduation-info span,
-html[data-tema="claro"] .graduation-card span,
-html[data-tema="claro"] .faixa-card span,
-html[data-tema="claro"] .grau-card span,
-html[data-tema="claro"] .evolution-info small,
-html[data-tema="claro"] .graduation-info small,
-html[data-tema="claro"] .graduation-card small,
-body[data-tema="claro"] .evolution-info span,
-body[data-tema="claro"] .graduation-info span,
-body[data-tema="claro"] .graduation-card span,
-body[data-tema="claro"] .faixa-card span,
-body[data-tema="claro"] .grau-card span,
-body[data-tema="claro"] .evolution-info small,
-body[data-tema="claro"] .graduation-info small,
-body[data-tema="claro"] .graduation-card small {
-  color: var(--texto-secundario) !important;
 }
 
 /* Celular */
@@ -4957,42 +4447,9 @@ body[data-tema="claro"] .graduation-card small {
    Alinha o portal ao visual SaaS premium do app principal.
 ================================================================ */
 :root {
-  --cor-roxo: #7c3aed;
-  --cor-roxo-hover: #6d28d9;
-  --cor-roxo-claro: #a78bfa;
-  --cor-roxo-bg: rgba(124, 58, 237, 0.12);
-  --cor-roxo-borda: rgba(124, 58, 237, 0.32);
-  --verde: #10b981;
-  --verde-bg: rgba(16, 185, 129, 0.12);
-  --amarelo: #f59e0b;
-  --amarelo-bg: rgba(245, 158, 11, 0.12);
-  --vermelho: #ef4444;
-  --vermelho-bg: rgba(239, 68, 68, 0.12);
-  --azul: #38bdf8;
-  --azul-bg: rgba(56, 189, 248, 0.12);
-  --bg-base: #060712;
-  --bg-card: #0d0f1a;
-  --bg-card-strong: #111321;
-  --bg-muted: rgba(255, 255, 255, 0.05);
-  --bg-input: #0a0c16;
-  --borda: rgba(255, 255, 255, 0.12);
-  --borda-hover: rgba(167, 139, 250, 0.46);
-  --texto-primario: #f8fafc;
-  --texto-secundario: #b6bccd;
-  --texto-terciario: #7d8498;
-  --raio-md: 8px;
-  --raio-lg: 12px;
-  --raio-xl: 16px;
-  --raio-pill: 999px;
-  --fonte: 'Geist', 'DM Sans', Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --trans: 150ms ease;
+  --bg-card: var(--bg-nivel-1);
+  --bg-card-strong: var(--bg-nivel-2);
+  --bg-muted: var(--bg-hover);
 }
 
 html,
@@ -6268,6 +5725,51 @@ button {
   box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
 }
 
+.student-password-field {
+  position: relative;
+  width: 100%;
+}
+
+.student-password-field > input {
+  padding-right: 82px;
+}
+
+.student-auth-form .student-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: auto;
+  min-width: 58px;
+  min-height: 40px;
+  padding: 0 8px;
+  transform: translateY(-50%) !important;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  color: #a99fc0;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.student-auth-form .student-password-toggle:hover {
+  transform: translateY(-50%) !important;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+  color: #ffffff;
+}
+
+.student-auth-form .student-password-toggle:focus-visible {
+  transform: translateY(-50%) !important;
+  outline: 2px solid rgba(167, 139, 250, 0.82);
+  outline-offset: 1px;
+}
+
 .student-auth-form .primary-action {
   width: 100%;
   min-height: 50px;
@@ -6332,6 +5834,16 @@ button {
   .student-auth-card {
     padding: 18px;
     border-radius: 22px;
+  }
+
+  .student-password-field > input {
+    padding-right: 76px;
+  }
+
+  .student-auth-form .student-password-toggle {
+    right: 8px;
+    min-width: 54px;
+    padding-inline: 6px;
   }
 }
 
@@ -6418,4 +5930,195 @@ button {
 /* O portal autenticado nunca pode aparecer durante loading, login ou logout. */
 #portalConteudo.student-app.escondido {
   display: none !important;
+}
+
+/* ================================================================
+   ETAPA 11 — PILOTO VISUAL VIVO / ALUNO
+   Login e Home com nova paleta, profundidade e movimento seguro.
+================================================================ */
+
+.student-auth-screen {
+  background:
+    radial-gradient(circle at 14% 2%, rgba(139, 92, 246, 0.38), transparent 34%),
+    radial-gradient(circle at 90% 82%, rgba(34, 211, 238, 0.17), transparent 32%),
+    linear-gradient(145deg, #0a1020 0%, #111a31 54%, #0d1428 100%);
+  background-size: 132% 132%, 126% 126%, 100% 100%;
+  animation: mensalizeAlunoAmbiente 16s ease-in-out infinite alternate;
+}
+
+.student-auth-screen:not(.escondido) .student-auth-card {
+  position: relative;
+  background:
+    linear-gradient(155deg, rgba(29, 42, 71, 0.94), rgba(16, 24, 43, 0.97));
+  border-color: rgba(196, 181, 253, 0.20);
+  box-shadow:
+    0 34px 100px rgba(2, 6, 23, 0.46),
+    0 0 0 1px rgba(139, 92, 246, 0.15) inset;
+  animation: mensalizeAlunoEntrada 680ms var(--ease-out) both;
+}
+
+.student-auth-card::after {
+  content: "";
+  position: absolute;
+  top: -150px;
+  right: -130px;
+  width: 330px;
+  height: 330px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.14), rgba(139, 92, 246, 0.10) 46%, transparent 70%);
+  pointer-events: none;
+  animation: mensalizeAlunoOrb 7.5s ease-in-out infinite;
+}
+
+.student-auth-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.student-auth-form .primary-action,
+#portalConteudo #viewInicioAluno .primary-action {
+  background-image: linear-gradient(110deg, #7c3aed 0%, #a855f7 38%, #22d3ee 62%, #7c3aed 100%) !important;
+  background-size: 240% 100% !important;
+  box-shadow: 0 14px 34px rgba(124, 58, 237, 0.24) !important;
+  animation: mensalizeAlunoBotaoVivo 8s ease-in-out infinite;
+}
+
+html body #portalConteudo #viewInicioAluno .welcome-card {
+  background:
+    radial-gradient(circle at 88% 14%, rgba(34, 211, 238, 0.16), transparent 30%),
+    radial-gradient(circle at 10% 110%, rgba(139, 92, 246, 0.25), transparent 38%),
+    linear-gradient(145deg, rgba(29, 42, 71, 0.96), rgba(16, 24, 43, 0.98)) !important;
+  border-color: rgba(196, 181, 253, 0.22) !important;
+  box-shadow: var(--sombra-lg) !important;
+}
+
+html body #portalConteudo #viewInicioAluno .quick-card,
+html body #portalConteudo #viewInicioAluno .panel-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.09), transparent 36%),
+    linear-gradient(155deg, rgba(29, 42, 71, 0.90), rgba(18, 28, 50, 0.96)) !important;
+  border-color: rgba(196, 181, 253, 0.17) !important;
+  box-shadow: var(--sombra-md) !important;
+}
+
+#portalConteudo #viewInicioAluno.student-view.ativa > .welcome-card {
+  animation: mensalizeAlunoEntrada 560ms var(--ease-out) both;
+}
+
+#portalConteudo #viewInicioAluno.student-view.ativa > .quick-grid .quick-card {
+  animation: mensalizeAlunoEntrada 520ms var(--ease-out) both;
+}
+
+#portalConteudo #viewInicioAluno.student-view.ativa > .quick-grid .quick-card:nth-child(1) {
+  animation-delay: 90ms;
+}
+
+#portalConteudo #viewInicioAluno.student-view.ativa > .quick-grid .quick-card:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+#portalConteudo #viewInicioAluno.student-view.ativa > .action-row,
+#portalConteudo #viewInicioAluno.student-view.ativa > .panel-card {
+  animation: mensalizeAlunoEntrada 520ms var(--ease-out) both;
+  animation-delay: 220ms;
+}
+
+#portalConteudo #viewInicioAluno .welcome-card::after {
+  animation: mensalizeAlunoOrbHome 9s ease-in-out infinite;
+}
+
+@media (hover: hover) {
+  html body #portalConteudo #viewInicioAluno .quick-card:hover,
+  html body #portalConteudo #viewInicioAluno .panel-card:hover {
+    transform: translateY(-5px) scale(1.012) !important;
+    border-color: rgba(196, 181, 253, 0.34) !important;
+    box-shadow: 0 24px 62px rgba(2, 6, 23, 0.38), 0 0 34px rgba(124, 58, 237, 0.10) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  #portalConteudo #viewInicioAluno .mobile-aluno-home > * {
+    animation: mensalizeAlunoEntradaMobile 480ms var(--ease-out) both;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-home > :nth-child(1) { animation-delay: 40ms; }
+  #portalConteudo #viewInicioAluno .mobile-aluno-home > :nth-child(2) { animation-delay: 90ms; }
+  #portalConteudo #viewInicioAluno .mobile-aluno-home > :nth-child(3) { animation-delay: 140ms; }
+  #portalConteudo #viewInicioAluno .mobile-aluno-home > :nth-child(4) { animation-delay: 190ms; }
+  #portalConteudo #viewInicioAluno .mobile-aluno-home > :nth-child(5) { animation-delay: 240ms; }
+
+  html body #portalConteudo #viewInicioAluno .mobile-aluno-academia-card,
+  html body #portalConteudo #viewInicioAluno .mobile-aluno-carousel-card,
+  html body #portalConteudo #viewInicioAluno .mobile-aluno-action-card,
+  html body #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao,
+  html body #portalConteudo #viewInicioAluno .mobile-aluno-module-card {
+    border-color: rgba(196, 181, 253, 0.18) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.13), transparent 38%),
+      linear-gradient(150deg, rgba(29, 42, 71, 0.96), rgba(16, 24, 43, 0.99)) !important;
+    box-shadow: 0 16px 38px rgba(2, 6, 23, 0.25) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-glow {
+    border-color: rgba(34, 211, 238, 0.06);
+    animation: mensalizeAlunoGlowMobile 6.5s ease-in-out infinite;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-action-card:active,
+  #portalConteudo #viewInicioAluno .mobile-aluno-module-card:active,
+  #portalConteudo #viewInicioAluno .mobile-aluno-academia-card:active,
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-card:active {
+    transform: scale(0.97) !important;
+    transition-duration: 90ms !important;
+  }
+}
+
+@keyframes mensalizeAlunoEntrada {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mensalizeAlunoEntradaMobile {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mensalizeAlunoAmbiente {
+  0% { background-position: 0% 0%, 100% 100%, 50% 50%; }
+  100% { background-position: 16% 10%, 82% 72%, 50% 50%; }
+}
+
+@keyframes mensalizeAlunoOrb {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.94); opacity: 0.62; }
+  50% { transform: translate3d(-18px, 16px, 0) scale(1.16); opacity: 1; }
+}
+
+@keyframes mensalizeAlunoOrbHome {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.96); opacity: 0.66; }
+  50% { transform: translate3d(-14px, 12px, 0) scale(1.10); opacity: 1; }
+}
+
+@keyframes mensalizeAlunoBotaoVivo {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes mensalizeAlunoGlowMobile {
+  0%, 100% { transform: scale(0.92); opacity: 0.55; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .student-auth-screen,
+  .student-auth-screen .student-auth-card,
+  .student-auth-card::after,
+  .student-auth-form .primary-action,
+  #portalConteudo #viewInicioAluno .primary-action,
+  #portalConteudo #viewInicioAluno.student-view.ativa > *,
+  #portalConteudo #viewInicioAluno.student-view.ativa .quick-card,
+  #portalConteudo #viewInicioAluno .welcome-card::after,
+  #portalConteudo #viewInicioAluno .mobile-aluno-home > *,
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-glow {
+    animation: none !important;
+  }
 }

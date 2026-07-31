@@ -347,8 +347,8 @@
   background:
     radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.19), transparent 34%),
     radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.06), transparent 32%),
-    linear-gradient(145deg, rgba(24, 18, 61, 0.97), rgba(11, 10, 31, 0.99)) !important;
-  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.18) !important;
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+  box-shadow: 0 22px 58px rgba(30, 41, 59, 0.09) !important;
 }
 
 #viewPerfil .perfil-configuracoes-hero::after {
@@ -373,12 +373,12 @@
 
 #viewPerfil .perfil-configuracoes-hero .page-eyebrow {
   margin-bottom: 8px !important;
-  color: #b994ff !important;
+  color: var(--mobile-purple, var(--cor-roxo)) !important;
 }
 
 #viewPerfil .perfil-configuracoes-hero h2 {
   margin: 0 0 6px !important;
-  color: #fff !important;
+  color: var(--mobile-text, var(--texto-primario)) !important;
   font-size: clamp(23px, 3vw, 32px) !important;
   font-weight: 780 !important;
   line-height: 1.05 !important;
@@ -388,7 +388,7 @@
 #viewPerfil .perfil-configuracoes-hero p {
   max-width: 56ch;
   margin: 0 !important;
-  color: #aaa4bd !important;
+  color: #667085 !important;
   font-size: 12px !important;
   line-height: 1.5 !important;
 }
@@ -416,7 +416,7 @@
 }
 
 #viewPerfil .perfil-configuracoes-status strong {
-  color: #c8f6dc;
+  color: #047857;
   font-size: 10px;
   font-weight: 760;
   line-height: 1.2;
@@ -442,12 +442,12 @@
   min-width: 0;
   min-height: 410px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.085);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 24px;
   background:
     radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.075), transparent 34%),
-    linear-gradient(180deg, rgba(17, 16, 36, 0.94), rgba(10, 10, 25, 0.98));
-  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.17);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.98));
+  box-shadow: 0 20px 52px rgba(30, 41, 59, 0.09);
 }
 
 #viewPerfil .config-painel.ativo {
@@ -462,8 +462,8 @@
   gap: 12px;
   margin: 0 !important;
   padding: 18px 20px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.075) !important;
-  background: rgba(255, 255, 255, 0.018);
+  border-bottom: 1px solid rgba(35, 27, 53, 0.11) !important;
+  background: rgba(124, 58, 237, 0.035);
 }
 
 #viewPerfil .config-painel-icone {
@@ -474,7 +474,7 @@
   border: 1px solid rgba(172, 139, 255, 0.15);
   border-radius: 14px;
   background: rgba(124, 58, 237, 0.10);
-  color: #aa7cff;
+  color: #7c3aed;
 }
 
 #viewPerfil .config-painel-header > div {
@@ -484,7 +484,7 @@
 #viewPerfil .config-painel-etiqueta {
   display: block;
   margin: 0 0 4px;
-  color: #8f71d7;
+  color: #7c3aed;
   font-size: 8px;
   font-weight: 820;
   line-height: 1;
@@ -495,7 +495,7 @@
 #viewPerfil .config-painel-header strong {
   display: block;
   margin: 0 !important;
-  color: #fff !important;
+  color: var(--mobile-text, var(--texto-primario)) !important;
   font-size: 17px !important;
   font-weight: 760 !important;
   line-height: 1.15 !important;
@@ -538,7 +538,7 @@
 
 #viewPerfil .campo-perfil > span {
   margin: 0 !important;
-  color: #c8c2d8;
+  color: #7c3aed;
   font-size: 10px;
   font-weight: 740;
   line-height: 1.2;
@@ -552,10 +552,10 @@
   min-height: 50px !important;
   margin: 0 !important;
   padding: 12px 13px !important;
-  border: 1px solid rgba(255, 255, 255, 0.085) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   border-radius: 15px !important;
-  background: rgba(4, 4, 16, 0.58) !important;
-  color: #fff !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  color: var(--mobile-text, var(--texto-primario)) !important;
   box-shadow: none !important;
   font-size: 14px !important;
 }
@@ -586,8 +586,8 @@
   gap: 12px !important;
   margin: 0 !important;
   padding: 12px 20px !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.075) !important;
-  background: rgba(3, 3, 12, 0.20);
+  border-top: 1px solid rgba(35, 27, 53, 0.11) !important;
+  background: rgba(124, 58, 237, 0.090);
 }
 
 #viewPerfil .config-acoes .msg-perfil,
@@ -600,7 +600,7 @@
 }
 
 #viewPerfil .config-acoes .msg-perfil:not(:empty) {
-  color: #62dda0;
+  color: #047857;
 }
 
 #viewPerfil .config-acoes .btn-salvar-perfil {
@@ -632,9 +632,9 @@
   min-height: 56px !important;
   margin: 0 !important;
   padding: 11px 12px !important;
-  border: 1px solid rgba(255, 255, 255, 0.075) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   border-radius: 15px !important;
-  background: rgba(255, 255, 255, 0.026) !important;
+  background: rgba(124, 58, 237, 0.035) !important;
   color: #847e93 !important;
   cursor: default !important;
   transform: none !important;
@@ -652,8 +652,8 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #544e62;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.025);
+  background: #98a2b3;
+  box-shadow: 0 0 0 4px rgba(152, 162, 179, 0.12);
 }
 
 #viewPerfil .config-modulo-item > span:last-child {
@@ -669,7 +669,7 @@
 #viewPerfil .config-modulo-item:has(input:checked) {
   border-color: rgba(54, 208, 127, 0.13) !important;
   background: rgba(54, 208, 127, 0.045) !important;
-  color: #bdebd2 !important;
+  color: #047857 !important;
 }
 
 #viewPerfil .config-modulo-item:has(input:checked) .config-modulo-estado {
@@ -699,7 +699,7 @@
   height: 24px;
   border-radius: 8px;
   background: rgba(124, 58, 237, 0.10);
-  color: #9f78ef;
+  color: #7c3aed;
   font-size: 10px;
   font-weight: 800;
 }

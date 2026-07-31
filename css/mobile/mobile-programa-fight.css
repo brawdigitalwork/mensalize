@@ -52,7 +52,7 @@
     border: 1px solid rgba(172, 139, 255, 0.16) !important;
     border-radius: 999px !important;
     background: rgba(124, 58, 237, 0.11) !important;
-    color: #b892ff !important;
+    color: #7c3aed !important;
     font-size: 9px !important;
     font-weight: 820 !important;
     letter-spacing: 0.09em !important;
@@ -60,7 +60,7 @@
 
   #viewProgramaFight > .programa-fight-page > .painel-topo h2 {
     margin: 0 0 4px !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 20px !important;
     font-weight: 780 !important;
     line-height: 1.08 !important;
@@ -82,7 +82,7 @@
     border: 1px solid rgba(172, 139, 255, 0.16) !important;
     border-radius: 13px !important;
     background: rgba(124, 58, 237, 0.10) !important;
-    color: #d4c3ff !important;
+    color: #7c3aed !important;
     box-shadow: none !important;
     font-size: 11px !important;
     font-weight: 780 !important;
@@ -109,7 +109,7 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.10), transparent 62%),
-      linear-gradient(155deg, rgba(18, 15, 47, 0.98), rgba(9, 8, 26, 0.99)) !important;
+      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
   }
 
   #viewProgramaFight .programa-fight-info-grid > .financeiro-box {
@@ -139,7 +139,7 @@
     top: 14px;
     bottom: 14px;
     width: 1px;
-    background: rgba(255, 255, 255, 0.075);
+    background: rgba(124, 58, 237, 0.052);
   }
 
   #viewProgramaFight .programa-fight-info-grid > .financeiro-box span {
@@ -163,11 +163,11 @@
   }
 
   #viewProgramaFight .programa-fight-info-grid > .previsao strong {
-    color: #a978ff !important;
+    color: var(--mobile-purple, var(--cor-roxo)) !important;
   }
 
   #viewProgramaFight .programa-fight-info-grid > .receber strong {
-    color: #ffad4d !important;
+    color: #b45309 !important;
   }
 
   #viewProgramaFight .programa-fight-info-grid > .receita strong {
@@ -188,7 +188,7 @@
     border-radius: 20px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.14), transparent 40%),
-      linear-gradient(155deg, rgba(20, 16, 52, 0.98), rgba(9, 9, 27, 0.99)) !important;
+      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -201,14 +201,14 @@
     padding: 0 !important;
     border: 0 !important;
     background: transparent !important;
-    color: #a681f2 !important;
+    color: #7c3aed !important;
     font-size: 8.5px !important;
     font-weight: 820 !important;
   }
 
   #viewProgramaFight .programa-fight-command-copy h3 {
     margin: 0 0 5px !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 17px !important;
     font-weight: 760 !important;
     line-height: 1.12 !important;
@@ -245,7 +245,7 @@
   #viewProgramaFight #btnAbrirFormCategoria {
     border-color: rgba(172, 139, 255, 0.18) !important;
     background: rgba(124, 58, 237, 0.10) !important;
-    color: #cfbaff !important;
+    color: #7c3aed !important;
   }
 
   #viewProgramaFight #btnAbrirFormTecnica {
@@ -266,7 +266,7 @@
     border-radius: 21px !important;
     background:
       radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.16), transparent 40%),
-      linear-gradient(155deg, rgba(22, 17, 57, 0.99), rgba(9, 9, 27, 0.99)) !important;
+      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
     box-shadow: none !important;
     overflow: visible !important;
   }
@@ -294,7 +294,7 @@
 
   #viewProgramaFight .programa-fight-criacao-topo h3 {
     margin: 0 !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 18px !important;
     font-weight: 770 !important;
     line-height: 1.1 !important;
@@ -329,14 +329,14 @@
   #viewProgramaFight .form-section-title {
     margin: 0 !important;
     padding: 11px 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 15px !important;
-    background: rgba(255, 255, 255, 0.035) !important;
+    background: rgba(124, 58, 237, 0.035) !important;
   }
 
   #viewProgramaFight .form-section-title strong {
     display: block !important;
-    color: #f7f4ff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 13px !important;
     line-height: 1.2 !important;
   }
@@ -358,7 +358,7 @@
   }
 
   #viewProgramaFight .campo-perfil > span {
-    color: #c1bad5 !important;
+    color: #7c3aed !important;
     font-size: 9.5px !important;
     font-weight: 750 !important;
     letter-spacing: 0.025em !important;
@@ -374,10 +374,10 @@
     min-height: 50px !important;
     margin: 0 !important;
     padding: 11px 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.085) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 15px !important;
-    background: rgba(4, 4, 16, 0.62) !important;
-    color: #fff !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     box-shadow: none !important;
     outline: none !important;
     font-size: 14px !important;
@@ -423,14 +423,14 @@
     padding: 0 !important;
     border: 0 !important;
     background: transparent !important;
-    color: #9b77ed !important;
+    color: #7c3aed !important;
     font-size: 8.5px !important;
     font-weight: 820 !important;
   }
 
   #viewProgramaFight .programa-fight-lista-topo h2 {
     margin: 0 !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 18px !important;
     font-weight: 770 !important;
     line-height: 1.1 !important;
@@ -476,7 +476,7 @@
 
   #viewProgramaFight .programa-fight-toolbar strong {
     display: block !important;
-    color: #f6f2ff !important;
+    color: var(--mobile-text) !important;
     font-size: 13px !important;
   }
 
@@ -518,7 +518,7 @@
     border-radius: 20px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.10), transparent 38%),
-      linear-gradient(150deg, rgba(19, 16, 49, 0.99), rgba(9, 9, 27, 0.99)) !important;
+      linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -547,7 +547,7 @@
     border: 1px solid rgba(172, 139, 255, 0.15) !important;
     border-radius: 999px !important;
     background: rgba(124, 58, 237, 0.10) !important;
-    color: #b994ff !important;
+    color: var(--mobile-purple, var(--cor-roxo)) !important;
     font-size: 8.5px !important;
     font-weight: 800 !important;
     line-height: 1 !important;
@@ -556,7 +556,7 @@
   #viewProgramaFight .programa-fight-card-head h3,
   #viewProgramaFight .programa-fight-accordion-head h3 {
     margin: 0 !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 16px !important;
     font-weight: 770 !important;
     line-height: 1.15 !important;
@@ -600,10 +600,10 @@
     min-height: 42px !important;
     margin: 0 !important;
     padding: 9px 11px !important;
-    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 13px !important;
-    background: rgba(255, 255, 255, 0.035) !important;
-    color: #cfc8e2 !important;
+    background: rgba(124, 58, 237, 0.035) !important;
+    color: #7c3aed !important;
     box-shadow: none !important;
     font-size: 10px !important;
     font-weight: 750 !important;
@@ -611,7 +611,7 @@
 
   #viewProgramaFight .programa-fight-toggle-icon {
     flex: 0 0 auto !important;
-    color: #a982ff !important;
+    color: var(--mobile-purple, var(--cor-roxo)) !important;
   }
 
   /* --------------------------------------------------------------------------
@@ -624,9 +624,9 @@
     min-width: 0 !important;
     margin: 0 10px 10px !important;
     padding: 10px !important;
-    border: 1px solid rgba(255, 255, 255, 0.065) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 16px !important;
-    background: rgba(0, 0, 0, 0.15) !important;
+    background: rgba(124, 58, 237, 0.068) !important;
   }
 
   #viewProgramaFight .programa-fight-tecnicas.escondido {
@@ -641,9 +641,9 @@
     min-width: 0 !important;
     margin: 0 !important;
     padding: 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 15px !important;
-    background: rgba(255, 255, 255, 0.035) !important;
+    background: rgba(124, 58, 237, 0.035) !important;
   }
 
   #viewProgramaFight .programa-fight-tecnica.inativa {
@@ -653,7 +653,7 @@
   #viewProgramaFight .programa-fight-tecnica strong {
     display: block !important;
     margin: 0 0 4px !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 13px !important;
     line-height: 1.2 !important;
     overflow-wrap: anywhere !important;
@@ -727,8 +727,8 @@
     border-radius: 24px 24px 18px 18px !important;
     background:
       radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.18), transparent 40%),
-      linear-gradient(155deg, rgba(22, 17, 57, 0.995), rgba(8, 8, 24, 0.995)) !important;
-    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.52) !important;
+      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.995)) !important;
+    box-shadow: 0 28px 90px rgba(30, 41, 59, 0.09) !important;
   }
 
   #viewProgramaFight .programa-fight-edit-topo {
@@ -741,7 +741,7 @@
 
   #viewProgramaFight .programa-fight-edit-topo h3 {
     margin: 0 !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 18px !important;
     line-height: 1.12 !important;
   }

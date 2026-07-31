@@ -53,7 +53,7 @@
     border-radius: 20px;
     background:
       radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.17), transparent 42%),
-      linear-gradient(145deg, rgba(24, 18, 61, 0.98), rgba(11, 10, 31, 0.99));
+      linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99));
   }
 
   .mobile-financeiro-periodo-info {
@@ -63,7 +63,7 @@
   }
 
   .mobile-financeiro-periodo-info > span {
-    color: #9b77ed;
+    color: #7c3aed;
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 0.09em;
@@ -74,7 +74,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #f8f6ff;
+    color: var(--mobile-text);
     font-size: 16px;
     letter-spacing: -0.03em;
   }
@@ -109,15 +109,15 @@
     margin: 0 !important;
     border: 1px solid rgba(167, 129, 255, 0.2) !important;
     border-radius: 13px !important;
-    background: rgba(5, 5, 17, 0.72) !important;
-    color: #eee9ff !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    color: #7c3aed !important;
     font-size: 12px !important;
     font-weight: 650;
     box-shadow: none !important;
   }
 
   #viewFinanceiro #mobileFinanceiroMes::-webkit-calendar-picker-indicator {
-    filter: invert(1) opacity(0.72);
+    filter: none;
   }
 
   /* -----------------------------------------------------------------------
@@ -144,7 +144,7 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.10), transparent 42%),
-      linear-gradient(155deg, rgba(19, 16, 49, 0.98), rgba(9, 9, 26, 0.99)) !important;
+      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -160,7 +160,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #f8f7ff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: clamp(20px, 6vw, 27px) !important;
     line-height: 1.05 !important;
     letter-spacing: -0.055em !important;
@@ -180,7 +180,7 @@
     background:
       radial-gradient(circle at 100% 0%, rgba(54, 208, 127, 0.13), transparent 44%),
       radial-gradient(circle at 0% 100%, rgba(124, 58, 237, 0.13), transparent 48%),
-      linear-gradient(150deg, rgba(18, 18, 48, 0.99), rgba(8, 9, 25, 0.99)) !important;
+      linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
   }
 
   #viewFinanceiro .financeiro-resumo-pro .financeiro-box:nth-child(1) > strong {
@@ -193,7 +193,7 @@
   }
 
   #viewFinanceiro .financeiro-resumo-pro .financeiro-box:nth-child(3) > strong {
-    color: #a978ff !important;
+    color: var(--mobile-purple, var(--cor-roxo)) !important;
   }
 
   /* Pagos / Pendentes / Atrasados: linha operacional compacta. */
@@ -230,7 +230,7 @@
   }
 
   #viewFinanceiro .financeiro-resumo-pro .financeiro-box:nth-child(5) > strong {
-    color: #f4c55b !important;
+    color: #b45309 !important;
   }
 
   #viewFinanceiro .financeiro-resumo-pro .financeiro-box:nth-child(6) > strong {
@@ -260,14 +260,14 @@
     text-align: left;
     border: 1px solid rgba(162, 126, 255, 0.13) !important;
     border-radius: 17px !important;
-    background: linear-gradient(150deg, rgba(21, 17, 54, 0.98), rgba(10, 9, 29, 0.99)) !important;
-    color: #f8f6ff !important;
+    background: linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+    color: #7c3aed !important;
     box-shadow: none !important;
   }
 
   #viewFinanceiro .mobile-financeiro-acao:active {
     transform: translateY(1px) !important;
-    background: linear-gradient(150deg, rgba(30, 23, 73, 0.99), rgba(12, 11, 34, 0.99)) !important;
+    background: linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
   }
 
   #viewFinanceiro .mobile-financeiro-acao-cobranca {
@@ -282,12 +282,12 @@
     place-items: center;
     border-radius: 13px;
     background: rgba(124, 58, 237, 0.14);
-    color: #a978ff;
+    color: var(--mobile-purple, var(--cor-roxo));
   }
 
   .mobile-financeiro-acao-cobranca .mobile-financeiro-acao-icone {
     background: rgba(255, 86, 95, 0.11);
-    color: #ff6f78;
+    color: #b91c1c;
   }
 
   .mobile-financeiro-acao-icone svg {
@@ -307,7 +307,7 @@
   }
 
   #viewFinanceiro .mobile-financeiro-acao strong {
-    color: #f5f2ff;
+    color: var(--mobile-text);
     font-size: 12px;
     line-height: 1.2;
   }
@@ -330,7 +330,7 @@
     border-radius: 21px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.10), transparent 34%),
-      linear-gradient(155deg, rgba(18, 15, 48, 0.99), rgba(8, 8, 24, 0.99)) !important;
+      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -346,13 +346,13 @@
   }
 
   #viewFinanceiro .financeiro-operacao-topo-retratil .page-eyebrow {
-    color: #956ce7 !important;
+    color: #7c3aed !important;
     font-size: 9px !important;
   }
 
   #viewFinanceiro .financeiro-operacao-topo-retratil h3 {
     margin: 3px 0 4px !important;
-    color: #f7f4ff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 18px !important;
     letter-spacing: -0.035em;
   }
@@ -374,7 +374,7 @@
 
   #viewFinanceiro .financeiro-lista-contador {
     min-width: 0;
-    color: #b9afd4 !important;
+    color: #7c3aed !important;
     font-size: 10px !important;
   }
 
@@ -384,7 +384,7 @@
     border-radius: 13px !important;
     border: 1px solid rgba(155, 92, 255, 0.24) !important;
     background: rgba(124, 58, 237, 0.11) !important;
-    color: #c1a7ff !important;
+    color: #7c3aed !important;
     font-size: 10px !important;
     font-weight: 750 !important;
     white-space: nowrap;
@@ -399,7 +399,7 @@
     display: grid !important;
     gap: 12px;
     padding: 0 12px 14px;
-    border-top: 1px solid rgba(255, 255, 255, 0.055);
+    border-top: 1px solid rgba(35, 27, 53, 0.11);
   }
 
   /* -----------------------------------------------------------------------
@@ -425,10 +425,10 @@
     flex: 0 0 auto;
     min-height: 38px;
     padding: 8px 13px !important;
-    border: 1px solid rgba(255, 255, 255, 0.075) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 999px !important;
-    background: rgba(255, 255, 255, 0.035) !important;
-    color: #aaa3bf !important;
+    background: rgba(124, 58, 237, 0.035) !important;
+    color: #7c3aed !important;
     font-size: 10px !important;
     font-weight: 700 !important;
     box-shadow: none !important;
@@ -437,7 +437,7 @@
   #viewFinanceiro .mobile-financeiro-status-chips button.ativo {
     border-color: rgba(155, 92, 255, 0.34) !important;
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.28), rgba(96, 45, 184, 0.18)) !important;
-    color: #e5d8ff !important;
+    color: #7c3aed !important;
   }
 
   /* Os controles originais continuam no DOM e operacionais, mas o mobile usa
@@ -472,7 +472,7 @@
     border-radius: 13px !important;
     border: 1px solid rgba(160, 126, 255, 0.15) !important;
     background: rgba(124, 58, 237, 0.08) !important;
-    color: #bfa8f6 !important;
+    color: #7c3aed !important;
     font-size: 10px !important;
     box-shadow: none !important;
   }
@@ -495,15 +495,15 @@
     padding: 13px !important;
     display: grid !important;
     gap: 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.075) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 16px !important;
-    background: rgba(7, 7, 21, 0.62) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
     box-shadow: none !important;
   }
 
   #viewFinanceiro .financeiro-linha-pro.status-atrasado {
     border-color: rgba(255, 86, 95, 0.18) !important;
-    background: linear-gradient(145deg, rgba(48, 15, 29, 0.30), rgba(7, 7, 21, 0.72)) !important;
+    background: linear-gradient(145deg, rgba(124, 58, 237, 0.135), rgba(248, 247, 252, 0.72)) !important;
   }
 
   #viewFinanceiro .financeiro-linha-pro.status-pago {
@@ -527,7 +527,7 @@
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #f6f3ff !important;
+    color: var(--mobile-text) !important;
     font-size: 14px !important;
     letter-spacing: -0.025em;
   }
@@ -554,8 +554,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.035);
-    color: #9e97b5 !important;
+    background: rgba(124, 58, 237, 0.035);
+    color: #7c3aed !important;
     font-size: 8px !important;
   }
 
@@ -565,7 +565,7 @@
     justify-content: space-between !important;
     gap: 10px !important;
     padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.055);
+    border-top: 1px solid rgba(35, 27, 53, 0.11);
   }
 
   #viewFinanceiro .financeiro-linha-dir-pro > div:first-child {
@@ -580,7 +580,7 @@
   }
 
   #viewFinanceiro .financeiro-linha-dir-pro strong {
-    color: #f4f0ff !important;
+    color: var(--mobile-text) !important;
     font-size: 16px !important;
     letter-spacing: -0.035em;
   }
@@ -611,7 +611,7 @@
     border-radius: 17px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(255, 86, 95, 0.08), transparent 34%),
-      rgba(10, 8, 27, 0.74) !important;
+      rgba(255, 255, 255, 0.98) !important;
     box-shadow: none !important;
   }
 
@@ -622,7 +622,7 @@
 
   #viewFinanceiro .financeiro-cobranca-topo h3 {
     margin: 2px 0 3px !important;
-    color: #f7f3ff !important;
+    color: var(--mobile-text) !important;
     font-size: 15px !important;
   }
 
@@ -690,9 +690,9 @@
     padding: 11px !important;
     display: grid !important;
     gap: 9px !important;
-    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 14px !important;
-    background: rgba(255, 255, 255, 0.025) !important;
+    background: rgba(124, 58, 237, 0.035) !important;
   }
 
   #viewFinanceiro .financeiro-cobranca-aluno {
@@ -705,7 +705,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #f4f1ff !important;
+    color: var(--mobile-text) !important;
     font-size: 12px !important;
   }
 
@@ -742,13 +742,13 @@
     padding: 14px !important;
     border: 1px solid rgba(164, 129, 255, 0.13) !important;
     border-radius: 18px !important;
-    background: linear-gradient(150deg, rgba(18, 15, 48, 0.98), rgba(8, 8, 24, 0.99)) !important;
+    background: linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
     box-shadow: none !important;
   }
 
   #viewFinanceiro .grafico-topo h2 {
     font-size: 14px !important;
-    color: #f4f0ff !important;
+    color: var(--mobile-text) !important;
   }
 
   /* -----------------------------------------------------------------------

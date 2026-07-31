@@ -370,8 +370,8 @@ select {
   background-color: var(--bg-input);
 }
 
-select option         { background-color: #111118; color: #f4f4f6; font-size: 15px; }
-select option:checked { background-color: #8b5cf6; color: #fff; }
+select option         { background-color: #ffffff; color: #231b35; font-size: 15px; }
+select option:checked { background-color: #7c3aed; color: #fff; }
 
 label,
 .label-campo {
@@ -476,7 +476,7 @@ button:active { transform: scale(0.97); }
 .btn-sair:hover,
 #btnSair:hover {
   background: var(--vermelho) !important;
-  color: #fff !important;
+  color: #b91c1c !important;
   transform: none;
 }
 
@@ -7651,8 +7651,8 @@ body,
 
 
 /* ================================================================
-   MENSALIZE — ENTERPRISE VISUAL TEST LAYER
-   Fase C0 · SaaS premium inspirado em Linear/Vercel/Raycast.
+   MENSALIZE — TEMA OFICIAL CLARO
+   SaaS premium inspirado no painel visual aprovado para o Mensalize.
    Apenas CSS: não altera lógica, IDs ou estrutura funcional.
 ================================================================ */
 html,
@@ -7692,9 +7692,9 @@ p, span, small, label, input, select, textarea, button, a {
 
 .sidebar-app {
   width: 240px !important;
-  background: var(--bg-nivel-1) !important;
-  border-right: 1px solid var(--borda) !important;
-  box-shadow: none !important;
+  background: linear-gradient(180deg, #1d1733 0%, #151126 100%) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 12px 0 36px rgba(33, 24, 56, 0.08) !important;
   padding: var(--space-4) !important;
 }
 
@@ -7724,7 +7724,7 @@ p, span, small, label, input, select, textarea, button, a {
   font-size: var(--tipo-md) !important;
   font-weight: 500 !important;
   letter-spacing: -0.01em !important;
-  background: linear-gradient(135deg, #fff 30%, var(--cor-roxo-claro) 100%);
+  background: linear-gradient(135deg, #fff 30%, #ddd6fe 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -7733,7 +7733,7 @@ p, span, small, label, input, select, textarea, button, a {
   display: block;
   margin-top: 2px;
   font-size: var(--tipo-xs) !important;
-  color: var(--texto-terciario) !important;
+  color: #aaa5bc !important;
 }
 
 .sidebar-menu {
@@ -7754,7 +7754,7 @@ p, span, small, label, input, select, textarea, button, a {
   border-radius: var(--raio-md) !important;
   padding: 0 var(--space-3) !important;
   background: transparent !important;
-  color: var(--texto-secundario) !important;
+  color: #bbb5ca !important;
   border: 0 !important;
   border-left: 2px solid transparent !important;
   font-size: var(--tipo-base) !important;
@@ -7767,14 +7767,14 @@ p, span, small, label, input, select, textarea, button, a {
 }
 
 .menu-item:hover {
-  background: var(--bg-hover) !important;
-  color: var(--texto-primario) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: #ffffff !important;
   transform: none !important;
 }
 
 .menu-item.ativo {
-  background: var(--cor-roxo-bg) !important;
-  color: var(--texto-primario) !important;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.34), rgba(124, 58, 237, 0.17)) !important;
+  color: #ffffff !important;
   border-left-color: var(--cor-roxo) !important;
 }
 
@@ -7789,7 +7789,7 @@ p, span, small, label, input, select, textarea, button, a {
 .topo-dashboard {
   min-height: 56px !important;
   padding: calc(var(--space-3) + var(--safe-top)) max(var(--space-4), calc(var(--space-4) + var(--safe-right))) var(--space-3) max(var(--space-4), calc(var(--space-4) + var(--safe-left))) !important;
-  background: var(--bg-base) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
   border-bottom: 1px solid var(--borda) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -8004,7 +8004,7 @@ button:hover,
 .btn-sair,
 #btnSair {
   background: var(--vermelho-bg) !important;
-  color: #fca5a5 !important;
+  color: #b91c1c !important;
   border: 1px solid var(--vermelho-borda) !important;
 }
 
@@ -8012,7 +8012,7 @@ button:hover,
 .btn-remover:hover,
 .btn-remover-cliente:hover,
 .btn-sair:hover,
-#btnSair:hover { background: rgba(239, 68, 68, 0.18) !important; color: #fff !important; }
+#btnSair:hover { background: rgba(239, 68, 68, 0.18) !important; color: #b91c1c !important; }
 
 input,
 select,
@@ -8064,13 +8064,13 @@ label,
 
 .status-pago,
 .status-ok,
-.frequencia-chamada-badge.ok { background: var(--verde-bg) !important; color: #6ee7b7 !important; border-color: var(--verde-borda) !important; }
+.frequencia-chamada-badge.ok { background: var(--verde-bg) !important; color: var(--verde) !important; border-color: var(--verde-borda) !important; }
 .status-atrasado,
-.frequencia-chamada-badge.baixa { background: var(--vermelho-bg) !important; color: #fca5a5 !important; border-color: var(--vermelho-borda) !important; }
+.frequencia-chamada-badge.baixa { background: var(--vermelho-bg) !important; color: var(--vermelho) !important; border-color: var(--vermelho-borda) !important; }
 .status-hoje,
 .status-warn,
 .status-pendente,
-.frequencia-chamada-badge.limite { background: var(--amarelo-bg) !important; color: #fbbf24 !important; border-color: var(--amarelo-borda) !important; }
+.frequencia-chamada-badge.limite { background: var(--amarelo-bg) !important; color: var(--amarelo) !important; border-color: var(--amarelo-borda) !important; }
 
 .aluno-card,
 .pagamento-item,
@@ -8126,7 +8126,7 @@ label,
 .skeleton-card,
 .skeleton-line,
 .skeleton-item {
-  background: linear-gradient(90deg, rgba(255,255,255,0.035), rgba(255,255,255,0.07), rgba(255,255,255,0.035)) !important;
+  background: linear-gradient(90deg, #f1f2f6, #fafafa, #f1f2f6) !important;
 }
 
 @media (min-width: 768px) {
@@ -8896,7 +8896,7 @@ label,
   padding: 16px 18px;
   border-radius: 18px;
   background:
-    linear-gradient(135deg, rgba(124, 58, 237, 0.14), rgba(15, 17, 30, 0.96)),
+    linear-gradient(135deg, rgba(124, 58, 237, 0.14), rgba(255, 255, 255, 0.96)),
     var(--bg-nivel-1);
   border: 1px solid rgba(196, 181, 253, 0.20);
   color: var(--texto-primario);
@@ -8931,24 +8931,24 @@ label,
 
 #btnBannerAtrasados {
   background: rgba(239, 68, 68, 0.14) !important;
-  color: #fca5a5 !important;
+  color: #b91c1c !important;
   border-color: rgba(239, 68, 68, 0.30) !important;
 }
 
 #btnBannerAtrasados:hover {
   background: rgba(239, 68, 68, 0.22) !important;
-  color: #fecaca !important;
+  color: #b91c1c !important;
 }
 
 #btnBannerHoje {
   background: rgba(245, 158, 11, 0.14) !important;
-  color: #fcd34d !important;
+  color: #b45309 !important;
   border-color: rgba(245, 158, 11, 0.30) !important;
 }
 
 #btnBannerHoje:hover {
   background: rgba(245, 158, 11, 0.22) !important;
-  color: #fde68a !important;
+  color: #92400e !important;
 }
 
 .banner-acoes .btn-fechar-banner {
@@ -8959,7 +8959,7 @@ label,
   border-radius: 10px;
   display: inline-grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.055);
+  background: rgba(124, 58, 237, 0.045);
   border: 1px solid var(--borda);
   color: var(--texto-terciario);
   font-size: 20px;
@@ -8967,7 +8967,7 @@ label,
 }
 
 .banner-acoes .btn-fechar-banner:hover {
-  background: rgba(255, 255, 255, 0.09);
+  background: rgba(124, 58, 237, 0.045);
   color: var(--texto-primario);
 }
 
@@ -9021,13 +9021,13 @@ label,
 
 #btnBannerAtrasados {
   background: rgba(239, 68, 68, 0.10) !important;
-  color: #f87171 !important;
+  color: #b91c1c !important;
   border-color: rgba(239, 68, 68, 0.22) !important;
 }
 
 #btnBannerHoje {
   background: rgba(245, 158, 11, 0.10) !important;
-  color: #fbbf24 !important;
+  color: #b45309 !important;
   border-color: rgba(245, 158, 11, 0.22) !important;
 }
 
@@ -9194,7 +9194,7 @@ label,
 #viewDashboard .dashboard-hero {
   margin-bottom: 14px !important;
   padding-bottom: 28px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-bottom: 1px solid rgba(35, 27, 53, 0.11) !important;
 }
 
 /* ----------------------------------------------------------------
@@ -9217,8 +9217,8 @@ label,
 }
 
 #viewDashboard .acao-rapida {
-  background: rgba(255, 255, 255, 0.055) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   border-radius: 16px !important;
   padding: 14px 16px !important;
   font-size: 13px !important;
@@ -9244,7 +9244,7 @@ label,
   background: linear-gradient(
     180deg,
     rgba(124, 58, 237, 0.10),
-    rgba(18, 20, 36, 0.82)
+    rgba(255, 255, 255, 0.82)
   ) !important;
   border-color: rgba(196, 181, 253, 0.16) !important;
 }
@@ -9256,7 +9256,7 @@ label,
   /* Hero sem separador em mobile — economiza espaço */
   #viewDashboard .dashboard-hero {
     padding-bottom: 20px !important;
-    border-bottom-color: rgba(255, 255, 255, 0.05) !important;
+    border-bottom-color: rgba(35, 27, 53, 0.11) !important;
   }
 
   /* Grid da dashboard já vira 1 coluna pelo responsivo global,
@@ -9313,9 +9313,9 @@ label,
 #viewDashboard .dashboard-hero {
   background:
     radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.22), transparent 34%),
-    linear-gradient(135deg, rgba(18, 20, 36, 0.96), rgba(11, 13, 24, 0.98)) !important;
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(249, 247, 255, 0.98)) !important;
   border-color: rgba(196, 181, 253, 0.16) !important;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28) !important;
+  box-shadow: 0 24px 70px rgba(30, 41, 59, 0.09) !important;
 }
 
 #viewDashboard .dashboard-hero h2 {
@@ -9351,8 +9351,8 @@ label,
   padding: 20px 18px !important;
   border-radius: 20px !important;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035)) !important;
-  border-color: rgba(255, 255, 255, 0.095) !important;
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045)) !important;
+  border-color: rgba(35, 27, 53, 0.11) !important;
 }
 
 #viewDashboard .cards-dashboard .card h2 {
@@ -9397,7 +9397,7 @@ label,
   padding-inline: 12px !important;
   background: rgba(124, 58, 237, 0.16) !important;
   border-color: rgba(196, 181, 253, 0.28) !important;
-  color: #ddd6fe !important;
+  color: #7c3aed !important;
 }
 
 #btnToggleNotificacoesDashboard {
@@ -9500,7 +9500,7 @@ label,
   width: calc(100% - 12%) !important;
   border-radius: 18px !important;
   background:
-    linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(15, 17, 30, 0.96)) !important;
+    linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(255, 255, 255, 0.96)) !important;
   border: 1px solid rgba(245, 158, 11, 0.20) !important;
 }
 
@@ -9589,7 +9589,7 @@ label,
   align-items: center;
   margin-bottom: 0;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(35, 27, 53, 0.11);
 }
 
 #viewPresencas .presencas-hero p {
@@ -9634,8 +9634,8 @@ label,
   min-width: 0;
   padding: 16px;
   border-radius: 22px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.032));
-  border: 1px solid rgba(255, 255, 255, 0.085);
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045));
+  border: 1px solid rgba(35, 27, 53, 0.11);
   overflow: hidden;
 }
 
@@ -9672,7 +9672,7 @@ label,
 
 #viewPresencas .presenca-card-topo h3 {
   margin: 4px 0 3px;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.04em;
@@ -9747,7 +9747,7 @@ label,
 
 #viewPresencas .presenca-turma-card {
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 #viewPresencas .historico-chamadas-card {
@@ -9831,8 +9831,8 @@ label,
   border-radius: 24px;
   background:
     radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.16), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035));
-  border: 1px solid rgba(255, 255, 255, 0.10);
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045));
+  border: 1px solid rgba(35, 27, 53, 0.11);
   overflow: hidden;
 }
 
@@ -9844,7 +9844,7 @@ label,
 }
 
 .desafio-pontos-topo h3 {
-  color: #fff;
+  color: var(--texto-primario);
   font-size: clamp(18px, 2vw, 24px);
   letter-spacing: -0.045em;
   line-height: 1.1;
@@ -9892,8 +9892,8 @@ label,
   min-height: 48px;
   justify-content: center;
   border-radius: 16px !important;
-  background: rgba(255, 255, 255, 0.060) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   color: var(--texto-primario) !important;
   box-shadow: none !important;
   text-align: center;
@@ -9911,9 +9911,9 @@ label,
   border-color: rgba(196, 181, 253, 0.28) !important;
 }
 
-.desafio-ponto-tecnica small { color: #c4b5fd; }
-.desafio-ponto-atitude small { color: #86efac; }
-.desafio-ponto-aula small { color: #93c5fd; }
+.desafio-ponto-tecnica small { color: #7c3aed; }
+.desafio-ponto-atitude small { color: #047857; }
+.desafio-ponto-aula small { color: #7c3aed; }
 .desafio-ponto-competicao small,
 .desafio-ponto-medalha small { color: #fbbf24; }
 
@@ -9924,11 +9924,11 @@ label,
 }
 
 .desafio-pontos-feedback.sucesso {
-  color: #86efac;
+  color: #047857;
 }
 
 .desafio-pontos-feedback.erro {
-  color: #fca5a5;
+  color: #b91c1c;
 }
 
 @media (max-width: 920px) {
@@ -9975,8 +9975,8 @@ label,
   border-radius: 24px;
   background:
     radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.10), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.030));
-  border: 1px solid rgba(255, 255, 255, 0.095);
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045));
+  border: 1px solid rgba(35, 27, 53, 0.11);
 }
 
 .desafio-historico-topo {
@@ -9987,7 +9987,7 @@ label,
 }
 
 .desafio-historico-topo h3 {
-  color: #fff;
+  color: var(--texto-primario);
   font-size: clamp(18px, 2vw, 24px);
   letter-spacing: -0.045em;
   line-height: 1.1;
@@ -10003,7 +10003,7 @@ label,
 .desafio-historico-card-recolhido {
   background:
     radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.07), transparent 28%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025));
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045));
 }
 
 .btn-toggle-historico-desafio {
@@ -10036,8 +10036,8 @@ label,
   align-items: center;
   padding: 14px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.085);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
 }
 
 .desafio-historico-info {
@@ -10047,7 +10047,7 @@ label,
 }
 
 .desafio-historico-info strong {
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 14px;
   overflow-wrap: anywhere;
 }
@@ -10082,7 +10082,7 @@ label,
   border-radius: var(--raio-pill) !important;
   background: var(--vermelho-bg) !important;
   border: 1px solid var(--vermelho-borda) !important;
-  color: #fca5a5 !important;
+  color: #b91c1c !important;
   box-shadow: none !important;
   white-space: nowrap;
 }
@@ -10110,7 +10110,7 @@ label,
 }
 
 .desafio-confirmacao-excluir span {
-  color: #fecaca;
+  color: #b91c1c;
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
@@ -10131,9 +10131,9 @@ label,
 }
 
 .btn-cancelar-exclusao-ponto {
-  background: rgba(255, 255, 255, 0.065) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
   color: var(--texto-primario) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
 }
 
 .desafio-historico-item.confirmando-exclusao .btn-excluir-ponto-desafio {
@@ -10217,8 +10217,8 @@ label,
   padding: 14px;
   border-radius: 20px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.058), rgba(255, 255, 255, 0.032));
-  border: 1px solid rgba(255, 255, 255, 0.09);
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045));
+  border: 1px solid rgba(35, 27, 53, 0.11);
 }
 
 .desafio-regra-card span {
@@ -10230,7 +10230,7 @@ label,
 }
 
 .desafio-regra-card strong {
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 15px;
   letter-spacing: -0.035em;
 }
@@ -10250,7 +10250,7 @@ label,
 .desafio-pontos-card-recolhido,
 .desafio-historico-card-recolhido {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.048), rgba(255, 255, 255, 0.026)) !important;
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045)) !important;
 }
 
 .desafio-pontos-card-recolhido .page-eyebrow,
@@ -10273,7 +10273,7 @@ label,
   height: 24px;
   border-radius: 9px;
   background: rgba(139, 92, 246, 0.17);
-  color: #c4b5fd;
+  color: #7c3aed;
   font-size: 16px;
   line-height: 1;
 }
@@ -10286,7 +10286,7 @@ label,
   height: 24px;
   border-radius: 9px;
   background: rgba(56, 189, 248, 0.12);
-  color: #93c5fd;
+  color: #7c3aed;
   font-size: 15px;
   line-height: 1;
 }
@@ -10512,9 +10512,9 @@ body .tela-login .login-aviso-seguranca {
 
 .avisos-resumo-card {
   padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 .avisos-resumo-card strong {
@@ -10536,7 +10536,7 @@ body .tela-login .login-aviso-seguranca {
 }
 
 .avisos-resumo-card.suave {
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 .avisos-form-wrapper {
@@ -10544,7 +10544,7 @@ body .tela-login .login-aviso-seguranca {
   padding: 16px;
   border: 1px solid rgba(139, 92, 246, 0.18);
   border-radius: 22px;
-  background: linear-gradient(180deg, rgba(139, 92, 246, 0.08), rgba(255, 255, 255, 0.025));
+  background: linear-gradient(180deg, rgba(139, 92, 246, 0.08), rgba(124, 58, 237, 0.045));
 }
 
 .avisos-form-wrapper.escondido {
@@ -10581,9 +10581,9 @@ body .tela-login .login-aviso-seguranca {
 .avisos-atalhos button {
   min-height: 32px;
   padding: 0 12px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(124, 58, 237, 0.045);
   color: var(--texto-secundario, #cbd5e1);
   font-size: 12px;
   font-weight: 800;
@@ -10679,9 +10679,9 @@ body .tela-login .login-aviso-seguranca {
   display: grid !important;
   gap: 8px !important;
   text-align: left !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   border-radius: 22px !important;
-  background: rgba(255, 255, 255, 0.045) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
   color: var(--texto-primario) !important;
   cursor: pointer !important;
   box-shadow: none !important;
@@ -10691,12 +10691,12 @@ body .tela-login .login-aviso-seguranca {
 .solicitacoes-status-card:hover {
   transform: translateY(-1px) !important;
   border-color: rgba(167, 139, 250, 0.28) !important;
-  background: rgba(255, 255, 255, 0.065) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
 }
 
 .solicitacoes-status-card.ativo {
   border-color: rgba(139, 92, 246, 0.52) !important;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(255, 255, 255, 0.045)) !important;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(124, 58, 237, 0.045)) !important;
   box-shadow: 0 18px 48px rgba(15, 23, 42, 0.22) !important;
 }
 
@@ -10770,25 +10770,25 @@ body .tela-login .login-aviso-seguranca {
 }
 
 .solicitacao-tipo-chip {
-  color: #ddd6fe !important;
+  color: #7c3aed !important;
   background: rgba(139, 92, 246, 0.15) !important;
   border: 1px solid rgba(139, 92, 246, 0.25) !important;
 }
 
 .solicitacao-status-chip.status-pendente {
-  color: #fde68a !important;
+  color: #7c3aed !important;
   background: rgba(251, 191, 36, 0.12) !important;
   border: 1px solid rgba(251, 191, 36, 0.24) !important;
 }
 
 .solicitacao-status-chip.status-aprovada {
-  color: #bbf7d0 !important;
+  color: #047857 !important;
   background: rgba(34, 197, 94, 0.12) !important;
   border: 1px solid rgba(34, 197, 94, 0.24) !important;
 }
 
 .solicitacao-status-chip.status-recusada {
-  color: #fecaca !important;
+  color: #b91c1c !important;
   background: rgba(239, 68, 68, 0.12) !important;
   border: 1px solid rgba(239, 68, 68, 0.24) !important;
 }
@@ -10831,10 +10831,10 @@ body .tela-login .login-aviso-seguranca {
   gap: 12px !important;
   padding: 18px !important;
   border-radius: 24px !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.028)) !important;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.14) !important;
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045)) !important;
+  box-shadow: 0 18px 42px rgba(30, 41, 59, 0.09) !important;
   overflow: hidden !important;
   opacity: 1 !important;
 }
@@ -10901,7 +10901,7 @@ body .tela-login .login-aviso-seguranca {
   display: none !important;
   gap: 14px !important;
   padding-top: 12px !important;
-  border-top: 1px solid rgba(255,255,255,.08) !important;
+  border-top: 1px solid rgba(35, 27, 53, 0.11) !important;
 }
 
 .solicitacao-card-v3.aberta .solicitacao-detalhes-v3 {
@@ -10910,7 +10910,7 @@ body .tela-login .login-aviso-seguranca {
 
 .solicitacao-card-v3.aberta {
   border-color: rgba(139, 92, 246, .28) !important;
-  box-shadow: 0 22px 55px rgba(0,0,0,.18) !important;
+  box-shadow: 0 22px 55px rgba(30, 41, 59, 0.09) !important;
 }
 
 .solicitacao-conteudo-v3 {
@@ -10918,8 +10918,8 @@ body .tela-login .login-aviso-seguranca {
   gap: 12px !important;
   padding: 14px !important;
   border-radius: 18px !important;
-  background: rgba(0, 0, 0, .12) !important;
-  border: 1px solid rgba(255,255,255,.07) !important;
+  background: rgba(255, 255, 255, .12) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
 }
 
 .solicitacao-detalhe-grade {
@@ -10932,8 +10932,8 @@ body .tela-login .login-aviso-seguranca {
 .solicitacao-observacao {
   padding: 12px !important;
   border-radius: 14px !important;
-  background: rgba(255,255,255,.045) !important;
-  border: 1px solid rgba(255,255,255,.055) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
 }
 
 .solicitacao-detalhe-grade span,
@@ -11012,12 +11012,12 @@ body .tela-login .login-aviso-seguranca {
 .dashboard-executivo-pro {
   margin: 18px 0 20px;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 26px;
   background:
     radial-gradient(circle at top right, rgba(139, 92, 246, 0.16), transparent 34%),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(17, 24, 39, 0.74));
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(249, 247, 255, 0.74));
+  box-shadow: 0 18px 50px rgba(30, 41, 59, 0.09);
 }
 
 .dashboard-executivo-topo {
@@ -11051,8 +11051,8 @@ body .tela-login .login-aviso-seguranca {
   min-height: 34px;
   padding: 0 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(35, 27, 53, 0.11);
+  background: rgba(124, 58, 237, 0.045);
   color: var(--texto-secundario, #cbd5e1);
   font-size: 12px;
   font-weight: 800;
@@ -11060,13 +11060,13 @@ body .tela-login .login-aviso-seguranca {
 }
 
 .dashboard-status-operacao.status-ok {
-  color: #bbf7d0;
+  color: #047857;
   background: rgba(34, 197, 94, 0.12);
   border-color: rgba(34, 197, 94, 0.24);
 }
 
 .dashboard-status-operacao.status-alerta {
-  color: #fed7aa;
+  color: #7c3aed;
   background: rgba(249, 115, 22, 0.12);
   border-color: rgba(249, 115, 22, 0.24);
 }
@@ -11082,9 +11082,9 @@ body .tela-login .login-aviso-seguranca {
   overflow: hidden;
   min-height: 122px;
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.085);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(124, 58, 237, 0.045);
   color: var(--texto-primario, #ffffff);
   text-align: left;
   cursor: pointer;
@@ -11102,7 +11102,7 @@ body .tela-login .login-aviso-seguranca {
 .dashboard-executivo-item:hover {
   transform: translateY(-2px);
   border-color: rgba(196, 181, 253, 0.30);
-  background: rgba(255, 255, 255, 0.065);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 .dashboard-executivo-item:focus-visible {
@@ -11123,7 +11123,7 @@ body .tela-login .login-aviso-seguranca {
 .dashboard-executivo-item strong {
   display: block;
   margin-bottom: 6px;
-  color: #ffffff;
+  color: #231b35;
   font-size: clamp(28px, 5vw, 38px);
   line-height: 0.95;
   letter-spacing: -0.065em;
@@ -11141,7 +11141,7 @@ body .tela-login .login-aviso-seguranca {
 }
 
 .dashboard-executivo-item.tem-alerta strong {
-  color: #fed7aa;
+  color: #7c3aed;
 }
 
 .dashboard-executivo-item.status-ok::before {
@@ -11149,7 +11149,7 @@ body .tela-login .login-aviso-seguranca {
 }
 
 .dashboard-executivo-item.status-ok strong {
-  color: #bbf7d0;
+  color: #047857;
 }
 
 @media (max-width: 980px) {
@@ -11257,7 +11257,7 @@ body .tela-login .login-aviso-seguranca {
   padding: 18px;
   border: 1px solid var(--borda);
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 .financeiro-operacao-topo {
@@ -11290,7 +11290,7 @@ body .tela-login .login-aviso-seguranca {
   border-radius: 999px;
   border: 1px solid rgba(139, 92, 246, 0.25);
   background: rgba(139, 92, 246, 0.10);
-  color: #ddd6fe !important;
+  color: #7c3aed !important;
   font-size: 12px !important;
   font-weight: 800;
   white-space: nowrap;
@@ -11319,7 +11319,7 @@ body .tela-login .login-aviso-seguranca {
   padding: 14px;
   border: 1px solid var(--borda);
   border-radius: 20px;
-  background: rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.10);
 }
 
 .financeiro-acoes-pro {
@@ -11344,7 +11344,7 @@ body .tela-login .login-aviso-seguranca {
   padding: 16px !important;
   border: 1px solid var(--borda);
   border-radius: 20px !important;
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 .financeiro-linha-pro > div:first-child {
@@ -11411,8 +11411,8 @@ body .tela-login .login-aviso-seguranca {
   min-height: 26px;
   padding: 5px 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   color: var(--texto-secundario) !important;
   font-size: 11px !important;
 }
@@ -11564,8 +11564,8 @@ body .tela-login .login-aviso-seguranca {
 }
 
 .perfil-configuracoes-page .config-modulo-item:has(input:not(:checked)) {
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  background: rgba(255, 255, 255, 0.035) !important;
+  border-color: rgba(35, 27, 53, 0.11) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
 }
 
 
@@ -11587,7 +11587,7 @@ body .tela-login .login-aviso-seguranca {
 .desafio-pontos-card,
 .desafio-historico-card {
   border-color: var(--mensalize-card-border-pro) !important;
-  box-shadow: 0 18px 54px rgba(2, 6, 23, 0.22) !important;
+  box-shadow: 0 18px 54px rgba(30, 41, 59, 0.09) !important;
 }
 
 /* Evita aparência desalinhada em headers de cards/telas */
@@ -11651,7 +11651,7 @@ textarea:focus {
   border-radius: 22px !important;
   background:
     radial-gradient(circle at top left, rgba(139, 92, 246, .10), transparent 36%),
-    rgba(255, 255, 255, .035) !important;
+    rgba(124, 58, 237, 0.045) !important;
   color: var(--texto-secundario, #cbd5e1) !important;
   font-size: 14px !important;
   font-weight: 650 !important;
@@ -11674,7 +11674,7 @@ textarea:focus {
   border-radius: 14px;
   background:
     linear-gradient(135deg, rgba(139, 92, 246, .28), rgba(34, 197, 94, .12));
-  border: 1px solid rgba(255, 255, 255, .10);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
 }
 
@@ -11693,7 +11693,7 @@ textarea:focus {
   place-items: center;
   border: 1px dashed rgba(148, 163, 184, 0.24);
   border-radius: 22px;
-  background: rgba(255, 255, 255, .032);
+  background: rgba(124, 58, 237, 0.045);
   padding: 22px;
   color: var(--texto-secundario, #cbd5e1);
   text-align: center;
@@ -11845,18 +11845,18 @@ textarea:focus {
   overflow: hidden !important;
   padding: 0 !important;
   border-radius: 24px !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.026)),
-    var(--card, rgba(15, 23, 42, .86)) !important;
-  box-shadow: 0 18px 54px rgba(0,0,0,.20) !important;
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045)),
+    var(--card, rgba(255, 255, 255, .86)) !important;
+  box-shadow: 0 18px 54px rgba(30, 41, 59, 0.09) !important;
   transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
 
 #viewAlunos .aluno-card-executivo:hover {
   transform: translateY(-1px);
   border-color: rgba(167, 139, 250, 0.22) !important;
-  box-shadow: 0 24px 70px rgba(0,0,0,.26) !important;
+  box-shadow: 0 24px 70px rgba(30, 41, 59, 0.09) !important;
 }
 
 #viewAlunos .aluno-card-executivo.aluno-pago {
@@ -11945,13 +11945,13 @@ textarea:focus {
 }
 
 #viewAlunos .aluno-status-operacional.ativo {
-  color: #86efac;
+  color: #047857;
   background: rgba(34,197,94,.10);
   border: 1px solid rgba(34,197,94,.16);
 }
 
 #viewAlunos .aluno-status-operacional.inativo {
-  color: #cbd5e1;
+  color: #231b35;
   background: rgba(148,163,184,.10);
   border: 1px solid rgba(148,163,184,.14);
 }
@@ -12015,31 +12015,31 @@ textarea:focus {
 }
 
 #viewAlunos .badge-status.status-pago {
-  color: #86efac;
+  color: #047857;
   background: rgba(34,197,94,.12);
   border: 1px solid rgba(34,197,94,.18);
 }
 
 #viewAlunos .badge-status.status-atrasado {
-  color: #fecaca;
+  color: #b91c1c;
   background: rgba(239,68,68,.14);
   border: 1px solid rgba(239,68,68,.20);
 }
 
 #viewAlunos .badge-status.status-hoje {
-  color: #fde68a;
+  color: #7c3aed;
   background: rgba(245,158,11,.14);
   border: 1px solid rgba(245,158,11,.20);
 }
 
 #viewAlunos .badge-status.status-pendente {
-  color: #bfdbfe;
+  color: #7c3aed;
   background: rgba(59,130,246,.12);
   border: 1px solid rgba(59,130,246,.18);
 }
 
 #viewAlunos .badge-status.status-inativo {
-  color: #cbd5e1;
+  color: #231b35;
   background: rgba(148,163,184,.10);
   border: 1px solid rgba(148,163,184,.16);
 }
@@ -12065,8 +12065,8 @@ textarea:focus {
   min-width: 0;
   padding: 12px;
   border-radius: 16px;
-  background: rgba(255,255,255,.035);
-  border: 1px solid rgba(255,255,255,.065);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
 }
 
 #viewAlunos .aluno-card-kpi span,
@@ -12115,7 +12115,7 @@ textarea:focus {
   transform: translateY(0) !important;
   margin-top: 14px !important;
   padding-top: 14px !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: 1px solid rgba(35, 27, 53, 0.11) !important;
 }
 
 #viewAlunos .aluno-detalhes-grid {
@@ -12129,8 +12129,8 @@ textarea:focus {
   min-width: 0;
   padding: 13px;
   border-radius: 17px;
-  background: rgba(255,255,255,.035);
-  border: 1px solid rgba(255,255,255,.065);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
 }
 
 #viewAlunos .acoes-premium-recolhidas {
@@ -12149,8 +12149,8 @@ textarea:focus {
   gap: 8px;
   padding: 12px;
   border-radius: 18px;
-  background: rgba(255,255,255,.032);
-  border: 1px solid rgba(255,255,255,.065);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
 }
 
 #viewAlunos .aluno-acoes-titulo {
@@ -12178,7 +12178,7 @@ textarea:focus {
 #viewAlunos .badge-pago-confirmado {
   display: inline-flex !important;
   align-items: center !important;
-  color: #86efac !important;
+  color: #047857 !important;
   background: rgba(34, 197, 94, 0.13) !important;
   border: 1px solid rgba(34, 197, 94, 0.24) !important;
   font-weight: 600 !important;
@@ -12191,7 +12191,7 @@ textarea:focus {
   text-align: center;
   border-radius: 24px;
   border: 1px dashed rgba(148,163,184,.20);
-  background: rgba(255,255,255,.03);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 #viewAlunos .alunos-empty-icon {
@@ -12381,9 +12381,9 @@ body.perfil-aluno-aberto {
   overflow: auto;
   position: relative;
   border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(10, 14, 25, 0.98));
-  box-shadow: 0 34px 110px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(35, 27, 53, 0.11);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(249, 247, 255, 0.98));
+  box-shadow: 0 34px 110px rgba(30, 41, 59, 0.09);
   color: var(--texto-primario, #f8fafc);
   animation: perfilAlunoEntrada .22s ease both;
 }
@@ -12397,10 +12397,10 @@ body.perfil-aluno-aberto {
   height: 42px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
+  background: rgba(124, 58, 237, 0.045);
+  color: var(--texto-secundario);
   font-size: 26px;
   line-height: 1;
   cursor: pointer;
@@ -12412,7 +12412,7 @@ body.perfil-aluno-aberto {
   justify-content: space-between;
   gap: 20px;
   padding: 30px 74px 24px 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(35, 27, 53, 0.11);
   background:
     radial-gradient(circle at top right, rgba(139, 92, 246, 0.24), transparent 38%),
     radial-gradient(circle at 15% 0%, rgba(34, 197, 94, 0.10), transparent 30%);
@@ -12431,9 +12431,9 @@ body.perfil-aluno-aberto {
   height: 74px;
   flex: 0 0 auto;
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   object-fit: cover;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.30);
+  box-shadow: 0 18px 45px rgba(30, 41, 59, 0.09);
 }
 
 .perfil-aluno-avatar {
@@ -12447,7 +12447,7 @@ body.perfil-aluno-aberto {
 
 .perfil-aluno-hero h2 {
   margin: 4px 0 6px;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: clamp(26px, 5vw, 40px);
   line-height: 1.05;
   letter-spacing: -0.055em;
@@ -12472,13 +12472,13 @@ body.perfil-aluno-aberto {
 }
 
 .perfil-aluno-status.ativo {
-  color: #bbf7d0;
+  color: #047857;
   background: rgba(34, 197, 94, 0.12);
   border: 1px solid rgba(34, 197, 94, 0.22);
 }
 
 .perfil-aluno-status.inativo {
-  color: #fecaca;
+  color: #b91c1c;
   background: rgba(239, 68, 68, 0.12);
   border: 1px solid rgba(239, 68, 68, 0.22);
 }
@@ -12493,8 +12493,8 @@ body.perfil-aluno-aberto {
 .perfil-aluno-kpi {
   padding: 16px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 .perfil-aluno-kpi span,
@@ -12510,7 +12510,7 @@ body.perfil-aluno-aberto {
 .perfil-aluno-kpi strong {
   display: block;
   margin-top: 7px;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 20px;
   line-height: 1.15;
 }
@@ -12547,13 +12547,13 @@ body.perfil-aluno-aberto {
 .perfil-aluno-bloco {
   padding: 18px;
   border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(35, 27, 53, 0.11);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 .perfil-aluno-bloco h3 {
   margin: 0 0 14px;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 16px;
   letter-spacing: -0.02em;
 }
@@ -12654,12 +12654,12 @@ body.perfil-aluno-aberto {
 .financeiro-cobranca-massa {
   margin: 16px 0 18px;
   padding: clamp(16px, 2.4vw, 22px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 24px;
   background:
     radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.12), transparent 34%),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.18);
+    rgba(124, 58, 237, 0.045);
+  box-shadow: 0 18px 46px rgba(30, 41, 59, 0.09);
 }
 
 .financeiro-cobranca-topo {
@@ -12702,9 +12702,9 @@ body.perfil-aluno-aberto {
 .financeiro-cobranca-tabs button {
   min-height: 36px;
   padding: 0 13px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(124, 58, 237, 0.045);
   color: var(--texto-secundario, #cbd5e1);
   font-size: 12px;
   font-weight: 800;
@@ -12717,7 +12717,7 @@ body.perfil-aluno-aberto {
   transform: translateY(-1px);
   border-color: rgba(167, 139, 250, 0.38);
   background: rgba(124, 58, 237, 0.18);
-  color: #ffffff;
+  color: #231b35;
 }
 
 .financeiro-cobranca-lista {
@@ -12731,10 +12731,10 @@ body.perfil-aluno-aberto {
   gap: 14px;
   align-items: center;
   padding: 13px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-left: 4px solid rgba(148, 163, 184, 0.5);
   border-radius: 18px;
-  background: rgba(15, 23, 42, 0.42);
+  background: rgba(255, 255, 255, 0.42);
 }
 
 .financeiro-cobranca-item.status-atrasado {
@@ -12842,7 +12842,7 @@ body.perfil-aluno-aberto {
 }
 
 .financeiro-cobranca-massa:not(.recolhido) #btnAlternarCobrancaMassaFinanceiro {
-  background: rgba(255, 255, 255, 0.075) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
 }
 
 @media (max-width: 720px) {
@@ -12868,12 +12868,12 @@ body.perfil-aluno-aberto {
   align-items: center !important;
   padding: 22px;
   margin-bottom: 18px;
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 26px;
   background:
     radial-gradient(circle at top right, rgba(139, 92, 246, .18), transparent 34%),
-    linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.035));
-  box-shadow: 0 22px 70px rgba(0,0,0,.22);
+    linear-gradient(145deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045));
+  box-shadow: 0 22px 70px rgba(30, 41, 59, 0.09);
 }
 
 .admin-exec-hero h2 {
@@ -12970,9 +12970,9 @@ body.perfil-aluno-aberto {
   justify-content: space-between;
   gap: 12px;
   padding: 11px 12px;
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 14px;
-  background: rgba(255,255,255,.035);
+  background: rgba(124, 58, 237, 0.045);
   color: var(--texto-secundario);
   font-size: 12px;
 }
@@ -13066,7 +13066,7 @@ body.perfil-aluno-aberto {
   padding: 16px 18px !important;
   margin-bottom: 14px !important;
   border-radius: 22px !important;
-  box-shadow: 0 14px 42px rgba(0,0,0,.16) !important;
+  box-shadow: 0 14px 42px rgba(30, 41, 59, 0.09) !important;
 }
 
 .admin-executivo-page .admin-exec-hero h2 {
@@ -13257,12 +13257,12 @@ body.perfil-aluno-aberto {
   border-radius: 22px;
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.16), rgba(124, 58, 237, 0.12));
   border: 1px solid rgba(245, 158, 11, 0.30);
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.20);
+  box-shadow: 0 18px 42px rgba(30, 41, 59, 0.09);
 }
 
 .banner-trial-plano strong {
   display: block;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: clamp(17px, 2vw, 22px);
   letter-spacing: -0.04em;
   margin-bottom: 4px;
@@ -13328,7 +13328,7 @@ body.perfil-aluno-aberto {
 }
 
 .upgrade-recurso-card strong {
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 22px;
   letter-spacing: -0.05em;
 }
@@ -13354,8 +13354,8 @@ body.perfil-aluno-aberto {
   position: relative;
   padding: 11px 12px 11px 34px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   color: var(--texto-secundario);
 }
 
@@ -13364,7 +13364,7 @@ body.perfil-aluno-aberto {
   position: absolute;
   left: 12px;
   top: 11px;
-  color: #86efac;
+  color: #047857;
   font-weight: 900;
 }
 
@@ -13407,11 +13407,11 @@ body.perfil-aluno-aberto {
   margin-bottom: 18px;
   background:
     radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.20), transparent 34%),
-    linear-gradient(180deg, rgba(18, 20, 36, 0.88), rgba(10, 12, 24, 0.94));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(249, 247, 255, 0.94));
   border: 1px solid rgba(196, 181, 253, 0.18);
   border-radius: 26px;
   padding: clamp(18px, 3vw, 24px);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 18px 48px rgba(30, 41, 59, 0.09);
   overflow: hidden;
   position: relative;
 }
@@ -13439,7 +13439,7 @@ body.perfil-aluno-aberto {
 }
 
 .onboarding-professor-topo h3 {
-  color: #fff;
+  color: var(--texto-primario);
   font-size: clamp(18px, 2.4vw, 26px);
   line-height: 1.08;
   letter-spacing: -0.055em;
@@ -13455,9 +13455,9 @@ body.perfil-aluno-aberto {
 .onboarding-professor-status {
   min-width: 128px;
   padding: 13px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.055);
+  background: rgba(124, 58, 237, 0.045);
   text-align: right;
 }
 
@@ -13480,9 +13480,9 @@ body.perfil-aluno-aberto {
   height: 9px;
   margin: 17px 0 16px;
   border-radius: var(--raio-pill);
-  background: rgba(255, 255, 255, 0.075);
+  background: rgba(124, 58, 237, 0.045);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
 }
 
 .onboarding-progress-track span {
@@ -13508,14 +13508,14 @@ body.perfil-aluno-aberto {
   gap: 10px;
   padding: 15px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.052);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   transition: border-color var(--trans), background var(--trans), transform var(--trans);
 }
 
 .onboarding-passo-card:hover {
   border-color: rgba(196, 181, 253, 0.28);
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(124, 58, 237, 0.045);
   transform: translateY(-2px);
 }
 
@@ -13570,7 +13570,7 @@ body.perfil-aluno-aberto {
 }
 
 .onboarding-passo-card.concluido .onboarding-passo-status {
-  color: #86efac;
+  color: #047857;
   background: var(--verde-bg);
   border-color: var(--verde-borda);
 }
@@ -13591,7 +13591,7 @@ body.perfil-aluno-aberto {
 .onboarding-professor-rodape {
   margin-top: 14px;
   padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(35, 27, 53, 0.11);
   align-items: center;
 }
 
@@ -13648,10 +13648,10 @@ body.perfil-aluno-aberto {
   margin: 16px 0 20px !important;
   padding: clamp(16px, 2.2vw, 20px) !important;
   border-radius: 24px !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   background:
-    linear-gradient(180deg, rgba(18, 20, 36, 0.86), rgba(12, 14, 26, 0.92)) !important;
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.20) !important;
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(249, 247, 255, 0.92)) !important;
+  box-shadow: 0 16px 44px rgba(30, 41, 59, 0.09) !important;
 }
 
 #centralAcaoDashboard::after {
@@ -13679,7 +13679,7 @@ body.perfil-aluno-aberto {
 }
 
 .dashboard-status-operacao.status-critico {
-  color: #fecaca;
+  color: #b91c1c;
   background: rgba(239, 68, 68, 0.14);
   border-color: rgba(239, 68, 68, 0.34);
 }
@@ -13703,7 +13703,7 @@ body.perfil-aluno-aberto {
   border-radius: 20px !important;
   border: 1px solid rgba(196, 181, 253, 0.18);
   background:
-    linear-gradient(135deg, rgba(124, 58, 237, 0.14), rgba(255, 255, 255, 0.045)) !important;
+    linear-gradient(135deg, rgba(124, 58, 237, 0.14), rgba(124, 58, 237, 0.045)) !important;
   cursor: pointer;
   transition: transform var(--trans), border-color var(--trans), background var(--trans);
 }
@@ -13713,7 +13713,7 @@ body.perfil-aluno-aberto {
   border-color: rgba(196, 181, 253, 0.34);
   background:
     radial-gradient(circle at 100% 0%, rgba(167, 139, 250, 0.24), transparent 38%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.045));
+    linear-gradient(180deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045));
 }
 
 .central-acao-principal-ok {
@@ -13741,8 +13741,8 @@ body.perfil-aluno-aberto {
   margin-bottom: 5px !important;
   padding: 4px 8px !important;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   color: var(--cor-roxo-claro);
   font-size: 9px !important;
   font-weight: 800;
@@ -13752,7 +13752,7 @@ body.perfil-aluno-aberto {
 
 .central-acao-principal h4 {
   margin: 0 0 4px !important;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: clamp(17px, 2vw, 22px) !important;
   line-height: 1.04;
   letter-spacing: -0.055em;
@@ -13799,7 +13799,7 @@ body.perfil-aluno-aberto {
     "action action" !important;
   align-items: start;
   column-gap: 12px;
-  background: rgba(255, 255, 255, 0.045) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
 }
 
 .central-acao-item.dashboard-executivo-item::before {
@@ -13853,7 +13853,7 @@ body.perfil-aluno-aberto {
 }
 
 .central-acao-item.status-critico strong {
-  color: #fecaca !important;
+  color: #b91c1c !important;
 }
 
 .central-acao-item.status-info::before {
@@ -13861,7 +13861,7 @@ body.perfil-aluno-aberto {
 }
 
 .central-acao-item.status-info strong {
-  color: #bae6fd !important;
+  color: #7c3aed !important;
 }
 
 .central-acao-item.status-ok::before {
@@ -13920,8 +13920,8 @@ body.perfil-aluno-aberto {
   place-items: center;
   margin: 0 !important;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(124, 58, 237, 0.045);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   color: var(--texto-secundario) !important;
   font-size: 12px !important;
   line-height: 1 !important;
@@ -13966,8 +13966,8 @@ body.perfil-aluno-aberto {
 
 .central-acao-item.status-ok {
   opacity: 0.72;
-  border-color: rgba(255, 255, 255, 0.07) !important;
-  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(35, 27, 53, 0.11) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
 }
 
 .central-acao-item.status-ok:hover,
@@ -13976,7 +13976,7 @@ body.perfil-aluno-aberto {
 }
 
 .central-acao-item.status-ok em {
-  color: #86efac !important;
+  color: #047857 !important;
   opacity: 0.82;
 }
 
@@ -13985,7 +13985,7 @@ body.perfil-aluno-aberto {
 }
 
 .central-acao-item.status-critico em {
-  color: #fca5a5 !important;
+  color: #b91c1c !important;
 }
 
 .central-acao-item:focus-visible {
@@ -14028,9 +14028,9 @@ body.relatorios-aberto { overflow: hidden; }
   padding: 0 !important;
   overflow: hidden !important;
   border-radius: 24px !important;
-  background: #0d0f1a !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.52) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
+  box-shadow: 0 28px 90px rgba(30, 41, 59, 0.09) !important;
 }
 
 .relatorios-modal-card::before { display: none !important; }
@@ -14041,15 +14041,15 @@ body.relatorios-aberto { overflow: hidden; }
   justify-content: space-between;
   gap: 18px;
   padding: 22px 24px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: #0d0f1a;
+  border-bottom: 1px solid rgba(35, 27, 53, 0.11);
+  background: #ffffff;
 }
 
 .relatorios-modal-titulo { min-width: 0; }
 .relatorios-modal-titulo .page-eyebrow { margin-bottom: 8px; }
 .relatorios-modal-topo h2 {
   margin: 0;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: clamp(22px, 3vw, 28px);
   letter-spacing: -0.05em;
   line-height: 1.05;
@@ -14090,20 +14090,20 @@ body.relatorios-aberto { overflow: hidden; }
   text-align: center;
   color: var(--texto-secundario) !important;
   background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   border-radius: 12px !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 .relatorio-tipo-card:hover {
-  color: #fff !important;
-  background: rgba(255, 255, 255, 0.045) !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: var(--texto-primario) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  border-color: rgba(35, 27, 53, 0.11) !important;
 }
 
 .relatorio-tipo-card.ativo {
-  color: #fff !important;
+  color: var(--cor-roxo) !important;
   background: rgba(124, 58, 237, 0.16) !important;
   border-color: rgba(167, 139, 250, 0.34) !important;
 }
@@ -14145,7 +14145,7 @@ body.relatorios-aberto { overflow: hidden; }
 
 .relatorios-config-head h3 {
   margin: 0 0 5px;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 18px;
   letter-spacing: -0.035em;
 }
@@ -14171,7 +14171,7 @@ body.relatorios-aberto { overflow: hidden; }
 
 .relatorios-filtros .campo-perfil { margin: 0; }
 .relatorios-filtros input,
-.relatorios-filtros select { background-color: #0a0c16; }
+.relatorios-filtros select { background-color: #ffffff; }
 
 .relatorio-privacidade-opcao {
   display: flex;
@@ -14180,8 +14180,8 @@ body.relatorios-aberto { overflow: hidden; }
   margin: 14px 0 0;
   padding: 12px 0;
   border: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-top: 1px solid rgba(35, 27, 53, 0.11);
+  border-bottom: 1px solid rgba(35, 27, 53, 0.11);
   background: transparent;
   cursor: pointer;
 }
@@ -14211,10 +14211,10 @@ body.relatorios-aberto { overflow: hidden; }
 .relatorio-preview-card {
   margin-top: 16px;
   padding: 15px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-left: 3px solid rgba(167, 139, 250, 0.72);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(124, 58, 237, 0.045);
 }
 .relatorio-preview-label {
   display: block;
@@ -14227,7 +14227,7 @@ body.relatorios-aberto { overflow: hidden; }
 }
 .relatorio-preview-card strong {
   display: block;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: 14px;
 }
 .relatorio-preview-card p {
@@ -14243,8 +14243,8 @@ body.relatorios-aberto { overflow: hidden; }
   justify-content: space-between;
   gap: 16px;
   padding: 14px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: #0b0d17;
+  border-top: 1px solid rgba(35, 27, 53, 0.11);
+  background: #ffffff;
 }
 .relatorios-modal-rodape p {
   margin: 0;
@@ -14326,7 +14326,7 @@ body.relatorios-aberto { overflow: hidden; }
 }
 
 .relatorio-privacidade-opcao:hover {
-  background: rgba(255, 255, 255, 0.028);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 .relatorio-privacidade-opcao input[type="checkbox"] {
@@ -14384,8 +14384,8 @@ body.relatorios-aberto { overflow: hidden; }
   place-items: center !important;
   flex: 0 0 38px !important;
 
-  background: rgba(255, 255, 255, 0.045) !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   border-radius: 12px !important;
 
   color: var(--texto-secundario) !important;
@@ -14403,15 +14403,15 @@ body.relatorios-aberto { overflow: hidden; }
 }
 
 #modalCentralRelatorios #btnFecharCentralRelatorios:hover {
-  background: rgba(255, 255, 255, 0.085) !important;
-  border-color: rgba(255, 255, 255, 0.16) !important;
-  color: #ffffff !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  border-color: rgba(35, 27, 53, 0.11) !important;
+  color: #231b35 !important;
   box-shadow: none !important;
   transform: translateY(-1px) !important;
 }
 
 #modalCentralRelatorios #btnFecharCentralRelatorios:active {
-  background: rgba(255, 255, 255, 0.11) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
   transform: scale(0.96) !important;
 }
 
@@ -14447,8 +14447,8 @@ body.relatorios-aberto { overflow: hidden; }
   word-break: normal !important;
   overflow-wrap: normal !important;
 
-  background: rgba(255, 255, 255, 0.045) !important;
-  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  border: 1px solid rgba(35, 27, 53, 0.11) !important;
   border-radius: 13px !important;
 
   color: var(--texto-secundario) !important;
@@ -14468,14 +14468,14 @@ body.relatorios-aberto { overflow: hidden; }
 }
 
 #modalCentralRelatorios .relatorios-btn-cancelar:hover {
-  background: rgba(255, 255, 255, 0.075) !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
+  border-color: rgba(35, 27, 53, 0.11) !important;
   color: var(--texto-primario) !important;
   transform: none !important;
 }
 
 #modalCentralRelatorios .relatorios-btn-cancelar:active {
-  background: rgba(255, 255, 255, 0.095) !important;
+  background: rgba(124, 58, 237, 0.045) !important;
   transform: scale(0.98) !important;
 }
 
@@ -14552,9 +14552,9 @@ body.relatorios-aberto { overflow: hidden; }
   display: grid;
   gap: 12px;
   padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.085);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 16px;
-  background: rgba(8, 7, 24, 0.34);
+  background: rgba(255, 255, 255, 0.34);
 }
 
 .aluno-multiturma-topo {
@@ -14603,7 +14603,7 @@ body.relatorios-aberto { overflow: hidden; }
 .aluno-multiturma-lista .empty-state-mini {
   grid-column: 1 / -1;
   padding: 12px;
-  border: 1px dashed rgba(255, 255, 255, 0.10);
+  border: 1px dashed rgba(35, 27, 53, 0.11);
   border-radius: 13px;
   color: var(--texto-secundario);
   font-size: 11px;
@@ -14618,9 +14618,9 @@ body.relatorios-aberto { overflow: hidden; }
   min-width: 0;
   padding: 11px 12px;
   margin: 0;
-  border: 1px solid rgba(255, 255, 255, 0.085);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(124, 58, 237, 0.045);
   cursor: pointer;
   transition:
     border-color 150ms ease,
@@ -14769,7 +14769,7 @@ body.aceite-legal-aberto {
   align-items: center !important;
   justify-content: center !important;
   padding: 20px !important;
-  background: rgba(4, 3, 10, 0.86) !important;
+  background: rgba(255, 255, 255, 0.86) !important;
 }
 
 .aceite-legal-card {
@@ -14780,8 +14780,8 @@ body.aceite-legal-aberto {
   padding: clamp(24px, 5vw, 36px) !important;
   border: 1px solid rgba(167, 139, 250, 0.24) !important;
   border-radius: 24px !important;
-  background: linear-gradient(180deg, #171326, #0f0d18) !important;
-  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.58) !important;
+  background: linear-gradient(180deg, #ffffff, #f9f7ff) !important;
+  box-shadow: 0 32px 100px rgba(30, 41, 59, 0.09) !important;
   overflow-y: auto !important;
 }
 
@@ -14792,7 +14792,7 @@ body.aceite-legal-aberto {
 .aceite-legal-eyebrow {
   display: block;
   margin-bottom: 8px;
-  color: #c4b5fd;
+  color: #7c3aed;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -14801,7 +14801,7 @@ body.aceite-legal-aberto {
 
 .aceite-legal-card h2 {
   margin: 0 0 10px;
-  color: #fff;
+  color: var(--texto-primario);
   font-size: clamp(25px, 5vw, 34px);
   letter-spacing: -0.04em;
 }
@@ -14829,7 +14829,7 @@ body.aceite-legal-aberto {
   border: 1px solid rgba(167, 139, 250, 0.24);
   border-radius: 13px;
   background: rgba(124, 58, 237, 0.09);
-  color: #ddd6fe;
+  color: #7c3aed;
   font-size: 12px;
   font-weight: 700;
   text-align: center;
@@ -14840,7 +14840,7 @@ body.aceite-legal-aberto {
 .aceite-legal-documentos a:focus-visible {
   border-color: rgba(167, 139, 250, 0.58);
   background: rgba(124, 58, 237, 0.16);
-  color: #fff;
+  color: var(--texto-primario);
 }
 
 .aceite-legal-confirmacao {
@@ -14849,9 +14849,9 @@ body.aceite-legal-aberto {
   gap: 12px;
   align-items: start;
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 15px;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(124, 58, 237, 0.045);
   cursor: pointer;
 }
 
@@ -14880,11 +14880,11 @@ body.aceite-legal-aberto {
 }
 
 .aceite-legal-mensagem.erro {
-  color: #fca5a5 !important;
+  color: #b91c1c !important;
 }
 
 .aceite-legal-mensagem.sucesso {
-  color: #86efac !important;
+  color: #047857 !important;
 }
 
 .aceite-legal-acoes {
@@ -14946,7 +14946,7 @@ body.aceite-legal-aberto {
 .admin-acao-secundaria,
 .admin-fechar-painel {
   border: 1px solid var(--borda);
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(124, 58, 237, 0.045);
   color: var(--texto-secundario);
   font: inherit;
   font-size: 12px;
@@ -15003,7 +15003,7 @@ body.aceite-legal-aberto {
 .admin-simple-delete-danger {
   border: 1px solid rgba(239, 68, 68, 0.28) !important;
   background: rgba(239, 68, 68, 0.08) !important;
-  color: #fca5a5 !important;
+  color: #b91c1c !important;
 }
 
 .admin-simple-delete-danger:hover {
@@ -15042,7 +15042,7 @@ body.aceite-legal-aberto {
     padding: 10px 12px !important;
     border-radius: 14px !important;
     grid-template-areas: "label valor" !important;
-    background: rgba(255, 255, 255, 0.028) !important;
+    background: rgba(124, 58, 237, 0.045) !important;
   }
 
   .admin-executivo-page .admin-exec-metricas .admin-metrica-card::before {
@@ -15121,7 +15121,7 @@ body.aceite-legal-aberto {
     display: block !important;
     padding: 0 !important;
     border-radius: 16px !important;
-    background: rgba(255, 255, 255, 0.025) !important;
+    background: rgba(124, 58, 237, 0.045) !important;
     transition: border-color 160ms ease, background 160ms ease !important;
   }
 
@@ -15213,7 +15213,7 @@ body.aceite-legal-aberto {
   .admin-simple-panel {
     padding: 16px !important;
     border-top: 1px solid var(--borda);
-    background: rgba(3, 5, 16, 0.28);
+    background: rgba(255, 255, 255, 0.28);
   }
 
   .admin-simple-panel .admin-simple-grid {
@@ -15268,7 +15268,7 @@ body.aceite-legal-aberto {
     min-height: 100dvh;
     background:
       radial-gradient(circle at 12% -8%, rgba(109, 40, 217, 0.24), transparent 32%),
-      linear-gradient(180deg, #070712 0%, #090b18 48%, #070812 100%);
+      linear-gradient(180deg, #ffffff 0%, #f9f7ff 48%, #ffffff 100%);
   }
 
   #telaAdmin:not(.escondido) {
@@ -15289,9 +15289,9 @@ body.aceite-legal-aberto {
       max(14px, calc(14px + env(safe-area-inset-right)))
       10px
       max(14px, calc(14px + env(safe-area-inset-left)));
-    border-bottom: 1px solid rgba(255, 255, 255, 0.075);
-    background: rgba(7, 7, 18, 0.88);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+    border-bottom: 1px solid rgba(35, 27, 53, 0.11);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 10px 30px rgba(30, 41, 59, 0.09);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
@@ -15313,7 +15313,7 @@ body.aceite-legal-aberto {
     border-radius: 14px;
     background:
       linear-gradient(145deg, rgba(139, 92, 246, 0.34), rgba(76, 29, 149, 0.18));
-    color: #c4b5fd;
+    color: #7c3aed;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
     font-size: 16px;
     font-weight: 900;
@@ -15336,7 +15336,7 @@ body.aceite-legal-aberto {
 
   #telaAdmin .admin-mobile-brand-copy strong {
     overflow: hidden;
-    color: #f8fafc;
+    color: #231b35;
     font-size: 15px;
     line-height: 1.2;
     text-overflow: ellipsis;
@@ -15347,10 +15347,10 @@ body.aceite-legal-aberto {
     min-width: 66px;
     min-height: 40px;
     padding: 8px 13px;
-    border: 1px solid rgba(255, 255, 255, 0.11);
+    border: 1px solid rgba(35, 27, 53, 0.11);
     border-radius: 13px;
-    background: rgba(255, 255, 255, 0.045);
-    color: #d9dbea;
+    background: rgba(124, 58, 237, 0.045);
+    color: #231b35;
     font: inherit;
     font-size: 12px;
     font-weight: 800;
@@ -15384,7 +15384,7 @@ body.aceite-legal-aberto {
 
   #telaAdmin .admin-mobile-intro h1 {
     margin: 0;
-    color: #f8fafc;
+    color: #231b35;
     font-size: clamp(27px, 9vw, 34px);
     line-height: 1;
     letter-spacing: -0.055em;
@@ -15392,7 +15392,7 @@ body.aceite-legal-aberto {
 
   #telaAdmin .admin-mobile-intro p {
     margin: 8px 0 0;
-    color: #969aaf;
+    color: #7c3aed;
     font-size: 13px;
     line-height: 1.45;
   }
@@ -15422,9 +15422,9 @@ body.aceite-legal-aberto {
     min-width: 0 !important;
     min-height: 96px !important;
     padding: 14px !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 20px !important;
-    background: rgba(255, 255, 255, 0.045) !important;
+    background: rgba(124, 58, 237, 0.045) !important;
     grid-template-columns: minmax(0, 1fr) auto !important;
     grid-template-areas:
       "label valor"
@@ -15504,8 +15504,8 @@ body.aceite-legal-aberto {
     border: 1px solid rgba(139, 92, 246, 0.22) !important;
     border-radius: 22px !important;
     background:
-      linear-gradient(155deg, rgba(124, 58, 237, 0.1), rgba(255, 255, 255, 0.035)) !important;
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+      linear-gradient(155deg, rgba(124, 58, 237, 0.1), rgba(124, 58, 237, 0.045)) !important;
+    box-shadow: 0 18px 45px rgba(30, 41, 59, 0.09);
   }
 
   #telaAdmin .admin-painel-auxiliar .admin-card-header {
@@ -15578,7 +15578,7 @@ body.aceite-legal-aberto {
 
   #telaAdmin .admin-clientes-exec-card > .admin-card-header h3 {
     margin: 4px 0;
-    color: #f8fafc;
+    color: #231b35;
     font-size: 20px;
   }
 
@@ -15602,10 +15602,10 @@ body.aceite-legal-aberto {
     min-height: 50px;
     margin: 0 !important;
     padding: 0 15px !important;
-    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 16px !important;
-    background: rgba(255, 255, 255, 0.045) !important;
-    color: #f8fafc !important;
+    background: rgba(124, 58, 237, 0.045) !important;
+    color: #231b35 !important;
     font-size: 16px !important;
   }
 
@@ -15645,11 +15645,11 @@ body.aceite-legal-aberto {
     width: 100%;
     padding: 0 !important;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 21px !important;
     background:
-      linear-gradient(150deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)) !important;
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14);
+      linear-gradient(150deg, rgba(124, 58, 237, 0.045), rgba(124, 58, 237, 0.045)) !important;
+    box-shadow: 0 14px 34px rgba(30, 41, 59, 0.09);
   }
 
   #telaAdmin .admin-simple-card.admin-cliente-aberto {
@@ -15688,7 +15688,7 @@ body.aceite-legal-aberto {
     border: 1px solid rgba(167, 139, 250, 0.28);
     border-radius: 15px;
     background: rgba(124, 58, 237, 0.14);
-    color: #c4b5fd;
+    color: #7c3aed;
     font-size: 15px;
     font-weight: 900;
   }
@@ -15708,7 +15708,7 @@ body.aceite-legal-aberto {
   }
 
   #telaAdmin .admin-simple-title-wrap strong {
-    color: #f8fafc;
+    color: #231b35;
     font-size: 14px;
   }
 
@@ -15732,7 +15732,7 @@ body.aceite-legal-aberto {
     min-height: 28px;
     padding: 5px 9px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.045);
+    background: rgba(124, 58, 237, 0.045);
   }
 
   #telaAdmin .admin-simple-actions .admin-chip {
@@ -15755,8 +15755,8 @@ body.aceite-legal-aberto {
 
   #telaAdmin .admin-simple-panel {
     padding: 15px !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.075);
-    background: rgba(3, 5, 16, 0.34);
+    border-top: 1px solid rgba(35, 27, 53, 0.11);
+    background: rgba(255, 255, 255, 0.34);
   }
 
   #telaAdmin .admin-simple-panel .admin-simple-grid {
@@ -15936,11 +15936,11 @@ body.aceite-legal-aberto {
   }
 
   #telaAdmin .admin-mobile-card-summary .ativo {
-    color: #86efac;
+    color: #047857;
   }
 
   #telaAdmin .admin-mobile-card-summary .bloqueado {
-    color: #fca5a5;
+    color: #b91c1c;
   }
 
   #telaAdmin .admin-simple-actions {
@@ -15968,7 +15968,7 @@ body.aceite-legal-aberto {
     border: 1px solid rgba(139, 92, 246, 0.24) !important;
     border-radius: 14px !important;
     background: rgba(124, 58, 237, 0.1) !important;
-    color: #c4b5fd !important;
+    color: #7c3aed !important;
   }
 
   #telaAdmin .admin-simple-manage .admin-manage-label {
@@ -15999,7 +15999,7 @@ body.aceite-legal-aberto {
     border-radius: 0 !important;
     background:
       radial-gradient(circle at 90% -8%, rgba(109, 40, 217, 0.22), transparent 30%),
-      linear-gradient(180deg, #080816, #090b18 52%, #070812) !important;
+      linear-gradient(180deg, #ffffff, #f9f7ff 52%, #ffffff) !important;
     box-shadow: none !important;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
@@ -16015,9 +16015,9 @@ body.aceite-legal-aberto {
       calc(10px + env(safe-area-inset-top))
       14px
       10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.075);
-    background: rgba(8, 8, 22, 0.92);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    border-bottom: 1px solid rgba(35, 27, 53, 0.11);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 12px 28px rgba(30, 41, 59, 0.09);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
@@ -16037,10 +16037,10 @@ body.aceite-legal-aberto {
     height: 42px !important;
     min-height: 42px !important;
     padding: 0 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 14px !important;
-    background: rgba(255, 255, 255, 0.045) !important;
-    color: #f8fafc !important;
+    background: rgba(124, 58, 237, 0.045) !important;
+    color: #231b35 !important;
     font: inherit;
     font-size: 20px !important;
     cursor: pointer;
@@ -16062,7 +16062,7 @@ body.aceite-legal-aberto {
 
   #telaAdmin .admin-mobile-client-header strong {
     overflow: hidden;
-    color: #f8fafc;
+    color: #231b35;
     font-size: 15px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -16074,9 +16074,9 @@ body.aceite-legal-aberto {
     gap: 5px;
     margin-top: 10px;
     padding: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(35, 27, 53, 0.11);
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(124, 58, 237, 0.045);
   }
 
   #telaAdmin .admin-mobile-client-tabs button {
@@ -16096,7 +16096,7 @@ body.aceite-legal-aberto {
 
   #telaAdmin .admin-mobile-client-tabs button.ativo {
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.38), rgba(91, 33, 182, 0.28)) !important;
-    color: #f5f3ff !important;
+    color: #231b35 !important;
     box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.18);
   }
 
@@ -16127,18 +16127,18 @@ body.aceite-legal-aberto {
   #telaAdmin .admin-simple-panel .admin-simple-field,
   #telaAdmin .admin-simple-panel .admin-simple-access,
   #telaAdmin .admin-simple-panel .admin-simple-modules {
-    border-color: rgba(255, 255, 255, 0.08) !important;
-    background: rgba(255, 255, 255, 0.035) !important;
+    border-color: rgba(35, 27, 53, 0.11) !important;
+    background: rgba(124, 58, 237, 0.045) !important;
   }
 
   #telaAdmin .admin-simple-panel .admin-simple-field {
     padding: 13px !important;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(35, 27, 53, 0.11);
     border-radius: 17px;
   }
 
   #telaAdmin .admin-simple-panel .admin-simple-field > span {
-    color: #dfe2ef;
+    color: #231b35;
     font-size: 11px;
     font-weight: 800;
   }
@@ -16156,8 +16156,8 @@ body.aceite-legal-aberto {
     z-index: 2;
     margin: 14px -14px 0;
     padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    background: rgba(8, 9, 21, 0.92);
+    border-top: 1px solid rgba(35, 27, 53, 0.11);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
   }
@@ -16180,8 +16180,8 @@ body.aceite-legal-aberto {
 
   #telaAdmin .admin-simple-students .admin-aluno-row {
     min-height: 66px;
-    border-color: rgba(255, 255, 255, 0.075);
-    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(35, 27, 53, 0.11);
+    background: rgba(124, 58, 237, 0.045);
   }
 }
 
@@ -16210,10 +16210,10 @@ body.aceite-legal-aberto {
 /* ALUNOS — FILA LIMPA DE ATIVAÇÃO DO PORTAL */
 #viewAlunos .acessos-pendentes {
   margin: 4px 0 6px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-left: 3px solid #7c3aed;
   border-radius: 16px;
-  background: rgba(12, 11, 30, 0.72);
+  background: rgba(255, 255, 255, 0.72);
   box-shadow: 0 14px 34px rgba(5, 3, 18, 0.12);
   overflow: hidden;
 }
@@ -16235,7 +16235,7 @@ body.aceite-legal-aberto {
 }
 
 #viewAlunos .acessos-pendentes-resumo:hover {
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 #viewAlunos .acessos-pendentes-icone {
@@ -16246,7 +16246,7 @@ body.aceite-legal-aberto {
   border: 1px solid rgba(167, 139, 250, 0.32);
   border-radius: 14px;
   background: rgba(124, 58, 237, 0.14);
-  color: #b99cff;
+  color: #7c3aed;
 }
 
 #viewAlunos .acessos-pendentes-icone svg {
@@ -16265,7 +16265,7 @@ body.aceite-legal-aberto {
 }
 
 #viewAlunos .acessos-pendentes-titulo small {
-  color: #9b7ee5;
+  color: #7c3aed;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -16298,7 +16298,7 @@ body.aceite-legal-aberto {
   border: 1px solid rgba(167, 139, 250, 0.24);
   border-radius: 12px;
   background: rgba(124, 58, 237, 0.12);
-  color: #c4b5fd;
+  color: #7c3aed;
   font-size: 12px;
   font-weight: 900;
 }
@@ -16312,7 +16312,7 @@ body.aceite-legal-aberto {
   border: 1px solid rgba(167, 139, 250, 0.25);
   border-radius: 11px;
   background: rgba(124, 58, 237, 0.15);
-  color: #d8ccff;
+  color: #7c3aed;
   font-size: 11px;
   font-weight: 800;
   white-space: nowrap;
@@ -16326,8 +16326,8 @@ body.aceite-legal-aberto {
 
 #viewAlunos .acessos-pendentes-conteudo {
   padding: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(4, 3, 17, 0.16);
+  border-top: 1px solid rgba(35, 27, 53, 0.11);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 #viewAlunos .acessos-pendentes-lista {
@@ -16345,9 +16345,9 @@ body.aceite-legal-aberto {
   gap: 14px;
   min-height: 62px;
   padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(35, 27, 53, 0.11);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(124, 58, 237, 0.045);
 }
 
 #viewAlunos .acesso-pendente-identidade {
@@ -16374,7 +16374,7 @@ body.aceite-legal-aberto {
   border: 1px solid rgba(167, 139, 250, 0.22);
   border-radius: 11px;
   background: rgba(124, 58, 237, 0.14);
-  color: #ddd6fe;
+  color: #7c3aed;
   font-size: 12px;
   font-weight: 900;
 }
@@ -16389,46 +16389,46 @@ body.aceite-legal-aberto {
 }
 
 #viewAlunos .acesso-pendente-enviar:disabled {
-  border-color: rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(35, 27, 53, 0.11);
+  background: rgba(124, 58, 237, 0.045);
   color: var(--texto-secundario);
   cursor: not-allowed;
   opacity: 0.66;
 }
 
 /* ================================================================
-   ETAPA 11 — PILOTO VISUAL VIVO / PROFESSOR
-   Nova profundidade, entrada em sequência e movimento ambiental.
+   ETAPA 12A — TEMA CLARO VIVO / PROFESSOR
+   Profundidade leve, entrada em sequência e movimento ambiental.
 ================================================================ */
 
 .tela-login {
   background:
-    radial-gradient(circle at 16% 4%, rgba(139, 92, 246, 0.38), transparent 34%),
-    radial-gradient(circle at 88% 82%, rgba(34, 211, 238, 0.18), transparent 32%),
-    linear-gradient(145deg, #0a1020 0%, #111a31 52%, #0d1428 100%) !important;
+    radial-gradient(circle at 16% 4%, rgba(139, 92, 246, 0.16), transparent 34%),
+    radial-gradient(circle at 88% 82%, rgba(37, 99, 235, 0.08), transparent 32%),
+    linear-gradient(145deg, #faf9ff 0%, #f4f6fb 52%, #ffffff 100%) !important;
   background-size: 130% 130%, 125% 125%, 100% 100% !important;
   animation: mensalizeProfessorAmbiente 16s ease-in-out infinite alternate;
 }
 
 .tela-login:not(.escondido) .login-card {
   background:
-    linear-gradient(155deg, rgba(29, 42, 71, 0.92), rgba(16, 24, 43, 0.96)) !important;
-  border-color: rgba(196, 181, 253, 0.20) !important;
+    linear-gradient(155deg, rgba(255, 255, 255, 0.96), rgba(249, 247, 255, 0.98)) !important;
+  border-color: rgba(124, 58, 237, 0.16) !important;
   box-shadow:
-    0 34px 100px rgba(2, 6, 23, 0.48),
-    0 0 0 1px rgba(139, 92, 246, 0.16) inset !important;
+    0 34px 100px rgba(30, 41, 59, 0.13),
+    0 0 0 1px rgba(139, 92, 246, 0.08) inset !important;
   animation: mensalizeProfessorEntrada 680ms var(--ease-out) both;
 }
 
 .login-card::after {
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.14) 0%, rgba(139, 92, 246, 0.12) 38%, transparent 70%) !important;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.07) 0%, rgba(139, 92, 246, 0.10) 38%, transparent 70%) !important;
   animation: mensalizeProfessorOrb 7s ease-in-out infinite !important;
 }
 
 #btnEntrar,
 #viewDashboard .hero-actions button:first-child,
 #dashboardAcaoPrincipalBotao {
-  background-image: linear-gradient(110deg, #7c3aed 0%, #a855f7 38%, #22d3ee 62%, #7c3aed 100%) !important;
+  background-image: linear-gradient(110deg, #6d28d9 0%, #8b5cf6 42%, #7c3aed 64%, #6d28d9 100%) !important;
   background-size: 240% 100% !important;
   box-shadow: 0 14px 34px rgba(124, 58, 237, 0.25) !important;
   animation: mensalizeProfessorBotaoVivo 8s ease-in-out infinite;
@@ -16436,25 +16436,25 @@ body.aceite-legal-aberto {
 
 #viewDashboard.ativa .dashboard-hero {
   background:
-    radial-gradient(circle at 92% 12%, rgba(34, 211, 238, 0.18), transparent 34%),
-    radial-gradient(circle at 8% 0%, rgba(139, 92, 246, 0.28), transparent 42%),
-    linear-gradient(145deg, rgba(29, 42, 71, 0.96), rgba(16, 24, 43, 0.98)) !important;
-  border-color: rgba(196, 181, 253, 0.20) !important;
-  box-shadow: var(--sombra-lg) !important;
+    radial-gradient(circle at 92% 12%, rgba(37, 99, 235, 0.07), transparent 34%),
+    radial-gradient(circle at 8% 0%, rgba(139, 92, 246, 0.13), transparent 42%),
+    linear-gradient(145deg, #ffffff, #faf9ff) !important;
+  border-color: rgba(124, 58, 237, 0.16) !important;
+  box-shadow: var(--sombra-md) !important;
   animation: mensalizeProfessorEntrada 560ms var(--ease-out) both;
 }
 
 #viewDashboard.ativa .dashboard-hero::after {
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.17), rgba(139, 92, 246, 0.10) 45%, transparent 70%) !important;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.08), rgba(139, 92, 246, 0.08) 45%, transparent 70%) !important;
   animation: mensalizeProfessorOrbDashboard 9s ease-in-out infinite;
 }
 
 #viewDashboard.ativa .cards-dashboard .card {
   background:
-    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.09), transparent 38%),
-    linear-gradient(155deg, rgba(29, 42, 71, 0.90), rgba(18, 28, 50, 0.96)) !important;
-  border-color: rgba(196, 181, 253, 0.16) !important;
-  box-shadow: var(--sombra-md) !important;
+    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.07), transparent 38%),
+    linear-gradient(155deg, #ffffff, #fbfaff) !important;
+  border-color: var(--borda) !important;
+  box-shadow: var(--sombra-sm) !important;
   animation: mensalizeProfessorEntrada 520ms var(--ease-out) both;
 }
 
@@ -16479,8 +16479,8 @@ body.aceite-legal-aberto {
   #viewDashboard .dashboard-grid > .painel-card:hover,
   #viewDashboard .dashboard-executivo-item:hover {
     transform: translateY(-5px) scale(1.012) !important;
-    border-color: rgba(196, 181, 253, 0.32) !important;
-    box-shadow: 0 24px 62px rgba(2, 6, 23, 0.38), 0 0 34px rgba(124, 58, 237, 0.10) !important;
+    border-color: rgba(124, 58, 237, 0.26) !important;
+    box-shadow: 0 24px 62px rgba(30, 41, 59, 0.12), 0 0 34px rgba(124, 58, 237, 0.07) !important;
   }
 }
 
@@ -16497,7 +16497,7 @@ body.aceite-legal-aberto {
 
   #viewDashboard .mobile-resumo-card,
   #viewDashboard .mobile-proxima-acao {
-    box-shadow: 0 18px 42px rgba(2, 6, 23, 0.26) !important;
+    box-shadow: 0 18px 42px rgba(30, 41, 59, 0.09) !important;
   }
 
   html body #app #viewDashboard .mobile-academia-card,
@@ -16505,11 +16505,11 @@ body.aceite-legal-aberto {
   html body #app #viewDashboard .mobile-action-card,
   html body #app #viewDashboard .mobile-proxima-acao,
   html body #app #viewDashboard .mobile-module-card {
-    border-color: rgba(196, 181, 253, 0.18) !important;
+    border-color: var(--mobile-border, var(--borda)) !important;
     background:
-      radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.13), transparent 38%),
-      linear-gradient(150deg, rgba(29, 42, 71, 0.96), rgba(16, 24, 43, 0.99)) !important;
-    box-shadow: 0 16px 38px rgba(2, 6, 23, 0.25) !important;
+      radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.08), transparent 38%),
+      linear-gradient(150deg, #ffffff, #faf9ff) !important;
+    box-shadow: 0 16px 38px rgba(30, 41, 59, 0.08) !important;
   }
 
   #viewDashboard .mobile-action-card:active,
@@ -16522,6 +16522,47 @@ body.aceite-legal-aberto {
   #mobileProfessorProximaAcaoIcone {
     animation: mensalizeProfessorIcone 3.8s ease-in-out infinite;
   }
+}
+
+/* Movimento discreto em todas as telas do professor. */
+.view-app.ativa > :not(.mobile-professor-home) {
+  animation: mensalizeProfessorEntrada 460ms var(--ease-out) both;
+}
+
+.view-app.ativa > :nth-child(2) { animation-delay: 55ms; }
+.view-app.ativa > :nth-child(3) { animation-delay: 100ms; }
+.view-app.ativa > :nth-child(4) { animation-delay: 145ms; }
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(124, 58, 237, 0.42) !important;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.08) !important;
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast) !important;
+}
+
+@media (hover: hover) {
+  .view-app.ativa :is(
+    .painel-card,
+    .aluno-card,
+    .turma-card,
+    .evolucao-item,
+    .aviso-card,
+    .solicitacao-card,
+    .programa-fight-card,
+    .financeiro-linha-mensal
+  ):hover {
+    transform: translateY(-3px) !important;
+    border-color: rgba(124, 58, 237, 0.24) !important;
+    box-shadow: 0 16px 38px rgba(30, 41, 59, 0.09) !important;
+    transition: transform var(--motion-fast) var(--ease-out), border-color var(--motion-fast), box-shadow var(--motion-fast) !important;
+  }
+}
+
+button:not(:disabled):active,
+[role="button"]:not([aria-disabled="true"]):active {
+  transform: scale(0.98) !important;
+  transition-duration: 90ms !important;
 }
 
 @keyframes mensalizeProfessorEntrada {
@@ -16575,6 +16616,7 @@ body.aceite-legal-aberto {
   #viewDashboard.ativa .dashboard-executivo-pro,
   #viewDashboard.ativa .dashboard-grid > *,
   #viewDashboard.ativa .mobile-professor-home > *,
+  .view-app.ativa > :not(.mobile-professor-home),
   #viewDashboard .cards-dashboard .card::before,
   #mobileProfessorProximaAcaoIcone {
     animation: none !important;

@@ -43,7 +43,7 @@
   #viewAvisos .avisos-hero .page-eyebrow {
     margin-bottom: 8px !important;
     padding: 6px 9px !important;
-    color: #b994ff !important;
+    color: var(--mobile-purple, var(--cor-roxo)) !important;
     background: rgba(124, 58, 237, 0.12) !important;
     border-color: rgba(172, 139, 255, 0.16) !important;
     font-size: 9px !important;
@@ -51,7 +51,7 @@
 
   #viewAvisos .avisos-hero h2 {
     margin: 0 !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 22px !important;
     font-weight: 780 !important;
     letter-spacing: -0.05em !important;
@@ -88,7 +88,7 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.13), transparent 52%),
-      linear-gradient(155deg, rgba(20, 17, 53, 0.98), rgba(10, 9, 29, 0.99)) !important;
+      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
     box-shadow: none !important;
     text-align: center;
   }
@@ -103,11 +103,11 @@
   }
 
   #viewAvisos .avisos-resumo-card:nth-child(2) strong {
-    color: #ffad4d !important;
+    color: #b45309 !important;
   }
 
   #viewAvisos .avisos-resumo-card:nth-child(3) strong {
-    color: #ff6b76 !important;
+    color: #b91c1c !important;
   }
 
   #viewAvisos .avisos-resumo-card span {
@@ -130,8 +130,8 @@
     border-radius: 22px !important;
     background:
       radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.18), transparent 38%),
-      linear-gradient(150deg, rgba(24, 18, 62, 0.99), rgba(10, 9, 30, 0.99)) !important;
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18) !important;
+      linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+    box-shadow: 0 18px 44px rgba(30, 41, 59, 0.09) !important;
   }
 
   #viewAvisos .avisos-form-wrapper.escondido {
@@ -155,7 +155,7 @@
 
   #viewAvisos .avisos-form-topo h3 {
     margin: 0 !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 19px !important;
     font-weight: 760 !important;
     letter-spacing: -0.04em !important;
@@ -175,7 +175,7 @@
   }
 
   #viewAvisos .avisos-form .campo-perfil > span {
-    color: #d9d4ea !important;
+    color: #7c3aed !important;
     font-size: 11px !important;
     font-weight: 700 !important;
   }
@@ -185,10 +185,10 @@
   #viewAvisos #avisoMensagem {
     width: 100% !important;
     min-width: 0 !important;
-    border: 1px solid rgba(255, 255, 255, 0.085) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 15px !important;
-    background: rgba(5, 5, 18, 0.58) !important;
-    color: #fff !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     box-shadow: none !important;
     outline: 0 !important;
   }
@@ -244,7 +244,7 @@
     border: 1px solid rgba(172, 139, 255, 0.13) !important;
     border-radius: 999px !important;
     background: rgba(124, 58, 237, 0.075) !important;
-    color: #cfc5e9 !important;
+    color: #7c3aed !important;
     box-shadow: none !important;
     font-size: 11px !important;
     font-weight: 750 !important;
@@ -253,7 +253,7 @@
   #viewAvisos .avisos-atalhos button:active {
     transform: scale(0.98) !important;
     background: rgba(124, 58, 237, 0.17) !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
   }
 
   #viewAvisos .avisos-form-actions {
@@ -282,7 +282,7 @@
   #viewAvisos #msgAviso {
     min-height: 0 !important;
     margin: 0 !important;
-    color: #ff8d95 !important;
+    color: #b91c1c !important;
     font-size: 11px !important;
   }
 
@@ -299,7 +299,7 @@
 
   #viewAvisos .avisos-lista-topo h3 {
     margin: 0 !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 18px !important;
     font-weight: 760 !important;
     letter-spacing: -0.04em !important;
@@ -331,7 +331,7 @@
     border-radius: 20px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.10), transparent 42%),
-      linear-gradient(150deg, rgba(18, 15, 49, 0.99), rgba(9, 8, 27, 0.99)) !important;
+      linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
     box-shadow: none !important;
     overflow: hidden !important;
     transform: none !important;
@@ -386,7 +386,7 @@
     border: 1px solid rgba(172, 139, 255, 0.12) !important;
     border-radius: 999px !important;
     background: rgba(124, 58, 237, 0.09) !important;
-    color: #c9b3f8 !important;
+    color: #7c3aed !important;
     font-size: 9px !important;
     font-weight: 800 !important;
     letter-spacing: 0.035em !important;
@@ -394,19 +394,19 @@
   }
 
   #viewAvisos .aviso-badges-row .mini-badge.status-ok {
-    color: #63df9a !important;
+    color: #047857 !important;
     background: rgba(54, 208, 127, 0.10) !important;
     border-color: rgba(54, 208, 127, 0.17) !important;
   }
 
   #viewAvisos .aviso-badges-row .mini-badge.status-pendente {
-    color: #ffb25b !important;
+    color: #b45309 !important;
     background: rgba(255, 148, 24, 0.10) !important;
     border-color: rgba(255, 148, 24, 0.17) !important;
   }
 
   #viewAvisos .aviso-badges-row .mini-badge.status-atrasado {
-    color: #ff7a83 !important;
+    color: #b91c1c !important;
     background: rgba(255, 86, 95, 0.10) !important;
     border-color: rgba(255, 86, 95, 0.18) !important;
   }
@@ -414,7 +414,7 @@
   #viewAvisos .aviso-item > div:first-child > strong {
     display: block !important;
     margin: 0 !important;
-    color: #fff !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     font-size: 16px !important;
     font-weight: 760 !important;
     letter-spacing: -0.035em !important;
@@ -425,7 +425,7 @@
   #viewAvisos .aviso-item > div:first-child > span {
     display: block !important;
     margin: 0 !important;
-    color: #bcaee0 !important;
+    color: #7c3aed !important;
     font-size: 11px !important;
     font-weight: 650 !important;
     line-height: 1.35 !important;
@@ -434,7 +434,7 @@
   #viewAvisos .aviso-item > div:first-child > small {
     display: block !important;
     margin: 2px 0 0 !important;
-    color: #d7d2e4 !important;
+    color: #7c3aed !important;
     font-size: 12px !important;
     line-height: 1.55 !important;
     white-space: pre-wrap !important;
@@ -463,7 +463,7 @@
 
   #viewAvisos .aviso-acoes .acao-perigo {
     grid-column: 1 / -1;
-    color: #ff858e !important;
+    color: #b91c1c !important;
     background: rgba(255, 86, 95, 0.075) !important;
     border-color: rgba(255, 86, 95, 0.16) !important;
   }
@@ -535,7 +535,7 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.10), transparent 62%),
-      linear-gradient(155deg, rgba(18, 15, 47, 0.98), rgba(9, 8, 26, 0.99)) !important;
+      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
   }
 
   #viewAvisos .avisos-resumo-card {
@@ -564,7 +564,7 @@
     top: 14px;
     bottom: 14px;
     width: 1px;
-    background: rgba(255, 255, 255, 0.075);
+    background: rgba(124, 58, 237, 0.052);
   }
 
   #viewAvisos .avisos-resumo-card span {

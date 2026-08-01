@@ -39,60 +39,124 @@
 
   <section id="telaLogin" class="tela-login">
     <div class="login-card">
-      <img src="logo.png" class="login-logo" alt="Logo Mensalize">
-      
-      <h1 id="loginNomeApp">Mensalize</h1>
-      <p id="loginSlogan">
-      Sistema de gestão de mensalidades
-      </p>
+      <section class="login-apresentacao" aria-label="Apresentação do Mensalize">
+        <span class="login-apresentacao-luz" aria-hidden="true"></span>
+        <img src="icons/mensalize-icon-192.png" class="login-logo" alt="">
+        <div class="login-marca-copy">
+          <span class="login-kicker">Operação da academia</span>
+          <h1 id="loginNomeApp">Mensalize</h1>
+          <p id="loginSlogan" class="login-config-slogan" aria-hidden="true">Sistema de gestão de mensalidades</p>
+          <p class="login-marca-frase">Mensalidades, presenças e evolução no mesmo ritmo.</p>
+        </div>
 
-      <input 
-        type="email" 
-        id="emailLogin" 
-        placeholder="E-mail"
-        autocomplete="username"
-      >
+        <div class="login-operacao-preview" aria-label="Áreas acompanhadas no Mensalize">
+          <div class="login-operacao-cabecalho">
+            <span>Central Mensalize</span>
+            <strong><i aria-hidden="true"></i> 3 áreas conectadas</strong>
+          </div>
 
-      <div class="login-senha-wrap">
-        <input 
-          type="password" 
-          id="senhaLogin" 
-          placeholder="Senha"
-          autocomplete="current-password"
-        >
-        <button type="button" id="btnMostrarSenhaLogin" class="btn-mostrar-senha" aria-label="Mostrar senha">
-          Ver
-        </button>
-      </div>
+          <div class="login-operacao-lista">
+            <div class="login-operacao-item login-operacao-financeiro">
+              <span class="login-operacao-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 7.5h16v10H4zM4 10.5h16M8 15h3"/></svg>
+              </span>
+              <div>
+                <small>Financeiro</small>
+                <strong>Recebimentos do mês</strong>
+              </div>
+              <span class="login-operacao-seta" aria-hidden="true">›</span>
+            </div>
 
-      <label class="login-salvar-acesso">
-        <input type="checkbox" id="lembrarEmailProfessor">
-        <span>Lembrar meu e-mail neste aparelho</span>
-      </label>
+            <div class="login-operacao-item login-operacao-presencas">
+              <span class="login-operacao-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m7 12 3 3 7-7M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg>
+              </span>
+              <div>
+                <small>Presenças</small>
+                <strong>Movimento das turmas</strong>
+              </div>
+              <span class="login-operacao-seta" aria-hidden="true">›</span>
+            </div>
 
-      <p class="login-aviso-seguranca">
-        A senha não será salva.
-      </p>
+            <div class="login-operacao-item login-operacao-graduacoes">
+              <span class="login-operacao-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M6 5h12M7 5l1 6h8l1-6M9 11v4a3 3 0 0 0 6 0v-4M8 20h8"/></svg>
+              </span>
+              <div>
+                <small>Graduação</small>
+                <strong>Próximas avaliações</strong>
+              </div>
+              <span class="login-operacao-seta" aria-hidden="true">›</span>
+            </div>
+          </div>
+        </div>
 
-      <button id="btnEntrar">Entrar</button>
-      <p class="login-ajuda">
-      Não tem acesso? Solicite sua conta ao administrador.
-      </p>
-      <a 
-        href="https://wa.me/5531982924913?text=Olá, quero solicitar acesso ao sistema Mensalize"
-        target="_blank"
-        class="btn-contato"
-      >
-        Falar com o administrador
-</a>
+        <p class="login-apresentacao-rodape">Entre para acompanhar o que vence, quem treinou e quem está perto da próxima graduação.</p>
+      </section>
 
-      <p id="mensagemLogin"></p>
+      <section class="login-acesso" aria-labelledby="loginTituloAcesso">
+        <header class="login-acesso-topo">
+          <span>Acesso do professor</span>
+          <h2 id="loginTituloAcesso">Entre na central da sua academia</h2>
+          <p>Consulte cobranças, alunos, turmas e atividades do dia.</p>
+        </header>
 
-      <nav class="login-legal-links" aria-label="Documentos legais do Mensalize">
-        <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
-        <span aria-hidden="true">•</span>
-        <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
-      </nav>
+        <div class="login-formulario">
+          <div class="login-campo">
+            <label for="emailLogin">E-mail</label>
+            <input
+              type="email"
+              id="emailLogin"
+              placeholder="nome@academia.com"
+              autocomplete="username"
+            >
+          </div>
+
+          <div class="login-campo">
+            <label for="senhaLogin">Senha</label>
+            <div class="login-senha-wrap">
+              <input
+                type="password"
+                id="senhaLogin"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+              >
+              <button type="button" id="btnMostrarSenhaLogin" class="btn-mostrar-senha" aria-label="Mostrar senha">
+                Ver
+              </button>
+            </div>
+          </div>
+
+          <div class="login-preferencias">
+            <label class="login-salvar-acesso">
+              <input type="checkbox" id="lembrarEmailProfessor">
+              <span>Lembrar meu e-mail</span>
+            </label>
+            <p class="login-aviso-seguranca">Sua senha nunca é salva neste aparelho.</p>
+          </div>
+
+          <button id="btnEntrar">Entrar</button>
+          <p id="mensagemLogin" aria-live="polite"></p>
+        </div>
+
+        <div class="login-suporte">
+          <p class="login-ajuda">Precisa liberar sua conta profissional?</p>
+          <a
+            href="https://wa.me/5531982924913?text=Olá, quero solicitar acesso ao sistema Mensalize"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-contato"
+          >
+            Falar com a equipe Mensalize
+          </a>
+        </div>
+
+        <nav class="login-legal-links" aria-label="Documentos legais do Mensalize">
+          <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Privacidade</a>
+          <span aria-hidden="true">•</span>
+          <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+        </nav>
+      </section>
     </div>
   </section>
 

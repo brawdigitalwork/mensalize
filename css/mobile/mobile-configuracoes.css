@@ -60,7 +60,7 @@
     border-radius: 20px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.14), transparent 42%),
-      linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+      linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -90,7 +90,7 @@
     grid-column: 1 / -1 !important;
     margin: 0 !important;
     color: var(--mobile-muted) !important;
-    font-size: 9.5px !important;
+    font-size: 11px !important;
     line-height: 1.4 !important;
   }
 
@@ -103,7 +103,7 @@
     margin: 0 !important;
     padding: 7px 10px !important;
     border-radius: 12px !important;
-    font-size: 9px !important;
+    font-size: 10.5px !important;
     white-space: nowrap !important;
   }
 
@@ -138,7 +138,7 @@
     border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 15px !important;
     background: rgba(124, 58, 237, 0.035) !important;
-    color: #8f89a6 !important;
+    color: #5d6678 !important;
     box-shadow: none !important;
     transform: none !important;
   }
@@ -174,11 +174,11 @@
   }
 
   #viewPerfil .config-aba-copy strong {
-    font-size: 10.5px !important;
+    font-size: 12px !important;
   }
 
   #viewPerfil .config-aba-copy small {
-    font-size: 7.8px !important;
+    font-size: 9.5px !important;
   }
 
   #viewPerfil .config-aba-seta {
@@ -231,7 +231,7 @@
     margin: 0 !important;
     max-width: 40ch !important;
     color: var(--mobile-muted) !important;
-    font-size: 10.5px !important;
+    font-size: 12px !important;
     line-height: 1.42 !important;
   }
 
@@ -249,7 +249,7 @@
     border-radius: 21px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.09), transparent 38%),
-      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+      linear-gradient(155deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -277,7 +277,7 @@
   }
 
   #viewPerfil .config-painel-etiqueta {
-    font-size: 7.5px !important;
+    font-size: 9px !important;
   }
 
   #viewPerfil .config-painel-header strong {
@@ -285,7 +285,7 @@
   }
 
   #viewPerfil .config-painel-header small {
-    font-size: 9.5px !important;
+    font-size: 11px !important;
     line-height: 1.35 !important;
   }
 
@@ -305,7 +305,7 @@
 
   #viewPerfil .campo-perfil > span {
     color: #7c3aed !important;
-    font-size: 9.5px !important;
+    font-size: 11px !important;
   }
 
   #viewPerfil .campo-perfil input,
@@ -322,7 +322,7 @@
 
   #viewPerfil .config-campo-ajuda {
     color: #6f687f !important;
-    font-size: 8.5px !important;
+    font-size: 10px !important;
   }
 
   #viewPerfil .config-acoes {
@@ -338,7 +338,7 @@
     order: 2 !important;
     margin: 0 !important;
     text-align: center !important;
-    font-size: 8.5px !important;
+    font-size: 10px !important;
   }
 
   #viewPerfil .config-acoes .btn-salvar-perfil {
@@ -348,7 +348,7 @@
     min-height: 47px !important;
     margin: 0 !important;
     border-radius: 15px !important;
-    font-size: 11px !important;
+    font-size: 12.5px !important;
   }
 
   /* Módulos em duas colunas no iPhone 12 */
@@ -364,12 +364,12 @@
   }
 
   #viewPerfil .config-modulo-item > span:last-child {
-    font-size: 9.5px !important;
+    font-size: 10.5px !important;
   }
 
   #viewPerfil .perfil-aviso-admin {
     margin-top: 11px !important;
-    font-size: 8.8px !important;
+    font-size: 10.5px !important;
   }
 
   /* iPhones compactos */

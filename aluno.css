@@ -202,7 +202,7 @@ button { cursor: pointer; }
 .pay-button { background: linear-gradient(135deg, var(--cor-roxo), #9333ea); color: #fff; }
 .secondary-action { background: rgba(255,255,255,0.06); color: var(--texto-primario); border: 1px solid var(--borda); }
 .whatsapp-button,
-.whatsapp-primary { background: rgba(37,211,102,0.12); color: #4ade80; border: 1px solid rgba(37,211,102,0.25); }
+.whatsapp-primary { background: rgba(37,211,102,0.12); color: var(--verde); border: 1px solid rgba(37,211,102,0.25); }
 .share-button { width: 100%; background: rgba(255,255,255,0.06); color: var(--texto-primario); border: 1px solid var(--borda); }
 .section-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 .section-title-row h2 { font-size: 18px; }
@@ -221,8 +221,8 @@ button { cursor: pointer; }
   white-space: nowrap;
 }
 .status-pago,
-.status-ok { background: var(--verde-bg); color: #4ade80; border-color: rgba(34,197,94,0.32); }
-.status-atrasado { background: var(--vermelho-bg); color: #f87171; border-color: rgba(239,68,68,0.35); }
+.status-ok { background: var(--verde-bg); color: var(--verde); border-color: rgba(34,197,94,0.32); }
+.status-atrasado { background: var(--vermelho-bg); color: var(--vermelho); border-color: rgba(239,68,68,0.35); }
 .status-hoje,
 .status-warn { background: var(--azul-bg); color: var(--azul); border-color: rgba(56,189,248,0.32); }
 .status-pendente { background: var(--amarelo-bg); color: var(--amarelo); border-color: rgba(245,158,11,0.34); }
@@ -262,7 +262,7 @@ button { cursor: pointer; }
 .student-form textarea:focus { border-color: var(--cor-roxo); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
 .student-form button { grid-column: 1 / -1; }
 .soft-message { margin-top: 8px; font-size: 13px; }
-.soft-message.is-error { color: #f87171; }
+.soft-message.is-error { color: var(--vermelho); }
 .center-message { width: 100%; text-align: center; padding: 10px; background: var(--bg-muted); border: 1px solid var(--borda); border-radius: var(--raio-md); }
 .photo-box { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 14px; align-items: center; background: rgba(255,255,255,0.035); border: 1px solid var(--borda); border-radius: var(--raio-lg); padding: 14px; margin: 14px 0; }
 .photo-preview-wrap { width: 74px; height: 74px; }
@@ -273,10 +273,10 @@ button { cursor: pointer; }
 .payments-list { display: grid; gap: 10px; }
 .payment-item { display: flex; justify-content: space-between; gap: 12px; align-items: center; background: rgba(255,255,255,0.04); border: 1px solid var(--borda); border-radius: var(--raio-md); padding: 12px; }
 .payment-left { display: flex; align-items: center; gap: 10px; }
-.payment-icon { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #4ade80; background: var(--verde-bg); flex-shrink: 0; font-weight: 600; }
+.payment-icon { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: var(--verde); background: var(--verde-bg); flex-shrink: 0; font-weight: 600; }
 .payment-left strong { display: block; font-size: 13px; }
 .payment-left span:last-child { color: var(--texto-terciario); font-size: 12px; }
-.payment-value { color: #4ade80; white-space: nowrap; }
+.payment-value { color: var(--verde); white-space: nowrap; }
 .error-card { width: calc(100% - 36px); max-width: 420px; margin: 80px auto; text-align: center; }
 .error-icon { font-size: 42px; margin-bottom: 8px; }
 .retry-link { display: inline-flex; margin-top: 12px; color: var(--cor-roxo-claro); font-weight: 600; }
@@ -602,7 +602,7 @@ body.menu-aberto {
   padding: 3px 8px;
   border-radius: var(--raio-pill);
   background: var(--verde-bg);
-  color: #4ade80;
+  color: var(--verde);
   font-size: 10px;
   font-weight: 600;
 }
@@ -1814,7 +1814,7 @@ img.ranking-photo-big {
   border-radius: 999px;
   background: rgba(239,68,68,0.12);
   border: 1px solid rgba(239,68,68,0.30);
-  color: #fca5a5;
+  color: var(--vermelho);
   font-size: 24px;
   line-height: 1;
 }
@@ -3317,7 +3317,7 @@ body,
 .copy-pix-button.copiado,
 #btnCopiarPixAluno.copiado {
   background: var(--verde-bg) !important;
-  color: #4ade80 !important;
+  color: var(--verde) !important;
   border-color: rgba(34, 197, 94, 0.32) !important;
 }
 
@@ -3347,7 +3347,7 @@ body,
 
 .pix-feedback-message.is-error,
 #msgSolicitarPagamentoAluno.is-error {
-  color: #f87171 !important;
+  color: var(--vermelho) !important;
 }
 
 /* Celular */
@@ -4430,13 +4430,13 @@ body,
 }
 
 .checkin-aluno-msg.is-success {
-  color: #4ade80;
+  color: var(--verde);
   background: rgba(34, 197, 94, 0.12);
   border-color: rgba(34, 197, 94, 0.28);
 }
 
 .checkin-aluno-msg.is-error {
-  color: #f87171;
+  color: var(--vermelho);
   background: rgba(239, 68, 68, 0.12);
   border-color: rgba(239, 68, 68, 0.30);
 }
@@ -4601,7 +4601,7 @@ padding: calc(var(--space-3) + var(--safe-top)) max(var(--space-4), calc(var(--s
 .student-footer-button:hover,
 .link-button:hover { background: rgba(255,255,255,0.05) !important; }
 .whatsapp-button,
-.whatsapp-primary { background: var(--verde-bg) !important; color: #6ee7b7 !important; border: 1px solid rgba(16,185,129,0.30) !important; }
+.whatsapp-primary { background: var(--verde-bg) !important; color: var(--verde) !important; border: 1px solid rgba(16,185,129,0.30) !important; }
 
 .student-form input,
 .student-form textarea,
@@ -4627,11 +4627,11 @@ padding: calc(var(--space-3) + var(--safe-top)) max(var(--space-4), calc(var(--s
   font-weight: 500 !important;
 }
 .status-pago,
-.status-ok { background: var(--verde-bg) !important; color: #6ee7b7 !important; }
-.status-atrasado { background: var(--vermelho-bg) !important; color: #fca5a5 !important; }
+.status-ok { background: var(--verde-bg) !important; color: var(--verde) !important; }
+.status-atrasado { background: var(--vermelho-bg) !important; color: var(--vermelho) !important; }
 .status-hoje,
 .status-warn,
-.status-pendente { background: var(--amarelo-bg) !important; color: #fbbf24 !important; }
+.status-pendente { background: var(--amarelo-bg) !important; color: var(--amarelo) !important; }
 
 .payment-item,
 .notice-item,
@@ -5368,7 +5368,7 @@ select {
 .notices-home-card,
 .ranking-home-card,
 .panel-card {
-  box-shadow: 0 18px 48px rgba(0, 0, 0, .22) !important;
+  box-shadow: var(--sombra-sm) !important;
 }
 
 .student-notices-list {
@@ -5378,16 +5378,18 @@ select {
 .student-notice-item {
   padding: 16px !important;
   border-radius: 18px !important;
-  border: 1px solid rgba(255,255,255,.08) !important;
-  background: rgba(255,255,255,.045) !important;
+  border: 1px solid var(--borda) !important;
+  background: var(--bg-nivel-2) !important;
 }
 
 .student-notice-item strong {
+  color: var(--texto-primario) !important;
   font-size: 15px !important;
   line-height: 1.25 !important;
 }
 
 .student-notice-item p {
+  color: var(--texto-secundario) !important;
   margin-top: 8px !important;
   line-height: 1.48 !important;
 }
@@ -5395,6 +5397,14 @@ select {
 .notice-kind,
 .mini-badge {
   border: 1px solid rgba(167, 139, 250, .20) !important;
+}
+
+.student-notice-item small {
+  color: var(--texto-terciario) !important;
+}
+
+.notice-kind {
+  color: #6d28d9 !important;
 }
 
 /* Solicitações do aluno: fechadas por padrão para não poluir a tela */
@@ -5418,7 +5428,7 @@ select {
   border-radius: 999px !important;
   border: 1px solid rgba(167, 139, 250, .22) !important;
   background: rgba(124, 58, 237, .10) !important;
-  color: #ddd6fe !important;
+  color: #6d28d9 !important;
   font-size: 12px !important;
   font-weight: 800 !important;
 }
@@ -5436,7 +5446,7 @@ select {
   display: none;
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255,255,255,.08);
+  border-top: 1px solid var(--borda);
 }
 
 .student-request-card.request-open .student-request-body {
@@ -5914,7 +5924,7 @@ button {
   border: 1px solid rgba(167, 139, 250, 0.22);
   border-radius: 12px;
   background: rgba(124, 58, 237, 0.08);
-  color: #c4b5fd;
+  color: #6d28d9;
   font-size: 11px;
   font-weight: 700;
   text-decoration: none;
@@ -5924,7 +5934,7 @@ button {
 .student-portal-legal a:focus-visible {
   border-color: rgba(167, 139, 250, 0.52);
   background: rgba(124, 58, 237, 0.15);
-  color: #fff;
+  color: #5420c9;
 }
 
 /* O portal autenticado nunca pode aparecer durante loading, login ou logout. */
@@ -6119,6 +6129,740 @@ html body #portalConteudo #viewInicioAluno .panel-card {
   #portalConteudo #viewInicioAluno .welcome-card::after,
   #portalConteudo #viewInicioAluno .mobile-aluno-home > *,
   #portalConteudo #viewInicioAluno .mobile-aluno-carousel-glow {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   ACESSO DO ALUNO — IDENTIDADE UNIFICADA COM O PROFESSOR
+   O mesmo padrão visual atende login, primeiro acesso e recuperação.
+============================================================================ */
+.student-auth-screen {
+  min-height: 100dvh !important;
+  align-items: center !important;
+  padding:
+    max(22px, calc(22px + env(safe-area-inset-top, 0px)))
+    max(18px, env(safe-area-inset-right, 0px))
+    max(22px, calc(22px + env(safe-area-inset-bottom, 0px)))
+    max(18px, env(safe-area-inset-left, 0px)) !important;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(124, 58, 237, 0.20), transparent 32%),
+    radial-gradient(circle at 92% 84%, rgba(8, 145, 178, 0.13), transparent 31%),
+    linear-gradient(145deg, #e3e1ed 0%, #dfe4ec 48%, var(--bg-base) 100%) !important;
+  background-size: 128% 128%, 122% 122%, 100% 100% !important;
+  animation: mensalizeAlunoAuthAmbiente 16s ease-in-out infinite alternate !important;
+}
+
+.student-auth-screen:not(.escondido) .student-auth-card {
+  isolation: isolate;
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(290px, 0.88fr) minmax(390px, 1.12fr) !important;
+  align-items: stretch;
+  width: min(100%, 940px) !important;
+  max-width: 940px !important;
+  min-height: 600px;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(109, 40, 217, 0.15) !important;
+  border-radius: 32px !important;
+  background: var(--bg-nivel-1) !important;
+  box-shadow:
+    0 36px 100px rgba(43, 37, 77, 0.17),
+    0 2px 8px rgba(30, 41, 59, 0.05) !important;
+  animation: mensalizeAlunoAuthEntrada 620ms var(--ease-out, ease-out) both !important;
+}
+
+.student-auth-card::after {
+  content: none !important;
+  display: none !important;
+}
+
+.student-auth-presentation {
+  isolation: isolate;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(34px, 5vw, 52px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(147, 197, 253, 0.24), transparent 34%),
+    radial-gradient(circle at 100% 100%, rgba(52, 211, 153, 0.18), transparent 42%),
+    linear-gradient(150deg, #5420c9 0%, #7138e4 50%, #2563c9 100%);
+  background-size: 150% 150%, 145% 145%, 180% 180%;
+  color: #ffffff;
+  animation: mensalizeAlunoAuthPainel 12s ease-in-out infinite alternate;
+}
+
+.student-auth-presentation::before,
+.student-auth-presentation::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.student-auth-presentation::before {
+  top: -92px;
+  right: -112px;
+  width: 284px;
+  height: 284px;
+  border: 44px solid rgba(255, 255, 255, 0.075);
+  animation: mensalizeAlunoAuthCirculo 10s ease-in-out infinite alternate;
+}
+
+.student-auth-presentation::after {
+  right: -72px;
+  bottom: -92px;
+  width: 236px;
+  height: 236px;
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.28), transparent 68%);
+  animation: mensalizeAlunoAuthCirculo 8s ease-in-out infinite alternate-reverse;
+}
+
+.student-auth-presentation > * {
+  position: relative;
+  z-index: 1;
+}
+
+.student-auth-presentation .student-auth-presentation-light {
+  position: absolute;
+  z-index: 0;
+  top: -45%;
+  left: -42%;
+  width: 70%;
+  height: 190%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  transform: rotate(22deg);
+  animation: mensalizeAlunoAuthReflexo 7.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.student-auth-presentation .student-auth-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 0 0 44px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.student-auth-presentation .student-auth-brand img {
+  display: block;
+  width: 68px !important;
+  height: 68px !important;
+  flex: 0 0 68px !important;
+  margin: 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.20) !important;
+  border-radius: 20px !important;
+  background: #161126 !important;
+  object-fit: cover !important;
+  box-shadow: 0 18px 42px rgba(35, 20, 90, 0.28) !important;
+  animation: mensalizeAlunoAuthLogo 5s ease-in-out infinite;
+}
+
+.student-auth-presentation .student-auth-brand > div {
+  display: grid;
+  gap: 3px;
+}
+
+.student-auth-presentation .student-auth-brand strong {
+  color: #ffffff !important;
+  font-size: 20px !important;
+  font-weight: 740 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.04em !important;
+}
+
+.student-auth-presentation .student-auth-brand span {
+  color: rgba(255, 255, 255, 0.68) !important;
+  font-size: 11px !important;
+  font-weight: 650 !important;
+}
+
+.student-auth-presentation-copy {
+  min-width: 0;
+}
+
+.student-auth-kicker {
+  display: block;
+  margin: 0 0 11px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.student-auth-presentation-copy h2 {
+  max-width: 12ch;
+  margin: 0 0 14px !important;
+  color: #ffffff !important;
+  font-size: clamp(29px, 4vw, 42px) !important;
+  font-weight: 740 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.055em !important;
+}
+
+.student-auth-presentation-copy p {
+  max-width: 32ch;
+  margin: 0 !important;
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+.student-auth-journey {
+  display: grid;
+  gap: 8px;
+  margin: 32px 0 0;
+  padding: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 21px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.07));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    0 20px 45px rgba(35, 20, 90, 0.13);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 260ms ease, border-color 260ms ease, background 260ms ease;
+}
+
+.student-auth-journey-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 9px;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  background: rgba(31, 18, 78, 0.16);
+  animation: mensalizeAlunoJornadaAtiva 9s ease-in-out infinite;
+}
+
+.student-auth-journey-item:nth-child(2) { animation-delay: -6s; }
+.student-auth-journey-item:nth-child(3) { animation-delay: -3s; }
+
+.student-auth-journey-item > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.student-auth-journey-item > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.student-auth-journey-item small {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 8px;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.student-auth-journey-item strong {
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.93);
+  font-size: 11px;
+  font-weight: 680;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.student-auth-journey-item > i {
+  width: 8px;
+  height: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.52);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(110, 231, 183, 0.38);
+}
+
+.student-auth-journey-item:nth-child(1) > i { border-color: #6ee7b7; }
+.student-auth-journey-item:nth-child(2) > i { border-color: #7dd3fc; }
+.student-auth-journey-item:nth-child(3) > i { border-color: #c4b5fd; }
+
+@media (hover: hover) {
+  .student-auth-journey:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.09));
+    transform: translateY(-3px);
+  }
+}
+
+.student-auth-presentation-footer {
+  margin: auto 0 0 !important;
+  padding-top: 32px;
+  color: rgba(255, 255, 255, 0.60) !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+}
+
+.student-auth-access {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(34px, 5vw, 56px);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(8, 145, 178, 0.07), transparent 34%),
+    radial-gradient(circle at 0% 100%, rgba(124, 58, 237, 0.05), transparent 36%),
+    var(--bg-nivel-1);
+  background-size: 135% 135%, 130% 130%, 100% 100%;
+  animation: mensalizeAlunoAuthAcessoVivo 14s ease-in-out infinite alternate;
+}
+
+.student-auth-access .student-auth-view {
+  min-width: 0;
+}
+
+.student-auth-access .student-auth-view:not(.escondido) {
+  animation: mensalizeAlunoAuthConteudo 480ms var(--ease-out, ease-out) both;
+}
+
+.student-auth-access .eyebrow {
+  display: block !important;
+  margin: 0 0 11px !important;
+  color: #7c3aed !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.13em !important;
+  text-transform: uppercase !important;
+}
+
+.student-auth-access .student-auth-view h1 {
+  margin: 0 0 9px !important;
+  color: #241d37 !important;
+  font-size: clamp(27px, 4vw, 35px) !important;
+  font-weight: 740 !important;
+  line-height: 1.04 !important;
+  letter-spacing: -0.052em !important;
+}
+
+.student-auth-access .student-auth-description {
+  margin: 0 0 27px !important;
+  color: #6f6980 !important;
+  font-size: 12.5px !important;
+  line-height: 1.5 !important;
+}
+
+.student-auth-access .student-auth-form {
+  display: grid !important;
+  gap: 17px !important;
+}
+
+.student-auth-access .student-auth-form label {
+  display: grid !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  animation: mensalizeAlunoAuthConteudo 500ms var(--ease-out, ease-out) both;
+}
+
+.student-auth-access .student-auth-form label:nth-child(1) { animation-delay: 90ms; }
+.student-auth-access .student-auth-form label:nth-child(2) { animation-delay: 150ms; }
+.student-auth-access .student-auth-form label:nth-child(3) { animation-delay: 210ms; }
+
+.student-auth-access .student-auth-form label > span {
+  color: #3f3852 !important;
+  font-size: 12px !important;
+  font-weight: 760 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+}
+
+.student-auth-access .student-auth-form input {
+  width: 100% !important;
+  min-height: 55px !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  border: 1px solid #d8d5e2 !important;
+  border-radius: 15px !important;
+  background: var(--bg-input) !important;
+  color: #241d37 !important;
+  font-size: 16px !important;
+  box-shadow: none !important;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease !important;
+}
+
+.student-auth-access .student-auth-form input::placeholder {
+  color: var(--texto-terciario) !important;
+}
+
+.student-auth-access .student-auth-form input:focus {
+  border-color: rgba(124, 58, 237, 0.58) !important;
+  background: var(--bg-nivel-1) !important;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.10) !important;
+  outline: none !important;
+}
+
+.student-auth-access .student-password-field > input {
+  padding-right: 80px !important;
+}
+
+.student-auth-access .student-auth-form .student-password-toggle {
+  position: absolute !important;
+  top: 50% !important;
+  right: 14px !important;
+  width: auto !important;
+  min-width: 48px !important;
+  min-height: 32px !important;
+  margin: 0 !important;
+  padding: 6px 9px !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  background: rgba(124, 58, 237, 0.07) !important;
+  color: #6d28d9 !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 0.03em !important;
+  box-shadow: none !important;
+  transform: translateY(-50%) !important;
+}
+
+.student-auth-access .student-auth-form .student-password-toggle:hover,
+.student-auth-access .student-auth-form .student-password-toggle:focus-visible {
+  background: rgba(124, 58, 237, 0.13) !important;
+  color: #5420c9 !important;
+  outline: 2px solid rgba(124, 58, 237, 0.16) !important;
+  outline-offset: 1px !important;
+  transform: translateY(-50%) !important;
+}
+
+.student-auth-access .student-auth-field-message {
+  color: var(--texto-secundario) !important;
+  font-size: 9.5px !important;
+  line-height: 1.45 !important;
+}
+
+.student-auth-access .student-auth-message.is-error,
+.student-auth-access .student-auth-field-message.is-error {
+  color: #c62828 !important;
+}
+
+.student-auth-access .student-auth-message.is-success,
+.student-auth-access .student-auth-field-message.is-success {
+  color: #047857 !important;
+}
+
+.student-auth-access .student-auth-form .primary-action {
+  width: 100% !important;
+  min-height: 53px !important;
+  margin: 2px 0 0 !important;
+  border: 0 !important;
+  border-radius: 15px !important;
+  background-image: linear-gradient(110deg, #5420c9 0%, #7c3aed 42%, #0891b2 66%, #5420c9 100%) !important;
+  background-size: 230% 100% !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 760 !important;
+  box-shadow: 0 14px 30px rgba(109, 40, 217, 0.23) !important;
+  animation:
+    mensalizeAlunoBotaoVivo 8s ease-in-out infinite,
+    mensalizeAlunoAuthConteudo 500ms var(--ease-out, ease-out) 270ms both !important;
+}
+
+.student-auth-access .student-auth-message {
+  min-height: 18px !important;
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+  text-align: center !important;
+}
+
+.student-auth-access .student-auth-help {
+  display: grid !important;
+  gap: 4px !important;
+  margin: 23px 0 0 !important;
+  padding: 14px 15px !important;
+  border: 1px solid rgba(124, 58, 237, 0.13) !important;
+  border-radius: 15px !important;
+  background: var(--bg-nivel-2) !important;
+  animation: mensalizeAlunoAuthConteudo 500ms var(--ease-out, ease-out) 330ms both;
+}
+
+.student-auth-access .student-auth-help strong {
+  color: #5f23c8 !important;
+  font-size: 10.5px !important;
+  font-weight: 760 !important;
+}
+
+.student-auth-access .student-auth-help span {
+  color: #777087 !important;
+  font-size: 9.5px !important;
+  line-height: 1.45 !important;
+}
+
+.student-auth-access .student-auth-legal-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto !important;
+  padding-top: 22px;
+  color: var(--texto-terciario) !important;
+  font-size: 10.5px !important;
+}
+
+.student-auth-access .student-auth-legal-links a {
+  color: var(--texto-secundario) !important;
+  text-decoration: none !important;
+}
+
+.student-auth-access .student-auth-legal-links a:hover,
+.student-auth-access .student-auth-legal-links a:focus-visible {
+  color: #6d28d9 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .student-auth-screen {
+    align-items: start !important;
+    padding:
+      calc(10px + env(safe-area-inset-top, 0px))
+      10px
+      calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .student-auth-screen:not(.escondido) .student-auth-card {
+    grid-template-columns: 1fr !important;
+    width: min(100%, 500px) !important;
+    min-height: 0 !important;
+    border-radius: 24px !important;
+  }
+
+  .student-auth-presentation {
+    padding: 18px;
+  }
+
+  .student-auth-presentation .student-auth-brand {
+    gap: 10px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .student-auth-presentation .student-auth-brand img {
+    width: 44px !important;
+    height: 44px !important;
+    flex-basis: 44px !important;
+    border-radius: 13px !important;
+  }
+
+  .student-auth-presentation .student-auth-brand strong {
+    font-size: 18px !important;
+  }
+
+  .student-auth-presentation .student-auth-brand span {
+    font-size: 9.5px !important;
+  }
+
+  .student-auth-kicker {
+    margin-bottom: 7px;
+    font-size: 8px;
+  }
+
+  .student-auth-presentation-copy h2 {
+    max-width: 22ch;
+    margin-bottom: 0 !important;
+    font-size: 22px !important;
+    line-height: 1.08 !important;
+  }
+
+  .student-auth-presentation-copy p {
+    display: none !important;
+  }
+
+  .student-auth-journey {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 62px;
+    margin-top: 16px;
+    padding: 8px;
+    border-radius: 16px;
+  }
+
+  .student-auth-journey-item {
+    position: absolute;
+    inset: 8px;
+    grid-template-columns: 28px minmax(0, 1fr) 8px;
+    min-height: 44px;
+    padding: 5px 8px;
+    opacity: 0;
+    visibility: hidden;
+    animation: mensalizeAlunoJornadaMobile 9s ease-in-out infinite both;
+  }
+
+  .student-auth-journey-item:nth-child(1) { animation-delay: 0s; }
+  .student-auth-journey-item:nth-child(2) { animation-delay: 3s; }
+  .student-auth-journey-item:nth-child(3) { animation-delay: 6s; }
+
+  .student-auth-journey-item > span {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+  }
+
+  .student-auth-presentation-footer {
+    display: none !important;
+  }
+
+  .student-auth-access {
+    padding: 24px 20px 20px;
+  }
+
+  .student-auth-access .student-auth-view h1 {
+    font-size: 24px !important;
+    line-height: 1.08 !important;
+  }
+
+  .student-auth-access .student-auth-description {
+    margin-bottom: 20px !important;
+  }
+
+  .student-auth-access .student-auth-form {
+    gap: 14px !important;
+  }
+
+  .student-auth-access .student-auth-form input {
+    min-height: 52px !important;
+  }
+
+  .student-auth-access .student-auth-legal-links {
+    padding-top: 17px;
+  }
+}
+
+@media (max-width: 380px) {
+  .student-auth-presentation,
+  .student-auth-access {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .student-auth-access .student-auth-form input {
+    min-height: 53px !important;
+  }
+}
+
+@keyframes mensalizeAlunoAuthEntrada {
+  from { opacity: 0; transform: translateY(22px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mensalizeAlunoAuthConteudo {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mensalizeAlunoAuthAmbiente {
+  0% { background-position: 0% 0%, 100% 100%, 50% 50%; }
+  100% { background-position: 16% 10%, 82% 72%, 50% 50%; }
+}
+
+@keyframes mensalizeAlunoAuthPainel {
+  0% { background-position: 0% 0%, 100% 100%, 0% 50%; }
+  100% { background-position: 18% 12%, 78% 82%, 100% 50%; }
+}
+
+@keyframes mensalizeAlunoAuthCirculo {
+  from { transform: translate3d(0, 0, 0) scale(0.92); opacity: 0.58; }
+  to { transform: translate3d(-20px, 18px, 0) scale(1.12); opacity: 1; }
+}
+
+@keyframes mensalizeAlunoAuthLogo {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(1.5deg); }
+}
+
+@keyframes mensalizeAlunoAuthAcessoVivo {
+  from { background-position: 100% 0%, 0% 100%, 50% 50%; }
+  to { background-position: 78% 18%, 20% 78%, 50% 50%; }
+}
+
+@keyframes mensalizeAlunoAuthReflexo {
+  0%, 18% { transform: translateX(-70%) rotate(22deg); opacity: 0; }
+  38%, 62% { opacity: 0.75; }
+  82%, 100% { transform: translateX(260%) rotate(22deg); opacity: 0; }
+}
+
+@keyframes mensalizeAlunoJornadaAtiva {
+  0%, 18%, 100% {
+    border-color: rgba(255, 255, 255, 0.10);
+    background: rgba(31, 18, 78, 0.16);
+    transform: translateX(0) scale(1);
+  }
+  27%, 42% {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateX(4px) scale(1.012);
+  }
+}
+
+@keyframes mensalizeAlunoJornadaMobile {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(7px) scale(0.985);
+  }
+  1%, 31% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  33%, 100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-7px) scale(0.985);
+  }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .student-auth-journey-item {
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+  }
+
+  .student-auth-journey-item:first-child {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .student-auth-screen,
+  .student-auth-screen .student-auth-card,
+  .student-auth-presentation,
+  .student-auth-presentation::before,
+  .student-auth-presentation::after,
+  .student-auth-presentation .student-auth-presentation-light,
+  .student-auth-presentation .student-auth-brand img,
+  .student-auth-journey-item,
+  .student-auth-access .student-auth-view,
+  .student-auth-access,
+  .student-auth-access .student-auth-form label,
+  .student-auth-access .student-auth-form .primary-action,
+  .student-auth-access .student-auth-help {
     animation: none !important;
   }
 }

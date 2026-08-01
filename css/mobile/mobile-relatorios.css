@@ -55,7 +55,7 @@
     background:
       radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.18), transparent 30%),
       radial-gradient(circle at 100% 12%, rgba(84, 40, 190, 0.10), transparent 28%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.998)) !important;
+      linear-gradient(180deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.998)) !important;
     box-shadow: 0 -28px 90px rgba(30, 41, 59, 0.20) !important;
   }
 
@@ -79,7 +79,7 @@
     border-bottom: 1px solid rgba(35, 27, 53, 0.11) !important;
     background:
       radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.14), transparent 44%),
-      rgba(255, 255, 255, 0.98) !important;
+      rgba(238, 240, 244, 0.98) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
   }
@@ -166,7 +166,7 @@
     border-radius: 16px !important;
     background:
       radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.08), transparent 70%),
-      rgba(255, 255, 255, 0.98) !important;
+      rgba(238, 240, 244, 0.98) !important;
   }
 
   #modalCentralRelatorios .relatorio-tipo-card {
@@ -183,7 +183,7 @@
     border: 0 !important;
     border-radius: 12px !important;
     background: transparent !important;
-    color: #8f89a7 !important;
+    color: #5d6678 !important;
     box-shadow: none !important;
     transform: none !important;
   }
@@ -320,7 +320,7 @@
     padding: 0 12px !important;
     border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 15px !important;
-    background: rgba(255, 255, 255, 0.98) !important;
+    background: rgba(238, 240, 244, 0.98) !important;
     color: var(--mobile-text, var(--texto-primario)) !important;
     box-shadow: none !important;
     outline: none !important;
@@ -399,7 +399,7 @@
 
   #modalCentralRelatorios .relatorio-privacidade-opcao input[type="checkbox"]:checked::after {
     transform: translateX(18px);
-    background: #fff;
+    background: var(--bg-nivel-1);
   }
 
   #modalCentralRelatorios .relatorio-privacidade-opcao input[type="checkbox"]:focus-visible {
@@ -441,7 +441,7 @@
     border-radius: 17px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.13), transparent 42%),
-      linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+      linear-gradient(150deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -459,7 +459,7 @@
   #modalCentralRelatorios .relatorio-preview-label {
     display: block !important;
     margin: 0 0 6px !important;
-    color: #8f85a9 !important;
+    color: #5d6678 !important;
     font-size: 8px !important;
     font-weight: 820 !important;
     letter-spacing: 0.10em !important;
@@ -497,7 +497,7 @@
       calc(11px + env(safe-area-inset-bottom, 0px)) !important;
     border-top: 1px solid rgba(35, 27, 53, 0.11) !important;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.995)) !important;
+      linear-gradient(180deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.995)) !important;
     box-shadow: 0 -16px 40px rgba(30, 41, 59, 0.20) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
@@ -551,7 +551,7 @@
     padding: 7px 10px !important;
     border: 0 !important;
     background: transparent !important;
-    color: #837c99 !important;
+    color: #5d6678 !important;
     font-size: 9.5px !important;
   }
 

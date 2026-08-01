@@ -43,18 +43,60 @@
 
   <section id="portalAuthAluno" class="student-auth-screen escondido" aria-label="Acesso ao Portal do Aluno">
     <div class="student-auth-card">
-      <div class="student-auth-brand">
-        <img src="logo-aluno.png" alt="Mensalize Aluno">
-        <div>
-          <strong>Mensalize</strong>
-          <span>Portal do Aluno</span>
+      <section class="student-auth-presentation" aria-label="Apresentação do Portal do Aluno">
+        <span class="student-auth-presentation-light" aria-hidden="true"></span>
+        <div class="student-auth-brand">
+          <img src="icons/mensalize-aluno-icon-192.png" alt="">
+          <div>
+            <strong>Mensalize</strong>
+            <span>Portal do Aluno</span>
+          </div>
         </div>
-      </div>
+
+        <div class="student-auth-presentation-copy">
+          <span class="student-auth-kicker">Área exclusiva do aluno</span>
+          <h2>Do pagamento à próxima faixa, acompanhe cada passo.</h2>
+          <p>Veja mensalidade, presença, avisos e graduação sem depender de mensagens.</p>
+        </div>
+
+        <div class="student-auth-journey" aria-label="Informações disponíveis no Portal do Aluno">
+          <div class="student-auth-journey-item student-auth-journey-financeiro">
+            <span aria-hidden="true">01</span>
+            <div>
+              <small>Financeiro</small>
+              <strong>Situação da mensalidade</strong>
+            </div>
+            <i aria-hidden="true"></i>
+          </div>
+
+          <div class="student-auth-journey-item student-auth-journey-presenca">
+            <span aria-hidden="true">02</span>
+            <div>
+              <small>Treinos</small>
+              <strong>Histórico de presença</strong>
+            </div>
+            <i aria-hidden="true"></i>
+          </div>
+
+          <div class="student-auth-journey-item student-auth-journey-graduacao">
+            <span aria-hidden="true">03</span>
+            <div>
+              <small>Evolução</small>
+              <strong>Progresso da graduação</strong>
+            </div>
+            <i aria-hidden="true"></i>
+          </div>
+        </div>
+
+        <p class="student-auth-presentation-footer">O professor atualiza. Você acompanha pelo portal.</p>
+      </section>
+
+      <section class="student-auth-access" aria-label="Acesso à conta do aluno">
 
       <div id="authAlunoLoginView" class="student-auth-view">
-        <span class="eyebrow">Acesso seguro</span>
-        <h1>Entrar no portal</h1>
-        <p class="student-auth-description">Use o usuário que você escolheu e sua senha.</p>
+        <span class="eyebrow">Conta do aluno</span>
+        <h1>Consulte sua mensalidade e evolução</h1>
+        <p class="student-auth-description">Use o usuário criado no seu primeiro acesso.</p>
 
         <form id="formAuthAlunoLogin" class="student-auth-form" autocomplete="on">
           <label>
@@ -65,18 +107,30 @@
               autocomplete="username"
               autocapitalize="none"
               spellcheck="false"
+              minlength="4"
+              maxlength="24"
               placeholder="seu.usuario"
             >
           </label>
 
           <label>
             <span>Senha</span>
-            <input
-              type="password"
-              id="authAlunoLoginSenha"
-              autocomplete="current-password"
-              placeholder="Sua senha"
-            >
+            <div class="student-password-field">
+              <input
+                type="password"
+                id="authAlunoLoginSenha"
+                autocomplete="current-password"
+                placeholder="Sua senha"
+              >
+              <button
+                type="button"
+                class="student-password-toggle"
+                data-password-target="authAlunoLoginSenha"
+                aria-controls="authAlunoLoginSenha"
+                aria-label="Mostrar senha"
+                aria-pressed="false"
+              >VER</button>
+            </div>
           </label>
 
           <button type="submit" id="btnEntrarAlunoAuth" class="primary-action">Entrar</button>
@@ -84,15 +138,15 @@
         </form>
 
         <div class="student-auth-help">
-          <strong>Problemas com o acesso?</strong>
-          <span>Peça ao seu professor um novo link. Esse é o único fluxo de recuperação do Mensalize.</span>
+          <strong>Não consegue entrar?</strong>
+          <span>Solicite ao professor um novo link pessoal para recuperar seu acesso.</span>
         </div>
       </div>
 
       <div id="authAlunoLinkView" class="student-auth-view escondido">
-        <span id="authAlunoLinkEyebrow" class="eyebrow">Primeiro acesso</span>
-        <h1 id="authAlunoLinkTitulo">Crie seu acesso</h1>
-        <p id="authAlunoLinkDescricao" class="student-auth-description">Escolha seu usuário e uma senha.</p>
+        <span id="authAlunoLinkEyebrow" class="eyebrow">Ativação da conta</span>
+        <h1 id="authAlunoLinkTitulo">Crie seu acesso ao Mensalize</h1>
+        <p id="authAlunoLinkDescricao" class="student-auth-description">Defina um usuário exclusivo e uma senha segura para entrar no portal.</p>
 
         <form id="formAuthAlunoLink" class="student-auth-form" autocomplete="off">
           <label>
@@ -103,34 +157,56 @@
               autocomplete="off"
               autocapitalize="none"
               spellcheck="false"
+              minlength="4"
               maxlength="24"
               placeholder="seu.usuario"
             >
-            <small id="msgAuthAlunoUsername" class="student-auth-field-message">Use 4 a 24 caracteres.</small>
+            <small id="msgAuthAlunoUsername" class="student-auth-field-message">Use de 4 a 24 caracteres: letras minúsculas, números, ponto (.) ou sublinhado (_). Não comece nem termine com ponto ou sublinhado.</small>
           </label>
 
           <label>
             <span>Crie uma senha</span>
-            <input
-              type="password"
-              id="authAlunoSenhaNova"
-              autocomplete="new-password"
-              minlength="12"
-              maxlength="72"
-              placeholder="Mínimo de 12 caracteres"
-            >
+            <div class="student-password-field">
+              <input
+                type="password"
+                id="authAlunoSenhaNova"
+                autocomplete="new-password"
+                minlength="8"
+                maxlength="72"
+                placeholder="Mínimo de 8 caracteres"
+              >
+              <button
+                type="button"
+                class="student-password-toggle"
+                data-password-target="authAlunoSenhaNova"
+                aria-controls="authAlunoSenhaNova"
+                aria-label="Mostrar senha"
+                aria-pressed="false"
+              >VER</button>
+            </div>
+            <small class="student-auth-field-message">Use pelo menos 8 caracteres, combinando letras, números e um caractere especial. Não use sequências como 1234.</small>
           </label>
 
           <label>
             <span>Confirme a senha</span>
-            <input
-              type="password"
-              id="authAlunoSenhaConfirmar"
-              autocomplete="new-password"
-              minlength="12"
-              maxlength="72"
-              placeholder="Repita a senha"
-            >
+            <div class="student-password-field">
+              <input
+                type="password"
+                id="authAlunoSenhaConfirmar"
+                autocomplete="new-password"
+                minlength="8"
+                maxlength="72"
+                placeholder="Repita a senha"
+              >
+              <button
+                type="button"
+                class="student-password-toggle"
+                data-password-target="authAlunoSenhaConfirmar"
+                aria-controls="authAlunoSenhaConfirmar"
+                aria-label="Mostrar senha"
+                aria-pressed="false"
+              >VER</button>
+            </div>
           </label>
 
           <button type="submit" id="btnConcluirAcessoAluno" class="primary-action">Confirmar meu acesso</button>
@@ -148,6 +224,7 @@
         <span aria-hidden="true">•</span>
         <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
       </nav>
+      </section>
     </div>
   </section>
 

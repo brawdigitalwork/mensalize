@@ -13,22 +13,22 @@
 
 @media (max-width: 760px) {
   :root {
-    --mobile-bg: #f6f7fb;
-    --mobile-bg-deep: #eef1f6;
-    --mobile-surface: #ffffff;
-    --mobile-surface-2: #fbfaff;
-    --mobile-surface-3: #f1eefb;
-    --mobile-border: #e5e7ef;
-    --mobile-border-soft: #eceef3;
+    --mobile-bg: #dfe2ea;
+    --mobile-bg-deep: #d8dce6;
+    --mobile-surface: #eef0f4;
+    --mobile-surface-2: #e7e8ee;
+    --mobile-surface-3: #dcdee7;
+    --mobile-border: #c5c9d4;
+    --mobile-border-soft: #d2d5de;
     --mobile-purple: #7c3aed;
     --mobile-purple-bright: #8b5cf6;
     --mobile-purple-soft: #7c3aed;
-    --mobile-text: #231b35;
-    --mobile-muted: #667085;
-    --mobile-muted-2: #9298aa;
-    --mobile-green: #047857;
-    --mobile-orange: #b45309;
-    --mobile-red: #dc2626;
+    --mobile-text: #1f182e;
+    --mobile-muted: #4a5365;
+    --mobile-muted-2: #5d6678;
+    --mobile-green: #046c4f;
+    --mobile-orange: #92400e;
+    --mobile-red: #b91c1c;
     --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
   }
 
@@ -44,7 +44,7 @@
     background:
       radial-gradient(circle at 15% -5%, rgba(124, 58, 237, 0.10), transparent 28%),
       radial-gradient(circle at 92% 12%, rgba(37, 99, 235, 0.06), transparent 26%),
-      linear-gradient(180deg, #ffffff 0%, #f8f7fc 100%) !important;
+      linear-gradient(180deg, var(--mobile-bg-deep) 0%, var(--mobile-bg) 100%) !important;
   }
 
   body::before {
@@ -153,10 +153,10 @@
     width: 100%;
     padding: calc(12px + var(--safe-top)) 16px 14px;
     background:
-      radial-gradient(circle at 14% 0%, rgba(151, 81, 255, 0.34), transparent 34%),
-      linear-gradient(145deg, rgba(31, 16, 84, 0.98), rgba(9, 8, 29, 0.97) 64%, rgba(7, 7, 20, 0.99));
-    border-bottom: 1px solid rgba(176, 139, 255, 0.12);
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.25);
+      radial-gradient(circle at 14% 0%, rgba(255, 255, 255, 0.16), transparent 34%),
+      linear-gradient(135deg, #6d28d9 0%, #7c3aed 58%, #5b21b6 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 38px rgba(91, 33, 182, 0.24);
   }
 
   .mobile-professor-header-dashboard,
@@ -209,7 +209,7 @@
   }
 
   .mobile-professor-saudacao {
-    color: #d8d1e8;
+    color: rgba(255, 255, 255, 0.78);
     font-size: 11px;
     font-weight: 600;
     line-height: 1.1;
@@ -234,7 +234,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #c4b5fd;
+    color: rgba(255, 255, 255, 0.76);
     font-size: 11px;
     line-height: 1.25;
   }
@@ -256,9 +256,9 @@
     min-height: 43px;
     padding: 0 !important;
     border-radius: 14px !important;
-    border: 1px solid rgba(35, 27, 53, 0.11) !important;
-    background: rgba(124, 58, 237, 0.038) !important;
-    color: var(--mobile-text, var(--texto-primario)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    color: #ffffff !important;
     box-shadow: none !important;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -267,7 +267,7 @@
   .mobile-icon-button:hover,
   .mobile-icon-button:active {
     transform: none !important;
-    background: rgba(151, 92, 255, 0.14) !important;
+    background: rgba(255, 255, 255, 0.18) !important;
   }
 
   .mobile-icon-button svg,
@@ -301,7 +301,7 @@
     border-radius: 999px;
     background: #ff4054;
     color: #ffffff;
-    border: 2px solid #1b0e48;
+    border: 2px solid #6d28d9;
     font-size: 9px;
     font-weight: 800;
     line-height: 1;
@@ -357,14 +357,14 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 0% 0%, rgba(142, 81, 255, 0.16), transparent 36%),
-      linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.98)) !important;
+      linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.98)) !important;
     color: var(--mobile-text) !important;
   }
 
   .mobile-academia-card:hover,
   .mobile-academia-card:active {
     transform: none !important;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+    background: linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
   }
 
   .mobile-academia-icon {
@@ -419,7 +419,7 @@
     border-radius: 22px;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.12), transparent 40%),
-      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99));
+      linear-gradient(155deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99));
   }
 
   .mobile-resumo-topo {
@@ -465,7 +465,7 @@
     align-items: stretch;
     border: 1px solid rgba(35, 27, 53, 0.11);
     border-radius: 17px;
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(238, 240, 244, 0.98);
     overflow: hidden;
   }
 
@@ -568,7 +568,7 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 50% 0%, rgba(117, 67, 219, 0.09), transparent 50%),
-      linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+      linear-gradient(155deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     color: var(--mobile-text) !important;
     text-align: center;
   }
@@ -576,7 +576,7 @@
   .mobile-action-card:hover,
   .mobile-action-card:active {
     transform: translateY(-1px) !important;
-    background: linear-gradient(155deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 1)) !important;
+    background: linear-gradient(155deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 1)) !important;
   }
 
   .mobile-action-icon {
@@ -644,7 +644,7 @@
     border-radius: 18px;
     background:
       radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.16), transparent 34%),
-      linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99));
+      linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99));
   }
 
   .mobile-proxima-acao-icone {
@@ -738,7 +738,7 @@
   .mobile-section-heading small {
     display: block;
     margin-bottom: 1px;
-    color: #846ab8;
+    color: #6d28d9;
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -779,7 +779,7 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.10), transparent 55%),
-      linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+      linear-gradient(150deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     color: var(--mobile-text, var(--texto-primario)) !important;
     box-shadow: none !important;
   }
@@ -788,7 +788,7 @@
   .mobile-module-card:active {
     transform: translateY(-1px) !important;
     border-color: rgba(159, 107, 255, 0.28) !important;
-    background: linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 1)) !important;
+    background: linear-gradient(150deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 1)) !important;
   }
 
   .mobile-module-icon {
@@ -830,7 +830,7 @@
     padding: 15px !important;
     border: 1px solid rgba(167, 139, 250, 0.18) !important;
     border-radius: 18px !important;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+    background: linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -839,7 +839,7 @@
     padding: 15px !important;
     border: 1px solid var(--mobile-border) !important;
     border-radius: 18px !important;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+    background: linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -859,7 +859,7 @@
     gap: 2px;
     border: 1px solid rgba(184, 156, 255, 0.16);
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(238, 240, 244, 0.96);
     box-shadow:
       0 18px 48px rgba(30, 41, 59, 0.09),
       inset 0 1px 0 rgba(255, 255, 255, 0.035);
@@ -878,7 +878,7 @@
     border: 0 !important;
     border-radius: 14px !important;
     background: transparent !important;
-    color: #827c9a !important;
+    color: var(--mobile-muted) !important;
     box-shadow: none !important;
   }
 
@@ -970,7 +970,7 @@
     border-top: 1px solid rgba(177, 139, 255, 0.18);
     background:
       radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.14), transparent 26%),
-      linear-gradient(180deg, #ffffff, #f8f7fc 76%);
+      linear-gradient(180deg, var(--bg-nivel-1), var(--bg-nivel-1) 76%);
     box-shadow: 0 -24px 70px rgba(30, 41, 59, 0.20);
     animation: mobileSheetUp 180ms ease both;
   }
@@ -1058,7 +1058,7 @@
   body.mobile-professor-interna .area-formulario,
   body.mobile-professor-interna .lista-profissional {
     border-color: rgba(160, 126, 255, 0.12) !important;
-    background: linear-gradient(150deg, rgba(255, 255, 255, 0.98), rgba(248, 247, 252, 0.99)) !important;
+    background: linear-gradient(150deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -1066,7 +1066,7 @@
   body.mobile-professor-interna select,
   body.mobile-professor-interna textarea {
     border-color: rgba(35, 27, 53, 0.11) !important;
-    background-color: rgba(255, 255, 255, 0.98) !important;
+    background-color: rgba(238, 240, 244, 0.98) !important;
   }
 
   /* Sidebar continua como catálogo completo, mas acima do novo shell */

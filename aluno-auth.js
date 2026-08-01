@@ -9,6 +9,28 @@
 
   const USERNAME_MIN = 4;
   const USERNAME_MAX = 24;
+  const SENHA_MIN = 8;
+  const SENHA_MAX = 72;
+  const USERNAME_ORIENTACAO =
+    "Use de 4 a 24 caracteres: letras minúsculas, números, ponto (.) ou sublinhado (_). Não comece nem termine com ponto ou sublinhado.";
+  const SENHAS_COMUNS = new Set([
+    "senha123.",
+    "senha.123",
+    "aluno123.",
+    "aluno.123",
+    "admin123.",
+    "qwerty1!",
+    "password1!",
+    "mensalize1.",
+    "academia1.",
+    "jiujitsu1.",
+  ]);
+  const SEQUENCIAS_NUMERICAS = [
+    "0123", "1234", "2345", "3456", "4567", "5678", "6789", "7890", "8901", "9012",
+    "9876", "8765", "7654", "6543", "5432", "4321", "3210", "2109", "1098", "0987",
+    "0000", "1111", "2222", "3333", "4444",
+    "5555", "6666", "7777", "8888", "9999",
+  ];
 
   let clienteSupabase = null;
   let carregarAlunoComCodigo = null;
@@ -35,6 +57,30 @@
     if (original !== username) return false;
     if (username.length < USERNAME_MIN || username.length > USERNAME_MAX) return false;
     return /^[a-z0-9][a-z0-9._]*[a-z0-9]$/.test(username);
+  }
+
+  function validarSenhaNova(senha) {
+    if (senha.length < SENHA_MIN || senha.length > SENHA_MAX) {
+      return "Use uma senha de 8 a 72 caracteres.";
+    }
+
+    const temLetra = /\p{L}/u.test(senha);
+    const temNumero = /\p{N}/u.test(senha);
+    const temCaractereEspecial = /[^\p{L}\p{N}\s]/u.test(senha);
+
+    if (!temLetra || !temNumero || !temCaractereEspecial) {
+      return "Combine pelo menos uma letra, um número e um caractere especial, como ponto (.).";
+    }
+
+    if (SEQUENCIAS_NUMERICAS.some((sequencia) => senha.includes(sequencia))) {
+      return "Não use sequências ou repetições numéricas, como 1234, 4321 ou 0000.";
+    }
+
+    if (SENHAS_COMUNS.has(senha.toLowerCase())) {
+      return "Essa senha é muito comum. Escolha uma combinação diferente.";
+    }
+
+    return "";
   }
 
   function limparTokenDoFragmento() {
@@ -79,6 +125,7 @@
 
     login?.classList.toggle("escondido", modo !== "login");
     link?.classList.toggle("escondido", modo !== "link");
+    ocultarSenhas();
   }
 
   function mostrarCarregando(mensagem = "Carregando seu acesso...") {
@@ -102,6 +149,35 @@
     elemento.textContent = mensagem || "";
     elemento.classList.toggle("is-error", tipo === "erro");
     elemento.classList.toggle("is-success", tipo === "sucesso");
+  }
+
+  function ocultarSenhas() {
+    document.querySelectorAll("[data-password-target]").forEach((botao) => {
+      const campo = $(botao.getAttribute("data-password-target"));
+      if (campo) campo.type = "password";
+      botao.textContent = "VER";
+      botao.setAttribute("aria-label", "Mostrar senha");
+      botao.setAttribute("aria-pressed", "false");
+    });
+  }
+
+  function configurarVisibilidadeSenhas() {
+    document.querySelectorAll("[data-password-target]").forEach((botao) => {
+      botao.addEventListener("click", () => {
+        const campo = $(botao.getAttribute("data-password-target"));
+        if (!campo) return;
+
+        const deveMostrar = campo.type === "password";
+        campo.type = deveMostrar ? "text" : "password";
+        botao.textContent = deveMostrar ? "OCULTAR" : "VER";
+        botao.setAttribute(
+          "aria-label",
+          deveMostrar ? "Ocultar senha" : "Mostrar senha",
+        );
+        botao.setAttribute("aria-pressed", String(deveMostrar));
+        campo.focus({ preventScroll: true });
+      });
+    });
   }
 
   async function invocarAlunoAuth(acao, payload = {}) {
@@ -208,7 +284,7 @@
     if (confirmar) confirmar.value = "";
 
     definirMensagem("msgAuthAlunoLink", "");
-    definirMensagem("msgAuthAlunoUsername", "Use 4 a 24 caracteres: letras, números, ponto ou underline.");
+    definirMensagem("msgAuthAlunoUsername", USERNAME_ORIENTACAO);
     mostrarTelaAuth("link");
   }
 
@@ -243,7 +319,7 @@
     if (!usernameValido(username)) {
       definirMensagem(
         "msgAuthAlunoUsername",
-        "Use 4 a 24 caracteres e não comece ou termine com ponto/underline.",
+        USERNAME_ORIENTACAO,
         "erro"
       );
       return;
@@ -267,7 +343,7 @@
 
     definirMensagem(
       "msgAuthAlunoUsername",
-      resultado.disponivel ? "✓ Usuário disponível" : "Este usuário já está em uso.",
+      resultado.disponivel ? "Usuário disponível." : "Este usuário já está em uso.",
       resultado.disponivel ? "sucesso" : "erro"
     );
   }
@@ -288,12 +364,13 @@
     }
 
     if (!usernameValido(username)) {
-      definirMensagem("msgAuthAlunoLink", "Escolha um usuário válido.", "erro");
+      definirMensagem("msgAuthAlunoLink", USERNAME_ORIENTACAO, "erro");
       return;
     }
 
-    if (senha.length < 12 || senha.length > 72) {
-      definirMensagem("msgAuthAlunoLink", "A senha precisa ter entre 12 e 72 caracteres.", "erro");
+    const erroSenha = validarSenhaNova(senha);
+    if (erroSenha) {
+      definirMensagem("msgAuthAlunoLink", erroSenha, "erro");
       return;
     }
 
@@ -359,12 +436,17 @@
 
     definirMensagem("msgAuthAlunoLogin", "");
 
-    if (!usernameValido(username) || !senha) {
+    if (!usernameValido(username)) {
       definirMensagem(
         "msgAuthAlunoLogin",
-        "Digite o usuário somente com letras minúsculas.",
+        USERNAME_ORIENTACAO,
         "erro",
       );
+      return;
+    }
+
+    if (!senha) {
+      definirMensagem("msgAuthAlunoLogin", "Digite sua senha.", "erro");
       return;
     }
 
@@ -405,6 +487,7 @@
 
     formLogin?.addEventListener("submit", entrar);
     formLink?.addEventListener("submit", concluirAcesso);
+    configurarVisibilidadeSenhas();
 
     username?.addEventListener("input", () => {
       clearTimeout(temporizadorUsername);

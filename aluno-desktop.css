@@ -5890,3 +5890,135 @@
     color: #667085 !important;
   }
 }
+
+/* ============================================================================
+   MENSALIZE ALUNO — NAVEGAÇÃO CLARA PREMIUM
+   Mantém o comportamento off-canvas e altera apenas a apresentação.
+============================================================================ */
+@media (min-width: 761px) {
+  #portalConteudo .menu-overlay {
+    background: rgba(40, 34, 55, 0.26) !important;
+    backdrop-filter: blur(2px);
+  }
+
+  #portalConteudo .student-sidebar {
+    color: #211a31 !important;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(124, 58, 237, 0.10), transparent 29%),
+      linear-gradient(180deg, #ececf2 0%, #e2e4eb 100%) !important;
+    border-right: 1px solid #c6cad5 !important;
+    box-shadow: 18px 0 48px rgba(44, 37, 63, 0.14) !important;
+  }
+
+  #portalConteudo .student-sidebar::before {
+    background: radial-gradient(circle at 25% 0%, rgba(124, 58, 237, 0.10), transparent 70%) !important;
+  }
+
+  #portalConteudo .student-brand.student-brand-portal {
+    padding: 11px 12px !important;
+    background: rgba(255, 255, 255, 0.55) !important;
+    border: 1px solid rgba(113, 104, 132, 0.16) !important;
+    border-radius: 16px !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+  }
+
+  #portalConteudo .student-brand-logo-main {
+    border-color: rgba(124, 58, 237, 0.18) !important;
+    box-shadow: 0 9px 22px rgba(78, 56, 120, 0.14) !important;
+  }
+
+  #portalConteudo .student-brand strong {
+    color: #211a31 !important;
+  }
+
+  #portalConteudo .student-brand span {
+    color: #6d28d9 !important;
+  }
+
+  #portalConteudo .student-brand small {
+    color: #667083 !important;
+  }
+
+  #portalConteudo .student-menu {
+    scrollbar-color: rgba(89, 98, 116, 0.24) transparent !important;
+  }
+
+  #portalConteudo .student-menu::-webkit-scrollbar-thumb {
+    background: rgba(89, 98, 116, 0.24) !important;
+  }
+
+  #portalConteudo .student-menu-item {
+    color: #596274 !important;
+  }
+
+  #portalConteudo .student-menu-icon {
+    color: #687286 !important;
+    background: rgba(255, 255, 255, 0.48) !important;
+    border-color: rgba(89, 98, 116, 0.13) !important;
+  }
+
+  #portalConteudo .student-menu-item.ativo {
+    color: #4c1d95 !important;
+    background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), rgba(124, 58, 237, 0.055)) !important;
+    border-color: rgba(124, 58, 237, 0.16) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.52) !important;
+  }
+
+  #portalConteudo .student-menu-item.ativo .student-menu-icon {
+    color: #6d28d9 !important;
+    background: rgba(124, 58, 237, 0.12) !important;
+    border-color: rgba(124, 58, 237, 0.18) !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo .student-menu-item:not(.ativo):hover {
+      color: #211a31 !important;
+      background: rgba(255, 255, 255, 0.56) !important;
+      border-color: rgba(89, 98, 116, 0.12) !important;
+    }
+
+    #portalConteudo .student-menu-item:not(.ativo):hover .student-menu-icon {
+      color: #6d28d9 !important;
+      background: rgba(124, 58, 237, 0.09) !important;
+      border-color: rgba(124, 58, 237, 0.16) !important;
+    }
+  }
+
+  #portalConteudo .student-nav-logout {
+    color: #9f2431 !important;
+    background: rgba(190, 24, 52, 0.055) !important;
+    border-color: rgba(190, 24, 52, 0.16) !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo .student-nav-logout:hover {
+      color: #881b27 !important;
+      background: rgba(190, 24, 52, 0.10) !important;
+      border-color: rgba(190, 24, 52, 0.24) !important;
+    }
+  }
+
+  #portalConteudo .student-sidebar-footer {
+    border-top-color: rgba(89, 98, 116, 0.16) !important;
+  }
+
+  #portalConteudo .student-footer-button {
+    color: #596274 !important;
+    background: rgba(255, 255, 255, 0.46) !important;
+    border-color: rgba(89, 98, 116, 0.16) !important;
+  }
+
+  #portalConteudo .student-footer-icon {
+    color: #6d28d9 !important;
+    background: rgba(124, 58, 237, 0.10) !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo .student-footer-button:hover {
+      color: #4c1d95 !important;
+      background: rgba(124, 58, 237, 0.09) !important;
+      border-color: rgba(124, 58, 237, 0.18) !important;
+    }
+  }
+}
+

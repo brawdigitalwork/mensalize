@@ -35,12 +35,12 @@
   --bg-input: #e9eaf0;
   --bg-hover: #dde0e8;
 
-  /* Navegação escura oficial */
-  --sidebar-bg: #171a2e;
-  --sidebar-bg-deep: #111421;
-  --sidebar-hover: rgba(255, 255, 255, 0.065);
-  --sidebar-text: #f4f1fa;
-  --sidebar-muted: #b8b5c6;
+  /* Navegação clara premium */
+  --sidebar-bg: #ececf2;
+  --sidebar-bg-deep: #e2e4eb;
+  --sidebar-hover: rgba(124, 58, 237, 0.075);
+  --sidebar-text: #211a31;
+  --sidebar-muted: #596274;
 
   /* Borders and text */
   --borda: #c5c9d4;

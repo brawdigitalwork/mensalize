@@ -22976,3 +22976,98 @@ body .tela-login .login-legal-links a:hover {
     animation: none !important;
   }
 }
+
+/* ============================================================================
+   MENSALIZE PROFESSOR — NAVEGAÇÃO CLARA PREMIUM
+   Camada final para sidebar desktop e menu lateral mobile.
+============================================================================ */
+.sidebar-app {
+  color: var(--sidebar-text) !important;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(124, 58, 237, 0.09), transparent 28%),
+    linear-gradient(180deg, var(--sidebar-bg) 0%, var(--sidebar-bg-deep) 100%) !important;
+  border-right: 1px solid #c6cad5 !important;
+  box-shadow: 14px 0 38px rgba(44, 37, 63, 0.12) !important;
+}
+
+.sidebar-brand {
+  background: rgba(255, 255, 255, 0.54) !important;
+  border: 1px solid rgba(113, 104, 132, 0.16) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+}
+
+.sidebar-brand strong {
+  color: var(--sidebar-text) !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.sidebar-brand span {
+  color: var(--sidebar-muted) !important;
+}
+
+.menu-item {
+  color: var(--sidebar-muted) !important;
+  border-left-width: 3px !important;
+}
+
+.menu-item:hover {
+  color: var(--sidebar-text) !important;
+  background: rgba(255, 255, 255, 0.56) !important;
+}
+
+.menu-item.ativo {
+  color: #4c1d95 !important;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.15), rgba(124, 58, 237, 0.065)) !important;
+  border-left-color: #7c3aed !important;
+  box-shadow: inset 0 0 0 1px rgba(124, 58, 237, 0.08) !important;
+}
+
+.sidebar-footer {
+  margin-top: auto !important;
+  padding: 12px 0 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(89, 98, 116, 0.16) !important;
+  border-radius: 0 !important;
+}
+
+.sidebar-footer .btn-admin,
+.sidebar-footer .btn-tema {
+  color: #4f5869 !important;
+  background: rgba(255, 255, 255, 0.46) !important;
+  border-color: rgba(89, 98, 116, 0.18) !important;
+}
+
+.sidebar-footer .btn-admin:hover,
+.sidebar-footer .btn-tema:hover {
+  color: #4c1d95 !important;
+  background: rgba(124, 58, 237, 0.09) !important;
+  border-color: rgba(124, 58, 237, 0.20) !important;
+}
+
+.sidebar-footer .btn-sair,
+.sidebar-footer #btnSair {
+  color: #9f2431 !important;
+  background: rgba(190, 24, 52, 0.055) !important;
+  border-color: rgba(190, 24, 52, 0.16) !important;
+}
+
+.sidebar-footer .btn-sair:hover,
+.sidebar-footer #btnSair:hover {
+  color: #881b27 !important;
+  background: rgba(190, 24, 52, 0.10) !important;
+  border-color: rgba(190, 24, 52, 0.24) !important;
+}
+
+.sidebar-app::-webkit-scrollbar-thumb {
+  background: rgba(89, 98, 116, 0.22) !important;
+}
+
+.menu-overlay {
+  background: rgba(40, 34, 55, 0.26) !important;
+  backdrop-filter: blur(2px);
+}
+

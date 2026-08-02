@@ -4676,11 +4676,89 @@
 }
 
 /* ==========================================================================
-   HOME DO ALUNO — REFINO VISUAL ISOLADO
-   Escopo exclusivo da tela inicial autenticada no celular.
+   HOME DO ALUNO — REFINO VISUAL CLARO
+   Paleta alinhada à Home do professor. Escopo exclusivo da Home autenticada.
    ========================================================================== */
 
 @media (max-width: 760px) {
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna) {
+    --aluno-home-bg: #d3d6df;
+    --aluno-home-bg-deep: #cdd1dc;
+    --aluno-home-surface: #e0e2e8;
+    --aluno-home-surface-2: #d8dae2;
+    --aluno-home-surface-3: #cfd2dc;
+    --aluno-home-border: #b4b9c6;
+    --aluno-home-border-soft: #c5c8d2;
+    --aluno-home-text: #1f182e;
+    --aluno-home-muted: #4a5365;
+    --aluno-home-muted-2: #596173;
+    background:
+      radial-gradient(circle at 12% 2%, rgba(124, 58, 237, 0.12), transparent 28%),
+      radial-gradient(circle at 95% 18%, rgba(56, 189, 248, 0.09), transparent 28%),
+      linear-gradient(180deg, var(--aluno-home-bg), var(--aluno-home-bg-deep)) !important;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo.student-app,
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo
+    .student-main {
+    background: transparent !important;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo
+    .mobile-aluno-header {
+    background:
+      radial-gradient(circle at 14% 0%, rgba(255, 255, 255, 0.16), transparent 34%),
+      linear-gradient(135deg, #6d28d9 0%, #7c3aed 58%, #5b21b6 100%) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 16px 38px rgba(91, 33, 182, 0.24) !important;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo
+    :where(.mobile-aluno-saudacao, #mobileAlunoAcademiaTopo) {
+    color: rgba(255, 255, 255, 0.78) !important;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo
+    #mobileAlunoNomeTopo {
+    color: #ffffff !important;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo
+    .mobile-aluno-icon-button {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.18) !important;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo
+    .mobile-aluno-bottom-nav {
+    background: rgba(232, 233, 239, 0.96) !important;
+    border-color: #b4b9c6 !important;
+    box-shadow:
+      0 16px 40px rgba(44, 37, 63, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo
+    .mobile-aluno-bottom-item {
+    color: #5d6678 !important;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #portalConteudo
+    .mobile-aluno-bottom-item.ativo {
+    color: #7c3aed !important;
+    background: rgba(124, 58, 237, 0.08) !important;
+  }
+
   #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home {
     gap: 12px;
     padding-top: 3px;
@@ -4713,12 +4791,13 @@
   #portalConteudo #viewInicioAluno .mobile-aluno-academia-card {
     min-height: 64px;
     padding: 11px 13px !important;
-    border-color: rgba(173, 151, 255, 0.2) !important;
+    color: var(--aluno-home-text) !important;
+    border-color: var(--aluno-home-border) !important;
     border-radius: 17px !important;
     background:
-      linear-gradient(112deg, rgba(124, 58, 237, 0.18), transparent 46%),
-      linear-gradient(145deg, #171a3a, #11142d) !important;
-    box-shadow: 0 12px 30px rgba(1, 4, 18, 0.2) !important;
+      linear-gradient(112deg, rgba(124, 58, 237, 0.09), transparent 48%),
+      var(--aluno-home-surface) !important;
+    box-shadow: 0 10px 24px rgba(44, 37, 63, 0.11) !important;
     transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
   }
 
@@ -4730,55 +4809,100 @@
     width: 36px;
     height: 36px;
     flex-basis: 36px;
+    color: #7c3aed;
     border-radius: 11px;
-    background: linear-gradient(145deg, rgba(157, 105, 255, 0.24), rgba(124, 58, 237, 0.1));
-    color: #c0a5ff;
+    background: rgba(124, 58, 237, 0.11);
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-academia-texto small {
-    color: #918bad;
+    color: var(--aluno-home-muted-2);
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-academia-texto strong {
-    color: #f5f2ff;
+    color: var(--aluno-home-text);
     font-size: 14px;
   }
 
+  #portalConteudo #viewInicioAluno .mobile-aluno-chevron {
+    color: #7c3aed;
+  }
+
   #portalConteudo #viewInicioAluno .mobile-aluno-pwa-install-home {
-    border-color: rgba(157, 118, 255, 0.16) !important;
+    color: var(--aluno-home-text) !important;
+    border-color: var(--aluno-home-border-soft) !important;
     background:
-      linear-gradient(110deg, rgba(124, 58, 237, 0.1), transparent 48%),
-      #12152f !important;
-    box-shadow: none !important;
+      linear-gradient(110deg, rgba(124, 58, 237, 0.075), transparent 50%),
+      var(--aluno-home-surface) !important;
+    box-shadow: 0 10px 24px rgba(44, 37, 63, 0.09) !important;
+  }
+
+  #portalConteudo
+    #viewInicioAluno
+    .mobile-aluno-pwa-install-home
+    :where(strong, p, small) {
+    color: inherit !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-pwa-install-home p {
+    color: var(--aluno-home-muted) !important;
+  }
+
+  #portalConteudo
+    #viewInicioAluno
+    .mobile-aluno-pwa-install-home
+    .mobile-aluno-pwa-install-icon {
+    color: #7c3aed !important;
+    background: rgba(124, 58, 237, 0.11) !important;
+  }
+
+  #portalConteudo
+    #viewInicioAluno
+    .mobile-aluno-pwa-install-home
+    .mobile-aluno-pwa-install-actions
+    button {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6) !important;
+    border-color: rgba(124, 58, 237, 0.24) !important;
+  }
+
+  #portalConteudo
+    #viewInicioAluno
+    .mobile-aluno-pwa-install-home
+    .mobile-aluno-pwa-install-actions
+    .mobile-aluno-pwa-install-dismiss {
+    color: #4a5365 !important;
+    background: #d8dae2 !important;
+    border-color: #b4b9c6 !important;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-carousel-card {
     height: 204px;
     padding: 15px 16px !important;
-    border-color: rgba(186, 165, 255, 0.22) !important;
+    color: var(--aluno-home-text) !important;
+    border-color: var(--aluno-home-border) !important;
     border-radius: 21px !important;
     box-shadow:
-      0 18px 38px rgba(1, 4, 18, 0.28),
-      inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+      0 16px 34px rgba(44, 37, 63, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
     transition: transform 180ms ease, border-color 180ms ease;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-carousel-financeiro {
     background:
-      radial-gradient(circle at 95% 4%, rgba(55, 208, 127, 0.15), transparent 38%),
-      linear-gradient(145deg, #1c2543, #10142c 72%) !important;
+      radial-gradient(circle at 95% 4%, rgba(4, 108, 79, 0.12), transparent 40%),
+      linear-gradient(145deg, #e2e8e5, #d8dee0 74%) !important;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-carousel-evolucao {
     background:
-      radial-gradient(circle at 95% 4%, rgba(159, 102, 255, 0.22), transparent 38%),
-      linear-gradient(145deg, #28204d, #13142f 72%) !important;
+      radial-gradient(circle at 95% 4%, rgba(124, 58, 237, 0.14), transparent 40%),
+      linear-gradient(145deg, #e5e1eb, #d9d9e2 74%) !important;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-carousel-desafio {
     background:
-      radial-gradient(circle at 94% 5%, rgba(255, 171, 64, 0.16), transparent 36%),
-      linear-gradient(145deg, #22213f, #12142e 72%) !important;
+      radial-gradient(circle at 94% 5%, rgba(146, 64, 14, 0.12), transparent 38%),
+      linear-gradient(145deg, #e8e2da, #dcdbdf 74%) !important;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-carousel-card:active {
@@ -4786,13 +4910,69 @@
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-carousel-glow {
-    border-color: rgba(190, 171, 255, 0.055);
+    border-color: rgba(124, 58, 237, 0.07);
     animation: mobileAlunoHomeGlow 5.5s ease-in-out infinite;
   }
 
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-icone {
+    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.1);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-kicker,
   #portalConteudo #viewInicioAluno .mobile-aluno-carousel-corpo > strong,
-  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-desafio-corpo strong {
-    text-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-desafio-corpo strong,
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-rodape strong {
+    color: var(--aluno-home-text);
+    text-shadow: none;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-corpo > small,
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-desafio-corpo small,
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-rodape small {
+    color: var(--aluno-home-muted);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-badge {
+    color: var(--aluno-home-muted);
+    background: rgba(44, 37, 63, 0.07);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-badge.status-ok {
+    color: #046c4f;
+    background: rgba(4, 108, 79, 0.1);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-badge.status-alerta {
+    color: #92400e;
+    background: rgba(146, 64, 14, 0.1);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-badge.status-erro {
+    color: #b91c1c;
+    background: rgba(185, 28, 28, 0.1);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-rodape {
+    border-top-color: rgba(44, 37, 63, 0.13);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-seta {
+    color: #7c3aed;
+    background: rgba(124, 58, 237, 0.1);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-desafio-divisor {
+    background: rgba(44, 37, 63, 0.14);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-dots button {
+    background: rgba(124, 58, 237, 0.22) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-dots button.ativo {
+    background: #7c3aed !important;
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.28) !important;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-acoes-principais {
@@ -4803,42 +4983,63 @@
     min-height: 88px;
     padding: 10px 6px !important;
     gap: 5px;
-    border-color: rgba(177, 156, 255, 0.15) !important;
+    color: var(--aluno-home-text) !important;
+    border-color: var(--aluno-home-border) !important;
     border-radius: 16px !important;
-    background: linear-gradient(150deg, #151936, #0f1229) !important;
+    background: var(--aluno-home-surface) !important;
+    box-shadow: 0 9px 22px rgba(44, 37, 63, 0.08) !important;
     transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-action-card:active {
     transform: translateY(1px) scale(0.97);
-    border-color: rgba(177, 141, 255, 0.3) !important;
+    border-color: rgba(124, 58, 237, 0.32) !important;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-action-icon {
     width: 34px;
     height: 34px;
+    color: #7c3aed;
     border-radius: 11px;
-    background: rgba(139, 92, 246, 0.16);
-    color: #b794ff;
+    background: rgba(124, 58, 237, 0.1);
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-action-card strong {
-    color: #f6f3ff;
+    color: var(--aluno-home-text);
     font-size: 10.5px;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-action-card small {
-    color: #928ca8;
+    color: var(--aluno-home-muted-2);
     font-size: 8.5px;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao {
     min-height: 76px;
-    border-color: rgba(177, 150, 255, 0.18) !important;
+    color: var(--aluno-home-text);
+    border-color: var(--aluno-home-border) !important;
     background:
-      linear-gradient(100deg, rgba(124, 58, 237, 0.12), transparent 54%),
-      #12162f !important;
-    box-shadow: 0 12px 30px rgba(1, 4, 18, 0.18) !important;
+      linear-gradient(100deg, rgba(124, 58, 237, 0.075), transparent 56%),
+      var(--aluno-home-surface) !important;
+    box-shadow: 0 10px 24px rgba(44, 37, 63, 0.09) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao-icone,
+  #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao > button {
+    color: #7c3aed !important;
+    background: rgba(124, 58, 237, 0.1) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao small {
+    color: #7c3aed;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao strong {
+    color: var(--aluno-home-text);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao p {
+    color: var(--aluno-home-muted);
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-section-heading {
@@ -4846,12 +5047,16 @@
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-section-heading h2 {
-    color: #f8f6ff;
+    color: var(--aluno-home-text);
     font-size: 17px;
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-section-heading small {
-    color: #ad86ff;
+    color: #7c3aed;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-section-heading > span {
+    color: var(--aluno-home-muted);
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-module-grid {
@@ -4866,9 +5071,11 @@
     justify-items: start;
     gap: 9px;
     padding: 10px !important;
-    border-color: rgba(177, 156, 255, 0.14) !important;
+    color: var(--aluno-home-text) !important;
+    border-color: var(--aluno-home-border) !important;
     border-radius: 15px !important;
-    background: linear-gradient(145deg, #141832, #0f1228) !important;
+    background: var(--aluno-home-surface) !important;
+    box-shadow: 0 8px 20px rgba(44, 37, 63, 0.07) !important;
     text-align: left;
     transition: transform 160ms ease, border-color 160ms ease;
   }
@@ -4880,13 +5087,13 @@
   #portalConteudo #viewInicioAluno .mobile-aluno-module-icon {
     width: 32px;
     height: 32px;
+    color: #7c3aed;
     border-radius: 10px;
-    background: rgba(139, 92, 246, 0.14);
-    color: #b693ff;
+    background: rgba(124, 58, 237, 0.1);
   }
 
   #portalConteudo #viewInicioAluno .mobile-aluno-module-card strong {
-    color: #ece9f8;
+    color: var(--aluno-home-text);
     font-size: 9.5px;
   }
 
@@ -4903,11 +5110,11 @@
 
   @keyframes mobileAlunoHomeGlow {
     0%, 100% {
-      opacity: 0.6;
+      opacity: 0.55;
       transform: scale(0.94);
     }
     50% {
-      opacity: 1;
+      opacity: 0.9;
       transform: scale(1.06);
     }
   }
@@ -4919,7 +5126,6 @@
     }
   }
 }
-
 
 /* --------------------------------------------------------------------------
    HOTFIX v10.2 — Avisos

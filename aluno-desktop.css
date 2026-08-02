@@ -1721,11 +1721,62 @@
 }
 
 /* ==========================================================================
-   HOME DO ALUNO — REFINO VISUAL ISOLADO
-   Escopo exclusivo da tela inicial autenticada no desktop.
+   HOME DO ALUNO — REFINO VISUAL CLARO
+   Paleta alinhada à Home do professor. Escopo exclusivo da Home autenticada.
    ========================================================================== */
 
 @media (min-width: 761px) {
+  #portalConteudo.student-app:has(#viewInicioAluno.ativa) {
+    --aluno-home-bg: #cfd2dc;
+    --aluno-home-surface: #e1e2e8;
+    --aluno-home-surface-2: #d8dae2;
+    --aluno-home-surface-3: #cfd2dc;
+    --aluno-home-border: #b5bac7;
+    --aluno-home-text: #1f182e;
+    --aluno-home-muted: #4a5365;
+    --aluno-home-muted-2: #596173;
+    color: var(--aluno-home-text) !important;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(124, 58, 237, 0.12), transparent 28%),
+      radial-gradient(circle at 92% 9%, rgba(56, 189, 248, 0.08), transparent 25%),
+      linear-gradient(145deg, #d8dae2, #cfd2dc 68%, #d5d7df) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewInicioAluno.ativa)
+    .student-topbar {
+    background: rgba(225, 226, 232, 0.92) !important;
+    border-bottom-color: #b5bac7 !important;
+    box-shadow: 0 12px 30px rgba(44, 37, 63, 0.1) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewInicioAluno.ativa)
+    #btnAbrirMenuAluno {
+    color: #2c253f !important;
+    background: rgba(124, 58, 237, 0.07) !important;
+    border-color: #b5bac7 !important;
+  }
+
+  #portalConteudo.student-app:has(#viewInicioAluno.ativa)
+    .student-small-profile {
+    background: rgba(225, 226, 232, 0.88) !important;
+    border-color: #b5bac7 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.52) !important;
+  }
+
+  #portalConteudo.student-app:has(#viewInicioAluno.ativa)
+    .student-small-profile
+    strong {
+    color: #1f182e !important;
+  }
+
+  #portalConteudo.student-app:has(#viewInicioAluno.ativa)
+    .student-small-profile
+    span {
+    color: #5d6678 !important;
+  }
+
   #portalConteudo #viewInicioAluno.ativa {
     gap: 16px !important;
   }
@@ -1757,39 +1808,70 @@
   #portalConteudo #viewInicioAluno .welcome-card {
     min-height: 148px !important;
     padding: clamp(25px, 3vw, 34px) !important;
+    color: var(--aluno-home-text) !important;
     background:
-      radial-gradient(circle at 88% 14%, rgba(113, 197, 255, 0.13), transparent 30%),
-      radial-gradient(circle at 8% 120%, rgba(151, 91, 255, 0.2), transparent 38%),
-      linear-gradient(130deg, #20234b, #161735 58%, #11142b) !important;
-    border-color: rgba(181, 161, 255, 0.22) !important;
-    box-shadow: 0 22px 58px rgba(1, 4, 18, 0.28) !important;
+      radial-gradient(circle at 88% 14%, rgba(56, 189, 248, 0.1), transparent 30%),
+      radial-gradient(circle at 8% 120%, rgba(124, 58, 237, 0.13), transparent 38%),
+      linear-gradient(130deg, #e4e3eb, #dddfe7 58%, #d8dae2) !important;
+    border-color: #b5bac7 !important;
+    box-shadow: 0 18px 44px rgba(44, 37, 63, 0.13) !important;
   }
 
   #portalConteudo #viewInicioAluno .welcome-card::after {
+    border-color: rgba(124, 58, 237, 0.12);
+    box-shadow:
+      0 0 0 28px rgba(124, 58, 237, 0.035),
+      0 0 0 58px rgba(124, 58, 237, 0.022);
     animation: desktopAlunoHomeOrb 7s ease-in-out infinite;
   }
 
+  #portalConteudo #viewInicioAluno .welcome-card .eyebrow {
+    color: #7c3aed !important;
+  }
+
   #portalConteudo #viewInicioAluno .welcome-card h1 {
+    color: var(--aluno-home-text) !important;
     font-size: clamp(25px, 2.2vw, 33px) !important;
   }
 
   #portalConteudo #viewInicioAluno .welcome-card p {
     max-width: 680px !important;
-    color: #b9b5cc !important;
+    color: var(--aluno-home-muted) !important;
   }
 
   #portalConteudo #viewInicioAluno .aluno-pwa-install-home-desktop {
     min-height: 94px !important;
     padding: 18px 20px !important;
-    border-color: rgba(173, 151, 255, 0.16) !important;
+    color: var(--aluno-home-text) !important;
+    border-color: var(--aluno-home-border) !important;
     background:
-      linear-gradient(105deg, rgba(124, 58, 237, 0.1), transparent 48%),
-      #151831 !important;
-    box-shadow: 0 14px 34px rgba(1, 4, 18, 0.18) !important;
+      linear-gradient(105deg, rgba(124, 58, 237, 0.075), transparent 50%),
+      var(--aluno-home-surface) !important;
+    box-shadow: 0 12px 30px rgba(44, 37, 63, 0.1) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .aluno-pwa-install-home-desktop h2 {
+    color: var(--aluno-home-text) !important;
+  }
+
+  #portalConteudo
+    #viewInicioAluno
+    .aluno-pwa-install-home-desktop
+    .helper-text {
+    color: var(--aluno-home-muted) !important;
   }
 
   #portalConteudo #viewInicioAluno .aluno-pwa-install-home-actions {
     gap: 8px !important;
+  }
+
+  #portalConteudo
+    #viewInicioAluno
+    .aluno-pwa-install-home-actions
+    .secondary-action {
+    color: #4a5365 !important;
+    background: #d8dae2 !important;
+    border-color: #b5bac7 !important;
   }
 
   #portalConteudo #viewInicioAluno .quick-grid {
@@ -1799,34 +1881,51 @@
   #portalConteudo #viewInicioAluno .quick-card {
     min-height: 118px !important;
     padding: 19px 20px !important;
-    border-color: rgba(177, 156, 255, 0.16) !important;
-    background: linear-gradient(145deg, #171a38, #11142d) !important;
-    box-shadow: 0 16px 38px rgba(1, 4, 18, 0.2) !important;
+    color: var(--aluno-home-text) !important;
+    border-color: var(--aluno-home-border) !important;
+    background: var(--aluno-home-surface) !important;
+    box-shadow: 0 14px 34px rgba(44, 37, 63, 0.11) !important;
     transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease !important;
   }
 
+  #portalConteudo #viewInicioAluno .quick-card:first-child {
+    background:
+      radial-gradient(circle at 95% 4%, rgba(4, 108, 79, 0.09), transparent 38%),
+      var(--aluno-home-surface) !important;
+  }
+
   #portalConteudo #viewInicioAluno .quick-card:first-child::after {
-    background: linear-gradient(180deg, #43d78a, rgba(67, 215, 138, 0.12));
+    background: linear-gradient(180deg, #118a56, rgba(17, 138, 86, 0.12));
+  }
+
+  #portalConteudo #viewInicioAluno .quick-card:nth-child(2) {
+    background:
+      radial-gradient(circle at 95% 4%, rgba(124, 58, 237, 0.09), transparent 38%),
+      var(--aluno-home-surface) !important;
   }
 
   #portalConteudo #viewInicioAluno .quick-card:nth-child(2)::after {
-    background: linear-gradient(180deg, #a876ff, rgba(168, 118, 255, 0.12));
+    background: linear-gradient(180deg, #7c3aed, rgba(124, 58, 237, 0.12));
+  }
+
+  #portalConteudo #viewInicioAluno .quick-card span {
+    color: var(--aluno-home-muted-2) !important;
   }
 
   #portalConteudo #viewInicioAluno .quick-card strong {
-    color: #f8f6ff !important;
+    color: var(--aluno-home-text) !important;
   }
 
   #portalConteudo #viewInicioAluno .quick-card small {
-    color: #aaa5bf !important;
+    color: var(--aluno-home-muted) !important;
   }
 
   #portalConteudo #viewInicioAluno .action-row {
     padding: 12px !important;
-    border: 1px solid rgba(177, 156, 255, 0.13) !important;
+    border: 1px solid var(--aluno-home-border) !important;
     border-radius: 16px !important;
-    background: rgba(19, 22, 46, 0.82) !important;
-    box-shadow: 0 12px 30px rgba(1, 4, 18, 0.16) !important;
+    background: rgba(225, 226, 232, 0.9) !important;
+    box-shadow: 0 10px 26px rgba(44, 37, 63, 0.09) !important;
   }
 
   #portalConteudo #viewInicioAluno .action-row .primary-action,
@@ -1837,19 +1936,51 @@
     font-size: 11px !important;
   }
 
+  #portalConteudo #viewInicioAluno .action-row .secondary-action {
+    color: #2c253f !important;
+    background: #d8dae2 !important;
+    border-color: #b5bac7 !important;
+  }
+
   #portalConteudo #viewInicioAluno .notices-home-card,
   #portalConteudo #viewInicioAluno .ranking-home-card {
-    border-color: rgba(177, 156, 255, 0.15) !important;
+    color: var(--aluno-home-text) !important;
+    border-color: var(--aluno-home-border) !important;
     background:
-      linear-gradient(125deg, rgba(124, 58, 237, 0.06), transparent 44%),
-      #14172f !important;
-    box-shadow: 0 18px 42px rgba(1, 4, 18, 0.2) !important;
+      linear-gradient(125deg, rgba(124, 58, 237, 0.055), transparent 46%),
+      var(--aluno-home-surface) !important;
+    box-shadow: 0 14px 36px rgba(44, 37, 63, 0.11) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .section-title-row h2,
+  #portalConteudo #viewInicioAluno .student-notice-item > strong,
+  #portalConteudo #viewInicioAluno .ranking-row strong {
+    color: var(--aluno-home-text) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .eyebrow {
+    color: #7c3aed !important;
+  }
+
+  #portalConteudo #viewInicioAluno .helper-text,
+  #portalConteudo #viewInicioAluno .empty-message,
+  #portalConteudo #viewInicioAluno .ranking-student-note,
+  #portalConteudo #viewInicioAluno .student-notice-item > p,
+  #portalConteudo #viewInicioAluno .student-notice-item > small {
+    color: var(--aluno-home-muted) !important;
   }
 
   #portalConteudo #viewInicioAluno .student-notice-item,
   #portalConteudo #viewInicioAluno .ranking-row {
-    background: rgba(8, 11, 28, 0.48) !important;
-    border-color: rgba(177, 156, 255, 0.1) !important;
+    color: var(--aluno-home-text) !important;
+    background: var(--aluno-home-surface-2) !important;
+    border-color: #c2c6d1 !important;
+  }
+
+  #portalConteudo #viewInicioAluno .link-button {
+    color: #5b21b6 !important;
+    background: rgba(124, 58, 237, 0.07) !important;
+    border-color: rgba(124, 58, 237, 0.2) !important;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -1857,8 +1988,8 @@
     #portalConteudo #viewInicioAluno .notices-home-card:hover,
     #portalConteudo #viewInicioAluno .ranking-home-card:hover {
       transform: translateY(-2px) !important;
-      border-color: rgba(177, 148, 255, 0.27) !important;
-      box-shadow: 0 22px 48px rgba(1, 4, 18, 0.26) !important;
+      border-color: rgba(124, 58, 237, 0.28) !important;
+      box-shadow: 0 18px 42px rgba(44, 37, 63, 0.15) !important;
     }
   }
 
@@ -1875,11 +2006,11 @@
 
   @keyframes desktopAlunoHomeOrb {
     0%, 100% {
-      opacity: 0.72;
+      opacity: 0.58;
       transform: translate3d(0, 0, 0) scale(0.96);
     }
     50% {
-      opacity: 1;
+      opacity: 0.9;
       transform: translate3d(-8px, 7px, 0) scale(1.04);
     }
   }

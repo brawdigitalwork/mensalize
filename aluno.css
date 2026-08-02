@@ -708,7 +708,20 @@ body::before {
   background-size: 42px 42px;
   mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent 70%);
 }
-.loading-card,
+.loading-card {
+  background:
+    radial-gradient(circle at 86% 10%, rgba(124, 58, 237, 0.10), transparent 34%),
+    linear-gradient(145deg, #e4e3eb, #d8dae2);
+  border: 1px solid #b5bac7;
+  border-radius: 30px;
+  color: #1f182e;
+  box-shadow: 0 22px 60px rgba(44, 37, 63, 0.16);
+}
+
+.loading-card span {
+  color: #4a5365;
+}
+
 .error-card {
   background: linear-gradient(180deg, rgba(18,20,36,0.88), rgba(10,12,24,0.96));
   border: 1px solid rgba(255,255,255,0.10);

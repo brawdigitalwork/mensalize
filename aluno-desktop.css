@@ -6036,3 +6036,55 @@
     pointer-events: none !important;
   }
 }
+
+/* ------------------------------------------------------------------------
+   HOTFIX — DOCUMENTOS LEGAIS NA SIDEBAR DO ALUNO
+------------------------------------------------------------------------ */
+@media (min-width: 769px) {
+  #portalConteudo .student-sidebar-legal {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+    margin: 0 0 9px !important;
+  }
+
+  #portalConteudo .student-sidebar-legal a {
+    min-width: 0 !important;
+    min-height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 7px 8px !important;
+    border: 1px solid rgba(89, 98, 116, 0.16) !important;
+    border-radius: 11px !important;
+    background: rgba(255, 255, 255, 0.42) !important;
+    color: #596274 !important;
+    font-size: 10px !important;
+    font-weight: 720 !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease !important;
+  }
+
+  #portalConteudo .student-sidebar-legal a svg {
+    flex: 0 0 auto !important;
+    width: 14px !important;
+    height: 14px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  #portalConteudo .student-sidebar-legal a:hover,
+  #portalConteudo .student-sidebar-legal a:focus-visible {
+    color: #4c1d95 !important;
+    background: rgba(124, 58, 237, 0.09) !important;
+    border-color: rgba(124, 58, 237, 0.20) !important;
+    outline: none !important;
+  }
+}

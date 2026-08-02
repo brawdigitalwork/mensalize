@@ -1952,6 +1952,25 @@
     box-shadow: 0 14px 36px rgba(44, 37, 63, 0.11) !important;
   }
 
+  #portalConteudo #viewInicioAluno .ranking-tabs {
+    background: var(--aluno-home-surface-3) !important;
+    border-color: var(--aluno-home-border) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .ranking-tab {
+    color: var(--aluno-home-muted) !important;
+    background: transparent !important;
+    border-color: transparent !important;
+  }
+
+  #portalConteudo #viewInicioAluno .ranking-tab.ativo,
+  #portalConteudo #viewInicioAluno .ranking-tab.active {
+    color: #5b21b6 !important;
+    background: rgba(124, 58, 237, 0.11) !important;
+    border-color: rgba(124, 58, 237, 0.22) !important;
+  }
+
   #portalConteudo #viewInicioAluno .section-title-row h2,
   #portalConteudo #viewInicioAluno .student-notice-item > strong,
   #portalConteudo #viewInicioAluno .ranking-row strong {

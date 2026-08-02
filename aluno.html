@@ -1723,19 +1723,101 @@
             </section>
           </section>
 
-          <article id="rankingFullCard" class="panel-card">
-            <div class="section-title-row">
-              <div>
-                <span class="eyebrow">Desafio</span>
-                <h2>Desafio da Aula do mês</h2>
+          <article id="rankingFullCard" class="panel-card desktop-aluno-desafio-card">
+            <header class="desktop-aluno-desafio-header">
+              <div class="desktop-aluno-desafio-header-copy">
+                <span class="eyebrow">Desafio da aula</span>
+                <h2>Seu desempenho neste mês</h2>
+                <p class="helper-text">
+                  Presenças e pontos extras lançados pelo professor formam a classificação mensal.
+                </p>
               </div>
-              <span id="rankingMesAtual" class="mini-badge">Mês atual</span>
+
+              <span id="rankingMesAtual" class="mini-badge desktop-aluno-desafio-mes">
+                Mês atual
+              </span>
+            </header>
+
+            <section class="desktop-aluno-desafio-resumo" aria-label="Resumo da sua classificação">
+              <div class="desktop-aluno-desafio-metrica desktop-aluno-desafio-metrica-posicao">
+                <span class="desktop-aluno-desafio-metrica-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z"/>
+                    <path d="M7 6H4v1a4 4 0 004 4M17 6h3v1a4 4 0 01-4 4"/>
+                  </svg>
+                </span>
+                <div>
+                  <small id="desktopAlunoDesafioPosicaoLabel">Sua posição</small>
+                  <strong id="desktopAlunoDesafioPosicao">--</strong>
+                </div>
+              </div>
+
+              <div class="desktop-aluno-desafio-metrica">
+                <span class="desktop-aluno-desafio-metrica-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3v18M7 7.5A4.5 4.5 0 0111.5 3H15M17 16.5A4.5 4.5 0 0112.5 21H9"/>
+                    <path d="M8 8h6a3 3 0 010 6h-4"/>
+                  </svg>
+                </span>
+                <div>
+                  <small>Pontos no mês</small>
+                  <strong id="desktopAlunoDesafioPontos">0</strong>
+                </div>
+              </div>
+
+              <div class="desktop-aluno-desafio-metrica">
+                <span class="desktop-aluno-desafio-metrica-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                  </svg>
+                </span>
+                <div>
+                  <small id="desktopAlunoDesafioParticipantesLabel">Alunos ranqueados</small>
+                  <strong id="desktopAlunoDesafioParticipantes">0</strong>
+                </div>
+              </div>
+            </section>
+
+            <div class="desktop-aluno-desafio-mensagem">
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
+                  <path d="M9 12l2 2 4-4"/>
+                </svg>
+              </span>
+              <p id="desktopAlunoDesafioMensagem">Continue treinando para subir no ranking.</p>
             </div>
-            <p class="helper-text">O Desafio soma as presenças do mês com os pontos extras lançados pelo professor, como técnica, atitude, desafio da aula e competição.</p>
-            <div class="ranking-tabs" id="rankingFullTabs"></div>
-            <div id="rankingFullList" class="ranking-list">
-              <p class="empty-message">Carregando ranking...</p>
-            </div>
+
+            <section class="desktop-aluno-desafio-filtros" aria-labelledby="desktopAlunoDesafioFiltrosTitulo">
+              <div class="desktop-aluno-desafio-section-heading">
+                <div>
+                  <span class="eyebrow">Classificação</span>
+                  <h3 id="desktopAlunoDesafioFiltrosTitulo">Escolha o ranking</h3>
+                </div>
+                <small id="desktopAlunoDesafioTipoAtual">Minha turma</small>
+              </div>
+
+              <div class="ranking-tabs" id="rankingFullTabs"></div>
+            </section>
+
+            <section class="desktop-aluno-desafio-ranking" aria-labelledby="desktopAlunoDesafioRankingTitulo">
+              <div class="desktop-aluno-desafio-section-heading">
+                <div>
+                  <span class="eyebrow">Ranking do mês</span>
+                  <h3 id="desktopAlunoDesafioRankingTitulo">Classificação completa</h3>
+                </div>
+                <span class="desktop-aluno-desafio-live">
+                  <i aria-hidden="true"></i>
+                  Atual
+                </span>
+              </div>
+
+              <div id="rankingFullList" class="ranking-list">
+                <p class="empty-message">Carregando ranking...</p>
+              </div>
+            </section>
           </article>
         </section>
 
@@ -2212,6 +2294,13 @@
     const rankingFullTabs = document.getElementById("rankingFullTabs");
     const rankingFullList = document.getElementById("rankingFullList");
     const rankingMesAtual = document.getElementById("rankingMesAtual");
+    const desktopAlunoDesafioPosicaoLabel = document.getElementById("desktopAlunoDesafioPosicaoLabel");
+    const desktopAlunoDesafioPosicao = document.getElementById("desktopAlunoDesafioPosicao");
+    const desktopAlunoDesafioPontos = document.getElementById("desktopAlunoDesafioPontos");
+    const desktopAlunoDesafioParticipantesLabel = document.getElementById("desktopAlunoDesafioParticipantesLabel");
+    const desktopAlunoDesafioParticipantes = document.getElementById("desktopAlunoDesafioParticipantes");
+    const desktopAlunoDesafioTipoAtual = document.getElementById("desktopAlunoDesafioTipoAtual");
+    const desktopAlunoDesafioMensagem = document.getElementById("desktopAlunoDesafioMensagem");
     const avisosAlunoHomeCard = document.getElementById("avisosAlunoHomeCard");
     const avisosAlunoLista = document.getElementById("avisosAlunoLista");
     const avisosAlunoContador = document.getElementById("avisosAlunoContador");
@@ -3354,8 +3443,58 @@ function renderizarAluno(aluno) {
         rankingHomePodio.innerHTML = renderizarPodioAluno(lista, rankingAtivoAluno);
         rankingFullList.innerHTML = renderizarListaRankingAluno(lista);
       }
+      const itemAtual = rankingAtivoAluno === "turmas"
+        ? (lista || []).find(item => item.eh_turma_aluno === true)
+        : itemAlunoAtual(lista);
+      const rankingSelecionado = ativos.find(item => item.id === rankingAtivoAluno);
+      const rankingDeTurmas = rankingAtivoAluno === "turmas";
+
       rankingHomeResumo.textContent = mensagemRankingAtual(rankingAtivoAluno, lista);
-      if (rankingMesAtual) rankingMesAtual.textContent = new Date().toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+
+      if (desktopAlunoDesafioPosicaoLabel) {
+        desktopAlunoDesafioPosicaoLabel.textContent = rankingDeTurmas
+          ? "Posição da turma"
+          : "Sua posição";
+      }
+
+      if (desktopAlunoDesafioPosicao) {
+        desktopAlunoDesafioPosicao.textContent = itemAtual?.posicao
+          ? `${itemAtual.posicao}º`
+          : "--";
+      }
+
+      if (desktopAlunoDesafioPontos) {
+        desktopAlunoDesafioPontos.textContent = itemAtual
+          ? numeroRanking(itemAtual.pontos_total)
+          : 0;
+      }
+
+      if (desktopAlunoDesafioParticipantesLabel) {
+        desktopAlunoDesafioParticipantesLabel.textContent = rankingDeTurmas
+          ? "Turmas ranqueadas"
+          : "Alunos ranqueados";
+      }
+
+      if (desktopAlunoDesafioParticipantes) {
+        desktopAlunoDesafioParticipantes.textContent = Array.isArray(lista)
+          ? lista.length
+          : 0;
+      }
+
+      if (desktopAlunoDesafioTipoAtual) {
+        desktopAlunoDesafioTipoAtual.textContent = rankingSelecionado?.label || "Ranking";
+      }
+
+      if (desktopAlunoDesafioMensagem) {
+        desktopAlunoDesafioMensagem.textContent = mensagemRankingAtual(rankingAtivoAluno, lista);
+      }
+
+      if (rankingMesAtual) {
+        rankingMesAtual.textContent = new Date().toLocaleDateString("pt-BR", {
+          month: "long",
+          year: "numeric"
+        });
+      }
     }
 
     async function carregarRankingsAluno(aluno) {

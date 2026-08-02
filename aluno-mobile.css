@@ -2789,7 +2789,7 @@
     display: none;
   }
 
-  .mobile-aluno-evolucao-request-slot .student-request-card {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-request-card {
     display: block !important;
     margin: 0 !important;
     padding: 13px 14px !important;
@@ -2797,19 +2797,25 @@
     border-radius: 16px !important;
     background: rgba(238, 238, 242, 0.74) !important;
     box-shadow: none !important;
+    color: var(--aluno-evolucao-text) !important;
   }
 
-  .mobile-aluno-evolucao-request-slot .student-request-card .section-title-row {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-request-card .section-title-row {
     align-items: center !important;
   }
 
-  .mobile-aluno-evolucao-request-slot .student-request-card .section-title-row h2 {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-request-card .section-title-row h2 {
     color: var(--aluno-evolucao-text) !important;
     font-size: 13px !important;
     letter-spacing: -0.025em !important;
   }
 
-  .mobile-aluno-evolucao-request-slot .student-request-card .link-button {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-request-card .eyebrow {
+    color: #6d28d9 !important;
+    font-size: 7px !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-request-card .link-button {
     min-height: 34px !important;
     padding: 7px 10px !important;
     border: 1px solid rgba(139, 92, 246, 0.18) !important;
@@ -2820,19 +2826,22 @@
     font-weight: 750 !important;
   }
 
-  .mobile-aluno-evolucao-request-slot .request-summary {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .request-summary {
     margin-top: 7px !important;
+    color: var(--aluno-evolucao-muted) !important;
+    font-size: 8.5px !important;
+    line-height: 1.45 !important;
   }
 
-  .mobile-aluno-evolucao-request-slot .student-request-body {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-request-body {
     margin-top: 12px !important;
     padding-top: 12px !important;
     border-top-color: rgba(79, 88, 106, 0.14) !important;
   }
 
-  .mobile-aluno-evolucao-request-slot .helper-text,
-  .mobile-aluno-evolucao-request-slot .student-request-body > p,
-  .mobile-aluno-evolucao-request-slot .soft-message {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .helper-text,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-request-body > p,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .soft-message {
     color: var(--aluno-evolucao-muted) !important;
   }
 
@@ -4607,7 +4616,7 @@
     margin-top: 9px;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-request-card {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-request-card {
     display: block !important;
     margin: 0 !important;
     padding: 14px !important;
@@ -4615,31 +4624,32 @@
     border-radius: 17px !important;
     background: rgba(238, 238, 242, 0.76) !important;
     box-shadow: none !important;
+    color: var(--aluno-evolucao-text) !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-request-card.request-open {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-request-card.request-open {
     border-color: rgba(124, 58, 237, 0.24) !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.08), transparent 36%),
       linear-gradient(145deg, var(--aluno-evolucao-surface), var(--aluno-evolucao-surface-2)) !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-request-card .section-title-row {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-request-card .section-title-row {
     align-items: center !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-request-card .section-title-row h2 {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-request-card .section-title-row h2 {
     color: var(--aluno-evolucao-text) !important;
     font-size: 13px !important;
     letter-spacing: -0.025em !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-request-card .eyebrow {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-request-card .eyebrow {
     color: #6d28d9 !important;
     font-size: 7px !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-request-card .link-button {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-request-card .link-button {
     min-height: 36px !important;
     padding: 7px 11px !important;
     border: 1px solid rgba(139, 92, 246, 0.18) !important;
@@ -4650,26 +4660,26 @@
     font-weight: 750 !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .request-summary {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .request-summary {
     margin-top: 7px !important;
     color: var(--aluno-evolucao-muted) !important;
     font-size: 8.5px !important;
     line-height: 1.45 !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-request-body {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-request-body {
     margin-top: 12px !important;
     padding-top: 12px !important;
     border-top: 1px solid rgba(79, 88, 106, 0.14) !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-request-body > .helper-text {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-request-body > .helper-text {
     color: var(--aluno-evolucao-muted) !important;
     font-size: 8.5px !important;
     line-height: 1.45 !important;
   }
 
-  .mobile-aluno-solicitacoes-request-slot .student-form {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form {
     display: grid !important;
     gap: 11px !important;
     margin-top: 11px !important;

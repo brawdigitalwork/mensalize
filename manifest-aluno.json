@@ -6,8 +6,8 @@
   "start_url": "/aluno.html",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#09090f",
-  "theme_color": "#7c3aed",
+  "background_color": "#eef0f5",
+  "theme_color": "#f7f8fb",
   "orientation": "portrait-primary",
   "lang": "pt-BR",
   "icons": [

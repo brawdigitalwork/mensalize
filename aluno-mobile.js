@@ -60,6 +60,8 @@
   let contatoAreaPlaceholder = null;
   let contatoCompartilharPlaceholder = null;
 
+  let ultimoDisparadorMais = null;
+
   function ehMobileAluno() {
     return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
   }
@@ -229,22 +231,49 @@
     }
   }
 
-  function abrirMais() {
+  function abrirMais(evento) {
     if (!ehMobileAluno() || !portalVisivel()) return;
 
     const sheet = document.getElementById("mobileAlunoMaisSheet");
     if (!sheet) return;
+
+    const disparador = evento?.currentTarget;
+    ultimoDisparadorMais = disparador instanceof HTMLElement
+      ? disparador
+      : document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
 
     sheet.classList.add("aberta");
     sheet.setAttribute("aria-hidden", "false");
     document.body.classList.add("mobile-aluno-sheet-open");
     atualizarBottomNav("dados");
     pararCarouselAutomatico();
+
+    window.requestAnimationFrame(() => {
+      sheet
+        .querySelector(".mobile-aluno-sheet-row:not([disabled])")
+        ?.focus({ preventScroll: true });
+    });
   }
 
   function fecharMais() {
     const sheet = document.getElementById("mobileAlunoMaisSheet");
     if (!sheet) return;
+
+    const focoAtual = document.activeElement;
+    if (focoAtual instanceof HTMLElement && sheet.contains(focoAtual)) {
+      const destino = ultimoDisparadorMais?.isConnected
+        ? ultimoDisparadorMais
+        : document.getElementById("btnMobileAlunoMaisInterno") ||
+          document.getElementById("btnMobileAlunoMais");
+
+      if (destino instanceof HTMLElement) {
+        destino.focus({ preventScroll: true });
+      } else {
+        focoAtual.blur();
+      }
+    }
 
     sheet.classList.remove("aberta");
     sheet.setAttribute("aria-hidden", "true");

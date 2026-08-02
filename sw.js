@@ -3,7 +3,7 @@
 const APP_VERSION = 'Mensalize 2.4';
 const CACHE_PREFIX = 'mensalize-';
 // Revisão técnica do cache. Não representa uma nova versão do produto.
-const CACHE_REVISION = '2026-07-25-seguranca-consolidada';
+const CACHE_REVISION = '2026-08-02-aluno-tema-claro';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}-${CACHE_REVISION}`;
 
 const ASSETS = [
@@ -30,9 +30,13 @@ const ASSETS = [
   '/aluno.html',
   '/aluno.css',
   '/aluno-mobile.css',
+  '/aluno-mobile.css?v=12-tema-claro',
   '/aluno-desktop.css',
+  '/aluno-desktop.css?v=4-tema-claro',
+  '/aluno-theme-light.css?v=1',
   '/aluno-auth.js',
   '/aluno-mobile.js',
+  '/aluno-mobile.js?v=12-tema-claro',
   '/css/mobile/mobile-alunos.css',
   '/css/mobile/mobile-aniversariantes.css',
   '/css/mobile/mobile-avisos.css',

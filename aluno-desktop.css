@@ -2488,34 +2488,59 @@
   }
 
   #portalConteudo #viewGraduacaoAluno .evolution-info-1 {
-    min-height: 142px !important;
-    padding: 20px 22px 62px !important;
+    min-height: 154px !important;
+    align-content: start !important;
+    padding: 20px 22px !important;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.11), transparent 42%),
       rgba(239, 240, 244, 0.76) !important;
   }
 
-  #portalConteudo #viewGraduacaoAluno .evolution-info-1::before {
+  #portalConteudo #viewGraduacaoAluno .evolution-info-1::before,
+  #portalConteudo #viewGraduacaoAluno .evolution-info-1::after {
     display: none !important;
   }
 
-  #portalConteudo #viewGraduacaoAluno .evolution-info-1::after {
-    content: "";
-    position: absolute;
-    left: 22px;
-    right: 22px;
-    bottom: 20px;
-    height: 25px;
+  #portalConteudo #viewGraduacaoAluno .evolution-info-1 > strong {
+    font-size: clamp(22px, 2.15vw, 29px) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .desktop-aluno-faixa-visual {
+    width: min(100%, 390px);
+    height: 31px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 88px;
+    margin-top: 14px;
+    overflow: hidden;
     border: 1px solid rgba(73, 78, 91, 0.24);
-    border-radius: 8px;
-    background:
-      linear-gradient(90deg, var(--aluno-evolucao-faixa) 0 78%, #282532 78% 100%);
-    box-shadow: 0 8px 18px rgba(44, 37, 63, 0.12);
+    border-radius: 9px;
+    background: #f1f1f3;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.42),
+      0 8px 18px rgba(44, 37, 63, 0.12);
     animation: desktopAlunoEvolucaoFaixa 540ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
   }
 
-  #portalConteudo #viewGraduacaoAluno .evolution-info-1 > strong {
-    font-size: clamp(23px, 2.5vw, 32px) !important;
+  #portalConteudo #viewGraduacaoAluno .desktop-aluno-faixa-cor {
+    background: var(--aluno-evolucao-faixa);
+  }
+
+  #portalConteudo #viewGraduacaoAluno .desktop-aluno-faixa-graus {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 5px 7px;
+    background: #282532;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .desktop-aluno-faixa-graus i {
+    display: block;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  #portalConteudo #viewGraduacaoAluno .desktop-aluno-faixa-graus i.ativo {
+    background: #f7f6fb;
   }
 
   #portalConteudo #viewGraduacaoAluno .evolution-info-6 {

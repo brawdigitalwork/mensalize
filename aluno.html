@@ -2571,6 +2571,12 @@
       return { texto: `Faltam ${dias} dias`, classe: "muted-badge", data: previsao };
     }
 
+    function formatarQuantidadeMeses(valor) {
+      const quantidade = Number(valor);
+      if (!Number.isFinite(quantidade) || quantidade <= 0) return "Não informado";
+      return `${quantidade} ${quantidade === 1 ? "mês" : "meses"}`;
+    }
+
     function atualizarFotos(aluno) {
       const foto = normalizarFotoAluno(aluno.foto_url);
       const inicial = primeiraLetra(aluno.nome);
@@ -2596,9 +2602,10 @@
         ["Grau", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? `${aluno.grau}º grau` : "Não informado"],
         ["Turma", aluno.turma || "Não informada"],
         ["Última graduação", aluno.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"],
-        ["Tempo mínimo", aluno.tempo_avaliacao_meses ? `${aluno.tempo_avaliacao_meses} meses` : "Não informado"],
+        ["Tempo mínimo", formatarQuantidadeMeses(aluno.tempo_avaliacao_meses)],
         ["Previsão para avaliação", status.data ? formatarData(status.data) : "Não calculada"]
       ];
+      const grauAtual = Math.max(0, Math.min(4, Number.parseInt(aluno.grau, 10) || 0));
       conteudoEvolucaoAluno.replaceChildren(...linhas.map(([label, valor], indice) => {
         const linha = document.createElement("div");
         linha.className = `evolution-info evolution-info-${indice + 1}`;
@@ -2610,6 +2617,28 @@
         conteudo.textContent = valor;
 
         linha.append(rotulo, conteudo);
+
+        if (indice === 0) {
+          const faixaVisual = document.createElement("span");
+          faixaVisual.className = "desktop-aluno-faixa-visual";
+          faixaVisual.setAttribute("aria-hidden", "true");
+
+          const faixaCor = document.createElement("span");
+          faixaCor.className = "desktop-aluno-faixa-cor";
+
+          const graus = document.createElement("span");
+          graus.className = "desktop-aluno-faixa-graus";
+
+          for (let grau = 1; grau <= 4; grau += 1) {
+            const marca = document.createElement("i");
+            marca.classList.toggle("ativo", grau <= grauAtual);
+            graus.appendChild(marca);
+          }
+
+          faixaVisual.append(faixaCor, graus);
+          linha.appendChild(faixaVisual);
+        }
+
         return linha;
       }));
       inicioGraduacao.textContent = aluno.faixa ? `Faixa ${aluno.faixa}${aluno.grau ? ` • ${aluno.grau}º grau` : ""}` : "Não informada";

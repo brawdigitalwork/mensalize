@@ -2074,32 +2074,137 @@
               ></div>
             </section>
 
+            <section class="mobile-aluno-contato-app" aria-labelledby="mobileAlunoContatoAppTitulo">
+              <span class="mobile-aluno-contato-app-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5"/>
+                  <path d="M5 19h14"/>
+                </svg>
+              </span>
+
+              <div>
+                <span class="mobile-aluno-contato-kicker">Aplicativo</span>
+                <h2 id="mobileAlunoContatoAppTitulo">Acesso mais rápido</h2>
+                <p>Instale o Mensalize Aluno e abra seu portal direto pela tela inicial.</p>
+              </div>
+
+              <button type="button" data-pwa-install>Instalar</button>
+            </section>
+
             <section class="student-portal-legal" aria-label="Privacidade e termos do Mensalize">
-              <span class="mobile-aluno-contato-kicker">Privacidade</span>
-              <h2>Seus dados e regras de uso</h2>
+              <div class="mobile-aluno-contato-legal-heading">
+                <span class="mobile-aluno-contato-legal-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                  </svg>
+                </span>
+                <div>
+                  <span class="mobile-aluno-contato-kicker">Privacidade</span>
+                  <h2>Seus dados e regras de uso</h2>
+                </div>
+              </div>
               <p>Consulte como o Mensalize trata seus dados e quais são as regras de uso do portal.</p>
               <nav aria-label="Documentos legais do Portal do Aluno">
-                <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
-                <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+                <a href="privacidade.html" target="_blank" rel="noopener noreferrer">
+                  <span>Política de Privacidade</span><b aria-hidden="true">→</b>
+                </a>
+                <a href="termos.html" target="_blank" rel="noopener noreferrer">
+                  <span>Termos de Uso</span><b aria-hidden="true">→</b>
+                </a>
               </nav>
             </section>
 
           </section>
 
-          <article class="panel-card">
-            <span class="eyebrow">Contato</span>
-            <h2>Falar com professor</h2>
-            <p class="helper-text">Use os botões abaixo para falar com o professor ou compartilhar sua página.</p>
-            <div id="areaContatoProfessor" class="contact-actions"></div>
-            <button id="btnCompartilhar" class="share-button" type="button">🔗 Copiar ou compartilhar link</button>
+          <article class="panel-card desktop-aluno-contato-card">
+            <header class="desktop-aluno-contato-header">
+              <span class="desktop-aluno-contato-header-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 21V5l8-3v19M12 8h8v13M2 21h20"/>
+                  <path d="M7 8h2M7 12h2M7 16h2M15 11h2M15 15h2"/>
+                </svg>
+              </span>
+
+              <div>
+                <span class="eyebrow">Central de atendimento</span>
+                <h2>Contato e informações do portal</h2>
+                <p>Fale com a academia, compartilhe seu acesso e consulte as informações essenciais do Mensalize.</p>
+              </div>
+
+              <span class="desktop-aluno-contato-badge">Portal do aluno</span>
+            </header>
+
+            <div class="desktop-aluno-contato-grid">
+              <section class="desktop-aluno-contato-section desktop-aluno-contato-whatsapp">
+                <div class="desktop-aluno-contato-section-heading">
+                  <span class="desktop-aluno-contato-section-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M21 11.5a8.4 8.4 0 01-9 8.5 9.5 9.5 0 01-4-.9L3 21l1.8-4.7A8.7 8.7 0 013.5 12a8.5 8.5 0 0117.5-.5z"/>
+                      <path d="M8.5 9.5c.7 2 2 3.3 4 4"/>
+                    </svg>
+                  </span>
+                  <div>
+                    <span class="eyebrow">Contato direto</span>
+                    <h3>Falar com professor</h3>
+                  </div>
+                </div>
+                <p>Abra uma conversa pelo WhatsApp configurado pela academia.</p>
+                <div id="areaContatoProfessor" class="contact-actions"></div>
+              </section>
+
+              <section class="desktop-aluno-contato-section desktop-aluno-contato-share">
+                <div class="desktop-aluno-contato-section-heading">
+                  <span class="desktop-aluno-contato-section-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="18" cy="5" r="3"/>
+                      <circle cx="6" cy="12" r="3"/>
+                      <circle cx="18" cy="19" r="3"/>
+                      <path d="M8.7 10.6l6.6-4.2M8.7 13.4l6.6 4.2"/>
+                    </svg>
+                  </span>
+                  <div>
+                    <span class="eyebrow">Compartilhar</span>
+                    <h3>Seu portal</h3>
+                  </div>
+                </div>
+                <p>Use o compartilhamento do dispositivo ou copie o endereço deste acesso.</p>
+                <button id="btnCompartilhar" class="share-button" type="button">Copiar ou compartilhar link</button>
+              </section>
+            </div>
+
+            <section class="desktop-aluno-contato-app">
+              <span class="desktop-aluno-contato-app-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5"/>
+                  <path d="M5 19h14"/>
+                </svg>
+              </span>
+              <div>
+                <span class="eyebrow">Aplicativo</span>
+                <h3>Instale o Mensalize Aluno</h3>
+                <p>Tenha acesso rápido ao portal pela tela inicial do seu dispositivo.</p>
+              </div>
+              <button type="button" class="secondary-action" data-pwa-install>Instalar aplicativo</button>
+            </section>
 
             <section class="student-portal-legal" aria-label="Privacidade e termos do Mensalize">
-              <span class="eyebrow">Privacidade</span>
-              <h3>Seus dados e regras de uso</h3>
-              <p>Consulte como o Mensalize trata seus dados e quais são as regras de uso do portal.</p>
+              <div class="desktop-aluno-contato-legal-copy">
+                <span class="desktop-aluno-contato-legal-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                  </svg>
+                </span>
+                <div>
+                  <span class="eyebrow">Privacidade</span>
+                  <h3>Seus dados e regras de uso</h3>
+                  <p>Consulte os documentos oficiais do Portal do Aluno.</p>
+                </div>
+              </div>
               <nav aria-label="Documentos legais do Portal do Aluno">
-                <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
-                <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+                <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade <span aria-hidden="true">→</span></a>
+                <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso <span aria-hidden="true">→</span></a>
               </nav>
             </section>
           </article>
@@ -4396,7 +4501,7 @@ function atualizarResumoPerfilLeitura(aluno) {
       const linkCompartilhamento = construirLinkCompartilhamentoAluno();
       if (!linkCompartilhamento) {
         btnCompartilhar.textContent = "Acesso não disponível";
-        setTimeout(() => { btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link"; }, 2000);
+        setTimeout(() => { btnCompartilhar.textContent = "Copiar ou compartilhar link"; }, 2000);
         return;
       }
 
@@ -4410,12 +4515,12 @@ function atualizarResumoPerfilLeitura(aluno) {
         }
 
         await navigator.clipboard.writeText(linkCompartilhamento);
-        btnCompartilhar.textContent = "✅ Link copiado";
+        btnCompartilhar.textContent = "Link copiado";
       } catch (erro) {
         btnCompartilhar.textContent = "Não foi possível compartilhar";
       }
 
-      setTimeout(() => { btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link"; }, 2000);
+      setTimeout(() => { btnCompartilhar.textContent = "Copiar ou compartilhar link"; }, 2000);
     });
 
     btnEsquecerAcessoAluno?.addEventListener("click", esquecerAcessoAlunoNesteAparelho);

@@ -5503,3 +5503,344 @@
   padding: 5px 7px !important;
   background: #282532 !important;
 }
+
+/* ==========================================================================
+   CONTATO E INFORMAÇÕES DO PORTAL — DESKTOP CLARO PREMIUM
+   Centraliza WhatsApp, compartilhamento, PWA e documentos legais.
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  #portalConteudo .student-main:has(#viewContatoAluno.ativa) {
+    background:
+      radial-gradient(circle at 8% 0%, rgba(124, 58, 237, 0.10), transparent 29%),
+      radial-gradient(circle at 96% 18%, rgba(14, 165, 233, 0.055), transparent 25%),
+      linear-gradient(180deg, #dde0e8, #cfd3dc) !important;
+  }
+
+  #portalConteudo #viewContatoAluno {
+    --aluno-contato-desktop-surface: #f8f9fb;
+    --aluno-contato-desktop-surface-soft: #eef0f4;
+    --aluno-contato-desktop-border: #c4c9d3;
+    --aluno-contato-desktop-border-soft: #dce0e7;
+    --aluno-contato-desktop-text: #211a31;
+    --aluno-contato-desktop-muted: #586174;
+    --aluno-contato-desktop-muted-2: #747c8e;
+    --aluno-contato-desktop-purple: #6f35dc;
+    --aluno-contato-desktop-purple-soft: #eee8fb;
+    color: var(--aluno-contato-desktop-text) !important;
+  }
+
+  #portalConteudo #viewContatoAluno > article.panel-card.desktop-aluno-contato-card {
+    width: min(100%, 1120px) !important;
+    max-width: 1120px !important;
+    margin-inline: auto !important;
+    padding: clamp(24px, 2.5vw, 34px) !important;
+    overflow: hidden !important;
+    border: 1px solid var(--aluno-contato-desktop-border) !important;
+    border-radius: 26px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.055), transparent 31%),
+      var(--aluno-contato-desktop-surface) !important;
+    color: var(--aluno-contato-desktop-text) !important;
+    box-shadow:
+      0 22px 48px rgba(44, 37, 63, 0.13),
+      inset 0 1px 0 rgba(255, 255, 255, 0.88) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-header {
+    display: grid !important;
+    grid-template-columns: 52px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding-bottom: 22px !important;
+    border-bottom: 1px solid var(--aluno-contato-desktop-border-soft) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-header-icon,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section-icon,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app-icon,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-legal-icon {
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid rgba(124, 58, 237, 0.13) !important;
+    background: var(--aluno-contato-desktop-purple-soft) !important;
+    color: var(--aluno-contato-desktop-purple) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-header-icon {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 16px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section-icon,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app-icon,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-legal-icon {
+    width: 42px !important;
+    height: 42px !important;
+    flex: 0 0 42px !important;
+    border-radius: 13px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-header-icon svg,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section-icon svg,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app-icon svg,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-legal-icon svg {
+    width: 21px !important;
+    height: 21px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-header > div,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section-heading > div,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app > div,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-legal-copy > div {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .eyebrow {
+    color: var(--aluno-contato-desktop-purple) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-header h2 {
+    margin: 4px 0 0 !important;
+    color: var(--aluno-contato-desktop-text) !important;
+    font-size: clamp(23px, 2.25vw, 31px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-header p {
+    max-width: 690px !important;
+    margin: 8px 0 0 !important;
+    color: var(--aluno-contato-desktop-muted) !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-badge {
+    padding: 7px 11px !important;
+    border: 1px solid rgba(124, 58, 237, 0.14) !important;
+    border-radius: 999px !important;
+    background: var(--aluno-contato-desktop-purple-soft) !important;
+    color: var(--aluno-contato-desktop-purple) !important;
+    font-size: 11px !important;
+    font-weight: 760 !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+    margin-top: 20px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section {
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 20px !important;
+    border: 1px solid var(--aluno-contato-desktop-border-soft) !important;
+    border-radius: 20px !important;
+    background: #ffffff !important;
+    box-shadow: 0 10px 24px rgba(44, 37, 63, 0.065) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section-heading {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section h3,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app h3,
+  #portalConteudo #viewContatoAluno .student-portal-legal h3 {
+    margin: 3px 0 0 !important;
+    color: var(--aluno-contato-desktop-text) !important;
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section > p,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app p,
+  #portalConteudo #viewContatoAluno .student-portal-legal p {
+    margin: 12px 0 0 !important;
+    color: var(--aluno-contato-desktop-muted) !important;
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section .contact-actions {
+    display: grid !important;
+    gap: 8px !important;
+    margin: auto 0 0 !important;
+    padding-top: 18px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section .pay-button,
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section .whatsapp-button {
+    width: 100% !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin: 0 !important;
+    padding: 11px 14px !important;
+    border: 1px solid rgba(8, 122, 80, 0.18) !important;
+    border-radius: 13px !important;
+    background: #087a50 !important;
+    color: #fff !important;
+    box-shadow: 0 10px 22px rgba(8, 122, 80, 0.16) !important;
+    font-size: 12px !important;
+    font-weight: 760 !important;
+    text-decoration: none !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-section .soft-message {
+    margin: auto 0 0 !important;
+    padding: 13px !important;
+    border: 1px solid rgba(180, 83, 9, 0.13) !important;
+    border-radius: 13px !important;
+    background: rgba(180, 83, 9, 0.055) !important;
+    color: #784018 !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
+  }
+
+  #portalConteudo #viewContatoAluno #btnCompartilhar {
+    width: 100% !important;
+    min-height: 48px !important;
+    margin: auto 0 0 !important;
+    padding: 11px 14px !important;
+    border: 1px solid rgba(124, 58, 237, 0.18) !important;
+    border-radius: 13px !important;
+    background: var(--aluno-contato-desktop-purple-soft) !important;
+    color: var(--aluno-contato-desktop-purple) !important;
+    box-shadow: none !important;
+    font-size: 12px !important;
+    font-weight: 760 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-share > p {
+    margin-bottom: 18px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app {
+    display: grid !important;
+    grid-template-columns: 42px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 13px !important;
+    margin-top: 16px !important;
+    padding: 17px 19px !important;
+    border: 1px solid var(--aluno-contato-desktop-border-soft) !important;
+    border-radius: 18px !important;
+    background: var(--aluno-contato-desktop-surface-soft) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app p {
+    margin-top: 5px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-app button[data-pwa-install] {
+    min-height: 42px !important;
+    padding: 9px 13px !important;
+    border-color: rgba(124, 58, 237, 0.17) !important;
+    background: #ffffff !important;
+    color: var(--aluno-contato-desktop-purple) !important;
+    font-size: 11px !important;
+    font-weight: 760 !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 20px !important;
+    margin: 16px 0 0 !important;
+    padding: 17px 19px !important;
+    border: 1px solid var(--aluno-contato-desktop-border-soft) !important;
+    border-radius: 18px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewContatoAluno .desktop-aluno-contato-legal-copy {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal p {
+    margin-top: 4px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal nav {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal a {
+    min-height: 40px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 8px 11px !important;
+    border: 1px solid var(--aluno-contato-desktop-border-soft) !important;
+    border-radius: 11px !important;
+    background: var(--aluno-contato-desktop-surface-soft) !important;
+    color: var(--aluno-contato-desktop-text) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal a span {
+    color: var(--aluno-contato-desktop-purple) !important;
+  }
+
+  @media (max-width: 1040px) {
+    #portalConteudo #viewContatoAluno .desktop-aluno-contato-header {
+      grid-template-columns: 48px minmax(0, 1fr) !important;
+    }
+
+    #portalConteudo #viewContatoAluno .desktop-aluno-contato-badge {
+      grid-column: 2 !important;
+      width: fit-content !important;
+    }
+
+    #portalConteudo #viewContatoAluno .student-portal-legal {
+      grid-template-columns: 1fr !important;
+    }
+
+    #portalConteudo #viewContatoAluno .student-portal-legal nav {
+      justify-content: flex-start !important;
+    }
+  }
+
+  @media (max-width: 880px) {
+    #portalConteudo #viewContatoAluno .desktop-aluno-contato-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    #portalConteudo #viewContatoAluno .desktop-aluno-contato-app {
+      grid-template-columns: 42px minmax(0, 1fr) !important;
+    }
+
+    #portalConteudo #viewContatoAluno .desktop-aluno-contato-app button[data-pwa-install] {
+      grid-column: 1 / -1 !important;
+      width: 100% !important;
+    }
+  }
+}

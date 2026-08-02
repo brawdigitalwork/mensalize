@@ -7909,3 +7909,452 @@
     border-color: rgba(157, 99, 255, 0.42) !important;
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.09) !important;
   }
+
+/* ==========================================================================
+   CONTATO E INFORMAÇÕES DO PORTAL — VISUAL CLARO PREMIUM
+   Mantém as ações reais de WhatsApp, compartilhamento, PWA e documentos.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewContatoAluno.ativa) {
+    --aluno-contato-bg: #d2d5de;
+    --aluno-contato-surface: #ffffff;
+    --aluno-contato-surface-soft: #f3f4f7;
+    --aluno-contato-surface-2: #e8eaf0;
+    --aluno-contato-border: #c4c9d3;
+    --aluno-contato-border-soft: #dde1e8;
+    --aluno-contato-text: #211a31;
+    --aluno-contato-muted: #50596b;
+    --aluno-contato-muted-2: #70788a;
+    --aluno-contato-purple: #6f35dc;
+    --aluno-contato-purple-soft: #eee8fb;
+    --aluno-contato-green: #087a50;
+    background:
+      radial-gradient(circle at 7% 0%, rgba(124, 58, 237, 0.13), transparent 29%),
+      radial-gradient(circle at 96% 18%, rgba(14, 165, 233, 0.07), transparent 27%),
+      linear-gradient(180deg, #dcdee6, var(--aluno-contato-bg)) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewContatoAluno.ativa)
+    #portalConteudo
+    .student-main {
+    background: transparent !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewContatoAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-header {
+    color: var(--aluno-contato-text) !important;
+    background: rgba(238, 239, 244, 0.94) !important;
+    border-bottom-color: var(--aluno-contato-border) !important;
+    box-shadow: 0 12px 30px rgba(44, 37, 63, 0.11) !important;
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewContatoAluno.ativa)
+    #portalConteudo
+    #mobileAlunoTituloInterno {
+    color: var(--aluno-contato-text) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewContatoAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-icon-button {
+    color: #312846 !important;
+    background: rgba(124, 58, 237, 0.07) !important;
+    border-color: var(--aluno-contato-border) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewContatoAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-bottom-nav {
+    background: rgba(237, 238, 243, 0.97) !important;
+    border-color: var(--aluno-contato-border) !important;
+    box-shadow:
+      0 16px 40px rgba(44, 37, 63, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewContatoAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-bottom-item {
+    color: #626b7c !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewContatoAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-bottom-item.ativo {
+    color: var(--aluno-contato-purple) !important;
+    background: rgba(124, 58, 237, 0.08) !important;
+  }
+
+  #portalConteudo #viewContatoAluno > .panel-card {
+    display: none !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato {
+    display: grid !important;
+    gap: 13px !important;
+    width: min(100%, 560px) !important;
+    margin-inline: auto !important;
+    padding: 3px 0 10px !important;
+    color: var(--aluno-contato-text) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-hero,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-acoes,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-compartilhar,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app,
+  #portalConteudo #viewContatoAluno .student-portal-legal {
+    border: 1px solid var(--aluno-contato-border) !important;
+    background: var(--aluno-contato-surface) !important;
+    box-shadow:
+      0 13px 30px rgba(44, 37, 63, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-hero {
+    position: relative !important;
+    overflow: hidden !important;
+    padding: 17px !important;
+    border-radius: 22px !important;
+    background:
+      radial-gradient(circle at 96% 0%, rgba(124, 58, 237, 0.12), transparent 40%),
+      linear-gradient(145deg, #ffffff, #eef0f5) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-hero::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -72px !important;
+    bottom: -116px !important;
+    width: 210px !important;
+    height: 210px !important;
+    border: 30px solid rgba(124, 58, 237, 0.035) !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-hero-topo {
+    position: relative !important;
+    z-index: 1 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-kicker {
+    display: block !important;
+    color: var(--aluno-contato-purple) !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-hero h2,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-section-heading h2,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app h2,
+  #portalConteudo #viewContatoAluno .student-portal-legal h2 {
+    margin: 4px 0 0 !important;
+    color: var(--aluno-contato-text) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-hero h2 {
+    max-width: 230px !important;
+    overflow: hidden !important;
+    font-size: 20px !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-section-heading h2,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app h2,
+  #portalConteudo #viewContatoAluno .student-portal-legal h2 {
+    font-size: 16px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-status {
+    max-width: 136px !important;
+    overflow: hidden !important;
+    padding: 6px 9px !important;
+    border: 1px solid var(--aluno-contato-border-soft) !important;
+    border-radius: 999px !important;
+    background: var(--aluno-contato-surface-soft) !important;
+    color: var(--aluno-contato-muted) !important;
+    font-size: 9px !important;
+    font-weight: 760 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-status.is-available {
+    border-color: rgba(8, 122, 80, 0.16) !important;
+    background: rgba(8, 122, 80, 0.08) !important;
+    color: var(--aluno-contato-green) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-status.is-unavailable {
+    border-color: rgba(180, 83, 9, 0.15) !important;
+    background: rgba(180, 83, 9, 0.07) !important;
+    color: #9a4b0f !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-identidade {
+    position: relative !important;
+    z-index: 1 !important;
+    min-height: 82px !important;
+    display: grid !important;
+    grid-template-columns: 46px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-top: 14px !important;
+    padding: 12px !important;
+    border: 1px solid var(--aluno-contato-border-soft) !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.64) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-identidade-icon,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-section-icon,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app-icon,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-legal-icon {
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid rgba(124, 58, 237, 0.12) !important;
+    background: var(--aluno-contato-purple-soft) !important;
+    color: var(--aluno-contato-purple) !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-identidade-icon {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 14px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-section-icon,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app-icon,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-legal-icon {
+    width: 38px !important;
+    height: 38px !important;
+    flex: 0 0 38px !important;
+    border-radius: 12px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-identidade-icon svg,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-section-icon svg,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app-icon svg,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-legal-icon svg {
+    width: 19px !important;
+    height: 19px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-identidade > div {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 3px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-identidade small {
+    color: var(--aluno-contato-muted-2) !important;
+    font-size: 10px !important;
+    font-weight: 650 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-identidade strong {
+    color: var(--aluno-contato-text) !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-identidade p,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-helper,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app p,
+  #portalConteudo #viewContatoAluno .student-portal-legal p {
+    margin: 0 !important;
+    color: var(--aluno-contato-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-acoes,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-compartilhar {
+    padding: 15px !important;
+    border-radius: 19px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-section-heading {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-helper {
+    margin-top: 9px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-professor-slot,
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-compartilhar-slot {
+    margin-top: 12px !important;
+  }
+
+  #portalConteudo #viewContatoAluno #mobileAlunoContatoProfessorSlot #areaContatoProfessor {
+    display: grid !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+
+  #portalConteudo #viewContatoAluno #mobileAlunoContatoProfessorSlot #areaContatoProfessor .pay-button,
+  #portalConteudo #viewContatoAluno #mobileAlunoContatoProfessorSlot #areaContatoProfessor .whatsapp-button {
+    width: 100% !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin: 0 !important;
+    padding: 11px 13px !important;
+    border: 1px solid rgba(8, 122, 80, 0.18) !important;
+    border-radius: 13px !important;
+    background: #087a50 !important;
+    color: #fff !important;
+    box-shadow: 0 10px 22px rgba(8, 122, 80, 0.18) !important;
+    font-size: 12px !important;
+    font-weight: 780 !important;
+    text-decoration: none !important;
+  }
+
+  #portalConteudo #viewContatoAluno #mobileAlunoContatoProfessorSlot #areaContatoProfessor .soft-message {
+    margin: 0 !important;
+    padding: 13px !important;
+    border: 1px solid rgba(180, 83, 9, 0.13) !important;
+    border-radius: 13px !important;
+    background: rgba(180, 83, 9, 0.055) !important;
+    color: #784018 !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
+  }
+
+  #portalConteudo #viewContatoAluno #mobileAlunoContatoCompartilharSlot #btnCompartilhar {
+    width: 100% !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 11px 13px !important;
+    border: 1px solid rgba(124, 58, 237, 0.18) !important;
+    border-radius: 13px !important;
+    background: var(--aluno-contato-purple-soft) !important;
+    color: var(--aluno-contato-purple) !important;
+    box-shadow: none !important;
+    font-size: 12px !important;
+    font-weight: 760 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app {
+    min-height: 86px !important;
+    display: grid !important;
+    grid-template-columns: 38px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 11px !important;
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app > div {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-app button[data-pwa-install] {
+    min-height: 40px !important;
+    padding: 8px 11px !important;
+    border: 1px solid rgba(124, 58, 237, 0.18) !important;
+    border-radius: 11px !important;
+    background: var(--aluno-contato-purple) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 760 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal {
+    display: grid !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 15px !important;
+    border-radius: 19px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .mobile-aluno-contato-legal-heading {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal nav {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 7px !important;
+    margin: 0 !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal a {
+    min-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding: 9px 11px !important;
+    border: 1px solid var(--aluno-contato-border-soft) !important;
+    border-radius: 11px !important;
+    background: var(--aluno-contato-surface-soft) !important;
+    color: var(--aluno-contato-text) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+    text-decoration: none !important;
+  }
+
+  #portalConteudo #viewContatoAluno .student-portal-legal a b {
+    color: var(--aluno-contato-purple) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+  }
+
+  @media (max-width: 360px) {
+    #portalConteudo #viewContatoAluno .mobile-aluno-contato-hero,
+    #portalConteudo #viewContatoAluno .mobile-aluno-contato-acoes,
+    #portalConteudo #viewContatoAluno .mobile-aluno-contato-compartilhar,
+    #portalConteudo #viewContatoAluno .student-portal-legal {
+      padding-inline: 14px !important;
+    }
+
+    #portalConteudo #viewContatoAluno .mobile-aluno-contato-hero h2 {
+      max-width: 188px !important;
+    }
+
+    #portalConteudo #viewContatoAluno .mobile-aluno-contato-app {
+      grid-template-columns: 38px minmax(0, 1fr) !important;
+    }
+
+    #portalConteudo #viewContatoAluno .mobile-aluno-contato-app button[data-pwa-install] {
+      grid-column: 1 / -1 !important;
+      width: 100% !important;
+    }
+  }
+}

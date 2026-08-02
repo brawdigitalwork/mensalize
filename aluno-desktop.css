@@ -5844,3 +5844,49 @@
     }
   }
 }
+
+/* ========================================================================
+   HOTFIX — TOPO CLARO DO CONTATO NO DESKTOP
+   O Contato não possuía a sobrescrita clara da topbar usada pelos demais
+   módulos repaginados e, por isso, herdava o cabeçalho escuro legado.
+======================================================================== */
+@media (min-width: 761px) {
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewContatoAluno.ativa)
+    .student-topbar {
+    background: rgba(250, 251, 253, 0.94) !important;
+    border-bottom-color: #d9dee7 !important;
+    box-shadow: 0 8px 24px rgba(28, 35, 51, 0.07) !important;
+    backdrop-filter: blur(18px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewContatoAluno.ativa)
+    #btnAbrirMenuAluno {
+    color: #2b243d !important;
+    background: #f1edfb !important;
+    border-color: #d8d1eb !important;
+    box-shadow: none !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewContatoAluno.ativa)
+    .student-small-profile {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-color: #d9dee7 !important;
+    box-shadow: 0 5px 14px rgba(28, 35, 51, 0.055) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewContatoAluno.ativa)
+    .student-small-profile strong {
+    color: #202535 !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewContatoAluno.ativa)
+    .student-small-profile span {
+    color: #667085 !important;
+  }
+}

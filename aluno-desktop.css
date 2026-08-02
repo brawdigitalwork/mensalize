@@ -1930,18 +1930,20 @@
   #portalConteudo #viewFinancasAluno #areaPagamento > .pix-aluno-card-clean {
     grid-column: 1 / -1 !important;
     width: 100% !important;
-    padding: 18px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     grid-template-areas:
-      'pix-header pix-header'
-      'pix-code pix-confirm'
-      'pix-feedback pix-feedback' !important;
-    align-items: end !important;
-    gap: 14px !important;
+      'pix-header'
+      'pix-code'
+      'pix-confirm'
+      'pix-feedback' !important;
+    align-items: stretch !important;
+    gap: 0 !important;
     background:
-      radial-gradient(circle at 96% 0%, rgba(124, 58, 237, 0.09), transparent 36%),
-      linear-gradient(145deg, #e8e8ed, #dddfe5) !important;
+      radial-gradient(circle at 96% 0%, rgba(124, 58, 237, 0.07), transparent 32%),
+      linear-gradient(145deg, #e7e8ec, #dddfe5) !important;
     border: 1px solid #b8bdc9 !important;
     border-radius: 18px !important;
     box-shadow: none !important;
@@ -1950,6 +1952,8 @@
   #portalConteudo #viewFinancasAluno .pix-aluno-header-clean {
     grid-area: pix-header !important;
     margin: 0 !important;
+    padding: 18px 18px 14px !important;
+    border-bottom: 1px solid rgba(95, 101, 117, 0.12) !important;
   }
 
   #portalConteudo #viewFinancasAluno .pix-aluno-header-clean p {
@@ -1964,10 +1968,14 @@
     grid-area: pix-code !important;
     min-width: 0 !important;
     margin: 0 !important;
-    padding: 12px !important;
-    background: rgba(241, 241, 245, 0.7) !important;
-    border: 1px solid #bec2cc !important;
-    border-radius: 14px !important;
+    padding: 14px 18px 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-code-actions {
+    margin: 0 0 9px !important;
   }
 
   #portalConteudo #viewFinancasAluno .pix-code-actions > span {
@@ -1991,14 +1999,14 @@
 
   #portalConteudo #viewFinancasAluno .pix-aluno-textarea {
     width: 100% !important;
-    height: 62px !important;
-    min-height: 62px !important;
-    max-height: 62px !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
     padding: 11px 12px !important;
     resize: none !important;
     overflow: auto !important;
     color: #343044 !important;
-    background: rgba(247, 247, 249, 0.8) !important;
+    background: rgba(247, 247, 249, 0.88) !important;
     border: 1px solid #b8bdc9 !important;
     border-radius: 11px !important;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
@@ -2009,10 +2017,11 @@
   #portalConteudo #viewFinancasAluno .btn-confirm-pix-clean {
     grid-area: pix-confirm !important;
     width: auto !important;
-    min-width: 210px !important;
-    min-height: 48px !important;
-    margin: 0 !important;
-    padding-inline: 18px !important;
+    min-width: 0 !important;
+    min-height: 43px !important;
+    justify-self: start !important;
+    margin: 13px 18px 16px !important;
+    padding-inline: 16px !important;
     color: #fff !important;
     background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
     border: 0 !important;
@@ -2022,12 +2031,16 @@
 
   #portalConteudo #viewFinancasAluno .pix-feedback-message {
     grid-area: pix-feedback !important;
-    margin: -3px 0 0 !important;
+    margin: -7px 18px 16px !important;
     color: var(--aluno-finance-muted) !important;
   }
 
   #portalConteudo #viewFinancasAluno .pix-feedback-message.is-error {
     color: #b91c1c !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-feedback-message:empty {
+    display: none !important;
   }
 
   #portalConteudo #viewFinancasAluno #areaPagamento > .pay-button,
@@ -2121,17 +2134,6 @@
   @media (max-width: 1080px) {
     #portalConteudo #viewFinancasAluno.ativa {
       grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    #portalConteudo #viewFinancasAluno #areaPagamento > .pix-aluno-card,
-    #portalConteudo #viewFinancasAluno #areaPagamento > .pix-aluno-card-clean {
-      grid-template-columns: minmax(0, 1fr) !important;
-      grid-template-areas:
-        'pix-header'
-        'pix-code'
-        'pix-confirm'
-        'pix-feedback' !important;
-      align-items: stretch !important;
     }
 
     #portalConteudo #viewFinancasAluno .btn-confirm-pix-clean {

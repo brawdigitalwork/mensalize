@@ -2307,6 +2307,326 @@
 }
 
 /* ==========================================================================
+   EVOLUÇÃO DO ALUNO — VISUAL CLARO
+   Graduação, próximo passo e solicitações com leitura simples.
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  #portalConteudo.student-app:has(#viewGraduacaoAluno.ativa) {
+    --aluno-evolucao-bg: #cfd2dc;
+    --aluno-evolucao-surface: #e3e4e9;
+    --aluno-evolucao-surface-2: #d9dbe2;
+    --aluno-evolucao-border: #b5bac7;
+    --aluno-evolucao-text: #211a31;
+    --aluno-evolucao-muted: #4f586a;
+    --aluno-evolucao-muted-2: #687183;
+    color: var(--aluno-evolucao-text) !important;
+    background:
+      radial-gradient(circle at 13% 0%, rgba(124, 58, 237, 0.12), transparent 28%),
+      radial-gradient(circle at 94% 10%, rgba(14, 165, 233, 0.07), transparent 25%),
+      linear-gradient(145deg, #d9dbe3, var(--aluno-evolucao-bg) 68%, #d5d7df) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewGraduacaoAluno.ativa)
+    .student-topbar {
+    background: rgba(228, 229, 235, 0.92) !important;
+    border-bottom-color: var(--aluno-evolucao-border) !important;
+    box-shadow: 0 12px 30px rgba(44, 37, 63, 0.1) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewGraduacaoAluno.ativa)
+    #btnAbrirMenuAluno {
+    color: #312846 !important;
+    background: rgba(124, 58, 237, 0.07) !important;
+    border-color: var(--aluno-evolucao-border) !important;
+  }
+
+  #portalConteudo.student-app:has(#viewGraduacaoAluno.ativa)
+    .student-small-profile {
+    background: rgba(228, 229, 235, 0.88) !important;
+    border-color: var(--aluno-evolucao-border) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.54) !important;
+  }
+
+  #portalConteudo.student-app:has(#viewGraduacaoAluno.ativa)
+    .student-small-profile strong {
+    color: var(--aluno-evolucao-text) !important;
+  }
+
+  #portalConteudo.student-app:has(#viewGraduacaoAluno.ativa)
+    .student-small-profile span {
+    color: var(--aluno-evolucao-muted) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno.ativa {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: start !important;
+    gap: 18px !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno > article.panel-card {
+    min-width: 0 !important;
+    padding: clamp(20px, 2.4vw, 28px) !important;
+    color: var(--aluno-evolucao-text) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.055), transparent 30%),
+      linear-gradient(145deg, var(--aluno-evolucao-surface), var(--aluno-evolucao-surface-2)) !important;
+    border-color: var(--aluno-evolucao-border) !important;
+    border-radius: 24px !important;
+    box-shadow:
+      0 18px 42px rgba(44, 37, 63, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.56) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno.ativa > article.panel-card:first-of-type {
+    grid-column: 1 / -1 !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno.ativa > article.panel-card {
+    animation: desktopAlunoEvolucaoEntrada 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno.ativa > article.panel-card:nth-of-type(2) {
+    animation-delay: 70ms !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno.ativa > article.panel-card:nth-of-type(3) {
+    animation-delay: 125ms !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .section-title-row h2,
+  #portalConteudo #viewGraduacaoAluno .student-request-card h2 {
+    color: var(--aluno-evolucao-text) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .eyebrow {
+    color: #6d28d9 !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mini-badge {
+    color: #5b21b6 !important;
+    background: rgba(124, 58, 237, 0.075) !important;
+    border-color: rgba(124, 58, 237, 0.16) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mini-badge.status-ok {
+    color: #046c4f !important;
+    background: rgba(4, 108, 79, 0.09) !important;
+    border-color: rgba(4, 108, 79, 0.16) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mini-badge.status-warn {
+    color: #92400e !important;
+    background: rgba(146, 64, 14, 0.09) !important;
+    border-color: rgba(146, 64, 14, 0.16) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid {
+    --aluno-evolucao-faixa: #8b5cf6;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-top: 18px !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="preta"] { --aluno-evolucao-faixa: #15151a; }
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="marrom"] { --aluno-evolucao-faixa: #6f3f24; }
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="roxa"] { --aluno-evolucao-faixa: #6d38b2; }
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="azul"] { --aluno-evolucao-faixa: #2269c9; }
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="verde"] { --aluno-evolucao-faixa: #26905d; }
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="amarela"] { --aluno-evolucao-faixa: #e9bd2c; }
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="laranja"] { --aluno-evolucao-faixa: #e78424; }
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="cinza"] { --aluno-evolucao-faixa: #868894; }
+  #portalConteudo #viewGraduacaoAluno .student-evolution-grid[data-faixa*="branca"] { --aluno-evolucao-faixa: #ececf0; }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info {
+    position: relative !important;
+    min-width: 0 !important;
+    min-height: 108px !important;
+    display: grid !important;
+    align-content: center !important;
+    gap: 7px !important;
+    padding: 18px !important;
+    overflow: hidden !important;
+    color: var(--aluno-evolucao-text) !important;
+    background: rgba(239, 240, 244, 0.68) !important;
+    border: 1px solid #bec2cc !important;
+    border-radius: 17px !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info::before {
+    content: "";
+    position: absolute;
+    inset: 14px auto 14px 0;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: rgba(124, 58, 237, 0.36);
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info > span {
+    color: var(--aluno-evolucao-muted-2) !important;
+    font-size: 10px !important;
+    font-weight: 720 !important;
+    letter-spacing: 0.055em !important;
+    text-transform: uppercase !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info > strong {
+    overflow-wrap: anywhere !important;
+    color: var(--aluno-evolucao-text) !important;
+    font-size: 16px !important;
+    font-weight: 790 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.18 !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info-1,
+  #portalConteudo #viewGraduacaoAluno .evolution-info-6 {
+    grid-column: span 2 !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info-1 {
+    min-height: 142px !important;
+    padding: 20px 22px 62px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.11), transparent 42%),
+      rgba(239, 240, 244, 0.76) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info-1::before {
+    display: none !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info-1::after {
+    content: "";
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 20px;
+    height: 25px;
+    border: 1px solid rgba(73, 78, 91, 0.24);
+    border-radius: 8px;
+    background:
+      linear-gradient(90deg, var(--aluno-evolucao-faixa) 0 78%, #282532 78% 100%);
+    box-shadow: 0 8px 18px rgba(44, 37, 63, 0.12);
+    animation: desktopAlunoEvolucaoFaixa 540ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info-1 > strong {
+    font-size: clamp(23px, 2.5vw, 32px) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .evolution-info-6 {
+    background:
+      linear-gradient(105deg, rgba(124, 58, 237, 0.085), transparent 58%),
+      rgba(239, 240, 244, 0.7) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .student-request-card.request-open {
+    border-color: rgba(124, 58, 237, 0.24) !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.08), transparent 36%),
+      linear-gradient(145deg, var(--aluno-evolucao-surface), var(--aluno-evolucao-surface-2)) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .helper-text,
+  #portalConteudo #viewGraduacaoAluno .student-request-body > p,
+  #portalConteudo #viewGraduacaoAluno .soft-message {
+    color: var(--aluno-evolucao-muted) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .student-request-body {
+    border-top-color: rgba(79, 88, 106, 0.14) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .link-button {
+    color: #5b21b6 !important;
+    background: rgba(124, 58, 237, 0.075) !important;
+    border-color: rgba(124, 58, 237, 0.18) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .student-form label > span {
+    color: var(--aluno-evolucao-muted-2) !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno :where(input, select, textarea) {
+    color: var(--aluno-evolucao-text) !important;
+    background: rgba(244, 244, 247, 0.82) !important;
+    border-color: #b8bdc9 !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno :where(input, textarea)::placeholder {
+    color: #7c8493 !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .secondary-action {
+    border: 0 !important;
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+    color: #fff !important;
+    box-shadow: 0 10px 22px rgba(124, 58, 237, 0.16) !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo #viewGraduacaoAluno .evolution-info:hover,
+    #portalConteudo #viewGraduacaoAluno .student-request-card:hover {
+      transform: translateY(-2px) !important;
+      border-color: rgba(124, 58, 237, 0.28) !important;
+      box-shadow: 0 16px 34px rgba(44, 37, 63, 0.12) !important;
+    }
+  }
+
+  @media (max-width: 1080px) {
+    #portalConteudo #viewGraduacaoAluno .student-evolution-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+  }
+
+  @media (max-width: 900px) {
+    #portalConteudo #viewGraduacaoAluno.ativa {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    #portalConteudo #viewGraduacaoAluno.ativa > article.panel-card:first-of-type {
+      grid-column: auto !important;
+    }
+  }
+
+  @keyframes desktopAlunoEvolucaoEntrada {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes desktopAlunoEvolucaoFaixa {
+    from {
+      opacity: 0;
+      transform: scaleX(0.84);
+      transform-origin: left center;
+    }
+    to {
+      opacity: 1;
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #portalConteudo #viewGraduacaoAluno.ativa > article.panel-card,
+    #portalConteudo #viewGraduacaoAluno .evolution-info-1::after {
+      animation: none !important;
+    }
+  }
+}
+
+/* ==========================================================================
    HOME DO ALUNO — REFINO VISUAL CLARO
    Paleta alinhada à Home do professor. Escopo exclusivo da Home autenticada.
    ========================================================================== */

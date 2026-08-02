@@ -18,8 +18,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="aluno.css" />
-  <link rel="stylesheet" href="aluno-mobile.css?v=11.4-pix-express" />
-  <link rel="stylesheet" href="aluno-desktop.css?v=3.2-pix-express" />
+  <link rel="stylesheet" href="aluno-mobile.css?v=11.5-evolucao-clara" />
+  <link rel="stylesheet" href="aluno-desktop.css?v=3.3-evolucao-clara" />
   <link rel="stylesheet" href="pwa-install.css" />
   <link rel="icon" href="logo-aluno.png" />
   <link rel="apple-touch-icon" href="icons/mensalize-aluno-icon-192.png" />
@@ -2586,6 +2586,7 @@
 
     function renderizarEvolucaoAluno(aluno) {
       const status = statusEvolucaoAluno(aluno);
+      conteudoEvolucaoAluno.dataset.faixa = String(aluno.faixa || "").trim().toLowerCase();
       if (badgeEvolucao) {
         badgeEvolucao.textContent = status.texto;
         badgeEvolucao.className = `mini-badge ${status.classe}`;
@@ -2598,9 +2599,9 @@
         ["Tempo mínimo", aluno.tempo_avaliacao_meses ? `${aluno.tempo_avaliacao_meses} meses` : "Não informado"],
         ["Previsão para avaliação", status.data ? formatarData(status.data) : "Não calculada"]
       ];
-      conteudoEvolucaoAluno.replaceChildren(...linhas.map(([label, valor]) => {
+      conteudoEvolucaoAluno.replaceChildren(...linhas.map(([label, valor], indice) => {
         const linha = document.createElement("div");
-        linha.className = "evolution-info";
+        linha.className = `evolution-info evolution-info-${indice + 1}`;
 
         const rotulo = document.createElement("span");
         rotulo.textContent = label;

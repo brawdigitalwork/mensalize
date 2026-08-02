@@ -8358,3 +8358,45 @@
     }
   }
 }
+
+/* ========================================================================== 
+   HOTFIX CONTATO — TOPO CLARO
+   Garante que o cabeçalho interno e o hero não herdem o tema escuro legado.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  body:has(#viewContatoAluno.ativa) #portalConteudo .mobile-aluno-header {
+    color: #211a31 !important;
+    background: rgba(238, 239, 244, 0.97) !important;
+    border-bottom-color: #c4c9d3 !important;
+    box-shadow: 0 12px 30px rgba(44, 37, 63, 0.11) !important;
+  }
+
+  body:has(#viewContatoAluno.ativa) #portalConteudo #mobileAlunoTituloInterno {
+    color: #211a31 !important;
+  }
+
+  body:has(#viewContatoAluno.ativa) #portalConteudo .mobile-aluno-header .mobile-aluno-icon-button {
+    color: #312846 !important;
+    background: rgba(124, 58, 237, 0.07) !important;
+    border-color: #c4c9d3 !important;
+  }
+
+  #portalConteudo #viewContatoAluno.ativa .mobile-aluno-contato-hero {
+    color: #211a31 !important;
+    border-color: #c4c9d3 !important;
+    background:
+      radial-gradient(circle at 96% 0%, rgba(124, 58, 237, 0.12), transparent 40%),
+      linear-gradient(145deg, #ffffff, #eef0f5) !important;
+  }
+
+  #portalConteudo #viewContatoAluno.ativa .mobile-aluno-contato-hero h2,
+  #portalConteudo #viewContatoAluno.ativa .mobile-aluno-contato-hero strong {
+    color: #211a31 !important;
+  }
+
+  #portalConteudo #viewContatoAluno.ativa .mobile-aluno-contato-hero p,
+  #portalConteudo #viewContatoAluno.ativa .mobile-aluno-contato-hero small {
+    color: #50596b !important;
+  }
+}

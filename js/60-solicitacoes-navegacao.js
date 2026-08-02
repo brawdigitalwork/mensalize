@@ -521,7 +521,7 @@ async function carregarSolicitacoesAlteracao() {
   if (idsAlunos.length) {
     const { data: alunosSolicitacoes } = await supabaseClient
       .from("alunos")
-      .select("id, user_id, nome, telefone, valor, vencimento, turma, faixa, grau, data_ultima_graduacao")
+      .select("id, user_id, nome, telefone, valor, vencimento, dia_vencimento, turma, faixa, grau, data_ultima_graduacao")
       .in("id", idsAlunos);
 
     (alunosSolicitacoes || []).forEach(a => alunosPorId.set(String(a.id), a));
@@ -714,7 +714,7 @@ async function aprovarSolicitacaoPagamento(id) {
 
   const { data: aluno, error: erroAluno } = await supabaseClient
     .from("alunos")
-    .select("id,user_id,nome,valor,vencimento")
+    .select("id,user_id,nome,valor,vencimento,dia_vencimento")
     .eq("id", solicitacao.aluno_id)
     .eq("user_id", usuarioAtual.id)
     .single();
@@ -730,7 +730,7 @@ async function aprovarSolicitacaoPagamento(id) {
   }
 
   const resultado = await registrarPagamentoAluno(aluno, {
-    dataPagamento: solicitacao.data_pagamento || new Date().toISOString().split("T")[0],
+    dataPagamento: solicitacao.data_pagamento || dataHojeLocalISO(),
     valorPagamento: solicitacao.valor_informado || aluno.valor
   });
 
@@ -1032,7 +1032,10 @@ async function salvarPerfilProfessor(event) {
     return;
   }
 
-  const botaoSalvar = formPerfil?.querySelector("button[type='submit']");
+  const botaoAcionado = event.submitter;
+  const botaoSalvar = botaoAcionado?.matches?.("button[type='submit']")
+    ? botaoAcionado
+    : formPerfil?.querySelector("button[type='submit']");
   const textoOriginalBotao = botaoSalvar?.textContent || "Salvar configurações";
 
   if (botaoSalvar) {

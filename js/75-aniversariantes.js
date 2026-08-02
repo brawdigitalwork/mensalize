@@ -171,20 +171,27 @@ function criarItemAniversariante(aluno) {
   const foto = aluno.foto_url
     ? `<img src="${fotoUrlSegura}" alt="Foto de ${nomeSeguro}" class="aniversariante-foto">`
     : `<div class="aniversariante-avatar">${inicialSegura}</div>`;
+  const destaqueHoje = aluno.aniversario_hoje ? " aniversariante-item-hoje" : "";
+  const resumoSeguro = escaparHtmlAniversariante(resumoTextoAniversariante(aluno));
 
   return `
-    <div class="aniversariante-item">
+    <article class="aniversariante-item${destaqueHoje}">
       <div class="aniversariante-identidade">
         ${foto}
-        <div>
+        <div class="aniversariante-dados">
           <strong>${nomeSeguro}</strong>
-          <span>${formatarDiaMes(aluno.data_nascimento)} • ${resumoTextoAniversariante(aluno)}</span>
+          <span class="aniversariante-data">${formatarDiaMes(aluno.data_nascimento)}</span>
+          <small>${resumoSeguro}</small>
         </div>
       </div>
-      <button type="button" class="btn-parabens" ${telefoneValido ? `data-aniversario-parabens="${alunoIdSeguro}"` : "disabled"}>
-        Parabenizar
+      <button
+        type="button"
+        class="btn-parabens"
+        ${telefoneValido ? `data-aniversario-parabens="${alunoIdSeguro}"` : `disabled title="Cadastre um WhatsApp para enviar a mensagem"`}
+      >
+        ${telefoneValido ? "Enviar mensagem" : "Sem WhatsApp"}
       </button>
-    </div>
+    </article>
   `;
 }
 
@@ -193,12 +200,13 @@ function blocoAniversariantes(titulo, descricao, lista) {
 
   return `
     <article class="aniversariantes-bloco">
-      <div class="painel-topo aniversariantes-bloco-topo">
+      <header class="aniversariantes-bloco-topo">
         <div>
           <span class="page-eyebrow">${descricao}</span>
-          <h2>${titulo}</h2>
+          <h3>${titulo}</h3>
         </div>
-      </div>
+        <span class="aniversariantes-bloco-contador">${lista.length}</span>
+      </header>
       <div class="aniversariantes-lista-interna">
         ${lista.map(criarItemAniversariante).join("")}
       </div>

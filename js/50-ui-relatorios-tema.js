@@ -564,7 +564,7 @@ async function abrirHistorico(alunoId) {
     .order("data_pagamento", { ascending: false });
 
   if (error) { modalListaPagamentos.innerHTML = "<p>Erro ao carregar histórico.</p>"; return; }
-  if (!data.length) { modalListaPagamentos.innerHTML = "<p style='color:#a1a1aa;text-align:center;padding:20px;'>Nenhum pagamento registrado ainda.</p>"; return; }
+  if (!data.length) { modalListaPagamentos.innerHTML = "<p class='modal-historico-vazio'>Nenhum pagamento registrado ainda.</p>"; return; }
 
   modalListaPagamentos.innerHTML = "";
   data.forEach(pagamento => {
@@ -577,9 +577,28 @@ async function abrirHistorico(alunoId) {
     div.innerHTML = `
       <span>${formatarData(pagamento.data_pagamento)} · ${referencia}</span>
       <strong>${valor}</strong>
-      <button onclick="deletarPagamento('${pagamento.id}', '${alunoId}')" class="btn-deletar-pagamento" title="Remover pagamento">🗑</button>
+      <button
+        type="button"
+        class="btn-deletar-pagamento"
+        data-remover-pagamento="${pagamento.id}"
+        data-remover-pagamento-aluno="${alunoId}"
+        title="Remover pagamento"
+      >Remover</button>
     `;
     modalListaPagamentos.appendChild(div);
+  });
+}
+
+if (modalListaPagamentos && !modalListaPagamentos.dataset.remocaoPagamentoConfigurada) {
+  modalListaPagamentos.dataset.remocaoPagamentoConfigurada = "true";
+  modalListaPagamentos.addEventListener("click", event => {
+    const botao = event.target.closest("[data-remover-pagamento]");
+    if (!botao) return;
+
+    deletarPagamento(
+      botao.getAttribute("data-remover-pagamento"),
+      botao.getAttribute("data-remover-pagamento-aluno")
+    );
   });
 }
 
@@ -674,8 +693,10 @@ async function carregarGrafico() {
   const areaGrafico = document.getElementById("areaGrafico");
   const graficoBars = document.getElementById("graficoBars");
 
+  if (!areaGrafico || !graficoBars) return;
+
   areaGrafico.classList.remove("escondido");
-  graficoBars.innerHTML = `<p style="color:#a1a1aa;text-align:center;padding:20px;">Carregando gráfico...</p>`;
+  graficoBars.innerHTML = `<p class="grafico-carregando">Carregando gráfico...</p>`;
 
   const hoje = new Date();
   const meses = [];
@@ -725,14 +746,29 @@ async function carregarGrafico() {
   }).join("");
 }
 
-document.getElementById("btnFecharGrafico").addEventListener("click", () => {
-  document.getElementById("areaGrafico").classList.add("escondido");
-});
+const btnFecharGrafico = document.getElementById("btnFecharGrafico");
+const btnAbrirGraficoFinanceiro = document.getElementById("btnAbrirGraficoFinanceiro");
+
+if (btnFecharGrafico) {
+  btnFecharGrafico.addEventListener("click", () => {
+    document.getElementById("areaGrafico")?.classList.add("escondido");
+  });
+}
+
+if (btnAbrirGraficoFinanceiro) {
+  btnAbrirGraficoFinanceiro.addEventListener("click", async () => {
+    await carregarGrafico();
+    document.getElementById("areaGrafico")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
 
 // Abre o gráfico ao clicar em "Recebido no mês"
-document.querySelector(".card.receita").style.cursor = "pointer";
-document.querySelector(".card.receita").addEventListener("click", carregarGrafico);
-document.querySelector(".card.receita").title = "Clique para ver gráfico";
+const cardReceitaDashboard = document.querySelector(".card.receita");
+if (cardReceitaDashboard) {
+  cardReceitaDashboard.style.cursor = "pointer";
+  cardReceitaDashboard.addEventListener("click", carregarGrafico);
+  cardReceitaDashboard.title = "Clique para ver o histórico de recebimentos";
+}
 
 // ===============================
 // 32. TEMA — CLARO / ESCURO

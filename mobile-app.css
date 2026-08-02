@@ -953,7 +953,7 @@
     padding: 0 !important;
     border: 0 !important;
     border-radius: 0 !important;
-    background: rgba(0, 0, 0, 0.68) !important;
+    background: rgba(44, 37, 63, 0.46) !important;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
   }
@@ -1459,5 +1459,138 @@
     overflow-x: hidden !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ============================================================================
+   HOME DO PROFESSOR — MOBILE SIMPLES
+   Mantém somente o resumo, as ações principais e a prioridade do dia.
+============================================================================ */
+@media (max-width: 760px) {
+  :root {
+    --mobile-bg: #d3d6df;
+    --mobile-bg-deep: #cdd1dc;
+    --mobile-surface: #e0e2e8;
+    --mobile-surface-2: #d8dae2;
+    --mobile-surface-3: #cfd2dc;
+    --mobile-border: #b4b9c6;
+    --mobile-border-soft: #c5c8d2;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-professor-home {
+    gap: 11px !important;
+    padding-top: 0 !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-academia-card {
+    min-height: 62px !important;
+    padding: 11px 13px !important;
+    border-radius: 16px !important;
+    background: var(--mobile-surface) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-academia-icon {
+    width: 36px !important;
+    height: 36px !important;
+    flex-basis: 36px !important;
+    border-radius: 11px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-card {
+    border-radius: 18px !important;
+    background: var(--mobile-surface) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-topo {
+    min-height: 50px !important;
+    padding: 12px 14px 8px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-valores {
+    min-height: 86px !important;
+    margin: 0 9px !important;
+    border-radius: 14px !important;
+    background: var(--mobile-surface-2) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-metrica {
+    min-height: 84px !important;
+    padding: 11px 7px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-metrica strong {
+    font-size: clamp(20px, 6vw, 25px) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-link {
+    min-height: 46px !important;
+    padding: 10px 14px !important;
+    font-size: 12px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-acoes-principais {
+    gap: 8px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-action-card {
+    min-height: 96px !important;
+    padding: 10px 6px !important;
+    border-radius: 16px !important;
+    background: var(--mobile-surface) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-action-icon {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-action-icon svg {
+    width: 19px !important;
+    height: 19px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-proxima-acao {
+    min-height: 80px !important;
+    padding: 12px !important;
+    border-radius: 16px !important;
+    background: var(--mobile-surface) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-proxima-acao-icone {
+    width: 39px !important;
+    height: 39px !important;
+    border-radius: 12px !important;
+    font-size: 18px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-acesso-rapido {
+    display: none !important;
+  }
+
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > * {
+    animation: mensalizeHomeMobileEntrada 360ms var(--ease-out, ease-out) both !important;
+  }
+
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > :nth-child(2) {
+    animation-delay: 45ms !important;
+  }
+
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > :nth-child(3) {
+    animation-delay: 90ms !important;
+  }
+
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > :nth-child(4) {
+    animation-delay: 135ms !important;
+  }
+}
+
+@keyframes mensalizeHomeMobileEntrada {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > * {
+    animation: none !important;
   }
 }

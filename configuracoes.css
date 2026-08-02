@@ -763,3 +763,513 @@
     display: none;
   }
 }
+
+/* ============================================================================
+   CONFIGURAÇÕES V3 — CAMADA VISUAL FINAL DO PROFESSOR
+   Mantém abas, campos, plano, módulos e salvamento existentes.
+============================================================================ */
+
+#viewPerfil .perfil-configuracoes-v3 {
+  width: min(100%, 1120px) !important;
+  max-width: 1120px !important;
+  margin-inline: auto !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-shell {
+  grid-template-columns: 224px minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 12px !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-sidebar {
+  top: 88px;
+  gap: 10px;
+  padding: 11px;
+  border: 1px solid var(--borda);
+  border-radius: 17px;
+  background:
+    linear-gradient(155deg, rgba(124, 58, 237, .045), rgba(79, 127, 232, .018)),
+    var(--bg-nivel-1);
+  box-shadow: var(--sombra-sm);
+  animation: mensalizeConfigEntrada 320ms var(--ease-out) both;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-brand {
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 9px;
+  padding: 2px 2px 10px;
+  border-color: var(--borda);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-brand-icon {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--cor-roxo-borda);
+  border-radius: 11px;
+  background: var(--cor-roxo-bg);
+  color: var(--cor-roxo);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-brand-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-brand .page-eyebrow {
+  margin-bottom: 3px !important;
+  color: var(--cor-roxo) !important;
+  font-size: 7px !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-brand strong {
+  color: var(--texto-primario);
+  font-size: 13px;
+  font-weight: 720;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-brand small {
+  color: var(--texto-secundario);
+  font-size: 9px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-abas-v3 {
+  gap: 4px !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba {
+  grid-template-columns: 30px minmax(0, 1fr) !important;
+  gap: 8px !important;
+  min-height: 46px !important;
+  padding: 6px 7px !important;
+  border: 1px solid transparent !important;
+  border-radius: 11px !important;
+  color: var(--texto-secundario) !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba:hover {
+  border-color: var(--borda) !important;
+  background: var(--bg-nivel-2) !important;
+  color: var(--texto-primario) !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba.ativa {
+  border-color: var(--cor-roxo-borda) !important;
+  background: var(--cor-roxo-bg) !important;
+  color: var(--cor-roxo) !important;
+  box-shadow: inset 2px 0 0 var(--cor-roxo) !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba-icone {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--borda);
+  border-radius: 9px;
+  background: var(--bg-nivel-2);
+  color: var(--texto-secundario);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba.ativa .config-aba-icone {
+  border-color: var(--cor-roxo-borda);
+  background: var(--bg-nivel-1);
+  color: var(--cor-roxo);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba-icone svg {
+  width: 15px;
+  height: 15px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba-copy {
+  gap: 1px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba-copy strong {
+  font-size: 10px;
+  font-weight: 720;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba-copy small {
+  color: var(--texto-terciario);
+  font-size: 8px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-aba-seta {
+  display: none !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 {
+  gap: 6px;
+  margin: 0;
+  padding: 10px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 13px !important;
+  background:
+    linear-gradient(145deg, rgba(124, 58, 237, .055), rgba(79, 127, 232, .018)),
+    var(--bg-nivel-2) !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-plano-icone {
+  width: 26px;
+  height: 26px;
+  flex-basis: 26px;
+  border-radius: 8px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-plano-icone svg {
+  width: 14px;
+  height: 14px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 > strong {
+  margin: 0;
+  color: var(--texto-primario);
+  font-size: 12px;
+  font-weight: 730;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 > small {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--texto-secundario);
+  font-size: 8px;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 #btnPerfilVerUpgrade {
+  justify-self: start;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 29px !important;
+  margin: 0 !important;
+  padding: 0 9px !important;
+  border: 1px solid var(--cor-roxo-borda) !important;
+  border-radius: 8px !important;
+  background: var(--bg-nivel-1) !important;
+  color: var(--cor-roxo) !important;
+  font-size: 8px !important;
+  box-shadow: none !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-conteudo {
+  gap: 12px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3 {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 14px !important;
+  padding: 18px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 18px !important;
+  background:
+    radial-gradient(circle at 94% 0%, rgba(124, 58, 237, .12), transparent 36%),
+    linear-gradient(145deg, rgba(124, 58, 237, .055), rgba(79, 127, 232, .025)),
+    var(--bg-nivel-1) !important;
+  box-shadow: var(--sombra-sm) !important;
+  animation: mensalizeConfigEntrada 340ms 40ms var(--ease-out) both;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3::after {
+  right: -58px;
+  top: -68px;
+  width: 150px;
+  height: 150px;
+  opacity: .65;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3 .page-eyebrow {
+  margin-bottom: 5px !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3 h2 {
+  margin: 0 0 3px !important;
+  color: var(--texto-primario) !important;
+  font-size: clamp(22px, 2.2vw, 28px) !important;
+  font-weight: 720 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.045em !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3 p {
+  max-width: 620px;
+  color: var(--texto-secundario) !important;
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-status {
+  min-width: 158px;
+  padding: 9px 10px;
+  border: 1px solid var(--verde-borda);
+  border-radius: 12px;
+  background: var(--verde-bg);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-status strong {
+  color: var(--verde);
+  font-size: 9px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-status small {
+  color: var(--texto-secundario);
+  font-size: 7px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel {
+  border: 1px solid var(--borda);
+  border-radius: 17px;
+  background:
+    linear-gradient(145deg, rgba(124, 58, 237, .025), transparent 42%),
+    var(--bg-nivel-1);
+  box-shadow: var(--sombra-sm);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel.ativo {
+  animation: mensalizeConfigPainelEntrada 260ms var(--ease-out) both;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel-header {
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 10px;
+  padding: 14px 16px !important;
+  border-color: var(--borda) !important;
+  background: transparent;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel-icone {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--cor-roxo-borda);
+  border-radius: 11px;
+  background: var(--cor-roxo-bg);
+  color: var(--cor-roxo);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel-icone svg {
+  width: 17px;
+  height: 17px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel-etiqueta {
+  margin-bottom: 3px;
+  color: var(--cor-roxo);
+  font-size: 7px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel-header strong {
+  color: var(--texto-primario) !important;
+  font-size: 15px !important;
+  font-weight: 710 !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel-header small {
+  margin-top: 2px;
+  color: var(--texto-secundario);
+  font-size: 9px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-painel-corpo {
+  padding: 16px;
+  background: rgba(124, 58, 237, .015);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-grid-duplo,
+#viewPerfil .perfil-configuracoes-v3 .config-grid-tres {
+  gap: 11px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .campo-perfil {
+  gap: 5px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .campo-perfil > span {
+  color: var(--texto-secundario);
+  font-size: 9px;
+  font-weight: 720;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .campo-perfil input,
+#viewPerfil .perfil-configuracoes-v3 .campo-perfil textarea {
+  min-height: 43px !important;
+  padding: 10px 11px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 10px !important;
+  background: var(--bg-nivel-2) !important;
+  color: var(--texto-primario) !important;
+  font-size: 12px !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .campo-perfil textarea {
+  min-height: 100px !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .campo-perfil input:focus,
+#viewPerfil .perfil-configuracoes-v3 .campo-perfil textarea:focus {
+  border-color: var(--cor-roxo) !important;
+  box-shadow: 0 0 0 3px var(--cor-roxo-bg) !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-campo-ajuda {
+  color: var(--texto-terciario);
+  font-size: 8px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-acoes {
+  min-height: 54px;
+  gap: 9px !important;
+  padding: 9px 16px !important;
+  border-color: var(--borda) !important;
+  background: var(--bg-nivel-2);
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-acoes .msg-perfil,
+#viewPerfil .perfil-configuracoes-v3 .config-acao-contexto {
+  color: var(--texto-secundario);
+  font-size: 8px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-acoes .btn-salvar-perfil {
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 34px !important;
+  padding: 0 12px !important;
+  border-radius: 9px !important;
+  font-size: 9px !important;
+  font-weight: 720 !important;
+  box-shadow: none !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-acoes .btn-salvar-perfil:hover {
+  box-shadow: none !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-modulos-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-modulo-item {
+  min-height: 45px !important;
+  padding: 8px 9px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 10px !important;
+  background: var(--bg-nivel-2) !important;
+  color: var(--texto-secundario) !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-modulo-item:has(input:checked) {
+  border-color: var(--verde-borda) !important;
+  background: var(--verde-bg) !important;
+  color: var(--verde) !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .config-modulo-item > span:last-child {
+  font-size: 9px;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-aviso-admin {
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 10px !important;
+  padding: 9px 10px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 10px !important;
+  background: var(--bg-nivel-2) !important;
+  color: var(--texto-secundario) !important;
+  font-size: 8px !important;
+}
+
+#viewPerfil .perfil-configuracoes-v3 .perfil-aviso-admin > span {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: var(--cor-roxo-bg);
+  color: var(--cor-roxo);
+}
+
+#viewPerfil #cardAtualizacaoSistema {
+  width: min(100%, 1120px) !important;
+  margin: 12px auto 0 !important;
+  padding: 15px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 17px !important;
+  background:
+    linear-gradient(145deg, rgba(124, 58, 237, .025), transparent 42%),
+    var(--bg-nivel-1) !important;
+  box-shadow: var(--sombra-sm) !important;
+  animation: mensalizeConfigEntrada 360ms 90ms var(--ease-out) both;
+}
+
+#viewPerfil #cardAtualizacaoSistema .painel-topo {
+  margin: 0 0 11px !important;
+  padding: 0 0 10px !important;
+  border-bottom: 1px solid var(--borda) !important;
+}
+
+#viewPerfil #cardAtualizacaoSistema .painel-topo h2 {
+  margin: 3px 0 !important;
+  color: var(--texto-primario) !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+#viewPerfil #cardAtualizacaoSistema .painel-topo p {
+  margin: 0 !important;
+  color: var(--texto-secundario) !important;
+  font-size: 9px !important;
+}
+
+#viewPerfil #cardAtualizacaoSistema .cache-actions {
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px !important;
+}
+
+#viewPerfil #cardAtualizacaoSistema .cache-actions > button {
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 31px !important;
+  padding: 0 9px !important;
+  border: 1px solid var(--borda) !important;
+  border-radius: 8px !important;
+  background: var(--bg-nivel-2) !important;
+  color: var(--texto-primario) !important;
+  font-size: 8px !important;
+  box-shadow: none !important;
+}
+
+#viewPerfil #cardAtualizacaoSistema .cache-actions > span {
+  margin-left: auto;
+  color: var(--texto-secundario) !important;
+  font-size: 8px !important;
+}
+
+@keyframes mensalizeConfigEntrada {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 980px) and (min-width: 761px) {
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-shell {
+    grid-template-columns: 200px minmax(0, 1fr) !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-grid-tres,
+  #viewPerfil .perfil-configuracoes-v3 .config-modulos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-status {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-sidebar,
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3,
+  #viewPerfil #cardAtualizacaoSistema {
+    animation: none !important;
+  }
+}

@@ -675,10 +675,12 @@ function atualizarResumoTurmasPremium() {
   const totalTurmas = document.getElementById("resumoTotalTurmas");
   const turmasAtivas = document.getElementById("resumoTurmasAtivas");
   const aulasCanceladasResumo = document.getElementById("resumoAulasCanceladas");
+  const contadorCanceladasLista = document.getElementById("contadorAulasCanceladasLista");
 
   if (totalTurmas) totalTurmas.textContent = String((turmasCadastradas || []).length);
   if (turmasAtivas) turmasAtivas.textContent = String((turmasCadastradas || []).filter(t => t.ativa !== false).length);
   if (aulasCanceladasResumo) aulasCanceladasResumo.textContent = String((aulasCanceladas || []).length);
+  if (contadorCanceladasLista) contadorCanceladasLista.textContent = String((aulasCanceladas || []).length);
 }
 
 function abrirPainelFormularioTurma(modo = "nova") {
@@ -702,7 +704,7 @@ function abrirPainelCancelarAula() {
   const painel = document.getElementById("painelFormCancelarAula");
   const painelTurma = document.getElementById("painelFormTurma");
 
-  if (painelTurma && !turmaEditandoId) painelTurma.classList.add("escondido");
+  if (painelTurma) painelTurma.classList.add("escondido");
   if (painel) {
     painel.classList.remove("escondido");
     painel.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -758,6 +760,30 @@ function inicializarTelaTurmasPremium() {
       fecharPainelCancelarAula();
     });
   });
+
+  if (listaTurmas && !listaTurmas.dataset.acoesInicializadas) {
+    listaTurmas.dataset.acoesInicializadas = "true";
+    listaTurmas.addEventListener("click", event => {
+      const botao = event.target.closest("[data-acao-turma]");
+      if (!botao || !listaTurmas.contains(botao)) return;
+
+      const id = botao.dataset.turmaId || "";
+      if (botao.dataset.acaoTurma === "editar") editarTurma(id);
+      if (botao.dataset.acaoTurma === "remover") removerTurma(id);
+    });
+  }
+
+  if (listaAulasCanceladas && !listaAulasCanceladas.dataset.acoesInicializadas) {
+    listaAulasCanceladas.dataset.acoesInicializadas = "true";
+    listaAulasCanceladas.addEventListener("click", event => {
+      const botao = event.target.closest("[data-acao-aula-cancelada]");
+      if (!botao || !listaAulasCanceladas.contains(botao)) return;
+
+      if (botao.dataset.acaoAulaCancelada === "reativar") {
+        removerAulaCancelada(botao.dataset.aulaCanceladaId || "");
+      }
+    });
+  }
 }
 
 function renderizarTurmas() {
@@ -772,22 +798,36 @@ function renderizarTurmas() {
         const nomeSeguro = escaparHtmlMultiTurma(turma.nome || "Turma");
         const horarioSeguro = escaparHtmlMultiTurma(turma.horario || "");
         const professorSeguro = escaparHtmlMultiTurma(turma.professor || "");
+        const turmaAtiva = turma.ativa !== false;
 
         return `
-          <article class="turma-item ${turma.ativa === false ? "inativa" : ""}">
-            <div>
-              <strong>${nomeSeguro}</strong>
-              <span>${diasSemanaTexto(turma.dias_semana)}${horarioSeguro ? " • " + horarioSeguro : ""}</span>
-              ${professorSeguro ? `<small>Professor: ${professorSeguro}</small>` : ""}
-              <div class="turma-meta-grid">
-                <span class="turma-meta-pill alunos">👥 ${textoQuantidadeAlunosTurma(turma)}</span>
-                <span class="turma-meta-pill ${turma.ativa === false ? "inativa" : "ativa"}">${turma.ativa === false ? "Turma inativa" : "Turma ativa"}</span>
+          <article class="turma-item ${turmaAtiva ? "" : "inativa"}">
+            <div class="turma-item-conteudo">
+              <div class="turma-item-cabecalho">
+                <strong>${nomeSeguro}</strong>
+                <span class="turma-status-badge ${turmaAtiva ? "ativa" : "inativa"}">${turmaAtiva ? "Ativa" : "Inativa"}</span>
+              </div>
+
+              <div class="turma-agenda">
+                <span>${diasSemanaTexto(turma.dias_semana)}</span>
+                ${horarioSeguro ? `<span>${horarioSeguro}</span>` : ""}
+              </div>
+
+              <div class="turma-dados">
+                <span class="turma-dado">
+                  <small>Professor</small>
+                  <b>${professorSeguro || "Não informado"}</b>
+                </span>
+                <span class="turma-dado">
+                  <small>Alunos</small>
+                  <b>${textoQuantidadeAlunosTurma(turma)}</b>
+                </span>
               </div>
             </div>
 
             <div class="turma-item-acoes">
-              <button type="button" class="acao-secundaria" onclick="editarTurma('${idSeguro}')">Editar</button>
-              <button type="button" class="acao-perigo" onclick="removerTurma('${idSeguro}')">Remover</button>
+              <button type="button" class="acao-secundaria" data-acao-turma="editar" data-turma-id="${idSeguro}">Editar</button>
+              <button type="button" class="turma-acao-remover" data-acao-turma="remover" data-turma-id="${idSeguro}">Remover</button>
             </div>
           </article>
         `;
@@ -807,13 +847,13 @@ function renderizarTurmas() {
 
         return `
           <article class="turma-item aula-cancelada-item">
-            <div>
+            <div class="turma-item-conteudo">
               <strong>${turmaSegura}</strong>
               <span>${formatarData(aula.data_aula)}${motivoSeguro ? " • " + motivoSeguro : ""}</span>
               ${observacaoSegura ? `<small>${observacaoSegura}</small>` : ""}
             </div>
 
-            <button type="button" class="acao-secundaria" onclick="removerAulaCancelada('${idSeguro}')">Reativar</button>
+            <button type="button" class="acao-secundaria" data-acao-aula-cancelada="reativar" data-aula-cancelada-id="${idSeguro}">Reativar</button>
           </article>
         `;
       }).join("");
@@ -826,6 +866,7 @@ async function prepararTelaTurmas() {
   await carregarTurmasSistema();
   renderizarTurmas();
   fecharPainelFormularioTurma();
+  fecharPainelCancelarAula();
 }
 
 function editarTurma(id) {

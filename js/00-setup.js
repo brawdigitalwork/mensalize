@@ -430,6 +430,17 @@ function formatarMoeda(valor) {
 }
 
 /**
+ * Retorna a data do calendário local no formato usado pelo banco.
+ * Evita que registros feitos à noite recebam a data do dia seguinte por causa do UTC.
+ */
+function dataHojeLocalISO(data = new Date()) {
+  const ano = data.getFullYear();
+  const mes = String(data.getMonth() + 1).padStart(2, "0");
+  const dia = String(data.getDate()).padStart(2, "0");
+  return `${ano}-${mes}-${dia}`;
+}
+
+/**
  * Aplica filtro de usuário nas consultas principais.
  * Isso evita que um cliente veja/some dados de outros clientes caso alguma policy/RLS esteja ampla demais.
  * Admin continua vendo tudo.

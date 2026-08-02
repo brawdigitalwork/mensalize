@@ -880,6 +880,484 @@
   }
 }
 
+/* ============================================================================
+   PRESENÇAS MOBILE — FLUXO COMPACTO OFICIAL
+   Camada final: uma seleção, resumo integrado e ações discretas.
+============================================================================ */
+@media (max-width: 760px) {
+  html body #app #viewPresencas .presencas-page-profissional {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px 12px 94px !important;
+    gap: 10px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  html body #app #viewPresencas .presencas-hero {
+    display: none !important;
+  }
+
+  html body #app #viewPresencas .presencas-layout-profissional {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  html body #app #viewPresencas .presenca-card-presenca {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 13px !important;
+    border: 1px solid var(--borda) !important;
+    border-radius: 15px !important;
+    background: var(--bg-nivel-1) !important;
+    box-shadow: 0 7px 20px rgba(31, 26, 49, 0.045) !important;
+    overflow: visible !important;
+  }
+
+  html body #app #viewPresencas .presenca-card-presenca::before {
+    display: none !important;
+  }
+
+  html body #app #viewPresencas .presenca-card-controles {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  html body #app #viewPresencas .presenca-card-topo {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 9px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  html body #app #viewPresencas .presenca-card-topo h3 {
+    margin: 3px 0 1px !important;
+    color: var(--texto-primario) !important;
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body #app #viewPresencas .presenca-card-topo p {
+    margin: 0 !important;
+    color: var(--texto-secundario) !important;
+    font-size: 10px !important;
+    line-height: 1.4 !important;
+  }
+
+  html body #app #viewPresencas .presenca-step {
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--cor-roxo) !important;
+    font-size: 8px !important;
+    line-height: 1 !important;
+  }
+
+  html body #app #viewPresencas .presenca-controles {
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr) !important;
+    gap: 7px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  html body #app #viewPresencas .presenca-controles .campo-perfil {
+    min-width: 0 !important;
+    margin: 0 !important;
+    gap: 4px !important;
+  }
+
+  html body #app #viewPresencas .presenca-controles .campo-perfil > span {
+    color: var(--texto-secundario) !important;
+    font-size: 8px !important;
+  }
+
+  html body #app #viewPresencas .presenca-controles input,
+  html body #app #viewPresencas .presenca-controles select {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 40px !important;
+    height: 40px !important;
+    margin: 0 !important;
+    padding: 0 9px !important;
+    border: 1px solid var(--borda) !important;
+    border-radius: 10px !important;
+    background: var(--bg-input) !important;
+    color: var(--texto-primario) !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 650 !important;
+  }
+
+  html body #app #viewPresencas .presenca-card-chamada {
+    display: grid !important;
+    gap: 10px !important;
+  }
+
+  html body #app #viewPresencas .presenca-card-topo-com-acoes {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 9px !important;
+  }
+
+  html body #app #viewPresencas .presenca-acoes {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    margin: 0 !important;
+  }
+
+  html body #app #viewPresencas .presenca-acoes button {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 34px !important;
+    height: 34px !important;
+    margin: 0 !important;
+    padding: 6px 9px !important;
+    border-radius: 9px !important;
+    box-shadow: none !important;
+    font-size: 9px !important;
+    white-space: nowrap !important;
+  }
+
+  html body #app #viewPresencas #btnSalvarChamada {
+    margin-left: auto !important;
+    padding-inline: 14px !important;
+  }
+
+  html body #app #viewPresencas .presenca-resumo-compacto {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid var(--borda) !important;
+    border-radius: 10px !important;
+    background: var(--bg-nivel-2) !important;
+  }
+
+  html body #app #viewPresencas .presenca-resumo-item {
+    display: grid !important;
+    align-content: center !important;
+    justify-items: center !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    min-height: 56px !important;
+    margin: 0 !important;
+    padding: 7px 4px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-align: center !important;
+  }
+
+  html body #app #viewPresencas .presenca-resumo-item + .presenca-resumo-item {
+    border-left: 1px solid var(--borda) !important;
+  }
+
+  html body #app #viewPresencas .presenca-resumo-item span {
+    order: 1 !important;
+    color: var(--texto-secundario) !important;
+    font-size: 7.5px !important;
+    line-height: 1 !important;
+  }
+
+  html body #app #viewPresencas .presenca-resumo-item strong {
+    order: 2 !important;
+    margin: 0 !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+  }
+
+  html body #app #viewPresencas .lista-presencas {
+    display: grid !important;
+    gap: 7px !important;
+    margin: 0 !important;
+  }
+
+  html body #app #viewPresencas .presenca-estado-inicial,
+  html body #app #viewPresencas .lista-presencas > .empty-state-mini {
+    min-height: 92px !important;
+    margin: 0 !important;
+    padding: 20px 12px !important;
+    border: 1px dashed var(--borda) !important;
+    border-radius: 10px !important;
+    background: var(--bg-nivel-2) !important;
+    color: var(--texto-secundario) !important;
+  }
+
+  html body #app #viewPresencas .presenca-estado-inicial strong {
+    color: var(--texto-primario) !important;
+    font-size: 12px !important;
+  }
+
+  html body #app #viewPresencas .presenca-estado-inicial span {
+    color: var(--texto-secundario) !important;
+    font-size: 9px !important;
+  }
+
+  html body #app #viewPresencas .presenca-status-chamada {
+    gap: 2px !important;
+    margin: 0 !important;
+    padding: 8px 9px !important;
+    border-radius: 9px !important;
+    box-shadow: none !important;
+  }
+
+  html body #app #viewPresencas .presenca-status-chamada strong {
+    color: var(--texto-primario) !important;
+    font-size: 10px !important;
+  }
+
+  html body #app #viewPresencas .presenca-status-chamada span {
+    color: var(--texto-secundario) !important;
+    font-size: 8.5px !important;
+  }
+
+  html body #app #viewPresencas .presenca-turma-card {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid var(--borda) !important;
+    border-radius: 10px !important;
+    background: var(--bg-nivel-2) !important;
+    box-shadow: none !important;
+  }
+
+  html body #app #viewPresencas .presenca-turma-topo {
+    min-height: 38px !important;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    border-bottom: 1px solid var(--borda) !important;
+    background: var(--bg-nivel-3) !important;
+  }
+
+  html body #app #viewPresencas .presenca-turma-topo strong {
+    color: var(--texto-primario) !important;
+    font-size: 10px !important;
+  }
+
+  html body #app #viewPresencas .presenca-turma-topo span {
+    color: var(--texto-secundario) !important;
+    font-size: 8px !important;
+  }
+
+  html body #app #viewPresencas .presenca-alunos {
+    display: grid !important;
+    gap: 5px !important;
+    margin: 0 !important;
+    padding: 6px !important;
+  }
+
+  html body #app #viewPresencas .presenca-aluno-item {
+    display: grid !important;
+    grid-template-columns: 28px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-height: 57px !important;
+    margin: 0 !important;
+    padding: 8px 9px !important;
+    border-radius: 9px !important;
+    box-shadow: none !important;
+  }
+
+  html body #app #viewPresencas .presenca-aluno-item > input[type="checkbox"] {
+    display: block !important;
+    width: 17px !important;
+    height: 17px !important;
+    min-height: 17px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border-radius: 4px !important;
+    accent-color: #118a56 !important;
+    box-shadow: none !important;
+  }
+
+  html body #app #viewPresencas .presenca-aluno-item > div {
+    min-width: 0 !important;
+  }
+
+  html body #app #viewPresencas .presenca-aluno-item strong {
+    display: block !important;
+    overflow: hidden !important;
+    color: var(--texto-primario) !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  html body #app #viewPresencas .presenca-aluno-item > em {
+    grid-column: auto !important;
+    justify-self: end !important;
+    min-width: 52px !important;
+    margin: 0 !important;
+    padding: 4px 6px !important;
+    font-size: 7.5px !important;
+  }
+
+  html body #app #viewPresencas .presenca-aluno-detalhes {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 2px 5px !important;
+    margin-top: 2px !important;
+  }
+
+  html body #app #viewPresencas .presenca-aluno-meta,
+  html body #app #viewPresencas .presenca-aluno-frequencia-detalhe,
+  html body #app #viewPresencas .frequencia-chamada-badge {
+    max-width: 100% !important;
+    color: var(--texto-secundario) !important;
+    font-size: 7px !important;
+    line-height: 1.25 !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-card {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid var(--borda) !important;
+    border-radius: 10px !important;
+    background: var(--bg-nivel-2) !important;
+    box-shadow: none !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-summary {
+    min-height: 39px !important;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    color: var(--texto-primario) !important;
+    font-size: 10px !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-summary small {
+    color: var(--texto-secundario) !important;
+    font-size: 7px !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-conteudo {
+    padding: 10px !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-topo,
+  html body #app #viewPresencas .presenca-checkin-acoes,
+  html body #app #viewPresencas .presenca-checkin-botoes {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-topo {
+    justify-content: space-between !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-acoes button,
+  html body #app #viewPresencas .presenca-checkin-botoes button {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-height: 33px !important;
+    margin: 0 !important;
+    padding: 6px 9px !important;
+    border-radius: 8px !important;
+    font-size: 8px !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-qr-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 9px !important;
+  }
+
+  html body #app #viewPresencas .presenca-checkin-qr-box {
+    width: min(100%, 190px) !important;
+    margin-inline: auto !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-card {
+    padding: 12px 13px !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-topo {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-topo h2 {
+    margin: 2px 0 0 !important;
+    color: var(--texto-primario) !important;
+    font-size: 13px !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-topo p {
+    display: none !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-acoes {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 5px !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-acoes .mini-badge {
+    min-height: 27px !important;
+    padding: 5px 7px !important;
+    font-size: 7px !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-acoes button {
+    width: auto !important;
+    min-height: 31px !important;
+    margin: 0 !important;
+    padding: 5px 8px !important;
+    border-radius: 8px !important;
+    font-size: 8px !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-list:not(.escondido) {
+    margin-top: 9px !important;
+    padding-top: 9px !important;
+    border-top: 1px solid var(--borda) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  html body #app #viewPresencas .presenca-controles {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  html body #app #viewPresencas #btnSalvarChamada {
+    margin-left: 0 !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-topo {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  html body #app #viewPresencas .historico-chamadas-acoes {
+    justify-content: flex-start !important;
+  }
+}
+
 
 /* ============================================================================
    MENSALIZE MOBILE — KPI STRIP PADRÃO OFICIAL

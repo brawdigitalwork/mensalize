@@ -17,7 +17,7 @@ async function carregarAlunos() {
 
   let queryAlunos = supabaseClient
     .from("alunos")
-    .select("id,user_id,auth_user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
+    .select("id,user_id,auth_user_id,nome,telefone,valor,vencimento,dia_vencimento,status_pagamento,link_pagamento,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
 
   queryAlunos = aplicarFiltroUsuario(queryAlunos);
 
@@ -108,6 +108,12 @@ formAluno.addEventListener("submit", async function(event) {
   const telefone = document.getElementById("telefoneAluno").value.trim();
   const valor = valorParaNumero(document.getElementById("valorMensalidade").value);
   const vencimento = document.getElementById("dataVencimento").value;
+  const alunoEmEdicao = alunoEditandoId
+    ? alunos.find(aluno => String(aluno.id) === String(alunoEditandoId))
+    : null;
+  const diaVencimento = alunoEmEdicao && String(alunoEmEdicao.vencimento || "") === vencimento
+    ? obterDiaVencimentoBase(vencimento, alunoEmEdicao.dia_vencimento)
+    : obterDiaVencimentoBase(vencimento);
 
   // Novo campo: link de pagamento
   const linkPagamento = document.getElementById("linkPagamento").value.trim();
@@ -170,6 +176,7 @@ formAluno.addEventListener("submit", async function(event) {
         data_nascimento: dataNascimentoAluno && dataNascimentoAluno.value ? dataNascimentoAluno.value : null,
         valor: valor,
         vencimento: vencimento,
+        dia_vencimento: diaVencimento,
         link_pagamento: linkPagamento,
         ...dadosExtrasAluno
       })
@@ -207,6 +214,7 @@ formAluno.addEventListener("submit", async function(event) {
         data_nascimento: dataNascimentoAluno && dataNascimentoAluno.value ? dataNascimentoAluno.value : null,
         valor: valor,
         vencimento: vencimento,
+        dia_vencimento: diaVencimento,
         link_pagamento: linkPagamento,
         status_pagamento: "pendente",
         ...dadosExtrasAluno
@@ -309,20 +317,28 @@ function formatarData(data) {
   return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
-/** Adiciona um mês respeitando finais de mês como 29, 30 e 31. */
-function adicionarUmMes(dataString) {
+/** Recupera o dia mensal escolhido, com fallback para a data atual. */
+function obterDiaVencimentoBase(dataString, diaConfigurado = null) {
+  const diaSalvo = Number(diaConfigurado);
+  if (Number.isInteger(diaSalvo) && diaSalvo >= 1 && diaSalvo <= 31) {
+    return diaSalvo;
+  }
+
+  const diaData = Number(String(dataString || "").split("-")[2]);
+  return Number.isInteger(diaData) && diaData >= 1 && diaData <= 31
+    ? diaData
+    : null;
+}
+
+/** Adiciona um mês preservando o dia mensal escolhido pelo professor. */
+function adicionarUmMes(dataString, diaConfigurado = null) {
   const partes = dataString.split("-");
   const ano = Number(partes[0]);
   const mes = Number(partes[1]) - 1;
-  const dia = Number(partes[2]);
-
-  const novaData = new Date(ano, mes + 1, dia);
-
-  // Se for dia 29, 30 ou 31 e o mês seguinte não tiver esse dia,
-  // joga para o último dia correto do mês seguinte.
-  if (novaData.getDate() !== dia) {
-    novaData.setDate(0);
-  }
+  const diaBase = obterDiaVencimentoBase(dataString, diaConfigurado);
+  const ultimoDiaMesDestino = new Date(ano, mes + 2, 0).getDate();
+  const diaDestino = Math.min(diaBase || 1, ultimoDiaMesDestino);
+  const novaData = new Date(ano, mes + 1, diaDestino);
 
   const novoAno = novaData.getFullYear();
   const novoMes = String(novaData.getMonth() + 1).padStart(2, "0");
@@ -348,10 +364,11 @@ function dataHojeSemHora() {
 }
 
 /** Calcula quantas mensalidades devem ser registradas quando há atraso acumulado. */
-function calcularMensalidadesParaRegistrar(vencimentoAtual) {
+function calcularMensalidadesParaRegistrar(vencimentoAtual, diaConfigurado = null) {
   const hoje = dataHojeSemHora();
   const mensalidades = [];
   let vencimento = vencimentoAtual;
+  const diaBase = obterDiaVencimentoBase(vencimentoAtual, diaConfigurado);
 
   // Registra pelo menos uma mensalidade.
   // Se estiver atrasado há meses, registra todas até chegar no próximo vencimento futuro.
@@ -359,7 +376,7 @@ function calcularMensalidadesParaRegistrar(vencimentoAtual) {
 
   do {
   mensalidades.push(vencimento);
-  vencimento = adicionarUmMes(vencimento);
+  vencimento = adicionarUmMes(vencimento, diaBase);
 
   seguranca++;
 
@@ -398,28 +415,6 @@ function aplicarFiltroSalvoAlunos() {
   if (FILTROS_ALUNOS_VALIDOS.includes(filtroSalvo)) {
     filtroAtual = filtroSalvo;
   }
-}
-
-function alternarCardAluno(botao) {
-  const card = botao.closest(".aluno-card");
-  if (!card) return;
-
-  const estavaAberto = card.classList.contains("expandido");
-
-  document.querySelectorAll("#listaAlunos .aluno-card.expandido").forEach(function(cardAberto) {
-    if (cardAberto === card) return;
-    cardAberto.classList.remove("expandido");
-    const botaoAberto = cardAberto.querySelector(".btn-opcoes-aluno");
-    if (botaoAberto) {
-      botaoAberto.textContent = "Detalhes";
-      botaoAberto.setAttribute("aria-expanded", "false");
-    }
-  });
-
-  const deveAbrir = !estavaAberto;
-  card.classList.toggle("expandido", deveAbrir);
-  botao.textContent = deveAbrir ? "Ocultar" : "Detalhes";
-  botao.setAttribute("aria-expanded", deveAbrir ? "true" : "false");
 }
 
 function escaparHtmlAluno(valor) {
@@ -509,7 +504,7 @@ function renderizarPainelAcessosPendentes() {
         <button
           type="button"
           class="acao-secundaria whatsapp acesso-pendente-enviar"
-          ${temWhatsApp ? `onclick="enviarLinkPaginaAluno('${idSeguro}')"` : "disabled"}
+          ${temWhatsApp ? `data-alunos-action="enviar-acesso" data-aluno-id="${idSeguro}"` : "disabled"}
           ${temWhatsApp ? "" : `title="Cadastre um WhatsApp para enviar o acesso"`}
         >
           ${temWhatsApp ? "Enviar acesso" : "Sem WhatsApp"}
@@ -555,7 +550,7 @@ function renderizarEstadoVazioAlunos(tipo) {
       <div class="alunos-empty-icon">👥</div>
       <h3>${mensagem}</h3>
       <p>${apoio}</p>
-      ${tipo === "sem-filtro" ? `<button type="button" class="acao-secundaria" onclick="setFiltro('todos')">Ver todos os alunos</button>` : ``}
+      ${tipo === "sem-filtro" ? `<button type="button" class="acao-secundaria" data-alunos-filtro="todos">Ver todos os alunos</button>` : ``}
     </div>
   `;
 }
@@ -654,105 +649,53 @@ function mostrarAlunos() {
         ? textoTurmasAluno(aluno, "Sem turma")
         : obterTextoSeguroAluno(aluno.turma, "Sem turma")
     );
-    const faixaResumo = moduloEvolucaoAtivo && resumoEvolucaoAluno(aluno) ? escaparHtmlAluno(resumoEvolucaoAluno(aluno)) : "Graduação não informada";
     const statusAlunoTexto = String(aluno.status_aluno || "ativo").toLowerCase() === "inativo" ? "Inativo" : "Ativo";
+    const alunoIdSeguro = escaparHtmlAluno(aluno.id);
 
     const card = document.createElement("div");
-    card.classList.add("aluno-card", "aluno-card-executivo");
+    card.classList.add("aluno-card", "aluno-card-executivo", "aluno-lista-item");
     if (jaPagou) card.classList.add("aluno-pago");
 
     card.innerHTML = `
-      <div class="aluno-premium-topo aluno-card-resumo">
-        <div class="aluno-topo-identidade">
-          ${aluno.foto_url
-            ? `<img src="${escaparHtmlAluno(aluno.foto_url)}" alt="Foto de ${nomeAlunoSeguro}" class="aluno-card-foto">`
-            : `<div class="aluno-card-avatar">${String(aluno.nome || "A").trim().charAt(0).toUpperCase() || "A"}</div>`
-          }
+      <div class="aluno-lista-identidade">
+        ${aluno.foto_url
+          ? `<img src="${escaparHtmlAluno(aluno.foto_url)}" alt="Foto de ${nomeAlunoSeguro}" class="aluno-card-foto">`
+          : `<div class="aluno-card-avatar">${String(aluno.nome || "A").trim().charAt(0).toUpperCase() || "A"}</div>`
+        }
 
-          <div class="aluno-resumo-texto">
-            <div class="aluno-nome-linha">
-              <h3>${nomeAlunoSeguro}</h3>
-              <span class="aluno-status-operacional ${statusAlunoTexto === "Inativo" ? "inativo" : "ativo"}">${statusAlunoTexto}</span>
-            </div>
-
-            <div class="aluno-resumo-infos">
-              <span>${telefoneAlunoSeguro}</span>
-              <span>${turmaAlunoSeguro}</span>
-              ${moduloEvolucaoAtivo ? `<span>${faixaResumo}</span>` : ""}
-            </div>
+        <div class="aluno-resumo-texto">
+          <div class="aluno-nome-linha">
+            <h3>${nomeAlunoSeguro}</h3>
+            <span class="aluno-status-operacional ${statusAlunoTexto === "Inativo" ? "inativo" : "ativo"}">${statusAlunoTexto}</span>
           </div>
-        </div>
-
-        <div class="aluno-resumo-direita">
-          <span class="badge-status ${classeStatus}">${escaparHtmlAluno(textoStatus)}</span>
-          <button
-            type="button"
-            class="acao-secundaria btn-opcoes-aluno"
-            onclick="alternarCardAluno(this)"
-            aria-expanded="false"
-          >
-            Detalhes
-          </button>
+          <div class="aluno-resumo-infos">
+            <span>${telefoneAlunoSeguro}</span>
+            <span>${turmaAlunoSeguro}</span>
+          </div>
         </div>
       </div>
 
-      <div class="aluno-card-kpis" aria-label="Resumo do aluno">
-        <div class="aluno-card-kpi">
-          <span>Mensalidade</span>
-          <strong>${formatarMoeda(aluno.valor)}</strong>
-        </div>
-        <div class="aluno-card-kpi">
-          <span>${jaPagou ? "Próx. vencimento" : "Vencimento"}</span>
-          <strong>${formatarData(aluno.vencimento)}</strong>
-        </div>
-        <div class="aluno-card-kpi">
-          <span>Turma</span>
-          <strong>${turmaAlunoSeguro}</strong>
+      <div class="aluno-lista-financeiro">
+        <span class="badge-status ${classeStatus}">${escaparHtmlAluno(textoStatus)}</span>
+        <div class="aluno-lista-valores">
+          <span>
+            <small>Mensalidade</small>
+            <strong>${formatarMoeda(aluno.valor)}</strong>
+          </span>
+          <span>
+            <small>${jaPagou ? "Próximo vencimento" : "Vencimento"}</small>
+            <strong>${formatarData(aluno.vencimento)}</strong>
+          </span>
         </div>
       </div>
 
-      <div class="aluno-detalhes-recolhiveis">
-        <div class="aluno-detalhes-grid">
-          <div class="aluno-detalhe-card">
-            <span>Contato</span>
-            <strong>${telefoneAlunoSeguro}</strong>
-          </div>
-
-          <div class="aluno-detalhe-card">
-            <span>Graduação</span>
-            <strong>${moduloEvolucaoAtivo ? faixaResumo : "Módulo desativado"}</strong>
-          </div>
-
-          <div class="aluno-detalhe-card">
-            <span>Status financeiro</span>
-            <strong>${escaparHtmlAluno(textoStatus)}</strong>
-          </div>
-        </div>
-
-        <div class="acoes-premium acoes-premium-recolhidas">
-          <div class="aluno-acoes-bloco aluno-acoes-principais">
-            <span class="aluno-acoes-titulo">Ações principais</span>
-            ${jaPagou
-              ? `
-                <span class="badge-pago-confirmado">Mensalidade paga</span>
-                <button class="acao-secundaria" onclick="marcarComoPago('${aluno.id}')">Registrar adiantamento</button>
-              `
-              : `<button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">Registrar pagamento</button>`
-            }
-
-            <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">WhatsApp</button>
-            <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">Enviar acesso</button>
-          </div>
-
-          <div class="aluno-acoes-bloco aluno-acoes-gestao">
-            <span class="aluno-acoes-titulo">Gestão do aluno</span>
-            <button class="acao-principal btn-perfil-completo-aluno" onclick="abrirPerfilCompletoAluno('${aluno.id}')">Perfil completo</button>
-            <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">Histórico</button>
-            ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">Graduação</button>` : ""}
-            <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">Editar</button>
-            <button class="acao-perigo" onclick="removerAluno('${aluno.id}')">Remover</button>
-          </div>
-        </div>
+      <div class="aluno-lista-acoes">
+        <button type="button" class="acao-secundaria" data-alunos-action="abrir-perfil" data-aluno-id="${alunoIdSeguro}">
+          Ver perfil
+        </button>
+        <button type="button" class="${jaPagou ? "acao-secundaria" : "acao-principal"}" data-alunos-action="registrar-pagamento" data-aluno-id="${alunoIdSeguro}">
+          ${jaPagou ? "Adiantamento" : "Registrar pagamento"}
+        </button>
       </div>
     `;
     listaAlunos.appendChild(card);
@@ -873,13 +816,14 @@ function abrirPerfilCompletoAluno(alunoId) {
   const observacoes = valorPerfilAluno(aluno.observacoes_internas, "Nenhuma observação interna cadastrada.");
   const responsavel = valorPerfilAluno(aluno.responsavel_nome, "Não informado");
   const responsavelWhats = valorPerfilAluno(aluno.responsavel_whatsapp, "Não informado");
+  const alunoIdSeguro = escaparHtmlAluno(aluno.id);
 
   const modal = document.createElement("div");
   modal.id = "modalPerfilCompletoAluno";
   modal.className = "perfil-aluno-overlay";
   modal.innerHTML = `
     <section class="perfil-aluno-modal" role="dialog" aria-modal="true" aria-labelledby="perfilAlunoTitulo">
-      <button type="button" class="perfil-aluno-fechar" onclick="fecharPerfilCompletoAluno()" aria-label="Fechar perfil do aluno">×</button>
+      <button type="button" class="perfil-aluno-fechar" data-perfil-aluno-action="fechar" aria-label="Fechar perfil do aluno">×</button>
 
       <header class="perfil-aluno-hero">
         <div class="perfil-aluno-identidade">
@@ -949,16 +893,50 @@ function abrirPerfilCompletoAluno(alunoId) {
       </div>
 
       <footer class="perfil-aluno-acoes">
-        <button type="button" class="acao-principal" onclick="enviarWhatsApp('${aluno.id}')">Chamar no WhatsApp</button>
-        <button type="button" class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">Ver histórico</button>
-        ${moduloEvolucaoAtivo ? `<button type="button" class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">Graduação</button>` : ""}
-        <button type="button" class="acao-secundaria" onclick="editarAluno('${aluno.id}')">Editar cadastro</button>
+        <div class="perfil-aluno-acoes-grupo">
+          <span>Contato e acesso</span>
+          <div>
+            <button type="button" class="acao-principal" data-perfil-aluno-action="whatsapp">WhatsApp</button>
+            <button type="button" class="acao-secundaria" data-perfil-aluno-action="enviar-acesso">Enviar acesso</button>
+          </div>
+        </div>
+
+        <div class="perfil-aluno-acoes-grupo">
+          <span>Gestão do aluno</span>
+          <div>
+            <button type="button" class="acao-secundaria" data-perfil-aluno-action="historico">Histórico</button>
+            ${moduloEvolucaoAtivo ? `<button type="button" class="acao-secundaria" data-perfil-aluno-action="graduacao">Graduação</button>` : ""}
+            <button type="button" class="acao-secundaria" data-perfil-aluno-action="editar">Editar cadastro</button>
+            <button type="button" class="acao-perigo" data-perfil-aluno-action="remover">Remover</button>
+          </div>
+        </div>
       </footer>
     </section>
   `;
 
   modal.addEventListener("click", function(event) {
-    if (event.target === modal) fecharPerfilCompletoAluno();
+    if (event.target === modal) {
+      fecharPerfilCompletoAluno();
+      return;
+    }
+
+    const botao = event.target.closest("[data-perfil-aluno-action]");
+    if (!botao) return;
+
+    const acao = botao.dataset.perfilAlunoAction;
+
+    if (acao === "fechar") fecharPerfilCompletoAluno();
+    if (acao === "whatsapp") enviarWhatsApp(alunoIdSeguro);
+    if (acao === "enviar-acesso") enviarLinkPaginaAluno(alunoIdSeguro);
+
+    if (["historico", "graduacao", "editar", "remover"].includes(acao)) {
+      fecharPerfilCompletoAluno();
+    }
+
+    if (acao === "historico") abrirHistorico(alunoIdSeguro);
+    if (acao === "graduacao") abrirModalGraduacao(alunoIdSeguro);
+    if (acao === "editar") editarAluno(alunoIdSeguro);
+    if (acao === "remover") removerAluno(alunoIdSeguro);
   });
 
   document.body.appendChild(modal);
@@ -970,3 +948,31 @@ document.addEventListener("keydown", function(event) {
     fecharPerfilCompletoAluno();
   }
 });
+
+function configurarAcoesTelaAlunos() {
+  const view = document.getElementById("viewAlunos");
+  if (!view || view.dataset.acoesConfiguradas === "true") return;
+
+  view.dataset.acoesConfiguradas = "true";
+  view.addEventListener("click", function(event) {
+    const filtro = event.target.closest("[data-alunos-filtro]");
+    if (filtro) {
+      setFiltro(filtro.dataset.alunosFiltro || "todos");
+      return;
+    }
+
+    const botao = event.target.closest("[data-alunos-action]");
+    if (!botao) return;
+
+    const acao = botao.dataset.alunosAction;
+    const alunoId = botao.dataset.alunoId;
+
+    if (acao === "novo-aluno") btnMostrarForm?.click();
+    if (acao === "alternar-acessos") alternarPainelAcessosPendentes();
+    if (acao === "enviar-acesso" && alunoId) enviarLinkPaginaAluno(alunoId);
+    if (acao === "abrir-perfil" && alunoId) abrirPerfilCompletoAluno(alunoId);
+    if (acao === "registrar-pagamento" && alunoId) marcarComoPago(alunoId);
+  });
+}
+
+configurarAcoesTelaAlunos();

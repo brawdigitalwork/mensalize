@@ -394,3 +394,303 @@
     }
   }
 }
+
+/* ============================================================================
+   CONFIGURAÇÕES V3 — AJUSTE MOBILE FINAL
+============================================================================ */
+@media (max-width: 760px) {
+  body.mobile-professor-interna #viewPerfil.ativa > .perfil-configuracoes-v3 {
+    width: min(100%, 620px) !important;
+    margin-inline: auto !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-shell {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-sidebar {
+    position: static !important;
+    display: grid !important;
+    gap: 8px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-brand {
+    display: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 {
+    order: 1 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 4px 8px !important;
+    padding: 11px !important;
+    border-radius: 14px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-topo {
+    grid-column: 1 / -1 !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 > strong {
+    font-size: 11px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 > small {
+    grid-column: 1 / -1 !important;
+    font-size: 8px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 #btnPerfilVerUpgrade {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    justify-self: end !important;
+    width: auto !important;
+    min-height: 28px !important;
+    padding: 0 8px !important;
+    font-size: 7px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-abas-v3 {
+    order: 2 !important;
+    display: flex !important;
+    gap: 5px !important;
+    width: 100% !important;
+    padding: 3px !important;
+    overflow-x: auto !important;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    border: 1px solid var(--borda) !important;
+    border-radius: 14px !important;
+    background: var(--bg-nivel-1) !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-abas-v3::-webkit-scrollbar {
+    display: none;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-aba {
+    flex: 1 0 auto !important;
+    grid-template-columns: 25px auto !important;
+    gap: 6px !important;
+    width: auto !important;
+    min-width: 76px !important;
+    min-height: 40px !important;
+    padding: 5px 7px !important;
+    border-radius: 10px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-aba.ativa {
+    box-shadow: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-aba-icone {
+    width: 25px !important;
+    height: 25px !important;
+    border-radius: 8px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-aba-icone svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-aba-copy strong {
+    font-size: 9px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-aba-copy small,
+  #viewPerfil .perfil-configuracoes-v3 .config-aba-seta {
+    display: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-conteudo {
+    gap: 10px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3 {
+    display: block !important;
+    padding: 14px !important;
+    overflow: hidden !important;
+    border: 1px solid var(--borda) !important;
+    border-radius: 16px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, .10), transparent 38%),
+      var(--bg-nivel-1) !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3::after {
+    content: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3 h2 {
+    margin: 3px 0 !important;
+    font-size: 18px !important;
+    line-height: 1.12 !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-hero-v3 p {
+    max-width: 300px !important;
+    font-size: 9px !important;
+    line-height: 1.4 !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-configuracoes-status {
+    display: none !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-painel {
+    border-radius: 15px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-painel-header {
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    gap: 9px !important;
+    padding: 12px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-painel-icone {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 10px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-painel-icone svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-painel-header strong {
+    font-size: 13px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-painel-header small {
+    font-size: 8px !important;
+    line-height: 1.35 !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-painel-corpo {
+    padding: 12px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-grid-duplo,
+  #viewPerfil .perfil-configuracoes-v3 .config-grid-tres {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .campo-perfil > span {
+    color: var(--texto-secundario) !important;
+    font-size: 9px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .campo-perfil input,
+  #viewPerfil .perfil-configuracoes-v3 .campo-perfil textarea {
+    min-height: 46px !important;
+    padding: 10px 11px !important;
+    border-radius: 11px !important;
+    font-size: 16px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .campo-perfil textarea {
+    min-height: 100px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-campo-ajuda {
+    font-size: 8px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-acoes {
+    min-height: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    padding: 10px 12px 12px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-acoes .msg-perfil,
+  #viewPerfil .perfil-configuracoes-v3 .config-acao-contexto {
+    order: 2 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: left !important;
+    font-size: 8px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-acoes .btn-salvar-perfil {
+    order: 1 !important;
+    width: auto !important;
+    min-height: 35px !important;
+    padding: 0 11px !important;
+    border-radius: 9px !important;
+    font-size: 9px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-modulos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-modulo-item {
+    min-height: 43px !important;
+    padding: 7px 8px !important;
+    border-radius: 9px !important;
+  }
+
+  #viewPerfil #cardAtualizacaoSistema {
+    width: min(100%, 620px) !important;
+    margin: 10px auto 0 !important;
+    padding: 12px !important;
+    border-radius: 15px !important;
+  }
+
+  #viewPerfil #cardAtualizacaoSistema .painel-topo h2 {
+    font-size: 13px !important;
+  }
+
+  #viewPerfil #cardAtualizacaoSistema .painel-topo p {
+    font-size: 8px !important;
+  }
+
+  #viewPerfil #cardAtualizacaoSistema .cache-actions {
+    justify-content: flex-start !important;
+    gap: 5px !important;
+  }
+
+  #viewPerfil #cardAtualizacaoSistema .cache-actions > button {
+    width: auto !important;
+    min-height: 29px !important;
+    padding: 0 8px !important;
+    font-size: 7px !important;
+  }
+
+  #viewPerfil #cardAtualizacaoSistema .cache-actions > span {
+    width: 100% !important;
+    margin: 2px 0 0 !important;
+    font-size: 7px !important;
+  }
+}
+
+@media (max-width: 355px) {
+  #viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .perfil-plano-card-v3 #btnPerfilVerUpgrade {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    justify-self: start !important;
+  }
+
+  #viewPerfil .perfil-configuracoes-v3 .config-modulos-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

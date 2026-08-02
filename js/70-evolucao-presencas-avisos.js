@@ -1,5 +1,7 @@
 // 32. MÓDULO EVOLUÇÃO / GRADUAÇÃO
 // ===============================
+let buscaEvolucaoAtual = "";
+
 function aplicarEstadoModuloElemento(el, ativo) {
   const ehItemMenu = el.classList.contains("menu-item");
 
@@ -104,6 +106,8 @@ function atualizarResumoEvolucao() {
   if (totalAptosGraduacao) totalAptosGraduacao.textContent = resumo.apto;
   if (totalProximosGraduacao) totalProximosGraduacao.textContent = resumo.proximo;
   if (totalEmEvolucao) totalEmEvolucao.textContent = resumo.evolucao;
+  const totalAtencaoGraduacao = document.getElementById("totalAtencaoGraduacao");
+  if (totalAtencaoGraduacao) totalAtencaoGraduacao.textContent = resumo.frequencia;
   if (dashboardAptosGraduacao) dashboardAptosGraduacao.textContent = resumo.apto;
   if (dashboardProximosGraduacao) dashboardProximosGraduacao.textContent = resumo.proximo;
   if (dashboardEvolucaoTexto) {
@@ -113,6 +117,52 @@ function atualizarResumoEvolucao() {
   }
 }
 
+function normalizarBuscaEvolucao(valor) {
+  return String(valor || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function textoGraduacaoAtualAluno(aluno) {
+  const partes = [];
+  if (aluno && aluno.faixa) partes.push(`Faixa ${aluno.faixa}`);
+  if (aluno && aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "") {
+    partes.push(`${aluno.grau}º grau`);
+  }
+
+  const turmas = typeof textoTurmasAluno === "function"
+    ? textoTurmasAluno(aluno, "")
+    : String(aluno?.turma || "").trim();
+
+  if (turmas) partes.push(turmas);
+  return partes.join(" • ") || "Graduação não informada";
+}
+
+function rotuloStatusEvolucao(status) {
+  const rotulos = {
+    apto: "Apto",
+    proximo: "Próximo",
+    evolucao: "Em evolução",
+    "frequencia-baixa": "Atenção",
+    "sem-dados": "Sem previsão"
+  };
+
+  return rotulos[status] || "Em análise";
+}
+
+function mensagemStatusEvolucao(evolucao) {
+  if (!evolucao) return "Situação ainda não calculada.";
+  if (evolucao.status === "apto") return "Tempo e frequência necessários concluídos.";
+  if (evolucao.status === "frequencia-baixa") return "Tempo concluído, mas a frequência está abaixo do mínimo.";
+  if (evolucao.status === "sem-dados") return "Informe a última graduação e o tempo de avaliação.";
+  if (evolucao.dias !== null && Number.isFinite(evolucao.dias)) {
+    return `Faltam ${evolucao.dias} dia${evolucao.dias === 1 ? "" : "s"} para a avaliação.`;
+  }
+  return "Acompanhamento em andamento.";
+}
+
 function renderizarEvolucao() {
   if (!listaEvolucao) return;
   atualizarResumoEvolucao();
@@ -120,30 +170,68 @@ function renderizarEvolucao() {
   if (filtroEvolucaoAtual !== "todos") {
     lista = lista.filter(item => item.evolucao.status === filtroEvolucaoAtual);
   }
+
+  const busca = normalizarBuscaEvolucao(buscaEvolucaoAtual);
+  if (busca) {
+    lista = lista.filter(({ aluno }) => {
+      const conteudo = [
+        aluno?.nome,
+        aluno?.faixa,
+        aluno?.grau,
+        typeof textoTurmasAluno === "function" ? textoTurmasAluno(aluno, "") : aluno?.turma
+      ].join(" ");
+
+      return normalizarBuscaEvolucao(conteudo).includes(busca);
+    });
+  }
+
   lista.sort((a, b) => {
     const ordem = { apto: 1, proximo: 2, "frequencia-baixa": 3, evolucao: 4, "sem-dados": 5 };
     return (ordem[a.evolucao.status] || 9) - (ordem[b.evolucao.status] || 9);
   });
   if (lista.length === 0) {
-    listaEvolucao.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado para este filtro.</div>`;
+    listaEvolucao.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado com estes filtros.</div>`;
     return;
   }
   listaEvolucao.innerHTML = lista.map(({ aluno, evolucao }) => {
     const nomeAlunoSeguro = escaparTextoSeguro(aluno.nome || "Aluno");
-    const resumoAlunoSeguro = escaparTextoSeguro(resumoEvolucaoAluno(aluno) || "Sem dados de evolução cadastrados");
+    const graduacaoAtualSegura = escaparTextoSeguro(textoGraduacaoAtualAluno(aluno));
+    const statusSeguro = escaparTextoSeguro(rotuloStatusEvolucao(evolucao.status));
+    const mensagemSegura = escaparTextoSeguro(mensagemStatusEvolucao(evolucao));
+    const dataPrevistaSegura = evolucao.data ? escaparTextoSeguro(formatarData(evolucao.data)) : "Sem previsão";
+    const frequenciaSegura = evolucao.frequencia && evolucao.frequencia.percentual !== null
+      ? escaparTextoSeguro(`${evolucao.frequencia.percentual}% • ${evolucao.frequencia.presencas}/${evolucao.frequencia.aulasValidas} aulas`)
+      : "Sem frequência calculada";
+    const alunoIdSeguro = escaparTextoSeguro(String(aluno.id || ""));
 
     return `
-      <div class="evolucao-item evolucao-${evolucao.status}">
-        <div>
-          <strong>${nomeAlunoSeguro}</strong>
-          <span>${resumoAlunoSeguro}</span>
-          ${evolucao.data ? `<small>Previsão para avaliação: ${formatarData(evolucao.data)}</small>` : ""}
-          ${evolucao.frequencia && evolucao.frequencia.percentual !== null ? `<small>Frequência analisada: ${evolucao.frequencia.percentual}% • mínimo ${evolucao.frequencia.minimo}% • ${evolucao.frequencia.presencas}/${evolucao.frequencia.aulasValidas} aulas válidas</small>` : ""}
+      <article class="evolucao-item evolucao-${evolucao.status}">
+        <div class="evolucao-item-principal">
+          <div class="evolucao-item-cabecalho">
+            <strong>${nomeAlunoSeguro}</strong>
+            <span class="evolucao-status-badge">${statusSeguro}</span>
+          </div>
+
+          <p class="evolucao-graduacao-atual">${graduacaoAtualSegura}</p>
+
+          <div class="evolucao-indicadores">
+            <span class="evolucao-indicador">
+              <small>Previsão</small>
+              <b>${dataPrevistaSegura}</b>
+            </span>
+            <span class="evolucao-indicador">
+              <small>Frequência</small>
+              <b>${frequenciaSegura}</b>
+            </span>
+          </div>
+
+          <p class="evolucao-status-texto">${mensagemSegura}</p>
         </div>
+
         <div class="evolucao-acoes">
-          <button type="button" class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">🥋 Registrar graduação</button>
+          <button type="button" class="acao-secundaria" data-registrar-graduacao="${alunoIdSeguro}">Registrar graduação</button>
         </div>
-      </div>
+      </article>
     `;
   }).join("");
 }
@@ -153,9 +241,11 @@ function abrirModalGraduacao(id) {
   if (!aluno || !modalGraduacao) return;
   graduacaoAlunoId.value = aluno.id;
   graduacaoAlunoNome.textContent = aluno.nome;
+  const graduacaoAlunoAtual = document.getElementById("graduacaoAlunoAtual");
+  if (graduacaoAlunoAtual) graduacaoAlunoAtual.textContent = textoGraduacaoAtualAluno(aluno);
   if (novaFaixaGraduacao) novaFaixaGraduacao.value = aluno.faixa || "Branca";
   if (novoGrauGraduacao) novoGrauGraduacao.value = aluno.grau || "0";
-  if (dataGraduacaoRegistro) dataGraduacaoRegistro.value = new Date().toISOString().split("T")[0];
+  if (dataGraduacaoRegistro) dataGraduacaoRegistro.value = dataHojeLocalISO();
   if (observacaoGraduacao) observacaoGraduacao.value = "";
   modalGraduacao.classList.remove("escondido");
 }
@@ -165,7 +255,7 @@ async function salvarGraduacao() {
   if (!id) return;
   const faixa = novaFaixaGraduacao ? novaFaixaGraduacao.value : "";
   const grau = novoGrauGraduacao ? novoGrauGraduacao.value : "0";
-  const data = dataGraduacaoRegistro ? dataGraduacaoRegistro.value : new Date().toISOString().split("T")[0];
+  const data = dataGraduacaoRegistro ? dataGraduacaoRegistro.value : dataHojeLocalISO();
   const observacao = observacaoGraduacao ? observacaoGraduacao.value.trim() : "";
   const { error } = await supabaseClient
     .from("alunos")
@@ -194,8 +284,7 @@ async function salvarGraduacao() {
 }
 
 function dataLocalISO() {
-  const hoje = new Date();
-  return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-${String(hoje.getDate()).padStart(2, "0")}`;
+  return dataHojeLocalISO();
 }
 
 function nomeTurmaAluno(aluno) {
@@ -223,7 +312,7 @@ function preencherTurmasPresenca() {
     .slice()
     .sort((a, b) => String(a.nome || "").localeCompare(String(b.nome || ""), "pt-BR"));
 
-  presencaTurma.innerHTML = `<option value="todas">Todas as turmas</option>` +
+  presencaTurma.innerHTML = `<option value="todas">Escolha uma turma</option>` +
     turmas.map(turma => `<option value="${escaparTextoSeguro(turma.nome)}">${escaparTextoSeguro(turma.nome)}</option>`).join("");
 
   if (turmaAtual === "todas" || turmas.some(turma => turma.nome === turmaAtual)) {
@@ -270,6 +359,12 @@ function atualizarResumoChamada() {
   if (presencaTotalPresentes) presencaTotalPresentes.textContent = presentes;
   if (presencaTotalFaltas) presencaTotalFaltas.textContent = Math.max(total - presentes, 0);
   if (presencaTotalAlunos) presencaTotalAlunos.textContent = total;
+}
+
+function definirAcoesChamadaHabilitadas(habilitadas) {
+  [btnMarcarTodosPresentes, btnLimparChamada, btnSalvarChamada].forEach(botao => {
+    if (botao) botao.disabled = habilitadas !== true;
+  });
 }
 
 let presencaChamadaJaSalva = false;
@@ -447,9 +542,9 @@ function obterContainerCheckinPresenca() {
   let card = document.getElementById("presencaCheckinCard");
   if (card) return card;
 
-  card = document.createElement("div");
+  card = document.createElement("details");
   card.id = "presencaCheckinCard";
-  card.className = "presenca-checkin-card";
+  card.className = "presenca-checkin-card presenca-secao-secundaria";
 
   const lista = document.getElementById("listaPresencas");
   if (lista && lista.parentNode) {
@@ -464,6 +559,7 @@ function renderizarCheckinPresenca() {
   if (!card) return;
 
   const { turmaNome, data, turma } = obterContextoCheckinPresenca();
+  const estavaAberto = card.open === true;
 
   if (turmaNome === "todas") {
     card.classList.add("escondido");
@@ -475,12 +571,18 @@ function renderizarCheckinPresenca() {
 
   if (!turma || !turma.id) {
     card.innerHTML = `
-      <div class="presenca-checkin-info">
-        <span class="page-eyebrow">Check-in por QR Code</span>
-        <h3>Turma incompleta</h3>
-        <p>Para gerar QR Code, essa turma precisa existir no cadastro de turmas.</p>
+      <summary class="presenca-checkin-summary">
+        <span>Check-in por QR Code</span>
+        <small>Opcional</small>
+      </summary>
+      <div class="presenca-checkin-conteudo">
+        <div class="presenca-checkin-info">
+          <h3>Turma incompleta</h3>
+          <p>Para gerar o QR Code, esta turma precisa existir no cadastro de turmas.</p>
+        </div>
       </div>
     `;
+    card.open = estavaAberto;
     return;
   }
 
@@ -491,50 +593,56 @@ function renderizarCheckinPresenca() {
   const url = sessaoAtiva ? montarUrlCheckinAluno(presencaCheckinAtual.codigo) : "";
 
   card.innerHTML = `
-    <div class="presenca-checkin-topo">
-      <div class="presenca-checkin-info">
-        <span class="page-eyebrow">Check-in por QR Code</span>
-        <h3>Aluno confirma presença pelo celular</h3>
-        <p>${sessaoAtiva
-          ? `QR ativo até ${formatarHoraCheckin(presencaCheckinAtual.expira_em)}. Mostre o QR para os alunos escanearem.`
-          : "Gere um QR Code para os alunos confirmarem presença sem o professor marcar um por um."}</p>
-      </div>
-      <div class="presenca-checkin-acoes">
-        <button type="button" id="btnGerarCheckinPresenca" class="acao-principal" ${podeGerar ? "" : "disabled"}>${sessaoAtiva ? "Renovar check-in" : "Gerar check-in"}</button>
-        ${sessaoAtiva ? `<button type="button" id="btnEncerrarCheckinPresenca" class="acao-secundaria">Encerrar</button>` : ""}
-      </div>
-    </div>
-
-    ${!podeGerar ? `
-      <div class="presenca-checkin-alerta">
-        ${data !== hoje
-          ? "O check-in por QR Code só pode ser gerado para a aula de hoje."
-          : escaparTextoSeguro(validacaoDia.mensagem || "Confira o cadastro da turma antes de gerar o check-in.")}
-      </div>
-    ` : ""}
-
-    ${sessaoAtiva ? `
-      <div class="presenca-checkin-qr-grid">
-        <div
-          id="presencaCheckinQrLocal"
-          class="presenca-checkin-qr-box"
-          role="img"
-          aria-label="QR Code do check-in da aula"
-        >
+    <summary class="presenca-checkin-summary">
+      <span>Check-in por QR Code</span>
+      <small>${sessaoAtiva ? "Ativo" : "Opcional"}</small>
+    </summary>
+    <div class="presenca-checkin-conteudo">
+      <div class="presenca-checkin-topo">
+        <div class="presenca-checkin-info">
+          <h3>Presença pelo celular</h3>
+          <p>${sessaoAtiva
+            ? `QR ativo até ${formatarHoraCheckin(presencaCheckinAtual.expira_em)}.`
+            : "Gere um QR Code para os alunos confirmarem a presença."}</p>
         </div>
-        <div class="presenca-checkin-detalhes">
-          <strong>${escaparTextoSeguro(turmaNome)}</strong>
-          <span>Válido até o fim do dia: ${formatarHoraCheckin(presencaCheckinAtual.expira_em)}</span>
-          <small>Código: ${escaparTextoSeguro(presencaCheckinAtual.codigo)}</small>
-          <div class="presenca-checkin-link">${escaparTextoSeguro(url)}</div>
-          <div class="presenca-checkin-botoes">
-            <button type="button" id="btnCopiarLinkCheckin" class="acao-secundaria">Copiar link</button>
-            <button type="button" id="btnAtualizarCheckinChamada" class="acao-secundaria">Atualizar chamada</button>
+        <div class="presenca-checkin-acoes">
+          <button type="button" id="btnGerarCheckinPresenca" class="acao-principal" ${podeGerar ? "" : "disabled"}>${sessaoAtiva ? "Renovar" : "Gerar QR Code"}</button>
+          ${sessaoAtiva ? `<button type="button" id="btnEncerrarCheckinPresenca" class="acao-secundaria">Encerrar</button>` : ""}
+        </div>
+      </div>
+
+      ${!podeGerar ? `
+        <div class="presenca-checkin-alerta">
+          ${data !== hoje
+            ? "O QR Code só pode ser gerado para a aula de hoje."
+            : escaparTextoSeguro(validacaoDia.mensagem || "Confira o cadastro da turma antes de gerar o QR Code.")}
+        </div>
+      ` : ""}
+
+      ${sessaoAtiva ? `
+        <div class="presenca-checkin-qr-grid">
+          <div
+            id="presencaCheckinQrLocal"
+            class="presenca-checkin-qr-box"
+            role="img"
+            aria-label="QR Code do check-in da aula"
+          >
+          </div>
+          <div class="presenca-checkin-detalhes">
+            <strong>${escaparTextoSeguro(turmaNome)}</strong>
+            <span>Válido até ${formatarHoraCheckin(presencaCheckinAtual.expira_em)}</span>
+            <small>Código: ${escaparTextoSeguro(presencaCheckinAtual.codigo)}</small>
+            <div class="presenca-checkin-link">${escaparTextoSeguro(url)}</div>
+            <div class="presenca-checkin-botoes">
+              <button type="button" id="btnCopiarLinkCheckin" class="acao-secundaria">Copiar link</button>
+              <button type="button" id="btnAtualizarCheckinChamada" class="acao-secundaria">Atualizar lista</button>
+            </div>
           </div>
         </div>
-      </div>
-    ` : ""}
+      ` : ""}
+    </div>
   `;
+  card.open = estavaAberto || sessaoAtiva;
 
   const qrContainer = document.getElementById("presencaCheckinQrLocal");
   if (qrContainer && url) {
@@ -735,25 +843,13 @@ function obterTurmasParaSelecaoChamada(dataISO = dataLocalISO()) {
     });
 }
 
-function abrirTurmaParaChamada(turmaNome) {
-  if (!presencaTurma || !turmaNome) return;
-
-  const existe = [...presencaTurma.options].some(option => option.value === turmaNome);
-  if (!existe) {
-    mostrarToast("Turma não encontrada na lista de chamada.", "erro");
-    return;
-  }
-
-  presencaTurma.value = turmaNome;
-  prepararTelaPresencas();
-}
-
 function renderizarSelecaoTurmasPresenca(data) {
   const turmas = obterTurmasParaSelecaoChamada(data);
+  definirAcoesChamadaHabilitadas(false);
 
-  if (presencaTotalPresentes) presencaTotalPresentes.textContent = "--";
-  if (presencaTotalFaltas) presencaTotalFaltas.textContent = "--";
-  if (presencaTotalAlunos) presencaTotalAlunos.textContent = String(turmas.length);
+  if (presencaTotalPresentes) presencaTotalPresentes.textContent = "0";
+  if (presencaTotalFaltas) presencaTotalFaltas.textContent = "0";
+  if (presencaTotalAlunos) presencaTotalAlunos.textContent = "0";
 
   if (!turmas.length) {
     const diaNumero = typeof diaDaSemanaDataISO === "function" ? diaDaSemanaDataISO(data) : null;
@@ -769,35 +865,11 @@ function renderizarSelecaoTurmasPresenca(data) {
   }
 
   listaPresencas.innerHTML = `
-    <div class="presenca-status-chamada nova">
-      <strong>Turmas com aula nesta data</strong>
-      <span>Escolha uma turma abaixo. Depois o Mensalize abre somente os alunos dessa turma para fazer a chamada.</span>
-    </div>
-
-    <div class="presenca-turmas-selecao">
-      ${turmas.map(turma => {
-        const statusClasse = turma.chamadaSalva ? "salva" : "nova";
-        const statusTexto = turma.chamadaSalva ? "✓ Chamada salva" : "Abrir chamada";
-        const horarioTexto = turma.horario ? ` • ${escaparTextoSeguro(turma.horario)}` : "";
-
-        return `
-          <button type="button" class="presenca-turma-selecao-card ${statusClasse}" data-abrir-turma-chamada="${escaparTextoSeguro(turma.nome)}">
-            <span class="presenca-turma-selecao-info">
-              <strong>${escaparTextoSeguro(turma.nome)}</strong>
-              <small>${turma.total} aluno${turma.total === 1 ? "" : "s"}${horarioTexto}</small>
-            </span>
-            <em>${statusTexto}</em>
-          </button>
-        `;
-      }).join("")}
+    <div class="presenca-estado-inicial">
+      <strong>Escolha uma turma</strong>
+      <span>${turmas.length} turma${turmas.length === 1 ? "" : "s"} com aula em ${formatarData(data)}.</span>
     </div>
   `;
-
-  listaPresencas.querySelectorAll("[data-abrir-turma-chamada]").forEach(botao => {
-    botao.addEventListener("click", () => {
-      abrirTurmaParaChamada(botao.dataset.abrirTurmaChamada || "");
-    });
-  });
 }
 
 async function carregarMarcacoesPresenca() {
@@ -916,6 +988,7 @@ function renderizarListaPresencas() {
   if (turmaSelecionada !== "todas" && typeof aulaCanceladaPara === "function") {
     const aulaCancelada = aulaCanceladaPara(turmaSelecionada, data);
     if (aulaCancelada) {
+      definirAcoesChamadaHabilitadas(false);
       if (presencaTotalPresentes) presencaTotalPresentes.textContent = "0";
       if (presencaTotalFaltas) presencaTotalFaltas.textContent = "0";
       if (presencaTotalAlunos) presencaTotalAlunos.textContent = "0";
@@ -928,16 +1001,19 @@ function renderizarListaPresencas() {
   atualizarResumoChamada();
 
   if (lista.length === 0) {
+    definirAcoesChamadaHabilitadas(false);
     listaPresencas.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado para esta turma.</div>`;
     return;
   }
+
+  definirAcoesChamadaHabilitadas(true);
 
   const avisosTopo = [];
 
   if (presencaChamadaJaSalva) {
     avisosTopo.push(`
       <div class="presenca-status-chamada salva">
-        <strong>✓ Chamada salva</strong>
+        <strong>Chamada salva</strong>
         <span>Já existem registros para esta data/turma. Ao salvar novamente, a chamada será atualizada.</span>
       </div>
     `);
@@ -1303,13 +1379,13 @@ async function registrarPresencaAluno(id, presente) {
 
 function avisoTipoTexto(tipo) {
   const mapa = {
-    comunicado: "📢 Comunicado",
-    importante: "⚠️ Importante",
-    graduacao: "🥋 Graduação",
-    aula: "📅 Aula / horário",
-    financeiro: "💰 Financeiro"
+    comunicado: "Comunicado",
+    importante: "Importante",
+    graduacao: "Graduação",
+    aula: "Aula e horário",
+    financeiro: "Financeiro"
   };
-  return mapa[tipo] || "📢 Comunicado";
+  return mapa[tipo] || "Comunicado";
 }
 
 function escaparTextoSeguro(texto) {
@@ -1337,15 +1413,15 @@ async function carregarAvisos() {
   }
 
   const totalAtivos = (data || []).filter(a => {
-    const hojeISO = new Date().toISOString().split("T")[0];
+    const hojeISO = dataHojeLocalISO();
     return !a.data_fim || a.data_fim >= hojeISO;
   }).length;
   const totalAgendados = (data || []).filter(a => {
-    const hojeISO = new Date().toISOString().split("T")[0];
+    const hojeISO = dataHojeLocalISO();
     return a.data_inicio && a.data_inicio > hojeISO;
   }).length;
   const totalExpirados = (data || []).filter(a => {
-    const hojeISO = new Date().toISOString().split("T")[0];
+    const hojeISO = dataHojeLocalISO();
     return a.data_fim && a.data_fim < hojeISO;
   }).length;
 
@@ -1367,7 +1443,7 @@ async function carregarAvisos() {
     const destino = aviso.turma ? `Destino: ${escaparTextoSeguro(aviso.turma)}` : "Destino: Todos os alunos";
     const tipo = avisoTipoTexto(aviso.tipo);
     const importante = aviso.prioridade === "importante" || aviso.tipo === "importante";
-    const hojeISO = new Date().toISOString().split("T")[0];
+    const hojeISO = dataHojeLocalISO();
     const aindaNaoIniciou = aviso.data_inicio && aviso.data_inicio > hojeISO;
     const expirado = aviso.data_fim && aviso.data_fim < hojeISO;
     const statusPeriodo = expirado ? "Expirado" : aindaNaoIniciou ? "Agendado" : "Ativo";
@@ -1530,6 +1606,22 @@ document.querySelectorAll(".filtro-evolucao").forEach(botao => {
   });
 });
 
+const buscarEvolucao = document.getElementById("buscarEvolucao");
+if (buscarEvolucao) {
+  buscarEvolucao.addEventListener("input", () => {
+    buscaEvolucaoAtual = buscarEvolucao.value || "";
+    renderizarEvolucao();
+  });
+}
+
+if (listaEvolucao) {
+  listaEvolucao.addEventListener("click", event => {
+    const botao = event.target.closest("[data-registrar-graduacao]");
+    if (!botao || !listaEvolucao.contains(botao)) return;
+    abrirModalGraduacao(botao.dataset.registrarGraduacao || "");
+  });
+}
+
 if (btnFecharModalGraduacao) btnFecharModalGraduacao.addEventListener("click", () => modalGraduacao.classList.add("escondido"));
 if (btnCancelarGraduacao) btnCancelarGraduacao.addEventListener("click", () => modalGraduacao.classList.add("escondido"));
 if (btnSalvarGraduacao) btnSalvarGraduacao.addEventListener("click", salvarGraduacao);
@@ -1540,6 +1632,8 @@ if (btnAtualizarChamada) btnAtualizarChamada.addEventListener("click", prepararT
 if (btnMarcarTodosPresentes) btnMarcarTodosPresentes.addEventListener("click", () => marcarTodosPresencas(true));
 if (btnLimparChamada) btnLimparChamada.addEventListener("click", () => marcarTodosPresencas(false));
 if (btnSalvarChamada) btnSalvarChamada.addEventListener("click", salvarChamadaPresenca);
+const btnToggleHistoricoChamadas = document.getElementById("btnToggleHistoricoChamadas");
+if (btnToggleHistoricoChamadas) btnToggleHistoricoChamadas.addEventListener("click", toggleHistoricoChamadas);
 if (formAviso) formAviso.addEventListener("submit", salvarAviso);
 
 // Botão Novo Aviso — abre/fecha painel
@@ -1746,7 +1840,7 @@ async function registrarPontoRapidoDesafio(botao) {
       subtipo,
       pontos: config.pontos,
       observacao: observacao || null,
-      data_ponto: typeof dataLocalISO === "function" ? dataLocalISO() : new Date().toISOString().split("T")[0]
+      data_ponto: dataHojeLocalISO()
     });
 
   alternarBotoesDesafioPontos(false);
@@ -1952,8 +2046,8 @@ function configurarPaineisDesafio() {
         card: cardPontos,
         aberto: abrir,
         classeRecolhido: "desafio-pontos-card-recolhido",
-        textoFechado: "Abrir pontuações",
-        textoAberto: "Fechar pontuações"
+        textoFechado: "Lançar pontos",
+        textoAberto: "Fechar"
       });
 
       if (abrir) preencherSelectDesafioPontosRapidos();
@@ -1975,8 +2069,8 @@ function configurarPaineisDesafio() {
         card: cardHistorico,
         aberto: abrir,
         classeRecolhido: "desafio-historico-card-recolhido",
-        textoFechado: "Ver pontos lançados",
-        textoAberto: "Ocultar pontos lançados"
+        textoFechado: "Ver histórico",
+        textoAberto: "Fechar"
       });
 
       if (abrir) await carregarHistoricoPontosDesafio(false);
@@ -2048,8 +2142,8 @@ function configurarPaineisDesafio() {
       card: cardPontos,
       aberto: btnPontos.getAttribute("aria-expanded") === "true",
       classeRecolhido: "desafio-pontos-card-recolhido",
-      textoFechado: "Abrir pontuações",
-      textoAberto: "Fechar pontuações"
+      textoFechado: "Lançar pontos",
+      textoAberto: "Fechar"
     });
   }
 
@@ -2060,8 +2154,8 @@ function configurarPaineisDesafio() {
       card: cardHistorico,
       aberto: btnHistorico.getAttribute("aria-expanded") === "true",
       classeRecolhido: "desafio-historico-card-recolhido",
-      textoFechado: "Ver pontos lançados",
-      textoAberto: "Ocultar pontos lançados"
+      textoFechado: "Ver histórico",
+      textoAberto: "Fechar"
     });
   }
 }
@@ -2382,10 +2476,10 @@ function obterRankingTurmasProfessor() {
   );
 }
 
-function textoPosicaoRankingProfessor(posicao) {
-  if (Number(posicao) === 1) return "🥇";
-  if (Number(posicao) === 2) return "🥈";
-  if (Number(posicao) === 3) return "🥉";
+function textoPosicaoRankingProfessor(posicao, usarMedalha = false) {
+  if (usarMedalha && Number(posicao) === 1) return "🥇";
+  if (usarMedalha && Number(posicao) === 2) return "🥈";
+  if (usarMedalha && Number(posicao) === 3) return "🥉";
   return `${posicao}º`;
 }
 
@@ -2444,7 +2538,7 @@ function renderizarListaRankingProfessor(lista, tipo = rankingProfessorAtual) {
 }
 
 
-function renderizarPodioRankingProfessor(lista, tipo = rankingProfessorAtual) {
+function renderizarPodioRankingProfessor(lista, tipo = rankingProfessorAtual, usarMedalha = false) {
   const top = (lista || []).slice(0, 3);
 
   if (!top.length) {
@@ -2476,7 +2570,7 @@ function renderizarPodioRankingProfessor(lista, tipo = rankingProfessorAtual) {
 
         return `
           <div class="podium-card ${primeiro ? "podium-first" : ""}">
-            <span class="podium-medal">${textoPosicaoRankingProfessor(item.posicao || pos)}</span>
+            <span class="podium-medal">${textoPosicaoRankingProfessor(item.posicao || pos, usarMedalha)}</span>
             ${ehTurma ? `<div class="ranking-avatar ${primeiro ? "ranking-avatar-big" : ""}">${inicialSegura}</div>` : criarAvatarRankingProfessor(item, primeiro)}
             <strong>${nomeSeguro}</strong>
             <small>${detalheSeguro}</small>
@@ -2577,7 +2671,7 @@ configurarPaineisDesafio();
 }
 
 function renderizarPodioDashboardProfessor(lista) {
-  return renderizarPodioRankingProfessor(lista, "geral");
+  return renderizarPodioRankingProfessor(lista, "geral", true);
 }
 
 async function carregarRankingDashboard() {

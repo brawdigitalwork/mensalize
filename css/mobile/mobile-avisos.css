@@ -587,3 +587,168 @@
     letter-spacing: -0.055em !important;
   }
 }
+
+/* ============================================================================
+   AVISOS V3 — AJUSTE MOBILE FINAL
+============================================================================ */
+@media (max-width: 760px) {
+  body.mobile-professor-interna #viewAvisos.ativa > .avisos-page-v3 {
+    gap: 10px !important;
+  }
+
+  #viewAvisos .avisos-hero-v3 {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 14px !important;
+    border-radius: 16px !important;
+  }
+
+  #viewAvisos .avisos-hero-v3 h2 {
+    margin: 3px 0 !important;
+    font-size: 18px !important;
+    line-height: 1.12 !important;
+  }
+
+  #viewAvisos .avisos-hero-v3 p {
+    max-width: 260px;
+    font-size: 9px !important;
+    line-height: 1.4 !important;
+  }
+
+  #viewAvisos #btnNovoAviso.avisos-novo-btn {
+    align-self: center !important;
+    width: auto !important;
+    min-height: 32px !important;
+    padding: 0 10px !important;
+    border-radius: 9px !important;
+    font-size: 9px !important;
+  }
+
+  #viewAvisos .avisos-resumo-v3 {
+    gap: 0 !important;
+    padding: 4px !important;
+    border-radius: 15px !important;
+  }
+
+  #viewAvisos .avisos-resumo-v3 .avisos-resumo-card {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    align-content: center !important;
+    justify-items: center !important;
+    gap: 3px !important;
+    min-height: 62px !important;
+    padding: 8px 5px !important;
+    text-align: center !important;
+  }
+
+  #viewAvisos .avisos-resumo-v3 .avisos-resumo-card span,
+  #viewAvisos .avisos-resumo-v3 .avisos-resumo-card strong {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    text-align: center !important;
+  }
+
+  #viewAvisos .avisos-resumo-v3 .avisos-resumo-card span {
+    order: 1;
+    font-size: 7px !important;
+  }
+
+  #viewAvisos .avisos-resumo-v3 .avisos-resumo-card strong {
+    order: 2;
+    font-size: 20px !important;
+  }
+
+  #viewAvisos .avisos-resumo-v3 .avisos-resumo-card small {
+    display: none !important;
+  }
+
+  #viewAvisos .avisos-resumo-v3 .avisos-resumo-card + .avisos-resumo-card::before {
+    inset-block: 11px;
+  }
+
+  #viewAvisos .avisos-form-wrapper-v3 {
+    padding: 12px !important;
+    border-radius: 14px !important;
+  }
+
+  #viewAvisos .avisos-form-wrapper-v3 .avisos-form {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  #viewAvisos .avisos-form-topo,
+  #viewAvisos .avisos-atalhos,
+  #viewAvisos .aviso-campo-mensagem-v3,
+  #viewAvisos .avisos-form-actions,
+  #viewAvisos #msgAviso {
+    grid-column: auto !important;
+  }
+
+  #viewAvisos .avisos-form-actions {
+    display: flex !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  #viewAvisos .avisos-form-actions button {
+    width: auto !important;
+    min-height: 32px !important;
+    padding: 0 10px !important;
+  }
+
+  #viewAvisos .avisos-conteudo-v3 {
+    gap: 10px;
+    padding: 12px;
+    border-radius: 15px;
+  }
+
+  #viewAvisos .avisos-lista-topo {
+    padding-bottom: 9px !important;
+  }
+
+  #viewAvisos .avisos-lista-topo h3 {
+    font-size: 14px !important;
+  }
+
+  #viewAvisos #listaAvisos .aviso-item {
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+    padding: 11px 12px !important;
+    border-radius: 12px !important;
+  }
+
+  #viewAvisos #listaAvisos .aviso-item strong {
+    font-size: 12px !important;
+  }
+
+  #viewAvisos #listaAvisos .aviso-item > div:first-child > small {
+    font-size: 9px !important;
+  }
+
+  #viewAvisos #listaAvisos .aviso-acoes {
+    display: flex !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    gap: 5px !important;
+  }
+
+  #viewAvisos #listaAvisos .aviso-acoes button {
+    width: auto !important;
+    min-height: 28px !important;
+    padding: 0 8px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  #viewAvisos .avisos-hero-v3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  #viewAvisos #btnNovoAviso.avisos-novo-btn {
+    justify-self: start;
+  }
+}

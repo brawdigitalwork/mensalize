@@ -135,35 +135,37 @@ function adicionarEstilosNovidades() {
     body.mensalize-release-open { overflow: hidden; }
     .mensalize-release-overlay {
       position: fixed; inset: 0; z-index: 100000; display: grid; place-items: center;
-      padding: 20px; background: rgba(3, 5, 12, .78); backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px); animation: mensalizeReleaseFade .22s ease-out;
+      padding: 20px; background: rgba(31, 24, 46, .34); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); animation: mensalizeReleaseFade .22s ease-out;
     }
     .mensalize-release-overlay.escondido { display: none !important; }
     .mensalize-release-dialog {
       width: min(100%, 620px); max-height: min(88vh, 760px); overflow: auto;
-      color: #f8fafc; background: linear-gradient(145deg, #18152b 0%, #11131d 55%, #0c0e16 100%);
-      border: 1px solid rgba(167, 139, 250, .3); border-radius: 24px;
-      box-shadow: 0 30px 90px rgba(0, 0, 0, .55); position: relative;
+      color: var(--texto-primario, #1f182e);
+      background: linear-gradient(145deg, var(--bg-nivel-1, #eef0f4) 0%, var(--bg-nivel-2, #e7e8ee) 100%);
+      border: 1px solid var(--borda, #c5c9d4); border-radius: 24px;
+      box-shadow: 0 30px 90px rgba(31, 24, 46, .24); position: relative;
       animation: mensalizeReleaseEnter .28s cubic-bezier(.2,.8,.2,1);
-      scrollbar-width: thin; scrollbar-color: #6d4aff transparent;
+      scrollbar-width: thin; scrollbar-color: #7c3aed transparent;
+      overscroll-behavior: contain;
     }
     .mensalize-release-hero {
       padding: 32px 68px 24px 32px;
-      background: radial-gradient(circle at 92% 5%, rgba(139, 92, 246, .28), transparent 42%);
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: radial-gradient(circle at 92% 5%, rgba(124, 58, 237, .14), transparent 44%);
+      border-bottom: 1px solid rgba(31, 24, 46, .10);
     }
     .mensalize-release-close {
       position: absolute; top: 18px; right: 18px; width: 40px; height: 40px;
-      display: grid; place-items: center; border: 1px solid rgba(255,255,255,.12);
-      border-radius: 12px; color: #e2e8f0; background: rgba(255,255,255,.06);
+      display: grid; place-items: center; border: 1px solid rgba(124, 58, 237, .18);
+      border-radius: 12px; color: var(--texto-secundario, #4a5365); background: rgba(124, 58, 237, .08);
       font: 500 25px/1 sans-serif; cursor: pointer; transition: .18s ease;
     }
-    .mensalize-release-close:hover { background: rgba(255,255,255,.12); transform: translateY(-1px); }
+    .mensalize-release-close:hover { color: #5420c9; background: rgba(124, 58, 237, .14); transform: translateY(-1px); }
     .mensalize-release-close:focus-visible,
-    .mensalize-release-primary:focus-visible { outline: 3px solid rgba(196,181,253,.65); outline-offset: 3px; }
+    .mensalize-release-primary:focus-visible { outline: 3px solid rgba(124, 58, 237, .38); outline-offset: 3px; }
     .mensalize-release-eyebrow {
       display: inline-flex; align-items: center; gap: 8px; margin: 0 0 12px;
-      color: #c4b5fd; font: 700 12px/1.2 system-ui, sans-serif;
+      color: #6d28d9 !important; font: 700 12px/1.2 system-ui, sans-serif;
       letter-spacing: .09em; text-transform: uppercase;
     }
     .mensalize-release-eyebrow::before {
@@ -171,29 +173,32 @@ function adicionarEstilosNovidades() {
       box-shadow: 0 0 0 5px rgba(139,92,246,.16);
     }
     .mensalize-release-title {
-      margin: 0; max-width: 490px; color: #fff; font: 800 clamp(25px, 5vw, 36px)/1.12 system-ui, sans-serif;
+      margin: 0; max-width: 490px; color: var(--texto-primario, #1f182e) !important;
+      font: 800 clamp(25px, 5vw, 36px)/1.12 system-ui, sans-serif;
       letter-spacing: -.035em;
     }
     .mensalize-release-summary {
-      margin: 14px 0 0; max-width: 500px; color: #b9c0ce; font: 400 15px/1.65 system-ui, sans-serif;
+      margin: 14px 0 0; max-width: 500px; color: var(--texto-secundario, #4a5365) !important;
+      font: 400 15px/1.65 system-ui, sans-serif;
     }
     .mensalize-release-meta {
       display: inline-flex; margin-top: 17px; padding: 7px 10px; border-radius: 999px;
-      color: #ddd6fe; background: rgba(139,92,246,.14); font: 650 12px/1 system-ui, sans-serif;
+      color: #5420c9; background: rgba(124, 58, 237, .10);
+      border: 1px solid rgba(124, 58, 237, .16); font: 650 12px/1 system-ui, sans-serif;
     }
     .mensalize-release-content { padding: 24px 32px 30px; }
     .mensalize-release-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
     .mensalize-release-item {
       display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start;
-      padding: 15px; border: 1px solid rgba(255,255,255,.08); border-radius: 16px;
-      background: rgba(255,255,255,.035);
+      padding: 15px; border: 1px solid var(--borda, #c5c9d4); border-radius: 16px;
+      background: var(--mensalize-soft-bg-pro, #e3e5ec);
     }
     .mensalize-release-icon {
       width: 44px; height: 44px; display: grid; place-items: center; border-radius: 13px;
       background: rgba(139,92,246,.14); font-size: 21px;
     }
-    .mensalize-release-item h3 { margin: 1px 0 5px; color: #f8fafc; font: 700 15px/1.3 system-ui, sans-serif; }
-    .mensalize-release-item p { margin: 0; color: #9fa7b6; font: 400 13px/1.55 system-ui, sans-serif; }
+    .mensalize-release-item h3 { margin: 1px 0 5px; color: var(--texto-primario, #1f182e) !important; font: 700 15px/1.3 system-ui, sans-serif; }
+    .mensalize-release-item p { margin: 0; color: var(--texto-secundario, #4a5365) !important; font: 400 13px/1.55 system-ui, sans-serif; }
     .mensalize-release-actions { display: flex; justify-content: flex-end; margin-top: 22px; }
     .mensalize-release-primary {
       min-height: 46px; padding: 0 20px; border: 0; border-radius: 13px; cursor: pointer;

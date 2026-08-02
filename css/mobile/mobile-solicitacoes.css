@@ -564,7 +564,7 @@
     padding: 0 !important;
     border: 0 !important;
     border-radius: 0 !important;
-    background: rgba(2, 2, 10, .78) !important;
+    background: rgba(44, 37, 63, .48) !important;
     box-shadow: none !important;
     backdrop-filter: blur(9px);
     -webkit-backdrop-filter: blur(9px);
@@ -751,7 +751,7 @@
   padding: 0 !important;
   border: 0 !important;
   border-radius: 0 !important;
-  background: rgba(2, 2, 10, .78) !important;
+  background: rgba(44, 37, 63, .48) !important;
   box-shadow: none !important;
   backdrop-filter: blur(9px);
   -webkit-backdrop-filter: blur(9px);
@@ -1025,5 +1025,158 @@
     font-weight: 800 !important;
     line-height: 1 !important;
     letter-spacing: -0.055em !important;
+  }
+}
+
+/* ============================================================================
+   SOLICITAÇÕES V3 — AJUSTE MOBILE FINAL
+============================================================================ */
+@media (max-width: 760px) {
+  body.mobile-professor-interna #viewSolicitacoes.ativa > .solicitacoes-page-v3 {
+    gap: 10px !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-hero-v3 {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 14px !important;
+    border-radius: 16px !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-hero-v3 h2 {
+    margin: 3px 0 !important;
+    font-size: 18px !important;
+    line-height: 1.12 !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-hero-v3 p {
+    max-width: 260px;
+    font-size: 9px !important;
+    line-height: 1.4 !important;
+  }
+
+  #viewSolicitacoes #btnAtualizarSolicitacoes.solicitacoes-atualizar-v3 {
+    width: auto !important;
+    min-height: 32px !important;
+    padding: 0 10px !important;
+    border-radius: 9px !important;
+    font-size: 9px !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-status-v3 {
+    gap: 0 !important;
+    padding: 4px !important;
+    border-radius: 15px !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-status-v3 .solicitacoes-status-card {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    align-content: center !important;
+    justify-items: center !important;
+    gap: 3px !important;
+    min-height: 62px !important;
+    padding: 8px 5px !important;
+    overflow: hidden !important;
+    text-align: center !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-status-v3 .solicitacoes-status-card span,
+  #viewSolicitacoes .solicitacoes-status-v3 .solicitacoes-status-card strong {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    text-align: center !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-status-v3 .solicitacoes-status-card span {
+    order: 1;
+    font-size: 7px !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-status-v3 .solicitacoes-status-card strong {
+    order: 2;
+    font-size: 20px !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-status-v3 .solicitacoes-status-card small {
+    display: none !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-conteudo-v3 {
+    gap: 10px;
+    padding: 12px;
+    border-radius: 15px;
+  }
+
+  #viewSolicitacoes .solicitacoes-lista-topo {
+    padding-bottom: 9px !important;
+  }
+
+  #viewSolicitacoes .solicitacoes-lista-topo h3 {
+    font-size: 14px !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-card-v3 {
+    gap: 8px !important;
+    padding: 11px 12px !important;
+    border-radius: 12px !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-card-cabecalho-v3 {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-card-v3 h3 {
+    font-size: 12px !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-toggle-v3 {
+    width: auto !important;
+    min-height: 29px !important;
+    padding: 0 8px !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-resumo-v3 {
+    font-size: 9px !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-detalhe-grade {
+    grid-template-columns: 1fr !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-acoes-v3 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 5px !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-acoes-v3 button {
+    width: auto !important;
+    min-height: 29px !important;
+    padding: 0 8px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  #viewSolicitacoes .solicitacoes-hero-v3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  #viewSolicitacoes #btnAtualizarSolicitacoes.solicitacoes-atualizar-v3 {
+    justify-self: start;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-card-cabecalho-v3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  #viewSolicitacoes #listaSolicitacoes .solicitacao-toggle-v3 {
+    justify-self: start;
   }
 }

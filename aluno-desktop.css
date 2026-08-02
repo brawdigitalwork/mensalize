@@ -6022,3 +6022,17 @@
   }
 }
 
+
+/* ------------------------------------------------------------------------
+   HOTFIX — BOTÃO DE TEMA INEXISTENTE
+   Mantém o controle legado fora da navegação desktop do aluno.
+------------------------------------------------------------------------ */
+@media (min-width: 769px) {
+  #portalConteudo #btnTemaAluno,
+  #portalConteudo .student-sidebar-footer #btnTemaAluno,
+  #portalConteudo .student-footer-button.escondido {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}

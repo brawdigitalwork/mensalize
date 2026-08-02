@@ -6133,6 +6133,717 @@ html body #portalConteudo #viewInicioAluno .panel-card {
   }
 }
 
+/* ============================================================================
+   MENSALIZE ALUNO — SISTEMA VISUAL 2026
+   Base compartilhada. Desktop e mobile complementam esta camada em seus
+   respectivos arquivos, sem alterar IDs ou a lógica do portal.
+   ========================================================================== */
+
+:root {
+  --student-bg: #e8e8f1;
+  --student-bg-soft: #efedf5;
+  --student-surface: #f8f7fb;
+  --student-surface-soft: #f1eff6;
+  --student-surface-muted: #e9e6f1;
+  --student-ink: #1d1930;
+  --student-ink-soft: #3f3a55;
+  --student-muted: #6d687f;
+  --student-subtle: #918ba3;
+  --student-border: #d8d4e3;
+  --student-border-strong: #c8c1db;
+  --student-purple: #7c3aed;
+  --student-purple-deep: #5b21b6;
+  --student-purple-soft: #ede5ff;
+  --student-purple-glow: rgba(124, 58, 237, 0.18);
+  --student-green: #11815b;
+  --student-green-soft: #daf2e8;
+  --student-orange: #b85c13;
+  --student-orange-soft: #f8e8d8;
+  --student-red: #c13d52;
+  --student-red-soft: #f7dfe4;
+  --student-sidebar: #171428;
+  --student-sidebar-soft: #211b3c;
+  --student-shadow-sm: 0 8px 24px rgba(39, 31, 67, 0.07);
+  --student-shadow-md: 0 18px 48px rgba(39, 31, 67, 0.10);
+  --student-shadow-lg: 0 30px 90px rgba(30, 23, 54, 0.16);
+  --student-radius-sm: 12px;
+  --student-radius-md: 17px;
+  --student-radius-lg: 23px;
+  --student-radius-xl: 30px;
+  --student-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+html {
+  min-height: 100%;
+  background: var(--student-bg);
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  color: var(--student-ink);
+  background:
+    radial-gradient(circle at 6% 4%, rgba(124, 58, 237, 0.10), transparent 29rem),
+    radial-gradient(circle at 96% 18%, rgba(72, 187, 180, 0.08), transparent 25rem),
+    linear-gradient(145deg, var(--student-bg-soft), var(--student-bg));
+  font-family: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(124, 58, 237, 0.25) !important;
+  outline-offset: 2px;
+}
+
+.escondido {
+  display: none !important;
+}
+
+.student-app {
+  min-height: 100dvh;
+  color: var(--student-ink);
+  background:
+    radial-gradient(circle at 82% 8%, rgba(124, 58, 237, 0.08), transparent 28rem),
+    linear-gradient(150deg, var(--student-bg-soft), var(--student-bg));
+}
+
+#portalConteudo,
+#portalConteudo .student-main,
+#portalConteudo .student-content {
+  color: var(--student-ink);
+}
+
+#portalConteudo :where(h1, h2, h3, h4, h5, h6, strong) {
+  color: var(--student-ink);
+}
+
+#portalConteudo :where(p, small) {
+  color: var(--student-muted);
+}
+
+.student-view {
+  display: none;
+}
+
+.student-view.ativa {
+  display: block;
+  animation: studentViewEnter 320ms var(--student-ease) both;
+}
+
+.eyebrow,
+.mobile-aluno-kicker,
+.mobile-aluno-financeiro-kicker,
+.mobile-aluno-evolucao-kicker,
+.mobile-aluno-desafio-kicker,
+.mobile-aluno-programa-kicker,
+.mobile-aluno-solicitacoes-kicker,
+.mobile-aluno-avisos-kicker,
+.mobile-aluno-perfil-kicker,
+.mobile-aluno-contato-kicker {
+  color: var(--student-purple) !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.panel-card,
+.welcome-card,
+.status-hero,
+.summary-box,
+.student-request-card,
+.programa-faixa-card,
+.notices-home-card,
+.ranking-home-card,
+.checkin-aluno-card,
+.photo-editor-card {
+  color: var(--student-ink);
+  background: rgba(248, 247, 251, 0.92) !important;
+  border: 1px solid var(--student-border) !important;
+  box-shadow: var(--student-shadow-sm) !important;
+}
+
+.primary-action,
+.pay-button,
+.whatsapp-primary,
+.btn-confirm-pix-clean {
+  min-height: 42px;
+  border: 1px solid transparent !important;
+  border-radius: var(--student-radius-sm) !important;
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--student-purple), #8b4cf4) !important;
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.20) !important;
+  font-weight: 650 !important;
+  transition:
+    transform 180ms var(--student-ease),
+    box-shadow 180ms var(--student-ease),
+    filter 180ms var(--student-ease) !important;
+}
+
+.secondary-action,
+.link-button,
+.share-button,
+.btn-copy-pix-clean,
+.student-footer-button {
+  min-height: 40px;
+  border: 1px solid var(--student-border) !important;
+  border-radius: var(--student-radius-sm) !important;
+  color: var(--student-ink-soft) !important;
+  background: var(--student-surface-soft) !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  transition:
+    transform 180ms var(--student-ease),
+    border-color 180ms ease,
+    background-color 180ms ease !important;
+}
+
+.primary-action:disabled,
+.secondary-action:disabled,
+.pay-button:disabled,
+.share-button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+  box-shadow: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .primary-action:hover,
+  .pay-button:hover,
+  .whatsapp-primary:hover,
+  .btn-confirm-pix-clean:hover {
+    transform: translateY(-2px);
+    filter: saturate(1.08);
+    box-shadow: 0 15px 30px rgba(124, 58, 237, 0.27) !important;
+  }
+
+  .secondary-action:hover,
+  .link-button:hover,
+  .share-button:hover,
+  .btn-copy-pix-clean:hover,
+  .student-footer-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(124, 58, 237, 0.34) !important;
+    background: var(--student-purple-soft) !important;
+  }
+}
+
+.status-badge,
+.mini-badge,
+.muted-badge,
+.you-badge,
+.notice-kind,
+.mobile-aluno-avisos-badge,
+.mobile-aluno-evolucao-badge,
+.mobile-aluno-programa-badge,
+.mobile-aluno-solicitacoes-badge {
+  border: 1px solid var(--student-border);
+  border-radius: 999px;
+  color: var(--student-ink-soft);
+  background: var(--student-surface-soft);
+}
+
+.status-ok,
+.status-badge.status-ok,
+.is-success {
+  color: var(--student-green) !important;
+  background: var(--student-green-soft) !important;
+  border-color: rgba(17, 129, 91, 0.22) !important;
+}
+
+.status-alerta,
+.status-badge.status-alerta,
+.is-important {
+  color: var(--student-orange) !important;
+  background: var(--student-orange-soft) !important;
+  border-color: rgba(184, 92, 19, 0.22) !important;
+}
+
+.status-erro,
+.status-badge.status-erro,
+.is-error {
+  color: var(--student-red) !important;
+  background: var(--student-red-soft) !important;
+  border-color: rgba(193, 61, 82, 0.22) !important;
+}
+
+.student-form label,
+.student-auth-form label {
+  color: var(--student-ink-soft);
+  font-weight: 600;
+}
+
+.student-form input,
+.student-form textarea,
+.student-form select,
+.student-auth-form input,
+.student-auth-form textarea,
+.student-auth-form select {
+  width: 100%;
+  color: var(--student-ink) !important;
+  background: var(--student-surface) !important;
+  border: 1px solid var(--student-border) !important;
+  border-radius: 13px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55) !important;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease !important;
+}
+
+.student-form input::placeholder,
+.student-form textarea::placeholder,
+.student-auth-form input::placeholder,
+.student-auth-form textarea::placeholder {
+  color: var(--student-subtle) !important;
+  opacity: 1;
+}
+
+.student-form input:focus,
+.student-form textarea:focus,
+.student-form select:focus,
+.student-auth-form input:focus,
+.student-auth-form textarea:focus,
+.student-auth-form select:focus {
+  border-color: rgba(124, 58, 237, .55) !important;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, .11) !important;
+}
+
+.soft-message,
+.status-message,
+.helper-text,
+.student-auth-field-message {
+  color: var(--student-muted) !important;
+}
+
+.soft-message.sucesso,
+.student-auth-message.sucesso {
+  color: var(--student-green) !important;
+}
+
+.soft-message.erro,
+.student-auth-message.erro,
+.error-card {
+  color: var(--student-red) !important;
+}
+
+/* Login do aluno */
+.student-auth-screen {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: clamp(18px, 4vw, 54px);
+  color: var(--student-ink);
+  background:
+    radial-gradient(circle at 12% 12%, rgba(124, 58, 237, .20), transparent 30rem),
+    radial-gradient(circle at 92% 86%, rgba(38, 170, 151, .12), transparent 28rem),
+    linear-gradient(145deg, #e2e0eb, #efedf4 52%, #e5e6ef);
+}
+
+.student-auth-screen::before,
+.student-auth-screen::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 320px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.student-auth-screen::before {
+  top: -150px;
+  right: -90px;
+  border: 70px solid rgba(124, 58, 237, .10);
+  animation: studentOrbFloat 9s ease-in-out infinite;
+}
+
+.student-auth-screen::after {
+  bottom: -180px;
+  left: -100px;
+  border: 64px solid rgba(36, 163, 142, .08);
+  animation: studentOrbFloat 11s ease-in-out -4s infinite reverse;
+}
+
+.student-auth-card {
+  position: relative;
+  width: min(1080px, 100%);
+  min-height: min(700px, calc(100dvh - 72px));
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(390px, .96fr);
+  overflow: hidden;
+  border: 1px solid rgba(117, 103, 148, .22) !important;
+  border-radius: 28px !important;
+  background: var(--student-surface) !important;
+  box-shadow: var(--student-shadow-lg) !important;
+  animation: studentAuthEnter 520ms var(--student-ease) both;
+}
+
+.student-auth-presentation {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(36px, 5vw, 68px);
+  color: #f7f4ff;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(168, 119, 255, .38), transparent 18rem),
+    radial-gradient(circle at 18% 84%, rgba(48, 196, 170, .18), transparent 20rem),
+    linear-gradient(145deg, #17132c 0%, #26164a 56%, #4c1d95 135%) !important;
+}
+
+.student-auth-presentation::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: .4;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, #000, transparent 82%);
+}
+
+.student-auth-presentation :where(h1, h2, h3, strong) {
+  color: #fff !important;
+}
+
+.student-auth-presentation :where(p, small, span) {
+  color: rgba(244, 240, 255, .75) !important;
+}
+
+.student-auth-brand {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.student-auth-brand img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
+}
+
+.student-auth-brand strong {
+  display: block;
+  font-size: 18px;
+  letter-spacing: -.02em;
+}
+
+.student-auth-brand span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.student-auth-presentation-copy {
+  position: relative;
+  z-index: 1;
+  margin-block: auto 34px;
+}
+
+.student-auth-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+  color: #c9b4ff !important;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.student-auth-presentation-copy h2 {
+  max-width: 560px;
+  margin: 0;
+  font-size: clamp(34px, 4.5vw, 58px);
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+
+.student-auth-presentation-copy > p {
+  max-width: 500px;
+  margin: 20px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.student-auth-journey {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.student-auth-journey-item {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, .11) !important;
+  border-radius: 15px !important;
+  background: rgba(255, 255, 255, .07) !important;
+  backdrop-filter: blur(14px);
+}
+
+.student-auth-journey-item > span {
+  display: block;
+  margin-bottom: 14px;
+  color: #c8adff !important;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.student-auth-journey-item small,
+.student-auth-journey-item strong {
+  display: block;
+}
+
+.student-auth-journey-item small {
+  margin-bottom: 3px;
+  font-size: 10px;
+}
+
+.student-auth-journey-item strong {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.student-auth-presentation-footer {
+  position: relative;
+  z-index: 1;
+  margin: 18px 0 0 !important;
+  font-size: 11px !important;
+}
+
+.student-auth-access {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(38px, 5vw, 68px);
+  color: var(--student-ink);
+  background:
+    radial-gradient(circle at 96% 2%, rgba(124, 58, 237, .08), transparent 17rem),
+    var(--student-surface) !important;
+}
+
+.student-auth-view {
+  width: min(100%, 420px);
+  margin-inline: auto;
+  animation: studentViewEnter 300ms var(--student-ease) both;
+}
+
+.student-auth-view .eyebrow {
+  display: inline-flex;
+  margin-bottom: 10px;
+}
+
+.student-auth-view h1 {
+  margin: 0;
+  color: var(--student-ink) !important;
+  font-size: clamp(28px, 3.2vw, 39px);
+  line-height: 1.04;
+  letter-spacing: -.045em;
+}
+
+.student-auth-description {
+  margin: 13px 0 0 !important;
+  color: var(--student-muted) !important;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.student-auth-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.student-auth-form label {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.student-auth-form input {
+  min-height: 51px;
+  padding: 12px 14px !important;
+  font-size: 14px;
+}
+
+.student-password-field {
+  position: relative;
+}
+
+.student-password-field input {
+  padding-right: 70px !important;
+}
+
+.student-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  min-width: 52px;
+  min-height: 35px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 9px;
+  color: var(--student-purple) !important;
+  background: var(--student-purple-soft) !important;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .04em;
+  transform: translateY(-50%);
+}
+
+.student-auth-form .primary-action {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 2px;
+}
+
+.student-auth-message {
+  min-height: 18px;
+  margin: -4px 0 0 !important;
+  font-size: 12px;
+  text-align: center;
+}
+
+.student-auth-help {
+  display: grid;
+  gap: 4px;
+  margin-top: 24px;
+  padding: 15px 16px;
+  border: 1px solid var(--student-border);
+  border-radius: 14px;
+  background: var(--student-surface-soft);
+}
+
+.student-auth-help strong {
+  color: var(--student-ink-soft) !important;
+  font-size: 12px;
+}
+
+.student-auth-help span {
+  color: var(--student-muted) !important;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.student-auth-legal-links {
+  width: min(100%, 420px);
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin: 28px auto 0;
+  color: var(--student-subtle);
+  font-size: 10px;
+}
+
+.student-auth-legal-links a {
+  color: var(--student-muted) !important;
+  text-decoration: none;
+}
+
+.student-auth-legal-links a:hover {
+  color: var(--student-purple) !important;
+}
+
+/* Modais e conteúdos auxiliares */
+.photo-editor-modal,
+.checkin-aluno-modal {
+  background: rgba(28, 24, 44, .52) !important;
+  backdrop-filter: blur(10px);
+}
+
+.photo-editor-card,
+.checkin-aluno-card {
+  border-radius: var(--student-radius-lg) !important;
+}
+
+.pix-aluno-textarea {
+  color: var(--student-ink-soft) !important;
+  background: #e6e3ed !important;
+  border: 1px solid var(--student-border) !important;
+}
+
+.payments-list,
+.ranking-list,
+.student-notices-list,
+.programa-faixa-list {
+  scrollbar-color: rgba(124, 58, 237, .34) transparent;
+  scrollbar-width: thin;
+}
+
+@keyframes studentViewEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes studentAuthEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes studentOrbFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(18px, 16px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
 /* ==========================================================================
    ACESSO DO ALUNO — IDENTIDADE UNIFICADA COM O PROFESSOR
    O mesmo padrão visual atende login, primeiro acesso e recuperação.

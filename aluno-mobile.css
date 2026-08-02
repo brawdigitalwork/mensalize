@@ -4988,3 +4988,317 @@
   }
 
 }
+
+/* --------------------------------------------------------------------------
+   TEMA FINAL MOBILE — esta seção encerra a cascata e impede o retorno das
+   cores escuras legadas sem interferir nos estados controlados pelo JavaScript.
+   ------------------------------------------------------------------------ */
+@media (max-width: 760px) {
+  :root {
+    --mobile-aluno-bg: var(--student-bg);
+    --mobile-aluno-bg-deep: #dfdfe9;
+    --mobile-aluno-surface: var(--student-surface);
+    --mobile-aluno-surface-2: var(--student-surface-soft);
+    --mobile-aluno-surface-3: var(--student-surface-muted);
+    --mobile-aluno-border: var(--student-border);
+    --mobile-aluno-border-soft: rgba(96, 83, 124, .12);
+    --mobile-aluno-purple: var(--student-purple);
+    --mobile-aluno-purple-bright: #8b4cf4;
+    --mobile-aluno-purple-soft: var(--student-purple-deep);
+    --mobile-aluno-text: var(--student-ink);
+    --mobile-aluno-muted: var(--student-muted);
+    --mobile-aluno-muted-2: var(--student-subtle);
+    --mobile-aluno-green: var(--student-green);
+    --mobile-aluno-orange: var(--student-orange);
+    --mobile-aluno-red: var(--student-red);
+  }
+
+  body.mobile-aluno-portal-ativo,
+  body.mobile-aluno-portal-ativo #portalConteudo.student-app,
+  #portalConteudo .student-main,
+  #portalConteudo .student-content {
+    color: var(--student-ink) !important;
+    background-color: transparent !important;
+  }
+
+  body.mobile-aluno-portal-ativo #portalConteudo .mobile-aluno-header {
+    display: block !important;
+  }
+
+  body.mobile-aluno-portal-ativo {
+    background:
+      radial-gradient(circle at 6% 1%, rgba(124, 58, 237, .12), transparent 19rem),
+      linear-gradient(155deg, var(--student-bg-soft), var(--student-bg)) !important;
+  }
+
+  .mobile-aluno-header {
+    color: var(--student-ink) !important;
+    background: rgba(244, 242, 248, .92) !important;
+    border-color: rgba(191, 185, 207, .78) !important;
+    box-shadow: 0 10px 28px rgba(39, 31, 67, .07) !important;
+  }
+
+  .mobile-aluno-saudacao,
+  #mobileAlunoAcademiaTopo {
+    color: var(--student-muted) !important;
+  }
+
+  #mobileAlunoNomeTopo,
+  .mobile-aluno-header-interna > strong {
+    color: var(--student-ink) !important;
+  }
+
+  .mobile-aluno-icon-button {
+    color: var(--student-ink-soft) !important;
+    background: var(--student-surface-soft) !important;
+    border-color: var(--student-border) !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo :where(
+    .mobile-aluno-academia-card,
+    .mobile-aluno-action-card,
+    .mobile-aluno-module-card,
+    .mobile-aluno-proxima-acao,
+    .mobile-aluno-financeiro-status,
+    .mobile-aluno-financeiro-secao,
+    .mobile-aluno-evolucao-hero,
+    .mobile-aluno-evolucao-contexto,
+    .mobile-aluno-evolucao-proximo,
+    .mobile-aluno-evolucao-programa,
+    .mobile-aluno-evolucao-solicitacoes,
+    .mobile-aluno-desafio-hero,
+    .mobile-aluno-desafio-filtros,
+    .mobile-aluno-desafio-ranking,
+    .mobile-aluno-perfil-hero,
+    .mobile-aluno-perfil-secao,
+    .mobile-aluno-perfil-privacidade,
+    .mobile-aluno-programa-hero,
+    .mobile-aluno-programa-conteudo,
+    .mobile-aluno-programa-nota,
+    .mobile-aluno-solicitacoes-hero,
+    .mobile-aluno-solicitacoes-acompanhamento,
+    .mobile-aluno-solicitacoes-nova,
+    .mobile-aluno-solicitacoes-nota,
+    .mobile-aluno-avisos-hero,
+    .mobile-aluno-avisos-lista-card,
+    .mobile-aluno-avisos-nota,
+    .mobile-aluno-contato-hero,
+    .mobile-aluno-contato-acoes,
+    .mobile-aluno-contato-compartilhar,
+    .student-portal-legal,
+    .panel-card
+  ) {
+    color: var(--student-ink) !important;
+    background: var(--student-surface) !important;
+    border-color: var(--student-border) !important;
+    box-shadow: var(--student-shadow-sm) !important;
+  }
+
+  #portalConteudo :where(
+    .mobile-aluno-financeiro-status,
+    .mobile-aluno-evolucao-hero,
+    .mobile-aluno-desafio-hero,
+    .mobile-aluno-perfil-hero,
+    .mobile-aluno-programa-hero,
+    .mobile-aluno-solicitacoes-hero,
+    .mobile-aluno-avisos-hero,
+    .mobile-aluno-contato-hero
+  ) {
+    background:
+      radial-gradient(circle at 92% 5%, rgba(124, 58, 237, .14), transparent 16rem),
+      linear-gradient(145deg, #f5f2fa, #eae7f2) !important;
+  }
+
+  #portalConteudo :where(
+    .mobile-aluno-home,
+    .mobile-aluno-financeiro,
+    .mobile-aluno-evolucao,
+    .mobile-aluno-desafio,
+    .mobile-aluno-perfil,
+    .mobile-aluno-programa-faixa,
+    .mobile-aluno-solicitacoes,
+    .mobile-aluno-avisos,
+    .mobile-aluno-contato,
+    .panel-card
+  ) :where(h1, h2, h3, h4, strong) {
+    color: var(--student-ink) !important;
+  }
+
+  #portalConteudo :where(
+    .mobile-aluno-home,
+    .mobile-aluno-financeiro,
+    .mobile-aluno-evolucao,
+    .mobile-aluno-desafio,
+    .mobile-aluno-perfil,
+    .mobile-aluno-programa-faixa,
+    .mobile-aluno-solicitacoes,
+    .mobile-aluno-avisos,
+    .mobile-aluno-contato,
+    .panel-card
+  ) :where(p, small) {
+    color: var(--student-muted) !important;
+  }
+
+  #portalConteudo :where(
+    .mobile-aluno-academia-icon,
+    .mobile-aluno-action-icon,
+    .mobile-aluno-module-icon,
+    .mobile-aluno-financeiro-secao-icone,
+    .mobile-aluno-perfil-secao-icone,
+    .mobile-aluno-contato-section-icon,
+    .mobile-aluno-programa-section-icon,
+    .mobile-aluno-sheet-row-icon
+  ) {
+    color: var(--student-purple) !important;
+    background: var(--student-purple-soft) !important;
+  }
+
+  #portalConteudo .mobile-aluno-carousel-card {
+    color: var(--student-ink) !important;
+    background:
+      radial-gradient(circle at 88% 14%, rgba(124, 58, 237, .17), transparent 16rem),
+      linear-gradient(145deg, #f3eff9, #e8e4f2) !important;
+    border-color: rgba(124, 58, 237, .20) !important;
+    box-shadow: var(--student-shadow-md) !important;
+  }
+
+  #portalConteudo .mobile-aluno-carousel-card :where(strong, small, span) {
+    color: inherit !important;
+  }
+
+  #portalConteudo :where(
+    .summary-box,
+    .payment-item,
+    .ranking-row,
+    .student-notice-item,
+    .programa-faixa-categoria,
+    .student-request-card,
+    .mobile-aluno-solicitacoes-status-row,
+    .mobile-aluno-perfil-vinculo-row
+  ) {
+    color: var(--student-ink) !important;
+    background: var(--student-surface-soft) !important;
+    border-color: var(--student-border) !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo :where(
+    .summary-box,
+    .payment-item,
+    .ranking-row,
+    .student-notice-item,
+    .programa-faixa-categoria,
+    .student-request-card,
+    .mobile-aluno-solicitacoes-status-row,
+    .mobile-aluno-perfil-vinculo-row
+  ) :where(strong, h3, h4) {
+    color: var(--student-ink) !important;
+  }
+
+  #portalConteudo :where(
+    .summary-box,
+    .payment-item,
+    .ranking-row,
+    .student-notice-item,
+    .programa-faixa-categoria,
+    .student-request-card,
+    .mobile-aluno-solicitacoes-status-row,
+    .mobile-aluno-perfil-vinculo-row
+  ) :where(span, small, p) {
+    color: var(--student-muted) !important;
+  }
+
+  #portalConteudo .student-form :where(input, select, textarea),
+  #portalConteudo .pix-aluno-textarea {
+    color: var(--student-ink) !important;
+    background: var(--student-surface-soft) !important;
+    border-color: var(--student-border) !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .student-form :where(input, textarea)::placeholder {
+    color: var(--student-subtle) !important;
+  }
+
+  .mobile-aluno-bottom-nav {
+    background: rgba(246, 244, 249, .93) !important;
+    border-color: rgba(187, 180, 203, .88) !important;
+    box-shadow: 0 16px 40px rgba(40, 31, 68, .16) !important;
+  }
+
+  .mobile-aluno-bottom-item {
+    color: var(--student-muted) !important;
+    background: transparent !important;
+  }
+
+  .mobile-aluno-bottom-item.ativo {
+    color: var(--student-purple) !important;
+    background: var(--student-purple-soft) !important;
+  }
+
+  .mobile-aluno-sheet-backdrop {
+    background: rgba(28, 24, 44, .40) !important;
+  }
+
+  .mobile-aluno-sheet-panel {
+    color: var(--student-ink) !important;
+    background: var(--student-surface) !important;
+    border-color: var(--student-border) !important;
+  }
+
+  .mobile-aluno-sheet-row {
+    color: var(--student-ink) !important;
+    background: transparent !important;
+    border-color: var(--student-border) !important;
+  }
+
+  .mobile-aluno-sheet-row strong,
+  .mobile-aluno-sheet-header strong {
+    color: var(--student-ink) !important;
+  }
+
+  .mobile-aluno-sheet-row small,
+  .mobile-aluno-sheet-header small {
+    color: var(--student-muted) !important;
+  }
+
+  .mobile-aluno-sheet-row-sair,
+  .mobile-aluno-sheet-row-sair strong {
+    color: var(--student-red) !important;
+  }
+
+  .mobile-aluno-pwa-install {
+    color: var(--student-ink) !important;
+    background: linear-gradient(135deg, #eee8fc, #e7e4f1) !important;
+    border-color: rgba(124, 58, 237, .20) !important;
+  }
+
+  .mobile-aluno-pwa-install :where(strong, p, small) {
+    color: inherit !important;
+  }
+
+  .mobile-aluno-pwa-install button {
+    color: var(--student-purple) !important;
+    background: var(--student-purple-soft) !important;
+    border-color: rgba(124, 58, 237, .22) !important;
+  }
+
+  .mobile-aluno-pwa-install .mobile-aluno-pwa-install-dismiss {
+    color: var(--student-ink-soft) !important;
+    background: var(--student-surface-muted) !important;
+    border-color: var(--student-border) !important;
+  }
+
+  #mobileAlunoContatoProfessorSlot #areaContatoProfessor .soft-message {
+    color: var(--student-muted) !important;
+    background: var(--student-surface-soft) !important;
+    border-color: var(--student-border) !important;
+  }
+
+  #mobileAlunoContatoCompartilharSlot #btnCompartilhar {
+    color: var(--student-purple) !important;
+    background: var(--student-purple-soft) !important;
+    border-color: rgba(124, 58, 237, .22) !important;
+  }
+}

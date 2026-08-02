@@ -3969,3 +3969,509 @@
     max-height: 100% !important;
   }
 }
+
+/* ==========================================================================
+   PERFIL DO ALUNO — PREMIUM V2
+   Leitura por padrão; formulário aberto somente quando necessário.
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  #portalConteudo.student-app:has(#viewDadosAluno.ativa) {
+    --aluno-perfil-bg: #f1f3f7;
+    --aluno-perfil-surface: #ffffff;
+    --aluno-perfil-surface-2: #fafbfc;
+    --aluno-perfil-surface-3: #f5f7fa;
+    --aluno-perfil-border: #dfe3ea;
+    --aluno-perfil-text: #202535;
+    --aluno-perfil-muted: #667085;
+    --aluno-perfil-muted-2: #7b8496;
+    background:
+      radial-gradient(circle at 14% 0%, rgba(124, 58, 237, 0.06), transparent 27%),
+      linear-gradient(145deg, #f7f8fb, var(--aluno-perfil-bg) 72%) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewDadosAluno.ativa)
+    .student-topbar {
+    background: rgba(250, 251, 253, 0.94) !important;
+    border-bottom-color: #e1e5ec !important;
+    box-shadow: 0 8px 24px rgba(28, 35, 51, 0.06) !important;
+  }
+
+  #portalConteudo.student-app:has(#viewDadosAluno.ativa) .student-small-profile {
+    background: #fff !important;
+    border-color: #e1e5ec !important;
+    box-shadow: 0 5px 14px rgba(28, 35, 51, 0.05) !important;
+  }
+
+  #portalConteudo #viewDadosAluno {
+    max-width: 1120px !important;
+  }
+
+  #portalConteudo #viewDadosAluno > .desktop-aluno-perfil {
+    gap: 16px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-card {
+    padding: 24px !important;
+    border: 1px solid var(--aluno-perfil-border) !important;
+    border-radius: 19px !important;
+    background: var(--aluno-perfil-surface) !important;
+    box-shadow: 0 12px 32px rgba(28, 35, 51, 0.07) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-hero {
+    grid-template-columns: 116px minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 24px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-coluna {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-wrap {
+    width: 104px !important;
+    height: 104px !important;
+    padding: 0 !important;
+    border-radius: 26px !important;
+    background: transparent !important;
+    box-shadow: 0 10px 24px rgba(28, 35, 51, 0.12) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-wrap .photo-preview,
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-wrap .photo-avatar {
+    border: 1px solid #d7dce5 !important;
+    border-radius: 26px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-wrap .photo-avatar {
+    color: #6d28d9 !important;
+    background: #f1ecff !important;
+    font-size: 31px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-botao {
+    width: auto !important;
+    min-height: 35px !important;
+    margin-top: 11px !important;
+    padding: 7px 11px !important;
+    border: 1px solid #d9dde5 !important;
+    border-radius: 10px !important;
+    background: #f8f9fb !important;
+    color: #5f35ad !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-identidade {
+    align-content: start !important;
+    gap: 16px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-identidade-topo {
+    align-items: center !important;
+  }
+
+  #portalConteudo #viewDadosAluno .eyebrow {
+    color: #7250b4 !important;
+    font-size: 10px !important;
+    letter-spacing: 0.075em !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-identidade h2 {
+    margin-top: 5px !important;
+    font-size: clamp(25px, 2.4vw, 34px) !important;
+    font-weight: 790 !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-identidade-topo p {
+    margin-top: 6px !important;
+    color: var(--aluno-perfil-muted) !important;
+    font-size: 13px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-status {
+    min-height: 31px !important;
+    padding: 6px 10px !important;
+    border-color: #dfe3ea !important;
+    background: #f7f8fa !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-status::before {
+    width: 7px !important;
+    height: 7px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+    border-top: 1px solid #e3e6ec !important;
+    border-bottom: 1px solid #e3e6ec !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo > div {
+    min-height: 68px !important;
+    display: grid !important;
+    align-content: center !important;
+    gap: 5px !important;
+    padding: 12px 16px !important;
+    border: 0 !important;
+    border-left: 1px solid #e3e6ec !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo > div:first-child {
+    padding-left: 0 !important;
+    border-left: 0 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo span {
+    color: var(--aluno-perfil-muted-2) !important;
+    font-size: 9.5px !important;
+    letter-spacing: 0.055em !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo strong {
+    color: var(--aluno-perfil-text) !important;
+    font-size: 13px !important;
+    font-weight: 740 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-solicitacao {
+    width: fit-content !important;
+    min-height: 36px !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    padding: 7px 10px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: transparent !important;
+    color: #5f35ad !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-solicitacao:hover {
+    background: #f4f0fb !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-solicitacao svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-heading {
+    align-items: flex-start !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-heading h2 {
+    margin-top: 4px !important;
+    color: var(--aluno-perfil-text) !important;
+    font-size: 20px !important;
+    font-weight: 780 !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-helper {
+    max-width: 690px !important;
+    margin: 7px 0 0 !important;
+    color: var(--aluno-perfil-muted) !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-editar-botao {
+    min-height: 38px !important;
+    padding: 8px 13px !important;
+    border: 1px solid #d9dde5 !important;
+    border-radius: 10px !important;
+    background: #f8f9fb !important;
+    color: #5f35ad !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-edicao.is-editando .desktop-aluno-perfil-editar-botao {
+    display: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dados-resumo {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    margin-top: 19px !important;
+    overflow: hidden !important;
+    border: 1px solid #e2e5eb !important;
+    border-radius: 14px !important;
+    background: #fafbfc !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row {
+    min-height: 68px !important;
+    display: grid !important;
+    align-content: center !important;
+    gap: 5px !important;
+    padding: 13px 16px !important;
+    border-bottom: 1px solid #e5e8ee !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row:nth-child(odd) {
+    border-right: 1px solid #e5e8ee !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row:last-child {
+    grid-column: 1 / -1 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row span {
+    color: var(--aluno-perfil-muted-2) !important;
+    font-size: 10px !important;
+    font-weight: 690 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row strong {
+    overflow: hidden !important;
+    color: var(--aluno-perfil-text) !important;
+    font-size: 13px !important;
+    font-weight: 740 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewDadosAluno #desktopAlunoPerfilResumoDados.escondido,
+  #portalConteudo #viewDadosAluno #formPerfilAluno.escondido {
+    display: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    margin-top: 19px !important;
+    padding-top: 19px !important;
+    border-top: 1px solid #e3e6ec !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form-heading {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    gap: 4px !important;
+    margin-bottom: 2px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form-heading strong {
+    color: var(--aluno-perfil-text) !important;
+    font-size: 14px !important;
+    font-weight: 760 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form-heading p {
+    margin: 0 !important;
+    color: var(--aluno-perfil-muted) !important;
+    font-size: 11.5px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form label > span {
+    color: #5f6879 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form input {
+    min-height: 47px !important;
+    padding: 10px 12px !important;
+    border: 1px solid #d4d9e2 !important;
+    border-radius: 11px !important;
+    background: #fbfcfd !important;
+    color: var(--aluno-perfil-text) !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form input:focus {
+    border-color: #9b7bd6 !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form-acoes {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    margin-top: 2px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form-acoes button {
+    width: auto !important;
+    min-width: 130px !important;
+    min-height: 43px !important;
+    padding: 9px 14px !important;
+    border-radius: 10px !important;
+    font-size: 11.5px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form-acoes .secondary-action {
+    border: 1px solid #d9dde5 !important;
+    background: #f8f9fb !important;
+    color: #4f586a !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form-acoes .primary-action {
+    border-color: #6f35dc !important;
+    background: #6f35dc !important;
+    color: #fff !important;
+    box-shadow: 0 8px 18px rgba(91, 33, 182, 0.17) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-feedback {
+    margin: 13px 0 0 !important;
+    padding: 10px 12px !important;
+    border: 1px solid #cce9df !important;
+    border-radius: 10px !important;
+    background: #f1faf7 !important;
+    color: #047857 !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-feedback.is-error {
+    border-color: #efd1d1 !important;
+    background: #fff5f5 !important;
+    color: #b42318 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-feedback:empty {
+    display: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-pwa {
+    min-height: 82px !important;
+    grid-template-columns: 42px minmax(0, 1fr) auto !important;
+    gap: 14px !important;
+    padding: 17px 20px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-pwa-icon {
+    width: 42px !important;
+    height: 42px !important;
+    border-color: #ddd5ef !important;
+    border-radius: 12px !important;
+    background: #f4f0fb !important;
+    color: #6f35dc !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-pwa h2 {
+    font-size: 16px !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-pwa .helper-text {
+    margin-top: 4px !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-pwa > button {
+    min-height: 39px !important;
+    padding: 8px 13px !important;
+    border: 1px solid #d9dde5 !important;
+    border-radius: 10px !important;
+    background: #f8f9fb !important;
+    color: #5f35ad !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+  }
+
+  @media (max-width: 1020px) {
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      border: 1px solid #e3e6ec !important;
+      border-radius: 12px !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo > div,
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo > div:first-child {
+      padding: 11px 13px !important;
+      border-left: 0 !important;
+      border-bottom: 1px solid #e3e6ec !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo > div:nth-child(odd) {
+      border-right: 1px solid #e3e6ec !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-resumo > div:nth-last-child(-n + 2) {
+      border-bottom: 0 !important;
+    }
+  }
+
+  @media (max-width: 860px) {
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-hero {
+      grid-template-columns: 100px minmax(0, 1fr) !important;
+      gap: 20px !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-coluna {
+      display: flex !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-wrap {
+      grid-row: auto !important;
+      width: 92px !important;
+      height: 92px !important;
+      border-radius: 23px !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-wrap .photo-preview,
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-foto-wrap .photo-avatar {
+      border-radius: 23px !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-pwa {
+      grid-template-columns: 42px minmax(0, 1fr) auto !important;
+    }
+  }
+
+  @media (max-width: 790px) {
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form,
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dados-resumo {
+      grid-template-columns: 1fr !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row,
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row:nth-child(odd),
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row:last-child {
+      grid-column: auto !important;
+      border-right: 0 !important;
+      border-bottom: 1px solid #e5e8ee !important;
+    }
+
+    #portalConteudo #viewDadosAluno .desktop-aluno-perfil-dado-row:last-child {
+      border-bottom: 0 !important;
+    }
+  }
+}
+
+@media (min-width: 761px) {
+  #portalConteudo #viewDadosAluno .desktop-aluno-perfil-form .desktop-aluno-perfil-form-acoes button[type="submit"] {
+    grid-column: auto !important;
+    width: auto !important;
+    min-width: 156px !important;
+    flex: 0 0 auto !important;
+  }
+}

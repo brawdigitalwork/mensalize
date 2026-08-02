@@ -6437,3 +6437,487 @@
     }
   }
 }
+
+/* ==========================================================================
+   PERFIL DO ALUNO — PREMIUM V2
+   Leitura por padrão; formulário aberto apenas por ação explícita.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewDadosAluno.ativa) {
+    --aluno-perfil-bg: #f1f3f7;
+    --aluno-perfil-surface: #ffffff;
+    --aluno-perfil-surface-2: #f8f9fc;
+    --aluno-perfil-surface-3: #f4f6fa;
+    --aluno-perfil-border: #dfe3ea;
+    --aluno-perfil-text: #202535;
+    --aluno-perfil-muted: #667085;
+    --aluno-perfil-muted-2: #7b8496;
+    background:
+      radial-gradient(circle at 8% 0%, rgba(124, 58, 237, 0.065), transparent 28%),
+      linear-gradient(180deg, #f7f8fb, var(--aluno-perfil-bg)) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewDadosAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-header {
+    background: rgba(250, 251, 253, 0.94) !important;
+    border-bottom-color: rgba(220, 224, 232, 0.9) !important;
+    box-shadow: 0 8px 24px rgba(28, 35, 51, 0.06) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewDadosAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-bottom-nav {
+    background: rgba(252, 252, 254, 0.97) !important;
+    border-color: #e0e4eb !important;
+    box-shadow: 0 14px 34px rgba(28, 35, 51, 0.12) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil {
+    gap: 12px !important;
+    padding-top: 4px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-hero,
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-secao,
+  #portalConteudo #viewDadosAluno .mobile-aluno-pwa-install {
+    border: 1px solid var(--aluno-perfil-border) !important;
+    border-radius: 20px !important;
+    background: var(--aluno-perfil-surface) !important;
+    box-shadow: 0 10px 28px rgba(28, 35, 51, 0.07) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-hero {
+    min-height: 112px !important;
+    display: grid !important;
+    grid-template-columns: 74px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 13px !important;
+    padding: 18px !important;
+    overflow: visible !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-hero::after {
+    content: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-foto-wrap,
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-foto,
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-avatar {
+    width: 74px !important;
+    height: 74px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-foto-wrap {
+    padding: 0 !important;
+    border-radius: 20px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-foto,
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-avatar {
+    border: 1px solid #d7dce5 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 20px rgba(28, 35, 51, 0.1) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-avatar {
+    color: #6d28d9 !important;
+    background: #f1ecff !important;
+    font-size: 24px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-foto-editar {
+    right: -4px !important;
+    bottom: -4px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border: 3px solid #fff !important;
+    border-radius: 10px !important;
+    background: #6f35dc !important;
+    box-shadow: 0 6px 15px rgba(91, 33, 182, 0.24) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-foto-editar svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-identidade {
+    min-width: 0 !important;
+    gap: 2px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-kicker {
+    color: #7250b4 !important;
+    font-size: 9px !important;
+    letter-spacing: 0.075em !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-identidade h2 {
+    margin-top: 4px !important;
+    overflow: hidden !important;
+    color: var(--aluno-perfil-text) !important;
+    font-size: 19px !important;
+    font-weight: 780 !important;
+    letter-spacing: -0.035em !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-identidade p {
+    margin-top: 4px !important;
+    overflow: hidden !important;
+    color: var(--aluno-perfil-muted) !important;
+    font-size: 11.5px !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-status {
+    align-self: start !important;
+    min-height: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 5px 8px !important;
+    border: 1px solid #dfe3ea !important;
+    border-radius: 999px !important;
+    background: #f7f8fa !important;
+    font-size: 9.5px !important;
+    font-weight: 760 !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-status::before {
+    width: 6px !important;
+    height: 6px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-status.is-ativo {
+    border-color: #c8eadf !important;
+    background: #f0faf7 !important;
+    color: #047857 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-status.is-pausado {
+    border-color: #f0dfb8 !important;
+    background: #fff9ec !important;
+    color: #9a6700 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-status.is-inativo {
+    border-color: #efcccc !important;
+    background: #fff4f4 !important;
+    color: #b42318 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-hero > .mobile-aluno-perfil-feedback {
+    grid-column: 1 / -1 !important;
+    margin: 2px 0 0 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-secao {
+    padding: 18px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-secao-topo {
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-secao-topo h2 {
+    margin-top: 3px !important;
+    color: var(--aluno-perfil-text) !important;
+    font-size: 16px !important;
+    font-weight: 770 !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-acao-texto,
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-editar {
+    min-height: 34px !important;
+    padding: 7px 10px !important;
+    border: 1px solid #d8dce5 !important;
+    border-radius: 10px !important;
+    background: #f8f9fb !important;
+    color: #5f35ad !important;
+    box-shadow: none !important;
+    font-size: 10px !important;
+    font-weight: 740 !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-lista,
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-dados-resumo {
+    margin-top: 14px !important;
+    overflow: hidden !important;
+    border: 1px solid #e2e5eb !important;
+    border-radius: 14px !important;
+    background: #fafbfc !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-lista {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row {
+    min-height: 66px !important;
+    display: grid !important;
+    align-content: center !important;
+    gap: 5px !important;
+    padding: 12px 13px !important;
+    border: 0 !important;
+    border-bottom: 1px solid #e5e8ee !important;
+    background: transparent !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row:nth-child(odd) {
+    border-right: 1px solid #e5e8ee !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row:nth-last-child(-n + 2) {
+    border-bottom: 0 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row + .mobile-aluno-perfil-vinculo-row {
+    border-top: 0 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row span,
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-dado-row span {
+    color: var(--aluno-perfil-muted-2) !important;
+    font-size: 9.5px !important;
+    font-weight: 680 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row strong,
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-dado-row strong {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    color: var(--aluno-perfil-text) !important;
+    font-size: 11.5px !important;
+    font-weight: 740 !important;
+    line-height: 1.3 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-dado-row {
+    min-height: 56px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 11px 13px !important;
+    border-bottom: 1px solid #e5e8ee !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-dado-row strong {
+    text-align: right !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-dados-resumo > .mobile-aluno-perfil-dado-row:last-child {
+    border-bottom: 0 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-responsavel {
+    border-top: 6px solid #f1f3f7 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-responsavel.escondido {
+    display: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-responsavel-titulo {
+    padding: 10px 13px 7px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-responsavel-titulo span {
+    color: #7250b4 !important;
+    font-size: 9px !important;
+    font-weight: 760 !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-responsavel .mobile-aluno-perfil-dado-row:last-child {
+    border-bottom: 0 !important;
+  }
+
+  #portalConteudo #viewDadosAluno #mobileAlunoPerfilResumo.escondido,
+  #portalConteudo #viewDadosAluno #mobileAlunoPerfilForm.escondido {
+    display: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-dados.is-editando .mobile-aluno-perfil-editar {
+    display: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form {
+    display: grid !important;
+    gap: 13px !important;
+    margin-top: 15px !important;
+    padding-top: 15px !important;
+    border-top: 1px solid #e3e6ec !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form-heading {
+    display: grid !important;
+    gap: 4px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form-heading strong {
+    color: var(--aluno-perfil-text) !important;
+    font-size: 13px !important;
+    font-weight: 760 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form-heading p {
+    margin: 0 !important;
+    color: var(--aluno-perfil-muted) !important;
+    font-size: 10.5px !important;
+    line-height: 1.45 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form label {
+    gap: 6px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form label > span {
+    color: #5f6879 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form input {
+    min-height: 48px !important;
+    padding: 11px 13px !important;
+    border: 1px solid #d4d9e2 !important;
+    border-radius: 12px !important;
+    background: #fbfcfd !important;
+    color: var(--aluno-perfil-text) !important;
+    box-shadow: none !important;
+    font-size: 16px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form input:focus {
+    border-color: #9b7bd6 !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form-acoes {
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) !important;
+    gap: 9px !important;
+    margin-top: 2px !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form-acoes button {
+    min-height: 45px !important;
+    padding: 10px 12px !important;
+    border-radius: 11px !important;
+    font-size: 11px !important;
+    font-weight: 760 !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form-acoes .is-secondary {
+    border: 1px solid #d8dce5 !important;
+    background: #f8f9fb !important;
+    color: #4f586a !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-form-acoes button[type="submit"] {
+    border: 1px solid #6f35dc !important;
+    background: #6f35dc !important;
+    color: #fff !important;
+    box-shadow: 0 8px 18px rgba(91, 33, 182, 0.18) !important;
+  }
+
+  #portalConteudo #viewDadosAluno .mobile-aluno-perfil-feedback {
+    margin-top: 12px !important;
+    padding: 10px 12px !important;
+    border-radius: 11px !important;
+    font-size: 10.5px !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewDadosAluno.ativa)
+    #portalConteudo
+    #viewDadosAluno
+    .mobile-aluno-pwa-install {
+    min-height: 76px !important;
+    grid-template-columns: 38px minmax(0, 1fr) auto !important;
+    gap: 11px !important;
+    padding: 14px 15px !important;
+    background: #fff !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewDadosAluno.ativa)
+    #portalConteudo
+    #viewDadosAluno
+    .mobile-aluno-pwa-install-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border: 1px solid #ddd5ef !important;
+    border-radius: 11px !important;
+    background: #f4f0fb !important;
+    color: #6f35dc !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewDadosAluno.ativa)
+    #portalConteudo
+    #viewDadosAluno
+    .mobile-aluno-pwa-install button {
+    min-height: 36px !important;
+    padding: 8px 10px !important;
+    border: 1px solid #d8dce5 !important;
+    border-radius: 10px !important;
+    background: #f8f9fb !important;
+    color: #5f35ad !important;
+    box-shadow: none !important;
+    font-size: 10px !important;
+  }
+
+  @media (max-width: 370px) {
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-hero {
+      grid-template-columns: 66px minmax(0, 1fr) !important;
+      gap: 11px !important;
+      padding: 16px !important;
+    }
+
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-foto-wrap,
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-foto,
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-avatar {
+      width: 66px !important;
+      height: 66px !important;
+    }
+
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-status {
+      grid-column: 2 !important;
+      justify-self: start !important;
+      margin-top: 4px !important;
+    }
+
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-lista {
+      grid-template-columns: 1fr !important;
+    }
+
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row,
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row:nth-child(odd),
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row:nth-last-child(-n + 2) {
+      border-right: 0 !important;
+      border-bottom: 1px solid #e5e8ee !important;
+    }
+
+    #portalConteudo #viewDadosAluno .mobile-aluno-perfil-vinculo-row:last-child {
+      border-bottom: 0 !important;
+    }
+  }
+}

@@ -845,9 +845,7 @@
                   class="mobile-aluno-perfil-foto escondido"
                   alt="Foto do aluno"
                 />
-                <div id="mobileAlunoPerfilAvatar" class="mobile-aluno-perfil-avatar">
-                  A
-                </div>
+                <div id="mobileAlunoPerfilAvatar" class="mobile-aluno-perfil-avatar">A</div>
 
                 <button
                   id="btnMobileAlunoPerfilFoto"
@@ -863,27 +861,32 @@
               </div>
 
               <div class="mobile-aluno-perfil-identidade">
-                <span class="mobile-aluno-perfil-kicker">Meu perfil</span>
+                <span class="mobile-aluno-perfil-kicker">Conta do aluno</span>
                 <h2 id="mobileAlunoPerfilNomeHero">Aluno</h2>
                 <p id="mobileAlunoPerfilTelefoneHero">WhatsApp não informado</p>
               </div>
 
+              <strong id="mobileAlunoPerfilStatus" class="mobile-aluno-perfil-status">
+                Não informado
+              </strong>
+
               <p id="mobileAlunoPerfilFotoMensagem" class="mobile-aluno-perfil-feedback escondido"></p>
             </section>
 
-            <section class="mobile-aluno-perfil-secao" aria-labelledby="mobileAlunoPerfilVinculoTitulo">
+            <section class="mobile-aluno-perfil-secao mobile-aluno-perfil-vinculo" aria-labelledby="mobileAlunoPerfilVinculoTitulo">
               <div class="mobile-aluno-perfil-secao-topo">
                 <div>
-                  <span class="mobile-aluno-perfil-kicker">Academia</span>
-                  <h2 id="mobileAlunoPerfilVinculoTitulo">Seu vínculo</h2>
+                  <span class="mobile-aluno-perfil-kicker">Vínculo</span>
+                  <h2 id="mobileAlunoPerfilVinculoTitulo">Sua academia</h2>
                 </div>
 
-                <span class="mobile-aluno-perfil-secao-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M4 21V5l8-3v19M12 8h8v13M2 21h20"/>
-                    <path d="M7 8h2M7 12h2M7 16h2M15 11h2M15 15h2"/>
-                  </svg>
-                </span>
+                <button
+                  type="button"
+                  class="mobile-aluno-perfil-acao-texto"
+                  data-mobile-aluno-view="graduacao"
+                >
+                  Solicitar ajuste
+                </button>
               </div>
 
               <div class="mobile-aluno-perfil-vinculo-lista">
@@ -906,52 +909,78 @@
                   <span>Início</span>
                   <strong id="mobileAlunoPerfilInicioAcademia">Não informado</strong>
                 </div>
-
-                <div class="mobile-aluno-perfil-vinculo-row">
-                  <span>Status</span>
-                  <strong id="mobileAlunoPerfilStatus" class="mobile-aluno-perfil-status">
-                    Não informado
-                  </strong>
-                </div>
               </div>
-
-              <button
-                type="button"
-                class="mobile-aluno-perfil-link"
-                data-mobile-aluno-view="graduacao"
-              >
-                <span>Solicitar ajuste de turma ou graduação</span>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14M13 6l6 6-6 6"/>
-                </svg>
-              </button>
             </section>
 
-            <section class="mobile-aluno-perfil-secao" aria-labelledby="mobileAlunoPerfilDadosTitulo">
+            <section
+              id="mobileAlunoPerfilDadosCard"
+              class="mobile-aluno-perfil-secao mobile-aluno-perfil-dados"
+              aria-labelledby="mobileAlunoPerfilDadosTitulo"
+            >
               <div class="mobile-aluno-perfil-secao-topo">
                 <div>
                   <span class="mobile-aluno-perfil-kicker">Dados pessoais</span>
-                  <h2 id="mobileAlunoPerfilDadosTitulo">Nome e WhatsApp</h2>
+                  <h2 id="mobileAlunoPerfilDadosTitulo">Suas informações</h2>
                 </div>
 
-                <span class="mobile-aluno-perfil-secao-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="8" r="4"/>
-                    <path d="M4 20c1.5-4 4.2-6 8-6s6.5 2 8 6"/>
-                  </svg>
-                </span>
+                <button
+                  id="btnMobileAlunoPerfilEditar"
+                  type="button"
+                  class="mobile-aluno-perfil-editar"
+                  aria-expanded="false"
+                  aria-controls="mobileAlunoPerfilForm"
+                >
+                  Editar dados
+                </button>
               </div>
 
-              <p class="mobile-aluno-perfil-explicacao">
-                Você pode editar nome e WhatsApp. Os demais dados ficam informativos nesta tela.
-              </p>
+              <div id="mobileAlunoPerfilResumo" class="mobile-aluno-perfil-dados-resumo">
+                <div class="mobile-aluno-perfil-dado-row">
+                  <span>Nome</span>
+                  <strong id="mobileAlunoPerfilNomeResumo">Aluno</strong>
+                </div>
 
-              <div class="mobile-aluno-perfil-info-inline">
-                <span>Data de nascimento</span>
-                <strong id="mobileAlunoPerfilNascimento">Não informada</strong>
+                <div class="mobile-aluno-perfil-dado-row">
+                  <span>WhatsApp</span>
+                  <strong id="mobileAlunoPerfilTelefoneResumo">Não informado</strong>
+                </div>
+
+                <div class="mobile-aluno-perfil-dado-row">
+                  <span>Data de nascimento</span>
+                  <strong id="mobileAlunoPerfilNascimento">Não informada</strong>
+                </div>
+
+                <div
+                  id="mobileAlunoPerfilResponsavelSecao"
+                  class="mobile-aluno-perfil-responsavel escondido"
+                  aria-labelledby="mobileAlunoPerfilResponsavelTitulo"
+                >
+                  <div class="mobile-aluno-perfil-responsavel-titulo">
+                    <span id="mobileAlunoPerfilResponsavelTitulo">Responsável financeiro</span>
+                  </div>
+
+                  <div class="mobile-aluno-perfil-dado-row">
+                    <span>Nome</span>
+                    <strong id="mobileAlunoPerfilResponsavelNome">Não informado</strong>
+                  </div>
+
+                  <div class="mobile-aluno-perfil-dado-row">
+                    <span>WhatsApp</span>
+                    <strong id="mobileAlunoPerfilResponsavelWhatsapp">Não informado</strong>
+                  </div>
+                </div>
               </div>
 
-              <form id="mobileAlunoPerfilForm" class="mobile-aluno-perfil-form">
+              <form
+                id="mobileAlunoPerfilForm"
+                class="mobile-aluno-perfil-form escondido"
+                aria-hidden="true"
+              >
+                <div class="mobile-aluno-perfil-form-heading">
+                  <strong>Editar nome e WhatsApp</strong>
+                  <p>Turma, graduação e demais dados continuam sob controle da academia.</p>
+                </div>
+
                 <label>
                   <span>Nome</span>
                   <input
@@ -973,64 +1002,21 @@
                   />
                 </label>
 
-                <button id="btnMobileAlunoPerfilSalvar" type="submit">
-                  Salvar alterações
-                </button>
-
-                <p
-                  id="mobileAlunoPerfilMensagem"
-                  class="mobile-aluno-perfil-feedback escondido"
-                  aria-live="polite"
-                ></p>
+                <div class="mobile-aluno-perfil-form-acoes">
+                  <button id="btnMobileAlunoPerfilCancelar" type="button" class="is-secondary">
+                    Cancelar
+                  </button>
+                  <button id="btnMobileAlunoPerfilSalvar" type="submit">
+                    Salvar alterações
+                  </button>
+                </div>
               </form>
-            </section>
 
-            <section
-              id="mobileAlunoPerfilResponsavelSecao"
-              class="mobile-aluno-perfil-secao mobile-aluno-perfil-responsavel escondido"
-              aria-labelledby="mobileAlunoPerfilResponsavelTitulo"
-            >
-              <div class="mobile-aluno-perfil-secao-topo">
-                <div>
-                  <span class="mobile-aluno-perfil-kicker">Responsável</span>
-                  <h2 id="mobileAlunoPerfilResponsavelTitulo">Contato cadastrado</h2>
-                </div>
-
-                <span class="mobile-aluno-perfil-secao-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="9" cy="8" r="3"/>
-                    <path d="M3 19c1-3.4 3-5 6-5s5 1.6 6 5"/>
-                    <circle cx="17" cy="10" r="2"/>
-                    <path d="M15 15c2.8-.4 4.8.9 6 4"/>
-                  </svg>
-                </span>
-              </div>
-
-              <div class="mobile-aluno-perfil-vinculo-lista">
-                <div class="mobile-aluno-perfil-vinculo-row">
-                  <span>Nome</span>
-                  <strong id="mobileAlunoPerfilResponsavelNome">Não informado</strong>
-                </div>
-
-                <div class="mobile-aluno-perfil-vinculo-row">
-                  <span>WhatsApp</span>
-                  <strong id="mobileAlunoPerfilResponsavelWhatsapp">Não informado</strong>
-                </div>
-              </div>
-            </section>
-
-            <section class="mobile-aluno-perfil-privacidade" aria-label="Organização dos dados">
-              <span class="mobile-aluno-perfil-privacidade-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
-                  <path d="M9 12l2 2 4-4"/>
-                </svg>
-              </span>
-
-              <div>
-                <strong>Alterações importantes</strong>
-                <p>Para mudar turma ou corrigir graduação, use a área de Solicitações.</p>
-              </div>
+              <p
+                id="mobileAlunoPerfilMensagem"
+                class="mobile-aluno-perfil-feedback escondido"
+                aria-live="polite"
+              ></p>
             </section>
 
             <section class="mobile-aluno-pwa-install" aria-labelledby="mobileAlunoPwaTitulo">
@@ -1105,20 +1091,63 @@
               </div>
             </article>
 
-            <article class="desktop-aluno-perfil-card desktop-aluno-perfil-edicao">
+            <article
+              id="desktopAlunoPerfilDadosCard"
+              class="desktop-aluno-perfil-card desktop-aluno-perfil-edicao"
+            >
               <div class="desktop-aluno-perfil-heading">
                 <div>
                   <span class="eyebrow">Dados pessoais</span>
-                  <h2>Edite suas informações</h2>
+                  <h2>Informações da conta</h2>
+                  <p class="desktop-aluno-perfil-helper">
+                    Consulte seus dados e abra a edição somente quando precisar alterar alguma informação.
+                  </p>
                 </div>
-                <span class="desktop-aluno-perfil-heading-badge">Dados da conta</span>
+
+                <button
+                  id="btnDesktopAlunoPerfilEditar"
+                  type="button"
+                  class="desktop-aluno-perfil-editar-botao"
+                  aria-expanded="false"
+                  aria-controls="formPerfilAluno"
+                >
+                  Editar dados
+                </button>
               </div>
 
-              <p class="desktop-aluno-perfil-helper">
-                Nome, WhatsApp, nascimento e contato do responsável podem ser atualizados aqui. Turma, graduação e informações financeiras continuam sob controle da academia.
-              </p>
+              <div id="desktopAlunoPerfilResumoDados" class="desktop-aluno-perfil-dados-resumo">
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>Nome completo</span>
+                  <strong id="desktopAlunoPerfilNomeResumo">Aluno</strong>
+                </div>
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>WhatsApp</span>
+                  <strong id="desktopAlunoPerfilTelefoneResumo">Não informado</strong>
+                </div>
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>Data de nascimento</span>
+                  <strong id="desktopAlunoPerfilNascimentoResumo">Não informada</strong>
+                </div>
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>Nome do responsável</span>
+                  <strong id="desktopAlunoPerfilResponsavelNomeResumo">Não informado</strong>
+                </div>
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>WhatsApp do responsável</span>
+                  <strong id="desktopAlunoPerfilResponsavelWhatsappResumo">Não informado</strong>
+                </div>
+              </div>
 
-              <form id="formPerfilAluno" class="student-form desktop-aluno-perfil-form">
+              <form
+                id="formPerfilAluno"
+                class="student-form desktop-aluno-perfil-form escondido"
+                aria-hidden="true"
+              >
+                <div class="desktop-aluno-perfil-form-heading">
+                  <strong>Editar dados pessoais</strong>
+                  <p>Turma, graduação e informações financeiras continuam sob controle da academia.</p>
+                </div>
+
                 <label>
                   <span>Nome completo</span>
                   <input type="text" id="perfilAlunoNome" autocomplete="name" placeholder="Seu nome completo" />
@@ -1139,9 +1168,16 @@
                   <span>WhatsApp do responsável</span>
                   <input type="tel" id="perfilAlunoResponsavelWhatsApp" inputmode="tel" placeholder="WhatsApp do responsável" />
                 </label>
-                <button type="submit" class="primary-action">Salvar alterações</button>
-                <p id="msgPerfilAluno" class="soft-message desktop-aluno-perfil-feedback" aria-live="polite"></p>
+
+                <div class="desktop-aluno-perfil-form-acoes">
+                  <button id="btnDesktopAlunoPerfilCancelar" type="button" class="secondary-action">
+                    Cancelar
+                  </button>
+                  <button type="submit" class="primary-action">Salvar alterações</button>
+                </div>
               </form>
+
+              <p id="msgPerfilAluno" class="soft-message desktop-aluno-perfil-feedback" aria-live="polite"></p>
             </article>
 
             <article class="desktop-aluno-perfil-card aluno-pwa-install-desktop desktop-aluno-perfil-pwa" aria-labelledby="alunoPwaDesktopTitulo">
@@ -1154,7 +1190,7 @@
               <div>
                 <span class="eyebrow">Aplicativo</span>
                 <h2 id="alunoPwaDesktopTitulo">Instalar Mensalize Aluno</h2>
-                <p class="helper-text">Abra seu portal em uma janela própria e acesse diretamente pelo dispositivo.</p>
+                <p class="helper-text">Acesse seu portal diretamente pela tela inicial do dispositivo.</p>
               </div>
               <button type="button" class="primary-action" data-pwa-install>Instalar aplicativo</button>
             </article>
@@ -3249,8 +3285,38 @@
       }
     }
 
-function renderizarAluno(aluno) {
+function atualizarResumoPerfilLeitura(aluno) {
+      if (!aluno) return;
+
+      const nome = String(aluno.nome || "Aluno").trim() || "Aluno";
+      const telefone = formatarWhatsAppAluno(aluno.telefone);
+      const nascimento = aluno.data_nascimento
+        ? formatarData(aluno.data_nascimento)
+        : "Não informada";
+      const responsavelNome = String(aluno.responsavel_nome || "").trim() || "Não informado";
+      const responsavelWhatsapp = aluno.responsavel_whatsapp
+        ? formatarWhatsAppAluno(aluno.responsavel_whatsapp)
+        : "Não informado";
+
+      const valores = {
+        mobileAlunoPerfilNomeResumo: nome,
+        mobileAlunoPerfilTelefoneResumo: telefone,
+        desktopAlunoPerfilNomeResumo: nome,
+        desktopAlunoPerfilTelefoneResumo: telefone,
+        desktopAlunoPerfilNascimentoResumo: nascimento,
+        desktopAlunoPerfilResponsavelNomeResumo: responsavelNome,
+        desktopAlunoPerfilResponsavelWhatsappResumo: responsavelWhatsapp
+      };
+
+      Object.entries(valores).forEach(([id, valor]) => {
+        const elemento = document.getElementById(id);
+        if (elemento) elemento.textContent = valor;
+      });
+    }
+
+    function renderizarAluno(aluno) {
       alunoAtual = aluno;
+      atualizarResumoPerfilLeitura(aluno);
       const status = gerarStatus(aluno);
       const linkPagamento = normalizarLink(aluno.link_pagamento);
       const linkWhatsAppProfessor = gerarLinkWhatsAppProfessor(aluno);
@@ -3906,6 +3972,91 @@ function renderizarAluno(aluno) {
       }
     }
 
+    function restaurarCamposEdicaoPerfil() {
+      if (!alunoAtual) return;
+
+      perfilAlunoNome.value = alunoAtual.nome || "";
+      perfilAlunoTelefone.value = alunoAtual.telefone || "";
+      perfilAlunoNascimento.value = alunoAtual.data_nascimento || "";
+      perfilAlunoResponsavel.value = alunoAtual.responsavel_nome || "";
+      perfilAlunoResponsavelWhatsApp.value = alunoAtual.responsavel_whatsapp || "";
+
+      const mobileNome = document.getElementById("mobileAlunoPerfilNome");
+      const mobileTelefone = document.getElementById("mobileAlunoPerfilTelefone");
+      if (mobileNome) mobileNome.value = alunoAtual.nome || "";
+      if (mobileTelefone) mobileTelefone.value = alunoAtual.telefone || "";
+    }
+
+    function definirEdicaoPerfil(tipo, aberto) {
+      const mobile = tipo === "mobile";
+      const card = document.getElementById(
+        mobile ? "mobileAlunoPerfilDadosCard" : "desktopAlunoPerfilDadosCard"
+      );
+      const resumo = document.getElementById(
+        mobile ? "mobileAlunoPerfilResumo" : "desktopAlunoPerfilResumoDados"
+      );
+      const formulario = document.getElementById(
+        mobile ? "mobileAlunoPerfilForm" : "formPerfilAluno"
+      );
+      const botaoEditar = document.getElementById(
+        mobile ? "btnMobileAlunoPerfilEditar" : "btnDesktopAlunoPerfilEditar"
+      );
+
+      if (aberto) restaurarCamposEdicaoPerfil();
+
+      card?.classList.toggle("is-editando", aberto);
+      resumo?.classList.toggle("escondido", aberto);
+      formulario?.classList.toggle("escondido", !aberto);
+      formulario?.setAttribute("aria-hidden", String(!aberto));
+      botaoEditar?.setAttribute("aria-expanded", String(aberto));
+
+      if (aberto) {
+        window.requestAnimationFrame(() => {
+          formulario?.querySelector("input")?.focus({ preventScroll: true });
+        });
+      }
+    }
+
+    function limparMensagensEdicaoPerfil() {
+      msgPerfilAluno.textContent = "";
+      msgPerfilAluno.classList.remove("is-error");
+
+      const mensagemMobile = document.getElementById("mobileAlunoPerfilMensagem");
+      if (mensagemMobile) {
+        mensagemMobile.textContent = "";
+        mensagemMobile.classList.add("escondido");
+        mensagemMobile.classList.remove("is-error");
+      }
+    }
+
+    function fecharEdicoesPerfil(preservarMensagem = false) {
+      definirEdicaoPerfil("mobile", false);
+      definirEdicaoPerfil("desktop", false);
+      if (!preservarMensagem) limparMensagensEdicaoPerfil();
+    }
+
+    document.getElementById("btnMobileAlunoPerfilEditar")?.addEventListener("click", () => {
+      limparMensagensEdicaoPerfil();
+      definirEdicaoPerfil("mobile", true);
+    });
+
+    document.getElementById("btnMobileAlunoPerfilCancelar")?.addEventListener("click", () => {
+      restaurarCamposEdicaoPerfil();
+      definirEdicaoPerfil("mobile", false);
+      limparMensagensEdicaoPerfil();
+    });
+
+    document.getElementById("btnDesktopAlunoPerfilEditar")?.addEventListener("click", () => {
+      limparMensagensEdicaoPerfil();
+      definirEdicaoPerfil("desktop", true);
+    });
+
+    document.getElementById("btnDesktopAlunoPerfilCancelar")?.addEventListener("click", () => {
+      restaurarCamposEdicaoPerfil();
+      definirEdicaoPerfil("desktop", false);
+      limparMensagensEdicaoPerfil();
+    });
+
     btnSalvarFotoAluno?.addEventListener("click", function() {
       inputFotoAluno?.click();
     });
@@ -3958,6 +4109,7 @@ function renderizarAluno(aluno) {
       }
       msgPerfilAluno.textContent = "✅ Dados atualizados com sucesso.";
       await carregarAluno();
+      fecharEdicoesPerfil(true);
     });
 
     formSolicitarTurma?.addEventListener("submit", async function(event) {

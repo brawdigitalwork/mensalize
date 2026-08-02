@@ -1934,12 +1934,8 @@
     padding: 0 !important;
     overflow: hidden !important;
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-areas:
-      'pix-header'
-      'pix-code'
-      'pix-confirm'
-      'pix-feedback' !important;
+    grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr) !important;
+    grid-template-areas: 'pix-intro pix-action' !important;
     align-items: stretch !important;
     gap: 0 !important;
     background:
@@ -1951,10 +1947,49 @@
   }
 
   #portalConteudo #viewFinancasAluno .pix-aluno-header-clean {
-    grid-area: pix-header !important;
+    grid-area: pix-intro !important;
+    min-width: 0 !important;
+    display: grid !important;
+    align-content: center !important;
+    gap: 18px !important;
     margin: 0 !important;
-    padding: 18px 18px 9px !important;
+    padding: clamp(22px, 2.5vw, 30px) !important;
     border-bottom: 0 !important;
+    border-right: 1px solid rgba(95, 101, 117, 0.13) !important;
+    background:
+      radial-gradient(circle at 0% 100%, rgba(14, 165, 233, 0.07), transparent 36%),
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.13), transparent 42%),
+      rgba(124, 58, 237, 0.035) !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-identidade {
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 13px !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-icon {
+    width: 48px !important;
+    height: 48px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #6d28d9 !important;
+    background: rgba(124, 58, 237, 0.1) !important;
+    border: 1px solid rgba(124, 58, 237, 0.16) !important;
+    border-radius: 15px !important;
+    animation: desktopPixExpressIcone 4.8s ease-in-out infinite !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-icon svg {
+    width: 25px !important;
+    height: 25px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.65 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
   }
 
   #portalConteudo #viewFinancasAluno .pix-aluno-header-clean p {
@@ -1965,11 +2000,71 @@
     line-height: 1.5 !important;
   }
 
+  #portalConteudo #viewFinancasAluno .pix-express-passos {
+    display: grid !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-passos li {
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-columns: 30px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 9px 10px !important;
+    color: var(--aluno-finance-text) !important;
+    background: rgba(243, 243, 247, 0.56) !important;
+    border: 1px solid rgba(108, 113, 129, 0.12) !important;
+    border-radius: 12px !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-passos li > span {
+    width: 30px !important;
+    height: 30px !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #6d28d9 !important;
+    background: rgba(124, 58, 237, 0.1) !important;
+    border-radius: 9px !important;
+    font-size: 10px !important;
+    font-weight: 850 !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-passos li > div {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-passos strong {
+    color: var(--aluno-finance-text) !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-passos small {
+    color: var(--aluno-finance-muted) !important;
+    font-size: 9px !important;
+    line-height: 1.35 !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-acao {
+    grid-area: pix-action !important;
+    min-width: 0 !important;
+    display: grid !important;
+    align-content: center !important;
+    padding: clamp(22px, 2.5vw, 30px) !important;
+    background: rgba(233, 234, 239, 0.65) !important;
+  }
+
   #portalConteudo #viewFinancasAluno .pix-code-clean {
-    grid-area: pix-code !important;
+    grid-area: auto !important;
     min-width: 0 !important;
     margin: 0 !important;
-    padding: 9px 18px 0 !important;
+    padding: 0 !important;
     background: transparent !important;
     border: 0 !important;
     border-radius: 0 !important;
@@ -1996,6 +2091,7 @@
     color: #046c4f !important;
     background: rgba(4, 108, 79, 0.09) !important;
     border-color: rgba(4, 108, 79, 0.2) !important;
+    animation: desktopPixExpressCopiado 360ms ease both !important;
   }
 
   #portalConteudo #viewFinancasAluno .pix-aluno-textarea {
@@ -2018,12 +2114,12 @@
   }
 
   #portalConteudo #viewFinancasAluno .btn-confirm-pix-clean {
-    grid-area: pix-confirm !important;
+    grid-area: auto !important;
     width: auto !important;
     min-width: 0 !important;
     min-height: 42px !important;
     justify-self: start !important;
-    margin: 12px 18px 16px !important;
+    margin: 0 !important;
     padding: 9px 15px !important;
     color: #fff !important;
     background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
@@ -2032,9 +2128,25 @@
     white-space: nowrap !important;
   }
 
+  #portalConteudo #viewFinancasAluno .pix-express-confirmacao {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-top: 15px !important;
+    padding-top: 15px !important;
+    border-top: 1px solid rgba(95, 101, 117, 0.13) !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .pix-express-confirmacao small {
+    max-width: 330px !important;
+    color: var(--aluno-finance-muted) !important;
+    font-size: 9.5px !important;
+    line-height: 1.4 !important;
+  }
+
   #portalConteudo #viewFinancasAluno .pix-feedback-message {
-    grid-area: pix-feedback !important;
-    margin: -7px 18px 16px !important;
+    grid-area: auto !important;
+    margin: 10px 0 0 !important;
     color: var(--aluno-finance-muted) !important;
   }
 
@@ -2067,6 +2179,10 @@
 
   #portalConteudo #viewFinancasAluno .section-title-row {
     margin-bottom: 16px !important;
+  }
+
+  #portalConteudo #viewFinancasAluno .section-title-row.pix-express-intro {
+    margin-bottom: 0 !important;
   }
 
   #portalConteudo #viewFinancasAluno .mini-badge {
@@ -2144,6 +2260,32 @@
     }
   }
 
+  @media (max-width: 900px) {
+    #portalConteudo #viewFinancasAluno #areaPagamento > .pix-aluno-card,
+    #portalConteudo #viewFinancasAluno #areaPagamento > .pix-aluno-card-clean {
+      grid-template-columns: minmax(0, 1fr) !important;
+      grid-template-areas:
+        'pix-intro'
+        'pix-action' !important;
+    }
+
+    #portalConteudo #viewFinancasAluno .pix-aluno-header-clean {
+      border-right: 0 !important;
+      border-bottom: 1px solid rgba(95, 101, 117, 0.13) !important;
+    }
+  }
+
+  @keyframes desktopPixExpressIcone {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-3px) rotate(2deg); }
+  }
+
+  @keyframes desktopPixExpressCopiado {
+    0% { transform: scale(0.96); }
+    65% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+
   @keyframes desktopAlunoFinanceiroEntrada {
     from {
       opacity: 0;
@@ -2156,7 +2298,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #portalConteudo #viewFinancasAluno.ativa > article.panel-card {
+    #portalConteudo #viewFinancasAluno.ativa > article.panel-card,
+    #portalConteudo #viewFinancasAluno .pix-express-icon,
+    #portalConteudo #viewFinancasAluno .btn-copy-pix-clean.copiado {
       animation: none !important;
     }
   }

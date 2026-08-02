@@ -1900,9 +1900,46 @@
   }
 
   .mobile-aluno-financeiro #areaPagamento .pix-aluno-header-clean {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    gap: 14px !important;
     margin: 0 !important;
-    padding: 16px 16px 8px !important;
+    padding: 16px !important;
     border-bottom: 0 !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.12), transparent 40%),
+      rgba(124, 58, 237, 0.035) !important;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-identidade {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    align-items: center;
+    gap: 11px;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    color: #6d28d9;
+    background: rgba(124, 58, 237, 0.11);
+    border: 1px solid rgba(124, 58, 237, 0.16);
+    border-radius: 14px;
+    animation: pixExpressIcone 4.8s ease-in-out infinite;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.65;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .mobile-aluno-financeiro #areaPagamento .pix-aluno-header-clean h2 {
@@ -1919,11 +1956,70 @@
     line-height: 1.45 !important;
   }
 
+  .mobile-aluno-financeiro #areaPagamento .pix-express-passos {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-passos li {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 27px minmax(0, 1fr);
+    align-items: center;
+    gap: 9px;
+    padding: 8px 9px;
+    color: var(--aluno-finance-text);
+    background: rgba(243, 243, 247, 0.55);
+    border: 1px solid rgba(108, 113, 129, 0.12);
+    border-radius: 12px;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-passos li > span {
+    width: 27px;
+    height: 27px;
+    display: grid;
+    place-items: center;
+    color: #6d28d9;
+    background: rgba(124, 58, 237, 0.1);
+    border-radius: 9px;
+    font-size: 9px;
+    font-weight: 850;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-passos li > div {
+    min-width: 0;
+    display: grid;
+    gap: 1px;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-passos strong {
+    color: var(--aluno-finance-text);
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-passos small {
+    color: var(--aluno-finance-muted);
+    font-size: 8px;
+    line-height: 1.35;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-acao {
+    min-width: 0;
+    display: grid;
+    padding: 15px 16px 16px;
+    background: rgba(233, 234, 239, 0.66);
+    border-top: 1px solid rgba(95, 101, 117, 0.11);
+  }
+
   .mobile-aluno-financeiro #areaPagamento .pix-code-clean {
     display: grid !important;
     gap: 9px !important;
     margin: 0 !important;
-    padding: 8px 14px 0 !important;
+    padding: 0 !important;
     border: 0 !important;
     border-radius: 0 !important;
     background: transparent !important;
@@ -1964,6 +2060,7 @@
     border-color: rgba(4, 108, 79, 0.2) !important;
     background: rgba(4, 108, 79, 0.09) !important;
     color: #046c4f !important;
+    animation: pixExpressCopiado 360ms ease both;
   }
 
   .mobile-aluno-financeiro #areaPagamento .pix-aluno-textarea {
@@ -1990,7 +2087,7 @@
     min-width: 0 !important;
     min-height: 42px !important;
     justify-self: start !important;
-    margin: 12px 14px 14px !important;
+    margin: 0 !important;
     padding: 9px 14px !important;
     border: 0 !important;
     border-radius: 14px !important;
@@ -1999,6 +2096,22 @@
     font-size: 11px !important;
     font-weight: 800 !important;
     box-shadow: 0 10px 22px rgba(124, 58, 237, 0.16) !important;
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-confirmacao {
+    display: grid;
+    justify-items: start;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(95, 101, 117, 0.12);
+  }
+
+  .mobile-aluno-financeiro #areaPagamento .pix-express-confirmacao small {
+    max-width: 280px;
+    color: var(--aluno-finance-muted);
+    font-size: 8.5px;
+    line-height: 1.4;
   }
 
   .mobile-aluno-financeiro #areaPagamento > .pay-button,
@@ -2032,7 +2145,7 @@
 
   .mobile-aluno-financeiro #areaPagamento .center-message,
   .mobile-aluno-financeiro #areaPagamento .pix-feedback-message {
-    margin: -5px 14px 14px !important;
+    margin: 10px 0 0 !important;
     color: var(--aluno-finance-muted) !important;
     font-size: 10px !important;
     line-height: 1.5 !important;
@@ -2045,6 +2158,21 @@
 
   .mobile-aluno-financeiro #areaPagamento .pix-feedback-message:empty {
     display: none !important;
+  }
+
+  @keyframes pixExpressIcone {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-2px) rotate(2deg);
+    }
+  }
+
+  @keyframes pixExpressCopiado {
+    0% { transform: scale(0.96); }
+    65% { transform: scale(1.04); }
+    100% { transform: scale(1); }
   }
 
   /* Histórico — linhas compactas, como app financeiro. */
@@ -2169,7 +2297,10 @@
     }
 
     .mobile-aluno-financeiro button,
-    .mobile-aluno-financeiro a {
+    .mobile-aluno-financeiro a,
+    .mobile-aluno-financeiro .pix-express-icon,
+    .mobile-aluno-financeiro .btn-copy-pix-clean.copiado {
+      animation: none !important;
       transition: none !important;
     }
   }

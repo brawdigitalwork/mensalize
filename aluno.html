@@ -18,8 +18,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="aluno.css" />
-  <link rel="stylesheet" href="aluno-mobile.css?v=11.3-financeiro-claro" />
-  <link rel="stylesheet" href="aluno-desktop.css?v=3.1-financeiro-claro" />
+  <link rel="stylesheet" href="aluno-mobile.css?v=11.4-pix-express" />
+  <link rel="stylesheet" href="aluno-desktop.css?v=3.2-pix-express" />
   <link rel="stylesheet" href="pwa-install.css" />
   <link rel="icon" href="logo-aluno.png" />
   <link rel="apple-touch-icon" href="icons/mensalize-aluno-icon-192.png" />
@@ -2965,27 +2965,58 @@
       if (!pix) return "";
 
       return `
-        <section class="pix-aluno-card pix-aluno-card-clean">
-          <div class="section-title-row pix-aluno-header-clean">
-            <div>
-              <span class="eyebrow">Pix</span>
-              <h2>Pix da academia</h2>
-              <p>Copie o código abaixo, pague no banco e solicite a confirmação.</p>
+        <section class="pix-aluno-card pix-aluno-card-clean pix-express" aria-labelledby="pixExpressTitulo">
+          <div class="section-title-row pix-aluno-header-clean pix-express-intro">
+            <div class="pix-express-identidade">
+              <span class="pix-express-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m12 3 4 4-4 4-4-4 4-4Z"/>
+                  <path d="m17 8 4 4-4 4-4-4 4-4ZM7 8l4 4-4 4-4-4 4-4ZM12 13l4 4-4 4-4-4 4-4Z"/>
+                </svg>
+              </span>
+
+              <div>
+                <span class="eyebrow">Pagamento instantâneo</span>
+                <h2 id="pixExpressTitulo">Pix da academia</h2>
+                <p>Conclua o pagamento em três passos e acompanhe a confirmação pelo portal.</p>
+              </div>
             </div>
+
+            <ol class="pix-express-passos" aria-label="Como pagar com Pix">
+              <li>
+                <span>1</span>
+                <div><strong>Copie o código</strong><small>Use o botão ao lado da chave.</small></div>
+              </li>
+              <li>
+                <span>2</span>
+                <div><strong>Pague no banco</strong><small>Cole o código no aplicativo do seu banco.</small></div>
+              </li>
+              <li>
+                <span>3</span>
+                <div><strong>Avise a academia</strong><small>Solicite a confirmação depois de pagar.</small></div>
+              </li>
+            </ol>
           </div>
 
-          <div class="pix-code-clean">
-            <div class="pix-code-actions">
-              <span>Pix copia e cola</span>
-              <button type="button" id="btnCopiarPixAluno" class="secondary-action btn-copy-pix-clean" onclick="copiarPixAluno()">Copiar Pix</button>
-            </div>
-            <textarea id="pixCopiaColaAluno" class="pix-aluno-textarea" readonly>${escapeHtml(pix)}</textarea>
-          </div>
+          <div class="pix-express-acao">
+            <div class="pix-code-clean">
+              <div class="pix-code-actions">
+                <span>Código Pix</span>
+                <button type="button" id="btnCopiarPixAluno" class="secondary-action btn-copy-pix-clean" onclick="copiarPixAluno()">Copiar código</button>
+              </div>
 
-          <button type="button" id="btnSolicitarConfirmacaoPagamento" class="primary-action btn-confirm-pix-clean" onclick="solicitarConfirmacaoPagamentoAluno()">
-            Solicitar confirmação
-          </button>
-          <p id="msgSolicitarPagamentoAluno" class="soft-message pix-feedback-message"></p>
+              <textarea id="pixCopiaColaAluno" class="pix-aluno-textarea" readonly aria-label="Código Pix da academia">${escapeHtml(pix)}</textarea>
+            </div>
+
+            <div class="pix-express-confirmacao">
+              <button type="button" id="btnSolicitarConfirmacaoPagamento" class="primary-action btn-confirm-pix-clean" onclick="solicitarConfirmacaoPagamentoAluno()">
+                Já paguei — solicitar confirmação
+              </button>
+              <small>O professor receberá sua solicitação para conferir o pagamento.</small>
+            </div>
+
+            <p id="msgSolicitarPagamentoAluno" class="soft-message pix-feedback-message" aria-live="polite"></p>
+          </div>
         </section>
       `;
     }

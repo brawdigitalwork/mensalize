@@ -1919,9 +1919,10 @@
 
   #portalConteudo #viewFinancasAluno #areaPagamento.payment-actions {
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, max-content)) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
     align-items: start !important;
-    justify-content: start !important;
+    justify-content: stretch !important;
     gap: 10px !important;
     margin: 0 !important;
   }
@@ -1952,8 +1953,8 @@
   #portalConteudo #viewFinancasAluno .pix-aluno-header-clean {
     grid-area: pix-header !important;
     margin: 0 !important;
-    padding: 18px 18px 14px !important;
-    border-bottom: 1px solid rgba(95, 101, 117, 0.12) !important;
+    padding: 18px 18px 9px !important;
+    border-bottom: 0 !important;
   }
 
   #portalConteudo #viewFinancasAluno .pix-aluno-header-clean p {
@@ -1968,7 +1969,7 @@
     grid-area: pix-code !important;
     min-width: 0 !important;
     margin: 0 !important;
-    padding: 14px 18px 0 !important;
+    padding: 9px 18px 0 !important;
     background: transparent !important;
     border: 0 !important;
     border-radius: 0 !important;
@@ -1999,10 +2000,10 @@
 
   #portalConteudo #viewFinancasAluno .pix-aluno-textarea {
     width: 100% !important;
-    height: 66px !important;
-    min-height: 66px !important;
-    max-height: 66px !important;
-    padding: 11px 12px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    padding: 9px 11px !important;
     resize: none !important;
     overflow: auto !important;
     color: #343044 !important;
@@ -2011,17 +2012,19 @@
     border-radius: 11px !important;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace !important;
     font-size: 11px !important;
-    line-height: 1.45 !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    line-height: 1.35 !important;
   }
 
   #portalConteudo #viewFinancasAluno .btn-confirm-pix-clean {
     grid-area: pix-confirm !important;
     width: auto !important;
     min-width: 0 !important;
-    min-height: 43px !important;
+    min-height: 42px !important;
     justify-self: start !important;
-    margin: 13px 18px 16px !important;
-    padding-inline: 16px !important;
+    margin: 12px 18px 16px !important;
+    padding: 9px 15px !important;
     color: #fff !important;
     background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
     border: 0 !important;

@@ -2849,15 +2849,20 @@
     color: var(--aluno-evolucao-muted-2) !important;
   }
 
-  .mobile-aluno-evolucao-request-slot :where(input, select, textarea) {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-form input,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-form select,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-form textarea {
     color: var(--aluno-evolucao-text) !important;
-    background: rgba(244, 244, 247, 0.82) !important;
+    background: rgba(244, 244, 247, 0.96) !important;
     border-color: #b8bdc9 !important;
     box-shadow: none !important;
+    color-scheme: light !important;
   }
 
-  .mobile-aluno-evolucao-request-slot :where(input, textarea)::placeholder {
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-form input::placeholder,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-evolucao-request-slot .student-form textarea::placeholder {
     color: #7c8493 !important;
+    opacity: 1 !important;
   }
 
   .mobile-aluno-evolucao-request-slot .secondary-action {
@@ -7855,3 +7860,52 @@
     display: none !important;
   }
 }
+
+
+  /* Hotfix — solicitações mobile claras */
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form label {
+    display: grid !important;
+    gap: 6px !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form label > span {
+    color: var(--aluno-evolucao-muted-2) !important;
+    font-size: 9px !important;
+    font-weight: 650 !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form input,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form select,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form textarea {
+    width: 100% !important;
+    min-height: 50px !important;
+    padding: 11px 12px !important;
+    border: 1px solid #b8bdc9 !important;
+    border-radius: 13px !important;
+    outline: none !important;
+    background: rgba(244, 244, 247, 0.96) !important;
+    color: var(--aluno-evolucao-text) !important;
+    -webkit-text-fill-color: var(--aluno-evolucao-text) !important;
+    box-shadow: none !important;
+    font-size: 16px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form input::placeholder,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form textarea::placeholder {
+    color: #8a90a1 !important;
+    opacity: 1 !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form textarea {
+    min-height: 88px !important;
+    resize: vertical !important;
+  }
+
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form input:focus,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form select:focus,
+  #portalConteudo #viewGraduacaoAluno .mobile-aluno-solicitacoes-request-slot .student-form textarea:focus {
+    border-color: rgba(157, 99, 255, 0.42) !important;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.09) !important;
+  }

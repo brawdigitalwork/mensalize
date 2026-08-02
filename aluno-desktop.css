@@ -1719,3 +1719,175 @@
     }
   }
 }
+
+/* ==========================================================================
+   HOME DO ALUNO — REFINO VISUAL ISOLADO
+   Escopo exclusivo da tela inicial autenticada no desktop.
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  #portalConteudo #viewInicioAluno.ativa {
+    gap: 16px !important;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > * {
+    animation: desktopAlunoHomeEntrada 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both !important;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > :nth-child(2) {
+    animation-delay: 45ms !important;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > :nth-child(3) {
+    animation-delay: 90ms !important;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > :nth-child(4) {
+    animation-delay: 135ms !important;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > :nth-child(5) {
+    animation-delay: 180ms !important;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > :nth-child(6) {
+    animation-delay: 225ms !important;
+  }
+
+  #portalConteudo #viewInicioAluno .welcome-card {
+    min-height: 148px !important;
+    padding: clamp(25px, 3vw, 34px) !important;
+    background:
+      radial-gradient(circle at 88% 14%, rgba(113, 197, 255, 0.13), transparent 30%),
+      radial-gradient(circle at 8% 120%, rgba(151, 91, 255, 0.2), transparent 38%),
+      linear-gradient(130deg, #20234b, #161735 58%, #11142b) !important;
+    border-color: rgba(181, 161, 255, 0.22) !important;
+    box-shadow: 0 22px 58px rgba(1, 4, 18, 0.28) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .welcome-card::after {
+    animation: desktopAlunoHomeOrb 7s ease-in-out infinite;
+  }
+
+  #portalConteudo #viewInicioAluno .welcome-card h1 {
+    font-size: clamp(25px, 2.2vw, 33px) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .welcome-card p {
+    max-width: 680px !important;
+    color: #b9b5cc !important;
+  }
+
+  #portalConteudo #viewInicioAluno .aluno-pwa-install-home-desktop {
+    min-height: 94px !important;
+    padding: 18px 20px !important;
+    border-color: rgba(173, 151, 255, 0.16) !important;
+    background:
+      linear-gradient(105deg, rgba(124, 58, 237, 0.1), transparent 48%),
+      #151831 !important;
+    box-shadow: 0 14px 34px rgba(1, 4, 18, 0.18) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .aluno-pwa-install-home-actions {
+    gap: 8px !important;
+  }
+
+  #portalConteudo #viewInicioAluno .quick-grid {
+    gap: 14px !important;
+  }
+
+  #portalConteudo #viewInicioAluno .quick-card {
+    min-height: 118px !important;
+    padding: 19px 20px !important;
+    border-color: rgba(177, 156, 255, 0.16) !important;
+    background: linear-gradient(145deg, #171a38, #11142d) !important;
+    box-shadow: 0 16px 38px rgba(1, 4, 18, 0.2) !important;
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease !important;
+  }
+
+  #portalConteudo #viewInicioAluno .quick-card:first-child::after {
+    background: linear-gradient(180deg, #43d78a, rgba(67, 215, 138, 0.12));
+  }
+
+  #portalConteudo #viewInicioAluno .quick-card:nth-child(2)::after {
+    background: linear-gradient(180deg, #a876ff, rgba(168, 118, 255, 0.12));
+  }
+
+  #portalConteudo #viewInicioAluno .quick-card strong {
+    color: #f8f6ff !important;
+  }
+
+  #portalConteudo #viewInicioAluno .quick-card small {
+    color: #aaa5bf !important;
+  }
+
+  #portalConteudo #viewInicioAluno .action-row {
+    padding: 12px !important;
+    border: 1px solid rgba(177, 156, 255, 0.13) !important;
+    border-radius: 16px !important;
+    background: rgba(19, 22, 46, 0.82) !important;
+    box-shadow: 0 12px 30px rgba(1, 4, 18, 0.16) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .action-row .primary-action,
+  #portalConteudo #viewInicioAluno .action-row .secondary-action {
+    min-height: 40px !important;
+    padding: 8px 13px !important;
+    border-radius: 11px !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo #viewInicioAluno .notices-home-card,
+  #portalConteudo #viewInicioAluno .ranking-home-card {
+    border-color: rgba(177, 156, 255, 0.15) !important;
+    background:
+      linear-gradient(125deg, rgba(124, 58, 237, 0.06), transparent 44%),
+      #14172f !important;
+    box-shadow: 0 18px 42px rgba(1, 4, 18, 0.2) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .student-notice-item,
+  #portalConteudo #viewInicioAluno .ranking-row {
+    background: rgba(8, 11, 28, 0.48) !important;
+    border-color: rgba(177, 156, 255, 0.1) !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo #viewInicioAluno .quick-card:hover,
+    #portalConteudo #viewInicioAluno .notices-home-card:hover,
+    #portalConteudo #viewInicioAluno .ranking-home-card:hover {
+      transform: translateY(-2px) !important;
+      border-color: rgba(177, 148, 255, 0.27) !important;
+      box-shadow: 0 22px 48px rgba(1, 4, 18, 0.26) !important;
+    }
+  }
+
+  @keyframes desktopAlunoHomeEntrada {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes desktopAlunoHomeOrb {
+    0%, 100% {
+      opacity: 0.72;
+      transform: translate3d(0, 0, 0) scale(0.96);
+    }
+    50% {
+      opacity: 1;
+      transform: translate3d(-8px, 7px, 0) scale(1.04);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #portalConteudo #viewInicioAluno.ativa > *,
+    #portalConteudo #viewInicioAluno .welcome-card::after {
+      animation: none !important;
+    }
+  }
+}

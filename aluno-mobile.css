@@ -4675,6 +4675,251 @@
 
 }
 
+/* ==========================================================================
+   HOME DO ALUNO — REFINO VISUAL ISOLADO
+   Escopo exclusivo da tela inicial autenticada no celular.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home {
+    gap: 12px;
+    padding-top: 3px;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home > * {
+    animation: mobileAlunoHomeEntrada 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home > :nth-child(2) {
+    animation-delay: 45ms;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home > :nth-child(3) {
+    animation-delay: 90ms;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home > :nth-child(4) {
+    animation-delay: 135ms;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home > :nth-child(5) {
+    animation-delay: 180ms;
+  }
+
+  #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home > :nth-child(6) {
+    animation-delay: 225ms;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-academia-card {
+    min-height: 64px;
+    padding: 11px 13px !important;
+    border-color: rgba(173, 151, 255, 0.2) !important;
+    border-radius: 17px !important;
+    background:
+      linear-gradient(112deg, rgba(124, 58, 237, 0.18), transparent 46%),
+      linear-gradient(145deg, #171a3a, #11142d) !important;
+    box-shadow: 0 12px 30px rgba(1, 4, 18, 0.2) !important;
+    transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-academia-card:active {
+    transform: scale(0.985);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-academia-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    border-radius: 11px;
+    background: linear-gradient(145deg, rgba(157, 105, 255, 0.24), rgba(124, 58, 237, 0.1));
+    color: #c0a5ff;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-academia-texto small {
+    color: #918bad;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-academia-texto strong {
+    color: #f5f2ff;
+    font-size: 14px;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-pwa-install-home {
+    border-color: rgba(157, 118, 255, 0.16) !important;
+    background:
+      linear-gradient(110deg, rgba(124, 58, 237, 0.1), transparent 48%),
+      #12152f !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-card {
+    height: 204px;
+    padding: 15px 16px !important;
+    border-color: rgba(186, 165, 255, 0.22) !important;
+    border-radius: 21px !important;
+    box-shadow:
+      0 18px 38px rgba(1, 4, 18, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-financeiro {
+    background:
+      radial-gradient(circle at 95% 4%, rgba(55, 208, 127, 0.15), transparent 38%),
+      linear-gradient(145deg, #1c2543, #10142c 72%) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-evolucao {
+    background:
+      radial-gradient(circle at 95% 4%, rgba(159, 102, 255, 0.22), transparent 38%),
+      linear-gradient(145deg, #28204d, #13142f 72%) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-desafio {
+    background:
+      radial-gradient(circle at 94% 5%, rgba(255, 171, 64, 0.16), transparent 36%),
+      linear-gradient(145deg, #22213f, #12142e 72%) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-card:active {
+    transform: scale(0.99);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-glow {
+    border-color: rgba(190, 171, 255, 0.055);
+    animation: mobileAlunoHomeGlow 5.5s ease-in-out infinite;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-corpo > strong,
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-desafio-corpo strong {
+    text-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-acoes-principais {
+    gap: 8px;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-action-card {
+    min-height: 88px;
+    padding: 10px 6px !important;
+    gap: 5px;
+    border-color: rgba(177, 156, 255, 0.15) !important;
+    border-radius: 16px !important;
+    background: linear-gradient(150deg, #151936, #0f1229) !important;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-action-card:active {
+    transform: translateY(1px) scale(0.97);
+    border-color: rgba(177, 141, 255, 0.3) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-action-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+    background: rgba(139, 92, 246, 0.16);
+    color: #b794ff;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-action-card strong {
+    color: #f6f3ff;
+    font-size: 10.5px;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-action-card small {
+    color: #928ca8;
+    font-size: 8.5px;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao {
+    min-height: 76px;
+    border-color: rgba(177, 150, 255, 0.18) !important;
+    background:
+      linear-gradient(100deg, rgba(124, 58, 237, 0.12), transparent 54%),
+      #12162f !important;
+    box-shadow: 0 12px 30px rgba(1, 4, 18, 0.18) !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-section-heading {
+    min-height: 38px;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-section-heading h2 {
+    color: #f8f6ff;
+    font-size: 17px;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-section-heading small {
+    color: #ad86ff;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-module-grid {
+    gap: 8px;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-module-card {
+    min-height: 70px;
+    grid-template-columns: 32px minmax(0, 1fr);
+    align-content: center;
+    align-items: center;
+    justify-items: start;
+    gap: 9px;
+    padding: 10px !important;
+    border-color: rgba(177, 156, 255, 0.14) !important;
+    border-radius: 15px !important;
+    background: linear-gradient(145deg, #141832, #0f1228) !important;
+    text-align: left;
+    transition: transform 160ms ease, border-color 160ms ease;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-module-card:active {
+    transform: scale(0.975);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-module-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(139, 92, 246, 0.14);
+    color: #b693ff;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-module-card strong {
+    color: #ece9f8;
+    font-size: 9.5px;
+  }
+
+  @keyframes mobileAlunoHomeEntrada {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes mobileAlunoHomeGlow {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(0.94);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #portalConteudo #viewInicioAluno.ativa > .mobile-aluno-home > *,
+    #portalConteudo #viewInicioAluno .mobile-aluno-carousel-glow {
+      animation: none !important;
+    }
+  }
+}
+
 
 /* --------------------------------------------------------------------------
    HOTFIX v10.2 — Avisos

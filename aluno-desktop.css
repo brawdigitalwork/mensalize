@@ -4764,3 +4764,653 @@
     }
   }
 }
+
+/* ==========================================================================
+   PROGRAMA DA FAIXA — VISUAL CLARO PREMIUM
+   Jornada, categorias e conteúdos com leitura profissional no desktop.
+   ========================================================================== */
+
+@media (min-width: 761px) {
+  #portalConteudo.student-app:has(#viewProgramaFaixaAluno.ativa) {
+    --aluno-programa-bg: #cfd2dc;
+    --aluno-programa-surface: #ffffff;
+    --aluno-programa-surface-soft: #f4f5f7;
+    --aluno-programa-surface-2: #e9ebf0;
+    --aluno-programa-border: #c2c7d1;
+    --aluno-programa-border-soft: #dde1e8;
+    --aluno-programa-text: #211a31;
+    --aluno-programa-muted: #50596b;
+    --aluno-programa-muted-2: #6c7485;
+    --aluno-programa-purple: #6f35dc;
+    --aluno-programa-purple-soft: #eee8fb;
+    color: var(--aluno-programa-text) !important;
+    background:
+      radial-gradient(circle at 13% 0%, rgba(124, 58, 237, 0.12), transparent 28%),
+      radial-gradient(circle at 94% 10%, rgba(14, 165, 233, 0.07), transparent 25%),
+      linear-gradient(145deg, #d9dbe3, var(--aluno-programa-bg) 68%, #d5d7df) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewProgramaFaixaAluno.ativa)
+    .student-topbar {
+    background: rgba(232, 233, 239, 0.93) !important;
+    border-bottom-color: var(--aluno-programa-border) !important;
+    box-shadow: 0 12px 30px rgba(44, 37, 63, 0.10) !important;
+    backdrop-filter: blur(18px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+  }
+
+  body:not(.menu-aberto)
+    #portalConteudo.student-app:has(#viewProgramaFaixaAluno.ativa)
+    #btnAbrirMenuAluno {
+    color: #312846 !important;
+    background: rgba(124, 58, 237, 0.07) !important;
+    border-color: var(--aluno-programa-border) !important;
+  }
+
+  #portalConteudo.student-app:has(#viewProgramaFaixaAluno.ativa)
+    .student-small-profile {
+    color: var(--aluno-programa-text) !important;
+    background: rgba(232, 233, 239, 0.88) !important;
+    border-color: var(--aluno-programa-border) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68) !important;
+  }
+
+  #portalConteudo.student-app:has(#viewProgramaFaixaAluno.ativa)
+    .student-small-profile strong {
+    color: var(--aluno-programa-text) !important;
+  }
+
+  #portalConteudo.student-app:has(#viewProgramaFaixaAluno.ativa)
+    .student-small-profile span {
+    color: var(--aluno-programa-muted) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno.ativa {
+    width: min(100%, 1180px) !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 18px !important;
+    margin-inline: auto !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno > .mobile-aluno-programa-faixa {
+    display: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno > .programa-faixa-card {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    color: var(--aluno-programa-text) !important;
+    border: 1px solid var(--aluno-programa-border) !important;
+    border-radius: 26px !important;
+    background: var(--aluno-programa-surface) !important;
+    box-shadow:
+      0 20px 48px rgba(44, 37, 63, 0.13),
+      inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno > .programa-faixa-card::before {
+    content: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-header {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 0.38fr) !important;
+    align-items: center !important;
+    gap: 28px !important;
+    padding: 28px 30px !important;
+    border-bottom: 1px solid var(--aluno-programa-border-soft) !important;
+    background:
+      radial-gradient(circle at 96% 0%, rgba(124, 58, 237, 0.13), transparent 38%),
+      linear-gradient(145deg, #ffffff, #eef0f5) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-header::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -86px !important;
+    bottom: -126px !important;
+    width: 245px !important;
+    height: 245px !important;
+    border: 34px solid rgba(124, 58, 237, 0.032) !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-titulo {
+    position: relative !important;
+    z-index: 1 !important;
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 16px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-icone {
+    width: 58px !important;
+    height: 58px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid #ded6ef !important;
+    border-radius: 17px !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-icone svg,
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-orientacao svg,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-jornada-icone svg,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty svg,
+  #portalConteudo #viewProgramaFaixaAluno .programa-video-button svg {
+    width: 23px !important;
+    height: 23px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-titulo .eyebrow,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-jornada .eyebrow,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-bloco-titulo .eyebrow,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-toggle-text .eyebrow {
+    color: var(--aluno-programa-purple) !important;
+    font-size: 10px !important;
+    font-weight: 820 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-titulo h2 {
+    margin: 4px 0 0 !important;
+    color: var(--aluno-programa-text) !important;
+    font-size: clamp(26px, 2.3vw, 34px) !important;
+    font-weight: 850 !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-titulo p {
+    max-width: 650px !important;
+    margin: 8px 0 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-jornada-resumo {
+    position: relative !important;
+    z-index: 1 !important;
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 5px !important;
+    padding: 17px 18px !important;
+    border: 1px solid #ded6ef !important;
+    border-radius: 17px !important;
+    background: rgba(248, 246, 253, 0.90) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-jornada-resumo small {
+    color: var(--aluno-programa-muted-2) !important;
+    font-size: 10px !important;
+    font-weight: 720 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-jornada-resumo strong {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    color: var(--aluno-programa-text) !important;
+    font-size: 16px !important;
+    font-weight: 830 !important;
+    line-height: 1.35 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-orientacao {
+    display: grid !important;
+    grid-template-columns: 42px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 13px !important;
+    margin: 22px 24px 0 !important;
+    padding: 14px 16px !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 16px !important;
+    background: var(--aluno-programa-surface-soft) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-orientacao > span {
+    width: 42px !important;
+    height: 42px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid #ded6ef !important;
+    border-radius: 12px !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-orientacao > div {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 3px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-orientacao strong {
+    color: var(--aluno-programa-text) !important;
+    font-size: 13px !important;
+    font-weight: 790 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-orientacao p {
+    margin: 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-list {
+    display: grid !important;
+    gap: 12px !important;
+    margin: 0 !important;
+    padding: 22px 24px 26px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-jornada {
+    display: grid !important;
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin: 0 !important;
+    padding: 16px 18px !important;
+    border: 1px solid #ded6ef !important;
+    border-radius: 17px !important;
+    background:
+      radial-gradient(circle at 96% 0%, rgba(124, 58, 237, 0.08), transparent 40%),
+      #f8f6fc !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-jornada-icone {
+    width: 48px !important;
+    height: 48px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid #ded6ef !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+    color: var(--aluno-programa-purple) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-jornada > div {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-jornada strong {
+    display: block !important;
+    margin: 3px 0 0 !important;
+    color: var(--aluno-programa-text) !important;
+    font-size: 17px !important;
+    font-weight: 830 !important;
+    line-height: 1.35 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-jornada p {
+    margin: 4px 0 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-bloco-titulo {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    margin: 5px 2px 0 !important;
+    padding: 0 !important;
+    color: var(--aluno-programa-text) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-bloco-titulo > div {
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-bloco-titulo strong {
+    color: var(--aluno-programa-text) !important;
+    font-size: 17px !important;
+    font-weight: 820 !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-bloco-titulo > small {
+    padding: 6px 9px !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 999px !important;
+    background: var(--aluno-programa-surface-soft) !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 10px !important;
+    font-weight: 720 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-categoria {
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 17px !important;
+    background: var(--aluno-programa-surface-soft) !important;
+    box-shadow: none !important;
+    transition: border-color 170ms ease, background-color 170ms ease, box-shadow 170ms ease !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-categoria.aberta {
+    border-color: rgba(124, 58, 237, 0.30) !important;
+    background: #fbfaff !important;
+    box-shadow: 0 10px 24px rgba(44, 37, 63, 0.07) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-categoria-topo {
+    width: 100% !important;
+    min-height: 78px !important;
+    display: grid !important;
+    grid-template-columns: 42px minmax(0, 1fr) 40px !important;
+    align-items: center !important;
+    gap: 14px !important;
+    padding: 14px 16px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--aluno-programa-text) !important;
+    box-shadow: none !important;
+    text-align: left !important;
+    cursor: pointer !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-categoria-numero,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-toggle-icon {
+    display: grid !important;
+    place-items: center !important;
+    border-radius: 12px !important;
+    font-weight: 820 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-categoria-numero {
+    width: 42px !important;
+    height: 42px !important;
+    border: 1px solid #ded6ef !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-toggle-icon {
+    width: 40px !important;
+    height: 40px !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    background: #fff !important;
+    color: #4b5364 !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-categoria.aberta .programa-faixa-toggle-icon {
+    border-color: #ded6ef !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-toggle-text {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-toggle-text strong {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    color: var(--aluno-programa-text) !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-toggle-text small {
+    display: block !important;
+    margin-top: 1px !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 11px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnicas {
+    display: grid !important;
+    gap: 0 !important;
+    padding: 0 16px 15px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnicas.escondido {
+    display: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnica {
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-columns: 34px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 14px 2px !important;
+    border: 0 !important;
+    border-top: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnica-indice {
+    width: 34px !important;
+    height: 34px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+    color: var(--aluno-programa-muted-2) !important;
+    font-size: 9px !important;
+    font-weight: 780 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnica-copy {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnica-copy strong {
+    color: var(--aluno-programa-text) !important;
+    font-size: 13px !important;
+    font-weight: 780 !important;
+    line-height: 1.35 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnica-copy p {
+    margin: 4px 0 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-video-button,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-sem-video {
+    flex: 0 0 auto !important;
+    min-height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    padding: 8px 11px !important;
+    border-radius: 11px !important;
+    font-size: 10px !important;
+    font-weight: 750 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-video-button {
+    border: 1px solid #ded6ef !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+    text-decoration: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-video-button svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-sem-video {
+    min-height: 30px !important;
+    padding: 6px 9px !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    background: #eef0f3 !important;
+    color: var(--aluno-programa-muted-2) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-loading,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty {
+    min-height: 220px !important;
+    display: grid !important;
+    place-items: center !important;
+    align-content: center !important;
+    gap: 9px !important;
+    margin: 0 !important;
+    padding: 30px 20px !important;
+    border: 1px dashed var(--aluno-programa-border) !important;
+    border-radius: 17px !important;
+    background: var(--aluno-programa-surface-soft) !important;
+    color: var(--aluno-programa-muted) !important;
+    text-align: center !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-loading > span {
+    width: 32px !important;
+    height: 32px !important;
+    border: 3px solid #ddd8e7 !important;
+    border-top-color: var(--aluno-programa-purple) !important;
+    border-radius: 50% !important;
+    animation: alunoProgramaDesktopSpin 800ms linear infinite !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-loading p,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty p {
+    max-width: 480px !important;
+    margin: 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty > span {
+    width: 48px !important;
+    height: 48px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid #ded6ef !important;
+    border-radius: 15px !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty strong {
+    color: var(--aluno-programa-text) !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty-error > span {
+    border-color: #f1d0d0 !important;
+    background: #fff0f0 !important;
+    color: #b91c1c !important;
+  }
+
+  @keyframes alunoProgramaDesktopSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #portalConteudo #viewProgramaFaixaAluno .programa-faixa-categoria:not(.aberta):hover {
+      border-color: rgba(124, 58, 237, 0.24) !important;
+      background: #f8f6fc !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno .programa-video-button:hover {
+      transform: translateY(-1px) !important;
+      border-color: rgba(124, 58, 237, 0.30) !important;
+      background: #e7def8 !important;
+    }
+  }
+
+  @media (max-width: 980px) {
+    #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-header {
+      grid-template-columns: minmax(0, 1fr) !important;
+      gap: 18px !important;
+      padding: 24px !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno .desktop-aluno-programa-jornada-resumo {
+      width: 100% !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnica {
+      grid-template-columns: 34px minmax(0, 1fr) !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno .programa-video-button,
+    #portalConteudo #viewProgramaFaixaAluno .programa-faixa-sem-video {
+      grid-column: 2 !important;
+      width: fit-content !important;
+      margin-top: 2px !important;
+    }
+  }
+}
+
+@media (min-width: 761px) {
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-jornada::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-bloco-titulo {
+    margin-bottom: 0 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnicas {
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-tecnica + .programa-faixa-tecnica {
+    margin-top: 0 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-video-button::before {
+    content: none !important;
+    display: none !important;
+  }
+}

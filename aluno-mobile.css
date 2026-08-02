@@ -7135,3 +7135,723 @@
     }
   }
 }
+
+/* ==========================================================================
+   PROGRAMA DA FAIXA — VISUAL CLARO PREMIUM
+   Trilha de graduação clara, compacta e consistente com a área do aluno.
+   ========================================================================== */
+
+@media (max-width: 760px) {
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewProgramaFaixaAluno.ativa) {
+    --aluno-programa-bg: #d2d5de;
+    --aluno-programa-surface: #ffffff;
+    --aluno-programa-surface-soft: #f3f4f7;
+    --aluno-programa-surface-2: #e8eaf0;
+    --aluno-programa-border: #c5cad4;
+    --aluno-programa-border-soft: #dde1e8;
+    --aluno-programa-text: #211a31;
+    --aluno-programa-muted: #50596b;
+    --aluno-programa-muted-2: #6c7485;
+    --aluno-programa-purple: #6f35dc;
+    --aluno-programa-purple-soft: #eee8fb;
+    background:
+      radial-gradient(circle at 7% 0%, rgba(124, 58, 237, 0.13), transparent 29%),
+      radial-gradient(circle at 96% 17%, rgba(14, 165, 233, 0.07), transparent 27%),
+      linear-gradient(180deg, #dcdee6, var(--aluno-programa-bg)) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewProgramaFaixaAluno.ativa)
+    #portalConteudo
+    .student-main {
+    background: transparent !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewProgramaFaixaAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-header {
+    color: var(--aluno-programa-text) !important;
+    background: rgba(238, 239, 244, 0.94) !important;
+    border-bottom-color: var(--aluno-programa-border) !important;
+    box-shadow: 0 12px 30px rgba(44, 37, 63, 0.11) !important;
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewProgramaFaixaAluno.ativa)
+    #portalConteudo
+    #mobileAlunoTituloInterno {
+    color: var(--aluno-programa-text) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewProgramaFaixaAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-icon-button {
+    color: #312846 !important;
+    background: rgba(124, 58, 237, 0.07) !important;
+    border-color: var(--aluno-programa-border) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewProgramaFaixaAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-bottom-nav {
+    background: rgba(237, 238, 243, 0.97) !important;
+    border-color: var(--aluno-programa-border) !important;
+    box-shadow:
+      0 16px 40px rgba(44, 37, 63, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewProgramaFaixaAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-bottom-item {
+    color: #626b7c !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna:has(#viewProgramaFaixaAluno.ativa)
+    #portalConteudo
+    .mobile-aluno-bottom-item.ativo {
+    color: var(--aluno-programa-purple) !important;
+    background: rgba(124, 58, 237, 0.08) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno > .programa-faixa-card {
+    display: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-faixa {
+    display: grid !important;
+    gap: 13px !important;
+    width: min(100%, 560px) !important;
+    margin-inline: auto !important;
+    padding: 3px 0 10px !important;
+    color: var(--aluno-programa-text) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-hero,
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-conteudo,
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-nota {
+    border: 1px solid var(--aluno-programa-border) !important;
+    background: var(--aluno-programa-surface) !important;
+    box-shadow:
+      0 13px 30px rgba(44, 37, 63, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-hero {
+    position: relative !important;
+    overflow: hidden !important;
+    padding: 17px !important;
+    border-radius: 22px !important;
+    background:
+      radial-gradient(circle at 96% 0%, rgba(124, 58, 237, 0.12), transparent 40%),
+      linear-gradient(145deg, #ffffff, #eef0f5) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-hero::after {
+    content: "" !important;
+    position: absolute !important;
+    right: -72px !important;
+    bottom: -116px !important;
+    width: 210px !important;
+    height: 210px !important;
+    border: 30px solid rgba(124, 58, 237, 0.035) !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-hero-topo {
+    position: relative !important;
+    z-index: 1 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-titulo-grupo {
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-titulo-icone,
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-section-icon {
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid #ded6ef !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-titulo-icone {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-titulo-icone svg,
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-section-icon svg,
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-nota svg,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty svg,
+  #portalConteudo #viewProgramaFaixaAluno .programa-video-button svg {
+    width: 19px !important;
+    height: 19px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-kicker {
+    display: block !important;
+    color: var(--aluno-programa-purple) !important;
+    font-size: 9px !important;
+    font-weight: 820 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-hero h2,
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-section-heading h2 {
+    margin: 3px 0 0 !important;
+    color: var(--aluno-programa-text) !important;
+    font-weight: 820 !important;
+    line-height: 1.14 !important;
+    letter-spacing: -0.035em !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-hero h2 {
+    font-size: 19px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-section-heading h2 {
+    font-size: 17px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-badge {
+    max-width: 116px !important;
+    overflow: hidden !important;
+    padding: 7px 9px !important;
+    border: 1px solid #ded6ef !important;
+    border-radius: 999px !important;
+    background: #f4f0fb !important;
+    color: #6030bd !important;
+    font-size: 9px !important;
+    font-weight: 760 !important;
+    line-height: 1 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-jornada {
+    position: relative !important;
+    z-index: 1 !important;
+    min-height: 80px !important;
+    display: grid !important;
+    grid-template-columns: 66px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 13px !important;
+    margin-top: 15px !important;
+    padding: 13px 14px !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 17px !important;
+    background: rgba(246, 247, 249, 0.88) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-faixa-visual {
+    width: 66px !important;
+    height: 23px !important;
+    display: grid !important;
+    grid-template-columns: 1fr 18px 1fr !important;
+    align-items: stretch !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(33, 26, 49, 0.18) !important;
+    border-radius: 6px !important;
+    background: #f7f7f8 !important;
+    box-shadow: 0 5px 12px rgba(44, 37, 63, 0.12) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-faixa-visual i {
+    display: block !important;
+    background: #f8f8fa !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-faixa-visual b {
+    display: block !important;
+    background: #15151b !important;
+    border-inline: 2px solid #b91c1c !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-jornada-copy {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 3px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-jornada-copy small {
+    color: var(--aluno-programa-muted-2) !important;
+    font-size: 10px !important;
+    font-weight: 680 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-jornada-copy strong {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    color: var(--aluno-programa-text) !important;
+    font-size: 16px !important;
+    font-weight: 830 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.025em !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-jornada-copy span {
+    color: var(--aluno-programa-muted) !important;
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-resumo {
+    position: relative !important;
+    z-index: 1 !important;
+    margin: 12px 0 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-stats {
+    position: relative !important;
+    z-index: 1 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin-top: 14px !important;
+    padding-top: 13px !important;
+    border-top: 1px solid var(--aluno-programa-border-soft) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-stats.escondido {
+    display: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-stats > div {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-stats > span {
+    width: 1px !important;
+    height: 34px !important;
+    background: var(--aluno-programa-border-soft) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-stats small {
+    color: var(--aluno-programa-muted-2) !important;
+    font-size: 10px !important;
+    font-weight: 670 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-stats strong {
+    color: var(--aluno-programa-text) !important;
+    font-size: 20px !important;
+    font-weight: 850 !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.04em !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-conteudo {
+    padding: 16px !important;
+    border-radius: 20px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-section-heading {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-section-icon {
+    width: 38px !important;
+    height: 38px !important;
+    flex: 0 0 38px !important;
+    border-radius: 12px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-helper {
+    margin: 10px 0 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-lista-slot {
+    margin-top: 14px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot #programaFaixaLista {
+    display: grid !important;
+    gap: 9px !important;
+    margin: 0 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-jornada,
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-bloco-titulo {
+    display: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-categoria {
+    overflow: hidden !important;
+    margin: 0 !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 15px !important;
+    background: var(--aluno-programa-surface-soft) !important;
+    box-shadow: none !important;
+    transition: border-color 170ms ease, background-color 170ms ease !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-categoria.aberta {
+    border-color: rgba(124, 58, 237, 0.28) !important;
+    background: #fbfaff !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-categoria-topo {
+    width: 100% !important;
+    min-height: 70px !important;
+    display: grid !important;
+    grid-template-columns: 34px minmax(0, 1fr) 34px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 11px 12px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--aluno-programa-text) !important;
+    box-shadow: none !important;
+    text-align: left !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-categoria-numero,
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-toggle-icon {
+    display: grid !important;
+    place-items: center !important;
+    border-radius: 10px !important;
+    font-weight: 820 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-categoria-numero {
+    width: 34px !important;
+    height: 34px !important;
+    border: 1px solid #ded6ef !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+    font-size: 10px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-toggle-icon {
+    width: 34px !important;
+    height: 34px !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    background: #fff !important;
+    color: #4b5364 !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-categoria.aberta .programa-faixa-toggle-icon {
+    color: var(--aluno-programa-purple) !important;
+    border-color: #ded6ef !important;
+    background: var(--aluno-programa-purple-soft) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-toggle-text {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 2px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-toggle-text .eyebrow {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    color: var(--aluno-programa-purple) !important;
+    font-size: 8px !important;
+    font-weight: 820 !important;
+    letter-spacing: 0.06em !important;
+    text-overflow: ellipsis !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-toggle-text strong {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    color: var(--aluno-programa-text) !important;
+    font-size: 12px !important;
+    font-weight: 790 !important;
+    line-height: 1.3 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-toggle-text small {
+    color: var(--aluno-programa-muted) !important;
+    font-size: 10px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnicas {
+    display: grid !important;
+    gap: 0 !important;
+    padding: 0 12px 12px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnicas.escondido {
+    display: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnica {
+    min-width: 0 !important;
+    display: grid !important;
+    grid-template-columns: 28px minmax(0, 1fr) !important;
+    gap: 9px !important;
+    padding: 12px 2px !important;
+    border: 0 !important;
+    border-top: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnica-indice {
+    width: 28px !important;
+    height: 28px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    border-radius: 9px !important;
+    background: #fff !important;
+    color: var(--aluno-programa-muted-2) !important;
+    font-size: 8px !important;
+    font-weight: 780 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnica-copy {
+    min-width: 0 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnica-copy strong {
+    color: var(--aluno-programa-text) !important;
+    font-size: 11px !important;
+    font-weight: 770 !important;
+    line-height: 1.35 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnica-copy p {
+    margin: 4px 0 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-video-button,
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-sem-video {
+    grid-column: 2 !important;
+    width: fit-content !important;
+    min-height: 34px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    margin-top: 1px !important;
+    padding: 7px 10px !important;
+    border-radius: 10px !important;
+    font-size: 9px !important;
+    font-weight: 750 !important;
+    line-height: 1 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-video-button {
+    border: 1px solid #ded6ef !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+    text-decoration: none !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-video-button svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-sem-video {
+    min-height: 28px !important;
+    padding: 5px 8px !important;
+    border: 1px solid var(--aluno-programa-border-soft) !important;
+    background: #f1f2f5 !important;
+    color: var(--aluno-programa-muted-2) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-loading,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty {
+    min-height: 150px !important;
+    display: grid !important;
+    place-items: center !important;
+    align-content: center !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 22px 16px !important;
+    border: 1px dashed var(--aluno-programa-border) !important;
+    border-radius: 15px !important;
+    background: var(--aluno-programa-surface-soft) !important;
+    color: var(--aluno-programa-muted) !important;
+    text-align: center !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-loading > span {
+    width: 28px !important;
+    height: 28px !important;
+    border: 3px solid #ddd8e7 !important;
+    border-top-color: var(--aluno-programa-purple) !important;
+    border-radius: 50% !important;
+    animation: alunoProgramaSpin 800ms linear infinite !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-loading p,
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty p {
+    margin: 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty > span {
+    width: 42px !important;
+    height: 42px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid #ded6ef !important;
+    border-radius: 13px !important;
+    background: var(--aluno-programa-purple-soft) !important;
+    color: var(--aluno-programa-purple) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty strong {
+    color: var(--aluno-programa-text) !important;
+    font-size: 12px !important;
+    font-weight: 790 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .programa-faixa-empty-error > span {
+    border-color: #f1d0d0 !important;
+    background: #fff0f0 !important;
+    color: #b91c1c !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-nota {
+    min-height: 72px !important;
+    display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 11px !important;
+    padding: 13px 14px !important;
+    border-radius: 17px !important;
+    background: rgba(255, 255, 255, 0.76) !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-nota > span {
+    width: 40px !important;
+    height: 40px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid #cde4da !important;
+    border-radius: 12px !important;
+    background: #edf8f3 !important;
+    color: #087a55 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-nota > div {
+    min-width: 0 !important;
+    display: grid !important;
+    gap: 3px !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-nota strong {
+    color: var(--aluno-programa-text) !important;
+    font-size: 11px !important;
+    font-weight: 770 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-nota p {
+    margin: 0 !important;
+    color: var(--aluno-programa-muted) !important;
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+  }
+
+  @keyframes alunoProgramaSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 370px) {
+    #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-hero,
+    #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-conteudo {
+      padding-inline: 14px !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-hero-topo {
+      align-items: flex-start !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-badge {
+      max-width: 92px !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-jornada {
+      grid-template-columns: 58px minmax(0, 1fr) !important;
+      gap: 10px !important;
+      padding-inline: 11px !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno .mobile-aluno-programa-faixa-visual {
+      width: 58px !important;
+      grid-template-columns: 1fr 16px 1fr !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-categoria-topo {
+      grid-template-columns: 31px minmax(0, 1fr) 31px !important;
+      gap: 8px !important;
+      padding-inline: 10px !important;
+    }
+
+    #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-categoria-numero,
+    #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-toggle-icon {
+      width: 31px !important;
+      height: 31px !important;
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnicas {
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-faixa-tecnica + .programa-faixa-tecnica {
+    margin-top: 0 !important;
+  }
+
+  #portalConteudo #viewProgramaFaixaAluno #mobileAlunoProgramaListaSlot .programa-video-button::before {
+    content: none !important;
+    display: none !important;
+  }
+}

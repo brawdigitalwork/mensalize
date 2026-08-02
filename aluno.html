@@ -1662,9 +1662,18 @@
           >
             <section class="mobile-aluno-programa-hero" aria-label="Sua jornada de graduação">
               <div class="mobile-aluno-programa-hero-topo">
-                <div>
-                  <span class="mobile-aluno-programa-kicker">Mensalize Fight</span>
-                  <h2>Rumo à próxima faixa</h2>
+                <div class="mobile-aluno-programa-titulo-grupo">
+                  <span class="mobile-aluno-programa-titulo-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M4 8h16v8H4z"/>
+                      <path d="M8 8v8M16 8v8M2 12h2M20 12h2"/>
+                    </svg>
+                  </span>
+
+                  <div>
+                    <span class="mobile-aluno-programa-kicker">Mensalize Fight</span>
+                    <h2>Programa da faixa</h2>
+                  </div>
                 </div>
 
                 <span id="mobileAlunoProgramaBadge" class="mobile-aluno-programa-badge">
@@ -1673,16 +1682,14 @@
               </div>
 
               <div class="mobile-aluno-programa-jornada">
-                <span class="mobile-aluno-programa-faixa-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M3 9h18v6H3z"/>
-                    <path d="M8 9v6M16 9v6M2 12h1M21 12h1"/>
-                  </svg>
+                <span class="mobile-aluno-programa-faixa-visual" aria-hidden="true">
+                  <i></i><b></b><i></i>
                 </span>
 
-                <div>
-                  <small>Programa atual</small>
+                <div class="mobile-aluno-programa-jornada-copy">
+                  <small>Jornada atual</small>
                   <strong id="mobileAlunoProgramaJornada">Sua faixa</strong>
+                  <span>Conteúdos definidos pela sua academia</span>
                 </div>
               </div>
 
@@ -1715,19 +1722,20 @@
             >
               <div class="mobile-aluno-programa-section-heading">
                 <div>
-                  <span class="mobile-aluno-programa-kicker">Sua trilha</span>
-                  <h2 id="mobileAlunoProgramaConteudoTitulo">O que treinar</h2>
+                  <span class="mobile-aluno-programa-kicker">Plano de treino</span>
+                  <h2 id="mobileAlunoProgramaConteudoTitulo">Conteúdos da sua trilha</h2>
                 </div>
 
                 <span class="mobile-aluno-programa-section-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24">
-                    <path d="M5 5h14v14H5zM8 9h8M8 13h5"/>
+                    <path d="M5 4h14v16H5z"/>
+                    <path d="M8 8h8M8 12h8M8 16h5"/>
                   </svg>
                 </span>
               </div>
 
               <p class="mobile-aluno-programa-helper">
-                Abra cada categoria para ver as técnicas e materiais cadastrados pelo professor.
+                Abra uma categoria para consultar as técnicas e os materiais cadastrados pelo professor.
               </p>
 
               <div
@@ -1740,28 +1748,58 @@
               <span aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
-                  <path d="M12 8v5M12 16h.01"/>
+                  <path d="M9 12l2 2 4-4"/>
                 </svg>
               </span>
 
-              <p>
-                Use esta trilha como referência para acompanhar os conteúdos definidos pela academia.
-              </p>
+              <div>
+                <strong>Uma referência para o seu treino</strong>
+                <p>Use a trilha para revisar conteúdos e leve suas dúvidas ao professor durante as aulas.</p>
+              </div>
             </section>
           </section>
 
           <article class="panel-card programa-faixa-card">
-            <div class="section-title-row">
-              <div>
-                <span class="eyebrow">Mensalize Fight</span>
-                <h2>Rumo à próxima faixa</h2>
-                <p id="programaFaixaResumo" class="helper-text">Veja o que seu professor separou para sua evolução.</p>
+            <header class="desktop-aluno-programa-header">
+              <div class="desktop-aluno-programa-titulo">
+                <span class="desktop-aluno-programa-icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 8h16v8H4z"/>
+                    <path d="M8 8v8M16 8v8M2 12h2M20 12h2"/>
+                  </svg>
+                </span>
+
+                <div>
+                  <span class="eyebrow">Mensalize Fight</span>
+                  <h2>Programa da faixa</h2>
+                  <p id="programaFaixaResumo" class="helper-text">Veja o que seu professor separou para sua evolução.</p>
+                </div>
               </div>
-              <span id="programaFaixaBadge" class="mini-badge">Sua jornada</span>
+
+              <div class="desktop-aluno-programa-jornada-resumo">
+                <small>Jornada atual</small>
+                <strong id="programaFaixaBadge">Sua jornada</strong>
+              </div>
+            </header>
+
+            <div class="desktop-aluno-programa-orientacao">
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 4h14v16H5z"/>
+                  <path d="M8 8h8M8 12h8M8 16h5"/>
+                </svg>
+              </span>
+              <div>
+                <strong>Seu plano de evolução</strong>
+                <p>Consulte as categorias, revise as técnicas e use os vídeos cadastrados pela academia.</p>
+              </div>
             </div>
 
             <div id="programaFaixaLista" class="programa-faixa-list">
-              <p class="empty-message">Carregando sua trilha de graduação...</p>
+              <div class="programa-faixa-loading" role="status">
+                <span aria-hidden="true"></span>
+                <p>Carregando sua trilha de graduação...</p>
+              </div>
             </div>
           </article>
         </section>
@@ -2989,7 +3027,7 @@
       if (conteudo) conteudo.classList.toggle("escondido", !estaAberta);
 
       const icone = card.querySelector(".programa-faixa-toggle-icon");
-      if (icone) icone.textContent = estaAberta ? "▾" : "▸";
+      if (icone) icone.textContent = estaAberta ? "−" : "+";
 
       const botao = card.querySelector(".programa-faixa-toggle");
       if (botao) botao.setAttribute("aria-expanded", estaAberta ? "true" : "false");
@@ -3005,17 +3043,25 @@
       if (!programaFaixaLista || !programaFaixaResumo || !programaFaixaBadge) return;
 
       if (!temConteudo) {
-        programaFaixaBadge.textContent = alunoAtual?.faixa ? alunoAtual.faixa : "Sem faixa";
-        programaFaixaResumo.textContent = alunoAtual?.faixa
+        const temFaixa = !!alunoAtual?.faixa;
+        programaFaixaBadge.textContent = temFaixa ? alunoAtual.faixa : "Sem faixa";
+        programaFaixaResumo.textContent = temFaixa
           ? "Seu professor ainda não cadastrou sua trilha até a próxima faixa."
           : "Sua faixa ainda não foi informada pelo professor.";
 
         programaFaixaLista.innerHTML = `
-          <p class="empty-message">
-            ${alunoAtual?.faixa
-              ? "Quando seu professor cadastrar o que você precisa treinar, sua trilha vai aparecer aqui."
-              : "Peça ao professor para cadastrar sua faixa e liberar sua trilha de graduação."}
-          </p>
+          <div class="programa-faixa-empty">
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M5 4h14v16H5z"/>
+                <path d="M8 8h8M8 12h8M8 16h5"/>
+              </svg>
+            </span>
+            <strong>${temFaixa ? "Trilha ainda não cadastrada" : "Faixa não informada"}</strong>
+            <p>${temFaixa
+              ? "Quando o professor cadastrar os conteúdos, sua trilha aparecerá aqui."
+              : "Peça ao professor para informar sua faixa e liberar o programa de graduação."}</p>
+          </div>
         `;
         return;
       }
@@ -3028,41 +3074,65 @@
       const totalTecnicas = grupos.reduce((total, grupo) => total + grupo.tecnicas.length, 0);
 
       programaFaixaBadge.textContent = tituloFaixa;
-      programaFaixaResumo.textContent = `${totalTecnicas} conteúdo${totalTecnicas === 1 ? "" : "s"} para treinar rumo à próxima faixa.`;
+      programaFaixaResumo.textContent = `${totalTecnicas} conteúdo${totalTecnicas === 1 ? "" : "s"} organizado${totalTecnicas === 1 ? "" : "s"} em ${grupos.length} categoria${grupos.length === 1 ? "" : "s"}.`;
 
       programaFaixaLista.innerHTML = `
         <div class="programa-faixa-jornada">
-          <span class="eyebrow">Sua jornada</span>
-          <strong>${escapeHtml(tituloFaixa)}</strong>
-          <p>Estude, treine com frequência e tire dúvidas com seu professor.</p>
+          <span class="programa-faixa-jornada-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 8h16v8H4z"/>
+              <path d="M8 8v8M16 8v8M2 12h2M20 12h2"/>
+            </svg>
+          </span>
+          <div>
+            <span class="eyebrow">Jornada atual</span>
+            <strong>${escapeHtml(tituloFaixa)}</strong>
+            <p>Revise os conteúdos e leve suas dúvidas ao professor durante os treinos.</p>
+          </div>
         </div>
-        <div class="programa-faixa-bloco-titulo">O que você precisa treinar</div>
-      ` + grupos.map(grupo => {
+        <div class="programa-faixa-bloco-titulo">
+          <div>
+            <span class="eyebrow">Plano de treino</span>
+            <strong>Conteúdos da sua trilha</strong>
+          </div>
+          <small>${grupos.length} categoria${grupos.length === 1 ? "" : "s"}</small>
+        </div>
+      ` + grupos.map((grupo, indiceGrupo) => {
         const idCategoria = String(grupo.id || grupo.nome || "categoria");
         const estaAberta = programaFaixaCategoriasAbertas.has(idCategoria);
+        const numeroCategoria = String(indiceGrupo + 1).padStart(2, "0");
 
         return `
           <article class="programa-faixa-categoria programa-faixa-accordion ${estaAberta ? "aberta" : ""}" data-programa-categoria="${escapeHtml(idCategoria)}" data-aberta="${estaAberta ? "true" : "false"}">
             <button type="button" class="programa-faixa-categoria-topo programa-faixa-toggle" aria-expanded="${estaAberta ? "true" : "false"}">
-              <span class="programa-faixa-toggle-icon">${estaAberta ? "▾" : "▸"}</span>
+              <span class="programa-faixa-categoria-numero" aria-hidden="true">${numeroCategoria}</span>
               <span class="programa-faixa-toggle-text">
-                <span class="eyebrow">${escapeHtml(tituloFaixa)}</span>
+                <span class="eyebrow">Categoria</span>
                 <strong>${escapeHtml(grupo.nome)}</strong>
-                <small>${grupo.tecnicas.length} item${grupo.tecnicas.length === 1 ? "" : "s"} para treinar</small>
+                <small>${grupo.tecnicas.length} conteúdo${grupo.tecnicas.length === 1 ? "" : "s"}</small>
               </span>
-              <span class="mini-badge muted-badge">${grupo.tecnicas.length}</span>
+              <span class="programa-faixa-toggle-icon" aria-hidden="true">${estaAberta ? "−" : "+"}</span>
             </button>
 
             <div class="programa-faixa-tecnicas ${estaAberta ? "" : "escondido"}">
-              ${grupo.tecnicas.map(tecnica => {
+              ${grupo.tecnicas.map((tecnica, indiceTecnica) => {
                 const videoUrl = normalizarLink(tecnica.videoUrl);
+                const numeroTecnica = String(indiceTecnica + 1).padStart(2, "0");
                 return `
                   <div class="programa-faixa-tecnica">
-                    <div>
+                    <span class="programa-faixa-tecnica-indice" aria-hidden="true">${numeroTecnica}</span>
+                    <div class="programa-faixa-tecnica-copy">
                       <strong>${escapeHtml(tecnica.titulo)}</strong>
-                      ${tecnica.descricao ? `<p>${escapeHtml(tecnica.descricao)}</p>` : `<p class="helper-text">Sem descrição cadastrada ainda.</p>`}
+                      ${tecnica.descricao ? `<p>${escapeHtml(tecnica.descricao)}</p>` : `<p class="helper-text">Descrição não cadastrada.</p>`}
                     </div>
-                    ${videoUrl ? `<a href="${escapeHtml(videoUrl)}" target="_blank" rel="noopener" class="programa-video-button">Ver aula em vídeo</a>` : ""}
+                    ${videoUrl ? `
+                      <a href="${escapeHtml(videoUrl)}" target="_blank" rel="noopener" class="programa-video-button">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="m9 7 8 5-8 5z"/>
+                        </svg>
+                        <span>Assistir vídeo</span>
+                      </a>
+                    ` : `<span class="programa-faixa-sem-video">Sem vídeo</span>`}
                   </div>
                 `;
               }).join("")}
@@ -3087,7 +3157,12 @@
       if (!alunoUsaSessaoAutenticada()) return;
 
       if (programaFaixaLista) {
-        programaFaixaLista.innerHTML = `<p class="empty-message">Carregando sua trilha de graduação...</p>`;
+        programaFaixaLista.innerHTML = `
+          <div class="programa-faixa-loading" role="status">
+            <span aria-hidden="true"></span>
+            <p>Carregando sua trilha de graduação...</p>
+          </div>
+        `;
       }
 
       try {
@@ -3107,7 +3182,15 @@
         }
 
         if (programaFaixaLista) {
-          programaFaixaLista.innerHTML = `<p class="empty-message">Atualize a página ou tente novamente mais tarde.</p>`;
+          programaFaixaLista.innerHTML = `
+            <div class="programa-faixa-empty programa-faixa-empty-error">
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01"/><path d="M10.3 4.5 2.7 18a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 4.5a2 2 0 0 0-3.4 0z"/></svg>
+              </span>
+              <strong>Não foi possível carregar a trilha</strong>
+              <p>Atualize a página ou tente novamente mais tarde.</p>
+            </div>
+          `;
         }
       }
     }

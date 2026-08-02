@@ -4951,11 +4951,84 @@
 
 
   /* ------------------------------------------------------------------------
-     AVISOS MOBILE EXCLUSIVO
+     AVISOS MOBILE — CENTRAL CLARA
      - usa #avisosAlunoLista real
-     - respeita prioridade real .is-important
-     - não inventa importância
+     - respeita prioridade e tipo reais
+     - mantém todos os avisos retornados pela RPC
   ------------------------------------------------------------------------ */
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna.mobile-aluno-avisos-mode {
+    --aluno-avisos-bg: #cfd2dc;
+    --aluno-avisos-surface: #e5e7ec;
+    --aluno-avisos-surface-2: #eef0f4;
+    --aluno-avisos-surface-3: #f5f6f8;
+    --aluno-avisos-border: #b7bcc8;
+    --aluno-avisos-border-soft: #c7cad3;
+    --aluno-avisos-text: #211a31;
+    --aluno-avisos-muted: #4f586a;
+    --aluno-avisos-muted-2: #687183;
+    --aluno-avisos-purple: #6d28d9;
+    --aluno-avisos-purple-soft: rgba(124, 58, 237, 0.09);
+    color: var(--aluno-avisos-text) !important;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(124, 58, 237, 0.12), transparent 28%),
+      radial-gradient(circle at 96% 18%, rgba(14, 165, 233, 0.07), transparent 28%),
+      linear-gradient(180deg, #d9dbe3, var(--aluno-avisos-bg)) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna.mobile-aluno-avisos-mode
+    #portalConteudo
+    .student-main {
+    background: transparent !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna.mobile-aluno-avisos-mode
+    #portalConteudo
+    .mobile-aluno-header {
+    color: var(--aluno-avisos-text) !important;
+    background: rgba(229, 231, 236, 0.94) !important;
+    border-bottom-color: var(--aluno-avisos-border) !important;
+    box-shadow: 0 12px 30px rgba(44, 37, 63, 0.11) !important;
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna.mobile-aluno-avisos-mode
+    #portalConteudo
+    #mobileAlunoTituloInterno {
+    color: var(--aluno-avisos-text) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna.mobile-aluno-avisos-mode
+    #portalConteudo
+    .mobile-aluno-icon-button {
+    color: #312846 !important;
+    background: rgba(124, 58, 237, 0.07) !important;
+    border-color: var(--aluno-avisos-border) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna.mobile-aluno-avisos-mode
+    #portalConteudo
+    .mobile-aluno-bottom-nav {
+    background: rgba(232, 233, 239, 0.96) !important;
+    border-color: var(--aluno-avisos-border) !important;
+    box-shadow:
+      0 16px 40px rgba(44, 37, 63, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.52) !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna.mobile-aluno-avisos-mode
+    #portalConteudo
+    .mobile-aluno-bottom-item {
+    color: #626b7c !important;
+  }
+
+  body.mobile-aluno-portal-ativo.mobile-aluno-interna.mobile-aluno-avisos-mode
+    #portalConteudo
+    .mobile-aluno-bottom-item.ativo {
+    color: #7c3aed !important;
+    background: rgba(124, 58, 237, 0.08) !important;
+  }
 
   .mobile-aluno-avisos {
     display: none;
@@ -4963,6 +5036,7 @@
     width: min(100%, 560px);
     margin-inline: auto;
     padding: 2px 0 8px;
+    color: var(--aluno-avisos-text);
   }
 
   body.mobile-aluno-avisos-mode #viewInicioAluno > .mobile-aluno-home {
@@ -4976,29 +5050,29 @@
   .mobile-aluno-avisos-hero,
   .mobile-aluno-avisos-lista-card,
   .mobile-aluno-avisos-nota {
-    border: 1px solid var(--mobile-aluno-border);
-    box-shadow: none;
+    border: 1px solid var(--aluno-avisos-border);
+    background:
+      linear-gradient(145deg, var(--aluno-avisos-surface), #dde0e7);
+    box-shadow:
+      0 14px 34px rgba(44, 37, 63, 0.105),
+      inset 0 1px 0 rgba(255, 255, 255, 0.62);
   }
 
   .mobile-aluno-avisos-hero {
     position: relative;
     overflow: hidden;
-    padding: 17px;
-    border-radius: 23px;
-    background:
-      radial-gradient(circle at 98% 2%, rgba(134, 75, 255, 0.24), transparent 38%),
-      radial-gradient(circle at 2% 100%, rgba(255, 148, 24, 0.055), transparent 30%),
-      linear-gradient(150deg, rgba(24, 17, 61, 0.99), rgba(8, 8, 24, 0.99));
+    padding: 16px;
+    border-radius: 22px;
   }
 
   .mobile-aluno-avisos-hero::after {
     content: "";
     position: absolute;
-    right: -66px;
-    bottom: -94px;
-    width: 198px;
-    height: 198px;
-    border: 28px solid rgba(180, 145, 255, 0.035);
+    right: -74px;
+    top: -82px;
+    width: 178px;
+    height: 178px;
+    border: 24px solid rgba(124, 58, 237, 0.035);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -5012,152 +5086,26 @@
     gap: 12px;
   }
 
-  .mobile-aluno-avisos-kicker {
-    display: block;
-    color: #9b6eff;
-    font-size: 8px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .mobile-aluno-avisos-hero h2,
-  .mobile-aluno-avisos-section-heading h2 {
-    margin: 3px 0 0;
-    color: #fff;
-    line-height: 1.08;
-    letter-spacing: -0.04em;
-  }
-
-  .mobile-aluno-avisos-hero h2 {
-    font-size: 20px;
-  }
-
-  .mobile-aluno-avisos-section-heading h2 {
-    font-size: 17px;
-  }
-
-  .mobile-aluno-avisos-badge {
-    max-width: 112px;
-    overflow: hidden;
-    padding: 6px 9px;
-    border-radius: 999px;
-    background: rgba(139, 92, 246, 0.13);
-    color: #c5b2ff;
-    font-size: 8px;
-    font-weight: 750;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .mobile-aluno-avisos-destaque {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    gap: 8px;
-    margin-top: 14px;
-    padding: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 18px;
-    background: rgba(5, 5, 18, 0.54);
-  }
-
-  .mobile-aluno-avisos-destaque.escondido {
-    display: none !important;
-  }
-
-  .mobile-aluno-avisos-destaque.is-important {
-    border-color: rgba(255, 168, 61, 0.18);
-    background:
-      linear-gradient(100deg, rgba(255, 148, 24, 0.065), transparent 48%),
-      rgba(5, 5, 18, 0.56);
-  }
-
-  .mobile-aluno-avisos-destaque-topo {
+  .mobile-aluno-avisos-titulo-grupo {
+    min-width: 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .mobile-aluno-avisos-destaque-tipo,
-  .mobile-aluno-avisos-destaque-selo {
-    max-width: 48%;
-    overflow: hidden;
-    padding: 5px 8px;
-    border-radius: 999px;
-    font-size: 7.5px;
-    font-weight: 800;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .mobile-aluno-avisos-destaque-tipo {
-    background: rgba(139, 92, 246, 0.11);
-    color: #bda7ff;
-  }
-
-  .mobile-aluno-avisos-destaque-selo {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--mobile-aluno-muted);
-  }
-
-  .mobile-aluno-avisos-destaque.is-important
-    .mobile-aluno-avisos-destaque-selo {
-    background: rgba(255, 148, 24, 0.11);
-    color: #ffbd6e;
-  }
-
-  .mobile-aluno-avisos-destaque > strong {
-    color: #fff;
-    font-size: 15px;
-    font-weight: 820;
-    letter-spacing: -0.035em;
-    line-height: 1.18;
-  }
-
-  .mobile-aluno-avisos-destaque > p {
-    margin: 0;
-    color: var(--mobile-aluno-muted);
-    font-size: 9px;
-    line-height: 1.55;
-  }
-
-  .mobile-aluno-avisos-destaque > small {
-    color: var(--mobile-aluno-muted-2);
-    font-size: 8px;
-    line-height: 1.4;
-  }
-
-  .mobile-aluno-avisos-vazio-hero {
-    position: relative;
-    z-index: 1;
-    min-height: 76px;
-    display: grid;
-    grid-template-columns: 42px minmax(0, 1fr);
-    align-items: center;
+    align-items: flex-start;
     gap: 11px;
-    margin-top: 14px;
-    padding: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.065);
-    border-radius: 17px;
-    background: rgba(5, 5, 18, 0.50);
   }
 
-  .mobile-aluno-avisos-vazio-hero.escondido {
-    display: none !important;
-  }
-
-  .mobile-aluno-avisos-vazio-hero > span {
+  .mobile-aluno-avisos-titulo-icone {
     width: 42px;
     height: 42px;
+    flex: 0 0 42px;
     display: grid;
     place-items: center;
+    border: 1px solid rgba(124, 58, 237, 0.14);
     border-radius: 13px;
-    background: rgba(139, 92, 246, 0.11);
-    color: #a777ff;
+    color: var(--aluno-avisos-purple);
+    background: var(--aluno-avisos-purple-soft);
   }
 
+  .mobile-aluno-avisos-titulo-icone svg,
   .mobile-aluno-avisos-vazio-hero svg,
   .mobile-aluno-avisos-nota svg {
     width: 19px;
@@ -5169,28 +5117,206 @@
     stroke-linejoin: round;
   }
 
+  .mobile-aluno-avisos-kicker {
+    display: block;
+    color: var(--aluno-avisos-purple);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+
+  .mobile-aluno-avisos-hero h2,
+  .mobile-aluno-avisos-section-heading h2 {
+    margin: 4px 0 0;
+    color: var(--aluno-avisos-text);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+  }
+
+  .mobile-aluno-avisos-hero h2 {
+    font-size: 19px;
+  }
+
+  .mobile-aluno-avisos-section-heading h2 {
+    font-size: 17px;
+  }
+
+  .mobile-aluno-avisos-titulo-grupo p {
+    margin: 5px 0 0;
+    color: var(--aluno-avisos-muted);
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .mobile-aluno-avisos-badge {
+    position: relative;
+    z-index: 1;
+    max-width: 104px;
+    flex: 0 0 auto;
+    overflow: hidden;
+    padding: 6px 9px;
+    border: 1px solid rgba(124, 58, 237, 0.14);
+    border-radius: 999px;
+    background: rgba(124, 58, 237, 0.075);
+    color: #5b21b6;
+    font-size: 10px;
+    font-weight: 760;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-aluno-avisos-destaque {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 4px minmax(0, 1fr);
+    gap: 13px;
+    margin-top: 15px;
+    padding: 14px 14px 14px 0;
+    overflow: hidden;
+    border: 1px solid var(--aluno-avisos-border-soft);
+    border-radius: 17px;
+    background: var(--aluno-avisos-surface-3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+  }
+
+  .mobile-aluno-avisos-destaque.escondido {
+    display: none !important;
+  }
+
+  .mobile-aluno-avisos-destaque-barra {
+    width: 4px;
+    align-self: stretch;
+    border-radius: 0 999px 999px 0;
+    background: #7c3aed;
+  }
+
+  .mobile-aluno-avisos-destaque.is-important {
+    border-color: rgba(180, 83, 9, 0.23);
+    background:
+      linear-gradient(100deg, rgba(245, 158, 11, 0.075), transparent 52%),
+      var(--aluno-avisos-surface-3);
+  }
+
+  .mobile-aluno-avisos-destaque.is-important
+    .mobile-aluno-avisos-destaque-barra {
+    background: #d97706;
+  }
+
+  .mobile-aluno-avisos-destaque-conteudo {
+    min-width: 0;
+    display: grid;
+    gap: 7px;
+  }
+
+  .mobile-aluno-avisos-destaque-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .mobile-aluno-avisos-destaque-tipo,
+  .mobile-aluno-avisos-destaque-selo {
+    max-width: 52%;
+    overflow: hidden;
+    padding: 4px 7px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-aluno-avisos-destaque-tipo {
+    color: #5b21b6;
+    background: rgba(124, 58, 237, 0.085);
+  }
+
+  .mobile-aluno-avisos-destaque-selo {
+    color: var(--aluno-avisos-muted);
+    background: rgba(79, 88, 106, 0.07);
+  }
+
+  .mobile-aluno-avisos-destaque.is-important
+    .mobile-aluno-avisos-destaque-selo {
+    color: #92400e;
+    background: rgba(245, 158, 11, 0.11);
+  }
+
+  .mobile-aluno-avisos-destaque > .mobile-aluno-avisos-destaque-conteudo > strong {
+    color: var(--aluno-avisos-text);
+    font-size: 15px;
+    font-weight: 810;
+    letter-spacing: -0.025em;
+    line-height: 1.24;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-aluno-avisos-destaque > .mobile-aluno-avisos-destaque-conteudo > p {
+    margin: 0;
+    color: var(--aluno-avisos-muted);
+    font-size: 12px;
+    line-height: 1.52;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-aluno-avisos-destaque > .mobile-aluno-avisos-destaque-conteudo > small {
+    color: var(--aluno-avisos-muted-2);
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .mobile-aluno-avisos-vazio-hero {
+    position: relative;
+    z-index: 1;
+    min-height: 86px;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    padding: 13px;
+    border: 1px dashed var(--aluno-avisos-border);
+    border-radius: 17px;
+    background: rgba(245, 246, 248, 0.68);
+  }
+
+  .mobile-aluno-avisos-vazio-hero.escondido {
+    display: none !important;
+  }
+
+  .mobile-aluno-avisos-vazio-hero > span {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: var(--aluno-avisos-purple-soft);
+    color: var(--aluno-avisos-purple);
+  }
+
   .mobile-aluno-avisos-vazio-hero div {
     min-width: 0;
   }
 
   .mobile-aluno-avisos-vazio-hero strong {
-    color: #f4f0ff;
-    font-size: 10px;
+    color: var(--aluno-avisos-text);
+    font-size: 13px;
     font-weight: 780;
   }
 
   .mobile-aluno-avisos-vazio-hero p {
-    margin: 3px 0 0;
-    color: var(--mobile-aluno-muted);
-    font-size: 8.5px;
+    margin: 4px 0 0;
+    color: var(--aluno-avisos-muted);
+    font-size: 11px;
     line-height: 1.45;
   }
 
   .mobile-aluno-avisos-lista-card {
     padding: 15px;
     border-radius: 20px;
-    background:
-      linear-gradient(145deg, rgba(18, 15, 49, 0.98), rgba(9, 8, 26, 0.99));
   }
 
   .mobile-aluno-avisos-section-heading {
@@ -5202,130 +5328,218 @@
 
   .mobile-aluno-avisos-section-heading > small {
     max-width: 42%;
-    color: var(--mobile-aluno-muted-2);
-    font-size: 8px;
+    color: var(--aluno-avisos-muted-2);
+    font-size: 10px;
     line-height: 1.35;
     text-align: right;
   }
 
   .mobile-aluno-avisos-lista-slot {
-    margin-top: 12px;
+    margin-top: 13px;
   }
 
   #mobileAlunoAvisosListaSlot #avisosAlunoLista {
     display: grid !important;
-    gap: 8px !important;
+    gap: 9px !important;
     margin: 0 !important;
   }
 
   #mobileAlunoAvisosListaSlot .student-notice-item {
     position: relative;
     display: grid !important;
-    gap: 6px !important;
+    gap: 8px !important;
     margin: 0 !important;
-    padding: 13px !important;
+    padding: 14px 15px 14px 17px !important;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.065) !important;
+    border: 1px solid var(--aluno-avisos-border-soft) !important;
     border-radius: 16px !important;
-    background: rgba(5, 5, 18, 0.50) !important;
-    box-shadow: none !important;
+    background: var(--aluno-avisos-surface-3) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66) !important;
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    border-radius: 0 999px 999px 0;
+    background: #7c3aed;
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item[data-notice-type="aula"]::before {
+    background: #0284c7;
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item[data-notice-type="financeiro"]::before {
+    background: #059669;
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item[data-notice-type="graduacao"]::before {
+    background: #7c3aed;
   }
 
   #mobileAlunoAvisosListaSlot .student-notice-item.is-important {
-    border-color: rgba(255, 168, 61, 0.17) !important;
+    border-color: rgba(180, 83, 9, 0.22) !important;
     background:
-      linear-gradient(100deg, rgba(255, 148, 24, 0.055), transparent 46%),
-      rgba(5, 5, 18, 0.52) !important;
+      linear-gradient(100deg, rgba(245, 158, 11, 0.07), transparent 52%),
+      var(--aluno-avisos-surface-3) !important;
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item.is-important::before {
+    background: #d97706;
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item-head {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 9px;
   }
 
   #mobileAlunoAvisosListaSlot .notice-kind {
     width: fit-content;
-    max-width: 100%;
+    max-width: 48%;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     overflow: hidden;
     padding: 4px 7px;
     border-radius: 999px;
-    background: rgba(139, 92, 246, 0.10);
-    color: #bca6ff !important;
-    font-size: 7px !important;
+    background: rgba(124, 58, 237, 0.085);
+    color: #5b21b6 !important;
+    font-size: 9px !important;
     font-weight: 800 !important;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
+  #mobileAlunoAvisosListaSlot .notice-kind i {
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item[data-notice-type="aula"] .notice-kind {
+    color: #0369a1 !important;
+    background: rgba(14, 165, 233, 0.09);
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item[data-notice-type="financeiro"] .notice-kind {
+    color: #047857 !important;
+    background: rgba(16, 185, 129, 0.09);
+  }
+
   #mobileAlunoAvisosListaSlot .student-notice-item.is-important .notice-kind {
-    background: rgba(255, 148, 24, 0.10);
-    color: #ffbd6e !important;
+    color: #92400e !important;
+    background: rgba(245, 158, 11, 0.11);
+  }
+
+  #mobileAlunoAvisosListaSlot .student-notice-item-head > small {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--aluno-avisos-muted-2) !important;
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   #mobileAlunoAvisosListaSlot .student-notice-item > strong {
-    color: #f5f1ff !important;
-    font-size: 11px !important;
+    color: var(--aluno-avisos-text) !important;
+    font-size: 14px !important;
     font-weight: 790 !important;
-    line-height: 1.25 !important;
+    line-height: 1.28 !important;
+    letter-spacing: -0.018em;
+    overflow-wrap: anywhere;
   }
 
   #mobileAlunoAvisosListaSlot .student-notice-item > p {
     margin: 0 !important;
-    color: var(--mobile-aluno-muted) !important;
-    font-size: 8.8px !important;
+    color: var(--aluno-avisos-muted) !important;
+    font-size: 12px !important;
     line-height: 1.55 !important;
-  }
-
-  #mobileAlunoAvisosListaSlot .student-notice-item > small {
-    color: var(--mobile-aluno-muted-2) !important;
-    font-size: 7.8px !important;
-    line-height: 1.4 !important;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
   }
 
   #mobileAlunoAvisosListaSlot .empty-message {
     margin: 0 !important;
-    padding: 20px 12px !important;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 15px;
-    background: rgba(5, 5, 18, 0.45);
-    color: var(--mobile-aluno-muted) !important;
-    font-size: 9px !important;
-    line-height: 1.5;
+    padding: 24px 14px !important;
+    border: 1px dashed var(--aluno-avisos-border) !important;
+    border-radius: 15px !important;
+    background: rgba(245, 246, 248, 0.7) !important;
+    color: var(--aluno-avisos-muted) !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
     text-align: center;
   }
 
   .mobile-aluno-avisos-nota {
     min-height: 70px;
     display: grid;
-    grid-template-columns: 38px minmax(0, 1fr);
+    grid-template-columns: 40px minmax(0, 1fr);
     align-items: center;
-    gap: 11px;
+    gap: 12px;
     padding: 13px 14px;
     border-radius: 18px;
-    background:
-      linear-gradient(145deg, rgba(14, 12, 38, 0.95), rgba(8, 8, 24, 0.98));
   }
 
   .mobile-aluno-avisos-nota > span {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
     display: grid;
     place-items: center;
+    border: 1px solid rgba(5, 150, 105, 0.13);
     border-radius: 12px;
-    background: rgba(54, 208, 127, 0.08);
-    color: #61d998;
+    background: rgba(16, 185, 129, 0.08);
+    color: #047857;
   }
 
   .mobile-aluno-avisos-nota p {
     margin: 0;
-    color: var(--mobile-aluno-muted);
-    font-size: 8.5px;
+    color: var(--aluno-avisos-muted);
+    font-size: 11px;
     line-height: 1.48;
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 380px) {
     .mobile-aluno-avisos-hero,
     .mobile-aluno-avisos-lista-card {
       padding-inline: 14px;
     }
 
+    .mobile-aluno-avisos-hero-topo {
+      display: grid;
+    }
+
+    .mobile-aluno-avisos-badge {
+      justify-self: start;
+    }
+
     .mobile-aluno-avisos-section-heading > small {
       display: none;
+    }
+
+    #mobileAlunoAvisosListaSlot .student-notice-item-head {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #mobileAlunoAvisosListaSlot .notice-kind {
+      max-width: 100%;
+    }
+
+    #mobileAlunoAvisosListaSlot .student-notice-item-head > small {
+      width: 100%;
+      text-align: left;
+      white-space: normal;
     }
   }
 

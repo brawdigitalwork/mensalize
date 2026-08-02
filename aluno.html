@@ -669,11 +669,21 @@
             class="mobile-aluno-avisos"
             aria-label="Avisos mobile"
           >
-            <section class="mobile-aluno-avisos-hero" aria-label="Resumo dos avisos">
+            <section class="mobile-aluno-avisos-hero" aria-label="Central de avisos">
               <div class="mobile-aluno-avisos-hero-topo">
-                <div>
-                  <span class="mobile-aluno-avisos-kicker">Comunicados</span>
-                  <h2>Avisos da academia</h2>
+                <div class="mobile-aluno-avisos-titulo-grupo">
+                  <span class="mobile-aluno-avisos-titulo-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                      <path d="M10 21h4"/>
+                    </svg>
+                  </span>
+
+                  <div>
+                    <span class="mobile-aluno-avisos-kicker">Central de comunicação</span>
+                    <h2>Avisos da academia</h2>
+                    <p>Comunicados oficiais publicados pelo professor.</p>
+                  </div>
                 </div>
 
                 <span id="mobileAlunoAvisosContador" class="mobile-aluno-avisos-badge">
@@ -681,34 +691,39 @@
                 </span>
               </div>
 
-              <div
+              <article
                 id="mobileAlunoAvisosDestaque"
                 class="mobile-aluno-avisos-destaque escondido"
+                aria-label="Comunicado em destaque"
               >
-                <div class="mobile-aluno-avisos-destaque-topo">
-                  <span
-                    id="mobileAlunoAvisosDestaqueTipo"
-                    class="mobile-aluno-avisos-destaque-tipo"
-                  >
-                    Mais recente
-                  </span>
+                <span class="mobile-aluno-avisos-destaque-barra" aria-hidden="true"></span>
 
-                  <span
-                    id="mobileAlunoAvisosDestaqueSelo"
-                    class="mobile-aluno-avisos-destaque-selo"
-                  >
-                    Destaque
-                  </span>
+                <div class="mobile-aluno-avisos-destaque-conteudo">
+                  <div class="mobile-aluno-avisos-destaque-topo">
+                    <span
+                      id="mobileAlunoAvisosDestaqueTipo"
+                      class="mobile-aluno-avisos-destaque-tipo"
+                    >
+                      Comunicado
+                    </span>
+
+                    <span
+                      id="mobileAlunoAvisosDestaqueSelo"
+                      class="mobile-aluno-avisos-destaque-selo"
+                    >
+                      Mais recente
+                    </span>
+                  </div>
+
+                  <strong id="mobileAlunoAvisosDestaqueTitulo">Novo aviso</strong>
+
+                  <p id="mobileAlunoAvisosDestaqueTexto">
+                    Veja os comunicados da sua academia.
+                  </p>
+
+                  <small id="mobileAlunoAvisosDestaqueMeta"></small>
                 </div>
-
-                <strong id="mobileAlunoAvisosDestaqueTitulo">Novo aviso</strong>
-
-                <p id="mobileAlunoAvisosDestaqueTexto">
-                  Veja os comunicados da sua academia.
-                </p>
-
-                <small id="mobileAlunoAvisosDestaqueMeta"></small>
-              </div>
+              </article>
 
               <div
                 id="mobileAlunoAvisosVazioHero"
@@ -722,8 +737,8 @@
                 </span>
 
                 <div>
-                  <strong>Nenhum aviso agora</strong>
-                  <p>Os comunicados da academia aparecerão aqui.</p>
+                  <strong>Nenhum comunicado publicado</strong>
+                  <p>Quando a academia enviar um aviso, ele aparecerá aqui.</p>
                 </div>
               </div>
             </section>
@@ -734,8 +749,8 @@
             >
               <div class="mobile-aluno-avisos-section-heading">
                 <div>
-                  <span class="mobile-aluno-avisos-kicker">Todos os comunicados</span>
-                  <h2 id="mobileAlunoAvisosListaTitulo">Avisos disponíveis</h2>
+                  <span class="mobile-aluno-avisos-kicker">Histórico recente</span>
+                  <h2 id="mobileAlunoAvisosListaTitulo">Todos os comunicados</h2>
                 </div>
 
                 <small id="mobileAlunoAvisosExibicao">Lista atual</small>
@@ -747,7 +762,7 @@
               ></div>
             </section>
 
-            <section class="mobile-aluno-avisos-nota" aria-label="Sobre os avisos">
+            <section class="mobile-aluno-avisos-nota" aria-label="Origem dos avisos">
               <span aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
@@ -756,7 +771,7 @@
               </span>
 
               <p>
-                Acompanhe aqui os comunicados mais recentes da sua academia.
+                Os comunicados exibidos aqui são enviados diretamente pela sua academia.
               </p>
             </section>
           </section>
@@ -803,13 +818,27 @@
           </div>
 
           <article id="avisosAlunoHomeCard" class="panel-card notices-home-card escondido">
-            <div class="section-title-row">
-              <div>
-                <span class="eyebrow">Avisos</span>
-                <h2>Quadro de avisos</h2>
+            <div class="desktop-aluno-avisos-header">
+              <div class="desktop-aluno-avisos-titulo">
+                <span class="desktop-aluno-avisos-icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                    <path d="M10 21h4"/>
+                  </svg>
+                </span>
+
+                <div>
+                  <span class="eyebrow">Comunicados</span>
+                  <h2>Avisos da academia</h2>
+                  <p>Informações recentes enviadas pelo professor para os alunos.</p>
+                </div>
               </div>
-              <span id="avisosAlunoContador" class="mini-badge">0 avisos</span>
+
+              <span id="avisosAlunoContador" class="mini-badge desktop-aluno-avisos-contador">
+                0 avisos
+              </span>
             </div>
+
             <div id="avisosAlunoLista" class="student-notices-list">
               <p class="empty-message">Carregando avisos...</p>
             </div>
@@ -2719,15 +2748,21 @@
     function normalizarTexto(texto) {
       return String(texto || "").trim().toLowerCase();
     }
+    function avisoTipoChave(tipo) {
+      const valor = normalizarTexto(tipo);
+      const tiposPermitidos = ["comunicado", "importante", "graduacao", "aula", "financeiro"];
+      return tiposPermitidos.includes(valor) ? valor : "comunicado";
+    }
+
     function avisoTipoTexto(tipo) {
       const mapa = {
-        comunicado: "📢 Comunicado",
-        importante: "⚠️ Importante",
-        graduacao: "🥋 Graduação",
-        aula: "📅 Aula / horário",
-        financeiro: "💰 Financeiro"
+        comunicado: "Comunicado",
+        importante: "Importante",
+        graduacao: "Graduação",
+        aula: "Aula e horário",
+        financeiro: "Financeiro"
       };
-      return mapa[tipo] || "📢 Comunicado";
+      return mapa[avisoTipoChave(tipo)] || "Comunicado";
     }
 
     function gerarStatus(aluno) {
@@ -2848,14 +2883,25 @@
       }
 
       avisosAlunoLista.innerHTML = lista.map(aviso => {
-        const importante = aviso.prioridade === "importante" || aviso.tipo === "importante";
+        const tipoChave = avisoTipoChave(aviso.tipo);
+        const importante = normalizarTexto(aviso.prioridade) === "importante" || tipoChave === "importante";
+        const meta = `${aviso.turma ? 'Turma: ' + escapeHtml(aviso.turma) : 'Todos os alunos'}${aviso.created_at ? ' • ' + formatarData(aviso.created_at) : ''}`;
+
         return `
-          <div class="student-notice-item ${importante ? 'is-important' : ''}">
-            <span class="notice-kind">${avisoTipoTexto(aviso.tipo)}</span>
+          <article
+            class="student-notice-item ${importante ? 'is-important' : ''}"
+            data-notice-type="${tipoChave}"
+          >
+            <div class="student-notice-item-head">
+              <span class="notice-kind">
+                <i aria-hidden="true"></i>
+                ${avisoTipoTexto(tipoChave)}
+              </span>
+              <small>${meta}</small>
+            </div>
             <strong>${escapeHtml(aviso.titulo)}</strong>
             <p>${escapeHtml(aviso.mensagem)}</p>
-            <small>${aviso.turma ? 'Turma: ' + escapeHtml(aviso.turma) : 'Todos os alunos'}${aviso.created_at ? ' • ' + formatarData(aviso.created_at) : ''}</small>
-          </div>
+          </article>
         `;
       }).join("");
     }

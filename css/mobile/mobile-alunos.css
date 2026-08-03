@@ -373,3 +373,177 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================================
+   MENSALIZE ALUNOS MOBILE — FLUXO E LEGIBILIDADE FINAL
+   Remove espaço duplicado e impede o botão de acesso de cobrir a identidade.
+============================================================================ */
+@media (max-width: 760px) {
+  body.mobile-professor-interna #viewAlunos.ativa {
+    padding-bottom: 12px !important;
+  }
+
+  #viewAlunos .lista.lista-profissional,
+  #viewAlunos #listaAlunos,
+  #viewAlunos .skeleton-wrapper {
+    gap: 9px !important;
+    grid-auto-rows: max-content !important;
+    align-content: start !important;
+  }
+
+  #viewAlunos .lista-topo {
+    gap: 9px !important;
+    padding-top: 0 !important;
+  }
+
+  #viewAlunos .lista-topo h2 {
+    font-size: 21px !important;
+  }
+
+  #viewAlunos #subtituloLista {
+    display: block !important;
+    max-width: 250px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  #viewAlunos #contadorLista,
+  #viewAlunos .paginacao-info {
+    font-size: 12px !important;
+  }
+
+  #viewAlunos #btnNovoAlunoLista,
+  #viewAlunos .filtros button,
+  #viewAlunos .aluno-lista-acoes button,
+  #viewAlunos .paginacao button {
+    font-size: 13px !important;
+  }
+
+  #viewAlunos .aluno-lista-item {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    gap: 10px !important;
+    padding: 13px !important;
+    overflow: visible !important;
+  }
+
+  #viewAlunos .aluno-nome-linha h3 {
+    font-size: 15px !important;
+    line-height: 1.25 !important;
+  }
+
+  #viewAlunos .aluno-status-operacional,
+  #viewAlunos .aluno-lista-financeiro .badge-status {
+    font-size: 11px !important;
+  }
+
+  #viewAlunos .aluno-resumo-infos span,
+  #viewAlunos .aluno-lista-valores small {
+    max-width: 100% !important;
+    font-size: 12px !important;
+  }
+
+  #viewAlunos .aluno-lista-valores strong {
+    font-size: 14px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-resumo {
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+    gap: 9px !important;
+    min-height: 0 !important;
+    padding: 11px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-titulo small {
+    font-size: 11px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-titulo strong {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+  }
+
+  #viewAlunos .acessos-pendentes-contador {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 12px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-acao {
+    grid-column: 2 / -1 !important;
+    justify-self: start !important;
+    min-height: 30px !important;
+    font-size: 12px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-conteudo {
+    padding: 9px !important;
+  }
+
+  #viewAlunos .acessos-pendentes-lista {
+    gap: 8px !important;
+    max-height: min(48dvh, 390px) !important;
+  }
+
+  #viewAlunos .acesso-pendente-item {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    gap: 9px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 10px !important;
+    overflow: hidden !important;
+  }
+
+  #viewAlunos .acesso-pendente-identidade {
+    display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #viewAlunos .acesso-pendente-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    flex-basis: 40px !important;
+    font-size: 13px !important;
+  }
+
+  #viewAlunos .acesso-pendente-identidade strong {
+    min-width: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #viewAlunos .acesso-pendente-enviar {
+    position: static !important;
+    z-index: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 9px 12px !important;
+    font-size: 14px !important;
+    white-space: normal !important;
+  }
+}
+
+@media (max-width: 390px) {
+  #viewAlunos #subtituloLista {
+    display: block !important;
+  }
+
+  #viewAlunos .aluno-lista-acoes {
+    grid-template-columns: 1fr !important;
+  }
+}

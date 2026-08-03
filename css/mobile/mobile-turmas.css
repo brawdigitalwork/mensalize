@@ -1323,3 +1323,214 @@
     border-radius: 15px !important;
   }
 }
+
+/* ============================================================================
+   MENSALIZE TURMAS MOBILE — RITMO COMPACTO FINAL
+   Reduz espaços vazios sem voltar à tipografia minúscula.
+============================================================================ */
+@media (max-width: 760px) {
+  body.mobile-professor-interna #viewTurmas.ativa {
+    padding-bottom: 12px !important;
+  }
+
+  #viewTurmas :is(.turmas-premium-page, .turmas-cancelamentos-page) {
+    gap: 9px !important;
+    grid-auto-rows: max-content !important;
+    align-content: start !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-page {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  #viewTurmas .turmas-premium-actions {
+    gap: 7px !important;
+  }
+
+  #viewTurmas #btnAbrirFormCancelarAula {
+    min-height: 44px !important;
+    padding: 9px 12px !important;
+    font-size: 13px !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo {
+    min-height: 0 !important;
+    padding: 4px !important;
+    border-radius: 16px !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box {
+    min-height: 62px !important;
+    padding: 7px 4px !important;
+    gap: 4px !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box span {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.025em !important;
+  }
+
+  #viewTurmas .turmas-premium-resumo > .financeiro-box strong {
+    font-size: clamp(21px, 6vw, 24px) !important;
+  }
+
+  #viewTurmas :is(.turmas-premium-form-card, .turmas-lista-secao) {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    overflow: visible !important;
+  }
+
+  #viewTurmas :is(.turmas-premium-form, .turmas-premium-lista) {
+    gap: 9px !important;
+    grid-auto-rows: max-content !important;
+    align-content: start !important;
+  }
+
+  #viewTurmas :is(.turmas-premium-form-head, .turmas-premium-list-head) {
+    gap: 9px !important;
+    margin-bottom: 8px !important;
+  }
+
+  #viewTurmas :is(.turmas-premium-form-head, .turmas-premium-list-head) h2 {
+    font-size: 19px !important;
+    line-height: 1.2 !important;
+  }
+
+  #viewTurmas :is(.turmas-premium-form-head, .turmas-premium-list-head) p {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  #viewTurmas .turmas-premium-form label,
+  #viewTurmas .turmas-premium-form label > span {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+  }
+
+  #viewTurmas :is(.turma-meta-grid, .dias-semana-grid, .dias-semana-chips) {
+    gap: 7px !important;
+  }
+
+  #viewTurmas :is(.turma-meta-pill, .dia-chip) {
+    min-height: 40px !important;
+    height: auto !important;
+    padding: 8px !important;
+    font-size: 12px !important;
+  }
+
+  #viewTurmas .turma-item,
+  #viewTurmas .aula-cancelada-item {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 8px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 11px !important;
+    overflow: visible !important;
+  }
+
+  #viewTurmas .turma-item-conteudo {
+    gap: 7px !important;
+  }
+
+  #viewTurmas .turma-item-cabecalho {
+    align-items: flex-start !important;
+    gap: 7px !important;
+  }
+
+  #viewTurmas .turmas-premium-lista .turma-item-cabecalho > strong,
+  #viewTurmas .turmas-premium-lista .aula-cancelada-item .turma-item-conteudo > strong {
+    font-size: 15px !important;
+    line-height: 1.3 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #viewTurmas .turma-status-badge,
+  #viewTurmas .turma-status-chip {
+    min-height: 24px !important;
+    padding: 4px 7px !important;
+    font-size: 11px !important;
+  }
+
+  #viewTurmas .turma-agenda {
+    gap: 6px !important;
+  }
+
+  #viewTurmas .turma-agenda span {
+    min-height: 28px !important;
+    padding: 5px 8px !important;
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+  }
+
+  #viewTurmas .turma-dados {
+    gap: 6px 12px !important;
+  }
+
+  #viewTurmas .turma-dado small {
+    font-size: 11px !important;
+  }
+
+  #viewTurmas .turma-dado b {
+    font-size: 12px !important;
+  }
+
+  #viewTurmas .turma-item-acoes {
+    justify-content: stretch !important;
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    padding-top: 8px !important;
+  }
+
+  #viewTurmas .turma-item-acoes button,
+  #viewTurmas .aula-cancelada-item > button {
+    flex: 1 1 132px !important;
+    width: auto !important;
+    min-height: 38px !important;
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+    white-space: normal !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-resumo {
+    min-height: 0 !important;
+    padding: 10px 11px !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-resumo h2 {
+    font-size: 15px !important;
+    line-height: 1.25 !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-contador,
+  #viewTurmas .turmas-cancelamentos-toggle {
+    font-size: 11px !important;
+  }
+
+  #viewTurmas .turmas-cancelamentos-conteudo {
+    padding: 9px 10px 10px !important;
+  }
+
+  #viewTurmas .turmas-premium-lista .empty-state-mini {
+    min-height: 72px !important;
+    padding: 14px 12px !important;
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 370px) {
+  #viewTurmas .turmas-premium-resumo > .financeiro-box span {
+    font-size: 10px !important;
+  }
+
+  #viewTurmas .turma-item-acoes button,
+  #viewTurmas .aula-cancelada-item > button {
+    flex-basis: 100% !important;
+  }
+}

@@ -138,3 +138,363 @@
     overscroll-behavior-x: contain !important;
   }
 }
+
+/* ============================================================================
+   MENSALIZE 2.4 — ACABAMENTO MOBILE OFICIAL
+   Corrige escala de leitura, excesso de espaço e fluxo de cards no celular.
+   Camada final: não altera desktop nem regras de negócio.
+============================================================================ */
+@media (max-width: 760px) {
+  :root {
+    --mensalize-mobile-font-xs: 11.5px;
+    --mensalize-mobile-font-sm: 13px;
+    --mensalize-mobile-font-md: 14px;
+    --mensalize-mobile-font-action: 13.5px;
+    --mensalize-mobile-title-card: 17px;
+    --mensalize-mobile-title-page: 21px;
+    --mensalize-mobile-content-bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Uma única reserva inferior para a navegação fixa do Professor. */
+  html body #app.app-layout .conteudo-app {
+    padding-bottom: var(--mensalize-mobile-content-bottom) !important;
+  }
+
+  html body #app.app-layout :is(.container, .container-dashboard) {
+    padding: 10px 12px 12px !important;
+  }
+
+  html body #app.app-layout :is(
+    #viewDashboard.ativa,
+    .mobile-professor-home,
+    .view-app.ativa
+  ) {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    padding-bottom: 12px !important;
+    overflow: visible !important;
+    font-size: var(--mensalize-mobile-font-md) !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Escala mínima legível — Professor. */
+  html body #app.app-layout .view-app.ativa :is(p, li, label, .helper-text, .empty-state-mini),
+  html body #app.app-layout #viewDashboard.ativa :is(p, li, label, .helper-text, .empty-state-mini) {
+    font-size: var(--mensalize-mobile-font-sm) !important;
+    line-height: 1.45 !important;
+  }
+
+  html body #app.app-layout .view-app.ativa small,
+  html body #app.app-layout #viewDashboard.ativa small {
+    font-size: var(--mensalize-mobile-font-xs) !important;
+    line-height: 1.35 !important;
+  }
+
+  html body #app.app-layout .view-app.ativa :is(h1, h2),
+  html body #app.app-layout #viewDashboard.ativa :is(h1, h2) {
+    font-size: var(--mensalize-mobile-title-page) !important;
+    line-height: 1.15 !important;
+  }
+
+  html body #app.app-layout .view-app.ativa h3,
+  html body #app.app-layout #viewDashboard.ativa h3 {
+    font-size: var(--mensalize-mobile-title-card) !important;
+    line-height: 1.2 !important;
+  }
+
+  html body #app.app-layout .view-app.ativa .page-eyebrow,
+  html body #app.app-layout #viewDashboard.ativa .page-eyebrow {
+    font-size: var(--mensalize-mobile-font-xs) !important;
+    line-height: 1.2 !important;
+  }
+
+  html body #app.app-layout .view-app.ativa button:not(.mobile-icon-button):not(.btn-fechar):not(.btn-fechar-grafico):not(.btn-fechar-banner):not(.fechar-modal),
+  html body #app.app-layout #viewDashboard.ativa button:not(.mobile-icon-button):not(.btn-fechar):not(.btn-fechar-grafico):not(.btn-fechar-banner):not(.fechar-modal) {
+    font-size: var(--mensalize-mobile-font-action) !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Cards do Professor sempre participam do fluxo normal. */
+  html body #app.app-layout .view-app.ativa :is(
+    .painel-card,
+    .financeiro-operacao-card,
+    .turmas-premium-form-card,
+    .turmas-lista-secao,
+    .turma-item,
+    .aula-cancelada-item,
+    .aluno-lista-item,
+    .acessos-pendentes,
+    .presenca-card,
+    .solicitacao-card,
+    .aviso-card
+  ) {
+    position: relative !important;
+    z-index: auto !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+  }
+
+  html body #app.app-layout .view-app.ativa :is(
+    .painel-card,
+    .financeiro-operacao-card,
+    .turmas-premium-form-card,
+    .turmas-lista-secao,
+    .turma-item,
+    .aula-cancelada-item,
+    .aluno-lista-item,
+    .acessos-pendentes
+  ) > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  html body #app.app-layout .view-app.ativa :is(
+    .lista,
+    .turmas-premium-page,
+    .turmas-premium-lista,
+    .financeiro-lista-mensal,
+    .solicitacoes-lista,
+    .avisos-lista
+  ) {
+    grid-auto-rows: max-content !important;
+    align-content: start !important;
+  }
+
+  /* Uma única reserva inferior para o Portal do Aluno. */
+  html body.mobile-aluno-portal-ativo #portalConteudo.student-app .student-content {
+    padding: 10px 12px calc(82px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo.student-app .student-view.ativa {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    padding-bottom: 8px !important;
+    overflow: visible !important;
+    font-size: var(--mensalize-mobile-font-md) !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Escala mínima legível — Aluno. */
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa :is(p, li, label, .helper-text, .soft-message, .status-message, .empty-message) {
+    font-size: var(--mensalize-mobile-font-sm) !important;
+    line-height: 1.45 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa small {
+    font-size: var(--mensalize-mobile-font-xs) !important;
+    line-height: 1.35 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa :is(.eyebrow, [class*="-kicker"]) {
+    font-size: var(--mensalize-mobile-font-xs) !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa :is(
+    .section-title-row h2,
+    [class*="-section-heading"] h2,
+    .mobile-aluno-financeiro-secao-topo h2,
+    .mobile-aluno-perfil-secao-topo h2,
+    .mobile-aluno-perfil-form-heading h2,
+    .student-portal-legal h2
+  ) {
+    min-width: 0 !important;
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa :is(
+    .mobile-aluno-financeiro-status h2,
+    .mobile-aluno-desafio-hero h2,
+    .mobile-aluno-programa-hero h2,
+    .mobile-aluno-solicitacoes-hero h2,
+    .mobile-aluno-avisos-hero h2,
+    .mobile-aluno-contato-hero h2
+  ) {
+    min-width: 0 !important;
+    font-size: 22px !important;
+    line-height: 1.12 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa h3 {
+    font-size: var(--mensalize-mobile-title-card) !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa button:not(.mobile-aluno-icon-button):not(.mobile-aluno-back) {
+    font-size: var(--mensalize-mobile-font-action) !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo :is(
+    .mobile-aluno-bottom-item,
+    .mobile-aluno-sheet-row
+  ) {
+    font-size: 12px !important;
+  }
+
+  /* Cards do Aluno crescem com o conteúdo e não invadem o próximo bloco. */
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa :is(
+    .panel-card,
+    .mobile-aluno-carousel-card,
+    .mobile-aluno-resumo-card,
+    .mobile-aluno-academia-card,
+    .mobile-aluno-financeiro-status,
+    .mobile-aluno-financeiro-secao,
+    .mobile-aluno-evolucao-hero,
+    .mobile-aluno-evolucao-proximo,
+    .mobile-aluno-evolucao-programa,
+    .mobile-aluno-evolucao-solicitacoes,
+    .mobile-aluno-desafio-hero,
+    .mobile-aluno-desafio-filtros,
+    .mobile-aluno-desafio-ranking,
+    .mobile-aluno-perfil-hero,
+    .mobile-aluno-perfil-secao,
+    .mobile-aluno-perfil-privacidade,
+    .mobile-aluno-programa-hero,
+    .mobile-aluno-programa-conteudo,
+    .mobile-aluno-programa-nota,
+    .mobile-aluno-solicitacoes-hero,
+    .mobile-aluno-solicitacoes-nova,
+    .mobile-aluno-solicitacoes-acompanhamento,
+    .mobile-aluno-avisos-hero,
+    .mobile-aluno-avisos-lista-card,
+    .mobile-aluno-avisos-nota,
+    .mobile-aluno-contato-hero,
+    .mobile-aluno-contato-acoes,
+    .mobile-aluno-contato-compartilhar,
+    .student-portal-legal,
+    .student-request-card,
+    .student-notice-item,
+    .payment-item,
+    .ranking-row
+  ) {
+    position: relative !important;
+    z-index: auto !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa :is(
+    .mobile-aluno-financeiro,
+    .mobile-aluno-evolucao,
+    .mobile-aluno-desafio,
+    .mobile-aluno-perfil,
+    .mobile-aluno-programa-faixa,
+    .mobile-aluno-solicitacoes,
+    .mobile-aluno-avisos,
+    .mobile-aluno-contato
+  ) {
+    grid-auto-rows: max-content !important;
+    align-content: start !important;
+    gap: 12px !important;
+    padding-bottom: 0 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa :is(
+    .panel-card,
+    .mobile-aluno-financeiro-status,
+    .mobile-aluno-financeiro-secao,
+    .mobile-aluno-evolucao-hero,
+    .mobile-aluno-evolucao-proximo,
+    .mobile-aluno-evolucao-programa,
+    .mobile-aluno-evolucao-solicitacoes,
+    .mobile-aluno-desafio-hero,
+    .mobile-aluno-desafio-filtros,
+    .mobile-aluno-desafio-ranking,
+    .mobile-aluno-perfil-hero,
+    .mobile-aluno-perfil-secao,
+    .mobile-aluno-perfil-privacidade,
+    .mobile-aluno-programa-hero,
+    .mobile-aluno-programa-conteudo,
+    .mobile-aluno-programa-nota,
+    .mobile-aluno-solicitacoes-hero,
+    .mobile-aluno-solicitacoes-nova,
+    .mobile-aluno-solicitacoes-acompanhamento,
+    .mobile-aluno-avisos-hero,
+    .mobile-aluno-avisos-lista-card,
+    .mobile-aluno-avisos-nota,
+    .mobile-aluno-contato-hero,
+    .mobile-aluno-contato-acoes,
+    .mobile-aluno-contato-compartilhar,
+    .student-portal-legal
+  ) > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .panel-card + .panel-card {
+    margin-top: 10px !important;
+  }
+
+  /* Folhas de texto que estavam entre 7px e 11px nos módulos legados. */
+  html body #app.app-layout .view-app.ativa span:not([aria-hidden="true"]):not([class*="icon"]):not([class*="icone"]):not([class*="avatar"]):not([class*="seta"]):not([class*="chevron"]),
+  html body #app.app-layout #viewDashboard.ativa span:not([aria-hidden="true"]):not([class*="icon"]):not([class*="icone"]):not([class*="avatar"]):not([class*="seta"]):not([class*="chevron"]) {
+    font-size: 12.5px !important;
+    line-height: 1.35 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa span:not([aria-hidden="true"]):not([class*="icon"]):not([class*="icone"]):not([class*="avatar"]):not([class*="seta"]):not([class*="chevron"]):not([class*="grau"]):not([class*="faixa-cor"]) {
+    font-size: 12.5px !important;
+    line-height: 1.35 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo .student-view.ativa :is(
+    .mobile-aluno-action-card strong,
+    .mobile-aluno-module-card strong,
+    .mobile-aluno-academia-texto strong,
+    .mobile-aluno-sheet-row strong
+  ) {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo :is(
+    .mobile-aluno-bottom-item,
+    .mobile-aluno-bottom-item span
+  ) {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Textos longos quebram dentro do card em vez de empurrar a tela. */
+  html body :is(#app.app-layout, #portalConteudo.student-app) :is(
+    p,
+    li,
+    small,
+    strong,
+    span,
+    button,
+    a
+  ) {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --mensalize-mobile-title-page: 20px;
+    --mensalize-mobile-title-card: 16px;
+  }
+
+  html body #app.app-layout :is(.container, .container-dashboard),
+  html body.mobile-aluno-portal-ativo #portalConteudo.student-app .student-content {
+    padding-inline: 10px !important;
+  }
+}

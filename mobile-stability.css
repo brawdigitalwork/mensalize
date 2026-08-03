@@ -498,3 +498,138 @@
     padding-inline: 10px !important;
   }
 }
+
+/* ============================================================================
+   MENSALIZE 2.4 — ESCALA TIPOGRÁFICA FINAL DO PROFESSOR
+   Seletores com a mesma força dos módulos antigos, sem alterar o Portal Aluno.
+============================================================================ */
+@media (max-width: 760px) {
+  html body #app.app-layout :is(
+    #viewDashboard,
+    #viewAlunos,
+    #viewFinanceiro,
+    #viewPresencas,
+    #viewTurmas,
+    #viewEvolucao,
+    #viewDesafio,
+    #viewAvisos,
+    #viewSolicitacoes,
+    #viewAniversariantes,
+    #viewProgramaFight,
+    #viewPerfil
+  ).ativa {
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+  }
+
+  html body #app.app-layout :is(
+    #viewDashboard,
+    #viewAlunos,
+    #viewFinanceiro,
+    #viewPresencas,
+    #viewTurmas,
+    #viewEvolucao,
+    #viewDesafio,
+    #viewAvisos,
+    #viewSolicitacoes,
+    #viewAniversariantes,
+    #viewProgramaFight,
+    #viewPerfil
+  ).ativa :is(
+    p,
+    li,
+    label,
+    .helper-text,
+    .empty-state-mini,
+    .msg-perfil,
+    [class*="-descricao"],
+    [class*="-subtitulo"],
+    [class*="-detalhe"],
+    [class*="-mensagem"]
+  ) {
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+  }
+
+  html body #app.app-layout :is(
+    #viewDashboard,
+    #viewAlunos,
+    #viewFinanceiro,
+    #viewPresencas,
+    #viewTurmas,
+    #viewEvolucao,
+    #viewDesafio,
+    #viewAvisos,
+    #viewSolicitacoes,
+    #viewAniversariantes,
+    #viewProgramaFight,
+    #viewPerfil
+  ).ativa :is(
+    small,
+    .page-eyebrow,
+    .mini-badge,
+    [class$="-badge"],
+    [class*="-badge-"],
+    [class$="-chip"],
+    [class*="-chip-"],
+    [class$="-meta"],
+    [class*="-meta-"]
+  ) {
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+  }
+
+  html body #app.app-layout :is(
+    #viewDashboard,
+    #viewAlunos,
+    #viewFinanceiro,
+    #viewPresencas,
+    #viewTurmas,
+    #viewEvolucao,
+    #viewDesafio,
+    #viewAvisos,
+    #viewSolicitacoes,
+    #viewAniversariantes,
+    #viewProgramaFight,
+    #viewPerfil
+  ).ativa button:not(.mobile-icon-button):not(.btn-fechar):not(.btn-fechar-grafico):not(.btn-fechar-banner):not(.fechar-modal) {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body #app.app-layout :is(
+    #viewDashboard,
+    #viewAlunos,
+    #viewFinanceiro,
+    #viewPresencas,
+    #viewTurmas,
+    #viewEvolucao,
+    #viewDesafio,
+    #viewAvisos,
+    #viewSolicitacoes,
+    #viewAniversariantes,
+    #viewProgramaFight,
+    #viewPerfil
+  ).ativa h2 {
+    font-size: 21px !important;
+    line-height: 1.18 !important;
+  }
+
+  html body #app.app-layout :is(
+    #viewDashboard,
+    #viewAlunos,
+    #viewFinanceiro,
+    #viewPresencas,
+    #viewTurmas,
+    #viewEvolucao,
+    #viewDesafio,
+    #viewAvisos,
+    #viewSolicitacoes,
+    #viewAniversariantes,
+    #viewProgramaFight,
+    #viewPerfil
+  ).ativa h3 {
+    font-size: 17px !important;
+    line-height: 1.22 !important;
+  }
+}

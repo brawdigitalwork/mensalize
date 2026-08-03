@@ -1534,3 +1534,102 @@
     flex-basis: 100% !important;
   }
 }
+
+/* ============================================================================
+   MENSALIZE 2.4 — HOTFIX FINAL TURMAS MOBILE
+   Elimina linhas vazias criadas por formulários recolhidos e força fluxo real.
+============================================================================ */
+@media (max-width: 760px) {
+  html body #app.app-layout #viewTurmas.ativa {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 0 12px !important;
+    overflow: visible !important;
+  }
+
+  html body #app.app-layout #viewTurmas.ativa > .turmas-premium-page {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* A regra compacta antiga tinha especificidade maior que .escondido. */
+  html body #app.app-layout #viewTurmas.ativa .turmas-premium-form-card.escondido,
+  html body #app.app-layout #viewTurmas.ativa #painelFormTurma.escondido,
+  html body #app.app-layout #viewTurmas.ativa #painelFormCancelarAula.escondido,
+  html body #app.app-layout #viewTurmas.ativa button.escondido {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+  }
+
+  html body #app.app-layout #viewTurmas.ativa > .turmas-premium-page > :not(.escondido) {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  html body #app.app-layout #viewTurmas.ativa .turmas-premium-hero {
+    min-height: 0 !important;
+  }
+
+  html body #app.app-layout #viewTurmas.ativa .turmas-lista-secao,
+  html body #app.app-layout #viewTurmas.ativa .turmas-cancelamentos-page {
+    align-self: stretch !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  html body #app.app-layout #viewTurmas.ativa .turmas-cancelamentos-page:not([open]) > .turmas-cancelamentos-conteudo {
+    display: none !important;
+  }
+
+  html body #app.app-layout #viewTurmas.ativa .turmas-premium-lista {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  html body #app.app-layout #viewTurmas.ativa .turmas-premium-lista > * {
+    flex: 0 0 auto !important;
+    position: relative !important;
+    inset: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+}

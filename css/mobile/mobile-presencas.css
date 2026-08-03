@@ -1435,3 +1435,167 @@
     letter-spacing: -0.055em !important;
   }
 }
+
+/* ============================================================================
+   MENSALIZE 2.4 — HOTFIX FINAL PRESENÇAS MOBILE
+   Mantém Aula, Chamada e Histórico em fluxo vertical sem sobreposição.
+============================================================================ */
+@media (max-width: 760px) {
+  html body #app.app-layout #viewPresencas.ativa {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 0 12px !important;
+    overflow: visible !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa > .presencas-page-profissional {
+    display: block !important;
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    transform: none !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presencas-layout-profissional {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presencas-layout-profissional > .presenca-card-presenca {
+    display: block !important;
+    position: relative !important;
+    inset: auto !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    flex: 0 0 auto !important;
+    align-self: stretch !important;
+    z-index: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    transform: none !important;
+    clear: both !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-card-presenca::before,
+  html body #app.app-layout #viewPresencas.ativa .presenca-card-presenca::after {
+    pointer-events: none !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-card-presenca > * {
+    position: relative !important;
+    z-index: 1 !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa :is(
+    .presenca-card-controles,
+    .presenca-card-chamada,
+    .historico-chamadas-card,
+    .presenca-resumo-compacto,
+    .lista-presencas
+  ) {
+    position: relative !important;
+    inset: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    transform: none !important;
+  }
+
+  /* Tipografia legível da tela de Presenças. */
+  html body #app.app-layout #viewPresencas.ativa .presenca-step {
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-card-topo h3 {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-card-topo p,
+  html body #app.app-layout #viewPresencas.ativa .presenca-controles .campo-perfil > span {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa :is(
+    #btnAtualizarChamada,
+    #btnMarcarTodosPresentes,
+    #btnLimparChamada,
+    #btnSalvarChamada,
+    #btnToggleHistoricoChamadas,
+    .presenca-checkin-acoes button,
+    .presenca-checkin-botoes button,
+    .historico-chamadas-acoes button
+  ) {
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-resumo-item span,
+  html body #app.app-layout #viewPresencas.ativa .presenca-resumo-grid .financeiro-box span {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-estado-inicial strong,
+  html body #app.app-layout #viewPresencas.ativa .presenca-status-chamada strong,
+  html body #app.app-layout #viewPresencas.ativa .presenca-turma-topo strong,
+  html body #app.app-layout #viewPresencas.ativa .presenca-aluno-item strong,
+  html body #app.app-layout #viewPresencas.ativa .presenca-checkin-summary {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa :is(
+    .presenca-estado-inicial span,
+    .presenca-status-chamada span,
+    .presenca-turma-topo span,
+    .presenca-aluno-meta,
+    .presenca-aluno-frequencia-detalhe,
+    .frequencia-chamada-badge,
+    .presenca-aluno-item > em,
+    .presenca-checkin-summary small,
+    .historico-chamadas-acoes .mini-badge
+  ) {
+    font-size: 12.5px !important;
+    line-height: 1.3 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .historico-chamadas-topo h2 {
+    font-size: 17px !important;
+    line-height: 1.25 !important;
+  }
+}

@@ -1,0 +1,140 @@
+/* ============================================================================
+   MENSALIZE 2.4 — ESTABILIDADE MOBILE E TECLADO
+   Camada final compartilhada pelos portais do professor e do aluno.
+   Atua somente em telas de até 760px.
+============================================================================ */
+
+@media (max-width: 760px) {
+  :root {
+    --mensalize-mobile-viewport: 100dvh;
+  }
+
+  html {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    overflow-x: clip !important;
+    overscroll-behavior-x: none;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    overflow-x: clip !important;
+    overscroll-behavior-x: none;
+    touch-action: auto !important;
+  }
+
+  /* Login: permite que a tela acompanhe a redução causada pelo teclado. */
+  body .tela-login,
+  body .student-auth-screen {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: var(--mensalize-mobile-viewport, 100dvh) !important;
+    height: auto !important;
+    overflow-x: clip !important;
+    overflow-y: auto !important;
+    overscroll-behavior: none !important;
+    touch-action: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Shell autenticado: uma única área vertical, sem deslocamento lateral. */
+  html body #app.app-layout:not(.escondido),
+  html body.mobile-aluno-portal-ativo #portalConteudo.student-app:not(.escondido) {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: var(--mensalize-mobile-viewport, 100dvh) !important;
+    min-height: var(--mensalize-mobile-viewport, 100dvh) !important;
+    max-height: var(--mensalize-mobile-viewport, 100dvh) !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: auto !important;
+  }
+
+  html body #app.app-layout .conteudo-app,
+  html body.mobile-aluno-portal-ativo #portalConteudo.student-app .student-main,
+  html body #telaAdmin:not(.escondido) {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: var(--mensalize-mobile-viewport, 100dvh) !important;
+    max-height: var(--mensalize-mobile-viewport, 100dvh) !important;
+    overflow-x: clip !important;
+    overflow-y: auto !important;
+    overscroll-behavior-x: none !important;
+    overscroll-behavior-y: none !important;
+    touch-action: auto !important;
+    scroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  html body.mobile-aluno-portal-ativo #portalConteudo.student-app .student-main {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  html body #app.app-layout .container,
+  html body #app.app-layout .container-dashboard,
+  html body #app.app-layout .view-app,
+  html body #app.app-layout .view-app > *,
+  html body #portalConteudo.student-app .student-content,
+  html body #portalConteudo.student-app .student-view,
+  html body #portalConteudo.student-app .student-view > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Campos de texto precisam receber toque nativo e não podem provocar zoom no iOS. */
+  html body :is(
+    .tela-login,
+    .student-auth-screen,
+    #app.app-layout,
+    #portalConteudo.student-app,
+    #telaAdmin
+  ) :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="hidden"]),
+    textarea,
+    select,
+    [contenteditable="true"]
+  ) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    font-size: 16px !important;
+    touch-action: manipulation !important;
+    pointer-events: auto !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    scroll-margin-top: 92px;
+    scroll-margin-bottom: 150px;
+  }
+
+  /* A navegação fixa não pode cobrir o campo enquanto o teclado está ativo. */
+  body.mobile-field-focused .mobile-bottom-nav,
+  body.mobile-field-focused .mobile-aluno-bottom-nav,
+  body.mobile-keyboard-active .mobile-bottom-nav,
+  body.mobile-keyboard-active .mobile-aluno-bottom-nav {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.mobile-field-focused .conteudo-app,
+  body.mobile-keyboard-active .conteudo-app,
+  body.mobile-field-focused #portalConteudo .student-main,
+  body.mobile-keyboard-active #portalConteudo .student-main {
+    scroll-behavior: auto !important;
+  }
+
+  /* Carrosséis e listas horizontais continuam funcionando dentro da página travada. */
+  .mobile-aluno-carousel-viewport,
+  [data-mobile-horizontal-scroll],
+  .mobile-filter-scroll,
+  .chips-scroll {
+    overflow-x: auto !important;
+    touch-action: pan-x !important;
+    overscroll-behavior-x: contain !important;
+  }
+}

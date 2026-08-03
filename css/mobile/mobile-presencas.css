@@ -1599,3 +1599,144 @@
     line-height: 1.25 !important;
   }
 }
+
+/* ============================================================================
+   HOTFIX FINAL — PRESENÇAS MOBILE / IPHONE
+   Vence as regras compactas legadas carregadas anteriormente nesta folha.
+   Mantém Data e Turma em coluna e organiza as ações da chamada sem colisões.
+============================================================================ */
+@media (max-width: 760px) {
+  html body #app.app-layout #viewPresencas.ativa .presenca-card-controles {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-card-controles > .presenca-card-topo {
+    margin: 0 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-controles {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-flow: row !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-controles .campo-perfil {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 7px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-controles .campo-perfil > span {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    color: #535c70 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.055em !important;
+    line-height: 1.25 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa #presencaData,
+  html body #app.app-layout #viewPresencas.ativa #presencaTurma {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 52px !important;
+    margin: 0 !important;
+    padding: 0 14px !important;
+    border: 1px solid rgba(71, 82, 105, 0.24) !important;
+    border-radius: 14px !important;
+    background: #f4f5f8 !important;
+    color: #211a35 !important;
+    box-shadow: none !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    box-sizing: border-box !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-card-topo-com-acoes {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-acoes {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    gap: 9px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-acoes button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 46px !important;
+    margin: 0 !important;
+    padding: 10px 8px !important;
+    border-radius: 13px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    white-space: normal !important;
+    box-sizing: border-box !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa #btnSalvarChamada {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    min-height: 50px !important;
+    margin: 0 !important;
+    padding-inline: 14px !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .presenca-resumo-compacto {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa .lista-presencas {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 360px) {
+  html body #app.app-layout #viewPresencas.ativa .presenca-acoes {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  html body #app.app-layout #viewPresencas.ativa #btnSalvarChamada {
+    grid-column: 1 !important;
+  }
+}

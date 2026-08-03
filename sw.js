@@ -3,7 +3,7 @@
 const APP_VERSION = 'Mensalize 2.4';
 const CACHE_PREFIX = 'mensalize-';
 // Revisão técnica do cache. Não representa uma nova versão do produto.
-const CACHE_REVISION = '2026-08-02-professor-mobile-layout-final-hotfix';
+const CACHE_REVISION = '2026-08-02-presencas-iphone-hotfix';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}-${CACHE_REVISION}`;
 
 const ASSETS = [

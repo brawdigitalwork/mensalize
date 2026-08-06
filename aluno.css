@@ -6867,3 +6867,8 @@ html body #portalConteudo #viewInicioAluno .panel-card {
     animation: none !important;
   }
 }
+
+/* O portal autenticado nunca pode aparecer durante loading, login ou logout. */
+#portalConteudo.student-app.escondido {
+  display: none !important;
+}

@@ -6,8 +6,7 @@
   <title>Mensalize Aluno</title>
   <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação." />
   <meta name="referrer" content="no-referrer" />
-  <meta name="theme-color" content="#f7f8fb" />
-  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#7c3aed" />
   <meta name="mensalize-pwa-name" content="Mensalize Aluno" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Mensalize Aluno" />
@@ -19,11 +18,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="aluno.css" />
-  <link rel="stylesheet" href="aluno-mobile.css?v=12-tema-claro" />
-  <link rel="stylesheet" href="aluno-desktop.css?v=4-tema-claro" />
+  <link rel="stylesheet" href="aluno-mobile.css?v=11.1-contato-clean" />
+  <link rel="stylesheet" href="aluno-desktop.css" />
   <link rel="stylesheet" href="pwa-install.css" />
-  <link rel="stylesheet" href="aluno-theme-light.css?v=1" />
-  <link rel="stylesheet" href="mobile-stability.css?v=1-mobile-hotfix" />
   <link rel="icon" href="logo-aluno.png" />
   <link rel="apple-touch-icon" href="icons/mensalize-aluno-icon-192.png" />
   <link rel="manifest" href="manifest-aluno.json" />
@@ -1264,9 +1261,81 @@
                 <h2 id="alunoPwaDesktopTitulo">Instalar Mensalize Aluno</h2>
                 <p class="helper-text">Acesse seu portal diretamente pela tela inicial do dispositivo.</p>
               </div>
-              <button type="button" class="primary-action" data-pwa-install>Instalar aplicativo</button>
-            </article>
+            </section>
+
+            <section class="mobile-aluno-pwa-install" aria-labelledby="mobileAlunoPwaTitulo">
+              <span class="mobile-aluno-pwa-install-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5" />
+                  <path d="M5 19h14" />
+                </svg>
+              </span>
+              <div>
+                <span class="mobile-aluno-perfil-kicker">Aplicativo</span>
+                <strong id="mobileAlunoPwaTitulo">Instalar Mensalize Aluno</strong>
+                <p>Acesse seu portal pela tela inicial do celular.</p>
+              </div>
+              <button type="button" data-pwa-install>Instalar</button>
+            </section>
           </section>
+
+          <article class="panel-card">
+            <div class="section-title-row">
+              <div>
+                <span class="eyebrow">Meu perfil</span>
+                <h2>Editar meus dados</h2>
+              </div>
+            </div>
+            <p class="helper-text">Aqui você pode corrigir seus dados pessoais. Dados da academia, valor e vencimento continuam sendo controlados pelo professor.</p>
+
+            <div class="photo-box">
+              <div class="photo-preview-wrap">
+                <img id="fotoAlunoPerfil" class="photo-preview escondido" alt="Foto do aluno" />
+                <div id="avatarAlunoPerfil" class="photo-avatar">A</div>
+              </div>
+              <div>
+                <strong>Foto de perfil</strong>
+                <p>Escolha uma foto e ajuste igual WhatsApp/Instagram: arraste, dê zoom e salve o recorte em 640x640.</p>
+                <input id="inputFotoAluno" type="file" accept="image/*" />
+                <button id="btnSalvarFotoAluno" type="button" class="secondary-action">Escolher foto</button>
+                <p id="msgFotoAluno" class="soft-message"></p>
+              </div>
+            </div>
+
+            <form id="formPerfilAluno" class="student-form">
+              <label>
+                <span>Nome completo</span>
+                <input type="text" id="perfilAlunoNome" placeholder="Seu nome completo" />
+              </label>
+              <label>
+                <span>WhatsApp</span>
+                <input type="text" id="perfilAlunoTelefone" placeholder="Seu WhatsApp com DDD" />
+              </label>
+              <label>
+                <span>Data de nascimento</span>
+                <input type="date" id="perfilAlunoNascimento" />
+              </label>
+              <label>
+                <span>Nome do responsável</span>
+                <input type="text" id="perfilAlunoResponsavel" placeholder="Se tiver responsável financeiro" />
+              </label>
+              <label>
+                <span>WhatsApp do responsável</span>
+                <input type="text" id="perfilAlunoResponsavelWhatsApp" placeholder="WhatsApp do responsável" />
+              </label>
+              <button type="submit" class="primary-action">Salvar meus dados</button>
+              <p id="msgPerfilAluno" class="soft-message"></p>
+            </form>
+          </article>
+
+          <article class="panel-card aluno-pwa-install-desktop" aria-labelledby="alunoPwaDesktopTitulo">
+            <div>
+              <span class="eyebrow">Aplicativo</span>
+              <h2 id="alunoPwaDesktopTitulo">Instalar Mensalize Aluno</h2>
+              <p class="helper-text">Abra seu portal em uma janela própria e acesse diretamente pelo dispositivo.</p>
+            </div>
+            <button type="button" class="primary-action" data-pwa-install>Instalar aplicativo</button>
+          </article>
         </section>
 
         <section id="viewFinancasAluno" class="student-view">
@@ -4684,7 +4753,7 @@ function atualizarResumoPerfilLeitura(aluno) {
 </script>
 
   <script src="js/pwa-install.js"></script>
-  <script src="aluno-mobile.js?v=13-mobile-hotfix"></script>
+  <script src="aluno-mobile.js?v=11-contato"></script>
 
 </body>
 </html>

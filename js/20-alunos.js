@@ -17,7 +17,7 @@ async function carregarAlunos() {
 
   let queryAlunos = supabaseClient
     .from("alunos")
-    .select("id,user_id,auth_user_id,nome,telefone,valor,vencimento,dia_vencimento,status_pagamento,link_pagamento,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
+    .select("id,user_id,auth_user_id,nome,telefone,valor,vencimento,status_pagamento,link_pagamento,created_at,foto_url,modalidade,faixa,grau,turma,turma_id,status_aluno,data_nascimento,data_inicio_academia,data_ultima_graduacao,tempo_avaliacao_meses,observacoes_internas,data_aula_experimental,observacoes_experimental,responsavel_nome,responsavel_whatsapp");
 
   queryAlunos = aplicarFiltroUsuario(queryAlunos);
 
@@ -689,13 +689,48 @@ function mostrarAlunos() {
         </div>
       </div>
 
-      <div class="aluno-lista-acoes">
-        <button type="button" class="acao-secundaria" data-alunos-action="abrir-perfil" data-aluno-id="${alunoIdSeguro}">
-          Ver perfil
-        </button>
-        <button type="button" class="${jaPagou ? "acao-secundaria" : "acao-principal"}" data-alunos-action="registrar-pagamento" data-aluno-id="${alunoIdSeguro}">
-          ${jaPagou ? "Adiantamento" : "Registrar pagamento"}
-        </button>
+      <div class="aluno-detalhes-recolhiveis">
+        <div class="aluno-detalhes-grid">
+          <div class="aluno-detalhe-card">
+            <span>Contato</span>
+            <strong>${telefoneAlunoSeguro}</strong>
+          </div>
+
+          <div class="aluno-detalhe-card">
+            <span>Graduação</span>
+            <strong>${moduloEvolucaoAtivo ? faixaResumo : "Módulo desativado"}</strong>
+          </div>
+
+          <div class="aluno-detalhe-card">
+            <span>Status financeiro</span>
+            <strong>${escaparHtmlAluno(textoStatus)}</strong>
+          </div>
+        </div>
+
+        <div class="acoes-premium acoes-premium-recolhidas">
+          <div class="aluno-acoes-bloco aluno-acoes-principais">
+            <span class="aluno-acoes-titulo">Ações principais</span>
+            ${jaPagou
+              ? `
+                <span class="badge-pago-confirmado">Mensalidade paga</span>
+                <button class="acao-secundaria" onclick="marcarComoPago('${aluno.id}')">Registrar adiantamento</button>
+              `
+              : `<button class="acao-principal" onclick="marcarComoPago('${aluno.id}')">Registrar pagamento</button>`
+            }
+
+            <button class="acao-secundaria whatsapp" onclick="enviarWhatsApp('${aluno.id}')">WhatsApp</button>
+            <button class="acao-secundaria whatsapp" onclick="enviarLinkPaginaAluno('${aluno.id}')">Enviar acesso</button>
+          </div>
+
+          <div class="aluno-acoes-bloco aluno-acoes-gestao">
+            <span class="aluno-acoes-titulo">Gestão do aluno</span>
+            <button class="acao-principal btn-perfil-completo-aluno" onclick="abrirPerfilCompletoAluno('${aluno.id}')">Perfil completo</button>
+            <button class="acao-secundaria" onclick="abrirHistorico('${aluno.id}')">Histórico</button>
+            ${moduloEvolucaoAtivo ? `<button class="acao-secundaria" onclick="abrirModalGraduacao('${aluno.id}')">Graduação</button>` : ""}
+            <button class="acao-secundaria" onclick="editarAluno('${aluno.id}')">Editar</button>
+            <button class="acao-perigo" onclick="removerAluno('${aluno.id}')">Remover</button>
+          </div>
+        </div>
       </div>
     `;
     listaAlunos.appendChild(card);

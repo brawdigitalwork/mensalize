@@ -5,12 +5,15 @@
   "description": "Sistema de gestão de mensalidades",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#09090f",
-  "theme_color": "#7c3aed",
+  "background_color": "#eef0f5",
+  "theme_color": "#f7f8fb",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "pt-BR",
-  "categories": ["finance", "business"],
+  "categories": [
+    "finance",
+    "business"
+  ],
   "icons": [
     {
       "src": "/icons/mensalize-icon-192.png",

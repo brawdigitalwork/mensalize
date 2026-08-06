@@ -60,6 +60,8 @@
   let contatoAreaPlaceholder = null;
   let contatoCompartilharPlaceholder = null;
 
+  let ultimoDisparadorMais = null;
+
   function ehMobileAluno() {
     return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
   }
@@ -229,22 +231,49 @@
     }
   }
 
-  function abrirMais() {
+  function abrirMais(evento) {
     if (!ehMobileAluno() || !portalVisivel()) return;
 
     const sheet = document.getElementById("mobileAlunoMaisSheet");
     if (!sheet) return;
+
+    const disparador = evento?.currentTarget;
+    ultimoDisparadorMais = disparador instanceof HTMLElement
+      ? disparador
+      : document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
 
     sheet.classList.add("aberta");
     sheet.setAttribute("aria-hidden", "false");
     document.body.classList.add("mobile-aluno-sheet-open");
     atualizarBottomNav("dados");
     pararCarouselAutomatico();
+
+    window.requestAnimationFrame(() => {
+      sheet
+        .querySelector(".mobile-aluno-sheet-row:not([disabled])")
+        ?.focus({ preventScroll: true });
+    });
   }
 
   function fecharMais() {
     const sheet = document.getElementById("mobileAlunoMaisSheet");
     if (!sheet) return;
+
+    const focoAtual = document.activeElement;
+    if (focoAtual instanceof HTMLElement && sheet.contains(focoAtual)) {
+      const destino = ultimoDisparadorMais?.isConnected
+        ? ultimoDisparadorMais
+        : document.getElementById("btnMobileAlunoMaisInterno") ||
+          document.getElementById("btnMobileAlunoMais");
+
+      if (destino instanceof HTMLElement) {
+        destino.focus({ preventScroll: true });
+      } else {
+        focoAtual.blur();
+      }
+    }
 
     sheet.classList.remove("aberta");
     sheet.setAttribute("aria-hidden", "true");
@@ -2090,9 +2119,80 @@
     }
   }
 
+  function campoEditavelMobile(elemento) {
+    if (!(elemento instanceof HTMLElement)) return false;
+    if (elemento.matches('textarea, select, [contenteditable="true"]')) return true;
+    if (!elemento.matches('input')) return false;
+
+    const tipo = String(elemento.getAttribute("type") || "text").toLowerCase();
+    return !["checkbox", "radio", "range", "color", "file", "button", "submit", "reset", "hidden"].includes(tipo);
+  }
+
+  function configurarEstabilidadeViewportMobile() {
+    const raiz = document.documentElement;
+    const viewportVisual = window.visualViewport;
+    let alturaBase = Math.max(window.innerHeight || 0, viewportVisual?.height || 0);
+    let timerFoco = null;
+
+    const atualizarViewport = () => {
+      if (!window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches) {
+        raiz.style.removeProperty("--mensalize-mobile-viewport");
+        document.body.classList.remove("mobile-keyboard-active", "mobile-field-focused");
+        return;
+      }
+
+      const alturaAtual = Math.max(320, Math.round(viewportVisual?.height || window.innerHeight || alturaBase));
+      const campoAtivo = campoEditavelMobile(document.activeElement);
+
+      if (!campoAtivo) alturaBase = Math.max(alturaBase, alturaAtual);
+
+      raiz.style.setProperty("--mensalize-mobile-viewport", `${alturaAtual}px`);
+      document.body.classList.toggle(
+        "mobile-keyboard-active",
+        campoAtivo && alturaBase - alturaAtual > 100
+      );
+    };
+
+    const manterCampoVisivel = elemento => {
+      if (!campoEditavelMobile(elemento)) return;
+      if (!window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches) return;
+
+      window.clearTimeout(timerFoco);
+      document.body.classList.add("mobile-field-focused");
+      atualizarViewport();
+
+      timerFoco = window.setTimeout(() => {
+        atualizarViewport();
+        try {
+          elemento.scrollIntoView({ behavior: "auto", block: "center", inline: "nearest" });
+        } catch (_) {
+          elemento.scrollIntoView();
+        }
+      }, 180);
+    };
+
+    document.addEventListener("focusin", event => manterCampoVisivel(event.target), true);
+    document.addEventListener("focusout", () => {
+      window.clearTimeout(timerFoco);
+      timerFoco = window.setTimeout(() => {
+        const aindaEditando = campoEditavelMobile(document.activeElement);
+        document.body.classList.toggle("mobile-field-focused", aindaEditando);
+        atualizarViewport();
+      }, 220);
+    }, true);
+
+    window.addEventListener("resize", atualizarViewport, { passive: true });
+    window.addEventListener("orientationchange", () => window.setTimeout(atualizarViewport, 180), { passive: true });
+    viewportVisual?.addEventListener("resize", atualizarViewport, { passive: true });
+    viewportVisual?.addEventListener("scroll", atualizarViewport, { passive: true });
+
+    atualizarViewport();
+  }
+
   function iniciar() {
     if (!document.getElementById("portalConteudo")) return;
 
+    configurarEstabilidadeViewportMobile();
     configurarAcoes();
     configurarObservadores();
     configurarViewport();

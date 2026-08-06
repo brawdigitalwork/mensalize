@@ -1,0 +1,312 @@
+/* ==========================================================================
+   MENSALIZE 2.4 — MOVIMENTO DA HOME DO ALUNO
+   Camada visual isolada: não altera cores, dados, autenticação ou navegação.
+========================================================================== */
+
+:root {
+  --aluno-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --aluno-motion-fast: 180ms;
+  --aluno-motion-medium: 520ms;
+}
+
+/* --------------------------------------------------------------------------
+   Home do aluno — desktop
+-------------------------------------------------------------------------- */
+@media (min-width: 761px) {
+  #portalConteudo #viewInicioAluno.student-view.ativa > .welcome-card {
+    animation: aluno-home-destaque-entrada 620ms var(--aluno-motion-ease) both;
+  }
+
+  #portalConteudo #viewInicioAluno.student-view.ativa > .aluno-pwa-install-home-desktop,
+  #portalConteudo #viewInicioAluno.student-view.ativa > .action-row,
+  #portalConteudo #viewInicioAluno.student-view.ativa > #avisosAlunoHomeCard:not(.escondido),
+  #portalConteudo #viewInicioAluno.student-view.ativa > #rankingHomeCard:not(.escondido) {
+    animation: aluno-home-bloco-entrada var(--aluno-motion-medium) var(--aluno-motion-ease) both;
+  }
+
+  #portalConteudo #viewInicioAluno.student-view.ativa > .aluno-pwa-install-home-desktop {
+    animation-delay: 80ms;
+  }
+
+  #portalConteudo #viewInicioAluno.student-view.ativa > .action-row {
+    animation-delay: 200ms;
+  }
+
+  #portalConteudo #viewInicioAluno.student-view.ativa > #avisosAlunoHomeCard:not(.escondido) {
+    animation-delay: 260ms;
+  }
+
+  #portalConteudo #viewInicioAluno.student-view.ativa > #rankingHomeCard:not(.escondido) {
+    animation-delay: 320ms;
+  }
+
+  #portalConteudo #viewInicioAluno .quick-grid > .quick-card {
+    animation: aluno-home-card-entrada 500ms var(--aluno-motion-ease) both;
+  }
+
+  #portalConteudo #viewInicioAluno .quick-grid > .quick-card:nth-child(1) {
+    animation-delay: 170ms;
+  }
+
+  #portalConteudo #viewInicioAluno .quick-grid > .quick-card:nth-child(2) {
+    animation-delay: 230ms;
+  }
+
+  #portalConteudo #viewInicioAluno .welcome-card::after {
+    animation: aluno-home-orbita 8s ease-in-out infinite alternate;
+  }
+
+  #portalConteudo #viewInicioAluno .quick-card,
+  #portalConteudo #viewInicioAluno .panel-card {
+    transition:
+      translate var(--aluno-motion-fast) ease,
+      border-color var(--aluno-motion-fast) ease,
+      box-shadow var(--aluno-motion-fast) ease,
+      filter var(--aluno-motion-fast) ease !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Interações da Home — desktop e mobile
+-------------------------------------------------------------------------- */
+#portalConteudo #viewInicioAluno :is(
+  button,
+  .quick-card,
+  .panel-card
+) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+#portalConteudo #viewInicioAluno :is(
+  button,
+  .mobile-aluno-academia-card,
+  .mobile-aluno-action-card,
+  .mobile-aluno-module-card
+) {
+  transition:
+    translate var(--aluno-motion-fast) ease,
+    scale var(--aluno-motion-fast) ease,
+    filter var(--aluno-motion-fast) ease,
+    border-color var(--aluno-motion-fast) ease,
+    box-shadow var(--aluno-motion-fast) ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #portalConteudo #viewInicioAluno .quick-card:hover,
+  #portalConteudo #viewInicioAluno .panel-card:hover,
+  #portalConteudo #viewInicioAluno .action-row button:hover,
+  #portalConteudo #viewInicioAluno .aluno-pwa-install-home-actions button:hover,
+  #portalConteudo #viewInicioAluno .mobile-aluno-academia-card:hover,
+  #portalConteudo #viewInicioAluno .mobile-aluno-action-card:hover,
+  #portalConteudo #viewInicioAluno .mobile-aluno-module-card:hover {
+    translate: 0 -3px;
+    filter: brightness(1.07);
+  }
+}
+
+#portalConteudo #viewInicioAluno button:active,
+#portalConteudo #viewInicioAluno .mobile-aluno-academia-card:active,
+#portalConteudo #viewInicioAluno .mobile-aluno-action-card:active,
+#portalConteudo #viewInicioAluno .mobile-aluno-module-card:active {
+  translate: 0 1px !important;
+  scale: 0.975 !important;
+  filter: brightness(0.96);
+}
+
+#portalConteudo #viewInicioAluno :is(button, [tabindex]):focus-visible {
+  outline: 3px solid rgba(167, 120, 255, 0.42);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Home do aluno — mobile
+-------------------------------------------------------------------------- */
+@media (max-width: 760px) {
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #viewInicioAluno.student-view.ativa
+    .mobile-aluno-home > * {
+    animation: aluno-home-mobile-entrada 480ms var(--aluno-motion-ease) both;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #viewInicioAluno.student-view.ativa
+    .mobile-aluno-home > :nth-child(1) {
+    animation-delay: 40ms;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #viewInicioAluno.student-view.ativa
+    .mobile-aluno-home > :nth-child(2) {
+    animation-delay: 90ms;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #viewInicioAluno.student-view.ativa
+    .mobile-aluno-home > :nth-child(3) {
+    animation-delay: 140ms;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #viewInicioAluno.student-view.ativa
+    .mobile-aluno-home > :nth-child(4) {
+    animation-delay: 200ms;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #viewInicioAluno.student-view.ativa
+    .mobile-aluno-home > :nth-child(5) {
+    animation-delay: 260ms;
+  }
+
+  body.mobile-aluno-portal-ativo:not(.mobile-aluno-interna)
+    #viewInicioAluno.student-view.ativa
+    .mobile-aluno-home > :nth-child(6) {
+    animation-delay: 320ms;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-card {
+    transition:
+      scale var(--aluno-motion-fast) ease,
+      filter var(--aluno-motion-fast) ease,
+      border-color var(--aluno-motion-fast) ease !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-card:active {
+    scale: 0.985;
+    filter: brightness(0.97);
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-glow {
+    animation: aluno-home-carousel-glow 7s ease-in-out infinite alternate;
+    transform-origin: center;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-icone,
+  #portalConteudo #viewInicioAluno .mobile-aluno-proxima-acao-icone {
+    animation: aluno-home-icone-respira 3.4s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-carousel-dots button.ativo {
+    animation: aluno-home-dot-ativo 2.4s ease-in-out infinite;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-action-card:active,
+  #portalConteudo #viewInicioAluno .mobile-aluno-module-card:active {
+    translate: 0 2px !important;
+    scale: 0.96 !important;
+  }
+
+  #portalConteudo #viewInicioAluno .mobile-aluno-pwa-install-home:not(.escondido) {
+    animation: aluno-home-pwa-entrada 540ms var(--aluno-motion-ease) both;
+  }
+}
+
+@keyframes aluno-home-destaque-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes aluno-home-bloco-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aluno-home-card-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes aluno-home-mobile-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aluno-home-pwa-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes aluno-home-orbita {
+  from {
+    transform: translate3d(-8px, -5px, 0) scale(0.96);
+    opacity: 0.72;
+  }
+  to {
+    transform: translate3d(12px, 10px, 0) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes aluno-home-carousel-glow {
+  from {
+    transform: translate3d(-5px, 3px, 0) scale(0.94) rotate(-3deg);
+    opacity: 0.68;
+  }
+  to {
+    transform: translate3d(9px, -7px, 0) scale(1.08) rotate(4deg);
+    opacity: 1;
+  }
+}
+
+@keyframes aluno-home-icone-respira {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.045);
+  }
+}
+
+@keyframes aluno-home-dot-ativo {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(143, 82, 255, 0.22);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(143, 82, 255, 0.5);
+  }
+}
+
+/* Acessibilidade e economia de bateria */
+@media (prefers-reduced-motion: reduce) {
+  #portalConteudo #viewInicioAluno *,
+  #portalConteudo #viewInicioAluno *::before,
+  #portalConteudo #viewInicioAluno *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

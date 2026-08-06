@@ -13,22 +13,22 @@
 
 @media (max-width: 760px) {
   :root {
-    --mobile-bg: #070712;
-    --mobile-bg-deep: #05050d;
-    --mobile-surface: #0e0d24;
-    --mobile-surface-2: #141135;
-    --mobile-surface-3: #191441;
-    --mobile-border: rgba(172, 139, 255, 0.14);
-    --mobile-border-soft: rgba(255, 255, 255, 0.075);
+    --mobile-bg: #dfe2ea;
+    --mobile-bg-deep: #d8dce6;
+    --mobile-surface: #eef0f4;
+    --mobile-surface-2: #e7e8ee;
+    --mobile-surface-3: #dcdee7;
+    --mobile-border: #c5c9d4;
+    --mobile-border-soft: #d2d5de;
     --mobile-purple: #7c3aed;
-    --mobile-purple-bright: #9b5cff;
-    --mobile-purple-soft: #b89cff;
-    --mobile-text: #f8f7ff;
-    --mobile-muted: #aaa5c2;
-    --mobile-muted-2: #7f789c;
-    --mobile-green: #36d07f;
-    --mobile-orange: #ff9418;
-    --mobile-red: #ff565f;
+    --mobile-purple-bright: #8b5cf6;
+    --mobile-purple-soft: #7c3aed;
+    --mobile-text: #1f182e;
+    --mobile-muted: #4a5365;
+    --mobile-muted-2: #5d6678;
+    --mobile-green: #046c4f;
+    --mobile-orange: #92400e;
+    --mobile-red: #b91c1c;
     --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
   }
 
@@ -42,9 +42,9 @@
   body {
     min-height: 100dvh;
     background:
-      radial-gradient(circle at 15% -5%, rgba(124, 58, 237, 0.28), transparent 28%),
-      radial-gradient(circle at 92% 12%, rgba(84, 40, 190, 0.16), transparent 26%),
-      linear-gradient(180deg, #080713 0%, #05050d 100%) !important;
+      radial-gradient(circle at 15% -5%, rgba(124, 58, 237, 0.10), transparent 28%),
+      radial-gradient(circle at 92% 12%, rgba(37, 99, 235, 0.06), transparent 26%),
+      linear-gradient(180deg, var(--mobile-bg-deep) 0%, var(--mobile-bg) 100%) !important;
   }
 
   body::before {
@@ -153,10 +153,10 @@
     width: 100%;
     padding: calc(12px + var(--safe-top)) 16px 14px;
     background:
-      radial-gradient(circle at 14% 0%, rgba(151, 81, 255, 0.34), transparent 34%),
-      linear-gradient(145deg, rgba(31, 16, 84, 0.98), rgba(9, 8, 29, 0.97) 64%, rgba(7, 7, 20, 0.99));
-    border-bottom: 1px solid rgba(176, 139, 255, 0.12);
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.25);
+      radial-gradient(circle at 14% 0%, rgba(255, 255, 255, 0.16), transparent 34%),
+      linear-gradient(135deg, #6d28d9 0%, #7c3aed 58%, #5b21b6 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 38px rgba(91, 33, 182, 0.24);
   }
 
   .mobile-professor-header-dashboard,
@@ -196,10 +196,10 @@
     flex: 0 0 47px;
     object-fit: cover;
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(35, 27, 53, 0.11);
     box-shadow:
       0 0 0 3px rgba(124, 58, 237, 0.18),
-      0 12px 30px rgba(0, 0, 0, 0.28);
+      0 12px 30px rgba(30, 41, 59, 0.09);
   }
 
   .mobile-professor-identidade > div {
@@ -209,7 +209,7 @@
   }
 
   .mobile-professor-saudacao {
-    color: var(--mobile-muted);
+    color: rgba(255, 255, 255, 0.78);
     font-size: 11px;
     font-weight: 600;
     line-height: 1.1;
@@ -221,7 +221,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #fff;
+    color: #ffffff;
     font-size: 17px;
     font-weight: 700;
     letter-spacing: -0.035em;
@@ -234,7 +234,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #b6a1ef;
+    color: rgba(255, 255, 255, 0.76);
     font-size: 11px;
     line-height: 1.25;
   }
@@ -256,9 +256,9 @@
     min-height: 43px;
     padding: 0 !important;
     border-radius: 14px !important;
-    border: 1px solid rgba(255, 255, 255, 0.09) !important;
-    background: rgba(255, 255, 255, 0.055) !important;
-    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    color: #ffffff !important;
     box-shadow: none !important;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -267,7 +267,7 @@
   .mobile-icon-button:hover,
   .mobile-icon-button:active {
     transform: none !important;
-    background: rgba(151, 92, 255, 0.14) !important;
+    background: rgba(255, 255, 255, 0.18) !important;
   }
 
   .mobile-icon-button svg,
@@ -300,8 +300,8 @@
     padding: 0 5px;
     border-radius: 999px;
     background: #ff4054;
-    color: #fff;
-    border: 2px solid #1b0e48;
+    color: #ffffff;
+    border: 2px solid #6d28d9;
     font-size: 9px;
     font-weight: 800;
     line-height: 1;
@@ -357,14 +357,14 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 0% 0%, rgba(142, 81, 255, 0.16), transparent 36%),
-      linear-gradient(145deg, rgba(29, 20, 69, 0.96), rgba(15, 13, 42, 0.98)) !important;
+      linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.98)) !important;
     color: var(--mobile-text) !important;
   }
 
   .mobile-academia-card:hover,
   .mobile-academia-card:active {
     transform: none !important;
-    background: linear-gradient(145deg, rgba(37, 25, 87, 0.98), rgba(18, 15, 49, 0.99)) !important;
+    background: linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
   }
 
   .mobile-academia-icon {
@@ -375,7 +375,7 @@
     flex: 0 0 39px;
     border-radius: 13px;
     background: rgba(139, 92, 246, 0.16);
-    color: #a978ff;
+    color: var(--mobile-purple, var(--cor-roxo));
   }
 
   .mobile-academia-texto {
@@ -397,7 +397,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #e7deff;
+    color: var(--mobile-text);
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -406,7 +406,7 @@
   .mobile-academia-chevron {
     display: grid;
     place-items: center;
-    color: #9c74f4;
+    color: #7c3aed;
   }
 
   .mobile-academia-chevron svg {
@@ -419,7 +419,7 @@
     border-radius: 22px;
     background:
       radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.12), transparent 40%),
-      linear-gradient(155deg, rgba(16, 14, 43, 0.99), rgba(9, 9, 26, 0.99));
+      linear-gradient(155deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99));
   }
 
   .mobile-resumo-topo {
@@ -439,7 +439,7 @@
   }
 
   .mobile-resumo-topo strong {
-    color: #ece7ff;
+    color: var(--mobile-text);
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -454,7 +454,7 @@
   .mobile-resumo-icone {
     display: grid;
     place-items: center;
-    color: #9e68ff;
+    color: #7c3aed;
   }
 
   .mobile-resumo-valores {
@@ -463,9 +463,9 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
     align-items: stretch;
-    border: 1px solid rgba(255, 255, 255, 0.065);
+    border: 1px solid rgba(35, 27, 53, 0.11);
     border-radius: 17px;
-    background: rgba(5, 5, 18, 0.54);
+    background: rgba(238, 240, 244, 0.98);
     overflow: hidden;
   }
 
@@ -486,7 +486,7 @@
   .mobile-resumo-metrica:hover,
   .mobile-resumo-metrica:active {
     transform: none !important;
-    background: rgba(255, 255, 255, 0.025) !important;
+    background: rgba(124, 58, 237, 0.035) !important;
   }
 
   .mobile-resumo-metrica strong {
@@ -508,7 +508,7 @@
   }
 
   .mobile-resumo-metrica span {
-    color: #d8d4e7;
+    color: var(--mobile-muted);
     font-size: 11px;
     font-weight: 600;
   }
@@ -517,7 +517,7 @@
     width: 1px;
     align-self: center;
     height: 54%;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(124, 58, 237, 0.056);
   }
 
   .mobile-resumo-link {
@@ -531,7 +531,7 @@
     border: 0 !important;
     border-radius: 0 !important;
     background: transparent !important;
-    color: #a66dff !important;
+    color: #7c3aed !important;
     box-shadow: none !important;
     font-size: 13px;
     font-weight: 700;
@@ -568,15 +568,15 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 50% 0%, rgba(117, 67, 219, 0.09), transparent 50%),
-      linear-gradient(155deg, rgba(21, 18, 54, 0.98), rgba(11, 10, 31, 0.99)) !important;
-    color: #f8f6ff !important;
+      linear-gradient(155deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
+    color: var(--mobile-text) !important;
     text-align: center;
   }
 
   .mobile-action-card:hover,
   .mobile-action-card:active {
     transform: translateY(-1px) !important;
-    background: linear-gradient(155deg, rgba(27, 23, 68, 0.99), rgba(13, 12, 36, 1)) !important;
+    background: linear-gradient(155deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 1)) !important;
   }
 
   .mobile-action-icon {
@@ -595,19 +595,19 @@
 
   .mobile-action-danger .mobile-action-icon {
     background: linear-gradient(145deg, #ff6268, #e63849);
-    color: #fff;
+    color: #ffffff;
     box-shadow: 0 10px 24px rgba(255, 64, 84, 0.2);
   }
 
   .mobile-action-whatsapp .mobile-action-icon {
     background: linear-gradient(145deg, #57d98c, #24aa68);
-    color: #fff;
+    color: #ffffff;
     box-shadow: 0 10px 24px rgba(38, 190, 111, 0.18);
   }
 
   .mobile-action-check .mobile-action-icon {
     background: linear-gradient(145deg, #8a5be7, #5f32c3);
-    color: #fff;
+    color: #ffffff;
     box-shadow: 0 10px 24px rgba(121, 73, 222, 0.2);
   }
 
@@ -626,7 +626,7 @@
   }
 
   .mobile-action-danger small {
-    color: #ff6a72;
+    color: #b91c1c;
     font-weight: 800;
   }
 
@@ -644,7 +644,7 @@
     border-radius: 18px;
     background:
       radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.16), transparent 34%),
-      linear-gradient(145deg, rgba(23, 18, 62, 0.98), rgba(12, 10, 34, 0.99));
+      linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99));
   }
 
   .mobile-proxima-acao-icone {
@@ -664,7 +664,7 @@
   .mobile-proxima-acao small {
     display: block;
     margin-bottom: 2px;
-    color: #a981ff;
+    color: #7c3aed;
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -676,7 +676,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #fff;
+    color: var(--mobile-text, var(--texto-primario));
     font-size: 13px;
     font-weight: 750;
   }
@@ -704,7 +704,7 @@
     border-radius: 12px !important;
     border: 1px solid rgba(139, 92, 246, 0.18) !important;
     background: rgba(139, 92, 246, 0.1) !important;
-    color: #ad7aff !important;
+    color: #7c3aed !important;
     box-shadow: none !important;
   }
 
@@ -738,7 +738,7 @@
   .mobile-section-heading small {
     display: block;
     margin-bottom: 1px;
-    color: #846ab8;
+    color: #6d28d9;
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -747,7 +747,7 @@
 
   .mobile-section-heading h2 {
     margin: 0;
-    color: #fff;
+    color: var(--mobile-text, var(--texto-primario));
     font-size: 17px;
     font-weight: 750;
     letter-spacing: -0.035em;
@@ -759,7 +759,7 @@
   }
 
   #mobileProfessorTotalAlunos strong {
-    color: #b18aff;
+    color: #7c3aed;
   }
 
   .mobile-module-grid {
@@ -779,8 +779,8 @@
     border-radius: 18px !important;
     background:
       radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.10), transparent 55%),
-      linear-gradient(150deg, rgba(22, 18, 59, 0.98), rgba(11, 10, 31, 0.99)) !important;
-    color: #fff !important;
+      linear-gradient(150deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     box-shadow: none !important;
   }
 
@@ -788,7 +788,7 @@
   .mobile-module-card:active {
     transform: translateY(-1px) !important;
     border-color: rgba(159, 107, 255, 0.28) !important;
-    background: linear-gradient(150deg, rgba(29, 23, 75, 0.99), rgba(13, 12, 36, 1)) !important;
+    background: linear-gradient(150deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 1)) !important;
   }
 
   .mobile-module-icon {
@@ -798,7 +798,7 @@
     height: 41px;
     border-radius: 14px;
     background: linear-gradient(145deg, rgba(145, 80, 255, 0.28), rgba(91, 42, 190, 0.18));
-    color: #9f68ff;
+    color: #7c3aed;
   }
 
   .mobile-module-icon svg {
@@ -811,7 +811,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #f7f4ff;
+    color: var(--mobile-text, var(--texto-primario));
     font-size: 11px;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -830,7 +830,7 @@
     padding: 15px !important;
     border: 1px solid rgba(167, 139, 250, 0.18) !important;
     border-radius: 18px !important;
-    background: linear-gradient(145deg, rgba(42, 26, 91, 0.98), rgba(17, 14, 45, 0.99)) !important;
+    background: linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -839,7 +839,7 @@
     padding: 15px !important;
     border: 1px solid var(--mobile-border) !important;
     border-radius: 18px !important;
-    background: linear-gradient(145deg, rgba(20, 17, 53, 0.98), rgba(10, 9, 29, 0.99)) !important;
+    background: linear-gradient(145deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
@@ -859,9 +859,9 @@
     gap: 2px;
     border: 1px solid rgba(184, 156, 255, 0.16);
     border-radius: 24px;
-    background: rgba(12, 10, 33, 0.94);
+    background: rgba(238, 240, 244, 0.96);
     box-shadow:
-      0 18px 48px rgba(0, 0, 0, 0.48),
+      0 18px 48px rgba(30, 41, 59, 0.09),
       inset 0 1px 0 rgba(255, 255, 255, 0.035);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -878,7 +878,7 @@
     border: 0 !important;
     border-radius: 14px !important;
     background: transparent !important;
-    color: #827c9a !important;
+    color: var(--mobile-muted) !important;
     box-shadow: none !important;
   }
 
@@ -911,7 +911,7 @@
   }
 
   .mobile-bottom-item.ativo {
-    color: #9d63ff !important;
+    color: #7c3aed !important;
   }
 
   .mobile-bottom-item.ativo::after {
@@ -953,7 +953,7 @@
     padding: 0 !important;
     border: 0 !important;
     border-radius: 0 !important;
-    background: rgba(0, 0, 0, 0.68) !important;
+    background: rgba(44, 37, 63, 0.46) !important;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
   }
@@ -970,8 +970,8 @@
     border-top: 1px solid rgba(177, 139, 255, 0.18);
     background:
       radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.14), transparent 26%),
-      linear-gradient(180deg, #12102b, #080714 76%);
-    box-shadow: 0 -24px 70px rgba(0, 0, 0, 0.52);
+      linear-gradient(180deg, var(--bg-nivel-1), var(--bg-nivel-1) 76%);
+    box-shadow: 0 -24px 70px rgba(30, 41, 59, 0.20);
     animation: mobileSheetUp 180ms ease both;
   }
 
@@ -980,7 +980,7 @@
     height: 4px;
     margin: 1px auto 12px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.18);
+    background: #d7d9e2;
   }
 
   .mobile-sheet-header {
@@ -993,7 +993,7 @@
 
   .mobile-sheet-header small {
     display: block;
-    color: #9a6bea;
+    color: #7c3aed;
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -1002,7 +1002,7 @@
 
   .mobile-sheet-header h2 {
     margin: 1px 0 0;
-    color: #fff;
+    color: var(--mobile-text, var(--texto-primario));
     font-size: 20px;
     letter-spacing: -0.04em;
   }
@@ -1015,13 +1015,13 @@
   .mobile-notificacoes-lista .notificacoes-grupo,
   .mobile-notificacoes-lista .notificacao-item,
   .mobile-notificacoes-lista .empty-state-mini {
-    border-color: rgba(255, 255, 255, 0.08) !important;
-    background: rgba(255, 255, 255, 0.035) !important;
+    border-color: rgba(35, 27, 53, 0.11) !important;
+    background: rgba(124, 58, 237, 0.035) !important;
   }
 
   .mobile-empty-state {
     padding: 22px 14px;
-    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border: 1px dashed rgba(35, 27, 53, 0.11);
     border-radius: 16px;
     color: var(--mobile-muted);
     text-align: center;
@@ -1058,15 +1058,15 @@
   body.mobile-professor-interna .area-formulario,
   body.mobile-professor-interna .lista-profissional {
     border-color: rgba(160, 126, 255, 0.12) !important;
-    background: linear-gradient(150deg, rgba(18, 15, 48, 0.97), rgba(9, 8, 26, 0.99)) !important;
+    background: linear-gradient(150deg, rgba(238, 240, 244, 0.98), rgba(234, 236, 242, 0.99)) !important;
     box-shadow: none !important;
   }
 
   body.mobile-professor-interna input,
   body.mobile-professor-interna select,
   body.mobile-professor-interna textarea {
-    border-color: rgba(255, 255, 255, 0.09) !important;
-    background-color: rgba(7, 7, 21, 0.8) !important;
+    border-color: rgba(35, 27, 53, 0.11) !important;
+    background-color: rgba(238, 240, 244, 0.98) !important;
   }
 
   /* Sidebar continua como catálogo completo, mas acima do novo shell */
@@ -1167,7 +1167,7 @@
   .mobile-context-action {
     background: linear-gradient(145deg, rgba(153, 91, 255, 0.30), rgba(105, 49, 216, 0.18)) !important;
     border-color: rgba(178, 135, 255, 0.24) !important;
-    color: #c3a4ff !important;
+    color: #7c3aed !important;
   }
 
   .mobile-context-action.escondido {
@@ -1265,10 +1265,10 @@
     display: inline-grid !important;
     place-items: center !important;
 
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    border: 1px solid rgba(35, 27, 53, 0.11) !important;
     border-radius: 13px !important;
     background: rgba(255, 255, 255, 0.055) !important;
-    color: #d8d2e9 !important;
+    color: #7c3aed !important;
 
     font-size: 0 !important;
     font-weight: 400 !important;
@@ -1368,8 +1368,8 @@
   .perfil-aluno-overlay .perfil-aluno-fechar:hover,
   #modalCentralRelatorios #btnFecharCentralRelatorios:hover {
     background: rgba(255, 255, 255, 0.095) !important;
-    border-color: rgba(255, 255, 255, 0.17) !important;
-    color: #ffffff !important;
+    border-color: rgba(35, 27, 53, 0.11) !important;
+    color: var(--mobile-text, var(--texto-primario)) !important;
     box-shadow: none !important;
     transform: none !important;
   }
@@ -1406,8 +1406,8 @@
     min-height: 40px !important;
     border-radius: 13px !important;
     background: rgba(255, 255, 255, 0.055) !important;
-    border-color: rgba(255, 255, 255, 0.10) !important;
-    color: #d8d2e9 !important;
+    border-color: rgba(35, 27, 53, 0.11) !important;
+    color: #7c3aed !important;
     transform: none !important;
   }
 
@@ -1459,5 +1459,138 @@
     overflow-x: hidden !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ============================================================================
+   HOME DO PROFESSOR — MOBILE SIMPLES
+   Mantém somente o resumo, as ações principais e a prioridade do dia.
+============================================================================ */
+@media (max-width: 760px) {
+  :root {
+    --mobile-bg: #d3d6df;
+    --mobile-bg-deep: #cdd1dc;
+    --mobile-surface: #e0e2e8;
+    --mobile-surface-2: #d8dae2;
+    --mobile-surface-3: #cfd2dc;
+    --mobile-border: #b4b9c6;
+    --mobile-border-soft: #c5c8d2;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-professor-home {
+    gap: 11px !important;
+    padding-top: 0 !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-academia-card {
+    min-height: 62px !important;
+    padding: 11px 13px !important;
+    border-radius: 16px !important;
+    background: var(--mobile-surface) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-academia-icon {
+    width: 36px !important;
+    height: 36px !important;
+    flex-basis: 36px !important;
+    border-radius: 11px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-card {
+    border-radius: 18px !important;
+    background: var(--mobile-surface) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-topo {
+    min-height: 50px !important;
+    padding: 12px 14px 8px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-valores {
+    min-height: 86px !important;
+    margin: 0 9px !important;
+    border-radius: 14px !important;
+    background: var(--mobile-surface-2) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-metrica {
+    min-height: 84px !important;
+    padding: 11px 7px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-metrica strong {
+    font-size: clamp(20px, 6vw, 25px) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-resumo-link {
+    min-height: 46px !important;
+    padding: 10px 14px !important;
+    font-size: 12px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-acoes-principais {
+    gap: 8px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-action-card {
+    min-height: 96px !important;
+    padding: 10px 6px !important;
+    border-radius: 16px !important;
+    background: var(--mobile-surface) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-action-icon {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-action-icon svg {
+    width: 19px !important;
+    height: 19px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-proxima-acao {
+    min-height: 80px !important;
+    padding: 12px !important;
+    border-radius: 16px !important;
+    background: var(--mobile-surface) !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-proxima-acao-icone {
+    width: 39px !important;
+    height: 39px !important;
+    border-radius: 12px !important;
+    font-size: 18px !important;
+  }
+
+  #viewDashboard.dashboard-simples .mobile-acesso-rapido {
+    display: none !important;
+  }
+
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > * {
+    animation: mensalizeHomeMobileEntrada 360ms var(--ease-out, ease-out) both !important;
+  }
+
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > :nth-child(2) {
+    animation-delay: 45ms !important;
+  }
+
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > :nth-child(3) {
+    animation-delay: 90ms !important;
+  }
+
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > :nth-child(4) {
+    animation-delay: 135ms !important;
+  }
+}
+
+@keyframes mensalizeHomeMobileEntrada {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  #viewDashboard.ativa.dashboard-simples .mobile-professor-home > * {
+    animation: none !important;
   }
 }

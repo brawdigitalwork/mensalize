@@ -2,7 +2,7 @@
 <html lang="pt-BR" data-pwa-app="aluno">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
   <title>Mensalize Aluno</title>
   <meta name="description" content="Mensalize Aluno: portal para acompanhar mensalidade, Pix, pagamentos, avisos, ranking e graduação." />
   <meta name="referrer" content="no-referrer" />
@@ -43,18 +43,60 @@
 
   <section id="portalAuthAluno" class="student-auth-screen escondido" aria-label="Acesso ao Portal do Aluno">
     <div class="student-auth-card">
-      <div class="student-auth-brand">
-        <img src="logo-aluno.png" alt="Mensalize Aluno">
-        <div>
-          <strong>Mensalize</strong>
-          <span>Portal do Aluno</span>
+      <section class="student-auth-presentation" aria-label="Apresentação do Portal do Aluno">
+        <span class="student-auth-presentation-light" aria-hidden="true"></span>
+        <div class="student-auth-brand">
+          <img src="icons/mensalize-aluno-icon-192.png" alt="">
+          <div>
+            <strong>Mensalize</strong>
+            <span>Portal do Aluno</span>
+          </div>
         </div>
-      </div>
+
+        <div class="student-auth-presentation-copy">
+          <span class="student-auth-kicker">Área exclusiva do aluno</span>
+          <h2>Do pagamento à próxima faixa, acompanhe cada passo.</h2>
+          <p>Veja mensalidade, presença, avisos e graduação sem depender de mensagens.</p>
+        </div>
+
+        <div class="student-auth-journey" aria-label="Informações disponíveis no Portal do Aluno">
+          <div class="student-auth-journey-item student-auth-journey-financeiro">
+            <span aria-hidden="true">01</span>
+            <div>
+              <small>Financeiro</small>
+              <strong>Situação da mensalidade</strong>
+            </div>
+            <i aria-hidden="true"></i>
+          </div>
+
+          <div class="student-auth-journey-item student-auth-journey-presenca">
+            <span aria-hidden="true">02</span>
+            <div>
+              <small>Treinos</small>
+              <strong>Histórico de presença</strong>
+            </div>
+            <i aria-hidden="true"></i>
+          </div>
+
+          <div class="student-auth-journey-item student-auth-journey-graduacao">
+            <span aria-hidden="true">03</span>
+            <div>
+              <small>Evolução</small>
+              <strong>Progresso da graduação</strong>
+            </div>
+            <i aria-hidden="true"></i>
+          </div>
+        </div>
+
+        <p class="student-auth-presentation-footer">O professor atualiza. Você acompanha pelo portal.</p>
+      </section>
+
+      <section class="student-auth-access" aria-label="Acesso à conta do aluno">
 
       <div id="authAlunoLoginView" class="student-auth-view">
-        <span class="eyebrow">Acesso seguro</span>
-        <h1>Entrar no portal</h1>
-        <p class="student-auth-description">Use o usuário que você escolheu e sua senha.</p>
+        <span class="eyebrow">Conta do aluno</span>
+        <h1>Consulte sua mensalidade e evolução</h1>
+        <p class="student-auth-description">Use o usuário criado no seu primeiro acesso.</p>
 
         <form id="formAuthAlunoLogin" class="student-auth-form" autocomplete="on">
           <label>
@@ -96,15 +138,15 @@
         </form>
 
         <div class="student-auth-help">
-          <strong>Problemas com o acesso?</strong>
-          <span>Peça ao seu professor um novo link. Esse é o único fluxo de recuperação do Mensalize.</span>
+          <strong>Não consegue entrar?</strong>
+          <span>Solicite ao professor um novo link pessoal para recuperar seu acesso.</span>
         </div>
       </div>
 
       <div id="authAlunoLinkView" class="student-auth-view escondido">
-        <span id="authAlunoLinkEyebrow" class="eyebrow">Primeiro acesso</span>
-        <h1 id="authAlunoLinkTitulo">Crie seu acesso</h1>
-        <p id="authAlunoLinkDescricao" class="student-auth-description">Escolha seu usuário e uma senha.</p>
+        <span id="authAlunoLinkEyebrow" class="eyebrow">Ativação da conta</span>
+        <h1 id="authAlunoLinkTitulo">Crie seu acesso ao Mensalize</h1>
+        <p id="authAlunoLinkDescricao" class="student-auth-description">Defina um usuário exclusivo e uma senha segura para entrar no portal.</p>
 
         <form id="formAuthAlunoLink" class="student-auth-form" autocomplete="off">
           <label>
@@ -182,6 +224,7 @@
         <span aria-hidden="true">•</span>
         <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
       </nav>
+      </section>
     </div>
   </section>
 
@@ -250,13 +293,34 @@
       </div>
 
       <nav class="student-menu" aria-label="Menu da área do aluno">
-        <button type="button" class="student-menu-item ativo" data-view="inicio">🏠 Início</button>
-        <button type="button" class="student-menu-item" data-view="dados">👤 Editar dados</button>
-        <button type="button" class="student-menu-item" data-view="financas">💰 Finanças</button>
-        <button type="button" class="student-menu-item" data-view="graduacao">🥋 Graduação</button>
-        <button type="button" id="menuProgramaFaixaAluno" class="student-menu-item escondido" data-view="programa">🥋 Próxima faixa</button>
-        <button type="button" id="menuRankingAluno" class="student-menu-item" data-view="ranking">🏆 Desafio</button>
-        <button type="button" class="student-menu-item" data-view="contato">📲 Contato</button>
+        <button type="button" class="student-menu-item ativo" data-view="inicio">
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg></span>
+          <span>Início</span>
+        </button>
+        <button type="button" class="student-menu-item" data-view="dados">
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-4 3.1-6 7-6s6.3 2 7 6"/></svg></span>
+          <span>Meu perfil</span>
+        </button>
+        <button type="button" class="student-menu-item" data-view="financas">
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16.5 15h1"/></svg></span>
+          <span>Financeiro</span>
+        </button>
+        <button type="button" class="student-menu-item" data-view="graduacao">
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v8H4z"/><path d="M8 8v8M16 8v8"/></svg></span>
+          <span>Evolução</span>
+        </button>
+        <button type="button" id="menuProgramaFaixaAluno" class="student-menu-item escondido" data-view="programa">
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M8 20a3 3 0 0 1 0-6h11M9 8h6"/></svg></span>
+          <span>Programa da faixa</span>
+        </button>
+        <button type="button" id="menuRankingAluno" class="student-menu-item" data-view="ranking">
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8v4a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 12v5M8 20h8M10 17h4"/></svg></span>
+          <span>Desafio</span>
+        </button>
+        <button type="button" class="student-menu-item" data-view="contato">
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span>
+          <span>Contato</span>
+        </button>
 
         <button
           type="button"
@@ -272,12 +336,31 @@
       </nav>
 
       <div class="student-sidebar-footer">
+        <nav class="student-sidebar-legal" aria-label="Documentos legais">
+          <a href="privacidade.html" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 19 6v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
+              <path d="M9.5 12.2 11.2 14l3.5-4"/>
+            </svg>
+            <span>Privacidade</span>
+          </a>
+          <a href="termos.html" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 3h9l3 3v15H6z"/>
+              <path d="M15 3v4h4M9 11h6M9 15h6"/>
+            </svg>
+            <span>Termos de Uso</span>
+          </a>
+        </nav>
+
         <button type="button" id="btnTemaAluno" class="student-footer-button escondido">
-          🌙 Tema
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 15.5A8 8 0 1 1 8.5 4 6.5 6.5 0 0 0 20 15.5Z"/></svg></span>
+          <span>Tema</span>
         </button>
 
         <button type="button" id="btnAtualizarAluno" class="student-footer-button">
-          🔄 Atualizar sistema
+          <span class="student-menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6v5h-5"/><path d="M19 11a8 8 0 1 0 1 5"/></svg></span>
+          <span>Atualizar sistema</span>
         </button>
       </div>
 
@@ -285,7 +368,7 @@
 
     <div class="student-main">
       <header class="student-topbar">
-        <button id="btnAbrirMenuAluno" type="button" class="menu-button" aria-label="Abrir menu do Mensalize Aluno">☰</button>
+        <button id="btnAbrirMenuAluno" type="button" class="menu-button" aria-label="Abrir menu do Mensalize Aluno"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
         <div class="student-small-profile">
           <img id="fotoAlunoTopo" class="student-top-photo escondido" alt="Foto do aluno" />
           <div id="avatarAlunoTopo" class="student-top-avatar">A</div>
@@ -626,11 +709,21 @@
             class="mobile-aluno-avisos"
             aria-label="Avisos mobile"
           >
-            <section class="mobile-aluno-avisos-hero" aria-label="Resumo dos avisos">
+            <section class="mobile-aluno-avisos-hero" aria-label="Central de avisos">
               <div class="mobile-aluno-avisos-hero-topo">
-                <div>
-                  <span class="mobile-aluno-avisos-kicker">Comunicados</span>
-                  <h2>Avisos da academia</h2>
+                <div class="mobile-aluno-avisos-titulo-grupo">
+                  <span class="mobile-aluno-avisos-titulo-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                      <path d="M10 21h4"/>
+                    </svg>
+                  </span>
+
+                  <div>
+                    <span class="mobile-aluno-avisos-kicker">Central de comunicação</span>
+                    <h2>Avisos da academia</h2>
+                    <p>Comunicados oficiais publicados pelo professor.</p>
+                  </div>
                 </div>
 
                 <span id="mobileAlunoAvisosContador" class="mobile-aluno-avisos-badge">
@@ -638,34 +731,39 @@
                 </span>
               </div>
 
-              <div
+              <article
                 id="mobileAlunoAvisosDestaque"
                 class="mobile-aluno-avisos-destaque escondido"
+                aria-label="Comunicado em destaque"
               >
-                <div class="mobile-aluno-avisos-destaque-topo">
-                  <span
-                    id="mobileAlunoAvisosDestaqueTipo"
-                    class="mobile-aluno-avisos-destaque-tipo"
-                  >
-                    Mais recente
-                  </span>
+                <span class="mobile-aluno-avisos-destaque-barra" aria-hidden="true"></span>
 
-                  <span
-                    id="mobileAlunoAvisosDestaqueSelo"
-                    class="mobile-aluno-avisos-destaque-selo"
-                  >
-                    Destaque
-                  </span>
+                <div class="mobile-aluno-avisos-destaque-conteudo">
+                  <div class="mobile-aluno-avisos-destaque-topo">
+                    <span
+                      id="mobileAlunoAvisosDestaqueTipo"
+                      class="mobile-aluno-avisos-destaque-tipo"
+                    >
+                      Comunicado
+                    </span>
+
+                    <span
+                      id="mobileAlunoAvisosDestaqueSelo"
+                      class="mobile-aluno-avisos-destaque-selo"
+                    >
+                      Mais recente
+                    </span>
+                  </div>
+
+                  <strong id="mobileAlunoAvisosDestaqueTitulo">Novo aviso</strong>
+
+                  <p id="mobileAlunoAvisosDestaqueTexto">
+                    Veja os comunicados da sua academia.
+                  </p>
+
+                  <small id="mobileAlunoAvisosDestaqueMeta"></small>
                 </div>
-
-                <strong id="mobileAlunoAvisosDestaqueTitulo">Novo aviso</strong>
-
-                <p id="mobileAlunoAvisosDestaqueTexto">
-                  Veja os comunicados da sua academia.
-                </p>
-
-                <small id="mobileAlunoAvisosDestaqueMeta"></small>
-              </div>
+              </article>
 
               <div
                 id="mobileAlunoAvisosVazioHero"
@@ -679,8 +777,8 @@
                 </span>
 
                 <div>
-                  <strong>Nenhum aviso agora</strong>
-                  <p>Os comunicados da academia aparecerão aqui.</p>
+                  <strong>Nenhum comunicado publicado</strong>
+                  <p>Quando a academia enviar um aviso, ele aparecerá aqui.</p>
                 </div>
               </div>
             </section>
@@ -691,8 +789,8 @@
             >
               <div class="mobile-aluno-avisos-section-heading">
                 <div>
-                  <span class="mobile-aluno-avisos-kicker">Todos os comunicados</span>
-                  <h2 id="mobileAlunoAvisosListaTitulo">Avisos disponíveis</h2>
+                  <span class="mobile-aluno-avisos-kicker">Histórico recente</span>
+                  <h2 id="mobileAlunoAvisosListaTitulo">Todos os comunicados</h2>
                 </div>
 
                 <small id="mobileAlunoAvisosExibicao">Lista atual</small>
@@ -704,7 +802,7 @@
               ></div>
             </section>
 
-            <section class="mobile-aluno-avisos-nota" aria-label="Sobre os avisos">
+            <section class="mobile-aluno-avisos-nota" aria-label="Origem dos avisos">
               <span aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
@@ -713,7 +811,7 @@
               </span>
 
               <p>
-                Acompanhe aqui os comunicados mais recentes da sua academia.
+                Os comunicados exibidos aqui são enviados diretamente pela sua academia.
               </p>
             </section>
           </section>
@@ -760,13 +858,27 @@
           </div>
 
           <article id="avisosAlunoHomeCard" class="panel-card notices-home-card escondido">
-            <div class="section-title-row">
-              <div>
-                <span class="eyebrow">Avisos</span>
-                <h2>Quadro de avisos</h2>
+            <div class="desktop-aluno-avisos-header">
+              <div class="desktop-aluno-avisos-titulo">
+                <span class="desktop-aluno-avisos-icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M18 8a6 6 0 10-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                    <path d="M10 21h4"/>
+                  </svg>
+                </span>
+
+                <div>
+                  <span class="eyebrow">Comunicados</span>
+                  <h2>Avisos da academia</h2>
+                  <p>Informações recentes enviadas pelo professor para os alunos.</p>
+                </div>
               </div>
-              <span id="avisosAlunoContador" class="mini-badge">0 avisos</span>
+
+              <span id="avisosAlunoContador" class="mini-badge desktop-aluno-avisos-contador">
+                0 avisos
+              </span>
             </div>
+
             <div id="avisosAlunoLista" class="student-notices-list">
               <p class="empty-message">Carregando avisos...</p>
             </div>
@@ -802,9 +914,7 @@
                   class="mobile-aluno-perfil-foto escondido"
                   alt="Foto do aluno"
                 />
-                <div id="mobileAlunoPerfilAvatar" class="mobile-aluno-perfil-avatar">
-                  A
-                </div>
+                <div id="mobileAlunoPerfilAvatar" class="mobile-aluno-perfil-avatar">A</div>
 
                 <button
                   id="btnMobileAlunoPerfilFoto"
@@ -820,27 +930,32 @@
               </div>
 
               <div class="mobile-aluno-perfil-identidade">
-                <span class="mobile-aluno-perfil-kicker">Meu perfil</span>
+                <span class="mobile-aluno-perfil-kicker">Conta do aluno</span>
                 <h2 id="mobileAlunoPerfilNomeHero">Aluno</h2>
-                <p id="mobileAlunoPerfilTelefoneHero">Telefone não informado</p>
+                <p id="mobileAlunoPerfilTelefoneHero">WhatsApp não informado</p>
               </div>
+
+              <strong id="mobileAlunoPerfilStatus" class="mobile-aluno-perfil-status">
+                Não informado
+              </strong>
 
               <p id="mobileAlunoPerfilFotoMensagem" class="mobile-aluno-perfil-feedback escondido"></p>
             </section>
 
-            <section class="mobile-aluno-perfil-secao" aria-labelledby="mobileAlunoPerfilVinculoTitulo">
+            <section class="mobile-aluno-perfil-secao mobile-aluno-perfil-vinculo" aria-labelledby="mobileAlunoPerfilVinculoTitulo">
               <div class="mobile-aluno-perfil-secao-topo">
                 <div>
-                  <span class="mobile-aluno-perfil-kicker">Academia</span>
-                  <h2 id="mobileAlunoPerfilVinculoTitulo">Seu vínculo</h2>
+                  <span class="mobile-aluno-perfil-kicker">Vínculo</span>
+                  <h2 id="mobileAlunoPerfilVinculoTitulo">Sua academia</h2>
                 </div>
 
-                <span class="mobile-aluno-perfil-secao-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M4 21V5l8-3v19M12 8h8v13M2 21h20"/>
-                    <path d="M7 8h2M7 12h2M7 16h2M15 11h2M15 15h2"/>
-                  </svg>
-                </span>
+                <button
+                  type="button"
+                  class="mobile-aluno-perfil-acao-texto"
+                  data-mobile-aluno-view="graduacao"
+                >
+                  Solicitar ajuste
+                </button>
               </div>
 
               <div class="mobile-aluno-perfil-vinculo-lista">
@@ -863,52 +978,78 @@
                   <span>Início</span>
                   <strong id="mobileAlunoPerfilInicioAcademia">Não informado</strong>
                 </div>
-
-                <div class="mobile-aluno-perfil-vinculo-row">
-                  <span>Status</span>
-                  <strong id="mobileAlunoPerfilStatus" class="mobile-aluno-perfil-status">
-                    Não informado
-                  </strong>
-                </div>
               </div>
-
-              <button
-                type="button"
-                class="mobile-aluno-perfil-link"
-                data-mobile-aluno-view="graduacao"
-              >
-                <span>Solicitar ajuste de turma ou graduação</span>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14M13 6l6 6-6 6"/>
-                </svg>
-              </button>
             </section>
 
-            <section class="mobile-aluno-perfil-secao" aria-labelledby="mobileAlunoPerfilDadosTitulo">
+            <section
+              id="mobileAlunoPerfilDadosCard"
+              class="mobile-aluno-perfil-secao mobile-aluno-perfil-dados"
+              aria-labelledby="mobileAlunoPerfilDadosTitulo"
+            >
               <div class="mobile-aluno-perfil-secao-topo">
                 <div>
                   <span class="mobile-aluno-perfil-kicker">Dados pessoais</span>
-                  <h2 id="mobileAlunoPerfilDadosTitulo">Nome e telefone</h2>
+                  <h2 id="mobileAlunoPerfilDadosTitulo">Suas informações</h2>
                 </div>
 
-                <span class="mobile-aluno-perfil-secao-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="8" r="4"/>
-                    <path d="M4 20c1.5-4 4.2-6 8-6s6.5 2 8 6"/>
-                  </svg>
-                </span>
+                <button
+                  id="btnMobileAlunoPerfilEditar"
+                  type="button"
+                  class="mobile-aluno-perfil-editar"
+                  aria-expanded="false"
+                  aria-controls="mobileAlunoPerfilForm"
+                >
+                  Editar dados
+                </button>
               </div>
 
-              <p class="mobile-aluno-perfil-explicacao">
-                Você pode editar nome e WhatsApp. Os demais dados ficam informativos nesta tela.
-              </p>
+              <div id="mobileAlunoPerfilResumo" class="mobile-aluno-perfil-dados-resumo">
+                <div class="mobile-aluno-perfil-dado-row">
+                  <span>Nome</span>
+                  <strong id="mobileAlunoPerfilNomeResumo">Aluno</strong>
+                </div>
 
-              <div class="mobile-aluno-perfil-info-inline">
-                <span>Data de nascimento</span>
-                <strong id="mobileAlunoPerfilNascimento">Não informada</strong>
+                <div class="mobile-aluno-perfil-dado-row">
+                  <span>WhatsApp</span>
+                  <strong id="mobileAlunoPerfilTelefoneResumo">Não informado</strong>
+                </div>
+
+                <div class="mobile-aluno-perfil-dado-row">
+                  <span>Data de nascimento</span>
+                  <strong id="mobileAlunoPerfilNascimento">Não informada</strong>
+                </div>
+
+                <div
+                  id="mobileAlunoPerfilResponsavelSecao"
+                  class="mobile-aluno-perfil-responsavel escondido"
+                  aria-labelledby="mobileAlunoPerfilResponsavelTitulo"
+                >
+                  <div class="mobile-aluno-perfil-responsavel-titulo">
+                    <span id="mobileAlunoPerfilResponsavelTitulo">Responsável financeiro</span>
+                  </div>
+
+                  <div class="mobile-aluno-perfil-dado-row">
+                    <span>Nome</span>
+                    <strong id="mobileAlunoPerfilResponsavelNome">Não informado</strong>
+                  </div>
+
+                  <div class="mobile-aluno-perfil-dado-row">
+                    <span>WhatsApp</span>
+                    <strong id="mobileAlunoPerfilResponsavelWhatsapp">Não informado</strong>
+                  </div>
+                </div>
               </div>
 
-              <form id="mobileAlunoPerfilForm" class="mobile-aluno-perfil-form">
+              <form
+                id="mobileAlunoPerfilForm"
+                class="mobile-aluno-perfil-form escondido"
+                aria-hidden="true"
+              >
+                <div class="mobile-aluno-perfil-form-heading">
+                  <strong>Editar nome e WhatsApp</strong>
+                  <p>Turma, graduação e demais dados continuam sob controle da academia.</p>
+                </div>
+
                 <label>
                   <span>Nome</span>
                   <input
@@ -920,7 +1061,7 @@
                 </label>
 
                 <label>
-                  <span>Telefone</span>
+                  <span>WhatsApp</span>
                   <input
                     id="mobileAlunoPerfilTelefone"
                     type="tel"
@@ -930,63 +1071,195 @@
                   />
                 </label>
 
-                <button id="btnMobileAlunoPerfilSalvar" type="submit">
-                  Salvar alterações
-                </button>
-
-                <p
-                  id="mobileAlunoPerfilMensagem"
-                  class="mobile-aluno-perfil-feedback escondido"
-                  aria-live="polite"
-                ></p>
+                <div class="mobile-aluno-perfil-form-acoes">
+                  <button id="btnMobileAlunoPerfilCancelar" type="button" class="is-secondary">
+                    Cancelar
+                  </button>
+                  <button id="btnMobileAlunoPerfilSalvar" type="submit">
+                    Salvar alterações
+                  </button>
+                </div>
               </form>
+
+              <p
+                id="mobileAlunoPerfilMensagem"
+                class="mobile-aluno-perfil-feedback escondido"
+                aria-live="polite"
+              ></p>
             </section>
 
-            <section
-              id="mobileAlunoPerfilResponsavelSecao"
-              class="mobile-aluno-perfil-secao mobile-aluno-perfil-responsavel escondido"
-              aria-labelledby="mobileAlunoPerfilResponsavelTitulo"
-            >
-              <div class="mobile-aluno-perfil-secao-topo">
-                <div>
-                  <span class="mobile-aluno-perfil-kicker">Responsável</span>
-                  <h2 id="mobileAlunoPerfilResponsavelTitulo">Contato cadastrado</h2>
-                </div>
-
-                <span class="mobile-aluno-perfil-secao-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="9" cy="8" r="3"/>
-                    <path d="M3 19c1-3.4 3-5 6-5s5 1.6 6 5"/>
-                    <circle cx="17" cy="10" r="2"/>
-                    <path d="M15 15c2.8-.4 4.8.9 6 4"/>
-                  </svg>
-                </span>
-              </div>
-
-              <div class="mobile-aluno-perfil-vinculo-lista">
-                <div class="mobile-aluno-perfil-vinculo-row">
-                  <span>Nome</span>
-                  <strong id="mobileAlunoPerfilResponsavelNome">Não informado</strong>
-                </div>
-
-                <div class="mobile-aluno-perfil-vinculo-row">
-                  <span>WhatsApp</span>
-                  <strong id="mobileAlunoPerfilResponsavelWhatsapp">Não informado</strong>
-                </div>
-              </div>
-            </section>
-
-            <section class="mobile-aluno-perfil-privacidade" aria-label="Organização dos dados">
-              <span class="mobile-aluno-perfil-privacidade-icon" aria-hidden="true">
+            <section class="mobile-aluno-pwa-install" aria-labelledby="mobileAlunoPwaTitulo">
+              <span class="mobile-aluno-pwa-install-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
-                  <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
-                  <path d="M9 12l2 2 4-4"/>
+                  <path d="M12 3v12M7 10l5 5 5-5" />
+                  <path d="M5 19h14" />
                 </svg>
               </span>
-
               <div>
-                <strong>Alterações importantes</strong>
-                <p>Para mudar turma ou corrigir graduação, use a área de Solicitações.</p>
+                <span class="mobile-aluno-perfil-kicker">Aplicativo</span>
+                <strong id="mobileAlunoPwaTitulo">Instalar Mensalize Aluno</strong>
+                <p>Acesse seu portal pela tela inicial do celular.</p>
+              </div>
+              <button type="button" data-pwa-install>Instalar</button>
+            </section>
+          </section>
+
+          <section class="desktop-aluno-perfil" aria-label="Meu perfil e dados pessoais">
+            <article class="desktop-aluno-perfil-card desktop-aluno-perfil-hero">
+              <div class="desktop-aluno-perfil-foto-coluna">
+                <div class="desktop-aluno-perfil-foto-wrap">
+                  <img id="fotoAlunoPerfil" class="photo-preview escondido" alt="Foto do aluno" />
+                  <div id="avatarAlunoPerfil" class="photo-avatar">A</div>
+                </div>
+
+                <input id="inputFotoAluno" type="file" accept="image/*" aria-label="Selecionar foto do aluno" />
+                <button id="btnSalvarFotoAluno" type="button" class="secondary-action desktop-aluno-perfil-foto-botao">
+                  Alterar foto
+                </button>
+                <p id="msgFotoAluno" class="soft-message desktop-aluno-perfil-feedback" aria-live="polite"></p>
+              </div>
+
+              <div class="desktop-aluno-perfil-identidade">
+                <div class="desktop-aluno-perfil-identidade-topo">
+                  <div>
+                    <span class="eyebrow">Conta do aluno</span>
+                    <h2 id="desktopAlunoPerfilNomeHero">Aluno</h2>
+                    <p id="desktopAlunoPerfilTelefoneHero">WhatsApp não informado</p>
+                  </div>
+
+                  <span id="desktopAlunoPerfilStatus" class="desktop-aluno-perfil-status">
+                    Não informado
+                  </span>
+                </div>
+
+                <div class="desktop-aluno-perfil-resumo">
+                  <div>
+                    <span>Academia</span>
+                    <strong id="desktopAlunoPerfilAcademia">Mensalize</strong>
+                  </div>
+                  <div>
+                    <span>Turma principal</span>
+                    <strong id="desktopAlunoPerfilTurma">Não informada</strong>
+                  </div>
+                  <div>
+                    <span>Graduação</span>
+                    <strong id="desktopAlunoPerfilGraduacao">Não informada</strong>
+                  </div>
+                  <div>
+                    <span>Início na academia</span>
+                    <strong id="desktopAlunoPerfilInicio">Não informado</strong>
+                  </div>
+                </div>
+
+                <button type="button" class="desktop-aluno-perfil-solicitacao" data-view-target="graduacao">
+                  <span>Solicitar ajuste de turma ou graduação</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6"/>
+                  </svg>
+                </button>
+              </div>
+            </article>
+
+            <article
+              id="desktopAlunoPerfilDadosCard"
+              class="desktop-aluno-perfil-card desktop-aluno-perfil-edicao"
+            >
+              <div class="desktop-aluno-perfil-heading">
+                <div>
+                  <span class="eyebrow">Dados pessoais</span>
+                  <h2>Informações da conta</h2>
+                  <p class="desktop-aluno-perfil-helper">
+                    Consulte seus dados e abra a edição somente quando precisar alterar alguma informação.
+                  </p>
+                </div>
+
+                <button
+                  id="btnDesktopAlunoPerfilEditar"
+                  type="button"
+                  class="desktop-aluno-perfil-editar-botao"
+                  aria-expanded="false"
+                  aria-controls="formPerfilAluno"
+                >
+                  Editar dados
+                </button>
+              </div>
+
+              <div id="desktopAlunoPerfilResumoDados" class="desktop-aluno-perfil-dados-resumo">
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>Nome completo</span>
+                  <strong id="desktopAlunoPerfilNomeResumo">Aluno</strong>
+                </div>
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>WhatsApp</span>
+                  <strong id="desktopAlunoPerfilTelefoneResumo">Não informado</strong>
+                </div>
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>Data de nascimento</span>
+                  <strong id="desktopAlunoPerfilNascimentoResumo">Não informada</strong>
+                </div>
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>Nome do responsável</span>
+                  <strong id="desktopAlunoPerfilResponsavelNomeResumo">Não informado</strong>
+                </div>
+                <div class="desktop-aluno-perfil-dado-row">
+                  <span>WhatsApp do responsável</span>
+                  <strong id="desktopAlunoPerfilResponsavelWhatsappResumo">Não informado</strong>
+                </div>
+              </div>
+
+              <form
+                id="formPerfilAluno"
+                class="student-form desktop-aluno-perfil-form escondido"
+                aria-hidden="true"
+              >
+                <div class="desktop-aluno-perfil-form-heading">
+                  <strong>Editar dados pessoais</strong>
+                  <p>Turma, graduação e informações financeiras continuam sob controle da academia.</p>
+                </div>
+
+                <label>
+                  <span>Nome completo</span>
+                  <input type="text" id="perfilAlunoNome" autocomplete="name" placeholder="Seu nome completo" />
+                </label>
+                <label>
+                  <span>WhatsApp</span>
+                  <input type="tel" id="perfilAlunoTelefone" inputmode="tel" autocomplete="tel" placeholder="Seu WhatsApp com DDD" />
+                </label>
+                <label>
+                  <span>Data de nascimento</span>
+                  <input type="date" id="perfilAlunoNascimento" />
+                </label>
+                <label>
+                  <span>Nome do responsável</span>
+                  <input type="text" id="perfilAlunoResponsavel" placeholder="Se tiver responsável financeiro" />
+                </label>
+                <label>
+                  <span>WhatsApp do responsável</span>
+                  <input type="tel" id="perfilAlunoResponsavelWhatsApp" inputmode="tel" placeholder="WhatsApp do responsável" />
+                </label>
+
+                <div class="desktop-aluno-perfil-form-acoes">
+                  <button id="btnDesktopAlunoPerfilCancelar" type="button" class="secondary-action">
+                    Cancelar
+                  </button>
+                  <button type="submit" class="primary-action">Salvar alterações</button>
+                </div>
+              </form>
+
+              <p id="msgPerfilAluno" class="soft-message desktop-aluno-perfil-feedback" aria-live="polite"></p>
+            </article>
+
+            <article class="desktop-aluno-perfil-card aluno-pwa-install-desktop desktop-aluno-perfil-pwa" aria-labelledby="alunoPwaDesktopTitulo">
+              <span class="desktop-aluno-perfil-pwa-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5" />
+                  <path d="M5 19h14" />
+                </svg>
+              </span>
+              <div>
+                <span class="eyebrow">Aplicativo</span>
+                <h2 id="alunoPwaDesktopTitulo">Instalar Mensalize Aluno</h2>
+                <p class="helper-text">Acesse seu portal diretamente pela tela inicial do dispositivo.</p>
               </div>
             </section>
 
@@ -1501,9 +1774,18 @@
           >
             <section class="mobile-aluno-programa-hero" aria-label="Sua jornada de graduação">
               <div class="mobile-aluno-programa-hero-topo">
-                <div>
-                  <span class="mobile-aluno-programa-kicker">Mensalize Fight</span>
-                  <h2>Rumo à próxima faixa</h2>
+                <div class="mobile-aluno-programa-titulo-grupo">
+                  <span class="mobile-aluno-programa-titulo-icone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M4 8h16v8H4z"/>
+                      <path d="M8 8v8M16 8v8M2 12h2M20 12h2"/>
+                    </svg>
+                  </span>
+
+                  <div>
+                    <span class="mobile-aluno-programa-kicker">Mensalize Fight</span>
+                    <h2>Programa da faixa</h2>
+                  </div>
                 </div>
 
                 <span id="mobileAlunoProgramaBadge" class="mobile-aluno-programa-badge">
@@ -1512,16 +1794,14 @@
               </div>
 
               <div class="mobile-aluno-programa-jornada">
-                <span class="mobile-aluno-programa-faixa-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M3 9h18v6H3z"/>
-                    <path d="M8 9v6M16 9v6M2 12h1M21 12h1"/>
-                  </svg>
+                <span class="mobile-aluno-programa-faixa-visual" aria-hidden="true">
+                  <i></i><b></b><i></i>
                 </span>
 
-                <div>
-                  <small>Programa atual</small>
+                <div class="mobile-aluno-programa-jornada-copy">
+                  <small>Jornada atual</small>
                   <strong id="mobileAlunoProgramaJornada">Sua faixa</strong>
+                  <span>Conteúdos definidos pela sua academia</span>
                 </div>
               </div>
 
@@ -1554,19 +1834,20 @@
             >
               <div class="mobile-aluno-programa-section-heading">
                 <div>
-                  <span class="mobile-aluno-programa-kicker">Sua trilha</span>
-                  <h2 id="mobileAlunoProgramaConteudoTitulo">O que treinar</h2>
+                  <span class="mobile-aluno-programa-kicker">Plano de treino</span>
+                  <h2 id="mobileAlunoProgramaConteudoTitulo">Conteúdos da sua trilha</h2>
                 </div>
 
                 <span class="mobile-aluno-programa-section-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24">
-                    <path d="M5 5h14v14H5zM8 9h8M8 13h5"/>
+                    <path d="M5 4h14v16H5z"/>
+                    <path d="M8 8h8M8 12h8M8 16h5"/>
                   </svg>
                 </span>
               </div>
 
               <p class="mobile-aluno-programa-helper">
-                Abra cada categoria para ver as técnicas e materiais cadastrados pelo professor.
+                Abra uma categoria para consultar as técnicas e os materiais cadastrados pelo professor.
               </p>
 
               <div
@@ -1579,28 +1860,58 @@
               <span aria-hidden="true">
                 <svg viewBox="0 0 24 24">
                   <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
-                  <path d="M12 8v5M12 16h.01"/>
+                  <path d="M9 12l2 2 4-4"/>
                 </svg>
               </span>
 
-              <p>
-                Use esta trilha como referência para acompanhar os conteúdos definidos pela academia.
-              </p>
+              <div>
+                <strong>Uma referência para o seu treino</strong>
+                <p>Use a trilha para revisar conteúdos e leve suas dúvidas ao professor durante as aulas.</p>
+              </div>
             </section>
           </section>
 
           <article class="panel-card programa-faixa-card">
-            <div class="section-title-row">
-              <div>
-                <span class="eyebrow">Mensalize Fight</span>
-                <h2>Rumo à próxima faixa</h2>
-                <p id="programaFaixaResumo" class="helper-text">Veja o que seu professor separou para sua evolução.</p>
+            <header class="desktop-aluno-programa-header">
+              <div class="desktop-aluno-programa-titulo">
+                <span class="desktop-aluno-programa-icone" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 8h16v8H4z"/>
+                    <path d="M8 8v8M16 8v8M2 12h2M20 12h2"/>
+                  </svg>
+                </span>
+
+                <div>
+                  <span class="eyebrow">Mensalize Fight</span>
+                  <h2>Programa da faixa</h2>
+                  <p id="programaFaixaResumo" class="helper-text">Veja o que seu professor separou para sua evolução.</p>
+                </div>
               </div>
-              <span id="programaFaixaBadge" class="mini-badge">Sua jornada</span>
+
+              <div class="desktop-aluno-programa-jornada-resumo">
+                <small>Jornada atual</small>
+                <strong id="programaFaixaBadge">Sua jornada</strong>
+              </div>
+            </header>
+
+            <div class="desktop-aluno-programa-orientacao">
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 4h14v16H5z"/>
+                  <path d="M8 8h8M8 12h8M8 16h5"/>
+                </svg>
+              </span>
+              <div>
+                <strong>Seu plano de evolução</strong>
+                <p>Consulte as categorias, revise as técnicas e use os vídeos cadastrados pela academia.</p>
+              </div>
             </div>
 
             <div id="programaFaixaLista" class="programa-faixa-list">
-              <p class="empty-message">Carregando sua trilha de graduação...</p>
+              <div class="programa-faixa-loading" role="status">
+                <span aria-hidden="true"></span>
+                <p>Carregando sua trilha de graduação...</p>
+              </div>
             </div>
           </article>
         </section>
@@ -1680,19 +1991,101 @@
             </section>
           </section>
 
-          <article id="rankingFullCard" class="panel-card">
-            <div class="section-title-row">
-              <div>
-                <span class="eyebrow">Desafio</span>
-                <h2>Desafio da Aula do mês</h2>
+          <article id="rankingFullCard" class="panel-card desktop-aluno-desafio-card">
+            <header class="desktop-aluno-desafio-header">
+              <div class="desktop-aluno-desafio-header-copy">
+                <span class="eyebrow">Desafio da aula</span>
+                <h2>Seu desempenho neste mês</h2>
+                <p class="helper-text">
+                  Presenças e pontos extras lançados pelo professor formam a classificação mensal.
+                </p>
               </div>
-              <span id="rankingMesAtual" class="mini-badge">Mês atual</span>
+
+              <span id="rankingMesAtual" class="mini-badge desktop-aluno-desafio-mes">
+                Mês atual
+              </span>
+            </header>
+
+            <section class="desktop-aluno-desafio-resumo" aria-label="Resumo da sua classificação">
+              <div class="desktop-aluno-desafio-metrica desktop-aluno-desafio-metrica-posicao">
+                <span class="desktop-aluno-desafio-metrica-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z"/>
+                    <path d="M7 6H4v1a4 4 0 004 4M17 6h3v1a4 4 0 01-4 4"/>
+                  </svg>
+                </span>
+                <div>
+                  <small id="desktopAlunoDesafioPosicaoLabel">Sua posição</small>
+                  <strong id="desktopAlunoDesafioPosicao">--</strong>
+                </div>
+              </div>
+
+              <div class="desktop-aluno-desafio-metrica">
+                <span class="desktop-aluno-desafio-metrica-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3v18M7 7.5A4.5 4.5 0 0111.5 3H15M17 16.5A4.5 4.5 0 0112.5 21H9"/>
+                    <path d="M8 8h6a3 3 0 010 6h-4"/>
+                  </svg>
+                </span>
+                <div>
+                  <small>Pontos no mês</small>
+                  <strong id="desktopAlunoDesafioPontos">0</strong>
+                </div>
+              </div>
+
+              <div class="desktop-aluno-desafio-metrica">
+                <span class="desktop-aluno-desafio-metrica-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                  </svg>
+                </span>
+                <div>
+                  <small id="desktopAlunoDesafioParticipantesLabel">Alunos ranqueados</small>
+                  <strong id="desktopAlunoDesafioParticipantes">0</strong>
+                </div>
+              </div>
+            </section>
+
+            <div class="desktop-aluno-desafio-mensagem">
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
+                  <path d="M9 12l2 2 4-4"/>
+                </svg>
+              </span>
+              <p id="desktopAlunoDesafioMensagem">Continue treinando para subir no ranking.</p>
             </div>
-            <p class="helper-text">O Desafio soma as presenças do mês com os pontos extras lançados pelo professor, como técnica, atitude, desafio da aula e competição.</p>
-            <div class="ranking-tabs" id="rankingFullTabs"></div>
-            <div id="rankingFullList" class="ranking-list">
-              <p class="empty-message">Carregando ranking...</p>
-            </div>
+
+            <section class="desktop-aluno-desafio-filtros" aria-labelledby="desktopAlunoDesafioFiltrosTitulo">
+              <div class="desktop-aluno-desafio-section-heading">
+                <div>
+                  <span class="eyebrow">Classificação</span>
+                  <h3 id="desktopAlunoDesafioFiltrosTitulo">Escolha o ranking</h3>
+                </div>
+                <small id="desktopAlunoDesafioTipoAtual">Minha turma</small>
+              </div>
+
+              <div class="ranking-tabs" id="rankingFullTabs"></div>
+            </section>
+
+            <section class="desktop-aluno-desafio-ranking" aria-labelledby="desktopAlunoDesafioRankingTitulo">
+              <div class="desktop-aluno-desafio-section-heading">
+                <div>
+                  <span class="eyebrow">Ranking do mês</span>
+                  <h3 id="desktopAlunoDesafioRankingTitulo">Classificação completa</h3>
+                </div>
+                <span class="desktop-aluno-desafio-live">
+                  <i aria-hidden="true"></i>
+                  Atual
+                </span>
+              </div>
+
+              <div id="rankingFullList" class="ranking-list">
+                <p class="empty-message">Carregando ranking...</p>
+              </div>
+            </section>
           </article>
         </section>
 
@@ -1793,32 +2186,137 @@
               ></div>
             </section>
 
+            <section class="mobile-aluno-contato-app" aria-labelledby="mobileAlunoContatoAppTitulo">
+              <span class="mobile-aluno-contato-app-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5"/>
+                  <path d="M5 19h14"/>
+                </svg>
+              </span>
+
+              <div>
+                <span class="mobile-aluno-contato-kicker">Aplicativo</span>
+                <h2 id="mobileAlunoContatoAppTitulo">Acesso mais rápido</h2>
+                <p>Instale o Mensalize Aluno e abra seu portal direto pela tela inicial.</p>
+              </div>
+
+              <button type="button" data-pwa-install>Instalar</button>
+            </section>
+
             <section class="student-portal-legal" aria-label="Privacidade e termos do Mensalize">
-              <span class="mobile-aluno-contato-kicker">Privacidade</span>
-              <h2>Seus dados e regras de uso</h2>
+              <div class="mobile-aluno-contato-legal-heading">
+                <span class="mobile-aluno-contato-legal-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                  </svg>
+                </span>
+                <div>
+                  <span class="mobile-aluno-contato-kicker">Privacidade</span>
+                  <h2>Seus dados e regras de uso</h2>
+                </div>
+              </div>
               <p>Consulte como o Mensalize trata seus dados e quais são as regras de uso do portal.</p>
               <nav aria-label="Documentos legais do Portal do Aluno">
-                <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
-                <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+                <a href="privacidade.html" target="_blank" rel="noopener noreferrer">
+                  <span>Política de Privacidade</span><b aria-hidden="true">→</b>
+                </a>
+                <a href="termos.html" target="_blank" rel="noopener noreferrer">
+                  <span>Termos de Uso</span><b aria-hidden="true">→</b>
+                </a>
               </nav>
             </section>
 
           </section>
 
-          <article class="panel-card">
-            <span class="eyebrow">Contato</span>
-            <h2>Falar com professor</h2>
-            <p class="helper-text">Use os botões abaixo para falar com o professor ou compartilhar sua página.</p>
-            <div id="areaContatoProfessor" class="contact-actions"></div>
-            <button id="btnCompartilhar" class="share-button" type="button">🔗 Copiar ou compartilhar link</button>
+          <article class="panel-card desktop-aluno-contato-card">
+            <header class="desktop-aluno-contato-header">
+              <span class="desktop-aluno-contato-header-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 21V5l8-3v19M12 8h8v13M2 21h20"/>
+                  <path d="M7 8h2M7 12h2M7 16h2M15 11h2M15 15h2"/>
+                </svg>
+              </span>
+
+              <div>
+                <span class="eyebrow">Central de atendimento</span>
+                <h2>Contato e informações do portal</h2>
+                <p>Fale com a academia, compartilhe seu acesso e consulte as informações essenciais do Mensalize.</p>
+              </div>
+
+              <span class="desktop-aluno-contato-badge">Portal do aluno</span>
+            </header>
+
+            <div class="desktop-aluno-contato-grid">
+              <section class="desktop-aluno-contato-section desktop-aluno-contato-whatsapp">
+                <div class="desktop-aluno-contato-section-heading">
+                  <span class="desktop-aluno-contato-section-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M21 11.5a8.4 8.4 0 01-9 8.5 9.5 9.5 0 01-4-.9L3 21l1.8-4.7A8.7 8.7 0 013.5 12a8.5 8.5 0 0117.5-.5z"/>
+                      <path d="M8.5 9.5c.7 2 2 3.3 4 4"/>
+                    </svg>
+                  </span>
+                  <div>
+                    <span class="eyebrow">Contato direto</span>
+                    <h3>Falar com professor</h3>
+                  </div>
+                </div>
+                <p>Abra uma conversa pelo WhatsApp configurado pela academia.</p>
+                <div id="areaContatoProfessor" class="contact-actions"></div>
+              </section>
+
+              <section class="desktop-aluno-contato-section desktop-aluno-contato-share">
+                <div class="desktop-aluno-contato-section-heading">
+                  <span class="desktop-aluno-contato-section-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="18" cy="5" r="3"/>
+                      <circle cx="6" cy="12" r="3"/>
+                      <circle cx="18" cy="19" r="3"/>
+                      <path d="M8.7 10.6l6.6-4.2M8.7 13.4l6.6 4.2"/>
+                    </svg>
+                  </span>
+                  <div>
+                    <span class="eyebrow">Compartilhar</span>
+                    <h3>Seu portal</h3>
+                  </div>
+                </div>
+                <p>Use o compartilhamento do dispositivo ou copie o endereço deste acesso.</p>
+                <button id="btnCompartilhar" class="share-button" type="button">Copiar ou compartilhar link</button>
+              </section>
+            </div>
+
+            <section class="desktop-aluno-contato-app">
+              <span class="desktop-aluno-contato-app-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3v12M7 10l5 5 5-5"/>
+                  <path d="M5 19h14"/>
+                </svg>
+              </span>
+              <div>
+                <span class="eyebrow">Aplicativo</span>
+                <h3>Instale o Mensalize Aluno</h3>
+                <p>Tenha acesso rápido ao portal pela tela inicial do seu dispositivo.</p>
+              </div>
+              <button type="button" class="secondary-action" data-pwa-install>Instalar aplicativo</button>
+            </section>
 
             <section class="student-portal-legal" aria-label="Privacidade e termos do Mensalize">
-              <span class="eyebrow">Privacidade</span>
-              <h3>Seus dados e regras de uso</h3>
-              <p>Consulte como o Mensalize trata seus dados e quais são as regras de uso do portal.</p>
+              <div class="desktop-aluno-contato-legal-copy">
+                <span class="desktop-aluno-contato-legal-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3l7 3v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                  </svg>
+                </span>
+                <div>
+                  <span class="eyebrow">Privacidade</span>
+                  <h3>Seus dados e regras de uso</h3>
+                  <p>Consulte os documentos oficiais do Portal do Aluno.</p>
+                </div>
+              </div>
               <nav aria-label="Documentos legais do Portal do Aluno">
-                <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
-                <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+                <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade <span aria-hidden="true">→</span></a>
+                <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso <span aria-hidden="true">→</span></a>
               </nav>
             </section>
           </article>
@@ -2169,6 +2667,13 @@
     const rankingFullTabs = document.getElementById("rankingFullTabs");
     const rankingFullList = document.getElementById("rankingFullList");
     const rankingMesAtual = document.getElementById("rankingMesAtual");
+    const desktopAlunoDesafioPosicaoLabel = document.getElementById("desktopAlunoDesafioPosicaoLabel");
+    const desktopAlunoDesafioPosicao = document.getElementById("desktopAlunoDesafioPosicao");
+    const desktopAlunoDesafioPontos = document.getElementById("desktopAlunoDesafioPontos");
+    const desktopAlunoDesafioParticipantesLabel = document.getElementById("desktopAlunoDesafioParticipantesLabel");
+    const desktopAlunoDesafioParticipantes = document.getElementById("desktopAlunoDesafioParticipantes");
+    const desktopAlunoDesafioTipoAtual = document.getElementById("desktopAlunoDesafioTipoAtual");
+    const desktopAlunoDesafioMensagem = document.getElementById("desktopAlunoDesafioMensagem");
     const avisosAlunoHomeCard = document.getElementById("avisosAlunoHomeCard");
     const avisosAlunoLista = document.getElementById("avisosAlunoLista");
     const avisosAlunoContador = document.getElementById("avisosAlunoContador");
@@ -2471,6 +2976,16 @@
       return Math.ceil((dataVencimento - hojeSemHora) / (1000 * 60 * 60 * 24));
     }
     function limparNumeroWhatsApp(numero) { return String(numero || "").replace(/\D/g, ""); }
+    function formatarWhatsAppAluno(numero) {
+      const digitos = limparNumeroWhatsApp(numero);
+      if (digitos.length === 11) {
+        return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 7)}-${digitos.slice(7)}`;
+      }
+      if (digitos.length === 10) {
+        return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 6)}-${digitos.slice(6)}`;
+      }
+      return String(numero || "").trim() || "WhatsApp não informado";
+    }
     function primeiraLetra(nome) { return String(nome || "A").trim().charAt(0).toUpperCase() || "A"; }
     function escapeHtml(texto) {
       return String(texto || "")
@@ -2488,15 +3003,21 @@
     function normalizarTexto(texto) {
       return String(texto || "").trim().toLowerCase();
     }
+    function avisoTipoChave(tipo) {
+      const valor = normalizarTexto(tipo);
+      const tiposPermitidos = ["comunicado", "importante", "graduacao", "aula", "financeiro"];
+      return tiposPermitidos.includes(valor) ? valor : "comunicado";
+    }
+
     function avisoTipoTexto(tipo) {
       const mapa = {
-        comunicado: "📢 Comunicado",
-        importante: "⚠️ Importante",
-        graduacao: "🥋 Graduação",
-        aula: "📅 Aula / horário",
-        financeiro: "💰 Financeiro"
+        comunicado: "Comunicado",
+        importante: "Importante",
+        graduacao: "Graduação",
+        aula: "Aula e horário",
+        financeiro: "Financeiro"
       };
-      return mapa[tipo] || "📢 Comunicado";
+      return mapa[avisoTipoChave(tipo)] || "Comunicado";
     }
 
     function gerarStatus(aluno) {
@@ -2528,6 +3049,12 @@
       return { texto: `Faltam ${dias} dias`, classe: "muted-badge", data: previsao };
     }
 
+    function formatarQuantidadeMeses(valor) {
+      const quantidade = Number(valor);
+      if (!Number.isFinite(quantidade) || quantidade <= 0) return "Não informado";
+      return `${quantidade} ${quantidade === 1 ? "mês" : "meses"}`;
+    }
+
     function atualizarFotos(aluno) {
       const foto = normalizarFotoAluno(aluno.foto_url);
       const inicial = primeiraLetra(aluno.nome);
@@ -2543,6 +3070,7 @@
 
     function renderizarEvolucaoAluno(aluno) {
       const status = statusEvolucaoAluno(aluno);
+      conteudoEvolucaoAluno.dataset.faixa = String(aluno.faixa || "").trim().toLowerCase();
       if (badgeEvolucao) {
         badgeEvolucao.textContent = status.texto;
         badgeEvolucao.className = `mini-badge ${status.classe}`;
@@ -2552,12 +3080,13 @@
         ["Grau", aluno.grau !== null && aluno.grau !== undefined && aluno.grau !== "" ? `${aluno.grau}º grau` : "Não informado"],
         ["Turma", aluno.turma || "Não informada"],
         ["Última graduação", aluno.data_ultima_graduacao ? formatarData(aluno.data_ultima_graduacao) : "Não informada"],
-        ["Tempo mínimo", aluno.tempo_avaliacao_meses ? `${aluno.tempo_avaliacao_meses} meses` : "Não informado"],
+        ["Tempo mínimo", formatarQuantidadeMeses(aluno.tempo_avaliacao_meses)],
         ["Previsão para avaliação", status.data ? formatarData(status.data) : "Não calculada"]
       ];
-      conteudoEvolucaoAluno.replaceChildren(...linhas.map(([label, valor]) => {
+      const grauAtual = Math.max(0, Math.min(4, Number.parseInt(aluno.grau, 10) || 0));
+      conteudoEvolucaoAluno.replaceChildren(...linhas.map(([label, valor], indice) => {
         const linha = document.createElement("div");
-        linha.className = "evolution-info";
+        linha.className = `evolution-info evolution-info-${indice + 1}`;
 
         const rotulo = document.createElement("span");
         rotulo.textContent = label;
@@ -2566,6 +3095,28 @@
         conteudo.textContent = valor;
 
         linha.append(rotulo, conteudo);
+
+        if (indice === 0) {
+          const faixaVisual = document.createElement("span");
+          faixaVisual.className = "desktop-aluno-faixa-visual";
+          faixaVisual.setAttribute("aria-hidden", "true");
+
+          const faixaCor = document.createElement("span");
+          faixaCor.className = "desktop-aluno-faixa-cor";
+
+          const graus = document.createElement("span");
+          graus.className = "desktop-aluno-faixa-graus";
+
+          for (let grau = 1; grau <= 4; grau += 1) {
+            const marca = document.createElement("i");
+            marca.classList.toggle("ativo", grau <= grauAtual);
+            graus.appendChild(marca);
+          }
+
+          faixaVisual.append(faixaCor, graus);
+          linha.appendChild(faixaVisual);
+        }
+
         return linha;
       }));
       inicioGraduacao.textContent = aluno.faixa ? `Faixa ${aluno.faixa}${aluno.grau ? ` • ${aluno.grau}º grau` : ""}` : "Não informada";
@@ -2587,14 +3138,25 @@
       }
 
       avisosAlunoLista.innerHTML = lista.map(aviso => {
-        const importante = aviso.prioridade === "importante" || aviso.tipo === "importante";
+        const tipoChave = avisoTipoChave(aviso.tipo);
+        const importante = normalizarTexto(aviso.prioridade) === "importante" || tipoChave === "importante";
+        const meta = `${aviso.turma ? 'Turma: ' + escapeHtml(aviso.turma) : 'Todos os alunos'}${aviso.created_at ? ' • ' + formatarData(aviso.created_at) : ''}`;
+
         return `
-          <div class="student-notice-item ${importante ? 'is-important' : ''}">
-            <span class="notice-kind">${avisoTipoTexto(aviso.tipo)}</span>
+          <article
+            class="student-notice-item ${importante ? 'is-important' : ''}"
+            data-notice-type="${tipoChave}"
+          >
+            <div class="student-notice-item-head">
+              <span class="notice-kind">
+                <i aria-hidden="true"></i>
+                ${avisoTipoTexto(tipoChave)}
+              </span>
+              <small>${meta}</small>
+            </div>
             <strong>${escapeHtml(aviso.titulo)}</strong>
             <p>${escapeHtml(aviso.mensagem)}</p>
-            <small>${aviso.turma ? 'Turma: ' + escapeHtml(aviso.turma) : 'Todos os alunos'}${aviso.created_at ? ' • ' + formatarData(aviso.created_at) : ''}</small>
-          </div>
+          </article>
         `;
       }).join("");
     }
@@ -2682,7 +3244,7 @@
       if (conteudo) conteudo.classList.toggle("escondido", !estaAberta);
 
       const icone = card.querySelector(".programa-faixa-toggle-icon");
-      if (icone) icone.textContent = estaAberta ? "▾" : "▸";
+      if (icone) icone.textContent = estaAberta ? "−" : "+";
 
       const botao = card.querySelector(".programa-faixa-toggle");
       if (botao) botao.setAttribute("aria-expanded", estaAberta ? "true" : "false");
@@ -2698,17 +3260,25 @@
       if (!programaFaixaLista || !programaFaixaResumo || !programaFaixaBadge) return;
 
       if (!temConteudo) {
-        programaFaixaBadge.textContent = alunoAtual?.faixa ? alunoAtual.faixa : "Sem faixa";
-        programaFaixaResumo.textContent = alunoAtual?.faixa
+        const temFaixa = !!alunoAtual?.faixa;
+        programaFaixaBadge.textContent = temFaixa ? alunoAtual.faixa : "Sem faixa";
+        programaFaixaResumo.textContent = temFaixa
           ? "Seu professor ainda não cadastrou sua trilha até a próxima faixa."
           : "Sua faixa ainda não foi informada pelo professor.";
 
         programaFaixaLista.innerHTML = `
-          <p class="empty-message">
-            ${alunoAtual?.faixa
-              ? "Quando seu professor cadastrar o que você precisa treinar, sua trilha vai aparecer aqui."
-              : "Peça ao professor para cadastrar sua faixa e liberar sua trilha de graduação."}
-          </p>
+          <div class="programa-faixa-empty">
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M5 4h14v16H5z"/>
+                <path d="M8 8h8M8 12h8M8 16h5"/>
+              </svg>
+            </span>
+            <strong>${temFaixa ? "Trilha ainda não cadastrada" : "Faixa não informada"}</strong>
+            <p>${temFaixa
+              ? "Quando o professor cadastrar os conteúdos, sua trilha aparecerá aqui."
+              : "Peça ao professor para informar sua faixa e liberar o programa de graduação."}</p>
+          </div>
         `;
         return;
       }
@@ -2721,41 +3291,65 @@
       const totalTecnicas = grupos.reduce((total, grupo) => total + grupo.tecnicas.length, 0);
 
       programaFaixaBadge.textContent = tituloFaixa;
-      programaFaixaResumo.textContent = `${totalTecnicas} conteúdo${totalTecnicas === 1 ? "" : "s"} para treinar rumo à próxima faixa.`;
+      programaFaixaResumo.textContent = `${totalTecnicas} conteúdo${totalTecnicas === 1 ? "" : "s"} organizado${totalTecnicas === 1 ? "" : "s"} em ${grupos.length} categoria${grupos.length === 1 ? "" : "s"}.`;
 
       programaFaixaLista.innerHTML = `
         <div class="programa-faixa-jornada">
-          <span class="eyebrow">Sua jornada</span>
-          <strong>${escapeHtml(tituloFaixa)}</strong>
-          <p>Estude, treine com frequência e tire dúvidas com seu professor.</p>
+          <span class="programa-faixa-jornada-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 8h16v8H4z"/>
+              <path d="M8 8v8M16 8v8M2 12h2M20 12h2"/>
+            </svg>
+          </span>
+          <div>
+            <span class="eyebrow">Jornada atual</span>
+            <strong>${escapeHtml(tituloFaixa)}</strong>
+            <p>Revise os conteúdos e leve suas dúvidas ao professor durante os treinos.</p>
+          </div>
         </div>
-        <div class="programa-faixa-bloco-titulo">O que você precisa treinar</div>
-      ` + grupos.map(grupo => {
+        <div class="programa-faixa-bloco-titulo">
+          <div>
+            <span class="eyebrow">Plano de treino</span>
+            <strong>Conteúdos da sua trilha</strong>
+          </div>
+          <small>${grupos.length} categoria${grupos.length === 1 ? "" : "s"}</small>
+        </div>
+      ` + grupos.map((grupo, indiceGrupo) => {
         const idCategoria = String(grupo.id || grupo.nome || "categoria");
         const estaAberta = programaFaixaCategoriasAbertas.has(idCategoria);
+        const numeroCategoria = String(indiceGrupo + 1).padStart(2, "0");
 
         return `
           <article class="programa-faixa-categoria programa-faixa-accordion ${estaAberta ? "aberta" : ""}" data-programa-categoria="${escapeHtml(idCategoria)}" data-aberta="${estaAberta ? "true" : "false"}">
             <button type="button" class="programa-faixa-categoria-topo programa-faixa-toggle" aria-expanded="${estaAberta ? "true" : "false"}">
-              <span class="programa-faixa-toggle-icon">${estaAberta ? "▾" : "▸"}</span>
+              <span class="programa-faixa-categoria-numero" aria-hidden="true">${numeroCategoria}</span>
               <span class="programa-faixa-toggle-text">
-                <span class="eyebrow">${escapeHtml(tituloFaixa)}</span>
+                <span class="eyebrow">Categoria</span>
                 <strong>${escapeHtml(grupo.nome)}</strong>
-                <small>${grupo.tecnicas.length} item${grupo.tecnicas.length === 1 ? "" : "s"} para treinar</small>
+                <small>${grupo.tecnicas.length} conteúdo${grupo.tecnicas.length === 1 ? "" : "s"}</small>
               </span>
-              <span class="mini-badge muted-badge">${grupo.tecnicas.length}</span>
+              <span class="programa-faixa-toggle-icon" aria-hidden="true">${estaAberta ? "−" : "+"}</span>
             </button>
 
             <div class="programa-faixa-tecnicas ${estaAberta ? "" : "escondido"}">
-              ${grupo.tecnicas.map(tecnica => {
+              ${grupo.tecnicas.map((tecnica, indiceTecnica) => {
                 const videoUrl = normalizarLink(tecnica.videoUrl);
+                const numeroTecnica = String(indiceTecnica + 1).padStart(2, "0");
                 return `
                   <div class="programa-faixa-tecnica">
-                    <div>
+                    <span class="programa-faixa-tecnica-indice" aria-hidden="true">${numeroTecnica}</span>
+                    <div class="programa-faixa-tecnica-copy">
                       <strong>${escapeHtml(tecnica.titulo)}</strong>
-                      ${tecnica.descricao ? `<p>${escapeHtml(tecnica.descricao)}</p>` : `<p class="helper-text">Sem descrição cadastrada ainda.</p>`}
+                      ${tecnica.descricao ? `<p>${escapeHtml(tecnica.descricao)}</p>` : `<p class="helper-text">Descrição não cadastrada.</p>`}
                     </div>
-                    ${videoUrl ? `<a href="${escapeHtml(videoUrl)}" target="_blank" rel="noopener" class="programa-video-button">Ver aula em vídeo</a>` : ""}
+                    ${videoUrl ? `
+                      <a href="${escapeHtml(videoUrl)}" target="_blank" rel="noopener" class="programa-video-button">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="m9 7 8 5-8 5z"/>
+                        </svg>
+                        <span>Assistir vídeo</span>
+                      </a>
+                    ` : `<span class="programa-faixa-sem-video">Sem vídeo</span>`}
                   </div>
                 `;
               }).join("")}
@@ -2780,7 +3374,12 @@
       if (!alunoUsaSessaoAutenticada()) return;
 
       if (programaFaixaLista) {
-        programaFaixaLista.innerHTML = `<p class="empty-message">Carregando sua trilha de graduação...</p>`;
+        programaFaixaLista.innerHTML = `
+          <div class="programa-faixa-loading" role="status">
+            <span aria-hidden="true"></span>
+            <p>Carregando sua trilha de graduação...</p>
+          </div>
+        `;
       }
 
       try {
@@ -2800,7 +3399,15 @@
         }
 
         if (programaFaixaLista) {
-          programaFaixaLista.innerHTML = `<p class="empty-message">Atualize a página ou tente novamente mais tarde.</p>`;
+          programaFaixaLista.innerHTML = `
+            <div class="programa-faixa-empty programa-faixa-empty-error">
+              <span aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01"/><path d="M10.3 4.5 2.7 18a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 4.5a2 2 0 0 0-3.4 0z"/></svg>
+              </span>
+              <strong>Não foi possível carregar a trilha</strong>
+              <p>Atualize a página ou tente novamente mais tarde.</p>
+            </div>
+          `;
         }
       }
     }
@@ -2922,27 +3529,58 @@
       if (!pix) return "";
 
       return `
-        <section class="pix-aluno-card pix-aluno-card-clean">
-          <div class="section-title-row pix-aluno-header-clean">
-            <div>
-              <span class="eyebrow">Pix</span>
-              <h2>Pix da academia</h2>
-              <p>Copie o código abaixo, pague no banco e solicite a confirmação.</p>
+        <section class="pix-aluno-card pix-aluno-card-clean pix-express" aria-labelledby="pixExpressTitulo">
+          <div class="section-title-row pix-aluno-header-clean pix-express-intro">
+            <div class="pix-express-identidade">
+              <span class="pix-express-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m12 3 4 4-4 4-4-4 4-4Z"/>
+                  <path d="m17 8 4 4-4 4-4-4 4-4ZM7 8l4 4-4 4-4-4 4-4ZM12 13l4 4-4 4-4-4 4-4Z"/>
+                </svg>
+              </span>
+
+              <div>
+                <span class="eyebrow">Pagamento instantâneo</span>
+                <h2 id="pixExpressTitulo">Pix da academia</h2>
+                <p>Conclua o pagamento em três passos e acompanhe a confirmação pelo portal.</p>
+              </div>
             </div>
+
+            <ol class="pix-express-passos" aria-label="Como pagar com Pix">
+              <li>
+                <span>1</span>
+                <div><strong>Copie o código</strong><small>Use o botão ao lado da chave.</small></div>
+              </li>
+              <li>
+                <span>2</span>
+                <div><strong>Pague no banco</strong><small>Cole o código no aplicativo do seu banco.</small></div>
+              </li>
+              <li>
+                <span>3</span>
+                <div><strong>Avise a academia</strong><small>Solicite a confirmação depois de pagar.</small></div>
+              </li>
+            </ol>
           </div>
 
-          <div class="pix-code-clean">
-            <div class="pix-code-actions">
-              <span>Pix copia e cola</span>
-              <button type="button" id="btnCopiarPixAluno" class="secondary-action btn-copy-pix-clean" onclick="copiarPixAluno()">Copiar Pix</button>
-            </div>
-            <textarea id="pixCopiaColaAluno" class="pix-aluno-textarea" readonly>${escapeHtml(pix)}</textarea>
-          </div>
+          <div class="pix-express-acao">
+            <div class="pix-code-clean">
+              <div class="pix-code-actions">
+                <span>Código Pix</span>
+                <button type="button" id="btnCopiarPixAluno" class="secondary-action btn-copy-pix-clean" onclick="copiarPixAluno()">Copiar código</button>
+              </div>
 
-          <button type="button" id="btnSolicitarConfirmacaoPagamento" class="primary-action btn-confirm-pix-clean" onclick="solicitarConfirmacaoPagamentoAluno()">
-            Solicitar confirmação
-          </button>
-          <p id="msgSolicitarPagamentoAluno" class="soft-message pix-feedback-message"></p>
+              <textarea id="pixCopiaColaAluno" class="pix-aluno-textarea" readonly aria-label="Código Pix da academia">${escapeHtml(pix)}</textarea>
+            </div>
+
+            <div class="pix-express-confirmacao">
+              <button type="button" id="btnSolicitarConfirmacaoPagamento" class="primary-action btn-confirm-pix-clean" onclick="solicitarConfirmacaoPagamentoAluno()">
+                Já paguei — solicitar confirmação
+              </button>
+              <small>O professor receberá sua solicitação para conferir o pagamento.</small>
+            </div>
+
+            <p id="msgSolicitarPagamentoAluno" class="soft-message pix-feedback-message" aria-live="polite"></p>
+          </div>
         </section>
       `;
     }
@@ -2993,8 +3631,38 @@
       }
     }
 
-function renderizarAluno(aluno) {
+function atualizarResumoPerfilLeitura(aluno) {
+      if (!aluno) return;
+
+      const nome = String(aluno.nome || "Aluno").trim() || "Aluno";
+      const telefone = formatarWhatsAppAluno(aluno.telefone);
+      const nascimento = aluno.data_nascimento
+        ? formatarData(aluno.data_nascimento)
+        : "Não informada";
+      const responsavelNome = String(aluno.responsavel_nome || "").trim() || "Não informado";
+      const responsavelWhatsapp = aluno.responsavel_whatsapp
+        ? formatarWhatsAppAluno(aluno.responsavel_whatsapp)
+        : "Não informado";
+
+      const valores = {
+        mobileAlunoPerfilNomeResumo: nome,
+        mobileAlunoPerfilTelefoneResumo: telefone,
+        desktopAlunoPerfilNomeResumo: nome,
+        desktopAlunoPerfilTelefoneResumo: telefone,
+        desktopAlunoPerfilNascimentoResumo: nascimento,
+        desktopAlunoPerfilResponsavelNomeResumo: responsavelNome,
+        desktopAlunoPerfilResponsavelWhatsappResumo: responsavelWhatsapp
+      };
+
+      Object.entries(valores).forEach(([id, valor]) => {
+        const elemento = document.getElementById(id);
+        if (elemento) elemento.textContent = valor;
+      });
+    }
+
+    function renderizarAluno(aluno) {
       alunoAtual = aluno;
+      atualizarResumoPerfilLeitura(aluno);
       const status = gerarStatus(aluno);
       const linkPagamento = normalizarLink(aluno.link_pagamento);
       const linkWhatsAppProfessor = gerarLinkWhatsAppProfessor(aluno);
@@ -3018,6 +3686,40 @@ function renderizarAluno(aluno) {
       perfilAlunoNascimento.value = aluno.data_nascimento || "";
       perfilAlunoResponsavel.value = aluno.responsavel_nome || "";
       perfilAlunoResponsavelWhatsApp.value = aluno.responsavel_whatsapp || "";
+
+      const desktopPerfilNome = document.getElementById("desktopAlunoPerfilNomeHero");
+      const desktopPerfilTelefone = document.getElementById("desktopAlunoPerfilTelefoneHero");
+      const desktopPerfilAcademia = document.getElementById("desktopAlunoPerfilAcademia");
+      const desktopPerfilTurma = document.getElementById("desktopAlunoPerfilTurma");
+      const desktopPerfilGraduacao = document.getElementById("desktopAlunoPerfilGraduacao");
+      const desktopPerfilInicio = document.getElementById("desktopAlunoPerfilInicio");
+      const desktopPerfilStatus = document.getElementById("desktopAlunoPerfilStatus");
+
+      if (desktopPerfilNome) desktopPerfilNome.textContent = aluno.nome || "Aluno";
+      if (desktopPerfilTelefone) desktopPerfilTelefone.textContent = formatarWhatsAppAluno(aluno.telefone);
+      if (desktopPerfilAcademia) desktopPerfilAcademia.textContent = aluno.nome_empresa || CONFIG.nomeEmpresa || "Mensalize";
+      if (desktopPerfilTurma) desktopPerfilTurma.textContent = aluno.turma || "Não informada";
+      if (desktopPerfilGraduacao) {
+        const faixa = String(aluno.faixa || "").trim();
+        const grau = String(aluno.grau || "").trim();
+        desktopPerfilGraduacao.textContent = faixa
+          ? `${faixa}${grau ? ` • ${grau}º grau` : ""}`
+          : "Não informada";
+      }
+      if (desktopPerfilInicio) {
+        desktopPerfilInicio.textContent = aluno.data_inicio_academia
+          ? formatarData(aluno.data_inicio_academia)
+          : "Não informado";
+      }
+      if (desktopPerfilStatus) {
+        const statusPerfil = String(aluno.status_aluno || "ativo").trim().toLowerCase();
+        const statusPermitido = ["ativo", "pausado", "inativo"].includes(statusPerfil)
+          ? statusPerfil
+          : "ativo";
+        desktopPerfilStatus.textContent = statusPermitido.charAt(0).toUpperCase() + statusPermitido.slice(1);
+        desktopPerfilStatus.className = `desktop-aluno-perfil-status is-${statusPermitido}`;
+      }
+
       preencherTurmasSolicitacaoAluno(aluno);
       solicitarFaixa.value = aluno.faixa || "";
       solicitarGrau.value = aluno.grau || "";
@@ -3250,8 +3952,58 @@ function renderizarAluno(aluno) {
         rankingHomePodio.innerHTML = renderizarPodioAluno(lista, rankingAtivoAluno);
         rankingFullList.innerHTML = renderizarListaRankingAluno(lista);
       }
+      const itemAtual = rankingAtivoAluno === "turmas"
+        ? (lista || []).find(item => item.eh_turma_aluno === true)
+        : itemAlunoAtual(lista);
+      const rankingSelecionado = ativos.find(item => item.id === rankingAtivoAluno);
+      const rankingDeTurmas = rankingAtivoAluno === "turmas";
+
       rankingHomeResumo.textContent = mensagemRankingAtual(rankingAtivoAluno, lista);
-      if (rankingMesAtual) rankingMesAtual.textContent = new Date().toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+
+      if (desktopAlunoDesafioPosicaoLabel) {
+        desktopAlunoDesafioPosicaoLabel.textContent = rankingDeTurmas
+          ? "Posição da turma"
+          : "Sua posição";
+      }
+
+      if (desktopAlunoDesafioPosicao) {
+        desktopAlunoDesafioPosicao.textContent = itemAtual?.posicao
+          ? `${itemAtual.posicao}º`
+          : "--";
+      }
+
+      if (desktopAlunoDesafioPontos) {
+        desktopAlunoDesafioPontos.textContent = itemAtual
+          ? numeroRanking(itemAtual.pontos_total)
+          : 0;
+      }
+
+      if (desktopAlunoDesafioParticipantesLabel) {
+        desktopAlunoDesafioParticipantesLabel.textContent = rankingDeTurmas
+          ? "Turmas ranqueadas"
+          : "Alunos ranqueados";
+      }
+
+      if (desktopAlunoDesafioParticipantes) {
+        desktopAlunoDesafioParticipantes.textContent = Array.isArray(lista)
+          ? lista.length
+          : 0;
+      }
+
+      if (desktopAlunoDesafioTipoAtual) {
+        desktopAlunoDesafioTipoAtual.textContent = rankingSelecionado?.label || "Ranking";
+      }
+
+      if (desktopAlunoDesafioMensagem) {
+        desktopAlunoDesafioMensagem.textContent = mensagemRankingAtual(rankingAtivoAluno, lista);
+      }
+
+      if (rankingMesAtual) {
+        rankingMesAtual.textContent = new Date().toLocaleDateString("pt-BR", {
+          month: "long",
+          year: "numeric"
+        });
+      }
     }
 
     async function carregarRankingsAluno(aluno) {
@@ -3566,6 +4318,91 @@ function renderizarAluno(aluno) {
       }
     }
 
+    function restaurarCamposEdicaoPerfil() {
+      if (!alunoAtual) return;
+
+      perfilAlunoNome.value = alunoAtual.nome || "";
+      perfilAlunoTelefone.value = alunoAtual.telefone || "";
+      perfilAlunoNascimento.value = alunoAtual.data_nascimento || "";
+      perfilAlunoResponsavel.value = alunoAtual.responsavel_nome || "";
+      perfilAlunoResponsavelWhatsApp.value = alunoAtual.responsavel_whatsapp || "";
+
+      const mobileNome = document.getElementById("mobileAlunoPerfilNome");
+      const mobileTelefone = document.getElementById("mobileAlunoPerfilTelefone");
+      if (mobileNome) mobileNome.value = alunoAtual.nome || "";
+      if (mobileTelefone) mobileTelefone.value = alunoAtual.telefone || "";
+    }
+
+    function definirEdicaoPerfil(tipo, aberto) {
+      const mobile = tipo === "mobile";
+      const card = document.getElementById(
+        mobile ? "mobileAlunoPerfilDadosCard" : "desktopAlunoPerfilDadosCard"
+      );
+      const resumo = document.getElementById(
+        mobile ? "mobileAlunoPerfilResumo" : "desktopAlunoPerfilResumoDados"
+      );
+      const formulario = document.getElementById(
+        mobile ? "mobileAlunoPerfilForm" : "formPerfilAluno"
+      );
+      const botaoEditar = document.getElementById(
+        mobile ? "btnMobileAlunoPerfilEditar" : "btnDesktopAlunoPerfilEditar"
+      );
+
+      if (aberto) restaurarCamposEdicaoPerfil();
+
+      card?.classList.toggle("is-editando", aberto);
+      resumo?.classList.toggle("escondido", aberto);
+      formulario?.classList.toggle("escondido", !aberto);
+      formulario?.setAttribute("aria-hidden", String(!aberto));
+      botaoEditar?.setAttribute("aria-expanded", String(aberto));
+
+      if (aberto) {
+        window.requestAnimationFrame(() => {
+          formulario?.querySelector("input")?.focus({ preventScroll: true });
+        });
+      }
+    }
+
+    function limparMensagensEdicaoPerfil() {
+      msgPerfilAluno.textContent = "";
+      msgPerfilAluno.classList.remove("is-error");
+
+      const mensagemMobile = document.getElementById("mobileAlunoPerfilMensagem");
+      if (mensagemMobile) {
+        mensagemMobile.textContent = "";
+        mensagemMobile.classList.add("escondido");
+        mensagemMobile.classList.remove("is-error");
+      }
+    }
+
+    function fecharEdicoesPerfil(preservarMensagem = false) {
+      definirEdicaoPerfil("mobile", false);
+      definirEdicaoPerfil("desktop", false);
+      if (!preservarMensagem) limparMensagensEdicaoPerfil();
+    }
+
+    document.getElementById("btnMobileAlunoPerfilEditar")?.addEventListener("click", () => {
+      limparMensagensEdicaoPerfil();
+      definirEdicaoPerfil("mobile", true);
+    });
+
+    document.getElementById("btnMobileAlunoPerfilCancelar")?.addEventListener("click", () => {
+      restaurarCamposEdicaoPerfil();
+      definirEdicaoPerfil("mobile", false);
+      limparMensagensEdicaoPerfil();
+    });
+
+    document.getElementById("btnDesktopAlunoPerfilEditar")?.addEventListener("click", () => {
+      limparMensagensEdicaoPerfil();
+      definirEdicaoPerfil("desktop", true);
+    });
+
+    document.getElementById("btnDesktopAlunoPerfilCancelar")?.addEventListener("click", () => {
+      restaurarCamposEdicaoPerfil();
+      definirEdicaoPerfil("desktop", false);
+      limparMensagensEdicaoPerfil();
+    });
+
     btnSalvarFotoAluno?.addEventListener("click", function() {
       inputFotoAluno?.click();
     });
@@ -3618,6 +4455,7 @@ function renderizarAluno(aluno) {
       }
       msgPerfilAluno.textContent = "✅ Dados atualizados com sucesso.";
       await carregarAluno();
+      fecharEdicoesPerfil(true);
     });
 
     formSolicitarTurma?.addEventListener("submit", async function(event) {
@@ -3775,7 +4613,7 @@ function renderizarAluno(aluno) {
       const linkCompartilhamento = construirLinkCompartilhamentoAluno();
       if (!linkCompartilhamento) {
         btnCompartilhar.textContent = "Acesso não disponível";
-        setTimeout(() => { btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link"; }, 2000);
+        setTimeout(() => { btnCompartilhar.textContent = "Copiar ou compartilhar link"; }, 2000);
         return;
       }
 
@@ -3789,12 +4627,12 @@ function renderizarAluno(aluno) {
         }
 
         await navigator.clipboard.writeText(linkCompartilhamento);
-        btnCompartilhar.textContent = "✅ Link copiado";
+        btnCompartilhar.textContent = "Link copiado";
       } catch (erro) {
         btnCompartilhar.textContent = "Não foi possível compartilhar";
       }
 
-      setTimeout(() => { btnCompartilhar.textContent = "🔗 Copiar ou compartilhar link"; }, 2000);
+      setTimeout(() => { btnCompartilhar.textContent = "Copiar ou compartilhar link"; }, 2000);
     });
 
     btnEsquecerAcessoAluno?.addEventListener("click", esquecerAcessoAlunoNesteAparelho);

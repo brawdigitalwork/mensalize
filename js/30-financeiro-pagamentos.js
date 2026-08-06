@@ -465,9 +465,11 @@ function montarLinhaFinanceiroMensal(item) {
   const datasTexto = escaparHtmlFinanceiro(datasPagamento);
   const statusTexto = statusFinanceiroTexto(status);
 
+  const botaoHistorico = `<button type="button" class="acao-secundaria financeiro-row-btn" data-financeiro-historico="${alunoId}">Histórico</button>`;
   const acoes = status === "pago"
-    ? `<button type="button" class="acao-secundaria financeiro-row-btn" data-financeiro-cobrar="${alunoId}">WhatsApp</button>`
+    ? botaoHistorico
     : `
+      ${botaoHistorico}
       <button type="button" class="acao-secundaria financeiro-row-btn" data-financeiro-cobrar="${alunoId}">Cobrar</button>
       <button type="button" class="acao-principal financeiro-row-btn" data-financeiro-pago="${alunoId}">Marcar pago</button>
     `;
@@ -503,6 +505,64 @@ let ultimoResumoFinanceiroMensal = null;
 let carregandoFinanceiroMensal = false;
 let financeiroCobrancaMassaFiltro = "atrasado";
 let financeiroCobrancaMassaAberta = false;
+
+function normalizarBuscaFinanceiro(valor) {
+  return String(valor || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+}
+
+function atualizarControlesStatusFinanceiro(statusAtual) {
+  const status = normalizarFiltroFinanceiroStatus(statusAtual);
+
+  document.querySelectorAll("[data-financeiro-status]").forEach(botao => {
+    const ativo = normalizarFiltroFinanceiroStatus(botao.dataset.financeiroStatus) === status;
+    botao.classList.toggle("ativo", ativo);
+    botao.setAttribute("aria-pressed", String(ativo));
+  });
+}
+
+function renderizarListaFinanceiroMensal() {
+  if (!listaFinanceiroMensal || !ultimoResumoFinanceiroMensal) return;
+
+  const busca = normalizarBuscaFinanceiro(document.getElementById("financeiroBuscaAluno")?.value);
+  const filtroStatus = normalizarFiltroFinanceiroStatus(financeiroStatus?.value || "todos");
+  const total = ultimoResumoFinanceiroMensal.linhas.length;
+  let linhas = ultimoResumoFinanceiroMensal.linhas.slice();
+
+  if (filtroStatus !== "todos") {
+    linhas = linhas.filter(item => item.status === filtroStatus);
+  }
+
+  if (busca) {
+    linhas = linhas.filter(item => normalizarBuscaFinanceiro(item?.aluno?.nome).includes(busca));
+  }
+
+  linhas.sort((a, b) => {
+    const ordem = { atrasado: 1, pendente: 2, pago: 3 };
+    return (ordem[a.status] || 9) - (ordem[b.status] || 9)
+      || String(a.aluno.nome || "").localeCompare(String(b.aluno.nome || ""), "pt-BR");
+  });
+
+  ultimoResumoFinanceiroMensal.filtroStatus = filtroStatus;
+  atualizarControlesStatusFinanceiro(filtroStatus);
+
+  if (financeiroListaContador) {
+    const filtrando = filtroStatus !== "todos" || Boolean(busca);
+    financeiroListaContador.textContent = filtrando
+      ? `${linhas.length} de ${total} alunos`
+      : `${total} ${total === 1 ? "aluno" : "alunos"}`;
+  }
+
+  if (!linhas.length) {
+    listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado com esses filtros.</div>`;
+    return;
+  }
+
+  listaFinanceiroMensal.innerHTML = linhas.map(montarLinhaFinanceiroMensal).join("");
+}
 
 function obterAlunosCobrancaMassa() {
   if (!ultimoResumoFinanceiroMensal || !Array.isArray(ultimoResumoFinanceiroMensal.linhas)) return [];
@@ -555,7 +615,7 @@ function atualizarEstadoVisualCobrancaMassaFinanceiro() {
   painel.classList.toggle("recolhido", !financeiroCobrancaMassaAberta);
 
   if (botao) {
-    botao.textContent = financeiroCobrancaMassaAberta ? "Fechar" : "Abrir cobranças";
+    botao.textContent = financeiroCobrancaMassaAberta ? "Fechar cobranças" : "Ver cobranças";
     botao.setAttribute("aria-expanded", String(financeiroCobrancaMassaAberta));
   }
 }
@@ -563,23 +623,23 @@ function atualizarEstadoVisualCobrancaMassaFinanceiro() {
 function criarPainelCobrancaMassaFinanceiro() {
   if (document.getElementById("financeiroCobrancaMassa")) return;
 
-  const referencia = document.querySelector(".financeiro-filtros-mes") || listaFinanceiroMensal;
+  const referencia = document.querySelector("#viewFinanceiro .financeiro-operacao-card");
   if (!referencia || !referencia.parentNode) return;
 
   const painel = document.createElement("section");
   painel.id = "financeiroCobrancaMassa";
-  painel.className = "financeiro-cobranca-massa recolhido";
+  painel.className = "financeiro-cobranca-massa financeiro-cobranca-massa-v3 recolhido";
   painel.innerHTML = `
     <div class="financeiro-cobranca-topo">
       <div>
-        <span class="page-eyebrow">Cobrança assistida</span>
-        <h3>Cobranças em massa</h3>
-        <p>Abra somente quando quiser organizar alunos em aberto e cobrar pelo WhatsApp.</p>
+        <span class="page-eyebrow">Mensalidades em aberto</span>
+        <h3>Cobranças</h3>
+        <p>Organize os alunos e abra mensagens prontas no WhatsApp.</p>
       </div>
       <div class="financeiro-cobranca-resumo-acoes">
         <span id="financeiroCobrancaMassaResumo" class="financeiro-lista-contador">0 alunos</span>
         <button type="button" id="btnAlternarCobrancaMassaFinanceiro" class="acao-secundaria" aria-expanded="false">
-          Abrir cobranças
+          Ver cobranças
         </button>
       </div>
     </div>
@@ -829,28 +889,13 @@ async function carregarResumoFinanceiroMensal(opcoes = {}) {
     linhas: todasAsLinhasFinanceiras
   };
 
-  if (filtroStatus !== "todos") {
-    linhas = linhas.filter(item => item.status === filtroStatus);
-  }
-
-  linhas.sort((a, b) => {
-    const ordem = { atrasado: 1, pendente: 2, pago: 3 };
-    return (ordem[a.status] || 9) - (ordem[b.status] || 9) || String(a.aluno.nome || "").localeCompare(String(b.aluno.nome || ""), "pt-BR");
-  });
-
   if (financeiroRecebidoMirror) financeiroRecebidoMirror.textContent = formatarMoeda(resumo.recebido);
   if (financeiroAReceberMirror) financeiroAReceberMirror.textContent = formatarMoeda(resumo.aReceber);
   if (financeiroPrevisaoMirror) financeiroPrevisaoMirror.textContent = formatarMoeda(resumo.previsao);
   if (financeiroPagosMirror) financeiroPagosMirror.textContent = resumo.pagos;
   if (financeiroPendentesMirror) financeiroPendentesMirror.textContent = resumo.pendentes;
   if (financeiroAtrasadosMirror) financeiroAtrasadosMirror.textContent = resumo.atrasados;
-  if (financeiroListaContador) financeiroListaContador.textContent = `${linhas.length} de ${(alunos || []).length} aluno${linhas.length === 1 ? "" : "s"}`;
-
-  if (!linhas.length) {
-    listaFinanceiroMensal.innerHTML = `<div class="empty-state-mini">Nenhum aluno encontrado para esse mês e status.</div>`;
-  } else {
-    listaFinanceiroMensal.innerHTML = linhas.map(montarLinhaFinanceiroMensal).join("");
-  }
+  renderizarListaFinanceiroMensal();
 
   atualizarPainelCobrancaMassaFinanceiro();
 }
@@ -915,6 +960,12 @@ function inicializarAcoesListaFinanceira() {
       if (botaoPago) {
         const alunoId = botaoPago.getAttribute("data-financeiro-pago");
         marcarComoPago(alunoId);
+        return;
+      }
+
+      const botaoHistorico = event.target.closest("[data-financeiro-historico]");
+      if (botaoHistorico && typeof abrirHistorico === "function") {
+        abrirHistorico(botaoHistorico.getAttribute("data-financeiro-historico"));
       }
     });
   }
@@ -967,9 +1018,38 @@ function inicializarFinanceiroMensal() {
     financeiroStatus.value = normalizarFiltroFinanceiroStatus(financeiroStatus.value || "todos");
     if (!financeiroStatus.dataset.inicializadoFinanceiro) {
       financeiroStatus.dataset.inicializadoFinanceiro = "true";
-      financeiroStatus.addEventListener("change", () => carregarResumoFinanceiroMensal());
+      financeiroStatus.addEventListener("change", () => {
+        atualizarControlesStatusFinanceiro(financeiroStatus.value);
+        if (ultimoResumoFinanceiroMensal) {
+          renderizarListaFinanceiroMensal();
+        } else {
+          carregarResumoFinanceiroMensal();
+        }
+      });
     }
   }
+
+  document.querySelectorAll("[data-financeiro-status]").forEach(botao => {
+    if (botao.dataset.inicializadoFinanceiroStatus) return;
+    botao.dataset.inicializadoFinanceiroStatus = "true";
+    botao.addEventListener("click", () => {
+      if (!financeiroStatus) return;
+      financeiroStatus.value = normalizarFiltroFinanceiroStatus(botao.dataset.financeiroStatus);
+      financeiroStatus.dispatchEvent(new Event("change", { bubbles: true }));
+      document.querySelector("#viewFinanceiro .financeiro-operacao-card")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  });
+
+  const buscaAluno = document.getElementById("financeiroBuscaAluno");
+  if (buscaAluno && !buscaAluno.dataset.inicializadoFinanceiro) {
+    buscaAluno.dataset.inicializadoFinanceiro = "true";
+    buscaAluno.addEventListener("input", renderizarListaFinanceiroMensal);
+  }
+
+  atualizarControlesStatusFinanceiro(financeiroStatus?.value || "todos");
 
   if (financeiroMes && !financeiroMes.dataset.inicializadoFinanceiro) {
     financeiroMes.dataset.inicializadoFinanceiro = "true";
@@ -1094,7 +1174,10 @@ function marcarComoPago(id) {
 
   pagamentoConfirmandoId = id;
 
-  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
+  const calculoPagamento = calcularMensalidadesParaRegistrar(
+    aluno.vencimento,
+    aluno.dia_vencimento
+  );
   const quantidade = calculoPagamento.mensalidades.length;
   const valorMensal = valorParaNumero(aluno.valor);
   const valorTotal = valorMensal * quantidade;

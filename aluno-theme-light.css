@@ -1,0 +1,455 @@
+/* ============================================================================
+   MENSALIZE ALUNO — TEMA CLARO CONSOLIDADO
+   Camada final carregada depois dos estilos legados.
+   Centraliza superfícies, formulários, navegação e estados do Portal do Aluno
+   sem alterar a lógica dos módulos.
+============================================================================ */
+
+:root {
+  --aluno-light-bg: #eef0f5;
+  --aluno-light-bg-2: #e5e8ef;
+  --aluno-light-surface: #ffffff;
+  --aluno-light-surface-soft: #f6f7fa;
+  --aluno-light-surface-muted: #eceef3;
+  --aluno-light-border: #cbd1dc;
+  --aluno-light-border-soft: #dce1e9;
+  --aluno-light-text: #242033;
+  --aluno-light-muted: #596377;
+  --aluno-light-muted-2: #748096;
+  --aluno-light-purple: #6d35dc;
+  --aluno-light-purple-strong: #5b21b6;
+  --aluno-light-purple-soft: #eee8ff;
+  --aluno-light-green: #087a50;
+  --aluno-light-red: #b4232d;
+  --aluno-light-shadow: 0 18px 46px rgba(44, 37, 63, 0.11);
+  --aluno-light-shadow-soft: 0 8px 24px rgba(44, 37, 63, 0.07);
+}
+
+html[data-pwa-app="aluno"] {
+  color-scheme: light;
+  background: var(--aluno-light-bg);
+}
+
+/* --------------------------------------------------------------------------
+   Carregamento e falhas: evita o retorno do cartão preto antes do portal.
+---------------------------------------------------------------------------- */
+
+.loading-screen {
+  color-scheme: light;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(124, 58, 237, 0.13), transparent 32%),
+    radial-gradient(circle at 94% 8%, rgba(14, 165, 233, 0.07), transparent 26%),
+    linear-gradient(155deg, #f5f6fa, #e7eaf1) !important;
+}
+
+.loading-card,
+.error-card {
+  color: var(--aluno-light-text) !important;
+  border: 1px solid var(--aluno-light-border) !important;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(124, 58, 237, 0.09), transparent 36%),
+    linear-gradient(145deg, #ffffff, #eef0f5) !important;
+  box-shadow: var(--aluno-light-shadow) !important;
+}
+
+.loading-card span,
+.error-card p,
+.error-card span {
+  color: var(--aluno-light-muted) !important;
+}
+
+.loading-logo {
+  background: linear-gradient(135deg, #8250ef, #6d35dc) !important;
+  box-shadow: 0 14px 32px rgba(109, 53, 220, 0.24) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Componentes compartilhados do portal.
+---------------------------------------------------------------------------- */
+
+#portalConteudo {
+  color-scheme: light;
+  accent-color: var(--aluno-light-purple);
+}
+
+#portalConteudo .student-view {
+  color: var(--aluno-light-text);
+}
+
+#portalConteudo .student-view .panel-card,
+#portalConteudo .student-view .quick-card,
+#portalConteudo .student-view .ranking-home-card,
+#portalConteudo .student-view .student-request-card,
+#portalConteudo .student-view .info-card,
+#portalConteudo .student-view .payment-card,
+#portalConteudo .student-view .notice-card,
+#portalConteudo .student-view .graduation-card,
+#portalConteudo .student-view .program-card {
+  color: var(--aluno-light-text) !important;
+  border-color: var(--aluno-light-border) !important;
+  background: var(--aluno-light-surface) !important;
+  box-shadow: var(--aluno-light-shadow-soft) !important;
+}
+
+#portalConteudo .student-view .section-title-row h2,
+#portalConteudo .student-view .panel-card h2,
+#portalConteudo .student-view .panel-card h3 {
+  color: var(--aluno-light-text) !important;
+}
+
+#portalConteudo .student-view .helper-text,
+#portalConteudo .student-view .status-message,
+#portalConteudo .student-view .soft-message,
+#portalConteudo .student-view .panel-card p {
+  color: var(--aluno-light-muted) !important;
+}
+
+#portalConteudo .student-view .eyebrow {
+  color: var(--aluno-light-purple) !important;
+}
+
+#portalConteudo .student-view .student-form input,
+#portalConteudo .student-view .student-form select,
+#portalConteudo .student-view .student-form textarea,
+#portalConteudo .student-view input[type="text"],
+#portalConteudo .student-view input[type="tel"],
+#portalConteudo .student-view input[type="date"],
+#portalConteudo .student-view input[type="number"],
+#portalConteudo .student-view input[type="email"],
+#portalConteudo .student-view select,
+#portalConteudo .student-view textarea {
+  color-scheme: light !important;
+  color: var(--aluno-light-text) !important;
+  border-color: #bcc3cf !important;
+  background: #f9fafc !important;
+  box-shadow: none !important;
+}
+
+#portalConteudo .student-view .student-form label > span,
+#portalConteudo .student-view label > span {
+  color: var(--aluno-light-muted-2) !important;
+}
+
+#portalConteudo .student-view input::placeholder,
+#portalConteudo .student-view textarea::placeholder {
+  color: #8993a5 !important;
+  opacity: 1 !important;
+}
+
+#portalConteudo .student-view select option {
+  color: var(--aluno-light-text);
+  background: #ffffff;
+}
+
+#portalConteudo .student-view input:focus,
+#portalConteudo .student-view select:focus,
+#portalConteudo .student-view textarea:focus {
+  border-color: rgba(109, 53, 220, 0.48) !important;
+  box-shadow: 0 0 0 3px rgba(109, 53, 220, 0.10) !important;
+  outline: none !important;
+}
+
+#portalConteudo button:focus-visible,
+#portalConteudo a:focus-visible,
+#portalConteudo input:focus-visible,
+#portalConteudo select:focus-visible,
+#portalConteudo textarea:focus-visible {
+  outline: 3px solid rgba(109, 53, 220, 0.24) !important;
+  outline-offset: 2px !important;
+}
+
+#portalConteudo .student-view input:disabled,
+#portalConteudo .student-view select:disabled,
+#portalConteudo .student-view textarea:disabled,
+#portalConteudo .student-view input[readonly] {
+  color: #606a7c !important;
+  background: #eceff4 !important;
+  opacity: 1 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile: shell claro, cabeçalho estável e sheet coerente.
+---------------------------------------------------------------------------- */
+
+@media (max-width: 760px) {
+  body.mobile-aluno-portal-ativo {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(124, 58, 237, 0.13), transparent 30%),
+      radial-gradient(circle at 96% 5%, rgba(14, 165, 233, 0.07), transparent 26%),
+      linear-gradient(160deg, var(--aluno-light-bg), var(--aluno-light-bg-2)) !important;
+  }
+
+  body.mobile-aluno-portal-ativo #portalConteudo.student-app {
+    color: var(--aluno-light-text) !important;
+    background: transparent !important;
+  }
+
+  #portalConteudo .student-main,
+  #portalConteudo .student-content {
+    background: transparent !important;
+  }
+
+  #portalConteudo .mobile-aluno-header {
+    color: var(--aluno-light-text) !important;
+    border-bottom: 1px solid var(--aluno-light-border) !important;
+    background: rgba(246, 247, 250, 0.95) !important;
+    box-shadow: 0 10px 28px rgba(44, 37, 63, 0.09) !important;
+    backdrop-filter: blur(18px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+  }
+
+  #portalConteudo .mobile-aluno-header strong,
+  #portalConteudo .mobile-aluno-header #mobileAlunoTituloInterno {
+    color: var(--aluno-light-text) !important;
+  }
+
+  #portalConteudo .mobile-aluno-header small,
+  #portalConteudo .mobile-aluno-saudacao {
+    color: var(--aluno-light-muted) !important;
+  }
+
+  #portalConteudo .mobile-aluno-avatar,
+  #portalConteudo .mobile-aluno-avatar-fallback {
+    border-color: #d0d5df !important;
+    background: var(--aluno-light-purple-soft) !important;
+    color: var(--aluno-light-purple) !important;
+    box-shadow: 0 7px 18px rgba(44, 37, 63, 0.10) !important;
+  }
+
+  #portalConteudo .mobile-aluno-icon-button {
+    color: #312846 !important;
+    border-color: #d4d0e2 !important;
+    background: #f0ecfb !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .mobile-aluno-bottom-nav {
+    border-color: #cdd3de !important;
+    background: rgba(249, 250, 252, 0.96) !important;
+    box-shadow: 0 12px 34px rgba(44, 37, 63, 0.13) !important;
+    backdrop-filter: blur(18px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+  }
+
+  #portalConteudo .mobile-aluno-bottom-item {
+    color: #657084 !important;
+  }
+
+  #portalConteudo .mobile-aluno-bottom-item.ativo {
+    color: var(--aluno-light-purple) !important;
+    background: var(--aluno-light-purple-soft) !important;
+  }
+
+  #portalConteudo .mobile-aluno-module-card {
+    color: var(--aluno-light-text) !important;
+    border: 1px solid var(--aluno-light-border) !important;
+    background: #ffffff !important;
+    box-shadow: var(--aluno-light-shadow-soft) !important;
+  }
+
+  #portalConteudo .mobile-aluno-module-card strong {
+    color: var(--aluno-light-text) !important;
+  }
+
+  #portalConteudo .mobile-aluno-module-card small,
+  #portalConteudo .mobile-aluno-module-card span {
+    color: var(--aluno-light-muted) !important;
+  }
+
+  .mobile-aluno-sheet-backdrop {
+    background: rgba(31, 27, 43, 0.42) !important;
+  }
+
+  .mobile-aluno-sheet-panel {
+    color: var(--aluno-light-text) !important;
+    border-top-color: var(--aluno-light-border) !important;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.09), transparent 30%),
+      linear-gradient(180deg, #ffffff, #f0f2f6 82%) !important;
+    box-shadow: 0 -22px 60px rgba(44, 37, 63, 0.22) !important;
+  }
+
+  .mobile-aluno-sheet-handle {
+    background: #b8bfcb !important;
+  }
+
+  .mobile-aluno-sheet-header h2,
+  .mobile-aluno-sheet-row strong {
+    color: var(--aluno-light-text) !important;
+  }
+
+  .mobile-aluno-sheet-header small {
+    color: var(--aluno-light-purple) !important;
+  }
+
+  .mobile-aluno-sheet-lista {
+    border-color: var(--aluno-light-border) !important;
+    background: rgba(255, 255, 255, 0.78) !important;
+  }
+
+  .mobile-aluno-sheet-row {
+    color: var(--aluno-light-text) !important;
+    border-bottom-color: var(--aluno-light-border-soft) !important;
+    background: transparent !important;
+  }
+
+  .mobile-aluno-sheet-row small {
+    color: var(--aluno-light-muted) !important;
+  }
+
+  .mobile-aluno-sheet-row-icon {
+    color: var(--aluno-light-purple) !important;
+    background: var(--aluno-light-purple-soft) !important;
+  }
+
+  .mobile-aluno-sheet-chevron {
+    color: #7c8596 !important;
+  }
+
+  .mobile-aluno-sheet-row-sair,
+  .mobile-aluno-sheet-row-sair strong {
+    color: var(--aluno-light-red) !important;
+  }
+
+  .mobile-aluno-sheet-row-sair .mobile-aluno-sheet-row-icon {
+    color: var(--aluno-light-red) !important;
+    background: rgba(180, 35, 45, 0.08) !important;
+  }
+
+  #portalConteudo .student-view .panel-card {
+    border-radius: 20px !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Desktop: área principal clara; menu lateral continua como assinatura.
+---------------------------------------------------------------------------- */
+
+@media (min-width: 761px) {
+  #portalConteudo.student-app {
+    color: var(--aluno-light-text) !important;
+    background:
+      radial-gradient(circle at 8% 0%, rgba(124, 58, 237, 0.13), transparent 30%),
+      radial-gradient(circle at 94% 4%, rgba(14, 165, 233, 0.07), transparent 25%),
+      linear-gradient(155deg, var(--aluno-light-bg), var(--aluno-light-bg-2)) !important;
+  }
+
+  #portalConteudo .student-main,
+  #portalConteudo .student-content {
+    background: transparent !important;
+  }
+
+  #portalConteudo .student-topbar {
+    color: var(--aluno-light-text) !important;
+    border-bottom: 1px solid #d9dee7 !important;
+    background: rgba(250, 251, 253, 0.94) !important;
+    box-shadow: 0 8px 24px rgba(28, 35, 51, 0.07) !important;
+    backdrop-filter: blur(18px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(125%) !important;
+  }
+
+  #portalConteudo .menu-button {
+    display: inline-grid !important;
+    place-items: center !important;
+    color: #2b243d !important;
+    border-color: #d8d1eb !important;
+    background: #f1edfb !important;
+    box-shadow: none !important;
+  }
+
+  #portalConteudo .menu-button svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+  }
+
+  #portalConteudo .student-small-profile {
+    color: var(--aluno-light-text) !important;
+    border-color: #d9dee7 !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 5px 14px rgba(28, 35, 51, 0.055) !important;
+  }
+
+  #portalConteudo .student-small-profile strong {
+    color: var(--aluno-light-text) !important;
+  }
+
+  #portalConteudo .student-small-profile span {
+    color: var(--aluno-light-muted) !important;
+  }
+
+  #portalConteudo .student-top-avatar {
+    color: var(--aluno-light-purple) !important;
+    background: var(--aluno-light-purple-soft) !important;
+  }
+
+  #portalConteudo .student-menu-item {
+    display: grid !important;
+    grid-template-columns: 36px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  #portalConteudo .student-menu-item .student-menu-icon,
+  #portalConteudo .student-footer-button .student-menu-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: #a89cbd;
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  #portalConteudo .student-menu-item .student-menu-icon svg,
+  #portalConteudo .student-footer-button .student-menu-icon svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #portalConteudo .student-menu-item.ativo .student-menu-icon {
+    color: #d7c7ff;
+    background: rgba(139, 92, 246, 0.18);
+  }
+
+  #portalConteudo .student-menu-item > span:last-child,
+  #portalConteudo .student-footer-button > span:last-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #portalConteudo .student-footer-button {
+    display: grid !important;
+    grid-template-columns: 36px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    text-align: left !important;
+  }
+
+  #portalConteudo .student-view .panel-card,
+  #portalConteudo .student-view .quick-card,
+  #portalConteudo .student-view .ranking-home-card {
+    border-radius: 22px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #portalConteudo *,
+  #portalConteudo *::before,
+  #portalConteudo *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

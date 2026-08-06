@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="css/mobile/mobile-programa-fight.css">
   <link rel="stylesheet" href="css/mobile/mobile-relatorios.css">
   <link rel="stylesheet" href="css/mobile/mobile-configuracoes.css">
+  <link rel="stylesheet" href="mobile-stability.css?v=1-mobile-hotfix">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icons/mensalize-icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/mensalize-icon-192.png">
@@ -39,60 +40,124 @@
 
   <section id="telaLogin" class="tela-login">
     <div class="login-card">
-      <img src="logo.png" class="login-logo" alt="Logo Mensalize">
-      
-      <h1 id="loginNomeApp">Mensalize</h1>
-      <p id="loginSlogan">
-      Sistema de gestão de mensalidades
-      </p>
+      <section class="login-apresentacao" aria-label="Apresentação do Mensalize">
+        <span class="login-apresentacao-luz" aria-hidden="true"></span>
+        <img src="icons/mensalize-icon-192.png" class="login-logo" alt="">
+        <div class="login-marca-copy">
+          <span class="login-kicker">Operação da academia</span>
+          <h1 id="loginNomeApp">Mensalize</h1>
+          <p id="loginSlogan" class="login-config-slogan" aria-hidden="true">Sistema de gestão de mensalidades</p>
+          <p class="login-marca-frase">Mensalidades, presenças e evolução no mesmo ritmo.</p>
+        </div>
 
-      <input 
-        type="email" 
-        id="emailLogin" 
-        placeholder="E-mail"
-        autocomplete="username"
-      >
+        <div class="login-operacao-preview" aria-label="Áreas acompanhadas no Mensalize">
+          <div class="login-operacao-cabecalho">
+            <span>Central Mensalize</span>
+            <strong><i aria-hidden="true"></i> 3 áreas conectadas</strong>
+          </div>
 
-      <div class="login-senha-wrap">
-        <input 
-          type="password" 
-          id="senhaLogin" 
-          placeholder="Senha"
-          autocomplete="current-password"
-        >
-        <button type="button" id="btnMostrarSenhaLogin" class="btn-mostrar-senha" aria-label="Mostrar senha">
-          Ver
-        </button>
-      </div>
+          <div class="login-operacao-lista">
+            <div class="login-operacao-item login-operacao-financeiro">
+              <span class="login-operacao-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 7.5h16v10H4zM4 10.5h16M8 15h3"/></svg>
+              </span>
+              <div>
+                <small>Financeiro</small>
+                <strong>Recebimentos do mês</strong>
+              </div>
+              <span class="login-operacao-seta" aria-hidden="true">›</span>
+            </div>
 
-      <label class="login-salvar-acesso">
-        <input type="checkbox" id="lembrarEmailProfessor">
-        <span>Lembrar meu e-mail neste aparelho</span>
-      </label>
+            <div class="login-operacao-item login-operacao-presencas">
+              <span class="login-operacao-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m7 12 3 3 7-7M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg>
+              </span>
+              <div>
+                <small>Presenças</small>
+                <strong>Movimento das turmas</strong>
+              </div>
+              <span class="login-operacao-seta" aria-hidden="true">›</span>
+            </div>
 
-      <p class="login-aviso-seguranca">
-        A senha não será salva.
-      </p>
+            <div class="login-operacao-item login-operacao-graduacoes">
+              <span class="login-operacao-icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M6 5h12M7 5l1 6h8l1-6M9 11v4a3 3 0 0 0 6 0v-4M8 20h8"/></svg>
+              </span>
+              <div>
+                <small>Graduação</small>
+                <strong>Próximas avaliações</strong>
+              </div>
+              <span class="login-operacao-seta" aria-hidden="true">›</span>
+            </div>
+          </div>
+        </div>
 
-      <button id="btnEntrar">Entrar</button>
-      <p class="login-ajuda">
-      Não tem acesso? Solicite sua conta ao administrador.
-      </p>
-      <a 
-        href="https://wa.me/5531982924913?text=Olá, quero solicitar acesso ao sistema Mensalize"
-        target="_blank"
-        class="btn-contato"
-      >
-        Falar com o administrador
-</a>
+        <p class="login-apresentacao-rodape">Entre para acompanhar o que vence, quem treinou e quem está perto da próxima graduação.</p>
+      </section>
 
-      <p id="mensagemLogin"></p>
+      <section class="login-acesso" aria-labelledby="loginTituloAcesso">
+        <header class="login-acesso-topo">
+          <span>Acesso do professor</span>
+          <h2 id="loginTituloAcesso">Entre na central da sua academia</h2>
+          <p>Consulte cobranças, alunos, turmas e atividades do dia.</p>
+        </header>
 
-      <nav class="login-legal-links" aria-label="Documentos legais do Mensalize">
-        <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>
-        <span aria-hidden="true">•</span>
-        <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
-      </nav>
+        <div class="login-formulario">
+          <div class="login-campo">
+            <label for="emailLogin">E-mail</label>
+            <input
+              type="email"
+              id="emailLogin"
+              placeholder="nome@academia.com"
+              autocomplete="username"
+            >
+          </div>
+
+          <div class="login-campo">
+            <label for="senhaLogin">Senha</label>
+            <div class="login-senha-wrap">
+              <input
+                type="password"
+                id="senhaLogin"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+              >
+              <button type="button" id="btnMostrarSenhaLogin" class="btn-mostrar-senha" aria-label="Mostrar senha">
+                Ver
+              </button>
+            </div>
+          </div>
+
+          <div class="login-preferencias">
+            <label class="login-salvar-acesso">
+              <input type="checkbox" id="lembrarEmailProfessor">
+              <span>Lembrar meu e-mail</span>
+            </label>
+            <p class="login-aviso-seguranca">Sua senha nunca é salva neste aparelho.</p>
+          </div>
+
+          <button id="btnEntrar">Entrar</button>
+          <p id="mensagemLogin" aria-live="polite"></p>
+        </div>
+
+        <div class="login-suporte">
+          <p class="login-ajuda">Precisa liberar sua conta profissional?</p>
+          <a
+            href="https://wa.me/5531982924913?text=Olá, quero solicitar acesso ao sistema Mensalize"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-contato"
+          >
+            Falar com a equipe Mensalize
+          </a>
+        </div>
+
+        <nav class="login-legal-links" aria-label="Documentos legais do Mensalize">
+          <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Privacidade</a>
+          <span aria-hidden="true">•</span>
+          <a href="termos.html" target="_blank" rel="noopener noreferrer">Termos de Uso</a>
+        </nav>
+      </section>
     </div>
   </section>
 
@@ -133,6 +198,23 @@
       </nav>
 
       <div class="sidebar-footer">
+        <nav class="sidebar-legal-links" aria-label="Documentos legais">
+          <a href="privacidade.html" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 19 6v5c0 4.8-2.8 8.3-7 10-4.2-1.7-7-5.2-7-10V6z"/>
+              <path d="M9.5 12.2 11.2 14l3.5-4"/>
+            </svg>
+            <span>Privacidade</span>
+          </a>
+          <a href="termos.html" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 3h9l3 3v15H6z"/>
+              <path d="M15 3v4h4M9 11h6M9 15h6"/>
+            </svg>
+            <span>Termos de Uso</span>
+          </a>
+        </nav>
+
         <button id="btnAdmin" class="btn-admin escondido">⚙ Admin</button>
         <button id="btnTema" class="btn-tema escondido" title="Tema desativado">🌙 Tema</button>
         <button id="btnSair" class="btn-sair">Sair</button>
@@ -216,13 +298,13 @@
 
       <main class="container container-dashboard">
 
-        <section id="viewDashboard" class="view-app ativa">
+        <section id="viewDashboard" class="view-app ativa dashboard-simples">
 
           <section id="mobileProfessorHome" class="mobile-professor-home" aria-label="Início mobile do professor">
             <button type="button" id="mobileProfessorAcademiaCard" class="mobile-academia-card" aria-label="Abrir configurações da academia">
               <span class="mobile-academia-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V5l8-3v19M12 8h8v13M2 21h20"/><path d="M7 8h2M7 12h2M7 16h2M15 11h2M15 15h2"/></svg></span>
               <span class="mobile-academia-texto">
-                <small>Minha academia</small>
+                <small>Academia</small>
                 <strong id="mobileProfessorAcademia">Mensalize</strong>
               </span>
               <span class="mobile-academia-chevron"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>
@@ -232,7 +314,7 @@
               <div class="mobile-resumo-topo">
                 <div>
                   <span class="mobile-resumo-icone"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></span>
-                  <strong>Resumo do mês</strong>
+                  <strong>Financeiro do mês</strong>
                 </div>
                 <span id="mobileProfessorMesAtual">Mês atual</span>
               </div>
@@ -250,7 +332,7 @@
               </div>
 
               <button type="button" class="mobile-resumo-link" data-mobile-view="financeiro">
-                <span>Ver financeiro completo</span>
+                <span>Abrir financeiro</span>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </button>
             </section>
@@ -270,15 +352,15 @@
 
               <button type="button" class="mobile-action-card mobile-action-check" data-mobile-view="presencas">
                 <span class="mobile-action-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg></span>
-                <strong>Chamada</strong>
-                <small>rápida</small>
+                <strong>Presenças</strong>
+                <small>fazer chamada</small>
               </button>
             </section>
 
             <section id="mobileProfessorProximaAcao" class="mobile-proxima-acao" aria-label="Próxima melhor ação">
               <span id="mobileProfessorProximaAcaoIcone" class="mobile-proxima-acao-icone">✨</span>
               <div>
-                <small>Próxima melhor ação</small>
+                <small>Prioridade de hoje</small>
                 <strong id="mobileProfessorProximaAcaoTitulo">Analisando sua operação...</strong>
                 <p id="mobileProfessorProximaAcaoDescricao">O Mensalize está verificando o que precisa da sua atenção.</p>
               </div>
@@ -335,14 +417,14 @@
           </section>
           <section class="dashboard-hero">
             <div>
-              <span class="page-eyebrow">Resumo de hoje</span>
+              <span class="page-eyebrow">Visão geral</span>
               <h2 id="nomeClienteDashboard">Mensalize</h2>
-              <p>Tudo que você precisa acompanhar hoje em um só lugar.</p>
+              <p>Acompanhe cobranças e resolva as tarefas importantes do dia.</p>
             </div>
 
             <div class="hero-actions">
-              <button type="button" id="btnMostrarForm">+ Novo aluno</button>
-              <button type="button" id="btnCobrarAtrasados" class="btn-cobrar">📢 Cobrar atrasados</button>
+              <button type="button" id="btnMostrarForm">Novo aluno</button>
+              <button type="button" id="btnCobrarAtrasados" class="btn-cobrar">Cobrar atrasados</button>
             </div>
           </section>
 
@@ -362,25 +444,25 @@
             <div class="card receita">
               <h2>Recebido no mês</h2>
               <p id="totalRecebido">R$ 0,00</p>
-              <span>Valor que já entrou neste mês.</span>
+              <span>Entrou neste mês</span>
             </div>
 
             <div class="card receber">
               <h2>A receber</h2>
               <p id="totalAReceber">R$ 0,00</p>
-              <span>Mensalidades ainda em aberto.</span>
+              <span>Ainda está em aberto</span>
             </div>
 
             <div class="card alerta">
               <h2>Atrasados</h2>
               <p id="totalAtrasados">0</p>
-              <span>Alunos com vencimento passado.</span>
+              <span>Precisam de cobrança</span>
             </div>
 
             <div class="card">
               <h2>Total de alunos</h2>
               <p id="totalAlunos">0</p>
-              <span>Alunos cadastrados no sistema.</span>
+              <span>Cadastros ativos</span>
             </div>
 
             <div class="metricas-ocultas" aria-hidden="true">
@@ -420,9 +502,9 @@
           <section id="centralAcaoDashboard" class="dashboard-executivo-pro central-acao-dashboard" aria-label="Central de ação do professor">
             <div class="dashboard-executivo-topo central-acao-topo">
               <div>
-                <span class="page-eyebrow">Radar operacional</span>
-                <h3>Próxima ação do dia</h3>
-                <p id="dashboardCentralDescricao">Uma recomendação principal e atalhos rápidos para o que precisa de atenção.</p>
+                <span class="page-eyebrow">Atenção</span>
+                <h3>O que precisa ser feito</h3>
+                <p id="dashboardCentralDescricao">Veja a prioridade e as três tarefas mais importantes da academia.</p>
               </div>
               <span id="dashboardStatusOperacao" class="dashboard-status-operacao">Carregando...</span>
             </div>
@@ -431,10 +513,10 @@
               <article id="dashboardAcaoPrincipalCard" class="central-acao-principal" data-dashboard-prioridade-acao="">
                 <div class="central-acao-principal-icone" id="dashboardAcaoPrincipalIcone">✨</div>
                 <div class="central-acao-principal-conteudo">
-                  <span class="central-acao-principal-label">Próxima melhor ação</span>
+                  <span class="central-acao-principal-label">Prioridade de hoje</span>
                   <h4 id="dashboardAcaoPrincipalTitulo">Carregando operação...</h4>
-                  <p id="dashboardAcaoPrincipalDescricao">Estamos analisando cobranças, solicitações, chamadas, graduação e relacionamento.</p>
-                  <div class="central-acao-principal-meta" id="dashboardAcaoPrincipalMeta">Atualizando dados em tempo real</div>
+                  <p id="dashboardAcaoPrincipalDescricao">O Mensalize está verificando o que precisa da sua atenção.</p>
+                  <div class="central-acao-principal-meta" id="dashboardAcaoPrincipalMeta">Atualizando informações</div>
                 </div>
                 <button type="button" id="dashboardAcaoPrincipalBotao" class="acao-principal central-acao-principal-botao">Ver ação</button>
               </article>
@@ -496,8 +578,8 @@
               <div class="painel-topo">
                 <div>
                   <span class="page-eyebrow">Central inteligente</span>
-                  <h2>Notificações</h2>
-                  <p id="centralNotificacoesResumo">Acompanhe o que precisa de ação hoje.</p>
+                  <h2>Alertas</h2>
+                  <p id="centralNotificacoesResumo">Informações que podem exigir sua atenção.</p>
                 </div>
                 <div class="central-notificacoes-acoes">
                   <span id="centralNotificacoesContador" class="mini-badge">0 atenção</span>
@@ -518,7 +600,7 @@
               </div>
             </article>
 
-            <article class="painel-card painel-evolucao modulo-evolucao">
+            <article class="painel-card painel-evolucao modulo-evolucao dashboard-opcional">
               <div class="painel-topo">
                 <div>
                   <span class="page-eyebrow">Mensalize Fight</span>
@@ -552,7 +634,7 @@
               </div>
             </article>
 
-            <article class="painel-card">
+            <article class="painel-card painel-acoes-rapidas dashboard-opcional">
               <div class="painel-topo">
                 <div>
                   <span class="page-eyebrow">Gestão</span>
@@ -567,7 +649,7 @@
               </div>
             </article>
           
-            <article class="painel-card painel-aniversariantes">
+            <article class="painel-card painel-aniversariantes dashboard-opcional">
               <div class="painel-topo">
                 <div>
                   <span class="page-eyebrow">Relacionamento</span>
@@ -589,7 +671,7 @@
               </div>
             </article>
 
-            <article class="painel-card painel-desafio">
+            <article class="painel-card painel-desafio dashboard-opcional">
               <div class="painel-topo">
                 <div>
                   <span class="page-eyebrow">Desafio</span>
@@ -616,10 +698,15 @@
             <div class="lista-topo">
               <div>
                 <h2>Alunos cadastrados</h2>
-                <p id="subtituloLista">Gerencie os alunos, vencimentos e pagamentos.</p>
+                <p id="subtituloLista">Encontre um aluno e acesse rapidamente o que precisa.</p>
               </div>
 
-              <span id="contadorLista" class="contador-lista">0 alunos</span>
+              <div class="lista-topo-acoes">
+                <span id="contadorLista" class="contador-lista">0 alunos</span>
+                <button type="button" id="btnNovoAlunoLista" class="acao-secundaria" data-alunos-action="novo-aluno">
+                  Novo aluno
+                </button>
+              </div>
             </div>
 
             <section
@@ -631,7 +718,7 @@
                 type="button"
                 id="btnAlternarAcessosPendentes"
                 class="acessos-pendentes-resumo"
-                onclick="alternarPainelAcessosPendentes()"
+                data-alunos-action="alternar-acessos"
                 aria-expanded="false"
                 aria-controls="conteudoAcessosPendentes"
               >
@@ -660,19 +747,21 @@
               </div>
             </section>
 
-            <input 
-              type="text" 
+            <input
+              type="search"
               id="campoBusca" 
-              placeholder="Buscar aluno por nome ou WhatsApp..."
+              placeholder="Buscar por nome, WhatsApp, turma ou faixa"
+              aria-label="Buscar alunos por nome, WhatsApp, turma ou faixa"
               class="campo-busca"
+              autocomplete="off"
             >
 
-            <div class="filtros">
-              <button id="filtroTodos" onclick="setFiltro('todos')">Todos</button>
-              <button id="filtroPendente" onclick="setFiltro('pendente')">Pendentes</button>
-              <button id="filtroAtrasado" onclick="setFiltro('atrasado')">Atrasados</button>
-              <button id="filtroHoje" onclick="setFiltro('hoje')">Hoje</button>
-              <button id="filtroPago" onclick="setFiltro('pago')">✅ Pago este mês</button>
+            <div class="filtros" role="group" aria-label="Filtrar alunos por situação financeira">
+              <button type="button" id="filtroTodos" data-alunos-filtro="todos">Todos</button>
+              <button type="button" id="filtroPendente" data-alunos-filtro="pendente">Pendentes</button>
+              <button type="button" id="filtroAtrasado" data-alunos-filtro="atrasado">Atrasados</button>
+              <button type="button" id="filtroHoje" data-alunos-filtro="hoje">Vencem hoje</button>
+              <button type="button" id="filtroPago" data-alunos-filtro="pago">Pagos no mês</button>
             </div>
 
             <div id="listaAlunos">
@@ -687,131 +776,96 @@
 
         <section id="viewFinanceiro" class="view-app">
           <section class="painel-card financeiro-page financeiro-page-pro">
-            <div class="painel-topo financeiro-topo-pro">
+            <div class="painel-topo financeiro-topo-pro financeiro-hero-v3">
               <div>
                 <span class="page-eyebrow">Financeiro</span>
-                <h2>Gestão financeira</h2>
-                <p>Acompanhe recebimentos, inadimplência e cobranças do mês em uma visão mais operacional.</p>
+                <h2>Visão do mês</h2>
+                <p>Recebimentos, mensalidades em aberto e cobranças em um só lugar.</p>
               </div>
-              <button type="button" id="btnExportar" class="btn-exportar">📊 Relatórios</button>
+              <div class="financeiro-hero-controles">
+                <label class="financeiro-periodo-principal" for="financeiroMes">
+                  <span>Mês de referência</span>
+                  <input type="month" id="financeiroMes" aria-label="Selecionar mês financeiro">
+                </label>
+                <div class="financeiro-hero-acoes" aria-label="Ferramentas financeiras">
+                  <button type="button" id="btnExportar" class="acao-secundaria">Relatórios</button>
+                  <button type="button" id="btnAbrirGraficoFinanceiro" class="acao-secundaria">Evolução</button>
+                  <button type="button" id="btnFinanceiroCopiarResumo" class="acao-secundaria">Copiar resumo</button>
+                </div>
+              </div>
             </div>
 
-            <section class="mobile-financeiro-periodo" aria-label="Período financeiro mobile">
-              <div class="mobile-financeiro-periodo-info">
-                <span>Visão mensal</span>
-                <strong id="mobileFinanceiroPeriodoLabel">Mês atual</strong>
-                <small>Resumo atualizado conforme o período selecionado.</small>
-              </div>
-              <label class="mobile-financeiro-mes" for="mobileFinanceiroMes">
-                <span>Mês</span>
-                <input type="month" id="mobileFinanceiroMes" aria-label="Selecionar mês financeiro">
-              </label>
-            </section>
-
-            <div class="financeiro-resumo-grid financeiro-resumo-grid-v2 financeiro-resumo-pro">
+            <section class="financeiro-resumo-v3" aria-label="Resumo financeiro do mês">
+              <div class="financeiro-valores-grid">
               <div class="financeiro-box receita">
                 <span>Recebido no mês</span>
                 <strong id="financeiroRecebidoMirror">R$ 0,00</strong>
-                <small>Entradas registradas</small>
+                  <small>Entradas registradas no período</small>
               </div>
               <div class="financeiro-box receber">
-                <span>A receber</span>
+                  <span>Em aberto</span>
                 <strong id="financeiroAReceberMirror">R$ 0,00</strong>
-                <small>Mensalidades em aberto</small>
+                  <small>Mensalidades ainda não quitadas</small>
               </div>
               <div class="financeiro-box previsao">
-                <span>Previsão</span>
+                  <span>Previsão mensal</span>
                 <strong id="financeiroPrevisaoMirror">R$ 0,00</strong>
-                <small>Base mensal esperada</small>
+                  <small>Total esperado para o mês</small>
+                </div>
               </div>
-              <div class="financeiro-box status-financeiro-pago">
-                <span>Pagos</span>
-                <strong id="financeiroPagosMirror">0</strong>
-                <small>Alunos quitados</small>
-              </div>
-              <div class="financeiro-box status-financeiro-pendente">
-                <span>Pendentes</span>
-                <strong id="financeiroPendentesMirror">0</strong>
-                <small>A vencer / em aberto</small>
-              </div>
-              <div class="financeiro-box status-financeiro-atrasado">
-                <span>Atrasados</span>
-                <strong id="financeiroAtrasadosMirror">0</strong>
-                <small>Exigem cobrança</small>
-              </div>
-            </div>
 
-            <section class="mobile-financeiro-acoes-rapidas" aria-label="Ações rápidas do financeiro">
-              <button type="button" class="mobile-financeiro-acao mobile-financeiro-acao-cobranca" data-mobile-financeiro-action="cobrar-atrasados">
-                <span class="mobile-financeiro-acao-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 9v5M12 17.5h.01"/></svg>
-                </span>
-                <span>
-                  <strong>Cobrar atrasados</strong>
-                  <small>Organizar cobranças</small>
-                </span>
-              </button>
-              <button type="button" class="mobile-financeiro-acao" data-mobile-financeiro-action="ver-pagamentos">
-                <span class="mobile-financeiro-acao-icone" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 10h16M8 15h3"/></svg>
-                </span>
-                <span>
-                  <strong>Ver pagamentos</strong>
-                  <small>Conferir por aluno</small>
-                </span>
-              </button>
+              <div class="financeiro-status-resumo" aria-label="Situação dos alunos">
+                <button type="button" data-financeiro-status="pago" aria-pressed="false">
+                  <span>Pagos</span>
+                <strong id="financeiroPagosMirror">0</strong>
+                  <small>Quitados</small>
+                </button>
+                <button type="button" data-financeiro-status="pendente" aria-pressed="false">
+                  <span>Pendentes</span>
+                <strong id="financeiroPendentesMirror">0</strong>
+                  <small>Em aberto</small>
+                </button>
+                <button type="button" data-financeiro-status="atrasado" aria-pressed="false">
+                  <span>Atrasados</span>
+                <strong id="financeiroAtrasadosMirror">0</strong>
+                  <small>Para cobrar</small>
+                </button>
+              </div>
             </section>
 
-            <div class="financeiro-operacao-card">
-              <div class="financeiro-operacao-topo financeiro-operacao-topo-retratil">
+            <div class="financeiro-operacao-card financeiro-operacao-card-v3">
+              <div class="financeiro-operacao-topo">
                 <div>
-                  <span class="page-eyebrow">Operação mensal</span>
-                  <h3>Pagamentos por aluno</h3>
-                  <p>Abra somente quando quiser conferir, cobrar ou marcar pagamentos individualmente.</p>
+                  <span class="page-eyebrow">Alunos do mês</span>
+                  <h3>Pagamentos e pendências</h3>
+                  <p>Busque um aluno ou filtre pela situação da mensalidade.</p>
                 </div>
-
-                <div class="financeiro-operacao-controles">
-                  <span id="financeiroListaContador" class="financeiro-lista-contador">0 alunos</span>
-                  <button
-                    type="button"
-                    id="btnToggleFinanceiroAlunos"
-                    class="acao-secundaria financeiro-toggle-alunos"
-                    aria-expanded="false"
-                    aria-controls="financeiroOperacaoConteudo"
-                  >
-                    <span class="financeiro-toggle-texto">Ver pagamentos por aluno</span>
-                  </button>
-                </div>
+                <span id="financeiroListaContador" class="financeiro-lista-contador">0 alunos</span>
               </div>
 
-              <div id="financeiroOperacaoConteudo" class="financeiro-operacao-conteudo" hidden>
-                <div id="mobileFinanceiroStatusChips" class="mobile-financeiro-status-chips" role="group" aria-label="Filtrar pagamentos por status">
-                  <button type="button" class="ativo" data-mobile-financeiro-status="todos">Todos</button>
-                  <button type="button" data-mobile-financeiro-status="pago">Pagos</button>
-                  <button type="button" data-mobile-financeiro-status="pendente">Pendentes</button>
-                  <button type="button" data-mobile-financeiro-status="atrasado">Atrasados</button>
-                </div>
-
-                <div class="financeiro-filtros-mes financeiro-filtros-pro">
-                  <label class="campo-filtro-financeiro">
-                    <span>Mês</span>
-                    <input type="month" id="financeiroMes">
+              <div id="financeiroOperacaoConteudo" class="financeiro-operacao-conteudo">
+                <div class="financeiro-toolbar-v3">
+                  <label class="financeiro-busca-aluno" for="financeiroBuscaAluno">
+                    <span>Buscar aluno</span>
+                    <input type="search" id="financeiroBuscaAluno" placeholder="Digite o nome do aluno" autocomplete="off">
                   </label>
 
-                  <label class="campo-filtro-financeiro">
-                    <span>Status</span>
-                    <select id="financeiroStatus">
+                  <div class="financeiro-status-filtros" role="group" aria-label="Filtrar pagamentos por situação">
+                    <button type="button" class="ativo" data-financeiro-status="todos" aria-pressed="true">Todos</button>
+                    <button type="button" data-financeiro-status="pago" aria-pressed="false">Pagos</button>
+                    <button type="button" data-financeiro-status="pendente" aria-pressed="false">Pendentes</button>
+                    <button type="button" data-financeiro-status="atrasado" aria-pressed="false">Atrasados</button>
+                  </div>
+
+                  <label class="financeiro-status-fonte" for="financeiroStatus">
+                    <span>Situação</span>
+                    <select id="financeiroStatus" tabindex="-1" aria-hidden="true">
                       <option value="todos">Todos</option>
                       <option value="atrasado">Atrasados</option>
                       <option value="pendente">Pendentes</option>
                       <option value="pago">Pagos</option>
                     </select>
                   </label>
-
-                  <div class="financeiro-acoes-pro">
-                    <button type="button" id="btnAtualizarFinanceiroMes" class="acao-secundaria">Atualizar</button>
-                    <button type="button" id="btnFinanceiroCopiarResumo" class="acao-secundaria">Copiar resumo</button>
-                  </div>
                 </div>
 
                 <div id="listaFinanceiroMensal" class="financeiro-lista-mensal financeiro-lista-pro">
@@ -822,9 +876,12 @@
           </section>
 
           <!-- Gráfico de recebimentos -->
-          <section class="area-grafico" id="areaGrafico">
+          <section class="area-grafico escondido" id="areaGrafico" aria-label="Evolução dos recebimentos">
             <div class="grafico-topo">
-              <h2>📈 Recebimentos dos últimos 6 meses</h2>
+              <div>
+                <span class="page-eyebrow">Evolução</span>
+                <h2>Recebimentos dos últimos 6 meses</h2>
+              </div>
               <button id="btnFecharGrafico" class="btn-fechar-grafico" aria-label="Fechar gráfico">×</button>
             </div>
             <div class="grafico-barras" id="graficoBars"></div>
@@ -833,35 +890,43 @@
 
 
         <section id="viewEvolucao" class="view-app">
-          <section class="painel-card evolucao-page">
-            <div class="painel-topo">
+          <section class="painel-card evolucao-page evolucao-page-profissional">
+            <div class="painel-topo evolucao-hero">
               <div>
-                <span class="page-eyebrow">Mensalize Fight</span>
-                <h2>Graduação dos alunos</h2>
-                <p>Veja alunos aptos, próximos da avaliação e acompanhe faixa, grau e evolução na luta.</p>
+                <span class="page-eyebrow">Academia</span>
+                <h2>Graduação</h2>
+                <p>Acompanhe quem está apto, próximo da avaliação ou precisa de atenção.</p>
               </div>
             </div>
 
             <div class="financeiro-resumo-grid evolucao-resumo-grid">
               <div class="financeiro-box receita">
-                <span>Aptos para avaliação</span>
+                <span>Aptos</span>
                 <strong id="totalAptosGraduacao">0</strong>
               </div>
               <div class="financeiro-box receber">
-                <span>Próximos da avaliação</span>
+                <span>Próximos</span>
                 <strong id="totalProximosGraduacao">0</strong>
               </div>
-              <div class="financeiro-box previsao">
-                <span>Em evolução</span>
-                <strong id="totalEmEvolucao">0</strong>
+              <div class="financeiro-box alerta">
+                <span>Precisam de atenção</span>
+                <strong id="totalAtencaoGraduacao">0</strong>
               </div>
             </div>
 
-            <div class="filtros filtros-evolucao">
-              <button type="button" class="filtro-evolucao ativo" data-evolucao-filtro="todos">Todos</button>
-              <button type="button" class="filtro-evolucao" data-evolucao-filtro="apto">Aptos</button>
-              <button type="button" class="filtro-evolucao" data-evolucao-filtro="proximo">Próximos</button>
-              <button type="button" class="filtro-evolucao" data-evolucao-filtro="evolucao">Em evolução</button>
+            <div class="evolucao-barra-filtros">
+              <label class="evolucao-busca" for="buscarEvolucao">
+                <span>Buscar aluno</span>
+                <input type="search" id="buscarEvolucao" placeholder="Nome ou turma" autocomplete="off">
+              </label>
+
+              <div class="filtros filtros-evolucao" aria-label="Filtrar situação da graduação">
+                <button type="button" class="filtro-evolucao ativo" data-evolucao-filtro="todos">Todos</button>
+                <button type="button" class="filtro-evolucao" data-evolucao-filtro="apto">Aptos</button>
+                <button type="button" class="filtro-evolucao" data-evolucao-filtro="proximo">Próximos</button>
+                <button type="button" class="filtro-evolucao" data-evolucao-filtro="evolucao">Em evolução</button>
+                <button type="button" class="filtro-evolucao" data-evolucao-filtro="frequencia-baixa">Atenção</button>
+              </div>
             </div>
 
             <div id="listaEvolucao" class="lista-evolucao">
@@ -872,41 +937,52 @@
 
 
         <section id="viewProgramaFight" class="view-app">
-          <section class="painel-card programa-fight-page modulo-fight">
-            <div class="painel-topo">
+          <section class="painel-card programa-fight-page modulo-fight programa-fight-profissional">
+            <div class="painel-topo programa-fight-hero">
               <div>
                 <span class="page-eyebrow">Mensalize Fight</span>
-                <h2>Programa de Graduação</h2>
-                <p>Cadastre categorias, técnicas e links de vídeo para cada faixa. O aluno verá no portal o programa da faixa atual dele.</p>
+                <h2>Programa de graduação</h2>
+                <p>Organize o que cada faixa precisa aprender e acompanhe todo o conteúdo em um só lugar.</p>
               </div>
-              <button type="button" id="btnAtualizarProgramaFight" class="acao-secundaria">Atualizar</button>
+              <button type="button" id="btnAtualizarProgramaFight" class="acao-secundaria">Atualizar dados</button>
             </div>
 
-            <div class="programa-fight-info-grid">
-              <div class="financeiro-box previsao">
-                <span>Faixas</span>
-                <strong id="programaFightTotalFaixas">0</strong>
-              </div>
-              <div class="financeiro-box receber">
-                <span>Categorias</span>
-                <strong id="programaFightTotalCategorias">0</strong>
-              </div>
-              <div class="financeiro-box receita">
-                <span>Técnicas ativas</span>
-                <strong id="programaFightTotalTecnicas">0</strong>
-              </div>
-            </div>
-
-            <div class="programa-fight-command">
-              <div class="programa-fight-command-copy">
-                <span class="page-eyebrow">Montagem do programa</span>
-                <h3>Organize a graduação sem poluir a tela</h3>
-                <p>Use os botões abaixo apenas quando for cadastrar algo novo. O programa já cadastrado fica limpo e organizado por faixa.</p>
+            <div class="programa-fight-central">
+              <div class="programa-fight-guia" aria-label="Estrutura do programa de graduação">
+                <span>Organização</span>
+                <ol>
+                  <li>Faixa</li>
+                  <li>Categoria</li>
+                  <li>Técnica</li>
+                </ol>
               </div>
 
-              <div class="programa-fight-command-actions">
-                <button type="button" id="btnAbrirFormCategoria" class="acao-secundaria">+ Nova categoria</button>
-                <button type="button" id="btnAbrirFormTecnica" class="acao-principal">+ Nova técnica</button>
+              <div class="programa-fight-info-grid" aria-label="Resumo do programa">
+                <div class="financeiro-box previsao">
+                  <span>Faixas disponíveis</span>
+                  <strong id="programaFightTotalFaixas">0</strong>
+                </div>
+                <div class="financeiro-box receber">
+                  <span>Categorias ativas</span>
+                  <strong id="programaFightTotalCategorias">0</strong>
+                </div>
+                <div class="financeiro-box receita">
+                  <span>Técnicas ativas</span>
+                  <strong id="programaFightTotalTecnicas">0</strong>
+                </div>
+              </div>
+
+              <div class="programa-fight-command">
+                <div class="programa-fight-command-copy">
+                  <span class="page-eyebrow">Adicionar conteúdo</span>
+                  <h3>Complete o programa quando precisar</h3>
+                  <p>Crie primeiro uma categoria para a faixa e depois adicione as técnicas dentro dela.</p>
+                </div>
+
+                <div class="programa-fight-command-actions">
+                  <button type="button" id="btnAbrirFormCategoria" class="acao-secundaria">Nova categoria</button>
+                  <button type="button" id="btnAbrirFormTecnica" class="acao-principal">Nova técnica</button>
+                </div>
               </div>
             </div>
 
@@ -915,7 +991,7 @@
                 <div>
                   <span class="page-eyebrow">Cadastro</span>
                   <h3 id="programaFightCriacaoTitulo">Novo conteúdo</h3>
-                  <p id="programaFightCriacaoTexto">Cadastre somente quando precisar alterar o programa.</p>
+                  <p id="programaFightCriacaoTexto">Preencha os dados para adicionar conteúdo ao programa.</p>
                 </div>
                 <button type="button" id="btnFecharCriacaoProgramaFight" class="btn-fechar" aria-label="Fechar cadastro">×</button>
               </div>
@@ -996,8 +1072,9 @@
 
             <div class="programa-fight-lista-topo">
               <div>
-                <span class="page-eyebrow">Conteúdos cadastrados</span>
+                <span class="page-eyebrow">Conteúdo cadastrado</span>
                 <h2>Programa por faixa</h2>
+                <p>Abra uma categoria para visualizar e administrar suas técnicas.</p>
               </div>
               <label class="campo-perfil programa-fight-filtro">
                 <span>Filtrar faixa</span>
@@ -1017,13 +1094,9 @@
           <section class="painel-card presencas-page presencas-page-profissional">
             <div class="painel-topo presencas-hero">
               <div>
-                <span class="page-eyebrow">Presenças</span>
-                <h2>Presenças do dia</h2>
-                <p>Escolha a data e a turma, confira os alunos e salve a chamada em poucos passos.</p>
-              </div>
-              <div class="presencas-hero-badge">
-                <span>Fluxo simples</span>
-                <strong>1. Escolher • 2. Marcar • 3. Salvar</strong>
+                <span class="page-eyebrow">Academia</span>
+                <h2>Fazer chamada</h2>
+                <p>Escolha a aula, desmarque apenas quem faltou e salve.</p>
               </div>
             </div>
 
@@ -1031,9 +1104,9 @@
               <section class="presenca-card-presenca presenca-card-controles">
                 <div class="presenca-card-topo">
                   <div>
-                    <span class="presenca-step">Passo 1</span>
-                    <h3>Selecionar aula</h3>
-                    <p>Escolha a data e a turma antes de abrir a chamada.</p>
+                    <span class="presenca-step">Aula</span>
+                    <h3>Data e turma</h3>
+                    <p>A lista será aberta assim que você escolher uma turma.</p>
                   </div>
                 </div>
 
@@ -1045,68 +1118,57 @@
                   <label class="campo-perfil">
                     <span>Turma</span>
                     <select id="presencaTurma">
-                      <option value="todas">Todas as turmas</option>
+                      <option value="todas">Escolha uma turma</option>
                     </select>
                   </label>
-                  <button type="button" id="btnAtualizarChamada" class="acao-secundaria">Atualizar chamada</button>
-                </div>
-              </section>
-
-              <section class="presenca-card-presenca presenca-card-resumo">
-                <div class="presenca-card-topo">
-                  <div>
-                    <span class="presenca-step">Resumo</span>
-                    <h3>Situação da chamada</h3>
-                    <p>Acompanhe rapidamente quantos alunos estão presentes ou faltaram.</p>
-                  </div>
-                </div>
-
-                <div class="financeiro-resumo-grid presenca-resumo-grid">
-                  <div class="financeiro-box receita">
-                    <span>Presentes</span>
-                    <strong id="presencaTotalPresentes">0</strong>
-                  </div>
-                  <div class="financeiro-box alerta">
-                    <span>Faltas</span>
-                    <strong id="presencaTotalFaltas">0</strong>
-                  </div>
-                  <div class="financeiro-box previsao">
-                    <span>Alunos na chamada</span>
-                    <strong id="presencaTotalAlunos">0</strong>
-                  </div>
                 </div>
               </section>
 
               <section class="presenca-card-presenca presenca-card-chamada">
                 <div class="presenca-card-topo presenca-card-topo-com-acoes">
                   <div>
-                    <span class="presenca-step">Passo 2</span>
-                    <h3>Chamada dos alunos</h3>
-                    <p>Marque os presentes, revise a lista e salve a chamada.</p>
+                    <span class="presenca-step">Chamada</span>
+                    <h3>Lista de alunos</h3>
+                    <p>Todos começam como presentes. Desmarque somente quem faltou.</p>
                   </div>
 
                   <div class="presenca-acoes">
-                    <button type="button" id="btnMarcarTodosPresentes" class="acao-secundaria">Marcar todos presentes</button>
-                    <button type="button" id="btnLimparChamada" class="acao-secundaria">Limpar chamada</button>
-                    <button type="button" id="btnSalvarChamada" class="acao-principal">Salvar chamada</button>
+                    <button type="button" id="btnMarcarTodosPresentes" class="acao-secundaria">Todos presentes</button>
+                    <button type="button" id="btnLimparChamada" class="acao-secundaria">Desmarcar todos</button>
+                    <button type="button" id="btnSalvarChamada" class="acao-principal">Salvar</button>
+                  </div>
+                </div>
+
+                <div class="presenca-resumo-grid presenca-resumo-compacto" aria-label="Resumo da chamada">
+                  <div class="presenca-resumo-item presentes">
+                    <span>Presentes</span>
+                    <strong id="presencaTotalPresentes">0</strong>
+                  </div>
+                  <div class="presenca-resumo-item faltas">
+                    <span>Faltas</span>
+                    <strong id="presencaTotalFaltas">0</strong>
+                  </div>
+                  <div class="presenca-resumo-item total">
+                    <span>Total</span>
+                    <strong id="presencaTotalAlunos">0</strong>
                   </div>
                 </div>
 
                 <div id="listaPresencas" class="lista-presencas">
-                  <div class="empty-state-mini">Carregando chamada...</div>
+                  <div class="empty-state-mini">Escolha uma turma para abrir a chamada.</div>
                 </div>
               </section>
 
               <section class="presenca-card-presenca historico-chamadas-card">
-                <div class="section-title-row historico-chamadas-topo" id="historicoToggleTopo" onclick="toggleHistoricoChamadas()" style="cursor:pointer;">
+                <div class="section-title-row historico-chamadas-topo" id="historicoToggleTopo">
                   <div>
                     <span class="page-eyebrow">Histórico</span>
-                    <h2>Últimas chamadas</h2>
-                    <p>Veja as chamadas já salvas no período e abra rapidamente uma data anterior.</p>
+                    <h2>Chamadas anteriores</h2>
+                    <p>Consulte ou reabra uma chamada já salva.</p>
                   </div>
-                  <div style="display:flex;align-items:center;gap:12px;">
+                  <div class="historico-chamadas-acoes">
                     <span id="historicoChamadasContador" class="mini-badge">0 chamadas</span>
-                    <button type="button" class="acao-secundaria" id="btnToggleHistoricoChamadas" aria-expanded="false">Ver histórico</button>
+                    <button type="button" class="acao-secundaria" id="btnToggleHistoricoChamadas" aria-expanded="false" aria-controls="historicoChamadas">Ver histórico</button>
                   </div>
                 </div>
                 <div id="historicoChamadas" class="historico-chamadas-list escondido">
@@ -1122,12 +1184,12 @@
           <section class="painel-card turmas-page turmas-premium-page">
             <div class="painel-topo turmas-premium-hero">
               <div>
-                <span class="page-eyebrow">Turmas e aulas</span>
-                <h2>Gestão de turmas</h2>
-                <p>Organize horários, professores, dias de aula e cancelamentos sem deixar formulários abertos o tempo todo.</p>
+                <span class="page-eyebrow">Academia</span>
+                <h2>Turmas</h2>
+                <p>Organize os horários e professores de cada turma.</p>
               </div>
               <div class="turmas-premium-actions">
-                <button type="button" id="btnAbrirFormTurma" class="acao-principal">+ Nova turma</button>
+                <button type="button" id="btnAbrirFormTurma" class="acao-principal">Nova turma</button>
                 <button type="button" id="btnAbrirFormCancelarAula" class="acao-secundaria">Cancelar aula</button>
               </div>
             </div>
@@ -1150,9 +1212,9 @@
             <div id="painelFormTurma" class="turmas-premium-form-card escondido">
               <div class="turmas-premium-form-head">
                 <div>
-                  <span class="page-eyebrow">Cadastro</span>
+                  <span class="page-eyebrow">Turma</span>
                   <h3 id="tituloPainelTurma">Nova turma</h3>
-                  <p>Cadastre dias, horário e professor responsável desta turma.</p>
+                  <p>Informe os dados usados nas chamadas e na frequência.</p>
                 </div>
                 <button type="button" id="btnFecharFormTurma" class="btn-fechar" aria-label="Fechar cadastro de turma">×</button>
               </div>
@@ -1165,7 +1227,7 @@
 
                 <label class="campo-perfil">
                   <span>Horário</span>
-                  <input type="text" id="turmaHorario" placeholder="Ex: 20:00">
+                  <input type="text" id="turmaHorario" inputmode="numeric" placeholder="Ex: 20:00">
                 </label>
 
                 <label class="campo-perfil">
@@ -1201,35 +1263,12 @@
               </form>
             </div>
 
-            <div class="turmas-premium-list-head">
-              <div>
-                <span class="page-eyebrow">Turmas cadastradas</span>
-                <h2>Lista de turmas</h2>
-                <p>Veja rapidamente quais turmas estão ativas e quantos alunos estão vinculados.</p>
-              </div>
-            </div>
-
-            <div id="listaTurmas" class="lista-evolucao turmas-lista turmas-premium-lista">
-              <div class="empty-state-mini">Nenhuma turma cadastrada ainda.</div>
-            </div>
-          </section>
-
-          <section class="painel-card turmas-page turmas-cancelamentos-page">
-            <div class="painel-topo turmas-premium-hero compacta">
-              <div>
-                <span class="page-eyebrow">Aulas canceladas</span>
-                <h2>Cancelamentos</h2>
-                <p>Aulas canceladas não contam como falta nem entram no cálculo de frequência.</p>
-              </div>
-              <button type="button" id="btnAbrirFormCancelarAulaSecundario" class="acao-secundaria">+ Cancelar aula</button>
-            </div>
-
             <div id="painelFormCancelarAula" class="turmas-premium-form-card cancelamento escondido">
               <div class="turmas-premium-form-head">
                 <div>
-                  <span class="page-eyebrow">Novo cancelamento</span>
+                  <span class="page-eyebrow">Aula</span>
                   <h3>Cancelar aula</h3>
-                  <p>Informe a turma, data e motivo para remover essa aula da frequência.</p>
+                  <p>Esta aula deixará de contar na frequência dos alunos.</p>
                 </div>
                 <button type="button" id="btnFecharFormCancelarAula" class="btn-fechar" aria-label="Fechar cancelamento de aula">×</button>
               </div>
@@ -1265,237 +1304,284 @@
               </form>
             </div>
 
-            <div class="turmas-premium-list-head">
-              <div>
-                <span class="page-eyebrow">Histórico</span>
-                <h2>Aulas canceladas</h2>
-                <p>Reative uma aula caso o cancelamento tenha sido registrado por engano.</p>
+            <section class="turmas-lista-secao" aria-labelledby="tituloListaTurmas">
+              <div class="turmas-premium-list-head">
+                <div>
+                  <span class="page-eyebrow">Cadastradas</span>
+                  <h2 id="tituloListaTurmas">Suas turmas</h2>
+                  <p>Horários, professores e alunos vinculados.</p>
+                </div>
               </div>
-            </div>
 
-            <div id="listaAulasCanceladas" class="lista-evolucao aulas-canceladas-lista turmas-premium-lista">
-              <div class="empty-state-mini">Nenhuma aula cancelada registrada.</div>
-            </div>
+              <div id="listaTurmas" class="lista-evolucao turmas-lista turmas-premium-lista">
+                <div class="empty-state-mini">Nenhuma turma cadastrada ainda.</div>
+              </div>
+            </section>
+
+            <details class="turmas-cancelamentos-page">
+              <summary class="turmas-cancelamentos-resumo">
+                <div>
+                  <span class="page-eyebrow">Histórico</span>
+                  <h2>Aulas canceladas</h2>
+                  <p>Consulte ou reative um cancelamento.</p>
+                </div>
+                <span class="turmas-cancelamentos-contador" id="contadorAulasCanceladasLista">0</span>
+                <span class="turmas-cancelamentos-toggle" aria-hidden="true">Ver histórico</span>
+              </summary>
+
+              <div class="turmas-cancelamentos-conteudo">
+                <div id="listaAulasCanceladas" class="lista-evolucao aulas-canceladas-lista turmas-premium-lista">
+                  <div class="empty-state-mini">Nenhuma aula cancelada registrada.</div>
+                </div>
+              </div>
+            </details>
           </section>
         </section>
 
         <section id="viewAniversariantes" class="view-app">
-          <section class="painel-card aniversariantes-page">
-            <div class="painel-topo">
+          <section class="painel-card aniversariantes-page aniversariantes-page-profissional">
+            <header class="painel-topo aniversariantes-hero-v3">
               <div>
                 <span class="page-eyebrow">Relacionamento</span>
-                <h2>Aniversariantes do mês</h2>
-                <p>Veja quem faz aniversário e envie uma mensagem pronta pelo WhatsApp.</p>
+                <h2>Aniversariantes</h2>
+                <p>Veja as próximas datas e fale com o aluno sem procurar o contato.</p>
               </div>
-            </div>
+            </header>
 
-            <div class="financeiro-resumo-grid aniversariantes-resumo-grid">
-              <div class="financeiro-box receita">
+            <div class="aniversariantes-resumo-v3" aria-label="Resumo dos aniversariantes">
+              <div class="aniversariantes-resumo-item destaque">
                 <span>Hoje</span>
                 <strong id="totalAniversariantesHoje">0</strong>
               </div>
-              <div class="financeiro-box previsao">
-                <span>Esta semana</span>
+              <div class="aniversariantes-resumo-item">
+                <span>Próximos 7 dias</span>
                 <strong id="totalAniversariantesSemana">0</strong>
               </div>
-              <div class="financeiro-box">
-                <span>Este mês</span>
+              <div class="aniversariantes-resumo-item">
+                <span>Neste mês</span>
                 <strong id="totalAniversariantesMes">0</strong>
               </div>
             </div>
 
-            <div id="listaAniversariantes" class="lista-evolucao aniversariantes-lista">
-              <div class="empty-state-mini">Nenhum aniversariante encontrado.</div>
-            </div>
+            <section class="aniversariantes-conteudo-v3" aria-labelledby="aniversariantesListaTitulo">
+              <header class="aniversariantes-lista-topo-v3">
+                <div>
+                  <span class="page-eyebrow">Próximas datas</span>
+                  <h3 id="aniversariantesListaTitulo">Quem você pode parabenizar</h3>
+                </div>
+                <p>A lista mostra somente hoje, os próximos sete dias e o restante do mês.</p>
+              </header>
+
+              <div id="listaAniversariantes" class="aniversariantes-lista aniversariantes-lista-v3">
+                <div class="empty-state-mini">Nenhum aniversariante encontrado.</div>
+              </div>
+            </section>
           </section>
         </section>
 
         <section id="viewDesafio" class="view-app">
-          <section class="painel-card desafio-page">
-            <div class="painel-topo">
+          <section class="painel-card desafio-page desafio-page-profissional">
+            <header class="painel-topo desafio-hero-v3">
               <div>
-                <span class="page-eyebrow">Desafio</span>
-                <h2>Desafio da Aula</h2>
-                <p>Ranking mensal com presença do mês + pontos extras lançados pelo professor.</p>
+                <span class="page-eyebrow">Desafio do mês</span>
+                <h2>Ranking dos alunos</h2>
+                <p>Presenças contam automaticamente. Use pontos extras somente quando necessário.</p>
               </div>
+
               <button
                 type="button"
                 id="btnAtualizarDesafio"
                 class="acao-secundaria"
-                aria-label="Atualizar mês do desafio"
-                title="Atualizar mês"
+                aria-label="Atualizar dados do desafio"
+                title="Atualizar dados"
               >
                 <svg class="desafio-refresh-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                   <path d="M20 12a8 8 0 1 1-2.34-5.66"/>
                   <path d="M20 4v6h-6"/>
                 </svg>
-                <span class="desafio-refresh-label">Atualizar mês</span>
+                <span class="desafio-refresh-label">Atualizar</span>
               </button>
-            </div>
+            </header>
 
-            <div class="desafio-resumo-regras" aria-label="Regras do Desafio da Aula">
-              <div class="desafio-regra-card">
-                <span>📅 Período</span>
-                <strong>Mês atual</strong>
-                <small>O placar visual recomeça todo mês.</small>
+            <section class="desafio-resumo-v3" aria-labelledby="desafioResumoTitulo">
+              <div class="desafio-resumo-copy">
+                <span class="page-eyebrow">Como funciona</span>
+                <h3 id="desafioResumoTitulo">Pontuação simples e mensal</h3>
               </div>
 
-              <div class="desafio-regra-card">
-                <span>✅ Pontos base</span>
-                <strong>Presenças</strong>
-                <small>Calculadas pela chamada salva.</small>
-              </div>
-
-              <div class="desafio-regra-card">
-                <span>⭐ Extras</span>
-                <strong>Técnica + atitude</strong>
-                <small>Pontos lançados pelo professor.</small>
-              </div>
-            </div>
-
-            <section class="desafio-pontos-card desafio-pontos-card-recolhido" aria-labelledby="desafioPontosTitulo">
-              <div class="desafio-pontos-topo">
+              <div class="desafio-resumo-itens">
                 <div>
-                  <span class="page-eyebrow">Pontos rápidos</span>
-                  <h3 id="desafioPontosTitulo">Adicionar pontos ao aluno</h3>
-                  <p>Abra somente quando precisar lançar pontos extras para um aluno.</p>
+                  <small>Pontos base</small>
+                  <strong>1 por presença</strong>
                 </div>
-
-                <button
-                  type="button"
-                  id="btnTogglePontosDesafio"
-                  class="acao-secundaria btn-toggle-pontos-desafio"
-                  aria-expanded="false"
-                  aria-controls="desafioPontosConteudo"
-                >
-                  Abrir pontuações
-                </button>
-              </div>
-
-              <div id="desafioPontosConteudo" class="desafio-pontos-conteudo escondido" aria-hidden="true">
-                <div class="desafio-pontos-form">
-                  <label class="campo-perfil">
-                    <span>Aluno</span>
-                    <select id="desafioPontosAluno">
-                      <option value="">Carregando alunos...</option>
-                    </select>
-                  </label>
-
-                  <label class="campo-perfil">
-                    <span>Observação opcional</span>
-                    <input
-                      type="text"
-                      id="desafioPontosObservacao"
-                      maxlength="160"
-                      placeholder="Ex: executou bem a técnica do dia"
-                    >
-                  </label>
-                </div>
-
-                <div class="desafio-pontos-botoes">
-                  <button type="button" class="desafio-ponto-btn desafio-ponto-tecnica" data-desafio-ponto data-tipo="tecnica" data-subtipo="tecnica_dia" data-pontos="2">
-                    🥋 Técnica do dia <small>+2</small>
-                  </button>
-                  <button type="button" class="desafio-ponto-btn desafio-ponto-atitude" data-desafio-ponto data-tipo="atitude" data-subtipo="ajudou_colega" data-pontos="2">
-                    🤝 Ajudou colega <small>+2</small>
-                  </button>
-                  <button type="button" class="desafio-ponto-btn desafio-ponto-aula" data-desafio-ponto data-tipo="desafio_aula" data-subtipo="cumpriu_missao" data-pontos="3">
-                    🎯 Desafio da aula <small>+3</small>
-                  </button>
-                  <button type="button" class="desafio-ponto-btn desafio-ponto-competicao" data-desafio-ponto data-tipo="competicao" data-subtipo="participou" data-pontos="5">
-                    🏆 Participou de campeonato <small>+5</small>
-                  </button>
-                  <button type="button" class="desafio-ponto-btn desafio-ponto-competicao" data-desafio-ponto data-tipo="competicao" data-subtipo="ganhou_luta" data-pontos="6">
-                    🥊 Ganhou luta <small>+6</small>
-                  </button>
-                  <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="bronze" data-pontos="8">
-                    🥉 Bronze <small>+8</small>
-                  </button>
-                  <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="prata" data-pontos="10">
-                    🥈 Prata <small>+10</small>
-                  </button>
-                  <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="ouro" data-pontos="12">
-                    🥇 Ouro <small>+12</small>
-                  </button>
-                </div>
-
-                <p id="desafioPontosFeedback" class="desafio-pontos-feedback">
-                  Escolha um aluno e toque em uma ação para lançar pontos.
-                </p>
-              </div>
-            </section>
-
-            <section class="desafio-historico-card desafio-historico-card-recolhido" aria-labelledby="desafioHistoricoTitulo">
-              <div class="desafio-historico-topo">
                 <div>
-                  <span class="page-eyebrow">Histórico do mês</span>
-                  <h3 id="desafioHistoricoTitulo">Pontos lançados</h3>
-                  <p>Abra somente quando precisar revisar ou apagar pontos lançados neste mês.</p>
+                  <small>Pontos extras</small>
+                  <strong>Lançados pelo professor</strong>
                 </div>
-
-                <button
-                  type="button"
-                  id="btnToggleHistoricoDesafio"
-                  class="acao-secundaria btn-toggle-historico-desafio"
-                  aria-expanded="false"
-                  aria-controls="desafioHistoricoConteudo"
-                >
-                  Ver pontos lançados
-                </button>
-              </div>
-
-              <div id="desafioHistoricoConteudo" class="desafio-historico-conteudo escondido" aria-hidden="true">
-                <div class="desafio-historico-controles">
-                  <button type="button" id="btnAtualizarHistoricoDesafio" class="acao-secundaria">
-                    Atualizar histórico
-                  </button>
-                </div>
-
-                <div id="desafioPontosHistorico" class="desafio-historico-lista">
-                  <div class="empty-state-mini">Carregando histórico de pontos...</div>
+                <div>
+                  <small>Período</small>
+                  <strong>Reinicia todo mês</strong>
                 </div>
               </div>
             </section>
 
-            <div class="ranking-tabs" id="rankingTabsProfessor">
-              <button type="button" class="ranking-tab ativo" data-ranking-professor="turma">Alunos por turma</button>
-              <button type="button" class="ranking-tab" data-ranking-professor="geral">Geral dos alunos</button>
-              <button type="button" class="ranking-tab" data-ranking-professor="turmas">Ranking das turmas</button>
+            <div class="desafio-operacao-v3">
+              <section class="desafio-pontos-card desafio-pontos-card-recolhido" aria-labelledby="desafioPontosTitulo">
+                <div class="desafio-pontos-topo">
+                  <div>
+                    <span class="page-eyebrow">Pontuação extra</span>
+                    <h3 id="desafioPontosTitulo">Lançar pontos</h3>
+                    <p>Selecione o aluno e o motivo da pontuação.</p>
+                  </div>
+
+                  <button
+                    type="button"
+                    id="btnTogglePontosDesafio"
+                    class="acao-secundaria btn-toggle-pontos-desafio"
+                    aria-expanded="false"
+                    aria-controls="desafioPontosConteudo"
+                  >
+                    Lançar pontos
+                  </button>
+                </div>
+
+                <div id="desafioPontosConteudo" class="desafio-pontos-conteudo escondido" aria-hidden="true">
+                  <div class="desafio-pontos-form">
+                    <label class="campo-perfil">
+                      <span>Aluno</span>
+                      <select id="desafioPontosAluno">
+                        <option value="">Carregando alunos...</option>
+                      </select>
+                    </label>
+
+                    <label class="campo-perfil">
+                      <span>Observação opcional</span>
+                      <input
+                        type="text"
+                        id="desafioPontosObservacao"
+                        maxlength="160"
+                        placeholder="Ex.: executou bem a técnica do dia"
+                      >
+                    </label>
+                  </div>
+
+                  <div class="desafio-pontos-botoes" aria-label="Escolha o motivo da pontuação">
+                    <button type="button" class="desafio-ponto-btn desafio-ponto-tecnica" data-desafio-ponto data-tipo="tecnica" data-subtipo="tecnica_dia" data-pontos="2">
+                      <span>Técnica do dia</span><small>+2</small>
+                    </button>
+                    <button type="button" class="desafio-ponto-btn desafio-ponto-atitude" data-desafio-ponto data-tipo="atitude" data-subtipo="ajudou_colega" data-pontos="2">
+                      <span>Ajudou um colega</span><small>+2</small>
+                    </button>
+                    <button type="button" class="desafio-ponto-btn desafio-ponto-aula" data-desafio-ponto data-tipo="desafio_aula" data-subtipo="cumpriu_missao" data-pontos="3">
+                      <span>Cumpriu o desafio da aula</span><small>+3</small>
+                    </button>
+                    <button type="button" class="desafio-ponto-btn desafio-ponto-competicao" data-desafio-ponto data-tipo="competicao" data-subtipo="participou" data-pontos="5">
+                      <span>Participou de campeonato</span><small>+5</small>
+                    </button>
+                    <button type="button" class="desafio-ponto-btn desafio-ponto-competicao" data-desafio-ponto data-tipo="competicao" data-subtipo="ganhou_luta" data-pontos="6">
+                      <span>Ganhou uma luta</span><small>+6</small>
+                    </button>
+                    <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="bronze" data-pontos="8">
+                      <span>Medalha de bronze</span><small>+8</small>
+                    </button>
+                    <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="prata" data-pontos="10">
+                      <span>Medalha de prata</span><small>+10</small>
+                    </button>
+                    <button type="button" class="desafio-ponto-btn desafio-ponto-medalha" data-desafio-ponto data-tipo="competicao" data-subtipo="ouro" data-pontos="12">
+                      <span>Medalha de ouro</span><small>+12</small>
+                    </button>
+                  </div>
+
+                  <p id="desafioPontosFeedback" class="desafio-pontos-feedback">
+                    Selecione um aluno e depois escolha a pontuação.
+                  </p>
+                </div>
+              </section>
+
+              <section class="desafio-historico-card desafio-historico-card-recolhido" aria-labelledby="desafioHistoricoTitulo">
+                <div class="desafio-historico-topo">
+                  <div>
+                    <span class="page-eyebrow">Revisão</span>
+                    <h3 id="desafioHistoricoTitulo">Histórico de pontos</h3>
+                    <p>Consulte ou remova lançamentos deste mês.</p>
+                  </div>
+
+                  <button
+                    type="button"
+                    id="btnToggleHistoricoDesafio"
+                    class="acao-secundaria btn-toggle-historico-desafio"
+                    aria-expanded="false"
+                    aria-controls="desafioHistoricoConteudo"
+                  >
+                    Ver histórico
+                  </button>
+                </div>
+
+                <div id="desafioHistoricoConteudo" class="desafio-historico-conteudo escondido" aria-hidden="true">
+                  <div class="desafio-historico-controles">
+                    <button type="button" id="btnAtualizarHistoricoDesafio" class="acao-secundaria">
+                      Atualizar
+                    </button>
+                  </div>
+
+                  <div id="desafioPontosHistorico" class="desafio-historico-lista">
+                    <div class="empty-state-mini">Carregando histórico de pontos...</div>
+                  </div>
+                </div>
+              </section>
             </div>
 
-            <div id="listaRankingDesafioProfessor" class="ranking-list desafio-ranking-full">
-              <div class="empty-state-mini">Carregando ranking...</div>
-            </div>
+            <section class="desafio-ranking-card-v3" aria-labelledby="desafioRankingTitulo">
+              <header class="desafio-ranking-topo-v3">
+                <div>
+                  <span class="page-eyebrow">Classificação</span>
+                  <h3 id="desafioRankingTitulo">Ranking do mês</h3>
+                  <p>Compare alunos por turma, no geral ou entre turmas.</p>
+                </div>
+              </header>
+
+              <div class="ranking-tabs" id="rankingTabsProfessor" role="tablist" aria-label="Escolha o ranking">
+                <button type="button" class="ranking-tab ativo" data-ranking-professor="turma">Por turma</button>
+                <button type="button" class="ranking-tab" data-ranking-professor="geral">Todos os alunos</button>
+                <button type="button" class="ranking-tab" data-ranking-professor="turmas">Entre turmas</button>
+              </div>
+
+              <div id="listaRankingDesafioProfessor" class="ranking-list desafio-ranking-full">
+                <div class="empty-state-mini">Carregando ranking...</div>
+              </div>
+            </section>
           </section>
         </section>
-
         <section id="viewAvisos" class="view-app">
-          <section class="painel-card avisos-page avisos-profissional">
-            <div class="painel-topo avisos-hero">
-              <div>
+          <section class="painel-card avisos-page avisos-profissional avisos-page-v3">
+            <header class="painel-topo avisos-hero avisos-hero-v3">
+              <div class="avisos-hero-copy-v3">
                 <span class="page-eyebrow">Central de avisos</span>
                 <h2>Comunicados para alunos</h2>
                 <p>Publique recados importantes no portal do aluno sem deixar a tela poluída.</p>
               </div>
-              <button type="button" id="btnNovoAviso" class="acao-principal avisos-novo-btn">+ Novo aviso</button>
-            </div>
+              <button type="button" id="btnNovoAviso" class="acao-secundaria avisos-novo-btn">Novo aviso</button>
+            </header>
 
-            <div class="avisos-resumo-row" aria-label="Resumo dos avisos">
+            <div class="avisos-resumo-row avisos-resumo-v3" aria-label="Resumo dos avisos">
               <div class="avisos-resumo-card">
+                <span>Ativos</span>
                 <strong id="totalAvisosAtivos">0</strong>
-                <span>ativos</span>
+                <small>Visíveis agora</small>
               </div>
               <div class="avisos-resumo-card suave">
+                <span>Agendados</span>
                 <strong id="totalAvisosAgendados">0</strong>
-                <span>agendados</span>
+                <small>Publicação futura</small>
               </div>
               <div class="avisos-resumo-card suave">
+                <span>Expirados</span>
                 <strong id="totalAvisosExpirados">0</strong>
-                <span>expirados</span>
+                <small>Fora do período</small>
               </div>
             </div>
 
-            <div id="painelNovoAviso" class="avisos-form-wrapper escondido">
+            <div id="painelNovoAviso" class="avisos-form-wrapper avisos-form-wrapper-v3 escondido">
               <form id="formAviso" class="perfil-form avisos-form">
                 <div class="avisos-form-topo">
                   <div>
@@ -1505,12 +1591,12 @@
                   </div>
                 </div>
 
-                <label class="campo-perfil campo-cheio">
+                <label class="campo-perfil campo-cheio aviso-campo-titulo-v3">
                   <span>Título do aviso</span>
                   <input type="text" id="avisoTitulo" placeholder="Ex: Graduação neste sábado">
                 </label>
 
-                <label class="campo-perfil campo-cheio">
+                <label class="campo-perfil campo-cheio aviso-campo-destino-v3">
                   <span>Destino</span>
                   <input type="text" id="avisoTurma" placeholder="Ex: Todos os alunos">
                 </label>
@@ -1522,7 +1608,7 @@
                   <button type="button" data-aviso-destino="Competição">Competição</button>
                 </div>
 
-                <label class="campo-perfil campo-cheio">
+                <label class="campo-perfil campo-cheio aviso-campo-mensagem-v3">
                   <span>Mensagem</span>
                   <textarea id="avisoMensagem" rows="4" placeholder="Escreva o comunicado que aparecerá para os alunos..."></textarea>
                 </label>
@@ -1535,32 +1621,35 @@
               </form>
             </div>
 
-            <div class="avisos-lista-topo">
-              <div>
-                <h3>Avisos publicados</h3>
-                <p id="avisosListaResumo">Nenhum aviso cadastrado ainda.</p>
-              </div>
-            </div>
+            <section class="avisos-conteudo-v3" aria-labelledby="avisosPublicadosTitulo">
+              <header class="avisos-lista-topo">
+                <div>
+                  <span class="page-eyebrow">Histórico</span>
+                  <h3 id="avisosPublicadosTitulo">Avisos publicados</h3>
+                  <p id="avisosListaResumo">Nenhum aviso cadastrado ainda.</p>
+                </div>
+              </header>
 
-            <div id="listaAvisos" class="avisos-lista-profissional">
-              <div class="empty-state-mini">Nenhum aviso cadastrado ainda.</div>
-            </div>
+              <div id="listaAvisos" class="avisos-lista-profissional">
+                <div class="empty-state-mini">Nenhum aviso cadastrado ainda.</div>
+              </div>
+            </section>
           </section>
         </section>
 
 
         <section id="viewSolicitacoes" class="view-app">
-          <section class="painel-card solicitacoes-page solicitacoes-page-v2">
-            <div class="painel-topo solicitacoes-topo">
-              <div>
+          <section class="painel-card solicitacoes-page solicitacoes-page-v2 solicitacoes-page-v3">
+            <header class="painel-topo solicitacoes-topo solicitacoes-hero-v3">
+              <div class="solicitacoes-hero-copy-v3">
                 <span class="page-eyebrow">Solicitações</span>
                 <h2>Central de solicitações</h2>
                 <p>Separe pedidos pendentes, aprovados e recusados para responder sem bagunça.</p>
               </div>
-              <button type="button" id="btnAtualizarSolicitacoes" class="acao-secundaria">Atualizar</button>
-            </div>
+              <button type="button" id="btnAtualizarSolicitacoes" class="acao-secundaria solicitacoes-atualizar-v3">Atualizar</button>
+            </header>
 
-            <div class="solicitacoes-status-grid" role="tablist" aria-label="Filtrar solicitações por status">
+            <div class="solicitacoes-status-grid solicitacoes-status-v3" role="tablist" aria-label="Filtrar solicitações por status">
               <button type="button" class="solicitacoes-status-card ativo" data-filtro-solicitacao="pendente" role="tab" aria-selected="true">
                 <span>Pendentes</span>
                 <strong id="totalSolicitacoesPendentes">0</strong>
@@ -1578,21 +1667,24 @@
               </button>
             </div>
 
-            <div class="solicitacoes-lista-topo">
-              <div>
-                <h3 id="tituloListaSolicitacoes">Solicitações pendentes</h3>
-                <p id="descricaoListaSolicitacoes">Pedidos que ainda precisam da sua resposta.</p>
-              </div>
-            </div>
+            <section class="solicitacoes-conteudo-v3" aria-labelledby="tituloListaSolicitacoes">
+              <header class="solicitacoes-lista-topo">
+                <div>
+                  <span class="page-eyebrow">Caixa de entrada</span>
+                  <h3 id="tituloListaSolicitacoes">Solicitações pendentes</h3>
+                  <p id="descricaoListaSolicitacoes">Pedidos que ainda precisam da sua resposta.</p>
+                </div>
+              </header>
 
-            <div id="listaSolicitacoes" class="lista-solicitacoes lista-solicitacoes-v2">
-              <div class="empty-state-mini">Carregando solicitações...</div>
-            </div>
+              <div id="listaSolicitacoes" class="lista-solicitacoes lista-solicitacoes-v2">
+                <div class="empty-state-mini">Carregando solicitações...</div>
+              </div>
+            </section>
           </section>
         </section>
 
         <section id="viewPerfil" class="view-app">
-          <section class="painel-card perfil-page perfil-configuracoes-page">
+          <section class="painel-card perfil-page perfil-configuracoes-page perfil-configuracoes-v3">
             <div class="perfil-configuracoes-shell">
 
               <aside class="perfil-configuracoes-sidebar" aria-label="Navegação das configurações">
@@ -1610,7 +1702,7 @@
                   </div>
                 </div>
 
-                <nav class="config-abas" role="tablist" aria-label="Seções de configuração">
+                <nav class="config-abas config-abas-v3" role="tablist" aria-label="Seções de configuração">
                   <button
                     type="button"
                     id="configTab-academia"
@@ -1696,7 +1788,7 @@
                   </button>
                 </nav>
 
-                <div id="perfilPlanoCard" class="perfil-plano-card">
+                <div id="perfilPlanoCard" class="perfil-plano-card perfil-plano-card-v3">
                   <div class="perfil-plano-card-topo">
                     <span class="perfil-plano-icone" aria-hidden="true">
                       <svg viewBox="0 0 24 24"><path d="M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7l-8-4Z"></path><path d="m9 12 2 2 4-4"></path></svg>
@@ -1705,25 +1797,25 @@
                   </div>
                   <strong id="perfilPlanoNome">Carregando plano...</strong>
                   <small id="perfilPlanoDetalhe">Verificando informações da conta.</small>
-                  <button type="button" id="btnPerfilVerUpgrade" class="acao-secundaria">Ver opções de upgrade</button>
+                  <button type="button" id="btnPerfilVerUpgrade" class="acao-secundaria">Ver planos</button>
                 </div>
               </aside>
 
               <div class="perfil-configuracoes-conteudo">
-                <header class="painel-topo perfil-configuracoes-hero">
+                <header class="painel-topo perfil-configuracoes-hero perfil-configuracoes-hero-v3">
                   <div>
                     <span class="page-eyebrow">Configurações da conta</span>
-                    <h2>Central da academia</h2>
-                    <p>Organize identidade, recebimentos, critérios de avaliação e recursos liberados.</p>
+                    <h2>Configurações da academia</h2>
+                    <p>Gerencie dados, recebimentos, critérios e recursos da sua conta.</p>
                   </div>
                   <div class="perfil-configuracoes-status" aria-label="Status das configurações">
                     <span aria-hidden="true"></span>
-                    <strong>Dados protegidos</strong>
-                    <small>Alterações salvas na sua conta</small>
+                    <strong>Conta protegida</strong>
+                    <small>Alterações vinculadas ao seu acesso</small>
                   </div>
                 </header>
 
-                <form id="formPerfil" class="perfil-form perfil-configuracoes-form">
+                <form id="formPerfil" class="perfil-form perfil-configuracoes-form perfil-configuracoes-form-v3">
 
                   <div
                     class="config-painel ativo"
@@ -2092,7 +2184,7 @@
         </div>
 
         <div class="admin-clientes-toolbar">
-          <input type="search" id="adminBuscaClientes" class="admin-busca-clientes" placeholder="Buscar cliente por academia ou email...">
+          <input type="search" id="adminBuscaClientes" class="admin-busca-clientes" placeholder="Buscar cliente por academia ou email..." aria-label="Buscar cliente por academia ou e-mail">
 
           <div class="admin-filtros-clientes" aria-label="Filtros de clientes">
             <button type="button" class="admin-filtro-cliente ativo" data-admin-filtro-clientes="todos">Todos</button>
@@ -2139,7 +2231,7 @@
 
       <div id="modalInfoAluno" class="modal-info"></div>
 
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <div class="modal-secao-titulo">
         <h3>Pagamentos registrados</h3>
       </div>
       <div id="modalListaPagamentos" class="modal-pagamentos"></div>
@@ -2150,10 +2242,10 @@
   <div id="modalCobrar" class="modal escondido">
     <div class="modal-card">
       <div class="modal-topo">
-        <h2>📢 Cobrar atrasados</h2>
+        <h2>Cobrar atrasados</h2>
         <button type="button" id="btnFecharModalCobrar" class="btn-fechar" aria-label="Fechar cobrança">×</button>
       </div>
-      <p style="color:#a1a1aa; margin-bottom:16px; font-size:14px;">Clique em cada aluno para abrir o WhatsApp com mensagem pronta.</p>
+      <p class="modal-ajuda">Selecione um aluno para abrir o WhatsApp com a mensagem pronta.</p>
       <div id="listaCobrar"></div>
     </div>
   </div>
@@ -2350,37 +2442,60 @@
     </div>
   </div>
 
-  <div id="modalGraduacao" class="modal escondido">
-    <div class="modal-card modal-pequeno">
+  <div id="modalGraduacao" class="modal escondido" role="dialog" aria-modal="true" aria-labelledby="tituloModalGraduacao">
+    <div class="modal-card modal-pequeno modal-graduacao-profissional">
       <div class="modal-topo">
-        <h2>🥋 Registrar graduação</h2>
+        <div>
+          <span class="page-eyebrow">Aluno</span>
+          <h2 id="tituloModalGraduacao">Registrar graduação</h2>
+        </div>
         <button type="button" id="btnFecharModalGraduacao" class="btn-fechar" aria-label="Fechar graduação">×</button>
       </div>
       <input type="hidden" id="graduacaoAlunoId">
-      <p id="graduacaoAlunoNome" class="edicao-rapida-nome">Aluno</p>
-      <label class="label-campo">Nova faixa</label>
-      <select id="novaFaixaGraduacao">
-        <option value="Branca">Branca</option>
-        <option value="Cinza">Cinza</option>
-        <option value="Amarela">Amarela</option>
-        <option value="Laranja">Laranja</option>
-        <option value="Verde">Verde</option>
-        <option value="Azul">Azul</option>
-        <option value="Roxa">Roxa</option>
-        <option value="Marrom">Marrom</option>
-        <option value="Preta">Preta</option>
-      </select>
-      <label class="label-campo">Novo grau</label>
-      <select id="novoGrauGraduacao">
-        <option value="0">0 grau</option>
-        <option value="1">1º grau</option>
-        <option value="2">2º grau</option>
-        <option value="3">3º grau</option>
-        <option value="4">4º grau</option>
-      </select>
-      <label class="label-campo">Data da graduação</label>
-      <input type="date" id="dataGraduacaoRegistro">
-      <textarea id="observacaoGraduacao" rows="3" placeholder="Observação da graduação"></textarea>
+
+      <div class="graduacao-aluno-resumo">
+        <strong id="graduacaoAlunoNome">Aluno</strong>
+        <span id="graduacaoAlunoAtual">Graduação atual não informada</span>
+      </div>
+
+      <div class="graduacao-form-grid">
+        <label class="campo-perfil">
+          <span>Nova faixa</span>
+          <select id="novaFaixaGraduacao">
+            <option value="Branca">Branca</option>
+            <option value="Cinza">Cinza</option>
+            <option value="Amarela">Amarela</option>
+            <option value="Laranja">Laranja</option>
+            <option value="Verde">Verde</option>
+            <option value="Azul">Azul</option>
+            <option value="Roxa">Roxa</option>
+            <option value="Marrom">Marrom</option>
+            <option value="Preta">Preta</option>
+          </select>
+        </label>
+
+        <label class="campo-perfil">
+          <span>Novo grau</span>
+          <select id="novoGrauGraduacao">
+            <option value="0">0 grau</option>
+            <option value="1">1º grau</option>
+            <option value="2">2º grau</option>
+            <option value="3">3º grau</option>
+            <option value="4">4º grau</option>
+          </select>
+        </label>
+
+        <label class="campo-perfil campo-cheio">
+          <span>Data da graduação</span>
+          <input type="date" id="dataGraduacaoRegistro">
+        </label>
+
+        <label class="campo-perfil campo-cheio">
+          <span>Observação</span>
+          <textarea id="observacaoGraduacao" rows="3" placeholder="Opcional"></textarea>
+        </label>
+      </div>
+
       <div class="modal-acoes">
         <button type="button" id="btnCancelarGraduacao" class="btn-cancelar">Cancelar</button>
         <button type="button" id="btnSalvarGraduacao" class="acao-principal">Salvar graduação</button>
@@ -2657,7 +2772,7 @@
   <script src="js/50-ui-relatorios-tema.js"></script>
   <script src="js/55-central-relatorios.js"></script>
   <script src="js/60-solicitacoes-navegacao.js"></script>
-  <script src="js/65-mobile-professor.js"></script>
+  <script src="js/65-mobile-professor.js?v=2-mobile-hotfix"></script>
   <script src="js/70-evolucao-presencas-avisos.js"></script>
   <script src="js/75-aniversariantes.js"></script>
   <script src="js/76-turmas-frequencia.js"></script>

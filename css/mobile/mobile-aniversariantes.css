@@ -1,599 +1,173 @@
 /* ============================================================================
-   MENSALIZE PROFESSOR — ANIVERSARIANTES MOBILE
-   Camada visual exclusiva para celular sobre a lógica real de aniversários.
-   Não duplica cálculos, WhatsApp, alunos ou Supabase.
+   MENSALIZE PROFESSOR — ANIVERSARIANTES MOBILE V3
+   Datas e contato em uma lista curta, legível e sem excesso de cartões.
 ============================================================================ */
 
 @media (max-width: 760px) {
-  /* --------------------------------------------------------------------------
-     Estrutura da página
-  -------------------------------------------------------------------------- */
   body.mobile-professor-interna #viewAniversariantes.ativa {
     width: min(100%, 620px);
     margin-inline: auto;
-    padding-bottom: calc(112px + var(--mobile-safe-bottom));
+    padding-bottom: calc(108px + var(--mobile-safe-bottom));
   }
 
-  #viewAniversariantes > .painel-card.aniversariantes-page {
+  #viewAniversariantes > .painel-card.aniversariantes-page-profissional {
     display: grid !important;
-    gap: 14px !important;
+    gap: 11px !important;
     width: 100% !important;
-    min-width: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
     overflow: visible !important;
-  }
-
-  /* --------------------------------------------------------------------------
-     Cabeçalho contextual
-  -------------------------------------------------------------------------- */
-  #viewAniversariantes > .aniversariantes-page > .painel-topo {
-    position: relative;
-    display: block !important;
-    margin: 0 !important;
-    padding: 18px !important;
-    overflow: hidden;
-    border: 1px solid rgba(172, 139, 255, 0.14) !important;
-    border-radius: 22px !important;
-    background:
-      radial-gradient(circle at 100% 0%, rgba(255, 129, 92, 0.16), transparent 36%),
-      radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.20), transparent 42%),
-      linear-gradient(145deg, rgba(25, 18, 65, 0.98), rgba(10, 9, 29, 0.99)) !important;
+    border: 0 !important;
+    background: transparent !important;
     box-shadow: none !important;
   }
 
-  #viewAniversariantes > .aniversariantes-page > .painel-topo::after {
-    content: "🎂";
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: grid;
-    place-items: center;
-    width: 50px;
-    height: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 17px;
-    background: rgba(255, 255, 255, 0.055);
-    font-size: 23px;
-    line-height: 1;
+  #viewAniversariantes .aniversariantes-hero-v3 {
+    padding: 14px !important;
+    border-radius: 16px !important;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, .10), transparent 38%),
+      var(--mobile-surface, var(--bg-nivel-1)) !important;
   }
 
-  #viewAniversariantes > .aniversariantes-page > .painel-topo > div {
-    min-width: 0;
-    padding-right: 62px;
+  #viewAniversariantes .aniversariantes-hero-v3 h2 {
+    margin: 3px 0 !important;
+    font-size: 18px !important;
+    line-height: 1.12 !important;
   }
 
-  #viewAniversariantes > .aniversariantes-page > .painel-topo .page-eyebrow {
-    margin: 0 0 8px !important;
-    padding: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-    color: #a982ff !important;
-    font-size: 9px !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.11em !important;
+  #viewAniversariantes .aniversariantes-hero-v3 p {
+    max-width: 290px;
+    font-size: 10px !important;
+    line-height: 1.4 !important;
   }
 
-  #viewAniversariantes > .aniversariantes-page > .painel-topo h2 {
-    margin: 0 0 5px !important;
-    color: #fff !important;
-    font-size: 20px !important;
-    font-weight: 780 !important;
-    line-height: 1.08 !important;
-    letter-spacing: -0.045em !important;
-  }
-
-  #viewAniversariantes > .aniversariantes-page > .painel-topo p {
-    max-width: 38ch;
-    margin: 0 !important;
-    color: var(--mobile-muted) !important;
-    font-size: 11px !important;
-    line-height: 1.45 !important;
-  }
-
-  /* --------------------------------------------------------------------------
-     Resumo: hoje / semana / mês
-  -------------------------------------------------------------------------- */
-  #viewAniversariantes .aniversariantes-resumo-grid {
-    display: grid !important;
+  #viewAniversariantes .aniversariantes-resumo-v3 {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    border-radius: 14px !important;
+  }
+
+  #viewAniversariantes .aniversariantes-resumo-item {
+    min-height: 61px;
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    gap: 2px;
+    padding: 9px 10px;
+  }
+
+  #viewAniversariantes .aniversariantes-resumo-item.destaque::before {
+    inset-block: 10px;
+  }
+
+  #viewAniversariantes .aniversariantes-resumo-item span {
+    font-size: 8px;
+    line-height: 1.2;
+  }
+
+  #viewAniversariantes .aniversariantes-resumo-item strong {
+    font-size: 19px;
+  }
+
+  #viewAniversariantes .aniversariantes-conteudo-v3 {
+    gap: 12px;
+    padding: 12px;
+    border-radius: 15px;
+    background: var(--mobile-surface, var(--bg-nivel-1));
+  }
+
+  #viewAniversariantes .aniversariantes-lista-topo-v3 {
+    display: block;
+    padding-bottom: 10px;
+  }
+
+  #viewAniversariantes .aniversariantes-lista-topo-v3 h3 {
+    font-size: 14px;
+  }
+
+  #viewAniversariantes .aniversariantes-lista-topo-v3 > p {
+    max-width: none;
+    margin-top: 4px;
+    font-size: 9px;
+    text-align: left;
+  }
+
+  #viewAniversariantes .aniversariantes-lista-v3 {
+    grid-template-columns: 1fr !important;
     gap: 8px !important;
-    margin: 0 !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box {
-    min-width: 0 !important;
-    min-height: 92px !important;
-    margin: 0 !important;
-    padding: 12px 7px !important;
-    display: grid !important;
-    align-content: center !important;
-    justify-items: center !important;
-    gap: 5px !important;
-    text-align: center !important;
-    border: 1px solid rgba(172, 139, 255, 0.13) !important;
-    border-radius: 18px !important;
-    background:
-      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.11), transparent 52%),
-      linear-gradient(155deg, rgba(20, 17, 52, 0.98), rgba(10, 9, 29, 0.99)) !important;
-    box-shadow: none !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box span {
-    margin: 0 !important;
-    color: var(--mobile-muted) !important;
-    font-size: 9px !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box strong {
-    margin: 0 !important;
-    color: #fff !important;
-    font-size: 24px !important;
-    font-weight: 800 !important;
-    line-height: 1 !important;
-    letter-spacing: -0.055em !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box.receita strong {
-    color: var(--mobile-green) !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box.previsao strong {
-    color: #ffad54 !important;
-  }
-
-  /* --------------------------------------------------------------------------
-     Lista geral e blocos por período
-  -------------------------------------------------------------------------- */
-  #viewAniversariantes #listaAniversariantes,
-  #viewAniversariantes .aniversariantes-lista {
-    display: grid !important;
-    gap: 13px !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-    overflow: visible !important;
   }
 
   #viewAniversariantes .aniversariantes-bloco {
-    display: grid;
-    gap: 9px;
-    min-width: 0;
-    margin: 0 !important;
-    padding: 14px !important;
-    border: 1px solid rgba(172, 139, 255, 0.13) !important;
-    border-radius: 21px !important;
-    background:
-      radial-gradient(circle at 100% 0%, rgba(124, 58, 237, 0.10), transparent 38%),
-      linear-gradient(155deg, rgba(18, 15, 47, 0.98), rgba(9, 8, 26, 0.99)) !important;
-    box-shadow: none !important;
+    border-radius: 13px;
+    background: var(--mobile-surface-raised, var(--bg-nivel-2));
   }
 
   #viewAniversariantes .aniversariantes-bloco-topo {
-    margin: 0 !important;
-    padding: 0 1px 3px !important;
-    display: block !important;
-  }
-
-  #viewAniversariantes .aniversariantes-bloco-topo .page-eyebrow {
-    margin: 0 0 5px !important;
-    padding: 0 !important;
-    border: 0 !important;
-    background: transparent !important;
-    color: #9872ed !important;
-    font-size: 8px !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.10em !important;
-  }
-
-  #viewAniversariantes .aniversariantes-bloco-topo h2 {
-    margin: 0 !important;
-    color: #f5f1ff !important;
-    font-size: 16px !important;
-    font-weight: 760 !important;
-    line-height: 1.15 !important;
-    letter-spacing: -0.035em !important;
-  }
-
-  #viewAniversariantes .aniversariantes-lista-interna {
-    display: grid !important;
-    gap: 8px !important;
-    min-width: 0 !important;
-  }
-
-  /* --------------------------------------------------------------------------
-     Card individual do aniversariante
-  -------------------------------------------------------------------------- */
-  #viewAniversariantes .aniversariante-item {
-    min-width: 0 !important;
-    min-height: 76px !important;
-    margin: 0 !important;
-    padding: 10px !important;
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto !important;
-    align-items: center !important;
-    gap: 10px !important;
-    border: 1px solid rgba(255, 255, 255, 0.07) !important;
-    border-radius: 17px !important;
-    background:
-      linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)) !important;
-    box-shadow: none !important;
-    overflow: hidden !important;
-  }
-
-  #viewAniversariantes .aniversariante-identidade {
-    display: grid !important;
-    grid-template-columns: 48px minmax(0, 1fr) !important;
-    align-items: center !important;
-    gap: 10px !important;
-    min-width: 0 !important;
-  }
-
-  #viewAniversariantes .aniversariante-foto,
-  #viewAniversariantes .aniversariante-avatar {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
-    margin: 0 !important;
-    border-radius: 15px !important;
-    border: 1px solid rgba(180, 143, 255, 0.18) !important;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22) !important;
-  }
-
-  #viewAniversariantes .aniversariante-foto {
-    object-fit: cover !important;
-  }
-
-  #viewAniversariantes .aniversariante-avatar {
-    display: grid !important;
-    place-items: center !important;
-    background:
-      radial-gradient(circle at 30% 20%, rgba(175, 118, 255, 0.35), transparent 45%),
-      linear-gradient(145deg, #3a1c7c, #18113e) !important;
-    color: #fff !important;
-    font-size: 18px !important;
-    font-weight: 800 !important;
-  }
-
-  #viewAniversariantes .aniversariante-identidade > div:last-child {
-    min-width: 0 !important;
-    display: grid !important;
-    gap: 3px !important;
-  }
-
-  #viewAniversariantes .aniversariante-identidade strong {
-    display: block !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-    color: #fff !important;
-    font-size: 13px !important;
-    font-weight: 740 !important;
-    line-height: 1.2 !important;
-    letter-spacing: -0.02em !important;
-  }
-
-  #viewAniversariantes .aniversariante-identidade span {
-    display: block !important;
-    min-width: 0 !important;
-    margin: 0 !important;
-    color: var(--mobile-muted) !important;
-    font-size: 10px !important;
-    line-height: 1.35 !important;
-  }
-
-  /* WhatsApp rápido */
-  #viewAniversariantes .btn-parabens {
-    min-width: 94px !important;
-    min-height: 40px !important;
-    margin: 0 !important;
+    min-height: 52px;
     padding: 9px 11px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 6px !important;
-    border: 1px solid rgba(54, 208, 127, 0.25) !important;
-    border-radius: 13px !important;
-    background: rgba(54, 208, 127, 0.11) !important;
-    color: #66e5a0 !important;
-    box-shadow: none !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
-    line-height: 1 !important;
-    white-space: nowrap !important;
   }
 
-  #viewAniversariantes .btn-parabens::before {
-    content: "";
-    width: 14px;
-    height: 14px;
-    flex: 0 0 14px;
-    background: currentColor;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12.04 2a9.84 9.84 0 0 0-8.43 14.92L2 22l5.22-1.57A9.96 9.96 0 1 0 12.04 2Zm5.73 14.07c-.24.68-1.4 1.28-1.94 1.36-.5.08-1.13.11-1.82-.11-.42-.14-.97-.32-1.67-.62-2.94-1.27-4.86-4.24-5-4.44-.14-.2-1.18-1.57-1.18-3 0-1.43.75-2.13 1.02-2.42.26-.29.58-.36.77-.36h.55c.18 0 .41-.07.64.49.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.3-.12.59.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.33 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.68.79 1.97.94.29.14.48.22.55.34.07.12.07.7-.17 1.38Z'/%3E%3C/svg%3E") center / contain no-repeat;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12.04 2a9.84 9.84 0 0 0-8.43 14.92L2 22l5.22-1.57A9.96 9.96 0 1 0 12.04 2Zm5.73 14.07c-.24.68-1.4 1.28-1.94 1.36-.5.08-1.13.11-1.82-.11-.42-.14-.97-.32-1.67-.62-2.94-1.27-4.86-4.24-5-4.44-.14-.2-1.18-1.57-1.18-3 0-1.43.75-2.13 1.02-2.42.26-.29.58-.36.77-.36h.55c.18 0 .41-.07.64.49.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.3-.12.59.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.33 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.68.79 1.97.94.29.14.48.22.55.34.07.12.07.7-.17 1.38Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  #viewAniversariantes .aniversariantes-bloco-topo h3 {
+    font-size: 12px !important;
   }
 
-  #viewAniversariantes .btn-parabens:active:not(:disabled) {
-    transform: scale(0.98) !important;
-    background: rgba(54, 208, 127, 0.16) !important;
-  }
-
-  #viewAniversariantes .btn-parabens:disabled {
-    opacity: 0.38 !important;
-    filter: grayscale(0.25);
-    cursor: not-allowed !important;
-  }
-
-  /* --------------------------------------------------------------------------
-     Estados vazios
-  -------------------------------------------------------------------------- */
-  #viewAniversariantes .empty-state-mini {
-    min-height: 116px !important;
-    margin: 0 !important;
-    padding: 22px 18px !important;
-    display: grid !important;
-    place-items: center !important;
-    text-align: center !important;
-    border: 1px dashed rgba(172, 139, 255, 0.16) !important;
-    border-radius: 20px !important;
-    background: rgba(124, 58, 237, 0.045) !important;
-    color: var(--mobile-muted) !important;
-    font-size: 11px !important;
-    line-height: 1.45 !important;
-  }
-
-  /* --------------------------------------------------------------------------
-     Telas estreitas
-  -------------------------------------------------------------------------- */
-  @media (max-width: 355px) {
-    #viewAniversariantes > .aniversariantes-page > .painel-topo {
-      padding: 15px !important;
-    }
-
-    #viewAniversariantes > .aniversariantes-page > .painel-topo::after {
-      width: 44px;
-      height: 44px;
-      right: 12px;
-      border-radius: 15px;
-      font-size: 20px;
-    }
-
-    #viewAniversariantes > .aniversariantes-page > .painel-topo > div {
-      padding-right: 52px;
-    }
-
-    #viewAniversariantes .aniversariantes-resumo-grid {
-      gap: 6px !important;
-    }
-
-    #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box {
-      min-height: 84px !important;
-      padding-inline: 5px !important;
-    }
-
-    #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box strong {
-      font-size: 21px !important;
-    }
-
-    #viewAniversariantes .aniversariante-item {
-      grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    #viewAniversariantes .btn-parabens {
-      width: 100% !important;
-      min-width: 0 !important;
-    }
-  }
-}
-/* ============================================================================
-   POLIMENTO 2026 — RESUMO MOBILE COMPACTO
-   Corrige spans herdados do desktop e melhora a leitura dos aniversariantes.
-============================================================================ */
-@media (max-width: 760px) {
-  #viewAniversariantes > .aniversariantes-page > .painel-topo {
-    padding: 15px 16px !important;
-    border-radius: 20px !important;
-  }
-
-  #viewAniversariantes > .aniversariantes-page > .painel-topo::after {
-    width: 44px !important;
-    height: 44px !important;
-    right: 13px !important;
-    border-radius: 14px !important;
-    font-size: 20px !important;
-  }
-
-  #viewAniversariantes > .aniversariantes-page > .painel-topo > div {
-    padding-right: 54px !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    grid-auto-flow: column !important;
-    gap: 0 !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 6px !important;
-    overflow: hidden !important;
-    border: 1px solid rgba(172, 139, 255, 0.14) !important;
-    border-radius: 20px !important;
-    background:
-      radial-gradient(circle at 12% 0%, rgba(124, 58, 237, 0.14), transparent 44%),
-      linear-gradient(145deg, rgba(18, 15, 48, 0.98), rgba(8, 8, 24, 0.99)) !important;
-    box-shadow: none !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box {
-    grid-column: auto !important;
-    grid-row: auto !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    min-height: 68px !important;
-    margin: 0 !important;
-    padding: 9px 5px !important;
-    display: grid !important;
-    align-content: center !important;
-    justify-items: center !important;
-    gap: 4px !important;
-    border: 0 !important;
-    border-radius: 13px !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    text-align: center !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box + .financeiro-box {
-    border-left: 1px solid rgba(255, 255, 255, 0.075) !important;
-    border-radius: 0 !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box span {
-    min-height: 0 !important;
-    margin: 0 !important;
-    color: #9690aa !important;
-    font-size: 8px !important;
-    font-weight: 780 !important;
-    line-height: 1.15 !important;
-    letter-spacing: 0.04em !important;
-    text-transform: uppercase !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box strong {
-    margin: 0 !important;
-    font-size: clamp(21px, 6vw, 25px) !important;
-    font-weight: 820 !important;
-    line-height: 1 !important;
-    letter-spacing: -0.055em !important;
-  }
-
-  #viewAniversariantes .aniversariantes-bloco {
-    padding: 12px !important;
-    border-radius: 19px !important;
+  #viewAniversariantes .aniversariantes-bloco-contador {
+    min-width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    font-size: 9px;
   }
 
   #viewAniversariantes .aniversariante-item {
-    min-height: 70px !important;
-    padding: 9px !important;
+    min-height: 61px !important;
     gap: 8px !important;
-  }
-
-  #viewAniversariantes .aniversariante-identidade {
-    grid-template-columns: 44px minmax(0, 1fr) !important;
-    gap: 9px !important;
+    padding: 8px 9px !important;
   }
 
   #viewAniversariantes .aniversariante-foto,
   #viewAniversariantes .aniversariante-avatar {
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-    border-radius: 13px !important;
+    width: 36px !important;
+    height: 36px !important;
+    flex-basis: 36px !important;
+    border-radius: 11px !important;
+  }
+
+  #viewAniversariantes .aniversariante-dados strong {
+    font-size: 11px !important;
+  }
+
+  #viewAniversariantes .aniversariante-data,
+  #viewAniversariantes .aniversariante-dados small {
+    font-size: 8px !important;
   }
 
   #viewAniversariantes .btn-parabens {
-    min-width: 88px !important;
-    min-height: 38px !important;
-    padding: 8px 10px !important;
-  }
-}
-
-@media (max-width: 355px) {
-  #viewAniversariantes .aniversariantes-resumo-grid {
-    padding: 5px !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box {
-    min-height: 64px !important;
-    padding-inline: 3px !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box span {
+    min-height: 30px !important;
+    padding: 0 8px !important;
+    border-radius: 8px !important;
     font-size: 7px !important;
   }
+
+  #viewAniversariantes .empty-state-mini {
+    min-height: 130px !important;
+    font-size: 10px !important;
+  }
 }
 
-
-/* ============================================================================
-   MENSALIZE MOBILE — KPI STRIP PADRÃO OFICIAL
-   Faixa compacta e contínua para indicadores equivalentes.
-   Mantém cores semânticas por módulo, mas unifica proporção, altura e ritmo.
-============================================================================ */
-@media (max-width: 760px) {
-  #viewAniversariantes .aniversariantes-resumo-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 0 !important;
-    margin: 0 !important;
-    padding: 4px !important;
-    overflow: hidden !important;
-    border: 1px solid rgba(172, 139, 255, 0.14) !important;
-    border-radius: 18px !important;
-    background:
-      radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.10), transparent 62%),
-      linear-gradient(155deg, rgba(18, 15, 47, 0.98), rgba(9, 8, 26, 0.99)) !important;
+@media (max-width: 370px) {
+  #viewAniversariantes .aniversariantes-resumo-item {
+    padding-inline: 8px;
   }
 
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box {
-    grid-column: auto !important;
-    grid-row: auto !important;
-    min-width: 0 !important;
-    min-height: 72px !important;
-    margin: 0 !important;
-    padding: 9px 6px !important;
-    display: grid !important;
-    align-content: center !important;
-    justify-items: center !important;
-    gap: 5px !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    text-align: center !important;
-    position: relative !important;
+  #viewAniversariantes .aniversariantes-resumo-item span {
+    font-size: 7px;
   }
 
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box + .financeiro-box::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 14px;
-    bottom: 14px;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.075);
+  #viewAniversariantes .aniversariante-item {
+    grid-template-columns: 1fr !important;
   }
 
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box span {
-    order: 1;
-    margin: 0 !important;
-    color: #918aa9 !important;
-    font-size: 8.5px !important;
-    font-weight: 800 !important;
-    line-height: 1.1 !important;
-    letter-spacing: 0.04em !important;
-    text-transform: uppercase !important;
-  }
-
-  #viewAniversariantes .aniversariantes-resumo-grid > .financeiro-box strong {
-    order: 2;
-    margin: 0 !important;
-    font-size: 24px !important;
-    font-weight: 800 !important;
-    line-height: 1 !important;
-    letter-spacing: -0.055em !important;
+  #viewAniversariantes .btn-parabens {
+    width: 100% !important;
   }
 }

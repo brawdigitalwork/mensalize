@@ -3,7 +3,7 @@
 const APP_VERSION = 'Mensalize 2.4';
 const CACHE_PREFIX = 'mensalize-';
 // Revisão técnica do cache. Não representa uma nova versão do produto.
-const CACHE_REVISION = '2026-07-25-seguranca-consolidada';
+const CACHE_REVISION = '2026-08-02-presencas-iphone-hotfix';
 const CACHE_NAME = `${CACHE_PREFIX}${APP_VERSION}-${CACHE_REVISION}`;
 
 const ASSETS = [
@@ -13,7 +13,12 @@ const ASSETS = [
   '/style.css',
   '/configuracoes.css',
   '/mobile-app.css',
+  '/mobile-stability.css',
+  '/mobile-stability.css?v=1-mobile-hotfix',
   '/pwa-install.css',
+  '/legal.css',
+  '/termos.html',
+  '/privacidade.html',
   '/config.js',
   '/vendor/supabase-2.110.8.js',
   '/vendor/cropper-1.6.2.min.js',

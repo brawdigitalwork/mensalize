@@ -611,14 +611,11 @@ function renderizarCheckinPresenca() {
         </div>
       </div>
 
-    ${sessaoAtiva ? `
-      <div class="presenca-checkin-qr-grid">
-        <div
-          id="presencaCheckinQrLocal"
-          class="presenca-checkin-qr-box"
-          role="img"
-          aria-label="QR Code do check-in da aula"
-        >
+      ${!podeGerar ? `
+        <div class="presenca-checkin-alerta">
+          ${data !== hoje
+            ? "O QR Code só pode ser gerado para a aula de hoje."
+            : escaparTextoSeguro(validacaoDia.mensagem || "Confira o cadastro da turma antes de gerar o QR Code.")}
         </div>
       ` : ""}
 
@@ -646,22 +643,6 @@ function renderizarCheckinPresenca() {
     </div>
   `;
   card.open = estavaAberto || sessaoAtiva;
-
-  const qrContainer = document.getElementById("presencaCheckinQrLocal");
-  if (qrContainer && url) {
-    if (typeof QRCode === "function") {
-      new QRCode(qrContainer, {
-        text: url,
-        width: 196,
-        height: 196,
-        colorDark: "#111111",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.M
-      });
-    } else {
-      qrContainer.textContent = "Não foi possível gerar o QR Code.";
-    }
-  }
 
   const qrContainer = document.getElementById("presencaCheckinQrLocal");
   if (qrContainer && url) {

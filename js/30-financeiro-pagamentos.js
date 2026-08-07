@@ -1078,9 +1078,12 @@ async function registrarPagamentoAluno(aluno, opcoes = {}) {
     };
   }
 
-  const dataPagamento = opcoes.dataPagamento || new Date().toISOString().split("T")[0];
+  const dataPagamento = opcoes.dataPagamento || dataHojeLocalISO();
   const valorPagamento = valorParaNumero(opcoes.valorPagamento || aluno.valor);
-  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
+  const calculoPagamento = calcularMensalidadesParaRegistrar(
+    aluno.vencimento,
+    aluno.dia_vencimento
+  );
   const competencias = calculoPagamento.mensalidades;
 
   const { data: pagamentoJaExiste, error: erroVerificarPagamento } = await supabaseClient
@@ -1219,7 +1222,10 @@ btnConfirmarPagamento.addEventListener("click", async function() {
   }
 
   btnConfirmarPagamento.disabled = true;
-  const calculoPagamento = calcularMensalidadesParaRegistrar(aluno.vencimento);
+  const calculoPagamento = calcularMensalidadesParaRegistrar(
+    aluno.vencimento,
+    aluno.dia_vencimento
+  );
   const competencias = calculoPagamento.mensalidades;
 
   const { data: pagamentoJaExiste, error: erroVerificarPagamento } = await supabaseClient

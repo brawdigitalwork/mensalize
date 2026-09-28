@@ -656,9 +656,12 @@ async function carregarPerfil() {
   trialDiasTotal = MENSALIZE_TRIAL_TOTAL_DIAS;
 
   if (!usuarioEhAdmin && !podeUsarSistema) {
-    await bloquearAcessoCliente("Sua conta está bloqueada. Fale com o administrador do Mensalize para regularizar o acesso.");
-    return false;
-  }
+  await bloquearAcessoCliente(
+    "O Mensalize está temporariamente indisponível devido a ajustes técnicos. Estamos trabalhando para restabelecer o acesso em breve. Tente novamente mais tarde."
+  );
+
+  return false;
+}
 
   const diasRestantesTrial = calcularDiasRestantesTrial();
   const trialExpirado = normalizarPlanoInterface(planoAtual) === "trial"
